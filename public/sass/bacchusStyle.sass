@@ -1,0 +1,658 @@
+@charset "UTF-8"
+body
+  font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
+@import modules/_var
+@import modules/_mixin
+@import modules/_public
+@import right-menu
+//@import "_edit-default"
+
+
+
+.lang
+  margin: 20px 20px 0 0
+
+.errorTip
+  color: #ff0000
+
+.light-login
+  background: #DFE0E2 url('images/bk_miramar.jpg') no-repeat
+  background-size: 100% auto
+
+select.form-control
+  padding: 4px 2px
+.select-color, select
+  color: #CBC0C0
+/*-- 下拉式選擇不同館別 --*/
+
+//.nav-header-inline
+//  .btn-group
+//    &:first-child
+//      margin-left: 40px
+/*-------- optionSystem.html --------*/
+
+
+/*-- 圖片 hover 文字 --*/
+.system-block-all
+  margin: 50px 0 0 0
+.system-block
+  margin: 0 0 0 30px
+  display: inline-block
+.imgWrap
+  position: relative
+  display: inline-block
+  margin: 0 15px 0 0
+  span.text-content
+    background: rgba(0,0,0,0.5)
+    color: white
+    cursor: pointer
+    display: table
+    height: 150px
+    position: absolute
+    left: 0
+    top: 0
+    width: 150px
+    border-radius: 150px
+    opacity: 0
+  span.text-content span
+    display: table-cell
+    text-align: center
+    vertical-align: middle
+  &:hover .text-content
+    visibility: visible
+    opacity: 1
+/*-- /. 圖片 hover 文字 --*/
+
+
+
+/*----- menu design -----*/
+.footer .footer-inner .footer-content
+  padding: 0
+.footer-ul,.top-ul,.secondMenu-ul
+  ul
+    display: inline
+    li
+      display: inline-block
+      list-style: none
+//line-height: 30px //edit 符合1024
+
+//模組化 另架構css
+//.top-ul
+//  width: 100%
+//  margin-left: 25px
+//  ul
+//    margin-left: 0 !important
+//    margin-bottom: 10px !important
+//    width: 100%
+//    li.border
+//      font-size: 16px
+//      background: #ffbb22
+//      color: #fff
+//      padding: 5px 20px
+//      min-width: 100px
+//      max-width: 100%
+//      text-align: center
+//      display: inline-block
+//      box-sizing: border-box
+//      margin-bottom: 5px
+//      &:hover
+//        background: #ffc666
+//      &.active-top
+//        background: #D15B47
+//
+//.secondMenu-ul
+//  margin: 5px 0 10px 25px
+//  ul
+//    margin-left: 0 !important
+//    //margin-bottom: 15px !important
+//    li.border-sec
+//      margin: 0 0 10px 0
+//      padding: 3px 20px
+//      min-width: 100px
+//      max-width: 100%
+//      text-align: center
+//      display: inline-block
+//      box-sizing: border-box
+//      color: #555
+//      &:hover
+//        background: #c6c6c6
+//        color: #fff
+//      &.active-sec
+//        background: #888
+//        color: #fff
+//  .icon-2-style
+//    width: 12px
+//    height: 12px
+//    margin: 0 10px 3px
+
+/*----- /.menu design -----*/
+
+.copyright
+  margin: -15px 0 0 0
+.companyInfo
+  margin: 10px 0 0 7px
+/*-- indexMain.html --*/
+
+
+
+/*-- index-checkOut.html -->
+.search-co
+  position: relative
+  height: auto
+  border: 1px solid #0063ae
+  //padding: 0 0 20px 0
+  .search-co-h
+    position: relative
+    font-size: 16px
+    background: #c0d6ee
+    padding: 0 0 0 10px
+    height: 40px
+    line-height: 40px
+    border-bottom: 1px solid #0063ae
+    i
+      color: #fff
+    span
+      margin: 0 0 0 5px
+  .search-co-content
+    //margin: 0 auto
+    //text-align: center
+    //display: table
+    text-align: left
+    //margin: 0 0 0 50px
+    border-collapse: collapse
+    .block-table
+      //border: 1px solid #555
+      //display: table-row
+      margin: 10px 0
+      //border: 1px solid #000
+      label
+        //display: table-cell
+        margin: 0 5px 0 0
+        text-align: right
+        //width: 90px
+        min-width: 90px
+        max-width: 100%
+        //overflow: auto
+        font-size: 13px
+      label.key-Word
+        margin: 0 0 0 -20px
+      label.more-Word
+        margin: 0 0 0 -68px
+      input
+        width: 50%
+        line-height: 25px
+        height: 25px
+  .search-co-btn
+    background: #555
+    border: none
+    color: #fff
+    padding: 5px 20px
+    &:hover
+      background: #9b9b9b
+
+//table 版型
+.co-table
+  text-align: left
+  table.co-scroll
+    width: 100%
+    border: 1px solid #ededed
+    //display: inline-block
+    border-spacing: 0
+
+    thead
+      width: 100%
+      min-height: 20px
+      max-height: 100%
+      background: #c0d6ee
+      display: block
+      tr
+        //width: 100%
+        th
+          text-align: left
+          height: 30px
+          line-height: 30px
+    //&:last-child
+    //  border-right: none
+    tbody
+      width: 100%
+      max-height: 500px
+      overflow: auto
+      display: block
+      tr
+        width: 100%
+        border-bottom: 1px solid #ededed
+    th,td
+      border: 1px solid #ededed
+      padding: 5px 10px
+//&:last-child
+//  border-right: none
+
+
+
+//.table 版型 END
+
+
+.btn-co-next
+  margin: 0 0 0 5px
+.modal-dialog-fullScreen
+  width: 98%
+  min-height: 400px
+  max-height: 100%
+  overflow: auto
+
+/*-- psd page --*/
+.psd_page
+  width: 1280px
+  height: auto
+  margin: 0 auto
+
+.modal-dialog-fullScreen-blockSet
+  width: 1000px
+  max-width: 100%
+  height: auto
+  margin: 0 auto
+  text-align: center
+
+.blockSet-table-spec
+  table
+    max-width: 100%
+    tr
+      max-width: 100%
+      td
+        max-width: 100%
+        img
+          max-width: 100%
+
+
+/* index-checkOut.html */
+.keyWord
+  label,input
+    float: left
+
+/* index-checkIn.html */
+.status-group
+  margin: 0 0 20px 0
+.status-group2
+  margin: 10px 0 10px 0
+.status-inline
+  margin-top: 0
+
+/* townHouse.html */
+.room-special
+  margin: 0
+  .spec-title
+    margin-top: 10px
+    margin-bottom: 10px
+  textarea
+    width: 100%
+    height: auto
+
+.townPage
+  //position: relative
+  max-height: 600px
+  overflow: auto
+  .townRow
+    //margin: 0 auto
+    .townBlock
+      float: left
+      margin: 0 5px 5px 0
+      //border: 1px solid #555
+      //position: absolute
+      padding: 5px
+      //min-width: 100%
+      //min-height: 100%
+      width: 85px
+      height: 85px
+      box-sizing: border-box
+      background: #1b75bb
+      color: #ede3d1
+      font-size: 10px
+      cursor: pointer
+      &.no-show
+        background: #D15B47
+      &:hover
+        opacity: 0.6
+      .head,.content-sub,.foot
+        .left
+          float: left
+        //top: 0
+        //left: 5px
+        //color: #0000A1
+        .right
+          float: right
+        //top: 0
+        //right: 5px
+        .txt-lg
+          font-weight: bold
+          font-size: 16px
+          line-height: 16px
+        .top10
+          margin: 15px 0 0 0
+.select-group
+  //margin-top: 5px
+  .btn-group,.form-group
+    float: right
+    margin: 0 0 5px 5px
+  .status-view
+    float: right
+    div
+      width: 60px
+      height: 25px
+      line-height: 25px
+      float: left
+      text-align: center
+      margin: 5px 0 5px 5px
+      &.status-tip
+        @include color-bk
+  .status-btn
+    float: left
+    margin: 5px 5px 5px 0
+    img
+      width: 24px
+      height: auto
+      padding: 0 5px 0 0
+.float-right
+  float: right
+.float-left
+  float: left
+
+//font-weight: bold
+
+  //border-right: 1px solid #555
+
+
+.house-noDetail
+  margin: 10px 0 0 0
+  .house-num
+    margin: 0 auto
+    text-align: center
+    min-width: 80px
+    max-width: 100%
+    min-height: 80px
+    max-height: 100%
+    line-height: 80px
+    border: 1px solid #555
+  .house-info
+    .quantityTip
+      min-width: 120px
+      max-width: 100%
+      min-height: 25px
+      max-height: 100%
+      line-height: 25px
+      .quantityTip-txt,.quantityTip-icon
+        display: inline
+      .quantityTip-txt
+        min-width: 100px
+        max-width: 100%
+        min-height: 25px
+        max-height: 100%
+        text-align: center
+        margin: 0 0 5px 0
+        padding: 2px
+        box-sizing: border-box
+        span
+          line-height: 25px
+          height: 25px
+          color: #fff
+          font-weight: bold
+        &.red
+          background: #D15B47
+        &.blue
+          background: #1b75bb
+      .quantityTip-icon
+        margin: 0 0 0 10px
+    .middle
+      span.lbl
+        font-size: 13px
+        min-width: 120px
+        max-width: 100%
+
+//int_Counter．html
+
+.counterPage
+  //position: relative
+  max-height: 600px
+  overflow: auto
+  .counterRow
+    //margin: 0 auto
+    .counterBlock
+      float: left
+      margin: 0 1px 1px 0
+      border: 2px solid #fff
+      position: relative
+      padding: 5px
+      //min-width: 100%
+      //min-height: 100%
+      width: 129px
+      height: 74px
+      line-height: 23px
+      box-sizing: border-box
+      background: #c0d6ee
+      color: #000
+      font-size: 11px
+      cursor: pointer
+      @include color-bk
+      &:hover
+        opacity: 0.6
+      .head
+        .left
+          position: absolute
+          top: 5px
+          left: 5px
+        .right
+          position: absolute
+          top: 5px
+          right: 5px
+        .txt-lg
+          font-weight: bold
+          font-size: 18px
+          line-height: 18px
+      .content
+        position: absolute
+        top: 25px
+        left: 5px
+      .content-sub
+        .left
+          position: absolute
+          top: 45px
+          left: 5px
+      .foot
+        position: absolute
+        bottom: 5px
+        left: 5px
+        .red-tip
+          span
+            color: #ff0000
+      //font-weight: bold
+      //font-size: 14px
+      .foot-right
+        position: absolute
+        bottom: 5px
+        right: 5px
+        span
+          color: #D15B47
+
+.counter-right
+  min-height: 200px
+  max-height: 100%
+  overflow-y: auto
+  label
+    font-size: 9px
+
+// int_counter floorPlan-table
+.floorPlan-table
+  table
+    border: 1px solid #C5D0DC
+    width: 100%
+    th,td
+      border: 1px solid #C5D0DC
+      padding: 2px 5px
+      text-align: center
+    tr
+      th
+        background: #c0d6ee
+      td
+        word-break: break-all
+        .moreInfo
+          background: #bfbfbf
+          border: none
+          float: right
+        .float-left
+          float: left
+        .float-right
+          float: right
+        &.roomNum
+          box-sizing: border-box
+          font-size: 1.5em
+          font-style: italic
+          font-weight: bold
+          color: #DD5A43
+          border: 2px solid #DD5A43
+  .customInfo-table
+    width: 100%
+    .table-left,.table-right
+      float: left
+    .table-left
+      width: 25%
+      margin: 0 3% 0 0
+    .table-right
+      width: 72%
+  .fav
+    table
+      width: 100%
+      th
+        width: 20%
+      td
+        width: 80%
+
+.show-intCounterRight
+  display: none
+
+// 彈出視窗置中
+.dialog-center
+  margin: 0 auto
+  vertical-align: middle
+  text-align: center
+.companyInfo
+  display: none
+.Img100
+  img
+    width: 100%
+    height: auto
+
+//flexTable
+.flexTable
+  height: 300px
+  //width: 1100px
+  max-width: 100%
+  margin: 0 auto
+.flexTable2
+  height: 300px
+  //min-width: 95%
+  //width: 1100px
+  margin: 0 auto
+.flexTable3
+  height: 300px
+  max-width: 100%
+  //min-width: 95%
+  //width: 1100px
+  margin: 0 auto
+.btn-save
+  margin: 10px 0 0 0
+  padding: 7px 20px
+  background: #555
+  color: #fff
+  border: none
+  &:hover
+    opacity: 0.8
+
+/* manageSetting.html */
+.settingSingleWidth
+  span.title
+    min-width: 100px
+    max-width: 100%
+    overflow: auto
+
+/* settingRole.html */
+.settingRole
+  .choiceLine
+    width: 10%
+    text-align: center
+    margin: 0 auto
+    border-bottom: 2px solid $blue
+
+/* settingAccControl.html */
+
+.starSearch
+  display: block
+  margin: 0 0 40px 0
+  .nav-search
+    left: 0
+  .nav-search-input
+    display: block
+.checkboxStyle
+  .checkbox
+    margin-top: 0
+    margin-bottom: 0
+.profileInfo
+  .field
+    margin: 10px auto
+  .blockTwo
+    position: relative
+    table.tableProfile
+      width: 100%
+      td,th
+        input
+          &:active,&:focus
+            border-top: 1px solid #eee
+            border-bottom: 1px solid #eee
+            border-right: 1px solid #eee
+            border-left: 2px solid #87B87F
+    .blockPlus
+      cursor: pointer
+      margin: 0 0 10px 10px
+/* settingAccManage.html */
+// 新增帳號
+.addNewStyle
+  .addNewAcc-form
+    width: 100px
+    text-align: right
+    margin: 10px 20px 15px auto
+  .modal-body
+    text-align: left
+.deleteAddAccount
+  cursor: pointer
+  margin-left: 10px
+  font-weight: bold
+  color: $redDefault
+  line-height: $lineHeight34
+//@import "_temporarily"
+/*----- reservation-01.html -----*/
+.optionBtn
+  margin: 0 5px !important
+  padding: 5px 30px
+
+.companyInfo
+  display: none
+.nav-search-input
+  display: none
+
+//@import "_response"
+@media screen and (max-width: 1280px)
+  .intCounterRight
+    display: none
+  .intCounterleft
+    position: relative
+  .show-intCounterRight
+    float: right
+    display: block
+    i
+      border: 1px solid #8fbcd9
+      padding: 3px 10px
+      cursor: pointer
+    color: #70a0c1
+    //line-height: 1.42857143
+    span
+      margin: 0 0 0 2px
+      font-size: 14px
+      line-height: 2

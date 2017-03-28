@@ -1,0 +1,43 @@
+var authMW = require("../middlewares/authMiddleware");
+var userCrtl = require("../controllers/userController");
+var i18nMW = require("../middlewares/i18nMiddleware");
+
+var middles = [authMW, i18nMW];
+var middles2 = [i18nMW];
+module.exports = function (app, passport) {
+
+
+    //登入頁面
+    app.get('/login', middles2, userCrtl.loginPage);
+
+    app.get('/casLogin', userCrtl.casLogin);
+
+
+    /** API  **/
+
+    //驗證是否登入成功
+    app.post('/api/authLogin', userCrtl.authLogin);
+
+    //取得使用者資料
+    app.post('/api/getUserInfo', userCrtl.getUserInfo);
+
+    //登出
+    app.post('/cas/logout', userCrtl.logout);
+
+    //選擇系統別
+    app.post('/api/selectSystem', userCrtl.selectSystem);
+
+    //取得使用者子系統權限
+    app.post('/api/getUserSubsys', userCrtl.getUserSubsys);
+
+
+    //取得QuickMenu
+    app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);
+
+    //取得權限設計web
+    app.get('/authorityRole',middles, userCrtl.getAuthorityRole);
+
+    app.get('/authorityStaff',middles, userCrtl.getAuthorityStaff);
+
+};
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 取得單筆訂房類別設定dt-->
+    <dao name="QRY_SINGLE_RVTYP_DT">
+        <statement><![CDATA[
+          select type, rv_typ, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr, athena_id, hotel_cod
+          from rvtyp_dt
+          where athena_id = :athena_id and type = :type
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="int" kind="3">type</parameter>
+    </dao>
+
+
+</root>

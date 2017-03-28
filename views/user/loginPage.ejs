@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ../common/head %>
+<%- include ../common/importFiles %>
+
+<script src="/js/cookieFunc.js"></script>
+
+<body class="login-bg" id="app" >
+
+<div class="loginPage">
+    <div class="logoCompany">
+        <img src="/images/athena_logo.png"/>
+    </div>
+    <div class="space-6"></div>
+    <div class="login-container">
+        <div class="col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="title">
+                    <!--icon-->
+                    <i class="fa fa-user green"></i>
+                    <span> <%= __("BAC01P0110")["login"] %></span>
+                </div>
+                <div class="main">
+                    <form>
+                        <div class="block input-icon input-icon-right">
+                            <input type="text" id="username" class="form-control"
+                                   placeholder="<%= __("BAC01P0110")["user"] %>"/>
+                            <i class="ace-icon fa fa-user"></i>
+                        </div>
+
+                        <div class="block input-icon input-icon-right">
+                            <input type="password" id="passwd" class="form-control"
+                                   placeholder="<%= __("BAC01P0110")["passwd"] %>"/>
+                            <i class="ace-icon fa fa-lock"></i>
+                        </div>
+
+                        <div>
+                            <select class="form-control "
+                                    id="dbname" placeholder=" <%= __("BAC01P0110")["database"] %>">
+                                <option value="0"><%= __("BAC01P0110")["pleaseSel"] %><%= __("BAC01P0110")["database"] %></option>
+                                <option value="htce7">htce7</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <select class="form-control"
+                                    id="comp_id" placeholder="<%= __("BAC01P0110")["company"] %>">
+                                <option value="0"><%= __("BAC01P0110")["pleaseSel"] %><%= __("BAC01P0110")["company"] %></option>
+                                <option value="MIRACHU">德安大酒店股份有限公司</option>
+
+                            </select>
+                        </div>
+
+                        <!--     <div class="block input-icon input-icon-right">
+                                <input type="text" class="form-control v_codes_input" placeholder="輸入驗證碼"/>
+                                <span class="v_codes">
+                                    <img src="/images/codes.jpg"/>
+                                </span>
+                            </div> -->
+                        <div class="clearfix"></div>
+
+                        <div class="mainCheck">
+                            <label class="inline">
+                                <input type="checkbox" class="ace" id="rememberMeCheck"/>
+                                <span class="lbl"> <%= __("BAC01P0110")["remember_me"] %></span>
+                            </label>
+
+                            <button type="button" id="login_btn" class="width-35 pull-right btn btn-sm btn-primary"
+                                    onclick="doLogin();">
+                                <span class="bigger-110">  <%= __("BAC01P0110")["login"] %></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!--<div class="toolbar">-->
+        <!--<div>-->
+            <!--<a href="#" data-target="#forgot-box" class="forgot-password-link">-->
+                <!--<%= __("BAC01P0110")["forget_pw"] %>-->
+            <!--</a>-->
+        <!--</div>-->
+
+    <!--</div>-->
+    <!-- 語言 -->
+    <div class="navbar-fixed-top align-right lang">
+        <!--<select onchange="javascript:handleSelect(this)">-->
+        <select onchange="">
+            <option <%= session.locale == 'zh_TW'? 'selected' : "" %> value="?locale=zh_TW">繁體中文</option>
+            <option <%= session.locale == 'en'? 'selected' : "" %> value="?locale=en">English</option>
+        </select>
+    </div>
+</div>
+</body>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+
+    $(function ($) {
+
+        showUserCookie();
+        $(document).on('click', '.toolbar a[data-target]', function (e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            $('.widget-box.visible').removeClass('visible');//hide others
+            $(target).addClass('visible');//show target
+        });
+
+
+        //偵測使用者按下Enter 按鈕,登入
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                doLogin();
+            }
+        });
+    });
+
+
+    //帶入cookie記住我資料
+    function showUserCookie() {
+        if (!_.isUndefined(getCookie("login_isRememberMe")) && getCookie("login_isRememberMe") == "Y") {
+            $("#rememberMeCheck").prop("checked", true);
+            $("#username").val(getCookie("login_username"));
+            $("#dbname").val(getCookie("login_dbname"));
+            $("#comp_id").val(getCookie("login_comp_id"));
+        }
+    }
+
+    function doLogin() {
+        $("#login_btn").attr("disabled",true);
+        var isRememberMe = $("#rememberMeCheck").prop("checked");
+        doCookieSetup("login_isRememberMe", isRememberMe ? "Y" : "N", "/", 2592000000);
+        var params = {
+            username: $("#username").val(),
+            passwd: $("#passwd").val(),
+            dbname: $("#dbname").val(),
+            comp_id: $("#comp_id").val()
+        };
+
+
+        $.post("/api/authLogin", params, function (result) {
+            $("#login_btn").attr("disabled",false);
+            if (result.success) {
+
+                if (isRememberMe) {
+                    doCookieSetup("login_isRememberMe", "Y", "/", 2592000000);
+                    doCookieSetup("login_username", params.username, "/", 2592000000);
+                    doCookieSetup("login_dbname", params.dbname, "/", 2592000000);
+                    doCookieSetup("login_comp_id", params.comp_id, "/", 2592000000);
+                } else {
+                    doCookieSetup("login_isRememberMe", "N", "/", 2592000000);
+                    delCookie("login_username", params.username);
+                    delCookie("login_dbname", params.dbname);
+                    delCookie("login_comp_id", params.comp_id);
+                }
+
+                alert('Login success!');
+                location.href = "/systemOption"
+            } else {
+                alert('Login fail!');
+            }
+        })
+
+    }
+
+</script>
+</html>

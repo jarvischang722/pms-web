@@ -1,0 +1,191 @@
+[{
+	"id":1,
+	"text":"BACCHUS",
+	"children":[{
+		"id":11,
+		"text":"PMS",
+		"children":[{
+			"id":111,
+			"text":"訂房",
+			"state": "closed",
+			"children":[
+				{
+					"id":1111,
+					"text":"依房型訂房 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11111,
+							"text": "新增"
+						},
+						{
+							"id":11112,
+							"text": "刪除"
+						},
+						{
+							"id":11113,
+							"text": "修改"
+						}
+					]
+				},
+				{
+					"id":1112,
+					"text":"依房號訂房 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11121,
+							"text": "新增"
+						},{
+							"id":11122,
+							"text": "刪除"
+						},{
+							"id":11123,
+							"text": "修改"
+						}
+					]
+				}
+			]
+		},{
+			"id":112,
+			"text":"接待",
+			"state": "closed",
+			"children":[
+				{
+					"id":1121,
+					"text":"依房號訂房 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11211,
+							"text": "新增"
+						},{
+							"id":11212,
+							"text": "刪除"
+						},{
+							"id":11213,
+							"text": "修改"
+						}
+					]
+				},{
+					"id":1122,
+					"text":"住客查詢 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11221,
+							"text": "新增"
+						},{
+							"id":11222,
+							"text": "刪除"
+						},{
+							"id":11223,
+							"text": "修改"
+						}
+					]
+				}
+			]
+		},{
+			"id":113,
+			"text":"出納",
+			"state": "closed",
+			"children":[
+				{
+					"id":1131,
+					"text":"綜合櫃檯 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11311,
+							"text": "新增"
+						},{
+							"id":11312,
+							"text": "刪除"
+						},{
+							"id":11313,
+							"text": "修改"
+						}
+					]
+				},{
+					"id":1132,
+					"text":"住客帳維護 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11321,
+							"text": "新增"
+						},{
+							"id":11322,
+							"text": "刪除"
+						},{
+							"id":11323,
+							"text": "修改"
+						}
+					]
+				}
+			]
+		},{
+			"id":114,
+			"text":"房務",
+			"state": "closed",
+			"children":[
+				{
+					"id":1141,
+					"text":"訂房查詢 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11411,
+							"text": "新增"
+						},{
+							"id":11412,
+							"text": "刪除"
+						},{
+							"id":11413,
+							"text": "修改"
+						}
+					]
+				},{
+					"id":1142,
+					"text":"團體管理 | (</i><i class='fa fa-plus icon-style'></i><i class='fa fa-minus icon-style'></i><i class='fa fa-pencil icon-style'></i> )",
+					"state": "closed",
+					"children":[
+						{
+							"id":11421,
+							"text": "新增"
+						},{
+							"id":11422,
+							"text": "刪除"
+						},{
+							"id":11423,
+							"text": "修改"
+						}
+					]
+				}
+			]
+		}]
+	},{
+		"id":12,
+		"text":"Flow",
+		"state":"closed",
+		"children":[{
+			"id":121,
+			"text":"Intel"
+		},{
+			"id":122,
+			"text":"Java",
+			"attributes":{
+				"p1":"Custom Attribute1",
+				"p2":"Custom Attribute2"
+			}
+		},{
+			"id":123,
+			"text":"Microsoft Office"
+		},{
+			"id":124,
+			"text":"Games",
+			"checked":true
+		}]
+	}]
+}]
+

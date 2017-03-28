@@ -1,0 +1,2565 @@
+//$btn-primary: #428BCA
+.btn
+  display: inline-block
+  color: #FFF !important
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+  background-image: none !important
+  border: 5px solid #FFF
+  border-radius: 0
+  box-shadow: none !important
+  -webkit-transition: background-color 0.15s, border-color 0.15s, opacity 0.15s
+  -o-transition: background-color 0.15s, border-color 0.15s, opacity 0.15s
+  transition: background-color 0.15s, border-color 0.15s, opacity 0.15s
+  cursor: pointer
+  vertical-align: middle
+  margin: 0
+  position: relative
+  /*     *
+   *  &:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	color: #FFF;
+   * 	box-shadow: none;
+   *  }
+  &.active
+    box-shadow: none
+
+.open > .btn.active.dropdown-toggle
+  box-shadow: none
+
+.btn-lg, .btn-group-lg > .btn
+  border-width: 5px
+  line-height: 1.4
+  padding: 5px 16px 6px
+
+.btn-xlg, .btn-group-xlg > .btn
+  border-width: 5px
+  line-height: 1.35
+  padding: 7px 16px
+  font-size: 18px
+
+.btn-sm, .btn-group-sm > .btn
+  border-width: 4px
+  font-size: 13px
+  padding: 4px 9px
+  line-height: 1.38
+
+.btn-xs, .btn-group-xs > .btn
+  padding-top: 3px
+  padding-bottom: 3px
+  border-width: 3px
+
+.btn-mini, .btn-group-mini > .btn
+  padding: 1px 5px
+  border-width: 3px
+  font-size: 12px
+  line-height: 1.5
+
+.btn-minier, .btn-group-minier > .btn
+  padding: 0 4px
+  line-height: 18px
+  border-width: 2px
+  font-size: 12px
+
+button.btn:active
+  top: 1px
+
+.input-group-lg > .form-control, .input-group-addon, .input-group-btn > .btn
+  border-radius: 0
+
+.btn, .btn-default, .btn:focus, .btn-default:focus, .btn.focus, .btn-default.focus
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+.btn:hover, .btn-default:hover, .btn:focus:hover, .btn-default:focus:hover, .btn.focus:hover, .btn-default.focus:hover, .btn:active:hover, .btn-default:active:hover, .btn:focus:active, .btn-default:focus:active
+  background-color: #8B9AA3 !important
+  border-color: #ABBAC3
+
+.open > .btn.dropdown-toggle, .btn-default.dropdown-toggle, .btn.dropdown-toggle:hover, .btn-default.dropdown-toggle:hover, .btn.dropdown-toggle:focus, .btn-default.dropdown-toggle:focus, .btn.dropdown-toggle.focus, .btn-default.dropdown-toggle.focus, .btn.dropdown-toggle:active, .btn-default.dropdown-toggle:active
+  background-color: #8B9AA3 !important
+  border-color: #ABBAC3
+
+.btn.no-border:hover, .btn-default.no-border:hover, .btn.no-border:active, .btn-default.no-border:active
+  border-color: #8B9AA3
+
+.btn.no-hover:hover, .btn-default.no-hover:hover, .btn.no-hover:active, .btn-default.no-hover:active
+  background-color: #ABBAC3 !important
+
+.open > .btn.dropdown-toggle.active, .btn-default.dropdown-toggle.active
+  background-color: #9baab3 !important
+  border-color: #8799a4
+
+.btn.active, .btn-default.active, .btn.focus.active, .btn-default.focus.active, .btn.active:focus, .btn-default.active:focus, .btn.active:hover, .btn-default.active:hover
+  background-color: #9baab3 !important
+  border-color: #8799a4
+
+.btn.no-border.active, .btn-default.no-border.active
+  background-color: #92a3ac !important
+  border-color: #92a3ac
+
+.btn.disabled, .btn-default.disabled, .btn[disabled], .btn-default[disabled]
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+fieldset[disabled]
+  .btn, .btn-default
+    background-color: #ABBAC3 !important
+    border-color: #ABBAC3
+
+.btn.disabled:hover, .btn-default.disabled:hover, .btn[disabled]:hover, .btn-default[disabled]:hover
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+fieldset[disabled]
+  .btn:hover, .btn-default:hover
+    background-color: #ABBAC3 !important
+    border-color: #ABBAC3
+
+.btn.disabled:focus, .btn-default.disabled:focus, .btn[disabled]:focus, .btn-default[disabled]:focus
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+fieldset[disabled]
+  .btn:focus, .btn-default:focus
+    background-color: #ABBAC3 !important
+    border-color: #ABBAC3
+
+.btn.disabled:active, .btn-default.disabled:active, .btn[disabled]:active, .btn-default[disabled]:active
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+fieldset[disabled]
+  .btn:active, .btn-default:active
+    background-color: #ABBAC3 !important
+    border-color: #ABBAC3
+
+.btn.disabled.active, .btn-default.disabled.active, .btn[disabled].active, .btn-default[disabled].active
+  background-color: #ABBAC3 !important
+  border-color: #ABBAC3
+
+fieldset[disabled]
+  .btn.active, .btn-default.active
+    background-color: #ABBAC3 !important
+    border-color: #ABBAC3
+
+.btn-primary
+  background-color: #428BCA !important
+  border-color: #428BCA
+  &:focus, &.focus
+    background-color: #428BCA !important
+    border-color: #428BCA
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #1B6AAA !important
+    border-color: #428BCA
+
+.open > .btn-primary.dropdown-toggle
+  background-color: #1B6AAA !important
+  border-color: #428BCA
+  &:hover, &:focus, &.focus, &:active
+    background-color: #1B6AAA !important
+    border-color: #428BCA
+
+.btn-primary
+  &.no-border
+    &:hover, &:active
+      border-color: #1B6AAA
+  &.no-hover
+    &:hover, &:active
+      background-color: #428BCA !important
+
+.open > .btn-primary.dropdown-toggle.active
+  background-color: #2f7bba !important
+  border-color: #27689d
+
+.btn-primary
+  &.active, &.focus.active
+    background-color: #2f7bba !important
+    border-color: #27689d
+  &.active
+    &:focus, &:hover
+      background-color: #2f7bba !important
+      border-color: #27689d
+  &.no-border.active
+    background-color: #2b72ae !important
+    border-color: #2b72ae
+  &.disabled, &[disabled]
+    background-color: #428BCA !important
+    border-color: #428BCA
+
+fieldset[disabled] .btn-primary
+  background-color: #428BCA !important
+  border-color: #428BCA
+
+.btn-primary
+  &.disabled:hover, &[disabled]:hover
+    background-color: #428BCA !important
+    border-color: #428BCA
+
+fieldset[disabled] .btn-primary:hover
+  background-color: #428BCA !important
+  border-color: #428BCA
+
+.btn-primary
+  &.disabled:focus, &[disabled]:focus
+    background-color: #428BCA !important
+    border-color: #428BCA
+
+fieldset[disabled] .btn-primary:focus
+  background-color: #428BCA !important
+  border-color: #428BCA
+
+.btn-primary
+  &.disabled:active, &[disabled]:active
+    background-color: #428BCA !important
+    border-color: #428BCA
+
+fieldset[disabled] .btn-primary:active
+  background-color: #428BCA !important
+  border-color: #428BCA
+
+.btn-primary
+  &.disabled.active, &[disabled].active
+    background-color: #428BCA !important
+    border-color: #428BCA
+
+fieldset[disabled] .btn-primary.active
+  background-color: #428BCA !important
+  border-color: #428BCA
+
+.btn-info
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+  &:focus, &.focus
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #4F99C6 !important
+    border-color: #6FB3E0
+
+.open > .btn-info.dropdown-toggle
+  background-color: #4F99C6 !important
+  border-color: #6FB3E0
+  &:hover, &:focus, &.focus, &:active
+    background-color: #4F99C6 !important
+    border-color: #6FB3E0
+
+.btn-info
+  &.no-border
+    &:hover, &:active
+      border-color: #4F99C6
+  &.no-hover
+    &:hover, &:active
+      background-color: #6FB3E0 !important
+
+.open > .btn-info.dropdown-toggle.active
+  background-color: #5fa6d3 !important
+  border-color: #4396cb
+
+.btn-info
+  &.active, &.focus.active
+    background-color: #5fa6d3 !important
+    border-color: #4396cb
+  &.active
+    &:focus, &:hover
+      background-color: #5fa6d3 !important
+      border-color: #4396cb
+  &.no-border.active
+    background-color: #539fd0 !important
+    border-color: #539fd0
+  &.disabled, &[disabled]
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+
+fieldset[disabled] .btn-info
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+
+.btn-info
+  &.disabled:hover, &[disabled]:hover
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+
+fieldset[disabled] .btn-info:hover
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+
+.btn-info
+  &.disabled:focus, &[disabled]:focus
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+
+fieldset[disabled] .btn-info:focus
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+
+.btn-info
+  &.disabled:active, &[disabled]:active
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+
+fieldset[disabled] .btn-info:active
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+
+.btn-info
+  &.disabled.active, &[disabled].active
+    background-color: #6FB3E0 !important
+    border-color: #6FB3E0
+
+fieldset[disabled] .btn-info.active
+  background-color: #6FB3E0 !important
+  border-color: #6FB3E0
+
+.btn-info2
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+  &:focus, &.focus
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #67A6CE !important
+    border-color: #95C6E5
+
+.open > .btn-info2.dropdown-toggle
+  background-color: #67A6CE !important
+  border-color: #95C6E5
+  &:hover, &:focus, &.focus, &:active
+    background-color: #67A6CE !important
+    border-color: #95C6E5
+
+.btn-info2
+  &.no-border
+    &:hover, &:active
+      border-color: #67A6CE
+  &.no-hover
+    &:hover, &:active
+      background-color: #95C6E5 !important
+
+.open > .btn-info2.dropdown-toggle.active
+  background-color: #7eb6da !important
+  border-color: #62a6d1
+
+.btn-info2
+  &.active, &.focus.active
+    background-color: #7eb6da !important
+    border-color: #62a6d1
+  &.active
+    &:focus, &:hover
+      background-color: #7eb6da !important
+      border-color: #62a6d1
+  &.no-border.active
+    background-color: #72afd6 !important
+    border-color: #72afd6
+  &.disabled, &[disabled]
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+
+fieldset[disabled] .btn-info2
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+
+.btn-info2
+  &.disabled:hover, &[disabled]:hover
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+
+fieldset[disabled] .btn-info2:hover
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+
+.btn-info2
+  &.disabled:focus, &[disabled]:focus
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+
+fieldset[disabled] .btn-info2:focus
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+
+.btn-info2
+  &.disabled:active, &[disabled]:active
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+
+fieldset[disabled] .btn-info2:active
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+
+.btn-info2
+  &.disabled.active, &[disabled].active
+    background-color: #95C6E5 !important
+    border-color: #95C6E5
+
+fieldset[disabled] .btn-info2.active
+  background-color: #95C6E5 !important
+  border-color: #95C6E5
+
+.btn-success
+  background-color: #87B87F !important
+  border-color: #87B87F
+  &:focus, &.focus
+    background-color: #87B87F !important
+    border-color: #87B87F
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #629B58 !important
+    border-color: #87B87F
+
+.open > .btn-success.dropdown-toggle
+  background-color: #629B58 !important
+  border-color: #87B87F
+  &:hover, &:focus, &.focus, &:active
+    background-color: #629B58 !important
+    border-color: #87B87F
+
+.btn-success
+  &.no-border
+    &:hover, &:active
+      border-color: #629B58
+  &.no-hover
+    &:hover, &:active
+      background-color: #87B87F !important
+
+.open > .btn-success.dropdown-toggle.active
+  background-color: #75aa6c !important
+  border-color: #629959
+
+.btn-success
+  &.active, &.focus.active
+    background-color: #75aa6c !important
+    border-color: #629959
+  &.active
+    &:focus, &:hover
+      background-color: #75aa6c !important
+      border-color: #629959
+  &.no-border.active
+    background-color: #6ba462 !important
+    border-color: #6ba462
+  &.disabled, &[disabled]
+    background-color: #87B87F !important
+    border-color: #87B87F
+
+fieldset[disabled] .btn-success
+  background-color: #87B87F !important
+  border-color: #87B87F
+
+.btn-success
+  &.disabled:hover, &[disabled]:hover
+    background-color: #87B87F !important
+    border-color: #87B87F
+
+fieldset[disabled] .btn-success:hover
+  background-color: #87B87F !important
+  border-color: #87B87F
+
+.btn-success
+  &.disabled:focus, &[disabled]:focus
+    background-color: #87B87F !important
+    border-color: #87B87F
+
+fieldset[disabled] .btn-success:focus
+  background-color: #87B87F !important
+  border-color: #87B87F
+
+.btn-success
+  &.disabled:active, &[disabled]:active
+    background-color: #87B87F !important
+    border-color: #87B87F
+
+fieldset[disabled] .btn-success:active
+  background-color: #87B87F !important
+  border-color: #87B87F
+
+.btn-success
+  &.disabled.active, &[disabled].active
+    background-color: #87B87F !important
+    border-color: #87B87F
+
+fieldset[disabled] .btn-success.active
+  background-color: #87B87F !important
+  border-color: #87B87F
+
+.btn-warning
+  background-color: #FFB752 !important
+  border-color: #FFB752
+  &:focus, &.focus
+    background-color: #FFB752 !important
+    border-color: #FFB752
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #E59729 !important
+    border-color: #FFB752
+
+.open > .btn-warning.dropdown-toggle
+  background-color: #E59729 !important
+  border-color: #FFB752
+  &:hover, &:focus, &.focus, &:active
+    background-color: #E59729 !important
+    border-color: #FFB752
+
+.btn-warning
+  &.no-border
+    &:hover, &:active
+      border-color: #E59729
+  &.no-hover
+    &:hover, &:active
+      background-color: #FFB752 !important
+
+.open > .btn-warning.dropdown-toggle.active
+  background-color: #f2a73e !important
+  border-color: #f0981c
+
+.btn-warning
+  &.active, &.focus.active
+    background-color: #f2a73e !important
+    border-color: #f0981c
+  &.active
+    &:focus, &:hover
+      background-color: #f2a73e !important
+      border-color: #f0981c
+  &.no-border.active
+    background-color: #f1a02f !important
+    border-color: #f1a02f
+  &.disabled, &[disabled]
+    background-color: #FFB752 !important
+    border-color: #FFB752
+
+fieldset[disabled] .btn-warning
+  background-color: #FFB752 !important
+  border-color: #FFB752
+
+.btn-warning
+  &.disabled:hover, &[disabled]:hover
+    background-color: #FFB752 !important
+    border-color: #FFB752
+
+fieldset[disabled] .btn-warning:hover
+  background-color: #FFB752 !important
+  border-color: #FFB752
+
+.btn-warning
+  &.disabled:focus, &[disabled]:focus
+    background-color: #FFB752 !important
+    border-color: #FFB752
+
+fieldset[disabled] .btn-warning:focus
+  background-color: #FFB752 !important
+  border-color: #FFB752
+
+.btn-warning
+  &.disabled:active, &[disabled]:active
+    background-color: #FFB752 !important
+    border-color: #FFB752
+
+fieldset[disabled] .btn-warning:active
+  background-color: #FFB752 !important
+  border-color: #FFB752
+
+.btn-warning
+  &.disabled.active, &[disabled].active
+    background-color: #FFB752 !important
+    border-color: #FFB752
+
+fieldset[disabled] .btn-warning.active
+  background-color: #FFB752 !important
+  border-color: #FFB752
+
+.btn-danger
+  background-color: #D15B47 !important
+  border-color: #D15B47
+  &:focus, &.focus
+    background-color: #D15B47 !important
+    border-color: #D15B47
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #B74635 !important
+    border-color: #D15B47
+
+.open > .btn-danger.dropdown-toggle
+  background-color: #B74635 !important
+  border-color: #D15B47
+  &:hover, &:focus, &.focus, &:active
+    background-color: #B74635 !important
+    border-color: #D15B47
+
+.btn-danger
+  &.no-border
+    &:hover, &:active
+      border-color: #B74635
+  &.no-hover
+    &:hover, &:active
+      background-color: #D15B47 !important
+
+.open > .btn-danger.dropdown-toggle.active
+  background-color: #c4513e !important
+  border-color: #aa4434
+
+.btn-danger
+  &.active, &.focus.active
+    background-color: #c4513e !important
+    border-color: #aa4434
+  &.active
+    &:focus, &:hover
+      background-color: #c4513e !important
+      border-color: #aa4434
+  &.no-border.active
+    background-color: #ba4b39 !important
+    border-color: #ba4b39
+  &.disabled, &[disabled]
+    background-color: #D15B47 !important
+    border-color: #D15B47
+
+fieldset[disabled] .btn-danger
+  background-color: #D15B47 !important
+  border-color: #D15B47
+
+.btn-danger
+  &.disabled:hover, &[disabled]:hover
+    background-color: #D15B47 !important
+    border-color: #D15B47
+
+fieldset[disabled] .btn-danger:hover
+  background-color: #D15B47 !important
+  border-color: #D15B47
+
+.btn-danger
+  &.disabled:focus, &[disabled]:focus
+    background-color: #D15B47 !important
+    border-color: #D15B47
+
+fieldset[disabled] .btn-danger:focus
+  background-color: #D15B47 !important
+  border-color: #D15B47
+
+.btn-danger
+  &.disabled:active, &[disabled]:active
+    background-color: #D15B47 !important
+    border-color: #D15B47
+
+fieldset[disabled] .btn-danger:active
+  background-color: #D15B47 !important
+  border-color: #D15B47
+
+.btn-danger
+  &.disabled.active, &[disabled].active
+    background-color: #D15B47 !important
+    border-color: #D15B47
+
+fieldset[disabled] .btn-danger.active
+  background-color: #D15B47 !important
+  border-color: #D15B47
+
+.btn-inverse
+  background-color: #555555 !important
+  border-color: #555555
+  &:focus, &.focus
+    background-color: #555555 !important
+    border-color: #555555
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #303030 !important
+    border-color: #555555
+
+.open > .btn-inverse.dropdown-toggle
+  background-color: #303030 !important
+  border-color: #555555
+  &:hover, &:focus, &.focus, &:active
+    background-color: #303030 !important
+    border-color: #555555
+
+.btn-inverse
+  &.no-border
+    &:hover, &:active
+      border-color: #303030
+  &.no-hover
+    &:hover, &:active
+      background-color: #555555 !important
+
+.open > .btn-inverse.dropdown-toggle.active
+  background-color: #434343 !important
+  border-color: #313131
+
+.btn-inverse
+  &.active, &.focus.active
+    background-color: #434343 !important
+    border-color: #313131
+  &.active
+    &:focus, &:hover
+      background-color: #434343 !important
+      border-color: #313131
+  &.no-border.active
+    background-color: #3b3b3b !important
+    border-color: #3b3b3b
+  &.disabled, &[disabled]
+    background-color: #555555 !important
+    border-color: #555555
+
+fieldset[disabled] .btn-inverse
+  background-color: #555555 !important
+  border-color: #555555
+
+.btn-inverse
+  &.disabled:hover, &[disabled]:hover
+    background-color: #555555 !important
+    border-color: #555555
+
+fieldset[disabled] .btn-inverse:hover
+  background-color: #555555 !important
+  border-color: #555555
+
+.btn-inverse
+  &.disabled:focus, &[disabled]:focus
+    background-color: #555555 !important
+    border-color: #555555
+
+fieldset[disabled] .btn-inverse:focus
+  background-color: #555555 !important
+  border-color: #555555
+
+.btn-inverse
+  &.disabled:active, &[disabled]:active
+    background-color: #555555 !important
+    border-color: #555555
+
+fieldset[disabled] .btn-inverse:active
+  background-color: #555555 !important
+  border-color: #555555
+
+.btn-inverse
+  &.disabled.active, &[disabled].active
+    background-color: #555555 !important
+    border-color: #555555
+
+fieldset[disabled] .btn-inverse.active
+  background-color: #555555 !important
+  border-color: #555555
+
+.btn-pink
+  background-color: #D6487E !important
+  border-color: #D6487E
+  &:focus, &.focus
+    background-color: #D6487E !important
+    border-color: #D6487E
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #B73766 !important
+    border-color: #D6487E
+
+.open > .btn-pink.dropdown-toggle
+  background-color: #B73766 !important
+  border-color: #D6487E
+  &:hover, &:focus, &.focus, &:active
+    background-color: #B73766 !important
+    border-color: #D6487E
+
+.btn-pink
+  &.no-border
+    &:hover, &:active
+      border-color: #B73766
+  &.no-hover
+    &:hover, &:active
+      background-color: #D6487E !important
+
+.open > .btn-pink.dropdown-toggle.active
+  background-color: #c74072 !important
+  border-color: #af3462
+
+.btn-pink
+  &.active, &.focus.active
+    background-color: #c74072 !important
+    border-color: #af3462
+  &.active
+    &:focus, &:hover
+      background-color: #c74072 !important
+      border-color: #af3462
+  &.no-border.active
+    background-color: #be386a !important
+    border-color: #be386a
+  &.disabled, &[disabled]
+    background-color: #D6487E !important
+    border-color: #D6487E
+
+fieldset[disabled] .btn-pink
+  background-color: #D6487E !important
+  border-color: #D6487E
+
+.btn-pink
+  &.disabled:hover, &[disabled]:hover
+    background-color: #D6487E !important
+    border-color: #D6487E
+
+fieldset[disabled] .btn-pink:hover
+  background-color: #D6487E !important
+  border-color: #D6487E
+
+.btn-pink
+  &.disabled:focus, &[disabled]:focus
+    background-color: #D6487E !important
+    border-color: #D6487E
+
+fieldset[disabled] .btn-pink:focus
+  background-color: #D6487E !important
+  border-color: #D6487E
+
+.btn-pink
+  &.disabled:active, &[disabled]:active
+    background-color: #D6487E !important
+    border-color: #D6487E
+
+fieldset[disabled] .btn-pink:active
+  background-color: #D6487E !important
+  border-color: #D6487E
+
+.btn-pink
+  &.disabled.active, &[disabled].active
+    background-color: #D6487E !important
+    border-color: #D6487E
+
+fieldset[disabled] .btn-pink.active
+  background-color: #D6487E !important
+  border-color: #D6487E
+
+.btn-purple
+  background-color: #9585BF !important
+  border-color: #9585BF
+  &:focus, &.focus
+    background-color: #9585BF !important
+    border-color: #9585BF
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #7461AA !important
+    border-color: #9585BF
+
+.open > .btn-purple.dropdown-toggle
+  background-color: #7461AA !important
+  border-color: #9585BF
+  &:hover, &:focus, &.focus, &:active
+    background-color: #7461AA !important
+    border-color: #9585BF
+
+.btn-purple
+  &.no-border
+    &:hover, &:active
+      border-color: #7461AA
+  &.no-hover
+    &:hover, &:active
+      background-color: #9585BF !important
+
+.open > .btn-purple.dropdown-toggle.active
+  background-color: #8573b5 !important
+  border-color: #705ca8
+
+.btn-purple
+  &.active, &.focus.active
+    background-color: #8573b5 !important
+    border-color: #705ca8
+  &.active
+    &:focus, &:hover
+      background-color: #8573b5 !important
+      border-color: #705ca8
+  &.no-border.active
+    background-color: #7c69af !important
+    border-color: #7c69af
+  &.disabled, &[disabled]
+    background-color: #9585BF !important
+    border-color: #9585BF
+
+fieldset[disabled] .btn-purple
+  background-color: #9585BF !important
+  border-color: #9585BF
+
+.btn-purple
+  &.disabled:hover, &[disabled]:hover
+    background-color: #9585BF !important
+    border-color: #9585BF
+
+fieldset[disabled] .btn-purple:hover
+  background-color: #9585BF !important
+  border-color: #9585BF
+
+.btn-purple
+  &.disabled:focus, &[disabled]:focus
+    background-color: #9585BF !important
+    border-color: #9585BF
+
+fieldset[disabled] .btn-purple:focus
+  background-color: #9585BF !important
+  border-color: #9585BF
+
+.btn-purple
+  &.disabled:active, &[disabled]:active
+    background-color: #9585BF !important
+    border-color: #9585BF
+
+fieldset[disabled] .btn-purple:active
+  background-color: #9585BF !important
+  border-color: #9585BF
+
+.btn-purple
+  &.disabled.active, &[disabled].active
+    background-color: #9585BF !important
+    border-color: #9585BF
+
+fieldset[disabled] .btn-purple.active
+  background-color: #9585BF !important
+  border-color: #9585BF
+
+.btn-grey
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+  &:focus, &.focus
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #888888 !important
+    border-color: #A0A0A0
+
+.open > .btn-grey.dropdown-toggle
+  background-color: #888888 !important
+  border-color: #A0A0A0
+  &:hover, &:focus, &.focus, &:active
+    background-color: #888888 !important
+    border-color: #A0A0A0
+
+.btn-grey
+  &.no-border
+    &:hover, &:active
+      border-color: #888888
+  &.no-hover
+    &:hover, &:active
+      background-color: #A0A0A0 !important
+
+.open > .btn-grey.dropdown-toggle.active
+  background-color: #949494 !important
+  border-color: #828282
+
+.btn-grey
+  &.active, &.focus.active
+    background-color: #949494 !important
+    border-color: #828282
+  &.active
+    &:focus, &:hover
+      background-color: #949494 !important
+      border-color: #828282
+  &.no-border.active
+    background-color: #8c8c8c !important
+    border-color: #8c8c8c
+  &.disabled, &[disabled]
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+
+fieldset[disabled] .btn-grey
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+
+.btn-grey
+  &.disabled:hover, &[disabled]:hover
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+
+fieldset[disabled] .btn-grey:hover
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+
+.btn-grey
+  &.disabled:focus, &[disabled]:focus
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+
+fieldset[disabled] .btn-grey:focus
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+
+.btn-grey
+  &.disabled:active, &[disabled]:active
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+
+fieldset[disabled] .btn-grey:active
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+
+.btn-grey
+  &.disabled.active, &[disabled].active
+    background-color: #A0A0A0 !important
+    border-color: #A0A0A0
+
+fieldset[disabled] .btn-grey.active
+  background-color: #A0A0A0 !important
+  border-color: #A0A0A0
+
+.btn-yellow
+  color: #996633 !important
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.4) !important
+  background-color: #FEE188 !important
+  border-color: #FEE188
+  &:focus, &.focus
+    background-color: #FEE188 !important
+    border-color: #FEE188
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #F7D05B !important
+    border-color: #FEE188
+
+.open > .btn-yellow.dropdown-toggle
+  background-color: #F7D05B !important
+  border-color: #FEE188
+  &:hover, &:focus, &.focus, &:active
+    background-color: #F7D05B !important
+    border-color: #FEE188
+
+.btn-yellow
+  &.no-border
+    &:hover, &:active
+      border-color: #F7D05B
+  &.no-hover
+    &:hover, &:active
+      background-color: #FEE188 !important
+
+.open > .btn-yellow.dropdown-toggle.active
+  background-color: #fbd972 !important
+  border-color: #f9cf4f
+
+.btn-yellow
+  &.active, &.focus.active
+    background-color: #fbd972 !important
+    border-color: #f9cf4f
+  &.active
+    &:focus, &:hover
+      background-color: #fbd972 !important
+      border-color: #f9cf4f
+  &.no-border.active
+    background-color: #fad463 !important
+    border-color: #fad463
+  &.disabled, &[disabled]
+    background-color: #FEE188 !important
+    border-color: #FEE188
+
+fieldset[disabled] .btn-yellow
+  background-color: #FEE188 !important
+  border-color: #FEE188
+
+.btn-yellow
+  &.disabled:hover, &[disabled]:hover
+    background-color: #FEE188 !important
+    border-color: #FEE188
+
+fieldset[disabled] .btn-yellow:hover
+  background-color: #FEE188 !important
+  border-color: #FEE188
+
+.btn-yellow
+  &.disabled:focus, &[disabled]:focus
+    background-color: #FEE188 !important
+    border-color: #FEE188
+
+fieldset[disabled] .btn-yellow:focus
+  background-color: #FEE188 !important
+  border-color: #FEE188
+
+.btn-yellow
+  &.disabled:active, &[disabled]:active
+    background-color: #FEE188 !important
+    border-color: #FEE188
+
+fieldset[disabled] .btn-yellow:active
+  background-color: #FEE188 !important
+  border-color: #FEE188
+
+.btn-yellow
+  &.disabled.active, &[disabled].active
+    background-color: #FEE188 !important
+    border-color: #FEE188
+
+fieldset[disabled] .btn-yellow.active
+  background-color: #FEE188 !important
+  border-color: #FEE188
+
+.btn-yellow
+  &:hover, &:focus, &.focus
+    color: #996633
+
+.open > .btn-yellow.dropdown-toggle, .btn-yellow.active, .open > .btn-yellow.active.dropdown-toggle
+  color: #996633
+
+.btn-light
+  color: #888 !important
+  text-shadow: 0 -1px 0 rgba(250, 250, 250, 0.25) !important
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+  &:focus, &.focus
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+  &:hover, &:focus:hover, &.focus:hover, &:active:hover, &:focus:active
+    background-color: #D9D9D9 !important
+    border-color: #E7E7E7
+
+.open > .btn-light.dropdown-toggle
+  background-color: #D9D9D9 !important
+  border-color: #E7E7E7
+  &:hover, &:focus, &.focus, &:active
+    background-color: #D9D9D9 !important
+    border-color: #E7E7E7
+
+.btn-light
+  &.no-border
+    &:hover, &:active
+      border-color: #D9D9D9
+  &.no-hover
+    &:hover, &:active
+      background-color: #E7E7E7 !important
+
+.open > .btn-light.dropdown-toggle.active
+  background-color: #e0e0e0 !important
+  border-color: #cecece
+
+.btn-light
+  &.active, &.focus.active
+    background-color: #e0e0e0 !important
+    border-color: #cecece
+  &.active
+    &:focus, &:hover
+      background-color: #e0e0e0 !important
+      border-color: #cecece
+  &.no-border.active
+    background-color: #d8d8d8 !important
+    border-color: #d8d8d8
+  &.disabled, &[disabled]
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+
+fieldset[disabled] .btn-light
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+
+.btn-light
+  &.disabled:hover, &[disabled]:hover
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+
+fieldset[disabled] .btn-light:hover
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+
+.btn-light
+  &.disabled:focus, &[disabled]:focus
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+
+fieldset[disabled] .btn-light:focus
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+
+.btn-light
+  &.disabled:active, &[disabled]:active
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+
+fieldset[disabled] .btn-light:active
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+
+.btn-light
+  &.disabled.active, &[disabled].active
+    background-color: #E7E7E7 !important
+    border-color: #E7E7E7
+
+fieldset[disabled] .btn-light.active
+  background-color: #E7E7E7 !important
+  border-color: #E7E7E7
+
+.btn-light
+  &:hover, &:focus, &.focus
+    color: #888
+
+.open > .btn-light.dropdown-toggle, .btn-light.active, .open > .btn-light.active.dropdown-toggle
+  color: #888
+
+.btn-light
+  &.btn-xs:after, &.btn-mini:after
+    left: -2px
+    right: -2px
+    top: -2px
+    bottom: -2px
+  &.btn-sm:after
+    left: -4px
+    right: -4px
+    top: -4px
+    bottom: -4px
+  .btn-lg:after
+    left: -6px
+    right: -6px
+    top: -6px
+    bottom: -6px
+
+.btn.btn-white
+  text-shadow: none !important
+  background-color: #FFF !important
+  &.no-hover
+    &:hover, &:active
+      background-color: #FFF !important
+  &:focus, &.active
+    box-shadow: inset 1px 1px 2px 0 rgba(0, 0, 0, 0.1) !important
+  &:focus.btn-bold
+    box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.15) !important
+  &.active
+    &.btn-bold
+      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.15) !important
+    &:after
+      display: none
+  border-color: #CCC
+  color: #444 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #EBEBEB !important
+    border-color: #CCC
+    color: #3a3434 !important
+
+.open > .btn.btn-white
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #EBEBEB !important
+    border-color: #CCC
+    color: #3a3434 !important
+
+.btn.btn-white
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #CCC
+
+.open > .btn.btn-white
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #CCC
+
+.btn.btn-white
+  &.disabled, &[disabled]
+    border-color: #CCC
+
+fieldset[disabled] .btn.btn-white
+  border-color: #CCC
+
+.btn.btn-white
+  &.disabled:hover, &[disabled]:hover
+    border-color: #CCC
+
+fieldset[disabled] .btn.btn-white:hover
+  border-color: #CCC
+
+.btn.btn-white
+  &.disabled:focus, &[disabled]:focus
+    border-color: #CCC
+
+fieldset[disabled] .btn.btn-white:focus
+  border-color: #CCC
+
+.btn.btn-white
+  &.disabled:active, &[disabled]:active
+    border-color: #CCC
+
+fieldset[disabled] .btn.btn-white:active
+  border-color: #CCC
+
+.btn.btn-white
+  &.disabled.active, &[disabled].active
+    border-color: #CCC
+
+fieldset[disabled] .btn.btn-white.active
+  border-color: #CCC
+
+.btn-white.btn-default
+  border-color: #ABBAC3
+  color: #80909a !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #eff2f4 !important
+    border-color: #ABBAC3
+    color: #6b8595 !important
+
+.open > .btn-white.btn-default
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #eff2f4 !important
+    border-color: #ABBAC3
+    color: #6b8595 !important
+
+.btn-white.btn-default
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #ABBAC3
+
+.open > .btn-white.btn-default
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #ABBAC3
+
+.btn-white.btn-default
+  &.disabled, &[disabled]
+    border-color: #ABBAC3
+
+fieldset[disabled] .btn-white.btn-default
+  border-color: #ABBAC3
+
+.btn-white.btn-default
+  &.disabled:hover, &[disabled]:hover
+    border-color: #ABBAC3
+
+fieldset[disabled] .btn-white.btn-default:hover
+  border-color: #ABBAC3
+
+.btn-white.btn-default
+  &.disabled:focus, &[disabled]:focus
+    border-color: #ABBAC3
+
+fieldset[disabled] .btn-white.btn-default:focus
+  border-color: #ABBAC3
+
+.btn-white.btn-default
+  &.disabled:active, &[disabled]:active
+    border-color: #ABBAC3
+
+fieldset[disabled] .btn-white.btn-default:active
+  border-color: #ABBAC3
+
+.btn-white.btn-default
+  &.disabled.active, &[disabled].active
+    border-color: #ABBAC3
+
+fieldset[disabled] .btn-white.btn-default.active
+  border-color: #ABBAC3
+
+.btn-white.btn-primary
+  border-color: #8aafce
+  color: #6688a6 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #eaf2f8 !important
+    border-color: #8aafce
+    color: #537c9f !important
+
+.open > .btn-white.btn-primary
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #eaf2f8 !important
+    border-color: #8aafce
+    color: #537c9f !important
+
+.btn-white.btn-primary
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #8aafce
+
+.open > .btn-white.btn-primary
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #8aafce
+
+.btn-white.btn-primary
+  &.disabled, &[disabled]
+    border-color: #8aafce
+
+fieldset[disabled] .btn-white.btn-primary
+  border-color: #8aafce
+
+.btn-white.btn-primary
+  &.disabled:hover, &[disabled]:hover
+    border-color: #8aafce
+
+fieldset[disabled] .btn-white.btn-primary:hover
+  border-color: #8aafce
+
+.btn-white.btn-primary
+  &.disabled:focus, &[disabled]:focus
+    border-color: #8aafce
+
+fieldset[disabled] .btn-white.btn-primary:focus
+  border-color: #8aafce
+
+.btn-white.btn-primary
+  &.disabled:active, &[disabled]:active
+    border-color: #8aafce
+
+fieldset[disabled] .btn-white.btn-primary:active
+  border-color: #8aafce
+
+.btn-white.btn-primary
+  &.disabled.active, &[disabled].active
+    border-color: #8aafce
+
+fieldset[disabled] .btn-white.btn-primary.active
+  border-color: #8aafce
+
+.btn-white.btn-success
+  border-color: #a7c9a1
+  color: #81a87b !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #edf4eb !important
+    border-color: #a7c9a1
+    color: #6ea465 !important
+
+.open > .btn-white.btn-success
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #edf4eb !important
+    border-color: #a7c9a1
+    color: #6ea465 !important
+
+.btn-white.btn-success
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #a7c9a1
+
+.open > .btn-white.btn-success
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #a7c9a1
+
+.btn-white.btn-success
+  &.disabled, &[disabled]
+    border-color: #a7c9a1
+
+fieldset[disabled] .btn-white.btn-success
+  border-color: #a7c9a1
+
+.btn-white.btn-success
+  &.disabled:hover, &[disabled]:hover
+    border-color: #a7c9a1
+
+fieldset[disabled] .btn-white.btn-success:hover
+  border-color: #a7c9a1
+
+.btn-white.btn-success
+  &.disabled:focus, &[disabled]:focus
+    border-color: #a7c9a1
+
+fieldset[disabled] .btn-white.btn-success:focus
+  border-color: #a7c9a1
+
+.btn-white.btn-success
+  &.disabled:active, &[disabled]:active
+    border-color: #a7c9a1
+
+fieldset[disabled] .btn-white.btn-success:active
+  border-color: #a7c9a1
+
+.btn-white.btn-success
+  &.disabled.active, &[disabled].active
+    border-color: #a7c9a1
+
+fieldset[disabled] .btn-white.btn-success.active
+  border-color: #a7c9a1
+
+.btn-white.btn-danger
+  border-color: #d7a59d
+  color: #b7837a !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #fbf4f3 !important
+    border-color: #d7a59d
+    color: #b46f64 !important
+
+.open > .btn-white.btn-danger
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #fbf4f3 !important
+    border-color: #d7a59d
+    color: #b46f64 !important
+
+.btn-white.btn-danger
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #d7a59d
+
+.open > .btn-white.btn-danger
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #d7a59d
+
+.btn-white.btn-danger
+  &.disabled, &[disabled]
+    border-color: #d7a59d
+
+fieldset[disabled] .btn-white.btn-danger
+  border-color: #d7a59d
+
+.btn-white.btn-danger
+  &.disabled:hover, &[disabled]:hover
+    border-color: #d7a59d
+
+fieldset[disabled] .btn-white.btn-danger:hover
+  border-color: #d7a59d
+
+.btn-white.btn-danger
+  &.disabled:focus, &[disabled]:focus
+    border-color: #d7a59d
+
+fieldset[disabled] .btn-white.btn-danger:focus
+  border-color: #d7a59d
+
+.btn-white.btn-danger
+  &.disabled:active, &[disabled]:active
+    border-color: #d7a59d
+
+fieldset[disabled] .btn-white.btn-danger:active
+  border-color: #d7a59d
+
+.btn-white.btn-danger
+  &.disabled.active, &[disabled].active
+    border-color: #d7a59d
+
+fieldset[disabled] .btn-white.btn-danger.active
+  border-color: #d7a59d
+
+.btn-white.btn-warning
+  border-color: #e7b979
+  color: #daa458 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #fef7ec !important
+    border-color: #e7b979
+    color: #db9a3d !important
+
+.open > .btn-white.btn-warning
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #fef7ec !important
+    border-color: #e7b979
+    color: #db9a3d !important
+
+.btn-white.btn-warning
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #e7b979
+
+.open > .btn-white.btn-warning
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #e7b979
+
+.btn-white.btn-warning
+  &.disabled, &[disabled]
+    border-color: #e7b979
+
+fieldset[disabled] .btn-white.btn-warning
+  border-color: #e7b979
+
+.btn-white.btn-warning
+  &.disabled:hover, &[disabled]:hover
+    border-color: #e7b979
+
+fieldset[disabled] .btn-white.btn-warning:hover
+  border-color: #e7b979
+
+.btn-white.btn-warning
+  &.disabled:focus, &[disabled]:focus
+    border-color: #e7b979
+
+fieldset[disabled] .btn-white.btn-warning:focus
+  border-color: #e7b979
+
+.btn-white.btn-warning
+  &.disabled:active, &[disabled]:active
+    border-color: #e7b979
+
+fieldset[disabled] .btn-white.btn-warning:active
+  border-color: #e7b979
+
+.btn-white.btn-warning
+  &.disabled.active, &[disabled].active
+    border-color: #e7b979
+
+fieldset[disabled] .btn-white.btn-warning.active
+  border-color: #e7b979
+
+.btn-white.btn-info
+  border-color: #8fbcd9
+  color: #70a0c1 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #eef5fa !important
+    border-color: #8fbcd9
+    color: #5896bf !important
+
+.open > .btn-white.btn-info
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #eef5fa !important
+    border-color: #8fbcd9
+    color: #5896bf !important
+
+.btn-white.btn-info
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #8fbcd9
+
+.open > .btn-white.btn-info
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #8fbcd9
+
+.btn-white.btn-info
+  &.disabled, &[disabled]
+    border-color: #8fbcd9
+
+fieldset[disabled] .btn-white.btn-info
+  border-color: #8fbcd9
+
+.btn-white.btn-info
+  &.disabled:hover, &[disabled]:hover
+    border-color: #8fbcd9
+
+fieldset[disabled] .btn-white.btn-info:hover
+  border-color: #8fbcd9
+
+.btn-white.btn-info
+  &.disabled:focus, &[disabled]:focus
+    border-color: #8fbcd9
+
+fieldset[disabled] .btn-white.btn-info:focus
+  border-color: #8fbcd9
+
+.btn-white.btn-info
+  &.disabled:active, &[disabled]:active
+    border-color: #8fbcd9
+
+fieldset[disabled] .btn-white.btn-info:active
+  border-color: #8fbcd9
+
+.btn-white.btn-info
+  &.disabled.active, &[disabled].active
+    border-color: #8fbcd9
+
+fieldset[disabled] .btn-white.btn-info.active
+  border-color: #8fbcd9
+
+.btn-white.btn-inverse
+  border-color: #959595
+  color: #555555 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #e4e4e4 !important
+    border-color: #959595
+    color: #4c4545 !important
+
+.open > .btn-white.btn-inverse
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #e4e4e4 !important
+    border-color: #959595
+    color: #4c4545 !important
+
+.btn-white.btn-inverse
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #959595
+
+.open > .btn-white.btn-inverse
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #959595
+
+.btn-white.btn-inverse
+  &.disabled, &[disabled]
+    border-color: #959595
+
+fieldset[disabled] .btn-white.btn-inverse
+  border-color: #959595
+
+.btn-white.btn-inverse
+  &.disabled:hover, &[disabled]:hover
+    border-color: #959595
+
+fieldset[disabled] .btn-white.btn-inverse:hover
+  border-color: #959595
+
+.btn-white.btn-inverse
+  &.disabled:focus, &[disabled]:focus
+    border-color: #959595
+
+fieldset[disabled] .btn-white.btn-inverse:focus
+  border-color: #959595
+
+.btn-white.btn-inverse
+  &.disabled:active, &[disabled]:active
+    border-color: #959595
+
+fieldset[disabled] .btn-white.btn-inverse:active
+  border-color: #959595
+
+.btn-white.btn-inverse
+  &.disabled.active, &[disabled].active
+    border-color: #959595
+
+fieldset[disabled] .btn-white.btn-inverse.active
+  border-color: #959595
+
+.btn-white.btn-pink
+  border-color: #d299ae
+  color: #af6f87 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #fbeff4 !important
+    border-color: #d299ae
+    color: #ac5978 !important
+
+.open > .btn-white.btn-pink
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #fbeff4 !important
+    border-color: #d299ae
+    color: #ac5978 !important
+
+.btn-white.btn-pink
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #d299ae
+
+.open > .btn-white.btn-pink
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #d299ae
+
+.btn-white.btn-pink
+  &.disabled, &[disabled]
+    border-color: #d299ae
+
+fieldset[disabled] .btn-white.btn-pink
+  border-color: #d299ae
+
+.btn-white.btn-pink
+  &.disabled:hover, &[disabled]:hover
+    border-color: #d299ae
+
+fieldset[disabled] .btn-white.btn-pink:hover
+  border-color: #d299ae
+
+.btn-white.btn-pink
+  &.disabled:focus, &[disabled]:focus
+    border-color: #d299ae
+
+fieldset[disabled] .btn-white.btn-pink:focus
+  border-color: #d299ae
+
+.btn-white.btn-pink
+  &.disabled:active, &[disabled]:active
+    border-color: #d299ae
+
+fieldset[disabled] .btn-white.btn-pink:active
+  border-color: #d299ae
+
+.btn-white.btn-pink
+  &.disabled.active, &[disabled].active
+    border-color: #d299ae
+
+fieldset[disabled] .btn-white.btn-pink.active
+  border-color: #d299ae
+
+.btn-white.btn-purple
+  border-color: #b7b1c6
+  color: #7d6fa2 !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #efedf5 !important
+    border-color: #b7b1c6
+    color: #6d5b9c !important
+
+.open > .btn-white.btn-purple
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #efedf5 !important
+    border-color: #b7b1c6
+    color: #6d5b9c !important
+
+.btn-white.btn-purple
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #b7b1c6
+
+.open > .btn-white.btn-purple
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #b7b1c6
+
+.btn-white.btn-purple
+  &.disabled, &[disabled]
+    border-color: #b7b1c6
+
+fieldset[disabled] .btn-white.btn-purple
+  border-color: #b7b1c6
+
+.btn-white.btn-purple
+  &.disabled:hover, &[disabled]:hover
+    border-color: #b7b1c6
+
+fieldset[disabled] .btn-white.btn-purple:hover
+  border-color: #b7b1c6
+
+.btn-white.btn-purple
+  &.disabled:focus, &[disabled]:focus
+    border-color: #b7b1c6
+
+fieldset[disabled] .btn-white.btn-purple:focus
+  border-color: #b7b1c6
+
+.btn-white.btn-purple
+  &.disabled:active, &[disabled]:active
+    border-color: #b7b1c6
+
+fieldset[disabled] .btn-white.btn-purple:active
+  border-color: #b7b1c6
+
+.btn-white.btn-purple
+  &.disabled.active, &[disabled].active
+    border-color: #b7b1c6
+
+fieldset[disabled] .btn-white.btn-purple.active
+  border-color: #b7b1c6
+
+.btn-white.btn-yellow
+  border-color: #ecd181
+  color: #d3a61a !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #fdf7e4 !important
+    border-color: #ecd181
+    color: #c29712 !important
+
+.open > .btn-white.btn-yellow
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #fdf7e4 !important
+    border-color: #ecd181
+    color: #c29712 !important
+
+.btn-white.btn-yellow
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #ecd181
+
+.open > .btn-white.btn-yellow
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #ecd181
+
+.btn-white.btn-yellow
+  &.disabled, &[disabled]
+    border-color: #ecd181
+
+fieldset[disabled] .btn-white.btn-yellow
+  border-color: #ecd181
+
+.btn-white.btn-yellow
+  &.disabled:hover, &[disabled]:hover
+    border-color: #ecd181
+
+fieldset[disabled] .btn-white.btn-yellow:hover
+  border-color: #ecd181
+
+.btn-white.btn-yellow
+  &.disabled:focus, &[disabled]:focus
+    border-color: #ecd181
+
+fieldset[disabled] .btn-white.btn-yellow:focus
+  border-color: #ecd181
+
+.btn-white.btn-yellow
+  &.disabled:active, &[disabled]:active
+    border-color: #ecd181
+
+fieldset[disabled] .btn-white.btn-yellow:active
+  border-color: #ecd181
+
+.btn-white.btn-yellow
+  &.disabled.active, &[disabled].active
+    border-color: #ecd181
+
+fieldset[disabled] .btn-white.btn-yellow.active
+  border-color: #ecd181
+
+.btn-white.btn-grey
+  border-color: #c6c6c6
+  color: #8c8c8c !important
+  /*     *
+   *  //&:hover, &:focus, &.focus, .open > &.dropdown-toggle {
+   * 	//color: saturate(darken(@txt-color , 5%) , 5%) !important;
+   *  //}
+   *  //&.no-border:hover , &.no-border:active {
+   * 	//border-color: @border-color;
+   *  //}
+  &:hover, &:focus, &.active, &:active
+    background-color: #ededed !important
+    border-color: #c6c6c6
+    color: #857979 !important
+
+.open > .btn-white.btn-grey
+  &.dropdown-toggle, &.active.dropdown-toggle
+    background-color: #ededed !important
+    border-color: #c6c6c6
+    color: #857979 !important
+
+.btn-white.btn-grey
+  &:hover.no-border, &:focus.no-border, &.active.no-border, &:active.no-border
+    border-color: #c6c6c6
+
+.open > .btn-white.btn-grey
+  &.dropdown-toggle.no-border, &.active.dropdown-toggle.no-border
+    border-color: #c6c6c6
+
+.btn-white.btn-grey
+  &.disabled, &[disabled]
+    border-color: #c6c6c6
+
+fieldset[disabled] .btn-white.btn-grey
+  border-color: #c6c6c6
+
+.btn-white.btn-grey
+  &.disabled:hover, &[disabled]:hover
+    border-color: #c6c6c6
+
+fieldset[disabled] .btn-white.btn-grey:hover
+  border-color: #c6c6c6
+
+.btn-white.btn-grey
+  &.disabled:focus, &[disabled]:focus
+    border-color: #c6c6c6
+
+fieldset[disabled] .btn-white.btn-grey:focus
+  border-color: #c6c6c6
+
+.btn-white.btn-grey
+  &.disabled:active, &[disabled]:active
+    border-color: #c6c6c6
+
+fieldset[disabled] .btn-white.btn-grey:active
+  border-color: #c6c6c6
+
+.btn-white.btn-grey
+  &.disabled.active, &[disabled].active
+    border-color: #c6c6c6
+
+fieldset[disabled] .btn-white.btn-grey.active
+  border-color: #c6c6c6
+
+.btn-white
+  &.btn-transparent
+    background-color: rgba(0, 0, 0, 0.4) !important
+    &:hover
+      background-color: rgba(0, 0, 0, 0.5) !important
+    &:focus, &:active
+      background-color: rgba(0, 0, 0, 0.6) !important
+  &.no-border
+    border-color: transparent !important
+
+.btn
+  &.disabled.active, &[disabled].active, &.disabled:focus, &[disabled]:focus, &.disabled:active, &[disabled]:active
+    outline: none
+  &.disabled:active, &[disabled]:active
+    top: 0
+    left: 0
+  &.active
+    &:after
+      display: inline-block
+      content: ""
+      position: absolute
+      border-bottom: 1px solid #EFE5B5
+      left: -4px
+      right: -4px
+      bottom: -4px
+    &.btn-sm:after
+      left: -3px
+      right: -3px
+      bottom: -3px
+    &.btn-lg:after
+      left: -5px
+      right: -5px
+      bottom: -5px
+    &.btn-xs:after, &.btn-mini:after
+      left: -1px
+      right: -1px
+      bottom: -2px
+    &.btn-minier:after
+      left: -1px
+      right: -1px
+      bottom: -2px
+      bottom: -1px
+    &.btn-yellow:after
+      border-bottom-color: #C96338
+    &.btn-light
+      color: #515151
+      &:after
+        border-bottom-color: #B5B5B5
+  & >.ace-icon
+    margin-right: 4px
+    &.icon-on-right
+      margin-right: 0
+      margin-left: 4px
+    .icon-only.ace-icon
+      margin: 0 !important
+      text-align: center
+      padding: 0
+
+.btn-lg > .ace-icon
+  margin-right: 6px
+  &.icon-on-right
+    margin-right: 0
+    margin-left: 6px
+
+.btn-sm > .ace-icon
+  margin-right: 3px
+  &.icon-on-right
+    margin-right: 0
+    margin-left: 3px
+
+.btn-xs > .ace-icon, .btn-mini > .ace-icon, .btn-minier > .ace-icon
+  margin-right: 2px
+
+.btn-xs > .ace-icon.icon-on-right, .btn-mini > .ace-icon.icon-on-right, .btn-minier > .ace-icon.icon-on-right
+  margin-right: 0
+  margin-left: 2px
+
+.btn.btn-link
+  border-width: 0 !important
+  background: transparent none !important
+  color: #0088CC !important
+  text-shadow: none !important
+  padding: 4px 12px !important
+  line-height: 20px !important
+  &:hover
+    background: transparent none !important
+    text-shadow: none !important
+  &.active, &:active, &:focus
+    background: transparent none !important
+    text-decoration: underline
+    color: #009ceb !important
+
+.open > .btn.btn-link
+  &.active, &:active, &:focus
+    background: transparent none !important
+    text-decoration: underline
+    color: #009ceb !important
+
+.btn
+  &.btn-link
+    &.active:after, &:active:after, &:focus:after
+      display: none
+    &.disabled, &[disabled]
+      background: transparent none !important
+      opacity: 0.65
+      filter: alpha(opacity = 65)
+      text-decoration: none !important
+  &.btn-no-border
+    border-width: 0 !important
+
+.btn-group
+  &:first-child
+    margin-left: 0
+  > .btn
+    margin: 0 1px 0 0
+    + .btn, &:first-child
+      margin: 0 1px 0 0
+    > .caret
+      margin-top: 15px
+      margin-left: 1px
+      border-width: 5px
+      border-top-color: #FFF
+    &.btn-sm > .caret
+      margin-top: 10px
+      border-width: 4px
+    &.btn-lg > .caret
+      margin-top: 18px
+      border-width: 6px
+    &.btn-xs > .caret, &.btn-mini > .caret
+      margin-top: 9px
+      border-width: 4px
+    &.btn-minier > .caret
+      margin-top: 7px
+      border-width: 3px
+    &+.btn.dropdown-toggle
+      padding-right: 3px
+      padding-left: 3px
+    &+.btn-lg.dropdown-toggle
+      padding-right: 4px
+      padding-left: 4px
+  .dropdown-toggle
+    border-radius: 0
+  > .btn, + .btn
+    margin: 0 1px 0 0
+    border-width: 3px
+  /* the border under an active button in button groups
+  > .btn.active:after, + .btn.active:after
+    left: -2px
+    right: -2px
+    bottom: -2px
+    border-bottom-width: 1px
+  > .btn-lg, + .btn-lg
+    border-width: 4px
+  /* the border under an active button in button groups
+  > .btn-lg.active:after, + .btn-lg.active:after
+    left: -3px
+    right: -3px
+    bottom: -3px
+    border-bottom-width: 1px
+  > .btn-sm, + .btn-sm
+    border-width: 2px
+  /* the border under an active button in button groups
+  > .btn-sm.active:after, + .btn-sm.active:after
+    left: -1px
+    right: -1px
+    bottom: -1px
+    border-bottom-width: 1px
+  > .btn-xs, + .btn-xs, > .btn-mini, + .btn-mini
+    border-width: 1px
+  /* the border under an active button in button groups
+  > .btn-xs.active:after, + .btn-xs.active:after, > .btn-mini.active:after, + .btn-mini.active:after
+    left: 0px
+    right: 0px
+    bottom: 0px
+    border-bottom-width: 1px
+  > .btn-minier, + .btn-minier
+    border-width: 1px
+  /* the border under an active button in button groups
+  > .btn-minier.active:after, + .btn-minier.active:after
+    left: 0px
+    right: 0px
+    bottom: 0px
+    border-bottom-width: 1px
+
+.btn-group-vertical > .btn
+  &:last-child:not(:first-child)
+    border-radius: 0
+  &:first-child
+    &:not(:last-child)
+      border-radius: 0
+    margin-top: 0
+  margin: 1px 0 0
+  + .btn
+    margin: 1px 0 0
+
+.btn-group
+  &.btn-overlap > .btn
+    margin-right: -1px
+  &.btn-corner > .btn
+    &:first-child
+      border-bottom-left-radius: 8px
+      border-top-left-radius: 8px
+    &:last-child
+      border-bottom-right-radius: 8px
+      border-top-right-radius: 8px
+    &.btn-sm
+      &:first-child
+        border-bottom-left-radius: 6px
+        border-top-left-radius: 6px
+      &:last-child
+        border-bottom-right-radius: 6px
+        border-top-right-radius: 6px
+    &.btn-xs:first-child, &.btn-mini:first-child
+      border-bottom-left-radius: 4px
+      border-top-left-radius: 4px
+    &.btn-xs:last-child, &.btn-mini:last-child
+      border-bottom-right-radius: 4px
+      border-top-right-radius: 4px
+
+.btn
+  &.btn-white
+    border-width: 1px
+  &.btn-bold
+    border-bottom-width: 2px
+  &.btn-round
+    border-bottom-width: 2px
+    border-radius: 4px !important
+  &.btn-app
+    display: inline-block
+    width: 100px
+    font-size: 18px
+    font-weight: normal
+    color: #FFF
+    text-align: center
+    text-shadow: 0 -1px -1px rgba(0, 0, 0, 0.2) !important
+    border: none
+    border-radius: 12px
+    padding: 12px 0 8px
+    margin: 2px
+    line-height: 1.7
+    position: relative
+
+.btn-app
+  background: #b4c2cc !important
+  background-image: -webkit-linear-gradient(top, #BCC9D5 0%, #ABBAC3 100%) !important
+  background-image: -o-linear-gradient(top, #BCC9D5 0%, #ABBAC3 100%) !important
+  background-image: linear-gradient(to bottom, #BCC9D5 0%, #ABBAC3 100%) !important
+  background-repeat: repeat-x !important
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbcc9d5', endColorstr='#ffabbac3', GradientType=0) !important
+  &.btn-default, &.no-hover:hover, &.btn-default.no-hover:hover, &.disabled:hover, &.btn-default.disabled:hover
+    background: #b4c2cc !important
+    background-image: -webkit-linear-gradient(top, #BCC9D5 0%, #ABBAC3 100%) !important
+    background-image: -o-linear-gradient(top, #BCC9D5 0%, #ABBAC3 100%) !important
+    background-image: linear-gradient(to bottom, #BCC9D5 0%, #ABBAC3 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffbcc9d5', endColorstr='#ffabbac3', GradientType=0) !important
+  &:hover, &.btn-default:hover
+    background: #9baebc !important
+    background-image: -webkit-linear-gradient(top, #a3b5c5 0%, #93a6b2 100%) !important
+    background-image: -o-linear-gradient(top, #a3b5c5 0%, #93a6b2 100%) !important
+    background-image: linear-gradient(to bottom, #a3b5c5 0%, #93a6b2 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa3b5c5', endColorstr='#ff93a6b2', GradientType=0) !important
+  &.btn-primary
+    background: #2a8bcb !important
+    background-image: -webkit-linear-gradient(top, #3B98D6 0%, #197EC1 100%) !important
+    background-image: -o-linear-gradient(top, #3B98D6 0%, #197EC1 100%) !important
+    background-image: linear-gradient(to bottom, #3B98D6 0%, #197EC1 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b98d6', endColorstr='#ff197ec1', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #2a8bcb !important
+      background-image: -webkit-linear-gradient(top, #3B98D6 0%, #197EC1 100%) !important
+      background-image: -o-linear-gradient(top, #3B98D6 0%, #197EC1 100%) !important
+      background-image: linear-gradient(to bottom, #3B98D6 0%, #197EC1 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b98d6', endColorstr='#ff197ec1', GradientType=0) !important
+    &:hover
+      background: #1d6fa6 !important
+      background-image: -webkit-linear-gradient(top, #267eb8 0%, #136194 100%) !important
+      background-image: -o-linear-gradient(top, #267eb8 0%, #136194 100%) !important
+      background-image: linear-gradient(to bottom, #267eb8 0%, #136194 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff267eb8', endColorstr='#ff136194', GradientType=0) !important
+  &.btn-info
+    background: #68adde !important
+    background-image: -webkit-linear-gradient(top, #75B5E6 0%, #5BA4D5 100%) !important
+    background-image: -o-linear-gradient(top, #75B5E6 0%, #5BA4D5 100%) !important
+    background-image: linear-gradient(to bottom, #75B5E6 0%, #5BA4D5 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff75b5e6', endColorstr='#ff5ba4d5', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #68adde !important
+      background-image: -webkit-linear-gradient(top, #75B5E6 0%, #5BA4D5 100%) !important
+      background-image: -o-linear-gradient(top, #75B5E6 0%, #5BA4D5 100%) !important
+      background-image: linear-gradient(to bottom, #75B5E6 0%, #5BA4D5 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff75b5e6', endColorstr='#ff5ba4d5', GradientType=0) !important
+    &:hover
+      background: #3f96d4 !important
+      background-image: -webkit-linear-gradient(top, #4a9ede 0%, #348dc9 100%) !important
+      background-image: -o-linear-gradient(top, #4a9ede 0%, #348dc9 100%) !important
+      background-image: linear-gradient(to bottom, #4a9ede 0%, #348dc9 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4a9ede', endColorstr='#ff348dc9', GradientType=0) !important
+  &.btn-success
+    background: #85b558 !important
+    background-image: -webkit-linear-gradient(top, #8EBF60 0%, #7DAA50 100%) !important
+    background-image: -o-linear-gradient(top, #8EBF60 0%, #7DAA50 100%) !important
+    background-image: linear-gradient(to bottom, #8EBF60 0%, #7DAA50 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ebf60', endColorstr='#ff7daa50', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #85b558 !important
+      background-image: -webkit-linear-gradient(top, #8EBF60 0%, #7DAA50 100%) !important
+      background-image: -o-linear-gradient(top, #8EBF60 0%, #7DAA50 100%) !important
+      background-image: linear-gradient(to bottom, #8EBF60 0%, #7DAA50 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ebf60', endColorstr='#ff7daa50', GradientType=0) !important
+    &:hover
+      background: #6c9842 !important
+      background-image: -webkit-linear-gradient(top, #74a844 0%, #648740 100%) !important
+      background-image: -o-linear-gradient(top, #74a844 0%, #648740 100%) !important
+      background-image: linear-gradient(to bottom, #74a844 0%, #648740 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff74a844', endColorstr='#ff648740', GradientType=0) !important
+  &.btn-danger
+    background: #d3413b !important
+    background-image: -webkit-linear-gradient(top, #D55B52 0%, #D12723 100%) !important
+    background-image: -o-linear-gradient(top, #D55B52 0%, #D12723 100%) !important
+    background-image: linear-gradient(to bottom, #D55B52 0%, #D12723 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd55b52', endColorstr='#ffd12723', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #d3413b !important
+      background-image: -webkit-linear-gradient(top, #D55B52 0%, #D12723 100%) !important
+      background-image: -o-linear-gradient(top, #D55B52 0%, #D12723 100%) !important
+      background-image: linear-gradient(to bottom, #D55B52 0%, #D12723 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd55b52', endColorstr='#ffd12723', GradientType=0) !important
+    &:hover
+      background: #b52c26 !important
+      background-image: -webkit-linear-gradient(top, #c43a30 0%, #a51f1c 100%) !important
+      background-image: -o-linear-gradient(top, #c43a30 0%, #a51f1c 100%) !important
+      background-image: linear-gradient(to bottom, #c43a30 0%, #a51f1c 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc43a30', endColorstr='#ffa51f1c', GradientType=0) !important
+  &.btn-warning
+    background: #ffb44b !important
+    background-image: -webkit-linear-gradient(top, #FFBF66 0%, #FFA830 100%) !important
+    background-image: -o-linear-gradient(top, #FFBF66 0%, #FFA830 100%) !important
+    background-image: linear-gradient(to bottom, #FFBF66 0%, #FFA830 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffbf66', endColorstr='#ffffa830', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #ffb44b !important
+      background-image: -webkit-linear-gradient(top, #FFBF66 0%, #FFA830 100%) !important
+      background-image: -o-linear-gradient(top, #FFBF66 0%, #FFA830 100%) !important
+      background-image: linear-gradient(to bottom, #FFBF66 0%, #FFA830 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffbf66', endColorstr='#ffffa830', GradientType=0) !important
+    &:hover
+      background: #fe9e19 !important
+      background-image: -webkit-linear-gradient(top, #ffaa33 0%, #fc9200 100%) !important
+      background-image: -o-linear-gradient(top, #ffaa33 0%, #fc9200 100%) !important
+      background-image: linear-gradient(to bottom, #ffaa33 0%, #fc9200 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffaa33', endColorstr='#fffc9200', GradientType=0) !important
+  &.btn-purple
+    background: #9889c1 !important
+    background-image: -webkit-linear-gradient(top, #A696CE 0%, #8A7CB4 100%) !important
+    background-image: -o-linear-gradient(top, #A696CE 0%, #8A7CB4 100%) !important
+    background-image: linear-gradient(to bottom, #A696CE 0%, #8A7CB4 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa696ce', endColorstr='#ff8a7cb4', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #9889c1 !important
+      background-image: -webkit-linear-gradient(top, #A696CE 0%, #8A7CB4 100%) !important
+      background-image: -o-linear-gradient(top, #A696CE 0%, #8A7CB4 100%) !important
+      background-image: linear-gradient(to bottom, #A696CE 0%, #8A7CB4 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa696ce', endColorstr='#ff8a7cb4', GradientType=0) !important
+    &:hover
+      background: #7b68af !important
+      background-image: -webkit-linear-gradient(top, #8973be 0%, #6d5ca1 100%) !important
+      background-image: -o-linear-gradient(top, #8973be 0%, #6d5ca1 100%) !important
+      background-image: linear-gradient(to bottom, #8973be 0%, #6d5ca1 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8973be', endColorstr='#ff6d5ca1', GradientType=0) !important
+  &.btn-pink
+    background: #d54c7e !important
+    background-image: -webkit-linear-gradient(top, #DB5E8C 0%, #CE3970 100%) !important
+    background-image: -o-linear-gradient(top, #DB5E8C 0%, #CE3970 100%) !important
+    background-image: linear-gradient(to bottom, #DB5E8C 0%, #CE3970 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdb5e8c', endColorstr='#ffce3970', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #d54c7e !important
+      background-image: -webkit-linear-gradient(top, #DB5E8C 0%, #CE3970 100%) !important
+      background-image: -o-linear-gradient(top, #DB5E8C 0%, #CE3970 100%) !important
+      background-image: linear-gradient(to bottom, #DB5E8C 0%, #CE3970 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdb5e8c', endColorstr='#ffce3970', GradientType=0) !important
+    &:hover
+      background: #be2f64 !important
+      background-image: -webkit-linear-gradient(top, #d2346e 0%, #aa2a59 100%) !important
+      background-image: -o-linear-gradient(top, #d2346e 0%, #aa2a59 100%) !important
+      background-image: linear-gradient(to bottom, #d2346e 0%, #aa2a59 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd2346e', endColorstr='#ffaa2a59', GradientType=0) !important
+  &.btn-inverse
+    background: #444444 !important
+    background-image: -webkit-linear-gradient(top, #555555 0%, #333333 100%) !important
+    background-image: -o-linear-gradient(top, #555555 0%, #333333 100%) !important
+    background-image: linear-gradient(to bottom, #555555 0%, #333333 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff555555', endColorstr='#ff333333', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #444444 !important
+      background-image: -webkit-linear-gradient(top, #555555 0%, #333333 100%) !important
+      background-image: -o-linear-gradient(top, #555555 0%, #333333 100%) !important
+      background-image: linear-gradient(to bottom, #555555 0%, #333333 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff555555', endColorstr='#ff333333', GradientType=0) !important
+    &:hover
+      background: #2b2b2b !important
+      background-image: -webkit-linear-gradient(top, #3b3b3b 0%, #1a1a1a 100%) !important
+      background-image: -o-linear-gradient(top, #3b3b3b 0%, #1a1a1a 100%) !important
+      background-image: linear-gradient(to bottom, #3b3b3b 0%, #1a1a1a 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3b3b3b', endColorstr='#ff1a1a1a', GradientType=0) !important
+  &.btn-grey
+    background: #797979 !important
+    background-image: -webkit-linear-gradient(top, #898989 0%, #696969 100%) !important
+    background-image: -o-linear-gradient(top, #898989 0%, #696969 100%) !important
+    background-image: linear-gradient(to bottom, #898989 0%, #696969 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff898989', endColorstr='#ff696969', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #797979 !important
+      background-image: -webkit-linear-gradient(top, #898989 0%, #696969 100%) !important
+      background-image: -o-linear-gradient(top, #898989 0%, #696969 100%) !important
+      background-image: linear-gradient(to bottom, #898989 0%, #696969 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff898989', endColorstr='#ff696969', GradientType=0) !important
+    &:hover
+      background: #6c6c6c !important
+      background-image: -webkit-linear-gradient(top, #7c7c7c 0%, #5c5c5c 100%) !important
+      background-image: -o-linear-gradient(top, #7c7c7c 0%, #5c5c5c 100%) !important
+      background-image: linear-gradient(to bottom, #7c7c7c 0%, #5c5c5c 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7c7c7c', endColorstr='#ff5c5c5c', GradientType=0) !important
+
+.btn.btn-app
+  &.btn-light
+    color: #5A5A5A !important
+    text-shadow: 0 1px 1px #EEE !important
+    background: #ededed !important
+    background-image: -webkit-linear-gradient(top, #F4F4F4 0%, #E6E6E6 100%) !important
+    background-image: -o-linear-gradient(top, #F4F4F4 0%, #E6E6E6 100%) !important
+    background-image: linear-gradient(to bottom, #F4F4F4 0%, #E6E6E6 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff4f4f4', endColorstr='#ffe6e6e6', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #ededed !important
+      background-image: -webkit-linear-gradient(top, #F4F4F4 0%, #E6E6E6 100%) !important
+      background-image: -o-linear-gradient(top, #F4F4F4 0%, #E6E6E6 100%) !important
+      background-image: linear-gradient(to bottom, #F4F4F4 0%, #E6E6E6 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff4f4f4', endColorstr='#ffe6e6e6', GradientType=0) !important
+    &:hover
+      background: #e0e0e0 !important
+      background-image: -webkit-linear-gradient(top, #e7e7e7 0%, #d9d9d9 100%) !important
+      background-image: -o-linear-gradient(top, #e7e7e7 0%, #d9d9d9 100%) !important
+      background-image: linear-gradient(to bottom, #e7e7e7 0%, #d9d9d9 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe7e7e7', endColorstr='#ffd9d9d9', GradientType=0) !important
+  &.btn-yellow
+    color: #963 !important
+    text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.4) !important
+    background: #fee088 !important
+    background-image: -webkit-linear-gradient(top, #FFE8A5 0%, #FCD76A 100%) !important
+    background-image: -o-linear-gradient(top, #FFE8A5 0%, #FCD76A 100%) !important
+    background-image: linear-gradient(to bottom, #FFE8A5 0%, #FCD76A 100%) !important
+    background-repeat: repeat-x !important
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffe8a5', endColorstr='#fffcd76a', GradientType=0) !important
+    &.no-hover:hover, &.disabled:hover
+      background: #fee088 !important
+      background-image: -webkit-linear-gradient(top, #FFE8A5 0%, #FCD76A 100%) !important
+      background-image: -o-linear-gradient(top, #FFE8A5 0%, #FCD76A 100%) !important
+      background-image: linear-gradient(to bottom, #FFE8A5 0%, #FCD76A 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffe8a5', endColorstr='#fffcd76a', GradientType=0) !important
+    &:hover
+      background: #fdd96e !important
+      background-image: -webkit-linear-gradient(top, #ffe18b 0%, #fbd051 100%) !important
+      background-image: -o-linear-gradient(top, #ffe18b 0%, #fbd051 100%) !important
+      background-image: linear-gradient(to bottom, #ffe18b 0%, #fbd051 100%) !important
+      background-repeat: repeat-x !important
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffe18b', endColorstr='#fffbd051', GradientType=0) !important
+  > .ace-icon
+    opacity: 0.88
+  &:hover > .ace-icon
+    opacity: 1
+  &.btn-sm
+    width: 80px
+    font-size: 16px
+    border-radius: 10px
+    line-height: 1.5
+  &.btn-xs
+    width: 64px
+    font-size: 15px
+    border-radius: 8px
+    padding-bottom: 7px
+    padding-top: 8px
+    line-height: 1.45
+  > .ace-icon
+    display: block
+    font-size: 42px
+    margin: 0 0 4px
+    line-height: 36px
+    min-width: 0
+    padding: 0
+  &.btn-sm > .ace-icon
+    display: block
+    font-size: 32px
+    line-height: 30px
+    margin: 0 0 3px
+  &.btn-xs > .ace-icon
+    display: block
+    font-size: 24px
+    line-height: 24px
+    margin: 0
+  &.no-radius
+    border-radius: 0
+  &.radius-4
+    border-radius: 4px
+    > .badge
+      border-radius: 3px
+  &>
+    .badge
+      position: absolute !important
+      top: -2px
+      right: -2px
+      padding: 1px 3px
+      text-align: center
+      font-size: 12px
+      color: #FFF
+    .label
+      position: absolute !important
+      top: -2px
+      right: -2px
+      padding: 1px 3px
+      text-align: center
+      font-size: 12px
+      color: #FFF
+    .badge.badge-left, .label.badge-left, .badge.label-left, .label.label-left
+      right: auto
+      left: -2px
+    .badge-yellow, .label-yellow
+      color: #996633
+    .badge-light, .label-light
+      color: #888
+    .label
+      padding: 1px 6px 3px
+      font-size: 13px
+  &.no-radius > .badge
+    border-radius: 3px
+  &.radius-4 > .badge.no-radius, &.no-radius > .badge.no-radius
+    border-radius: 0
+  &.active
+    color: #FFF
+    &:after
+      display: none
+    &.btn-yellow
+      color: #963
+      border-color: #FEE188
+    &.btn-light
+      color: #515151
+
+.btn-group > .btn-app
+  &:first-child:not(:last-child):not(.dropdown-toggle)
+    margin-right: 24px
+  + .btn-app.dropdown-toggle
+    position: absolute
+    width: auto
+    height: 100%
+    padding-left: 6px
+    padding-right: 6px
+    margin-left: -23px
+    border-bottom-left-radius: 0
+    border-top-left-radius: 0
+    right: 0
+
+.btn.btn-app
+  &.btn-light, &.btn-yellow
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset !important
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08) inset !important

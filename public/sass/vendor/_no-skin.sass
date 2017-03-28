@@ -1,0 +1,390 @@
+.no-skin
+  /*     *
+   * 	.nav-list > li.disabled.active:after {
+   * 		border-color: #999;
+   * 	}
+   * 	.nav-list li.disabled li.active > a:after,
+   * 	.nav-list li.active.disabled > a:after {
+   * 		//-moz-border-right-colors: #999 !important;
+   * 		border-right-color: #999 !important;
+   * 	}
+  .navbar .navbar-toggle
+    background-color: #75B3D7
+    &:focus
+      background-color: #75B3D7
+      border-color: transparent
+    &:hover
+      background-color: #61a8d1
+      border-color: rgba(255, 255, 255, 0.1)
+    &.display, &[data-toggle=collapse]:not(.collapsed)
+      background-color: #4d9dcc
+      box-shadow: inset 1px 1px 2px 0 rgba(0, 0, 0, 0.25)
+      border-color: rgba(255, 255, 255, 0.35)
+  .sidebar
+    background-color: #F2F2F2
+    border-style: solid
+    border-color: #CCC
+    border-width: 0 1px 0 0
+  .nav-list
+    .open > a
+      background-color: #FAFAFA
+      &:hover, &:focus
+        background-color: #FAFAFA
+    > li
+      border-color: #E5E5E5
+      > a
+        background-color: #F8F8F8
+        color: #585858
+        &:focus
+          background-color: #F8F8F8
+          color: #1963AA
+      &:hover > a
+        background-color: #FFF
+        color: #266cad
+      &.open > a
+        background-color: #FAFAFA
+        color: #1963AA
+      &.active > a
+        font-weight: bold
+        color: #2B7DBC
+        background-color: #FFF
+        &:hover, &:focus
+          background-color: #FFF
+      .submenu
+        background-color: #FFF
+        border-color: #E5E5E5
+        > li
+          > a
+            border-top-color: #E4E4E4
+            background-color: #FFF
+            color: #616161
+            &:hover
+              color: #4B88B7
+              background-color: #F1F5F9
+          &.active
+            > a
+              color: #2B7DBC
+              > .menu-icon
+                color: #C86139
+            &.open > a > .menu-icon
+              color: inherit
+            &:not(.open) > a
+              background-color: #F5F7FA
+              &:hover
+                background-color: #F1F5F9
+      > .submenu
+        .open > a
+          border-color: #E4E4E4
+          &:hover, &:focus
+            border-color: #E4E4E4
+        li
+          > .submenu > li a
+            color: #757575
+            &:hover
+              color: #4B88B7
+              background-color: #F1F5F9
+          &.open > a
+            color: #4B88B7
+          > .submenu li
+            &.open > a, &.active > a
+              color: #4B88B7
+        &:before, > li:before
+          border-color: #9dbdd6
+      &.active > .submenu
+        &:before, > li:before
+          border-color: #8eb3d0
+  .sidebar-toggle
+    background-color: #F3F3F3
+    border-color: #E0E0E0
+    > .ace-icon
+      border-color: #BBB
+      color: #AAA
+      background-color: #FFF
+  .sidebar-shortcuts
+    background-color: #FAFAFA
+  .sidebar-fixed .sidebar-shortcuts
+    border-color: #DDD
+  .sidebar-shortcuts-mini
+    background-color: #FFF
+  .nav-list
+    li
+      > .arrow
+        &:before
+          border-right-color: #B8B8B8
+          border-width: 10px 10px 10px 0
+          left: -10px
+        &:after
+          border-right-color: #FFF
+          border-width: 10px 10px 10px 0
+          left: -9px
+      &.active > a:after
+        border-right-color: #2B7DBC
+    > li.pull_up > .arrow:after
+      border-right-color: #FFF !important
+    > li.active:after
+      display: block
+      content: ""
+      position: absolute
+      right: -2px
+      top: -1px
+      bottom: 0
+      z-index: 1
+      border: 2px solid
+      border-width: 0 2px 0 0
+      border-color: #2B7DBC
+  .sidebar-scroll .nav-list > li.active:after
+    right: 0
+  .sidebar.menu-min
+    .nav-list > li
+      > a
+        > .menu-text
+          background-color: #F5F5F5
+          -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+          box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+          border-color: #CCC
+        &.dropdown-toggle > .menu-text
+          -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+          box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+      &.active
+        > .submenu
+          border-left-color: #83B6D1
+        >
+        .arrow:before
+          border-right-color: #5a9ec2
+          a > .menu-text
+            border-left-color: #83B6D1
+      >
+      .submenu
+        background-color: #FFF
+        border: 1px solid #CCC
+        border-top-color: #e6e6e6
+        -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+        .arrow
+          &:after
+            border-right-color: #F5F5F5
+            border-width: 8px 8px 8px 0
+            left: -8px
+          &:before
+            border-width: 8px 8px 8px 0
+            left: -9px
+    .sidebar-shortcuts-large
+      background-color: #FFF
+      -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      border-color: #CCC
+    .sidebar-toggle > .ace-icon
+      border-color: #b1b1b1
+  .sidebar-scroll
+    .sidebar-shortcuts
+      border-bottom-color: #dddddd
+    .sidebar-toggle
+      border-top-color: #dddddd
+  .main-container .menu-toggler
+    background-color: #444
+    &:before
+      border-top-color: #87B87F
+      border-bottom-color: #6FB3E0
+    &:after
+      border-top-color: #FFA24D
+      border-bottom-color: #D15B47
+    > .toggler-text
+      border-top-color: #444
+  .nav-list
+    > li.disabled
+      &:before
+        display: none !important
+      > a
+        background-color: #ebebeb !important
+        color: #656565 !important
+    li
+      .submenu > li.disabled > a, &.disabled .submenu > li > a
+        background-color: #f2f2f2 !important
+        color: #7a7a7a !important
+        cursor: not-allowed !important
+      .submenu > li.disabled > a > .menu-icon, &.disabled .submenu > li > a > .menu-icon
+        display: none
+
+@media only screen and (min-width: 992px)
+  .no-skin .nav-list > li .submenu > li.active.hover > a.dropdown-toggle > .menu-icon
+    color: inherit
+
+@media only screen and (max-width: 991px)
+  .no-skin .sidebar
+    &.responsive .nav-list > li.active.open > a:after, &.responsive-max .nav-list > li.active.open > a:after
+      display: block
+    &.responsive .nav-list li li.active > a:after, &.responsive-max .nav-list li li.active > a:after
+      display: none
+    &.responsive .nav-list > li.active:after, &.responsive-max .nav-list > li.active:after
+      height: 41px
+
+@media (max-width: 991px)
+  .no-skin .sidebar.responsive-min
+    .nav-list > li
+      > a
+        > .menu-text
+          background-color: #F5F5F5
+          -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+          box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+          border-color: #CCC
+        &.dropdown-toggle > .menu-text
+          -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+          box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+      &.active
+        > .submenu
+          border-left-color: #83B6D1
+        >
+        .arrow:before
+          border-right-color: #5a9ec2
+          a > .menu-text
+            border-left-color: #83B6D1
+      >
+      .submenu
+        background-color: #FFF
+        border: 1px solid #CCC
+        border-top-color: #e6e6e6
+        -webkit-box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1)
+        .arrow
+          &:after
+            border-right-color: #F5F5F5
+            border-width: 8px 8px 8px 0
+            left: -8px
+          &:before
+            border-width: 8px 8px 8px 0
+            left: -9px
+    .sidebar-shortcuts-large
+      background-color: #FFF
+      -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      border-color: #CCC
+    .sidebar-toggle > .ace-icon
+      border-color: #b1b1b1
+
+@media only screen and (min-width: 992px)
+  .no-skin .nav-list li.hover > .submenu
+    -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+    box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+    border-color: #CCC
+    > li
+      &.active > a
+        background-color: #F5F5F5
+      &:hover > a
+        background-color: #EEF3F7
+        color: #2E7DB4
+
+@media only screen and (min-width: 992px) and (max-width: 991px)
+  .no-skin .sidebar.navbar-collapse .nav-list
+    li li.hover
+      &.active.open > a, &:hover > a
+        background-color: #FFF
+      > a:hover
+        background-color: #F1F5F9
+      &.open
+        > a:hover, &.active > a:hover
+          background-color: #F1F5F9
+    > li .submenu > li.active
+      &.hover > a.dropdown-toggle > .menu-icon
+        color: #C86139
+      &.open.hover > a.dropdown-toggle > .menu-icon
+        color: inherit
+
+@media only screen and (min-width: 992px)
+  .no-skin .sidebar.navbar-collapse .nav-list > li
+    &.open.hover
+      &:not(:hover):not(:focus):not(.active) > a
+        color: #585858
+        > .arrow
+          color: inherit
+      &:hover > a
+        background-color: #FFF
+    > .submenu li.open.hover:not(:hover):not(:focus):not(.active) > a
+      color: #616161
+      > .arrow
+        color: inherit
+
+@media only screen and (min-width: 992px) and (max-width: 991px)
+  .no-skin
+    .sidebar.navbar-collapse .nav-list li.hover > .submenu
+      border-top-color: #E5E5E5
+      background-color: #FFF
+    .nav-list li.hover > .submenu > li.active:not(.open) > a
+      background-color: #F5F7FA
+      &:hover
+        background-color: #F1F5F9
+
+@media only screen and (min-width: 992px)
+  .no-skin .sidebar.h-sidebar
+    background-color: #F8F8F8
+    &:before
+      background-color: #E4E4E4
+      -webkit-box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.05) inset
+      box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.05) inset
+    .nav-list > li
+      &:hover
+        border-left-color: #CEDDE5
+        + li
+          border-left-color: #CEDDE5
+      &:last-child:hover
+        border-right-color: #CEDDE5
+      &.active
+        border-left-color: #79B0CE
+        + li
+          border-left-color: #79B0CE
+      &:hover + li.active
+        border-left-color: #79B0CE
+      &.active
+        &:last-child
+          border-right-color: #79B0CE
+        &:before
+          background-color: #2B7DBC
+        > a:after
+          border-width: 0 0 2px 0
+          border-color: transparent
+          border-bottom-color: #FFF
+          left: 0
+          right: 0
+          top: auto
+          bottom: -2px
+    .sidebar-shortcuts-large
+      background-color: #FFF
+      border-color: #CCC
+      -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.1)
+      &:after
+        border-bottom-color: #FFF
+    .nav-list > li.hover > .submenu
+      border-color: #CCC
+    &.menu-min .nav-list > li.hover > .submenu
+      border-top-color: #e6e6e6
+    .nav-list > li.hover > .arrow
+      &:after
+        border-color: transparent
+        border-bottom-color: #FFF
+      &:before
+        border-color: transparent
+        border-bottom-color: #B8B8B8
+    &.menu-min .nav-list > li
+      &.hover > .arrow:after
+        border-bottom-color: #F5F5F5
+      &.active > a > .menu-text
+        border-left-color: #CCC
+
+@media only screen and (max-width: 991px)
+  .no-skin
+    .sidebar
+      border-width: 0 1px 1px 0
+      border-top-color: #d6d6d6
+    .menu-toggler + .sidebar.responsive
+      border-top-width: 1px
+    .sidebar
+      &.responsive-min
+        border-width: 0 1px 0 0
+      &.navbar-collapse
+        border-width: 0
+        border-bottom-width: 1px !important
+        border-bottom-color: #CCC
+        -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1) !important
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1) !important
+        &.menu-min .nav-list > li > .submenu
+          background-color: #FFF

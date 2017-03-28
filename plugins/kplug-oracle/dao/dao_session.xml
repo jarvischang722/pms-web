@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <dao name="QRY_CONN_SESSION">
+       <statement><![CDATA[
+
+          SELECT name, value
+          FROM v$parameter
+           WHERE name = 'sessions'
+
+        ]]></statement>
+
+    </dao>
+
+
+</root>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 檢查房型排序檔是否存在-->
+    <dao name="CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD">
+        <statement><![CDATA[
+
+            select count(*) as room_count
+            from room_cod_order
+            where athena_id = :athena_id and room_cod = :room_cod
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+
+    </dao>
+</root>

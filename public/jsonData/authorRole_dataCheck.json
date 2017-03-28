@@ -1,0 +1,84 @@
+[{
+	"id":1,
+	"text":"BACCHUS",
+	"children":[{
+		"id":11,
+		"text":"PMS",
+		"children":[{
+			"id":111,
+			"text":"訂房",
+			"state": "closed",
+			"children":[
+				{
+					"id":1111,
+					"text":"訂房Role A"
+				},{
+					"id":1112,
+					"text":"訂房Role B"
+				}
+			]
+		},{
+			"id":112,
+			"text":"接待",
+			"state": "closed",
+			"children":[
+				{
+					"id":1121,
+					"text":"接待Role A"
+				},{
+					"id":1122,
+					"text":"接待Role B"
+				}
+			]
+		},{
+			"id":113,
+			"text":"出納",
+			"state": "closed",
+			"children":[
+				{
+					"id":1131,
+					"text":"出納Role A"
+				},{
+					"id":1132,
+					"text":"出納Role B"
+				}
+			]
+		},{
+			"id":114,
+			"text":"房務",
+			"state": "closed",
+			"children":[
+				{
+					"id":1141,
+					"text":"房務Role A"
+				},{
+					"id":1142,
+					"text":"房務Role B"
+				}
+			]
+		}]
+	},{
+		"id":12,
+		"text":"Flow",
+		"state":"closed",
+		"children":[{
+			"id":121,
+			"text":"Intel"
+		},{
+			"id":122,
+			"text":"Java",
+			"attributes":{
+				"p1":"Custom Attribute1",
+				"p2":"Custom Attribute2"
+			}
+		},{
+			"id":123,
+			"text":"Microsoft Office"
+		},{
+			"id":124,
+			"text":"Games",
+			"checked":true
+		}]
+	}]
+}]
+

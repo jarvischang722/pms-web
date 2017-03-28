@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include ../common/head %>
+<%- include ../common/importFiles %>
+
+<body class="no-skin">
+<%- include ../common/navbar.ejs %>
+
+<div class="navbar-container avbar-default  ace-save-state navbar-fixed-top nav-header" id="navbar-container">
+    <!-- header.html -->
+</div><!-- /.navbar-container -->
+
+<div class="main-container ace-save-state" id="main-container">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="page-content optionSystem">
+                <!--<img src="/images/banner.jpg" class="banner"/>-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="space-6"></div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-3">
+                                <div class="page-header">
+                                    <h1>
+                                        <%= __("BAC01P0130")["news"] %>
+                                    </h1>
+                                </div><!-- /.page-header -->
+                            </div>
+
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-6 system-block-all">
+                                <div class="system-block">
+                                    <% sysList.forEach(function(sys){ %>
+                                    <div class="imgWrap">
+                                        <a href="#" onclick="selectSys('<%= sys.sys_id %>')">
+                                            <img src="/images/flow.png"/>
+                                            <span class="text-content">
+                                                    <span><%= sys["sys_name_" + session.locale] %></span>
+                                                </span>
+                                        </a>
+                                    </div>
+                                    <% }) %>
+
+                                </div>
+                            </div><!-- /.col -->
+
+                            <div class="col-sm-1"></div>
+                        </div><!-- /.row -->
+
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <%- include ../common/footer.ejs %>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+
+</body>
+</html>
+
+<script>
+
+    function selectSys(sys_id) {
+        $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
+            if (result.success) {
+                location.href = "/";
+            } else {
+                alert(result.errorMsg);
+            }
+        });
+    }
+
+</script>

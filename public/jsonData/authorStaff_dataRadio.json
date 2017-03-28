@@ -1,0 +1,68 @@
+[{
+	"id":1,
+	"text":"<input type='radio' name='company' value='company' class='authRadio'>德安資訊",
+	"children":[
+		{
+		"id":11,
+		"text":"<input type='radio' name='companyGroup' value='group1' class='authRadio'>網路事業部",
+		"state":"open",
+		"children":[{
+			"id":111,
+			"text":"<input type='radio' name='g1Staff' value='g1s1' class='authRadio'>a16001 王大明"
+		},{
+			"id":112,
+			"text":"<input type='radio' name='g1Staff' value='g2s2' class='authRadio'>a16002 李小文"
+		}
+		]
+		},
+		{
+		"id":12,
+		"text":"<input type='radio' name='companyGroup' value='group2' class='authRadio'>客戶服務部",
+		"state":"closed",
+		"children":[{
+			"id":121,
+			"text":"<input type='radio' name='g2Staff' value='g2s1' class='authRadio'>b16001 蘇小方"
+		},{
+			"id":122,
+			"text":"<input type='radio' name='g2Staff' value='g2s2' class='authRadio'>b16002 方小酥"
+		},{
+			"id":123,
+			"text":"<input type='radio' name='g2Staff' value='g2s3' class='authRadio'>b16003 陳曉東"
+		}
+		]
+	},
+		{
+		"id":13,
+		"text":"<input type='radio' name='companyGroup' value='group3' class='authRadio'>行銷業務部",
+		"state":"closed",
+		"children":[{
+			"id":131,
+			"text":"<input type='radio' name='g3Staff' value='g3s1' class='authRadio'>b16001 蘇小方"
+		},{
+			"id":132,
+			"text":"<input type='radio' name='g3Staff' value='g3s2' class='authRadio'>b16002 方小酥"
+		},{
+			"id":133,
+			"text":"<input type='radio' name='g3Staff' value='g3s3' class='authRadio'>b16003 陳曉東"
+		}
+		]
+	},
+		{
+			"id":14,
+			"text":"<input type='radio' name='companyGroup' value='group4' class='authRadio'>主管群組",
+			"state":"closed",
+			"children":[{
+				"id":141,
+				"text":"<input type='radio' name='g4Staff' value='g4s1' class='authRadio'>b16001 蘇小方"
+			},{
+				"id":142,
+				"text":"<input type='radio' name='g4Staff' value='g4s2' class='authRadio'>b16002 方小酥"
+			},{
+				"id":143,
+				"text":"<input type='radio' name='g4Staff' value='g4s3' class='authRadio'>b16003 陳曉東"
+			}
+			]
+		}
+	]
+}]
+

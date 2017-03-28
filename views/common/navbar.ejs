@@ -1,0 +1,199 @@
+<div class="navbar-container avbar-default  ace-save-state navbar-fixed-top nav-header" id="navbar-container">
+    <!-- #section:basics/sidebar.mobile.toggle -->
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+        <span class="sr-only">Toggle sidebar</span>
+
+        <span class="icon-bar"></span>
+
+        <span class="icon-bar"></span>
+
+        <span class="icon-bar"></span>
+    </button>
+    <!-- /section:basics/sidebar.mobile.toggle -->
+    <div class="navbar-header pull-left">
+        <!-- #section:basics/navbar.layout.brand -->
+        <div class="nav-header-inline">
+            <div class="btn-group header-other-choice">
+                <button data-toggle="dropdown" class="btn btn-info btn-white btn-sm dropdown-toggle"
+                        aria-expanded="false">
+                    <%= session.user.fun_hotel_name %>
+                    <span class="ace-icon fa fa-angle-down icon-on-right"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-info dropdown-menu-left">
+                    <% session.user.hotels.forEach(function(hotel){ %>
+                    <li>
+                        <a href="javascript:void(0);"
+                           onclick="changeHotelCod('<%= hotel.hotel_cod %>');"><%= hotel.hotel_nam %></a>
+                    </li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div><!-- /.nav-header-inline -->
+        <div class="breadcrumbs pull-left" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/systemOption">
+                        <i class="ace-icon fa fa-home home-icon" style="color: #fff"></i>
+                    </a>
+                </li>
+                <li class=""><%= session.user["sys_name_" + session.locale] %></li>
+                <!--    <li class="active">依房號訂房</li> -->
+            </ul><!-- /.breadcrumb -->
+            <!--    <span class="brand-txt">[AISUTFB] [TSETE6] [User.cio]</span> -->
+        </div> <!-- /.breadcrumbs -->
+        <div class="clearfix"></div>
+        <!-- /section:basics/navbar.layout.brand -->
+
+        <!-- #section:basics/navbar.toggle -->
+
+        <!-- /section:basics/navbar.toggle -->
+    </div>
+
+    <!-- #section:basics/navbar.dropdown -->
+    <div class="navbar-buttons navbar-header pull-right" role="navigation">
+        <ul class="nav ace-nav">
+            <li class="info">
+                <span id="datetimeSpan">2016/08/12 </span>
+                <span> | <%= session.user.usr_cname %>  </span>
+            </li>
+
+            <li class="purple dropdown-modal">
+                <!--<a data-toggle="dropdown" class="dropdown-toggle" href="#">-->
+                    <!--<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
+                    <!--<span class="badge badge-important">8</span>-->
+                <!--</a>-->
+
+                <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                    <!-- 通知內容-->
+                    <!--  <li class="dropdown-header">
+                         <i class="ace-icon fa fa-exclamation-triangle"></i>
+                         8 Notifications
+                     </li>
+
+                     <li class="dropdown-content">
+                         <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                             <li>
+                                 <a href="#">
+                                     <div class="clearfix">
+                                         <span class="pull-left">
+                                             <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                             New Comments
+                                         </span>
+                                         <span class="pull-right badge badge-info">+12</span>
+                                     </div>
+                                 </a>
+                             </li>
+
+                             <li>
+                                 <a href="#">
+                                     <i class="btn btn-xs btn-primary fa fa-user"></i>
+                                     Bob just signed up as an editor ...
+                                 </a>
+                             </li>
+
+                             <li>
+                                 <a href="#">
+                                     <div class="clearfix">
+                                                     <span class="pull-left">
+                                                         <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                                         New Orders
+                                                     </span>
+                                         <span class="pull-right badge badge-success">+8</span>
+                                     </div>
+                                 </a>
+                             </li>
+
+                             <li>
+                                 <a href="#">
+                                     <div class="clearfix">
+                                                     <span class="pull-left">
+                                                         <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                                         Followers
+                                                     </span>
+                                         <span class="pull-right badge badge-info">+11</span>
+                                     </div>
+                                 </a>
+                             </li>
+                         </ul>
+                     </li>
+
+                     <li class="dropdown-footer">
+                         <a href="#">
+                             See all notifications
+                             <i class="ace-icon fa fa-arrow-right"></i>
+                         </a>
+                     </li> -->
+                </ul>
+            </li>
+
+            <!-- /section:basics/navbar.user_menu -->
+            <!--<li class="light-orange dropdown-modal">-->
+                <!--<a data-toggle="dropdown" href="#" class="dropdown-toggle">-->
+                    <!--<i class="ace-icon fa fa-th"></i>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">-->
+                    <!--<li class="dropdown-content">-->
+                        <!--<ul class="dropdown-menu dropdown-navbar">-->
+                            <!--<li style="text-align:center;">-->
+                                <!--<img src="/images/flow04.png"/>-->
+                            <!--</li>-->
+
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+
+            <!-- #section:basics/navbar.user_menu -->
+            <li class="light-blue dropdown-modal">
+                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                    <img class="nav-user-photo" src="/images/user-icon.png"  width="35" alt=""/>
+                    <!--<span class="user-info">-->
+                    <!--<small>Welcome,</small>-->
+                    <!--Jason-->
+                    <!--</span>-->
+                    <i class="ace-icon fa fa-caret-down"></i>
+                </a>
+
+                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+                    <li class="divider"></li>
+
+                    <li>
+                        <a href="#" onclick="doLogout()">
+                            <i class="ace-icon fa fa-power-off"></i>
+                            <%= __("BAC01P0120")["logout"] %>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+        </ul>
+    </div>
+
+    <!-- /section:basics/navbar.dropdown -->
+    <div class="clearfix"></div>
+</div>
+
+<script>
+    $(function () {
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    })
+    function updateDateTime() {
+        var datetime = moment(new Date()).format("YYYY/MM/DD A hh:mm:ss");
+        $("#datetimeSpan").html(datetime);
+    }
+    function doLogout() {
+        $.post("/cas/logout", function (data) {
+            location.reload();
+        });
+    }
+    function changeHotelCod(hotel_cod) {
+        $.post("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
+            if (data.success) {
+                location.reload();
+            }
+        })
+    }
+</script>

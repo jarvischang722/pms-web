@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <dao name="QRY_ROOM_RF">
+        <statement><![CDATA[
+
+         SELECT * FROM  ROOM_RF
+         WHERE trim(athena_id) = trim(:athena_id)
+
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+    <dao name="QRY_ROOM_RF_DELETE">
+        <statement><![CDATA[
+            select count(*)
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and room_typ = :room_typ
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_typ</parameter>
+    </dao>
+
+    <!-- 取得房型類別名稱select -->
+    <dao name="QRY_ROOM_RF_ROOM_TYP">
+        <statement><![CDATA[
+                select DISTINCT rvrm.room_typ value, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) display
+                from room_rf rm
+                INNER JOIN RVRMCOD_RF rvrm on rvrm.ROOM_TYP = RM.ROOM_TYP
+                where rvrm.athena_id = trim(:athena_id)
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+
+    </dao>
+
+    <!-- 取得服務項目select  -->
+    <dao name="QRY_SERVICE_RF_ITEM_NOS">
+        <statement><![CDATA[
+            select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+            from service_rf
+            where athena_id = :athena_id
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+
+    </dao>
+
+    <!-- 取得免費服務項目select -->
+    <dao name="QRY_SERVICE_RF_FREE_COD">
+        <statement><![CDATA[
+             select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+             from service_rf
+             where athena_id = :athena_id and serv_typ = '99'
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+
+    </dao>
+
+
+</root>

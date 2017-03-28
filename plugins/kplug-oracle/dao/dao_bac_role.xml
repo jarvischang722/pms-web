@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <dao name="qa1">
+        <statement><![CDATA[select * from bac_role_function ]]></statement>
+    </dao>
+
+    <dao name="test_role">
+        <statement><![CDATA[
+
+        select distinct * from bac_role_user
+        where user_comp_cod = :user_comp_cod
+        and bac_role_user.user_id = :user_id
+
+        ]]></statement>
+
+        <parameter type="string" kind="3">user_comp_cod</parameter>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="string" kind="3">sys_id</parameter>
+    </dao>
+
+</root>

@@ -1,0 +1,120 @@
+<div class="col-xs-12 top-sec-ul breadcrumbs-fixed">
+
+    <div class="top-ul">
+        <ul id="subsysUl">
+            <% session.user.subsysGrp.forEach(function(sysItem){ %>
+            <li>
+                <a href="javascript:void(0)" onclick="selSubsys('<%= sysItem.subsys_id %>')">
+                    <%= sysItem.subsys_nam %>
+                </a>
+            </li>
+            <% }) %>
+            <li>
+                <a href="/manageSetting"  style="color:#FFFFFF;">
+                    <%= __("BAC01P0140")["setup"] %>
+                </a>
+            </li>
+        </ul>
+    </div> <!-- /.top-ul -->
+    <!-- Quick menu  -->
+    <div class="secondMenu-ul secondMenuClick">
+        <ul>
+            <li value="controlReservation" onclick="javascript:location.href='/manageSetting'">
+                <img src="/images/icon/bed.png " class="icon-2-style">
+                <%= __("front_desk_setup") %>
+            </li>
+
+            <!--<li value="controlReception"><img src="/images/icon/bed.png " class="icon-2-style">接待對照檔-->
+            <!--</li>-->
+
+            <!--<li value="controlCashier"><img src="/images/icon/bed.png " class="icon-2-style">出納對照檔-->
+            <!--</li>-->
+
+            <!--<li value="controlBusiness"><img src="/images/icon/bed.png " class="icon-2-style">業務對照檔-->
+            <!--</li>-->
+
+            <!--<li value="controlHouseKeeping"><img src="/images/icon/bed.png " class="icon-2-style">房務對照檔-->
+            <!--</li>-->
+
+        </ul>
+    </div> <!-- /.secondMenuUl -->
+
+
+    <!--<div class="secondMenu-ul secondMenu-ul-fixed" style="position: fixed;top:100px; right: 0; left: 200px;  z-index: 1024;">-->
+
+
+
+    <script>
+        var globalSubsysGrp = [];
+        $(function () {
+//        $("#subsysUl li").first().find("a").click();
+//        console.log( $("#subsysUl li").first().html());
+            // initial();
+            $(document).on("click", "#subsysUl a", function () {
+                $("#subsysUl a").removeClass("active-01");
+                $(this).addClass("active-01");
+            })
+        })
+        function initial() {
+
+            getSubsysGrp();
+        }
+        function getSubsysGrp() {
+            $.post("/api/getUserSubsys", function (result) {
+
+                if (result.success) {
+                    globalSubsysGrp = result.subsysGrp
+                }
+                if (globalSubsysGrp.length > 0) {
+                    selSubsys(globalSubsysGrp[0].subsys_id);
+                }
+            })
+        }
+        function selSubsys(subsys_id) {
+            var subsysInfo = _.findWhere(globalSubsysGrp, {subsys_id: subsys_id});
+
+            updQuickMenu(subsysInfo.quickMenu);
+            updModuleMenu(subsysInfo.modules);
+        }
+        function updQuickMenu(qkMenu) {
+            var cont = "";
+            _.each(qkMenu, function (qk) {
+                cont += "<li value='" + qk.pro_id + "'>" +
+                    "<img src='/images/icon/bed.png' class='icon-2-style'/>" +
+                    qk.pro_name +
+                    "</li>"
+            });
+            $("#quickMenuUl").html(cont);
+        }
+        function updModuleMenu(mdlMenu) {
+            var mContent = "";
+            _.each(mdlMenu, function (mdl) {
+                mContent += '<li >' +
+                    '<a href="javascript:void(0)" class="dropdown-toggle">' +
+                    '<span class="menu-text">' +
+                    '<i class="menu-icon fa fa-caret-right"></i>' +
+                    mdl.mdl_name +
+                    '</span>' +
+                    '<b class="arrow fa fa-angle-down"></b>' +
+                    '</a>' +
+                    '<b class="arrow"></b>';
+
+                _.each(mdl.pros, function (pro) {
+                    mContent += '<ul class="submenu">' +
+                        '<li class="">' +
+                        '<a href="javascript:void(0)" target="_blank">' +
+                        '<i class="menu-icon fa fa-caret-right"></i>' +
+                        pro.pro_name +
+                        '</a>' +
+                        '<b class="arrow"></b>' +
+                        '</li>' +
+                        '</ul>';
+                });
+                mContent += "</li>";
+            });
+
+            $("#moduleUl").html(mContent);
+
+        }
+    </script>
+</div>

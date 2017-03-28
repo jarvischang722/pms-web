@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 取得住客多筆-->
+    <dao name="QRY_GUEST_GRP_RF">
+        <statement><![CDATA[
+            select * from guest_grp_rf where athena_id =　?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

@@ -1,0 +1,181 @@
+.breadcrumbs
+  position: relative
+  z-index: auto
+  border-bottom: 1px solid #E5E5E5
+  background-color: #F5F5F5
+  min-height: 41px
+  line-height: 40px
+  padding: 0 12px 0 0
+
+.breadcrumb
+  background-color: transparent
+  display: inline-block
+  line-height: 20px
+  margin: 6px 22px 0 12px
+  padding: 0
+  font-size: 13px
+  color: #333
+  border-radius: 0
+  > li
+    color: #555
+    padding: 0 3px 0 3px
+    &.active
+      color: #555
+      padding: 0 3px 0 3px
+    > a
+      display: inline-block
+      color: #4C8FBD
+    + li:before
+      font-family: FontAwesome
+      font-size: 14px
+      content: "\f105"
+      color: #B2B6BF
+      padding: 0
+      margin: 0 8px 0 0
+      position: relative
+      top: 1px
+  .home-icon
+    font-size: 20px
+    margin-left: 2px
+    margin-right: 2px
+    vertical-align: top
+
+@media only screen and (max-width: 480px)
+  .breadcrumb > li > a
+    padding: 0 1px
+
+@media only screen and (max-width: 991px)
+  .menu-toggler + .sidebar.responsive + .main-content .breadcrumb
+    margin-left: 90px
+
+@media only screen and (max-width: 320px)
+  .breadcrumb
+    margin-left: 8px
+  .menu-toggler + .sidebar.responsive + .main-content .breadcrumb
+    margin-left: 36px
+
+@media (min-width: 992px)
+  .breadcrumbs-fixed
+    position: fixed
+    right: 0
+    left: 0
+    top: auto
+    z-index: 1024
+    + .page-content
+      padding-top: 49px
+  .sidebar + .main-content .breadcrumbs-fixed
+    left: 190px
+  body.mob-safari
+    /*       *
+     * 	 //not needed because breadcrumbs is not fixed at this point
+     * 	 media (max-width: @screen-topbar-down) {
+     * 	  .navbar-fixed-top:not(.navbar-collapse) + .main-container .breadcrumbs-fixed {
+     * 		top: (@navbar-min-height * 2);
+     * 	  }
+     * 	 }
+    .breadcrumbs-fixed
+      top: 45px
+
+@media (min-width: 992px)
+  .sidebar.compact + .main-content .breadcrumbs-fixed
+    left: 105px
+
+@media (min-width: 992px)
+  .sidebar.menu-min + .main-content .breadcrumbs-fixed
+    left: 43px
+
+@media (min-width: 992px) and (max-width: 991px)
+  .breadcrumbs-fixed
+    left: 0
+  .sidebar
+    &.menu-min + .main-content .breadcrumbs-fixed
+      left: 0
+    &.responsive-min + .main-content .breadcrumbs-fixed, &.responsive-max + .main-content .breadcrumbs-fixed
+      left: 43px
+
+@media (min-width: 992px)
+  .container.main-container
+    .breadcrumbs-fixed
+      left: auto
+      right: auto
+      width: 744px
+    .sidebar
+      + .main-content .breadcrumbs-fixed
+        left: auto
+        right: auto
+        width: 554px
+      &.compact + .main-content .breadcrumbs-fixed
+        width: 639px
+      &.menu-min + .main-content .breadcrumbs-fixed
+        left: auto
+        right: auto
+        width: 701px
+
+@media (min-width: 992px)
+  .container.main-container .sidebar.compact + .main-content .breadcrumbs-fixed
+    width: 859px
+
+@media (min-width: 992px)
+  .container.main-container
+    .breadcrumbs-fixed
+      width: 964px
+    .sidebar
+      + .main-content .breadcrumbs-fixed
+        width: 774px
+      &.menu-min + .main-content .breadcrumbs-fixed
+        width: 921px
+
+@media (min-width: 1200px)
+  .container.main-container .sidebar.compact + .main-content .breadcrumbs-fixed
+    width: 1059px
+
+@media (min-width: 1200px)
+  .container.main-container
+    .breadcrumbs-fixed
+      width: 1164px
+    .sidebar
+      + .main-content .breadcrumbs-fixed
+        width: 974px
+      &.menu-min + .main-content .breadcrumbs-fixed
+        width: 1121px
+
+@media (min-width: 992px) and (max-width: 991px)
+  .container.main-container .sidebar.compact + .main-content .breadcrumbs-fixed
+    width: 744px
+
+@media (min-width: 992px) and (max-width: 991px)
+  .container.main-container
+    .breadcrumbs-fixed
+      width: 744px
+    .sidebar
+      &.menu-min + .main-content .breadcrumbs-fixed
+        width: 744px
+      &.responsive-min + .main-content .breadcrumbs-fixed, &.responsive-max + .main-content .breadcrumbs-fixed
+        left: auto
+        right: auto
+        width: 701px
+
+/**
+ *@media (max-width: @grid-float-breakpoint-max) {
+ * .breadcrumbs-fixed {
+ *	position: relative;
+ *	left: auto !important;
+ *	right: auto !important;
+ *	top: auto !important;
+ *	width: auto !important;
+ *
+ *	+ .page-content {
+ *		padding-top: @page-content-padding-top;
+ *	}
+ * }
+ *}
+@media (min-width: 992px)
+  .h-sidebar + .main-content
+    .breadcrumbs.breadcrumbs-fixed
+      position: relative
+      top: auto
+      left: auto
+      z-index: auto
+      width: auto
+    .page-content
+      padding-top: 12px

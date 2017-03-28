@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--取得使用者資料-->
+    <dao name="QRY_BAC_GET_USER_BY_ONE">
+        <statement><![CDATA[
+
+            SELECT u.CMP_ID, u.GRP_ID, u.USR_ID, u.USR_CNAME,u.ACCOUNT_STA,u.USER_ATHENA_ID
+            FROM s99_user u
+            WHERE   trim(u.usr_id) = :user_id and u.usr_pwd = :usr_pwd and trim(u.cmp_id) = :cmp_id
+
+        ]]> </statement>
+
+        <parameter type="string" kind="3">cmp_id</parameter>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="string" kind="3">usr_pwd</parameter>
+    </dao>
+    <!--轉換使用者密碼-->
+    <dao name="QRY_TRAN_S99_USER_PWD">
+        <statement><![CDATA[
+
+            select pg_ais_sec.sf_user_password(:cmp_id,:user_id,:usr_pwd) as USR_PWD from dual
+
+        ]]> </statement>
+
+        <parameter type="string" kind="3">cmp_id</parameter>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="string" kind="3">usr_pwd</parameter>
+    </dao>
+
+
+</root>

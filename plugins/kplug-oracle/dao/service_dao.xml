@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struts-config>
+    <sql-sources>
+        <sql-source base="true" comment="user" key="user" path="dao_email.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_test.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_role.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_s99_user.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_room_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rvrmcod_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_state_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_session.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rvtyp_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rvtyp_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rvtyp_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_guest_grp_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_guest_rf.xml"/>
+    </sql-sources>
+</struts-config>

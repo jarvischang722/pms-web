@@ -1,0 +1,231 @@
+$font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
+body
+  font-family: $font-family
+  font-size: $font-15
+a
+  text-decoration: none
+  cursor: pointer
+
+/*-- header.html --*/
+.navbar-container
+  padding-left: 10px
+  padding-right: 10px
+  background: $navbar-bg
+  &.container
+    padding-left: 0
+    padding-right: 0
+  .nav-header-inline
+    float: left
+  .breadcrumbs
+    color: $white
+    background-color: $navbar-bg
+    border-bottom: none
+  .breadcrumb
+    margin: 6px 6px 0 6px
+  .breadcrumb > li > a
+    color: #ffffff
+    font-weight: bold
+  .breadcrumb > li, .breadcrumb > li
+    padding: 0
+  .breadcrumb > li, .breadcrumb > li.active
+    color: #e5e5e5
+  .ace-nav>li.info
+    padding: 0 10px
+    span
+      color: #fff
+  .navbar-toggle
+    background: #75B3D7
+    &.pull-left
+      margin: 5px 0 4px 6px
+    &:hover
+      background-color: #61a8d1
+      border-color: rgba(255, 255, 255, 0.1)
+    &:focus
+      background-color: #75B3D7
+      border-color: transparent
+    .icon-bar
+      background-color: $white
+      border-radius: 0
+      width: 24px
+  .header-other-choice
+    margin: 4px 0 4px 0
+  .brand-txt
+    color: $gold
+    font-weight: bold
+  @media screen and (max-width: 1030px)
+    font-size: 12px
+/*-- optionSystem --/
+.optionSystem
+  .banner
+    width: 100%
+    height: 150px
+  p
+    margin: 0 0 10px
+    line-height: $lineHeight22
+  // optionSystem hover text
+  .system-block-all
+    margin: 50px 0 0 0
+  .system-block
+    margin: 0 0 0 30px
+    display: inline-block
+  .imgWrap
+    position: relative
+    display: inline-block
+    margin: 0 15px 0 0
+    span.text-content
+      background: rgba(0,0,0,0.5)
+      color: white
+      cursor: pointer
+      display: table
+      height: 150px
+      position: absolute
+      left: 0
+      top: 0
+      width: 150px
+      border-radius: 150px
+      opacity: 0
+    span.text-content span
+      display: table-cell
+      text-align: center
+      vertical-align: middle
+    &:hover .text-content
+      visibility: visible
+      opacity: 1
+
+
+/*-- footer --*/
+.bacchus-footer
+  padding-top: 220px
+  .footerImg
+    margin: 30px 0 20px 0
+    img
+      width: 200px
+      height: auto
+
+/*-- top-sec-menu --*/
+.top-sec-ul
+  max-width: 100%
+  display: inline-block
+  padding: 5px 0 0 0
+  background: #F5F5F5
+  .top-ul
+    cursor: pointer
+    width: 100%
+    margin-left: 10px
+    ul
+      margin-left: 0 !important
+      margin-bottom: 5px !important
+      width: 100%
+      li
+        font-size: $font-16
+        background: #ffbb22
+        color: #fff
+        //padding: 5px 20px //edit 符合1024
+        padding: 3px 10px
+        //min-width: 100px //edit 符合1024
+        min-width: 80px
+        max-width: 100%
+        text-align: center
+        display: inline-block
+        box-sizing: border-box
+        &:hover
+          background: #ffc666
+      li.active-01
+        background: #D15B47
+
+  .secondMenu-ul
+    margin: 5px 0 5px 10px
+    ul
+      margin-left: 0 !important
+      li
+        //margin: 0 0 10px 0
+        //padding: 3px 20px  //edit 符合1024
+        padding: 5px
+        //min-width: 100px //edit 符合1024
+        min-width: 80px
+        max-width: 100%
+        text-align: center
+        display: inline-block
+        box-sizing: border-box
+        color: #555
+        cursor: pointer
+        &:hover
+          background: #c6c6c6
+          color: #fff
+      li.activeThis
+        background: #888
+        color: #fff
+      a
+        //margin: 0 0 10px 0
+        //padding: 3px 20px  //edit 符合1024
+        padding: 3px 5px
+        //min-width: 100px //edit 符合1024
+        min-width: 80px
+        max-width: 100%
+        text-align: center
+        display: inline-block
+        box-sizing: border-box
+        color: #555
+        cursor: pointer
+        &:hover
+          background: #c6c6c6
+          color: #fff
+      a.active-01
+        background: #888
+        color: #fff
+    .icon-2-style
+      width: 12px
+      height: 12px
+      //margin: 0 10px 3px //edit 符合1024
+      margin: 0 3px
+
+
+/*-- authorityNewActor 新增權限 --*/
+.authorityTree
+  .tree
+    &:before
+      border: none !important
+  p
+    &.topTitle
+      margin: 5px auto
+  .authRadio
+    margin-right: 2px
+    //height: 11px
+  .tree-body
+    padding: 5px
+  .author-navbar
+    margin-bottom: 10px
+    .author-nav-btn
+      button
+        float: left
+        margin: auto 5px
+        &.delete
+          border-width: 1px
+  .icon-style
+    margin-left: 5px
+  .authorWall
+    padding: 5px
+    border: 1px solid #555
+    min-height: 100px
+    max-height: 100%
+    overflow: auto
+    width: 100%
+/*-- singleGridDialogTmp 新增權限 --*/
+#singleGridDialog
+  position: relative
+  .singleRelative
+    position: relative
+  .singleEditStatus
+    padding-left: 5px
+    position: fixed
+    //display: block
+    //top: 10px
+    .btn-defaultWidth
+      display: block
+      //width: auto !important
+      //display: block !important
+      margin-top: 5px
+      max-width: 85px
+      right: 10px
+
+

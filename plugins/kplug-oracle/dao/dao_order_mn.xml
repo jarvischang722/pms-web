@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [prg_id: PMS0810130 ] -->
+    <dao name="CHK_ORDER_MN_RV_TYP_IS_EXIST">
+        <statement><![CDATA[
+            select count(*) as rvtyp_count
+            from order_mn
+            where athena_id = :athena_id and rownum = 1
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <statement test="_v(param.rv1_typ)"><![CDATA[and rv1_typ is not null]]></statement>
+        <statement test="_v(param.rv2_typ)"><![CDATA[and rv2_typ is not null]]></statement>
+        <statement test="_v(param.rv3_typ)"><![CDATA[and rv3_typ is not null]]></statement>
+        <statement test="_v(param.rv4_typ)"><![CDATA[and rv4_typ is not null]]></statement>
+        <statement test="_v(param.rv5_typ)"><![CDATA[and rv5_typ is not null]]></statement>
+        <statement test="_v(param.rv6_typ)"><![CDATA[and rv6_typ is not null]]></statement>
+        <statement test="_v(param.rv7_typ)"><![CDATA[and rv7_typ is not null]]></statement>
+        <statement test="_v(param.rv8_typ)"><![CDATA[and rv8_typ is not null]]></statement>
+        <statement test="_v(param.rv9_typ)"><![CDATA[and rv9_typ is not null]]></statement>
+        <statement test="_v(param.rv10_typ)"><![CDATA[and rv10_typ is not null]]></statement>
+    </dao>
+
+    <!-- [prg_id: PMS0810130 ] -->
+    <dao name="CHK_ORDER_MN_RV_TYP_CODE_IS_EXIST">
+        <statement><![CDATA[
+          select count(*)  as rvtyp_count
+          from order_mn
+          where athena_id = :athena_id and rownum = 1
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <statement test="_v(param.rv1_typ)"><![CDATA[and rv1_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv2_typ)"><![CDATA[and rv2_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv3_typ)"><![CDATA[and rv3_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv4_typ)"><![CDATA[and rv4_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv5_typ)"><![CDATA[and rv5_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv6_typ)"><![CDATA[and rv6_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv7_typ)"><![CDATA[and rv7_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv8_typ)"><![CDATA[and rv8_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv9_typ)"><![CDATA[and rv9_typ = :rv_typ ]]></statement>
+        <statement test="_v(param.rv10_typ)"><![CDATA[and rv10_typ = :rv_typ ]]></statement>
+        <parameter type="string" kind="3">rv_typ</parameter>
+    </dao>
+</root>

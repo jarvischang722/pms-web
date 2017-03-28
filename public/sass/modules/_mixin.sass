@@ -1,0 +1,72 @@
+//mixin
+@charset "UTF-8"
+// bacchus
+// 綜合櫃台 顏色
+@mixin color-bk
+  &.cb-yellow
+    background: #fffba1
+  &.cb-purple
+    background: #ae8dc3
+  &.cb-green
+    background: #7cbd64
+  &.cb-pink
+    background: #ffddb3
+  &.cb-gray
+    background: #bfbfbf
+  &.cb-brown
+    background: #dcbe88
+  &.cb-blueGreen
+    background: #06eed5
+  &.cb-grayGreen
+    background: #aac077
+  &.cb-default
+    background: #c0d6ee
+  &.active
+    border: 2px solid #ff0000
+
+// 底部線
+@mixin bottomAfterLine($lineLeftPx,$lineBottomPx,$lineWidthPx,$lineHeightPx,$lineBackground,$lineMargin-left,$lineMargin-bottom)
+  content: ""
+  position: absolute
+  left: $lineLeftPx //15px
+  bottom: $lineBottomPx //0px
+  width: $lineWidthPx //25%
+  height: $lineHeightPx //2px
+  background: $lineBackground //$webThemeColor
+  margin-left: $lineMargin-left //-15px
+  margin-bottom: $lineMargin-bottom //10px
+
+// 六角形
+  // $hexagonWidth             六角形的寬
+  // $hexagonHeight            六角形的高(不影響六角形形狀)
+  // $hexagonBk                六角形的顏色
+  // 後面的文字                  初值
+@mixin hexagon($hexagonWidth, $hexagonHeight, $hexagonBk)
+  width: $hexagonWidth //100px
+  height: $hexagonHeight //55px
+  background: $hexagonBk //#eeeeee
+  position: relative
+  &:before
+    content: ""
+    position: absolute
+    top: -$hexagonWidth/4 //-25px
+    left: 0
+    width: 0
+    height: 0
+    border-left: $hexagonWidth/2 solid transparent //50px
+    border-right: $hexagonWidth/2 solid transparent //50px
+    border-bottom: $hexagonWidth/4 solid $hexagonBk //25px
+  &:after
+    content: ""
+    position: absolute
+    bottom: -$hexagonWidth/4
+    left: 0
+    width: 0
+    height: 0
+    border-left: $hexagonWidth/2 solid transparent //50px
+    border-right: $hexagonWidth/2 solid transparent //50px
+    border-top: $hexagonWidth/4 solid $hexagonBk //25px
+
+
+
+

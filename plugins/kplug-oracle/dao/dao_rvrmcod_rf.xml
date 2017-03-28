@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--  -->
+    <dao name="QRY_RVRMCOD_RF">
+        <statement><![CDATA[
+			select rvrm.ATHENA_ID,rvrm.HOTEL_COD,rvrm.room_cod, rvrm.room_sna, rvrm.room_nam, rvrm.room_qnt, rvrm.room_amt, rvrm.serv_amt, rvrm.begin_dat,
+			 rvrm.end_dat, rvrm.room_typ, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) room_typ_nam
+			from rvrmcod_rf rvrm
+            inner join room_cod_order ord on rvrm.athena_id = ord.athena_id and rvrm.room_cod = ord.room_cod
+            left join room_rf rm on rvrm.athena_id = rm.athena_id and rvrm.room_typ = rm.room_typ
+            where trim(rvrm.athena_id) = trim(:athena_id)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- 單筆房型資料 -->
+    <dao name="QRY_SINGLE_RVRMCOD_RF">
+        <statement><![CDATA[
+			select *
+			from rvrmcod_rf rvrm
+			where rvrm.athena_id = :athena_id and rvrm.begin_dat = to_date(:begin_dat, 'YYYY/MM/DD')
+			     and trim(rvrm.room_cod) = trim(:room_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+    </dao>
+
+    <!-- 查詢滾房租日 -->
+    <dao name="CHK_EDIT_RVEMCOD_RF_DAT">
+        <statement><![CDATA[
+                SELECT val_nam as  belong_dat
+                FROM COMP_SVAL_MN
+                WHERE TRIM(VAL_RMK) = 'rent_cal_dat'
+                     AND SYS_COD = 'HFD'
+                     AND athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- 取得房型資料 -->
+    <dao name="QRY_RVRMCOD_RF_OLD_ROOM_COD">
+        <statement><![CDATA[
+               select room_nam,room_sna,room_typ
+               from rvrmcod_rf
+               where athena_id = :athena_id
+               and room_cod = :room_cod
+               and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
+
+    <!--  -->
+    <dao name="CHK_RVRMCOD_RF_ROOM_DATA">
+        <statement><![CDATA[
+              select count(*) as room_count
+              from rvrmcod_rf
+              where athena_id = :athena_id
+              and room_cod =  :room_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="2" condition="begin_dat <> to_date(:begin_dat, 'YYYY/MM/DD')">begin_dat</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+    </dao>
+
+    <!--  -->
+    <dao name="CHK_RVRMCOD_RF_IS_EXIST_RMINV_DT">
+        <statement><![CDATA[
+
+             select  count(*) as room_count
+             from rminv_dt
+             where room_cod = :room_cod
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
+
+    <!-- 檢查要儲存房型的起始結束日有無重疊-->
+    <dao name="CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT">
+        <statement><![CDATA[
+
+        SELECT count(*) AS cover_count
+        FROM  rvrmcod_rf
+        WHERE room_cod = :room_cod AND
+        (
+        BEGIN_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
+        OR
+        END_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
+        )
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+    </dao>
+
+    <!-- 檢查要儲存房型的起始結束日有無重疊-->
+    <dao name="CHK_RVRMCOD_RF_IS_EXIST">
+        <statement><![CDATA[
+
+        SELECT count(*) AS cover_count
+        FROM  rvrmcod_rf
+        WHERE room_cod = :room_cod AND
+        (
+        BEGIN_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
+        OR
+        END_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
+        )
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+    </dao>
+
+
+    <!-- 房間小類設定存在時，不可刪除 [prg_id : PMS0810010] -->
+    <dao name="CHK_GUEST_GRP_RF_IS_EXIST_RVRMCOD_RF">
+        <statement><![CDATA[
+
+        select count(*) as room_count
+        from rvrmcod_rf
+        where athena_id = :athena_id and trim(room_typ) = trim(:room_typ)
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">room_typ</parameter>
+    </dao>
+
+</root>

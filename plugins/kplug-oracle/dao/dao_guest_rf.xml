@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 住客類別設定有使用此代號時，不可刪除-->
+    <dao name="chkGuestgrprfIsExistGuestrf">
+        <statement><![CDATA[
+            select count(*) as  guest_count from guest_rf where athena_id = ? and guest_grp = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">guest_grp</parameter>
+    </dao>
+</root>

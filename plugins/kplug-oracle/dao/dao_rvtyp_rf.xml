@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 取得訂房分類資料-->
+    <dao name="QRY_RVTYPE_RF">
+        <statement><![CDATA[
+            select  athena_id, hotel_cod ,type, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr
+            from rvtyp_rf
+            where athena_id = ?
+        ]]></statement>
+
+        <parameter type="int" kind="1">athena_id</parameter>
+    </dao>
+
+    <!-- 取得訂房分類資料-->
+    <dao name="QRY_RVTYPE_FIND_ONE_TYPE">
+        <statement><![CDATA[
+            select  athena_id, hotel_cod ,type, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr
+            from rvtyp_rf
+            where athena_id = ? and  type = ?
+        ]]></statement>
+
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="int" kind="1">type</parameter>
+    </dao>
+
+
+</root>
