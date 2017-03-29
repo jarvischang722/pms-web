@@ -132,10 +132,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             var self = this;
             $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
                 if (q) {
-                    console.log("delete");
-                    console.log([self.singleData]);
                     //刪除前檢查
                     $.post("/api/deleteFuncRule", {
+                        page_id:2,
                         prg_id: prg_id,
                         deleteData: [self.singleData]
                     }, function (result) {
@@ -197,10 +196,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
+                        self.singleData = {};
                         self.emitCloseGridDialog();
                     }
                     //新增完再新增另一筆
                     else if (saveAfterAction == "addOther") {
+                        self.singleData = {};
                         self.emitSwitchToCreateStatus();
                     }
 
@@ -364,7 +365,6 @@ vm = new Vue({
     // },
     compiled: function () {
 
-
     },
     ready: function () {
         this.initTmpCUD();
@@ -373,11 +373,8 @@ vm = new Vue({
         });
         this.loadSingleGridPageField();
         // $.getScript('/js/vue/vue_datepicker.js');
-
-
     },
     data: {
-
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
         deleteStatus: false,    //刪除狀態
@@ -399,6 +396,11 @@ vm = new Vue({
         modificableForData: true       //決定是否可以修改資料
     },
     watch: {
+        pageTwoFieldData:function(newObj, oldObj){
+            console.log("-----pageTwoFieldData -----");
+            console.log(newObj);
+            console.log(oldObj);
+        },
         editStatus: function (newVal) {
             if (newVal) {
                 vm.createStatus = false;
@@ -448,7 +450,7 @@ vm = new Vue({
                 var fieldData = result.fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
-console.log("-----------");
+                console.log("-----------");
                 console.log(vm.pageTwoFieldData);
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
@@ -556,6 +558,7 @@ console.log("-----------");
                     });
 
                     $.post("/api/deleteFuncRule", {
+                        page_id:1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCUD.deleteData
                     }, function (result) {
@@ -647,7 +650,7 @@ console.log("-----------");
                 title: "<div class='widget-header widget-header-small'><h4 class='smaller'></h4></div>",
                 title_html: true,
                 minWidth: 800,
-                maxHeight: 500,
+                maxHeight: 600,
                 resizable: true
             });
             dialog.dialog("open");

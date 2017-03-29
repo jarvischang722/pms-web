@@ -167,15 +167,13 @@
         watch: {
             usingPrgID: function (newPrgId, oldPrgId) {
 
-                if (!_.isEmpty(oldPrgId)) {
-                    if (!_.isEqual(oldPrgId, newPrgId)) {
-                        //TODO  do table unlock
-//                        vmMain.doTableUnLock()
-                        console.log(vmMain.usingPrgID);
-                        console.log(newPrgId);
-                    }
-
+                if (!_.isEmpty(oldPrgId) && !_.isEqual(newPrgId, oldPrgId)) {
+                    vmHub.doTableUnLock(oldPrgId, function (errorMsg, success) {
+                            console.log("解開lock:" +  oldPrgId);
+                            vmMain.isTableLocked = false;
+                    })
                 }
+
             }
         },
         methods: {
@@ -186,23 +184,28 @@
             loadSetUpPage: function (prg_id) {
                 //waitingDialog.show("Waiting...");
                 if (!_.isEmpty(this.usingPrgID) && _.isEqual(prg_id, this.usingPrgID)) {
-                    $("#prgContentDiv").load('/mainSetUp/' + prg_id);
+                    $("#prgContentDiv").empty();
+                    $("#prgContentDiv").load('/mainSetUp/' + prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
                 } else {
-//                    $("#prgContentDiv").load('/mainSetUp/' + prg_id);
-                    this.isTableLockProcessing = true;
-                    this.doTableLock(prg_id, function (errorMsg, success) {
-                        console.error(errorMsg);
-                        console.log(success);
-                        //alert(errorMsg);
-                       // waitingDialog.hide();
-                        vmMain.isTableLocked = false;
-                        vmMain.tableLockMsg = errorMsg;
-                        this.isTableLockProcessing = false;
-                        if (!vmMain.isTableLocked) {
-                            vmMain.usingPrgID = prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-                            $("#prgContentDiv").load('/mainSetUp/' + prg_id);
-                        }
-                    })
+                    $("#prgContentDiv").empty();
+                    $("#prgContentDiv").load('/mainSetUp/' + prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
+//                    this.isTableLockProcessing = true;
+//                    this.doTableLock(prg_id, function (errorMsg, success) {
+//                        if(success){
+//                            console.log("鎖上lock:" +  prg_id);
+//                        }else{
+//                            console.error("有人用")
+//                        }
+//                        //alert(errorMsg);
+//                        // waitingDialog.hide();
+//                        vmMain.isTableLocked = false;
+//                        vmMain.tableLockMsg = errorMsg;
+//                        this.isTableLockProcessing = false;
+//                        if (!vmMain.isTableLocked) {
+//                            vmMain.usingPrgID = prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+//                            $("#prgContentDiv").load('/mainSetUp/' + prg_id);
+//                        }
+//                    })
                 }
 
             },

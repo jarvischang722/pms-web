@@ -380,14 +380,21 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //DT 刪除資料規則檢查
     function chkDtDeleteRule(fields, callback) {
-        postData["page_id"] = page_id;
-        dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
-            if (err || !result.success) {
-                callback(err.errorMsg, result)
-            } else {
-                callback(null, result)
-            }
-        })
+
+        if(!_.isUndefined(postData["dt_deleteData"]) && postData["dt_deleteData"].length > 0 ){
+            postData["page_id"] = page_id;
+            postData["isDtData"] = true;
+            dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
+                if (err || !result.success) {
+                    callback(err.errorMsg, result)
+                } else {
+                    callback(null, result)
+                }
+            })
+        }else{
+            callback(null, true)
+        }
+
     }
 
     //組合DT 刪除檢查

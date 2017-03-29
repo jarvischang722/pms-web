@@ -18,14 +18,14 @@ var params = {
     hotel_cod:'99',
     athena_id: 1001002,
     rv2_typ:"1",
-    rv_typ :"1",
+    rv7_typ :"7",
     begin_dat:'2017/03/06',
     begin_dat1:'2017/03/06',
     contact1_cod:'04'
 }
 
 
-queryAgent.queryList("QRY_RVTYPE_RF_BY_ATHENA_ID",params,0,0,function (err,data) {
+queryAgent.query("CHK_ORDER_MN_RV_TYP_IS_EXIST",params,function (err,data) {
     console.error(err);
     console.log(data);
 });

@@ -234,8 +234,9 @@ exports.handleEditFuncRule = function (postData, session, callback) {
  * @return callback
  */
 exports.handleDeleteFuncRule = function (postData, session, callback) {
+    var isDtData = postData["isDtData"] || false;
     var prg_id = postData.prg_id;
-    var page_id = postData.page_id || 1;
+    var page_id = Number(postData.page_id || 1 ) ;
     mongoAgent.DatagridFunction.findOne({
         prg_id: prg_id,
         func_id: '0300',
@@ -245,14 +246,14 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
         if (!err && func) {
             func = func.toObject();
             if (!_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
-                var deleteData = [];
-                //page_id 1 主檔 , page_id 2: dt 資料
-                if (postData.page_id == 1) {
-                    deleteData = postData["deleteData"] || [];
-                } else {
+                var funcs = [];
+                var deleteData = postData["deleteData"] || [];
+
+                if (isDtData) {
                     deleteData = postData["dt_deleteData"] || [];
                 }
-                var funcs = [];
+
+
                 _.each(deleteData, function (d_data) {
                     postData.singleRowData = d_data;
                     funcs.push(
