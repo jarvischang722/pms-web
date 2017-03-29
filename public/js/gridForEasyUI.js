@@ -30,6 +30,8 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
+        }else if(fieldAttrObj.ui_type == "select"){
+            dataType = 'combobox';
         }
 
         var tmpFieldObj = {
@@ -78,6 +80,13 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
+        }else if(dataType == "combobox"){
+            tmpFieldObj.editor.type = dataType;
+            tmpFieldObj.editor.options.valueField = 'value';
+            tmpFieldObj.editor.options.textField = 'display';
+            tmpFieldObj.editor.options.data  =  fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.required = true;
+
         }
 
         return tmpFieldObj;

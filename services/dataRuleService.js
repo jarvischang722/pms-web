@@ -130,6 +130,22 @@ exports.getRvrmUploadStaList = function (params, callback) {
     callback(uploadOptions);
 };
 
+/**
+ * 取得住客類別群組對照檔使用與未使用
+ */
+exports.getGuestgrprfUseStaList = function (params,callback) {
+    var userSta = [
+        {
+            display: 'Y',
+            value: 'Y'
+        },
+        {
+            display: 'N',
+            value: 'N'
+        }
+    ];
+    callback(userSta);
+};
 
 /**
  * 使用者離開欄位時檢查

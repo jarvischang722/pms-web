@@ -21,8 +21,8 @@ var  UIDatagridFieldSchema = new Schema({
     ui_field_num_point :Number,    //小數點幾位
     grid_field_name: String,      //grid field name 名稱
     format_func_name: String,   　       //欄位格式檢查函式
-    rule_func_name: String   　          //欄位資料內容檢查函式
-
+    rule_func_name: String,  　          //欄位資料內容檢查函式
+    selectData: String          //comboBox在程式中取的到資料後塞入
 
 } ,{collection: "UIDatagridField"});
 
