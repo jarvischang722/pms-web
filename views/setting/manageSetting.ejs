@@ -161,7 +161,7 @@
             userInfo:<%- JSON.stringify(session.user || {}) %>
         },
         ready: function () {
-            console.log(this.userInfo);
+
             this.doFirstPrg();
         },
         watch: {
@@ -188,14 +188,17 @@
                 if (!_.isEmpty(this.usingPrgID) && _.isEqual(prg_id, this.usingPrgID)) {
                     $("#prgContentDiv").load('/mainSetUp/' + prg_id);
                 } else {
+//                    $("#prgContentDiv").load('/mainSetUp/' + prg_id);
                     this.isTableLockProcessing = true;
                     this.doTableLock(prg_id, function (errorMsg, success) {
-                        alert(errorMsg);
+                        console.error(errorMsg);
+                        console.log(success);
+                        //alert(errorMsg);
                        // waitingDialog.hide();
                         vmMain.isTableLocked = false;
                         vmMain.tableLockMsg = errorMsg;
                         this.isTableLockProcessing = false;
-                        if (true) {
+                        if (!vmMain.isTableLocked) {
                             vmMain.usingPrgID = prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
                             $("#prgContentDiv").load('/mainSetUp/' + prg_id);
                         }

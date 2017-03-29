@@ -245,7 +245,7 @@ exports.fetchPageCreateRowDefaultVal = function (userInfo, ui_field_name) {
  * @param postData {Object} : 前端導入的資料
  * @param callback {function} :
  */
-exports.handleSaveRowData = function (postData, session, callback) {
+exports.handleSaveSingleGridData = function (postData, session, callback) {
     var userInfo = session.user;
     var savaExecDatas = {};  //要打API 所有exec data
     var exec_seq = 1;        // 執行順序 從1開始
@@ -445,7 +445,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
             function (callback) {
                 _.each(createData, function (data) {
                     var tmpIns = {"function": "1", "table_name": mainTableName}; //1  新增
-                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+
 
                     _.each(Object.keys(data), function (objKey) {
                         var value = data[objKey];
@@ -454,6 +454,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
                         }
                         tmpIns[objKey] = value;
                     });
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
                 })
@@ -613,7 +614,8 @@ exports.handleSaveRowData = function (postData, session, callback) {
             "count": Object.keys(savaExecDatas).length,
             "exec_data": savaExecDatas
         };
-
+        // console.dir(apiParams);
+        // callback(null, {success:true});
         tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
             var err = null;
             if (apiErr) {

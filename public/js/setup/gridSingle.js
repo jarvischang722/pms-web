@@ -132,6 +132,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             var self = this;
             $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
                 if (q) {
+                    console.log("delete");
+                    console.log([self.singleData]);
                     //刪除前檢查
                     $.post("/api/deleteFuncRule", {
                         prg_id: prg_id,
@@ -446,6 +448,8 @@ vm = new Vue({
                 var fieldData = result.fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+console.log("-----------");
+                console.log(vm.pageTwoFieldData);
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
                     $("#dt_dg_DIV").show();
@@ -624,7 +628,9 @@ vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
-                    vmHub.$emit('showDtDataGrid', dtData);
+                    if(dtData.length>0){
+                        vmHub.$emit('showDtDataGrid', dtData);
+                    }
                     callback(true);
                 } else {
                     vm.singleData = {};
@@ -638,7 +644,7 @@ vm = new Vue({
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'>SingleGrid</h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'></h4></div>",
                 title_html: true,
                 minWidth: 800,
                 maxHeight: 500,
