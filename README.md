@@ -1,6 +1,6 @@
 ##Bacchus Project  From Athena Group
 
-1.Download package from npm
+### 1.Download package from npm
 
 ``` 
 $ npm install 
