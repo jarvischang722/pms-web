@@ -434,8 +434,9 @@ vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+            waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
-                console.log(result);
+                waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
@@ -687,19 +688,9 @@ vm = new Vue({
                     "ui_field_name": field,
                     "ui_type": ui_type,
                     "col_seq": fIdx,
-                    "width": currentColumOption.width,
-                    "visiable": "Y",
-                    "ui_field_length": currentColumOption.ui_field_length,
-                    "ui_field_num_point": currentColumOption.ui_field_num_point,
-                    "modificable": currentColumOption.modificable,
-                    "requirable": currentColumOption.requirable,
-                    "keyable": currentColumOption.keyable,
-                    "format_func_name": currentColumOption.format_func_name,
-                    "rule_func_name": currentColumOption.rule_func_name,
-                    "grid_field_name": currentColumOption.grid_field_name,
-                    "multi_lang_table": currentColumOption.multi_lang_table
+                    "visiable": "Y"
                 };
-
+                columnOption  = _.extend(columnOption,currentColumOption)
                 saveField.push(columnOption);
 
             });
