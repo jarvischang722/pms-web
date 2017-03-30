@@ -52,7 +52,7 @@ exports.singlePageRowDataQuery = function (req, res) {
  * singleGrid儲存新增修改刪除
  */
 exports.saveGridSingleData = function (req, res) {
-    singleGridSVC.handleSaveRowData(req.body,req.session,  function (errorMsg, result) {
+    singleGridSVC.handleSaveSingleGridData(req.body,req.session,  function (errorMsg, result) {
         res.json({success: result.success, errorMsg: errorMsg});
     })
 };

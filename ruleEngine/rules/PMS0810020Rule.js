@@ -1,6 +1,6 @@
 /**
- * Created by jun on 2017/3/22.
- * 房間小類設定檔規則
+ * Created by Jun on 2017/3/30.
+ * 房間小類對照檔
  */
 var _ = require("underscore");
 var moment = require("moment");

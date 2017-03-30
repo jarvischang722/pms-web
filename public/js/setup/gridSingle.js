@@ -134,6 +134,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 if (q) {
                     //刪除前檢查
                     $.post("/api/deleteFuncRule", {
+                        page_id:2,
                         prg_id: prg_id,
                         deleteData: [self.singleData]
                     }, function (result) {
@@ -195,10 +196,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
+                        self.singleData = {};
                         self.emitCloseGridDialog();
                     }
                     //新增完再新增另一筆
                     else if (saveAfterAction == "addOther") {
+                        self.singleData = {};
                         self.emitSwitchToCreateStatus();
                     }
 
@@ -362,7 +365,6 @@ vm = new Vue({
     // },
     compiled: function () {
 
-
     },
     ready: function () {
         this.initTmpCUD();
@@ -371,11 +373,8 @@ vm = new Vue({
         });
         this.loadSingleGridPageField();
         // $.getScript('/js/vue/vue_datepicker.js');
-
-
     },
     data: {
-
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
         deleteStatus: false,    //刪除狀態
@@ -397,6 +396,11 @@ vm = new Vue({
         modificableForData: true       //決定是否可以修改資料
     },
     watch: {
+        pageTwoFieldData:function(newObj, oldObj){
+            console.log("-----pageTwoFieldData -----");
+            console.log(newObj);
+            console.log(oldObj);
+        },
         editStatus: function (newVal) {
             if (newVal) {
                 vm.createStatus = false;
@@ -430,8 +434,9 @@ vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+            waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
-                console.log(result);
+                waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
@@ -446,6 +451,8 @@ vm = new Vue({
                 var fieldData = result.fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+                console.log("-----------");
+                console.log(vm.pageTwoFieldData);
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
                     $("#dt_dg_DIV").show();
@@ -552,6 +559,7 @@ vm = new Vue({
                     });
 
                     $.post("/api/deleteFuncRule", {
+                        page_id:1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCUD.deleteData
                     }, function (result) {
@@ -624,7 +632,9 @@ vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
-                    vmHub.$emit('showDtDataGrid', dtData);
+                    if(dtData.length>0){
+                        vmHub.$emit('showDtDataGrid', dtData);
+                    }
                     callback(true);
                 } else {
                     vm.singleData = {};
@@ -638,10 +648,10 @@ vm = new Vue({
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'>SingleGrid</h4></div>",
+                title: "<div class='widget-header widget-header-small'><h4 class='smaller'></h4></div>",
                 title_html: true,
                 minWidth: 800,
-                maxHeight: 500,
+                maxHeight: 600,
                 resizable: true
             });
             dialog.dialog("open");
@@ -678,19 +688,9 @@ vm = new Vue({
                     "ui_field_name": field,
                     "ui_type": ui_type,
                     "col_seq": fIdx,
-                    "width": currentColumOption.width,
-                    "visiable": "Y",
-                    "ui_field_length": currentColumOption.ui_field_length,
-                    "ui_field_num_point": currentColumOption.ui_field_num_point,
-                    "modificable": currentColumOption.modificable,
-                    "requirable": currentColumOption.requirable,
-                    "keyable": currentColumOption.keyable,
-                    "format_func_name": currentColumOption.format_func_name,
-                    "rule_func_name": currentColumOption.rule_func_name,
-                    "grid_field_name": currentColumOption.grid_field_name,
-                    "multi_lang_table": currentColumOption.multi_lang_table
+                    "visiable": "Y"
                 };
-
+                columnOption  = _.extend(columnOption,currentColumOption)
                 saveField.push(columnOption);
 
             });

@@ -37,6 +37,7 @@ var EZfieldClass = {
         var tmpFieldObj = {
             field: fieldAttrObj.ui_field_name.toLowerCase(),
             title: fieldAttrObj.ui_display_name,
+            page_id: fieldAttrObj.page_id,
             width: fieldAttrObj.width,
             sortable: true
         };

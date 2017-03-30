@@ -201,18 +201,23 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                                 prg_id: prg_id,
                                 ui_field_name: field.ui_field_name
                             }).exec(function (err, selRow) {
-                                if (selRow) {
-                                    selRow = selRow.toObject();
-                                }
-                                fieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
-                                fieldData[fIdx].referiable = selRow.referiable || "N";
-                                fieldData[fIdx].defaultVal = selRow.defaultVal || "";
                                 fieldData[fIdx].selectData = [];
+                                if (selRow) {
+                                    selRow = selRowx.toObject();
+                                    fieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                    fieldData[fIdx].referiable = selRow.referiable || "N";
+                                    fieldData[fIdx].defaultVal = selRow.defaultVal || "";
+
+
+
                                 dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
                                     fieldData[fIdx].selectData = selectData;
 
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
+                                }else{
+                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                }
                             })
                         }
                     )

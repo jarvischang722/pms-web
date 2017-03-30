@@ -20,6 +20,7 @@ require("./models/mongoose/UIDatagridField");
 require("./models/mongoose/UI_PageField");
 require("./models/mongoose/UI_Type_Grid");
 require("./models/mongoose/UI_Type_Select");
+require("./models/mongoose/TemplateRf");
 require("./models/mongoose/TemplateGridSingle");
 require("./models/mongoose/PageFunction");
 
@@ -29,5 +30,6 @@ exports.UIDatagridField = mongoose.model("UIDatagridField");
 exports.UI_PageField = mongoose.model("UI_PageField");
 exports.UI_Type_Grid = mongoose.model("UI_Type_Grid");
 exports.UI_Type_Select = mongoose.model("UI_Type_Select");
+exports.TemplateRf = mongoose.model("TemplateRf");
 exports.TemplateGridSingle = mongoose.model("TemplateGridSingle");
 exports.PageFunction = mongoose.model("PageFunction");
