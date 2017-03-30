@@ -86,6 +86,11 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data  =  fieldAttrObj.selectData;
             tmpFieldObj.editor.options.required = true;
+            tmpFieldObj.editor.options.onChange = function (newValue,oldValue) {
+                alert(newValue + "," + oldValue);
+
+               // $.post('/api/chkFieldRule',)
+            }
 
         }
 

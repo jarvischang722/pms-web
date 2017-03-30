@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810090']-->
+    <dao name="GET_GUEST_MN.GUEST_TYP_COUNT">
+        <statement><![CDATA[
+            select count(*) as guest_count
+             from guest_mn
+             where athena_id = ? and hotel_cod = ? and guest_typ = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">guest_typ</parameter>
+    </dao>
+</root>

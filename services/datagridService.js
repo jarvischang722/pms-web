@@ -158,7 +158,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
         },
         // 3)
         function (gridInfo, callback) {
-            queryAgent.queryList(gridInfo.rule_func_name, params, 0, 0, function (err, data) {
+            queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                 dataGridRows = data;
                 callback(err, dataGridRows)
             })

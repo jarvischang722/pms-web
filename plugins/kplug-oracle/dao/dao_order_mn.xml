@@ -40,4 +40,17 @@
         <statement test="_v(param.rv10_typ)"><![CDATA[and rv10_typ = :rv_typ ]]></statement>
         <parameter type="string" kind="3">rv_typ</parameter>
     </dao>
+
+    <!-- [prg_id: PMS0810090 ]  -->
+    <dao name="GET_ORDER_MN.GUEST_TYP_COUNT">
+        <statement><![CDATA[
+       select count(*)  as guest_count
+       from order_mn
+        where athena_id = ? and hotel_cod = ? and guest_typ = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">guest_typ</parameter>
+    </dao>
 </root>
