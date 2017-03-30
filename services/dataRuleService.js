@@ -148,6 +148,23 @@ exports.getGuestgrprfUseStaList = function (params,callback) {
 };
 
 /**
+ * 取得訂房卡來員群組設定對照檔使用與未使用(與住客類別群組對照檔一樣)
+ */
+exports.getSourcegrprfUseStaList = function (params,callback) {
+    var userSta = [
+        {
+            display: 'Y',
+            value: 'Y'
+        },
+        {
+            display: 'N',
+            value: 'N'
+        }
+    ];
+    callback(userSta);
+};
+
+/**
  * 使用者離開欄位時檢查
  * @param postData
  * @param session

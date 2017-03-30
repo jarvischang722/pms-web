@@ -5,33 +5,36 @@
 
 var _ = require("underscore");
 var moment = require("moment");
-var async = require("async");
+//var async = require("async");
 var queryAgent = require('../../plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./commonRule");
+//var commandRules = require("./commonRule");
 var ReturnClass = require("../returnClass");
 var ErrorClass = require("../errorClass");
 
 module.exports ={
-    chkGuestgrprfIsExistGuestrf : function (postData,session,callback) {
+    CHK_GUEST_GRP_RF_ISEXIST_GUESTRF : function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
             athena_id : session.user.athena_id,
-            guest_grp : postData.gridData.guest_grp
+            guest_grp : postData.singleRowData.guest_grp
         };
 
-        if(!_.isEmpty(postData.gridData.guest_grp.trim())) {
-            queryAgent.query("chkGuestgrprfIsExistGuestrf",params,function (err,guestData) {
+        if(!_.isEmpty(postData.singleRowData.guest_grp.trim())) {
+            queryAgent.query("CHK_GUEST_GRP_RF_ISEXIST_GUESTRF",params,function (err,guestData) {
                 if(!err){
                     if(guestData.guest_count > 0){
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         lo_error.errorMsg = "住客類別設定有使用此代號時，不可刪除";
                         lo_error.errorCod="1111";
+                    }else {
+                        callback(lo_error,lo_result);
                     }
-                    callback(lo_error,lo_result);
+                }else
+                {
+                    callback(err,lo_result);
                 }
-                //callback(error,result);
             })
         }
     }

@@ -16,5 +16,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_grp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_source_grp_rf.xml"/>
     </sql-sources>
 </struts-config>

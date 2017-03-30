@@ -131,6 +131,15 @@
 			"ins_usr" : "Added By",
 			"upd_dat" : "Modified Date",
 			"upd_usr" : "Modified By"
+		},
+		"PMS0810100" :{
+			"source_grp" : "Source Group",
+			"source_grp_nam" : "Group Name",
+			"use_sta" : "In Use",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",
