@@ -28,6 +28,7 @@ module.exports ={
                         lo_result.success = false;
                         lo_error.errorMsg = "住客類別設定有使用此代號時，不可刪除";
                         lo_error.errorCod="1111";
+                        callback(lo_error,lo_result);
                     }else {
                         callback(lo_error,lo_result);
                     }

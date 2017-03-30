@@ -12,7 +12,7 @@
     <!-- 訂房來源對照檔有使用此代號時，不可刪除-->
     <dao name="CHK_SOURCE_GRP_RF_IS_EXIST_SOURCE_RF">
         <statement><![CDATA[
-          select count(*) as  sourceCount from source_rf where  athena_id = ?  and  source_grp = ?
+          select count(*) as  source_count from source_rf where  athena_id = ?  and  source_grp = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
