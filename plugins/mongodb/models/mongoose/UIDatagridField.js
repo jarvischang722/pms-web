@@ -8,6 +8,7 @@ var  UIDatagridFieldSchema = new Schema({
     athena_id : String,    //athena_id
     user_id :String,       //使用者
     prg_id :String,        //程式編號
+    page_id :Number,        //PageID
     ui_field_name :String, //欄位KEY值
     ui_type :String,       //顯示類型
     col_seq :String,       //欄位順序
