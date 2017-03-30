@@ -234,6 +234,16 @@ h3 {
   margin-top: 1px;
 }
 
+/* line 138, ../sass/editDefault/_editBootstrap.sass */
+.dataGrid-toolBar01 {
+  padding: 10px 5px;
+}
+/* line 140, ../sass/editDefault/_editBootstrap.sass */
+.dataGrid-toolBar01 a {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 /*-------- login.html -------- */
 /* line 3, ../sass/_login.sass */
 .login-bg {
@@ -709,22 +719,83 @@ a {
 /* line 214, ../sass/_bacchusMain.sass */
 #singleGridDialog {
   position: relative;
+  margin-top: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-/* line 216, ../sass/_bacchusMain.sass */
+/* line 219, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleRelative {
   position: relative;
 }
-/* line 218, ../sass/_bacchusMain.sass */
+/* line 221, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleEditStatus {
   padding-left: 5px;
   position: fixed;
 }
-/* line 223, ../sass/_bacchusMain.sass */
+/* line 226, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleEditStatus .btn-defaultWidth {
   display: block;
   margin-top: 5px;
   max-width: 85px;
   right: 10px;
+}
+/* line 235, ../sass/_bacchusMain.sass */
+#singleGridDialog .singleGridContent {
+  height: 300px;
+  overflow: auto;
+}
+
+/* line 245, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item {
+  margin: 10px auto;
+  vertical-align: middle;
+}
+/* line 248, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item label, .reserveCheckMail .block-item .space, .reserveCheckMail .block-item input, .reserveCheckMail .block-item button, .reserveCheckMail .block-item textarea {
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 251, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item label {
+  text-align: right;
+  vertical-align: middle;
+  position: relative;
+  padding: 0;
+}
+/* line 257, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .space {
+  width: 15px;
+  text-align: center;
+  min-width: 15px;
+}
+/* line 261, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item input {
+  height: 30px;
+}
+/* line 263, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item button {
+  margin-left: 10px;
+}
+/* line 265, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .block-item-content {
+  position: relative;
+}
+/* line 267, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .block-item-content .btnCheck {
+  position: absolute;
+  top: 0;
+  margin-left: 14px;
+}
+/* line 271, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .relative {
+  position: relative;
+  display: inline-block;
+}
+/* line 274, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .relative .tip {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
 }
 
 /*------  共用區public ------ */
