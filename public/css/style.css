@@ -839,6 +839,11 @@ a {
   border: 1px solid #ffd530;
 }
 
+/* line 298, ../sass/_bacchusMain.sass */
+.spectrumColor {
+  padding: 0 !important;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
