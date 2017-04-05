@@ -751,7 +751,7 @@ a {
   vertical-align: middle;
 }
 /* line 248, ../sass/_bacchusMain.sass */
-.reserveCheckMail .block-item label, .reserveCheckMail .block-item .space, .reserveCheckMail .block-item input, .reserveCheckMail .block-item button, .reserveCheckMail .block-item textarea {
+.reserveCheckMail .block-item label, .reserveCheckMail .block-item .spaceColon, .reserveCheckMail .block-item input, .reserveCheckMail .block-item button, .reserveCheckMail .block-item textarea {
   display: inline-block;
   vertical-align: middle;
 }
@@ -763,7 +763,7 @@ a {
   padding: 0;
 }
 /* line 257, ../sass/_bacchusMain.sass */
-.reserveCheckMail .block-item .space {
+.reserveCheckMail .block-item .spaceColon {
   width: 15px;
   text-align: center;
   min-width: 15px;
@@ -796,6 +796,34 @@ a {
   position: absolute;
   right: 0;
   bottom: -20px;
+  font-size: 0.85em;
+  color: #ff625f;
+}
+/* line 281, ../sass/_bacchusMain.sass */
+.reserveCheckMail .tipWall {
+  border: 1px solid #ff625f;
+  color: #ff625f;
+  padding: 10px;
+}
+/* line 285, ../sass/_bacchusMain.sass */
+.reserveCheckMail .tipWall p, .reserveCheckMail .tipWall li {
+  line-height: 22px;
+}
+/* line 287, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice {
+  margin: 10px auto;
+}
+/* line 289, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice ul {
+  display: inline;
+}
+/* line 291, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice ul li {
+  display: inline;
+  margin: 0;
+  padding: 5px 10px;
+  background: #feffac;
+  border: 1px solid #ffd530;
 }
 
 /*------  共用區public ------ */

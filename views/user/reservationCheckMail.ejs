@@ -3,7 +3,7 @@
 <%- include ../common/head %>
 <%- include ../common/importFiles %>
 
-
+// todo color picker
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
@@ -65,59 +65,116 @@
                             <div class="col-xs-12">
                                 <div class="tabbable tabs-left">
                                     <ul class="nav nav-tabs" id="myTab3">
-                                        <li class="active">
-                                            <a data-toggle="tab" href="#controlReservationTab01">
+                                        <li>
+                                            <a data-toggle="tab" href="#reserveCheckMailTab01">
                                                 訂房確認書Email
                                             </a>
                                         </li>
 
-                                        <li>
-                                            <a data-toggle="tab" href="#controlReservationTab02">
-                                                房間小類
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a data-toggle="tab" href="#controlReservationTab03">
-                                                房間小類(查詢)
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a data-toggle="tab" href="#controlReservationTab04">
-                                                訂房房客(住客)類別
+                                        <li class="active">
+                                            <a data-toggle="tab" href="#holidayCateSetTab02">
+                                                假日類別設定
                                             </a>
                                         </li>
 
                                     </ul>
 
                                     <div class="tab-content">
-                                        <div id="controlReservationTab01" class="tab-pane in active">
+                                        <div id="reserveCheckMailTab01" class="tab-pane">
                                             <div class="col-xs-12">
                                                 <div class="col-sm-11 col-xs-11">
                                                     <div class="row">
                                                         <div class="reserveCheckMail">
                                                             <div class="block-item clearfix">
                                                                 <label style="width: 75px;">格式名稱</label>
-                                                                <span class="space"></span>
-                                                                <input class="input-large" placeholder="訂房確認書-訂房公司" />
+                                                                <span class="spaceColon">：</span>
+                                                                <input class="input-xxlarge" placeholder="訂房確認書-訂房公司" />
                                                             </div>
                                                             <div class="block-item clearfix">
                                                                 <label style="width: 75px;">主旨</label>
-                                                                <span class="space"></span>
-                                                                <input class="input-large"  placeholder="[ 訂房公司 ]訂房確認書" />
+                                                                <span class="spaceColon">：</span>
+                                                                <input class="input-xxlarge"  placeholder="[ 訂房公司 ]訂房確認書" />
                                                                 <button type="button" class="btn btn-danger btn-white btn-sm">檢查</button>
                                                             </div>
                                                             <div class="block-item clearfix">
                                                                 <div class="block-item-content">
                                                                     <label style="width: 75px;">內容</label>
-                                                                    <span class="space">：</span>
+                                                                    <span class="spaceColon">：</span>
                                                                     <div class="relative">
-                                                                        <textarea class="input-large" rows="5"></textarea>
+                                                                        <textarea class="input-xxlarge" rows="5"></textarea>
                                                                         <p class="tip">請用ctrl+Enter換行</p>
                                                                     </div>
                                                                     <button type="button" class="btn btn-danger btn-white btn-sm btnCheck">檢查</button>
                                                                 </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+
+                                                            <div class="space-12"></div>
+                                                            <div class="col-xs-12">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6">
+                                                                        <div class="row">
+                                                                            <div class="block-item clearfix">
+                                                                                <label style="width: 75px;">新增者</label>
+                                                                                <span class="spaceColon">：</span>
+                                                                                <input class="input-large" placeholder="cio" disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <div class="row">
+                                                                            <div class="block-item clearfix">
+                                                                                <label style="width: 75px;">新增日</label>
+                                                                                <span class="spaceColon">：</span>
+                                                                                <input class="input-large" placeholder="2012/04/19" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            <div class="col-xs-12">
+                                                                <div class="row">
+                                                                    <div class="col-xs-6">
+                                                                        <div class="row">
+                                                                            <div class="block-item clearfix">
+                                                                                <label style="width: 75px;">最後異動者</label>
+                                                                                <span class="spaceColon">：</span>
+                                                                                <input class="input-large" placeholder="cio" disabled/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-6">
+                                                                        <div class="row">
+                                                                            <div class="block-item clearfix">
+                                                                                <label style="width: 75px;">最後異動日</label>
+                                                                                <span class="spaceColon">：</span>
+                                                                                <input class="input-large" placeholder="2012/04/19" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+
+                                                            <div class="space-24"></div>
+                                                            <div class="tipWall">
+                                                                <p>代換字設定說明：</p>
+                                                                <ul>
+                                                                    <li>1.將游標移至設定主旨或內容中需指定代換字位置，點選下方換字按鈕指定代換欄位資料</li>
+                                                                    <li>2.代換字中不可在設定代換字</li>
+                                                                    <li>3.點選檢查按鈕，可檢查設定之主旨或內容是否錯誤</li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="changeChoice">
+                                                                <ul>
+                                                                    <li>訂房卡號</li>
+                                                                    <li>聯絡人</li>
+                                                                    <li>Full Name</li>
+                                                                    <li>公司名稱</li>
+                                                                    <li>訂購公司</li>
+                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -131,7 +188,7 @@
                                             <div class="clearfix"></div>
                                         </div>
 
-                                        <div id="controlReservationTab02" class="tab-pane">
+                                        <div id="holidayCateSetTab02" class="tab-pane in active">
 
                                             <div class="col-xs-12">
                                                 <div class="col-sm-11 col-xs-11">
@@ -212,197 +269,25 @@
                                                             </div> <!-- /.search-co -->
 
                                                         </div> <!-- /.row  search-content-->
+                                                        <table class="easyui-datagrid" title="Basic DataGrid" style="width:700px;height:250px"
+                                                               data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
+                                                            <thead>
+                                                            <tr>
+                                                                <th data-options="field:'itemid',width:80">管別</th>
+                                                                <th data-options="field:'productid',width:100">Product</th>
+                                                                <th data-options="field:'listprice',width:80,align:'right'">日期類別</th>
+                                                                <th data-options="field:'unitcost',width:80,align:'right'">類別名稱</th>
+                                                                <th data-options="field:'displayColor',width:80">顯示的顏色</th>
+                                                                <th data-options="field:'status',width:80,align:'center'">輸入者</th>
 
-                                                        <div class="flexTable">
-                                                            <table class="fancyTable myTable01" cellpadding="0" cellspacing="0">
-                                                                <thead>
-                                                                <tr>
-                                                                    <!--<th></th>-->
-                                                                    <th>
-                                                                        <span>館別</span>
-                                                                    </th>
-                                                                    <th>
-                                                                        <span>房種</span>
-                                                                    </th>
-                                                                    <th>
-                                                                        <span>房種名稱</span>
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr class="pointer settingDataOpen">
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <!--<td></td>-->
-                                                                    <td>
-                                                                        珊朵新拉大酒店
-                                                                    </td>
-                                                                    <td>
-                                                                        0001
-                                                                    </td>
-                                                                    <td>
-                                                                        Rate入轉
-                                                                    </td>
-                                                                </tr>
+                                                                <th data-options="field:'enterDate',width:80,align:'center'">輸入日</th>
+                                                                <th data-options="field:'lastEditPerson',width:80,align:'center'">最後異動者</th>
+                                                                <th data-options="field:'lastEditDate',width:80,align:'center'">最後異動日</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
 
-                                                                </tbody>
-                                                            </table>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
 
@@ -462,16 +347,4 @@
 
 </body>
 
-<script type="text/javascript">
-//   treeView checkbox js
-    function getChecked(){
-        var nodes = $('#tt').tree('getChecked');
-        var s = '';
-        for(var i=0; i<nodes.length; i++){
-            if (s != '') s += ',';
-            s += nodes[i].text;
-        }
-        alert(s);
-    }
-</script>
 </html>
