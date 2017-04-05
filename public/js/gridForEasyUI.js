@@ -90,9 +90,21 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.onChange = function (newValue,oldValue) {
                 alert(newValue + "," + oldValue);
 
-               // $.post('/api/chkFieldRule',)
-            }
+                if(fieldAttrObj.rule_func_name != "") {
+                    var postData ={
+                        prg_id: fieldAttrObj.prg_id,
+                        rule_func_name:fieldAttrObj.rule_func_name,
+                        validateField:fieldAttrObj.ui_field_name,
+                        rowData : JSON.parse( JSON.stringify($('#prg_dg').datagrid('getSelections')))
+                    }
+                    alert(postData.rowData);
+                    //alert(newValue +","+oldValue + "," +fieldAttrObj.prg_id+ "," +fieldAttrObj.rule_func_name+ "," + fieldAttrObj.ui_field_name);
+                    //$.post('/api/chkFieldRule',)
+                }
 
+               // $.post('/api/chkFieldRule',)
+
+            }
         }
 
         return tmpFieldObj;

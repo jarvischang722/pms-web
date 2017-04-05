@@ -203,7 +203,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                             }).exec(function (err, selRow) {
                                 fieldData[fIdx].selectData = [];
                                 if (selRow) {
-                                    selRow = selRowx.toObject();
+                                    selRow = selRow.toObject();
                                     fieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                     fieldData[fIdx].referiable = selRow.referiable || "N";
                                     fieldData[fIdx].defaultVal = selRow.defaultVal || "";
