@@ -131,19 +131,9 @@
                         "ui_field_name": field,
                         "ui_type": ui_type,
                         "col_seq": fIdx,
-                        "width": currentColumOption.width,
-                        "visiable": "Y",
-                        "ui_field_length": currentColumOption.ui_field_length,
-                        "ui_field_num_point": currentColumOption.ui_field_num_point,
-                        "modificable": currentColumOption.modificable,
-                        "requirable": currentColumOption.requirable,
-                        "keyable": currentColumOption.keyable,
-                        "format_func_name": currentColumOption.format_func_name,
-                        "rule_func_name": currentColumOption.rule_func_name,
-                        "grid_field_name": currentColumOption.grid_field_name,
-                        "multi_lang_table": currentColumOption.multi_lang_table,
+                        "visiable": "Y"
                     };
-
+                    columnOption  = _.extend(columnOption,currentColumOption)
                     saveField.push(columnOption);
 
                 });
@@ -155,7 +145,7 @@
             },
             //抓取顯示資料
             fetchDataGridData: function () {
-                waitingDialog.show();
+               // waitingDialog.show();
                 $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                     waitingDialog.hide();
                     vm.showDataGrid(result.fieldData, result.dataGridRows)
@@ -289,7 +279,7 @@
                         updateData: vm.tmpCUD.updateData
                     }
                     vm.saving = true;
-                    waitingDialog.show('Please wait...');
+                    waitingDialog.show('Saving...');
                     $.post("/api/saveDataRow", params, function (result) {
                         vm.saving = false;
                         waitingDialog.hide();

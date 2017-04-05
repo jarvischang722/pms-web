@@ -4,11 +4,11 @@
 
 <script type="text/x-template" id="sigleGridDialogTmp">
     <!--<div>Time:{{testTime}}</div>-->
-    <!--<mz-datepicker :time.sync="testTime" format="yyyy/MM/dd"></mz-datepicker>-->
-    <div id="singleGridDialog" v-show="false">
+    <!--<mz-datepicker :time.sync="testTime"  format="yyyy/MM/dd"></mz-datepicker>-->
+    <div id="singleGridDialog" style="margin-top:20px" v-show="false">
         <div class="col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-sm-12 col-xs-12 singleGridContent">
+                <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
                     <form id="singleDataForm" method="post">
                         <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
@@ -20,7 +20,8 @@
                                         {{field.ui_display_name}}
                                         <!--{{field.ui_field_name}}-->
                                     </label>
-                                     <span v-if="field.visiable == 'Y'" style="width: 15px; text-align: center; display: inline-block; min-width: 15px;">:</span>
+                                    <span v-if="field.visiable == 'Y'"
+                                          style="width: 15px; text-align: center; display: inline-block; min-width: 15px;">:</span>
                                     <input v-model="singleData[field.ui_field_name]"
                                            @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
                                            v-if="field.visiable == 'Y' &&
@@ -33,8 +34,10 @@
                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :required="field.requirable == 'Y'"
+                                           :min="0"
                                            :maxlength="field.ui_field_length"
                                            :readonly="field.modificable == 'N'">
+
 
                                     <input v-model="singleData[field.ui_field_name]"
                                            @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
@@ -64,32 +67,27 @@
                                            v-model="singleData[field.ui_field_name]"
                                            v-if="field.visiable == 'N'"/>
 
-
                                 </div>
                             </div>
 
                             <!-- DT 的datagrid -->
                             <div id="dt_dg_DIV" style="display: none;">
-                                <table class="easyui-datagrid" id="dt_dg" title="DT datagrid"
+                                <table class="easyui-datagrid" id="dt_dg"
                                        style="width:100%;height:auto;">
                                 </table>
 
-                                <div id="tb" style="height:auto;" class="dataGrid-toolBar01">
+                                <div id="tb" style="height:auto">
 
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-add',plain:true"
                                        @click="appendDtRow">
-                                        <!--<img src="/css/easyUI/icons/edit_add.png" width="20" height="auto">-->
-                                        <i class="fa fa-plus green"></i>
-                                        Add
+                                        <img src="/css/easyUI/icons/edit_add.png" width="20" height="auto">Add
                                     </a>
 
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-remove',plain:true"
                                        @click="removeDtRow">
-                                        <!--<img src="/css/easyUI/icons/edit_remove.png" width="20" height="auto">-->
-                                        <i class="fa fa-minus red"></i>
-                                        Delete
+                                        <img src="/css/easyUI/icons/edit_remove.png" width="20" height="auto">Delete
                                     </a>
                                 </div>
                             </div>
@@ -131,29 +129,25 @@
                 <div class="clearfix"></div>
                 <hr>
                 <div class="col-sm-12 col-xs-12 center">
-                    <div class="singleRelative">
-                        <div class="singleBtnBottom">
-                            <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
-                                    @click="doSaveGrid('addOther')">
-                                Add after save
-                            </button>
-                            <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                                    class="btn btn-primary" @click="doSaveGrid('closeDialog')">
-                                Leave after save
-                            </button>
-                            <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
-                                    @click="doSaveGrid('')">Save
-                            </button>
-                            <button class="btn btn-warning" @click="emitCloseGridDialog">
-                                Leave
-                            </button>
-                        </div>
-                    </div>
+                    <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
+                            @click="doSaveGrid('addOther')">
+                        Add after save
+                    </button>
+                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary" @click="doSaveGrid('closeDialog')">
+                        Leave after save
+                    </button>
+                    <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
+                            @click="doSaveGrid('')">Save
+                    </button>
+                    <button class="btn btn-warning" @click="emitCloseGridDialog">
+                        Leave
+                    </button>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
         <div class="clearfix"></div>
+
     </div>
     <!-- /.settingSingleDialog -->
 </script>

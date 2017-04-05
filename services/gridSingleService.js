@@ -245,7 +245,7 @@ exports.fetchPageCreateRowDefaultVal = function (userInfo, ui_field_name) {
  * @param postData {Object} : 前端導入的資料
  * @param callback {function} :
  */
-exports.handleSaveRowData = function (postData, session, callback) {
+exports.handleSaveSingleGridData = function (postData, session, callback) {
     var userInfo = session.user;
     var savaExecDatas = {};  //要打API 所有exec data
     var exec_seq = 1;        // 執行順序 從1開始
@@ -262,6 +262,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
     var dtTableName = "";      // DT Table name
     var la_keyFields = [];        // 主檔資料表pk
     var la_dtkeyFields = [];      // 明細資料表pk
+
     /** main process **/
     async.waterfall([
         getTableName,       //(1)撈取要異動的table name
@@ -285,7 +286,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
     //撈取要異動的table name
     function getTableName(callback) {
         //抓取對應的table
-        mongoAgent.TemplateGridSingle.findOne({
+        mongoAgent.TemplateRf.findOne({
             page_id: page_id,
             prg_id: prg_id,
             template_id: "gridsingle"
@@ -380,14 +381,21 @@ exports.handleSaveRowData = function (postData, session, callback) {
 
     //DT 刪除資料規則檢查
     function chkDtDeleteRule(fields, callback) {
-        postData["page_id"] = page_id;
-        dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
-            if (err || !result.success) {
-                callback(err.errorMsg, result)
-            } else {
-                callback(null, result)
-            }
-        })
+
+        if(!_.isUndefined(postData["dt_deleteData"]) && postData["dt_deleteData"].length > 0 ){
+            postData["page_id"] = page_id;
+            postData["isDtData"] = true;
+            dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
+                if (err || !result.success) {
+                    callback(err.errorMsg, result)
+                } else {
+                    callback(null, result)
+                }
+            })
+        }else{
+            callback(null, true)
+        }
+
     }
 
     //組合DT 刪除檢查
@@ -445,7 +453,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
             function (callback) {
                 _.each(createData, function (data) {
                     var tmpIns = {"function": "1", "table_name": mainTableName}; //1  新增
-                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+
 
                     _.each(Object.keys(data), function (objKey) {
                         var value = data[objKey];
@@ -454,6 +462,7 @@ exports.handleSaveRowData = function (postData, session, callback) {
                         }
                         tmpIns[objKey] = value;
                     });
+                    tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
                 })
@@ -475,7 +484,6 @@ exports.handleSaveRowData = function (postData, session, callback) {
                         }
 
                     });
-                    //TODO 測試中 暫時註解
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
                 })
@@ -613,7 +621,8 @@ exports.handleSaveRowData = function (postData, session, callback) {
             "count": Object.keys(savaExecDatas).length,
             "exec_data": savaExecDatas
         };
-
+        // console.dir(apiParams);
+        // callback(null, {success:true});
         tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
             var err = null;
             if (apiErr) {

@@ -161,21 +161,27 @@
             userInfo:<%- JSON.stringify(session.user || {}) %>
         },
         ready: function () {
-            console.log(this.userInfo);
+            //偵測離開頁面
+            $(window).on('beforeunload',function(){
+                if(!_.isEmpty(vmMain.usingPrgID)){
+                    return vmMain.doTableUnLock();
+                }
+
+            });
+
+
             this.doFirstPrg();
         },
         watch: {
             usingPrgID: function (newPrgId, oldPrgId) {
 
-                if (!_.isEmpty(oldPrgId)) {
-                    if (!_.isEqual(oldPrgId, newPrgId)) {
-                        //TODO  do table unlock
-//                        vmMain.doTableUnLock()
-                        console.log(vmMain.usingPrgID);
-                        console.log(newPrgId);
-                    }
+//                if (!_.isEmpty(oldPrgId) && !_.isEqual(newPrgId, oldPrgId)) {
+//                    vmHub.doTableUnLock(oldPrgId, function (errorMsg, success) {
+//                            console.log("解開lock:" +  oldPrgId);
+//                            vmMain.isTableLocked = false;
+//                    })
+//                }
 
-                }
             }
         },
         methods: {
@@ -183,22 +189,42 @@
                 this.loadSetUpPage('PMS0810010');
             },
             //讀取網頁程式頁面
-            loadSetUpPage: function (prg_id) {
-                //waitingDialog.show("Waiting...");
-                if (!_.isEmpty(this.usingPrgID) && _.isEqual(prg_id, this.usingPrgID)) {
-                    $("#prgContentDiv").load('/mainSetUp/' + prg_id);
+            loadSetUpPage: function (this_prg_id) {
+                waitingDialog.show("Loading...");
+
+                //判斷是否要Unlock
+                if(!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)){
+                    this.isTableLockProcessing = true;
+                    this.doTableUnLock( function (errorMsg, success) {
+                        this.isTableLockProcessing = false;
+                        console.log("解開lock:" +  this.usingPrgID);
+                        vmMain.isTableLocked = false;
+                    })
+                }
+
+                $("#prgContentDiv").empty();
+                if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
+
                 } else {
-                    $("#prgContentDiv").load('/mainSetUp/' + prg_id);
-//                     // not push
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
 //                    this.isTableLockProcessing = true;
-//                    this.doTableLock(prg_id, function (errorMsg, success) {
-//                        alert(errorMsg);
-//                       // waitingDialog.hide();
-//                        vmMain.isTableLocked = false;
+//                    this.doTableLock(this_prg_id, function (errorMsg, success) {
+//                        if(success){
+//                            console.log("鎖上lock:" +  this_prg_id);
+//                        }else{
+//                            console.error("有人用")
+//                        }
+//
+//                        vmMain.isTableLocked = !success;
 //                        vmMain.tableLockMsg = errorMsg;
 //                        this.isTableLockProcessing = false;
-//                        if (true) {
-//                            vmMain.usingPrgID = prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+//                        if (!vmMain.isTableLocked) {
+//                            vmMain.usingPrgID = this_prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+//                            $("#prgContentDiv").empty().load('/mainSetUp/' + this_prg_id);
+//                        }else{
+//                            vmMain.usingPrgID = "";
+//                            waitingDialog.hide();
 //                        }
 //                    })
                 }
@@ -211,8 +237,8 @@
                 })
             },
             //資料表解鎖
-            doTableUnLock: function (prg_id, callback) {
-                $.post("/api/dbTableUnlock", {prg_id: prg_id}, function (result) {
+            doTableUnLock: function (callback) {
+                $.post("/api/dbTableUnlock", {prg_id: vmMain.usingPrgID}, function (result) {
                     callback(result.errorMsg, result.success);
                 })
             }
