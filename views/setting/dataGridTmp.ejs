@@ -22,13 +22,13 @@
     }
 
 </style>
-<div id="DGApp" class="">
+<div id="DGApp" >
     <div class="col-xs-12" v-show="!isTableLock">
         <div class="col-sm-11 col-xs-11">
             <div class="row">
                 <div class="" style="padding: 0 10px 0 5px; box-sizing: border-box; margin-left: -15px;">
 
-                    <table id="prg_dg" 　>
+                    <table id="prg_dg" >
                         <thead>
                         <tr>
 
@@ -49,13 +49,9 @@
                     <ul>
                         <li>
                             <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="appendRow();"
+                                    @click="appendRow"
                                     role="button"><%= __("program")["PMS0810010"]["btn_insert"] %></button>
                         </li>
-                        <!--<li>-->
-                        <!--<button id="edit-btn" class="btn btn-primary btn-white btn-defaultWidth"-->
-                        <!--role="button"><%= __("program")["PMS0810010"]["btn_modify"] %></button>-->
-                        <!--</li>-->
                         <li>
                             <button id="remove-btn" :disabled="saving"
                                     class="btn btn-primary btn-white btn-defaultWidth"
@@ -80,9 +76,6 @@
 
     var socket = io.connect('/datagrid');
     var prg_id = '<%= prg_id %>';
-
-
-    var $prg_dg = $('#prg_dg');
     var vm = new Vue({
         el: '#DGApp',
         ready: function () {
@@ -110,10 +103,10 @@
             doSaveColumnFields: function () {
 
                 var saveField = [];
-                var allField = $prg_dg.datagrid("getColumnFields");
+                var allField = $('#prg_dg').datagrid("getColumnFields");
 
                 _.each(allField, function (field, fIdx) {
-                    var currentColumOption = $prg_dg.datagrid("getColumnOption", field);
+                    var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
                     var editType = currentColumOption.editor.type
                     var ui_type = "text";
                     if (editType == "textbox") {
@@ -156,8 +149,7 @@
                 var columnsData = EZfieldClass.combineFieldOption(fieldData);
 
                 var dgData = {total: dataGridRows.length, rows: dataGridRows};
-
-                $prg_dg.datagrid({
+                $('#prg_dg').datagrid({
                     columns: [columnsData],
                     remoteSort: false,
                     singleSelect: true,
@@ -169,7 +161,7 @@
                     onDropColumn: vm.doSaveColumnFields, //當移動順序欄位時
                     onResizeColumn: vm.doSaveColumnFields,  //當欄位時寬度異動時
                     onCheck: function () {
-                        var checkRows = $prg_dg.datagrid('getSelections');
+                        var checkRows = $('#prg_dg').datagrid('getSelections');
                         if (checkRows.length > 0) {
                             //CUDStatusClass.startDeleteMode();
                         }
@@ -187,16 +179,16 @@
 
                 if (vm.editIndex != index) {
                     if (this.endEditing()) {
-                        $prg_dg.datagrid('selectRow', index)
+                        $('#prg_dg').datagrid('selectRow', index)
                             .datagrid('beginEdit', index);
-                        var ed = $prg_dg.datagrid('getEditor', {index: index, field: field});
+                        var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
                         if (ed) {
                             ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                         }
                         vm.editIndex = index;
                     } else {
                         setTimeout(function () {
-                            $prg_dg.datagrid('selectRow', vm.editIndex);
+                            $('#prg_dg').datagrid('selectRow', vm.editIndex);
                         }, 0);
                     }
                 }
@@ -215,8 +207,8 @@
                 if (this.editIndex == undefined) {
                     return true
                 }
-                if ($prg_dg.datagrid('validateRow', this.editIndex)) {
-                    $prg_dg.datagrid('endEdit', this.editIndex);
+                if ($('#prg_dg').datagrid('validateRow', this.editIndex)) {
+                    $('#prg_dg').datagrid('endEdit', this.editIndex);
                     this.editIndex = undefined;
                     return true;
                 } else {
@@ -233,9 +225,9 @@
                         if (result.success) {
                             prgDefaultObj = result.prgDefaultObj;
                         }
-                        $prg_dg.datagrid('appendRow', prgDefaultObj);
-                        vm.editIndex = $prg_dg.datagrid('getRows').length - 1;
-                        $prg_dg.datagrid('selectRow', vm.editIndex)
+                        $('#prg_dg').datagrid('appendRow', prgDefaultObj);
+                        vm.editIndex = $('#prg_dg').datagrid('getRows').length - 1;
+                        $('#prg_dg').datagrid('selectRow', vm.editIndex)
                             .datagrid('beginEdit', vm.editIndex);
                     })
 
@@ -243,7 +235,7 @@
             },
             //刪除選定的Row
             removeRow: function removeRow() {
-                var delRow = $prg_dg.datagrid('getSelected');
+                var delRow = $('#prg_dg').datagrid('getSelected');
                 if (!delRow) {
                     alert("請選擇要刪除的資料");
                 }
@@ -254,10 +246,8 @@
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData
                 }, function (result) {
-
-                    console.log(result);
                     if(result.success){
-                        $prg_dg.datagrid('deleteRow', $prg_dg.datagrid('getRowIndex', delRow));
+                        $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
                     }else{
                         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                         vm.endEditing();
@@ -284,7 +274,7 @@
                         vm.saving = false;
                         waitingDialog.hide();
                         if (result.success) {
-                            $prg_dg.datagrid('acceptChanges');
+                            $('#prg_dg').datagrid('acceptChanges');
                             vm.initTmpCUD();
                             alert('save success!');
                         } else {
@@ -296,12 +286,12 @@
             },
             //回復
             reject: function () {
-                $prg_dg.datagrid('rejectChanges');
+                $('#prg_dg').datagrid('rejectChanges');
                 this.editIndex = undefined;
             },
             //獲取改變的Row
             getChanges: function () {
-                var rows = $prg_dg.datagrid('getChanges');
+                var rows = $('#prg_dg').datagrid('getChanges');
                 //alert(rows.length + ' rows xare changed!');
             }
 
