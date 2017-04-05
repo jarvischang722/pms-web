@@ -158,25 +158,38 @@ h3 {
   min-height: 41px;
   max-height: 100%;
 }
-/* line 83, ../sass/editDefault/_editBootstrap.sass */
+/* line 82, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 87, ../sass/editDefault/_editBootstrap.sass */
+/* line 86, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 91, ../sass/editDefault/_editBootstrap.sass */
+/* line 90, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height .menu-text {
   height: inherit !important;
   padding-left: 24px;
 }
 
-/* line 94, ../sass/editDefault/_editBootstrap.sass */
+/* line 96, ../sass/editDefault/_editBootstrap.sass */
+.menu-min .nav-list .nav-height {
+  height: auto;
+  max-height: 100%;
+  overflow-y: visible;
+}
+/* line 100, ../sass/editDefault/_editBootstrap.sass */
+.menu-min .nav-list .nav-height a {
+  height: auto;
+  max-height: 100%;
+  overflow-y: visible;
+}
+
+/* line 104, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle {
   position: absolute;
   top: 10px;
@@ -184,7 +197,7 @@ h3 {
   border: #F79263;
   background: #F79263;
 }
-/* line 100, ../sass/editDefault/_editBootstrap.sass */
+/* line 110, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle > .ace-icon {
   background: #F79263;
   color: #fff;
@@ -192,46 +205,56 @@ h3 {
   border-radius: 0;
 }
 
-/* line 109, ../sass/editDefault/_editBootstrap.sass */
+/* line 119, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 111, ../sass/editDefault/_editBootstrap.sass */
+/* line 121, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 115, ../sass/editDefault/_editBootstrap.sass */
+/* line 125, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 120, ../sass/editDefault/_editBootstrap.sass */
+/* line 130, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 124, ../sass/editDefault/_editBootstrap.sass */
+/* line 134, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 128, ../sass/editDefault/_editBootstrap.sass */
+/* line 138, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 131, ../sass/editDefault/_editBootstrap.sass */
+/* line 141, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 144, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
+}
+
+/* line 148, ../sass/editDefault/_editBootstrap.sass */
+.dataGrid-toolBar01 {
+  padding: 10px 5px;
+}
+/* line 150, ../sass/editDefault/_editBootstrap.sass */
+.dataGrid-toolBar01 a {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 /*-------- login.html -------- */
@@ -709,22 +732,111 @@ a {
 /* line 214, ../sass/_bacchusMain.sass */
 #singleGridDialog {
   position: relative;
+  margin-top: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-/* line 216, ../sass/_bacchusMain.sass */
+/* line 219, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleRelative {
   position: relative;
 }
-/* line 218, ../sass/_bacchusMain.sass */
+/* line 221, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleEditStatus {
   padding-left: 5px;
   position: fixed;
 }
-/* line 223, ../sass/_bacchusMain.sass */
+/* line 226, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleEditStatus .btn-defaultWidth {
   display: block;
   margin-top: 5px;
   max-width: 85px;
   right: 10px;
+}
+/* line 235, ../sass/_bacchusMain.sass */
+#singleGridDialog .singleGridContent {
+  height: 300px;
+  overflow: auto;
+}
+
+/* line 245, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item {
+  margin: 10px auto;
+  vertical-align: middle;
+}
+/* line 248, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item label, .reserveCheckMail .block-item .spaceColon, .reserveCheckMail .block-item input, .reserveCheckMail .block-item button, .reserveCheckMail .block-item textarea {
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 251, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item label {
+  text-align: right;
+  vertical-align: middle;
+  position: relative;
+  padding: 0;
+}
+/* line 257, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .spaceColon {
+  width: 15px;
+  text-align: center;
+  min-width: 15px;
+}
+/* line 261, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item input {
+  height: 30px;
+}
+/* line 263, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item button {
+  margin-left: 10px;
+}
+/* line 265, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .block-item-content {
+  position: relative;
+}
+/* line 267, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .block-item-content .btnCheck {
+  position: absolute;
+  top: 0;
+  margin-left: 14px;
+}
+/* line 271, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .relative {
+  position: relative;
+  display: inline-block;
+}
+/* line 274, ../sass/_bacchusMain.sass */
+.reserveCheckMail .block-item .relative .tip {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  font-size: 0.85em;
+  color: #ff625f;
+}
+/* line 281, ../sass/_bacchusMain.sass */
+.reserveCheckMail .tipWall {
+  border: 1px solid #ff625f;
+  color: #ff625f;
+  padding: 10px;
+}
+/* line 285, ../sass/_bacchusMain.sass */
+.reserveCheckMail .tipWall p, .reserveCheckMail .tipWall li {
+  line-height: 22px;
+}
+/* line 287, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice {
+  margin: 10px auto;
+}
+/* line 289, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice ul {
+  display: inline;
+}
+/* line 291, ../sass/_bacchusMain.sass */
+.reserveCheckMail .changeChoice ul li {
+  display: inline;
+  margin: 0;
+  padding: 5px 10px;
+  background: #feffac;
+  border: 1px solid #ffd530;
 }
 
 /*------  共用區public ------ */

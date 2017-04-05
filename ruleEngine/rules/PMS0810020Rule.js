@@ -1,6 +1,6 @@
 /**
- * Created by jun on 2017/3/22.
- * 房間小類設定檔規則
+ * Created by Jun on 2017/3/30.
+ * 房間小類對照檔
  */
 var _ = require("underscore");
 var moment = require("moment");
@@ -164,11 +164,10 @@ module.exports = {
                         queryAgent.query("CHK_RVRMCOD_RF_IS_EXIST_RMINV_DT", params, function (err, data) {
                             if (!err) {
                                 if (data.room_count > 0) {
-                                    if (!delError) {
-                                        delError = new ErrorClass();
-                                    }
                                     delResult.success = false;
-                                    delResult.errorMsg = "庫存已有此房型[" + delDR.room_cod + "], 不能刪除!";
+
+                                    delError = new ErrorClass();
+                                    delError.errorMsg = "庫存已有此房型[" + delDR.room_cod + "], 不能刪除!";
                                     delError.errorCod = '1111';
                                 }
                             } else {

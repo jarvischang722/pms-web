@@ -31,6 +31,9 @@ module.exports ={
                     }
                     callback(lo_error,lo_result);
                 }
+                /***
+                 * 如果只有if  （line: 25） 才callback  回去  有天遇到err 這裡會卡住回不去
+                 */
                 //callback(error,result);
             })
         }

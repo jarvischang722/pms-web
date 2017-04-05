@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var TemplateGridSingleSchema = new Schema({
+var TemplateRfSchema = new Schema({
 
     prg_id: String,      　 　 //程式編號
     page_id: Number,      　　 //頁面編號
@@ -15,8 +15,7 @@ var TemplateGridSingleSchema = new Schema({
     lock_table: String,   　  //鎖定資料表名稱
     lock_type: String   　    //單筆鎖定
 
-}, {collection: "TemplateGridSingle"});
+}, {collection: "TemplateRf"});
 
 
-mongoose.model("TemplateGridSingle", TemplateGridSingleSchema);
-
+mongoose.model("TemplateRf", TemplateRfSchema);

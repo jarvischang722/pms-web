@@ -110,7 +110,7 @@ server.listen(port, function () {
  */
 function tableUnlockforAllPrg() {
 
-    mongoAgent.UI_Type_Grid.find().exec(function (err, templates) {
+    mongoAgent.TemplateRf.find({page_id:1,template_id:'datagrid'}).exec(function (err, templates) {
         var funcs = [];
         var template = {};
         _.each(templates, function(template){
@@ -126,15 +126,15 @@ function tableUnlockforAllPrg() {
             )
         });
 
-        // require("async").parallel(funcs, function (err, result) {
-        //     if(err){
-        //        console.error("table unlock error!")
-        //        console.error(err)
-        //     }else{
-        //         console.log("table unlock finished!");
-        //     }
-        //
-        // })
+        require("async").parallel(funcs, function (err, result) {
+            if(err){
+               console.error("table unlock error!")
+               console.error(err)
+            }else{
+                console.log("table unlock finished!");
+            }
+
+        })
     })
 
 }
