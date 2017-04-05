@@ -5,10 +5,10 @@
 <script type="text/x-template" id="sigleGridDialogTmp">
     <!--<div>Time:{{testTime}}</div>-->
     <!--<mz-datepicker :time.sync="testTime"  format="yyyy/MM/dd"></mz-datepicker>-->
-    <div id="singleGridDialog" style="margin-top:20px" v-show="false">
+    <div id="singleGridDialog" v-show="false">
         <div class="col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-xs-12 singleGridContent">
                     <!-- Start Content -->
                     <form id="singleDataForm" method="post">
                         <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
@@ -76,18 +76,22 @@
                                        style="width:100%;height:auto;">
                                 </table>
 
-                                <div id="tb" style="height:auto">
+                                <div id="tb" style="height:auto" class="dataGrid-toolBar01">
 
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-add',plain:true"
                                        @click="appendDtRow">
-                                        <img src="/css/easyUI/icons/edit_add.png" width="20" height="auto">Add
+                                        <!--<img src="/css/easyUI/icons/edit_add.png" width="20" height="auto">Add-->
+                                        <i class="fa fa-plus green"></i>
+                                        Add
                                     </a>
 
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-remove',plain:true"
                                        @click="removeDtRow">
-                                        <img src="/css/easyUI/icons/edit_remove.png" width="20" height="auto">Delete
+                                        <!--<img src="/css/easyUI/icons/edit_remove.png" width="20" height="auto">Delete-->
+                                        <i class="fa fa-minus red"></i>
+                                        Delete
                                     </a>
                                 </div>
                             </div>
@@ -129,20 +133,25 @@
                 <div class="clearfix"></div>
                 <hr>
                 <div class="col-sm-12 col-xs-12 center">
-                    <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
-                            @click="doSaveGrid('addOther')">
-                        Add after save
-                    </button>
-                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                            class="btn btn-primary" @click="doSaveGrid('closeDialog')">
-                        Leave after save
-                    </button>
-                    <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
-                            @click="doSaveGrid('')">Save
-                    </button>
-                    <button class="btn btn-warning" @click="emitCloseGridDialog">
-                        Leave
-                    </button>
+                    <div class="singleRelative">
+                        <div class="singleBtnBottom">
+                            <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
+                                    @click="doSaveGrid('addOther')">
+                                Add after save
+                            </button>
+                            <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                                    class="btn btn-primary" @click="doSaveGrid('closeDialog')">
+                                Leave after save
+                            </button>
+                            <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
+                                    @click="doSaveGrid('')">Save
+                            </button>
+                            <button class="btn btn-warning" @click="emitCloseGridDialog">
+                                Leave
+                            </button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>
