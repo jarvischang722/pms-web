@@ -162,52 +162,49 @@
         },
         ready: function () {
             //偵測離開頁面
-            $(window).on('beforeunload',function(){
-                if(!_.isEmpty(vmMain.usingPrgID)){
+            $(window).on('beforeunload', function () {
+                if (!_.isEmpty(vmMain.usingPrgID)) {
                     return vmMain.doTableUnLock();
                 }
 
             });
 
-
             this.doFirstPrg();
         },
-        watch: {
-            usingPrgID: function (newPrgId, oldPrgId) {
-
-//                if (!_.isEmpty(oldPrgId) && !_.isEqual(newPrgId, oldPrgId)) {
-//                    vmHub.doTableUnLock(oldPrgId, function (errorMsg, success) {
-//                            console.log("解開lock:" +  oldPrgId);
-//                            vmMain.isTableLocked = false;
-//                    })
-//                }
-
-            }
-        },
+        watch: {},
         methods: {
             doFirstPrg: function () {
                 this.loadSetUpPage('PMS0810010');
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
+                var self = this;
                 waitingDialog.show("Loading...");
-
-                //判斷是否要Unlock
-                if(!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)){
+//                //判斷是否要Unlock
+                if (!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)) {
                     this.isTableLockProcessing = true;
-                    this.doTableUnLock( function (errorMsg, success) {
+                    this.doTableUnLock(function (errorMsg, success) {
                         this.isTableLockProcessing = false;
-                        console.log("解開lock:" +  this.usingPrgID);
+                        console.log("解開lock:" + this.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
 
                 $("#prgContentDiv").empty();
+
+                // Start
+                // 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog
+                $(".panel.window").remove();
+                $(".window-shadow").remove();
+                $(".window-mask").remove();
+                //End
+
                 if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
-                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
 
                 } else {
-                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
+                    //TODO table lock 尚未修好
 //                    this.isTableLockProcessing = true;
 //                    this.doTableLock(this_prg_id, function (errorMsg, success) {
 //                        if(success){
