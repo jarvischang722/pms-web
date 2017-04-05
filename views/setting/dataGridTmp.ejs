@@ -145,7 +145,7 @@
             },
             //抓取顯示資料
             fetchDataGridData: function () {
-                waitingDialog.show();
+               // waitingDialog.show();
                 $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                     waitingDialog.hide();
                     vm.showDataGrid(result.fieldData, result.dataGridRows)
@@ -279,7 +279,7 @@
                         updateData: vm.tmpCUD.updateData
                     }
                     vm.saving = true;
-                    waitingDialog.show('Please wait...');
+                    waitingDialog.show('Saving...');
                     $.post("/api/saveDataRow", params, function (result) {
                         vm.saving = false;
                         waitingDialog.hide();

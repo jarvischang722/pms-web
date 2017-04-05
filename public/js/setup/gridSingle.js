@@ -140,7 +140,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }, function (result) {
                         if (result.success) {
                             self.deleteStatue = true;
-                            self.tmpCUD.deleteData = [this.singleData];
+                            self.tmpCUD.deleteData = [self.singleData];
                             self.doSaveGrid();
                             if (result.showAlert) {
                                 alert(result.alertMsg);
@@ -434,7 +434,7 @@ vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            waitingDialog.show("Loading...");
+            //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
@@ -563,7 +563,6 @@ vm = new Vue({
                         prg_id: prg_id,
                         deleteData: vm.tmpCUD.deleteData
                     }, function (result) {
-
                         if (result.success) {
                             //刪除Row
                             _.each(checkRows, function (row) {
@@ -588,6 +587,7 @@ vm = new Vue({
             console.log("===Save params===");
             console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
+                waitingDialog.hide();
                 console.log(result);
                 if (result.success) {
                     vm.initTmpCUD();
@@ -596,7 +596,6 @@ vm = new Vue({
                     });
                     alert('save success!');
                 } else {
-                    console.log(result);
                     alert(result.errorMsg);
                 }
 
