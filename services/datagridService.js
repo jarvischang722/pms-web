@@ -187,6 +187,46 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                     callback(err, fieldData);
                 }
             })
+        },
+        //尋找ui_type有select的話，取得combobox的資料
+        function (fields,callback) {
+
+            fieldData = tools.mongoDocToObject(fields);
+            var selectDSFunc = [];
+            _.each(fieldData, function (field, fIdx) {
+                if (field.ui_type == 'select') {
+                    selectDSFunc.push(
+                        function (callback) {
+                            mongoAgent.UI_Type_Select.findOne({
+                                prg_id: prg_id,
+                                ui_field_name: field.ui_field_name
+                            }).exec(function (err, selRow) {
+                                fieldData[fIdx].selectData = [];
+                                if (selRow) {
+                                    selRow = selRowx.toObject();
+                                    fieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                    fieldData[fIdx].referiable = selRow.referiable || "N";
+                                    fieldData[fIdx].defaultVal = selRow.defaultVal || "";
+
+
+
+                                dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
+                                    fieldData[fIdx].selectData = selectData;
+
+                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                });
+                                }else{
+                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                }
+                            })
+                        }
+                    )
+                }
+            });
+
+            async.parallel(selectDSFunc, function (err, result) {
+                callback(err, result)
+            })
         }
     ], function (err, result) {
 
@@ -194,8 +234,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
             console.error(err);
         }
 
-
-        fieldData = tools.mongoDocToObject(fieldData);
+        //fieldData = tools.mongoDocToObject(fieldData);
 
         callback(err, dataGridRows, fieldData)
 

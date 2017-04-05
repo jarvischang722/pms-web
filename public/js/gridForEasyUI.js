@@ -30,11 +30,14 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
+        }else if(fieldAttrObj.ui_type == "select"){
+            dataType = 'combobox';
         }
 
         var tmpFieldObj = {
             field: fieldAttrObj.ui_field_name.toLowerCase(),
             title: fieldAttrObj.ui_display_name,
+            page_id: fieldAttrObj.page_id,
             width: fieldAttrObj.width,
             sortable: true
         };
@@ -78,6 +81,13 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
+        }else if(dataType == "combobox"){
+            tmpFieldObj.editor.type = dataType;
+            tmpFieldObj.editor.options.valueField = 'value';
+            tmpFieldObj.editor.options.textField = 'display';
+            tmpFieldObj.editor.options.data  =  fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.required = true;
+
         }
 
         return tmpFieldObj;
