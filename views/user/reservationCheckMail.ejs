@@ -3,7 +3,7 @@
 <%- include ../common/head %>
 <%- include ../common/importFiles %>
 
-// todo color picker
+
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
@@ -59,6 +59,25 @@
             <div class="controlReservation">
                 <div class="page-header">
                 </div><!-- /.page-header -->
+                <h3 id="options-showPalette">Show Palette</h3>
+                <div class='option-content'>
+                    <div class='description'>
+                        <p>Spectrum can show a palette below the colorpicker to make it convenient for users to choose from frequently or recently used colors.  When the colorpicker is closed, the current color will be added to the palette if it isn't there already.  Check it out here: </p>
+                    </div>
+                    <pre class='prettyprint'>
+                        $("#showPalette").spectrum({
+                            showPalette: true,
+                            palette: [
+                                ['black', 'white', 'blanchedalmond'],
+                                ['rgb(255, 128, 0);', 'hsv 100 70 50', 'lightyellow']
+                            ]
+                        });
+                    </pre>
+                    <div class='example'>
+                        <input type='text' name='showPalette' id='showPalette' value='lightblue' />
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-xs-12 col-sm-12">
                         <div class="">
@@ -269,7 +288,7 @@
                                                             </div> <!-- /.search-co -->
 
                                                         </div> <!-- /.row  search-content-->
-                                                        <table class="easyui-datagrid" title="Basic DataGrid" style="width:700px;height:250px"
+                                                        <table class="easyui-datagrid" title="假日類別對照檔" style="width:700px;height:250px"
                                                                data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
                                                             <thead>
                                                             <tr>

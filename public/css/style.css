@@ -158,25 +158,38 @@ h3 {
   min-height: 41px;
   max-height: 100%;
 }
-/* line 83, ../sass/editDefault/_editBootstrap.sass */
+/* line 82, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 87, ../sass/editDefault/_editBootstrap.sass */
+/* line 86, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 91, ../sass/editDefault/_editBootstrap.sass */
+/* line 90, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height .menu-text {
   height: inherit !important;
   padding-left: 24px;
 }
 
-/* line 94, ../sass/editDefault/_editBootstrap.sass */
+/* line 96, ../sass/editDefault/_editBootstrap.sass */
+.menu-min .nav-list .nav-height {
+  height: auto;
+  max-height: 100%;
+  overflow-y: visible;
+}
+/* line 100, ../sass/editDefault/_editBootstrap.sass */
+.menu-min .nav-list .nav-height a {
+  height: auto;
+  max-height: 100%;
+  overflow-y: visible;
+}
+
+/* line 104, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle {
   position: absolute;
   top: 10px;
@@ -184,7 +197,7 @@ h3 {
   border: #F79263;
   background: #F79263;
 }
-/* line 100, ../sass/editDefault/_editBootstrap.sass */
+/* line 110, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle > .ace-icon {
   background: #F79263;
   color: #fff;
@@ -192,53 +205,53 @@ h3 {
   border-radius: 0;
 }
 
-/* line 109, ../sass/editDefault/_editBootstrap.sass */
+/* line 119, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 111, ../sass/editDefault/_editBootstrap.sass */
+/* line 121, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 115, ../sass/editDefault/_editBootstrap.sass */
+/* line 125, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 120, ../sass/editDefault/_editBootstrap.sass */
+/* line 130, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 124, ../sass/editDefault/_editBootstrap.sass */
+/* line 134, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 128, ../sass/editDefault/_editBootstrap.sass */
+/* line 138, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 131, ../sass/editDefault/_editBootstrap.sass */
+/* line 141, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 144, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
 }
 
-/* line 138, ../sass/editDefault/_editBootstrap.sass */
+/* line 148, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 {
   padding: 10px 5px;
 }
-/* line 140, ../sass/editDefault/_editBootstrap.sass */
+/* line 150, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 a {
   padding-right: 5px;
   padding-left: 5px;
