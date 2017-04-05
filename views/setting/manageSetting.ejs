@@ -203,40 +203,44 @@
                 this.loadSetUpPage('PMS0810010');
             },
             //讀取網頁程式頁面
-            loadSetUpPage: function (prg_id) {
-                //waitingDialog.show("Waiting...");
-                if(!_.isEmpty(this.usingPrgID) && !_.isEqual(prg_id, this.usingPrgID)){
+            loadSetUpPage: function (this_prg_id) {
+                waitingDialog.show("Loading...");
+
+                //判斷是否要Unlock
+                if(!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)){
+                    this.isTableLockProcessing = true;
                     this.doTableUnLock( function (errorMsg, success) {
+                        this.isTableLockProcessing = false;
                         console.log("解開lock:" +  this.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
 
-                if (!_.isEmpty(this.usingPrgID) && _.isEqual(prg_id, this.usingPrgID)) {
-                    $("#prgContentDiv").empty();
-                    $("#prgContentDiv").load('/mainSetUp/' + prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
-                } else {
+                $("#prgContentDiv").empty();
+                if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
 
-//                    $("#prgContentDiv").empty();
-//                    $("#prgContentDiv").load('/mainSetUp/' + prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
-                    this.isTableLockProcessing = true;
-                    this.doTableLock(prg_id, function (errorMsg, success) {
-                        if(success){
-                            console.log("鎖上lock:" +  prg_id);
-                        }else{
-                            console.error("有人用")
-                        }
-                        // waitingDialog.hide();
-                        vmMain.isTableLocked = !success;
-                        vmMain.tableLockMsg = errorMsg;
-                        this.isTableLockProcessing = false;
-                        if (!vmMain.isTableLocked) {
-                            vmMain.usingPrgID = prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-                            $("#prgContentDiv").load('/mainSetUp/' + prg_id);
-                        }else{
-                            vmMain.usingPrgID = "";
-                        }
-                    })
+                } else {
+                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id+"?_r="+moment().format("YYYYMMDDHHmmss"));
+//                    this.isTableLockProcessing = true;
+//                    this.doTableLock(this_prg_id, function (errorMsg, success) {
+//                        if(success){
+//                            console.log("鎖上lock:" +  this_prg_id);
+//                        }else{
+//                            console.error("有人用")
+//                        }
+//
+//                        vmMain.isTableLocked = !success;
+//                        vmMain.tableLockMsg = errorMsg;
+//                        this.isTableLockProcessing = false;
+//                        if (!vmMain.isTableLocked) {
+//                            vmMain.usingPrgID = this_prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+//                            $("#prgContentDiv").empty().load('/mainSetUp/' + this_prg_id);
+//                        }else{
+//                            vmMain.usingPrgID = "";
+//                            waitingDialog.hide();
+//                        }
+//                    })
                 }
 
             },

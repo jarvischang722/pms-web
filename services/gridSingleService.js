@@ -262,6 +262,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     var dtTableName = "";      // DT Table name
     var la_keyFields = [];        // 主檔資料表pk
     var la_dtkeyFields = [];      // 明細資料表pk
+
     /** main process **/
     async.waterfall([
         getTableName,       //(1)撈取要異動的table name
@@ -285,7 +286,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     //撈取要異動的table name
     function getTableName(callback) {
         //抓取對應的table
-        mongoAgent.TemplateGridSingle.findOne({
+        mongoAgent.TemplateRf.findOne({
             page_id: page_id,
             prg_id: prg_id,
             template_id: "gridsingle"
@@ -483,7 +484,6 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                         }
 
                     });
-                    //TODO 測試中 暫時註解
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
                 })
