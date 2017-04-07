@@ -136,11 +136,11 @@ exports.getRvrmUploadStaList = function (params, callback) {
 exports.getGuestgrprfUseStaList = function (params,callback) {
     var userSta = [
         {
-            display: 'Y',
+            display: '使用中',
             value: 'Y'
         },
         {
-            display: 'N',
+            display: '未使用',
             value: 'N'
         }
     ];
@@ -153,11 +153,11 @@ exports.getGuestgrprfUseStaList = function (params,callback) {
 exports.getSourcegrprfUseStaList = function (params,callback) {
     var userSta = [
         {
-            display: 'Y',
+            display: '使用中',
             value: 'Y'
         },
         {
-            display: 'N',
+            display: '未使用',
             value: 'N'
         }
     ];
@@ -187,7 +187,7 @@ exports.qry_guest_rf_history_sta = function (params,callback) {
 exports.qry_guest_rf_guest_way = function (params,callback) {
     var guestWay = [
         {
-            display: '散客',
+             display: '散客',
             value: 'F'
         },
         {

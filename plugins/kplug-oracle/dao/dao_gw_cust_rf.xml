@@ -5,11 +5,10 @@
         <statement><![CDATA[
             select count(*) as guest_count
              from gw_cust_rf
-             where athena_id = ? and hotel_cod = ? and default_guest_typ = ? and rownum = 1
+             where athena_id = ? and default_guest_typ = ? and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">default_guest_typ</parameter>
     </dao>
 </root>

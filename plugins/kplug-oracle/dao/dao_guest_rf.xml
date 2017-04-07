@@ -15,10 +15,10 @@
         <statement><![CDATA[
            select * from
            guest_rf
-           where athena_id = ? and hotel_cod = ?
+           where athena_id = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
+
     </dao>
 </root>
