@@ -5,7 +5,7 @@ var request = require("request");
 var moment = require('moment');
 var _ = require('underscore');
 var async = require('async');
-var Base64 = require('base-64');
+var mailSvc = require("../services/mailService");
 
 
 /**
@@ -37,6 +37,11 @@ exports.requestApi = function (apiUrl, params, callback) {
         var errorMsg = null;
         if (err) {
             if (err.code == 'ESOCKETTIMEDOUT') {
+                var mailInfo = {
+                    exceptionType:"API Timeout",
+                    errorMsg: err.code
+                };
+                mailSvc.sendExceptionMail(mailInfo);
                 errorMsg = 'Request Timeout'
             }
 

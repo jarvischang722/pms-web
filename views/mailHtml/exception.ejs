@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    .table-style table, .table-style th, .table-style td {
+        border: 1px solid #9D9D9D;
+        border-collapse: collapse;
+        font-family: 微軟正黑體, 'Open Sans';
+        font-size: 0.875em;
+    }
+
+    .table-style {
+        /*width: 1200px;*/
+        height: auto;
+    }
+
+    .table-style table {
+        width: 100%;
+        /*text-align: left;*/
+    }
+
+    .table-style td {
+        width: 80%;
+        padding: 5px 20px;
+    }
+
+    .table-style th {
+        width: 20%;
+        border-left: 3px solid #0aa5df;
+        padding: 5px 10px;
+    }
+
+    .table-style tr:nth-child(even) {
+        background: #a2f3b4;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+</style>
+<body>
+<div class="table-style">
+    <table>
+        <tbody>
+        <tr>
+            <th>Exception Type</th>
+            <td><%= exceptionType %></td>
+        </tr>
+        <tr>
+            <th>Error Msg</th>
+            <td><%= errorMsg %></td>
+        </tr>
+        <tr>
+            <th>Server IP</th>
+            <td><%= server_ip %></td>
+        </tr>
+        <tr>
+            <th>Event Time</th>
+            <td><%= eventTime||"" %></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
