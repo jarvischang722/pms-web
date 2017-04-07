@@ -65,273 +65,265 @@
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-12">
-                        <div class="">
-                            <div class="col-xs-12">
-                                <div class="tabbable tabs-left">
-                                    <ul class="nav nav-tabs" id="myTab3">
-                                        <li>
-                                            <a data-toggle="tab" href="#reserveCheckMailTab01">
-                                                訂房確認書Email
-                                            </a>
-                                        </li>
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs" id="myTab3">
+                                <li>
+                                    <a data-toggle="tab" href="#reserveCheckMailTab01">
+                                        訂房確認書Email
+                                    </a>
+                                </li>
 
-                                        <li class="active">
-                                            <a data-toggle="tab" href="#holidayCateSetTab02">
-                                                假日類別設定
-                                            </a>
-                                        </li>
+                                <li class="active">
+                                    <a data-toggle="tab" href="#holidayCateSetTab02">
+                                        假日類別設定
+                                    </a>
+                                </li>
 
-                                    </ul>
+                            </ul>
 
-                                    <div class="tab-content">
-                                        <div id="reserveCheckMailTab01" class="tab-pane">
-                                            <div class="col-xs-12">
-                                                <div class="col-sm-11 col-xs-11">
-                                                    <div class="row">
-                                                        <div class="reserveCheckMail">
-                                                            <div class="block-item clearfix">
-                                                                <label style="width: 75px;">格式名稱</label>
-                                                                <span class="spaceColon">：</span>
-                                                                <input class="input-xxlarge" placeholder="訂房確認書-訂房公司" />
+                            <div class="tab-content">
+                                <div id="reserveCheckMailTab01" class="tab-pane">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-11 col-xs-11">
+                                            <div class="row">
+                                                <div class="reserveCheckMail">
+                                                    <div class="block-item clearfix">
+                                                        <label style="width: 75px;">格式名稱</label>
+                                                        <span class="spaceColon">：</span>
+                                                        <input class="input-xxlarge" placeholder="訂房確認書-訂房公司" />
+                                                    </div>
+                                                    <div class="block-item clearfix">
+                                                        <label style="width: 75px;">主旨</label>
+                                                        <span class="spaceColon">：</span>
+                                                        <input class="input-xxlarge"  placeholder="[ 訂房公司 ]訂房確認書" />
+                                                        <button type="button" class="btn btn-danger btn-white btn-sm">檢查</button>
+                                                    </div>
+                                                    <div class="block-item clearfix">
+                                                        <div class="block-item-content">
+                                                            <label style="width: 75px;">內容</label>
+                                                            <span class="spaceColon">：</span>
+                                                            <div class="relative">
+                                                                <textarea class="input-xxlarge" rows="5"></textarea>
+                                                                <p class="tip">請用ctrl+Enter換行</p>
                                                             </div>
-                                                            <div class="block-item clearfix">
-                                                                <label style="width: 75px;">主旨</label>
-                                                                <span class="spaceColon">：</span>
-                                                                <input class="input-xxlarge"  placeholder="[ 訂房公司 ]訂房確認書" />
-                                                                <button type="button" class="btn btn-danger btn-white btn-sm">檢查</button>
-                                                            </div>
-                                                            <div class="block-item clearfix">
-                                                                <div class="block-item-content">
-                                                                    <label style="width: 75px;">內容</label>
-                                                                    <span class="spaceColon">：</span>
-                                                                    <div class="relative">
-                                                                        <textarea class="input-xxlarge" rows="5"></textarea>
-                                                                        <p class="tip">請用ctrl+Enter換行</p>
-                                                                    </div>
-                                                                    <button type="button" class="btn btn-danger btn-white btn-sm btnCheck">檢查</button>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
+                                                            <button type="button" class="btn btn-danger btn-white btn-sm btnCheck">檢查</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
 
-                                                            <div class="space-12"></div>
-                                                            <div class="col-xs-12">
+                                                    <div class="space-12"></div>
+                                                    <div class="col-xs-12">
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
                                                                 <div class="row">
-                                                                    <div class="col-xs-6">
-                                                                        <div class="row">
-                                                                            <div class="block-item clearfix">
-                                                                                <label style="width: 75px;">新增者</label>
-                                                                                <span class="spaceColon">：</span>
-                                                                                <input class="input-large" placeholder="cio" disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-xs-6">
-                                                                        <div class="row">
-                                                                            <div class="block-item clearfix">
-                                                                                <label style="width: 75px;">新增日</label>
-                                                                                <span class="spaceColon">：</span>
-                                                                                <input class="input-large" placeholder="2012/04/19" disabled />
-                                                                            </div>
-                                                                        </div>
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">新增者</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="cio" disabled/>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="col-xs-12">
+                                                            <div class="col-xs-6">
                                                                 <div class="row">
-                                                                    <div class="col-xs-6">
-                                                                        <div class="row">
-                                                                            <div class="block-item clearfix">
-                                                                                <label style="width: 75px;">最後異動者</label>
-                                                                                <span class="spaceColon">：</span>
-                                                                                <input class="input-large" placeholder="cio" disabled/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-xs-6">
-                                                                        <div class="row">
-                                                                            <div class="block-item clearfix">
-                                                                                <label style="width: 75px;">最後異動日</label>
-                                                                                <span class="spaceColon">：</span>
-                                                                                <input class="input-large" placeholder="2012/04/19" disabled />
-                                                                            </div>
-                                                                        </div>
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">新增日</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="2012/04/19" disabled />
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-
-                                                            <div class="space-24"></div>
-                                                            <div class="tipWall">
-                                                                <p>代換字設定說明：</p>
-                                                                <ul>
-                                                                    <li>1.將游標移至設定主旨或內容中需指定代換字位置，點選下方換字按鈕指定代換欄位資料</li>
-                                                                    <li>2.代換字中不可在設定代換字</li>
-                                                                    <li>3.點選檢查按鈕，可檢查設定之主旨或內容是否錯誤</li>
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="changeChoice">
-                                                                <ul>
-                                                                    <li>訂房卡號</li>
-                                                                    <li>聯絡人</li>
-                                                                    <li>Full Name</li>
-                                                                    <li>公司名稱</li>
-                                                                    <li>訂購公司</li>
-                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-xs-12">
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">最後異動者</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="cio" disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">最後異動日</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="2012/04/19" disabled />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
 
-                                                <div class="col-xs-1 col-sm-1">
-                                                    <div class="row">
+                                                    <div class="space-24"></div>
+                                                    <div class="tipWall">
+                                                        <p>代換字設定說明：</p>
+                                                        <ul>
+                                                            <li>1.將游標移至設定主旨或內容中需指定代換字位置，點選下方換字按鈕指定代換欄位資料</li>
+                                                            <li>2.代換字中不可在設定代換字</li>
+                                                            <li>3.點選檢查按鈕，可檢查設定之主旨或內容是否錯誤</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="changeChoice">
+                                                        <ul>
+                                                            <li>訂房卡號</li>
+                                                            <li>聯絡人</li>
+                                                            <li>Full Name</li>
+                                                            <li>公司名稱</li>
+                                                            <li>訂購公司</li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            </div> <!-- /.col-sm-12 -->
-                                            <div class="clearfix"></div>
+                                            </div>
                                         </div>
 
-                                        <div id="holidayCateSetTab02" class="tab-pane in active">
+                                        <div class="col-xs-1 col-sm-1">
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.col-sm-12 -->
+                                    <div class="clearfix"></div>
+                                </div>
 
-                                            <div class="col-xs-12">
-                                                <div class="col-sm-11 col-xs-11">
-                                                    <div class="row">
+                                <div id="holidayCateSetTab02" class="tab-pane in active">
 
-                                                        <div class="search-content">
-                                                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                                            <div class="search-co">
-                                                                <div class="search-co-h" style="height: 28px; line-height: 28px; font-size: 14px;">
-                                                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                                                    <span>搜尋</span>
-                                                                    <div class="row search-right-btn">
-                                                                        <div class="right-btn-menu-co">
-                                                                            <ul>
-                                                                                <li style="padding: 0 5px;">
-                                                                                    <i class="fa fa-angle-down show-search-detail fa-lg"></i>
-                                                                                </li>
-                                                                            </ul>
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-11 col-xs-11">
+                                            <div class="row">
+                                                <div class="tab-content-subSet">
+                                                    <div class="search-content">
+                                                    <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                                    <div class="search-co">
+                                                        <div class="search-co-h">
+                                                            <i class="ace-icon fa fa-search search-icon"></i>
+                                                            <span>搜尋</span>
+                                                            <div class="row search-right-btn">
+                                                                <div class="right-btn-menu-co">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <i class="fa fa-chevron-down show-search-detail"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="search-co-content col-xs-12">
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="search-co-content col-xs-12 rece-search-detail " style="display: none;">
+                                                                <div class="row search-footer-btn" style="top:0;">
+                                                                    <div class="footer-btn-menu-co">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                                     title="查詢"
+                                                                                     style="padding: 0 0 5px 0;">
+                                                                                    <div class="icon-reStyle icon-co-14"></div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                                     title="清除" style="padding: 0 0 5px 0;">
+                                                                                    <div class="icon-reStyle icon-co-11"></div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>  <!-- /.footer-btn-menu-co -->
+                                                                </div> <!-- /.search-footer-btn -->
+                                                                <div class="grid width-95">
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>大類</label>
+                                                                            <input type="text" class="input-n"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>小類</label>
+                                                                            <input type="text" class="input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>mange response with </label>
+                                                                            <input type="text" class="input-n"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>假日房別</label>
+                                                                            <input type="text" class="input-sm"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="search-co-content col-xs-12">
-                                                                        <div class="col-sm-4">
 
-                                                                        </div>
-                                                                        <div class="col-sm-4">
+                                                            </div>
+                                                        </div> <!-- row-->
+                                                    </div> <!-- /.search-co -->
 
-                                                                        </div>
-                                                                        <div class="col-sm-4">
+                                                </div> <!-- /.row  search-content-->
+                                                <!-- 假日類別對照檔 -->
+                                                <table class="easyui-datagrid" title="假日類別對照檔"  style="height: 250px;"
+                                                       data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
+                                                    <thead>
+                                                    <tr>
+                                                        <th data-options="field:'itemid',width:80">管別</th>
+                                                        <th data-options="field:'productid',width:150">Product</th>
+                                                        <th data-options="field:'listprice',width:80">日期類別</th>
+                                                        <th data-options="field:'unitcost',width:80">類別名稱</th>
+                                                        <th data-options="field:'displayColor',width:80">顯示的顏色</th>
+                                                        <th data-options="field:'status',width:80,align:''">輸入者</th>
 
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="search-co-content col-xs-12 rece-search-detail"
-                                                                         style="display: none;">
-
-                                                                        <div class="row search-footer-btn" style="top:-10px;">
-                                                                            <div class="footer-btn-menu-co">
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <!-- 寫法02 -->
-                                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                                             title="查詢"
-                                                                                             style="padding: 0 0 5px 0;">
-                                                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                                                        </div>
-                                                                                    </li>
-                                                                                    <li>
-
-                                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                                             title="清除" style="padding: 0 0 5px 0;">
-                                                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                                                        </div>
-
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>  <!-- /.footer-btn-menu-co -->
-                                                                        </div> <!-- /.search-footer-btn -->
-                                                                        <div class="col-sm-4">
-                                                                            <div class="block-table">
-                                                                                <label>大類</label>
-                                                                                <input type="text"/>
-                                                                            </div>
-                                                                        </div> <!-- /.col-sm-4 -->
-                                                                        <div class="col-sm-4">
-                                                                            <div class="block-table">
-                                                                                <label>說明</label>
-                                                                                <input type="text"/>
-                                                                            </div>
-                                                                        </div> <!-- /.col-sm-4 -->
-                                                                        <div class="col-sm-4">
-
-                                                                        </div> <!-- /.col-sm-4 -->
-                                                                    </div>
-                                                                </div> <!-- row-->
-
-
-                                                            </div> <!-- /.search-co -->
-
-                                                        </div> <!-- /.row  search-content-->
-                                                        <table class="easyui-datagrid" title="假日類別對照檔" style="width:700px;height:250px"
-                                                               data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
-                                                            <thead>
-                                                            <tr>
-                                                                <th data-options="field:'itemid',width:80">管別</th>
-                                                                <th data-options="field:'productid',width:100">Product</th>
-                                                                <th data-options="field:'listprice',width:80,align:'right'">日期類別</th>
-                                                                <th data-options="field:'unitcost',width:80,align:'right'">類別名稱</th>
-                                                                <th data-options="field:'displayColor',width:80">顯示的顏色</th>
-                                                                <th data-options="field:'status',width:80,align:'center'">輸入者</th>
-
-                                                                <th data-options="field:'enterDate',width:80,align:'center'">輸入日</th>
-                                                                <th data-options="field:'lastEditPerson',width:80,align:'center'">最後異動者</th>
-                                                                <th data-options="field:'lastEditDate',width:80,align:'center'">最後異動日</th>
-                                                            </tr>
-                                                            </thead>
-                                                        </table>
-
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xs-1 col-sm-1">
-                                                    <div class="row">
-                                                        <div class="right-menu-co">
-                                                            <ul>
-
-                                                                <li>
-                                                                    <!-- 圖片 -->
-                                                                    <!--<a href="#index-RoomNum-modal-01" data-toggle="modal" style="cursor: pointer;">-->
-                                                                    <!--<div class="icon-co-14"></div>-->
-                                                                    <!--</a>-->
-                                                                    <a href="#" class="settingDataDoubleDialog">
-                                                                        <div class="icon-co-14"></div>
-                                                                    </a>
-                                                                    <span>新增</span>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#" class="settingDataDoubleDialog">
-                                                                        <div class="icon-co-14"></div>
-                                                                    </a>
-                                                                    <span>編輯</span>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="icon-co-14"></div>
-                                                                    <span>刪除</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> <!-- /.col-sm-12 -->
-                                            <div class="clearfix"></div>
+                                                        <th data-options="field:'enterDate',width:100,align:''">輸入日</th>
+                                                        <th data-options="field:'lastEditPerson',width:80,align:''">最後異動者</th>
+                                                        <th data-options="field:'lastEditDate',width:100">最後異動日</th>
+                                                        <!--<th data-options="field:'lastEditDate',width:80,align:'center'">最後異動日</th>-->
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="col-xs-1 col-sm-1">
+                                            <div class="row">
+                                                <div class="right-menu-co">
+                                                    <ul>
+                                                        <li>
+                                                            <button id="ins-btn" @click="switchToCreateStatus"
+                                                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button"><%= __("program")["PMS0810010"]["btn_insert"] %> </button>
+                                                        </li>
+
+                                                        <li>
+                                                            <button id="remove-btn" @click="removeRow"
+                                                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button"><%= __("program")["PMS0810010"]["btn_delete"] %></button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.col-sm-12 -->
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div> <!-- authorityTree -->
+                        </div>
+
                     </div>
                 </div>
 
@@ -350,18 +342,4 @@
 
 
 </body>
-<!-- colorPicker 套件 -->
-<script type="text/javascript" src="/js/spectrum/docs/prettify.js"></script>
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-8259845-4']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-</script>
 </html>

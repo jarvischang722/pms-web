@@ -59,6 +59,87 @@ table {
   border-spacing: 0;
 }
 
+/* ---- grid ---- */
+/*background: #e8f1ff */
+/*  max-width: 1200px */
+/* clearfix */
+/* line 9, ../sass/vendor/_grid.sass */
+.grid:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* ---- grid-item ---- */
+/* line 15, ../sass/vendor/_grid.sass */
+.grid-item {
+  /*width: 300px */
+  margin-right: 10px;
+  height: 40px;
+  float: left;
+}
+/* line 20, ../sass/vendor/_grid.sass */
+.grid-item label {
+  vertical-align: middle;
+  text-align: right;
+}
+
+/* line 24, ../sass/vendor/_grid.sass */
+.grid-item-input {
+  width: 100px;
+  height: 50px;
+}
+
+/* line 28, ../sass/vendor/_grid.sass */
+.grid-item--width2 {
+  width: 320px;
+}
+
+/* line 31, ../sass/vendor/_grid.sass */
+.grid-item--width3 {
+  width: 480px;
+}
+
+/* line 34, ../sass/vendor/_grid.sass */
+.grid-item--width4 {
+  width: 640px;
+}
+
+/* line 37, ../sass/vendor/_grid.sass */
+.grid-item--height2 {
+  height: 200px;
+}
+
+/* line 40, ../sass/vendor/_grid.sass */
+.grid-item--height3 {
+  height: 260px;
+}
+
+/* line 43, ../sass/vendor/_grid.sass */
+.grid-item--height4 {
+  height: 360px;
+}
+
+/* line 46, ../sass/vendor/_grid.sass */
+.width-5 {
+  width: 5% !important;
+}
+
+/* line 48, ../sass/vendor/_grid.sass */
+.width-10 {
+  width: 10% !important;
+}
+
+/* line 50, ../sass/vendor/_grid.sass */
+.width-15 {
+  width: 15% !important;
+}
+
+/* line 52, ../sass/vendor/_grid.sass */
+.width-20 {
+  width: 20% !important;
+}
+
 /* line 1, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-bottom: 0;
@@ -752,12 +833,13 @@ a {
   max-width: 85px;
   right: 10px;
 }
-/* line 235, ../sass/_bacchusMain.sass */
-#singleGridDialog .singleGridContent {
-  height: 300px;
-  overflow: auto;
+/* line 239, ../sass/_bacchusMain.sass */
+#singleGridDialog .singleBtnBottom {
+  position: fixed;
+  bottom: -20;
 }
 
+/*-- 訂房確認書 email -- */
 /* line 245, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item {
   margin: 10px auto;
@@ -839,9 +921,142 @@ a {
   border: 1px solid #ffd530;
 }
 
+/*-- 搜尋按鈕 -- */
 /* line 298, ../sass/_bacchusMain.sass */
+.search-content {
+  position: relative;
+  padding: 0 0 15px 0;
+}
+/* line 301, ../sass/_bacchusMain.sass */
+.search-content .search-co {
+  position: relative;
+  height: auto;
+  border: 1px solid #0063ae;
+}
+/* line 305, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h {
+  position: relative;
+  font-size: 14px;
+  background: #c0d6ee;
+  padding: 0 0 0 10px;
+  height: 28px;
+  line-height: 28px;
+  border-bottom: 1px solid #0063ae;
+}
+/* line 313, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h i {
+  color: #fff;
+}
+/* line 315, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h span {
+  margin: 0 0 0 5px;
+}
+/* line 317, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h .search-right-btn {
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
+/* line 321, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co {
+  text-align: center;
+}
+/* line 324, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li {
+  float: left;
+  list-style: none;
+  padding: 0 5px;
+}
+/* line 328, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li i {
+  cursor: pointer;
+}
+/* line 330, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li div.icon-reStyle {
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  margin: 0 auto 4px auto;
+  box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
+}
+/* line 337, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content {
+  text-align: left;
+  border-collapse: collapse;
+}
+/* line 340, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .block-table {
+  margin: 10px 0;
+}
+/* line 342, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .block-table label {
+  margin: 0 5px 0 0;
+  text-align: right;
+  width: 90px;
+  font-size: 13px;
+}
+/* line 349, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .block-table label.key-Word {
+  margin: 0 0 0 -20px;
+}
+/* line 351, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .block-table label.more-Word {
+  margin: 0 0 0 -68px;
+}
+/* line 353, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .block-table input {
+  line-height: 25px;
+  height: 25px;
+}
+/* line 357, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .search-footer-btn {
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  padding: 0 10px 0 0;
+}
+/* line 362, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co {
+  text-align: center;
+}
+/* line 365, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co ul li {
+  float: left;
+  list-style: none;
+  padding: 4px;
+}
+/* line 369, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co ul li div.icon-reStyle {
+  width: 28px;
+  height: 28px;
+  border-radius: 28px;
+  margin: 0 auto 0 auto;
+  box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
+}
+/* line 376, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-btn {
+  background: #555;
+  border: none;
+  color: #fff;
+  padding: 5px 20px;
+}
+/* line 381, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-btn:hover {
+  background: #9b9b9b;
+}
+
+/*-- colorPicker 修改(假日類別設定) -- */
+/* line 385, ../sass/_bacchusMain.sass */
 .spectrumColor {
   padding: 0 !important;
+}
+
+/*-- tab-content 介面大小 -- */
+/* line 388, ../sass/_bacchusMain.sass */
+.tab-content-subSet {
+  padding: 0 10px 0 5px;
+  box-sizing: border-box;
+  margin-left: -15px;
 }
 
 /*------  共用區public ------ */

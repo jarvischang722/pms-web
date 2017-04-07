@@ -233,14 +233,14 @@ a
   // TODO
   // resize dialog can not correct
   .singleGridContent
-    height: 300px
+    //height: 300px
     //max-height: 100%
-    overflow: auto
-  //.singleBtnBottom
-  //  position: absolute
-  //  bottom: 20px
+    //overflow: auto
+  .singleBtnBottom
+    position: fixed
+    bottom: -20px
 
-// 訂房確認書 email
+/*-- 訂房確認書 email --*/
 .reserveCheckMail
   .block-item
     margin: 10px auto
@@ -294,6 +294,98 @@ a
         padding: 5px 10px
         background: #feffac
         border: 1px solid #ffd530
-// colorPicker 修改
+/*-- 搜尋按鈕 --*/
+.search-content
+  position: relative
+  padding: 0 0 15px 0
+  .search-co
+    position: relative
+    height: auto
+    border: 1px solid #0063ae
+    .search-co-h
+      position: relative
+      font-size: 14px
+      background: #c0d6ee
+      padding: 0 0 0 10px
+      height: 28px
+      line-height: 28px
+      border-bottom: 1px solid #0063ae
+      i
+        color: #fff
+      span
+        margin: 0 0 0 5px
+      .search-right-btn
+        position: absolute
+        right: 20px
+        top: 0
+        .right-btn-menu-co
+          text-align: center
+          ul
+            li
+              float: left
+              list-style: none
+              padding: 0 5px
+              i
+                cursor: pointer
+              div.icon-reStyle
+                width: 32px
+                height: 32px
+                border-radius: 32px
+                margin: 0 auto 4px auto
+                box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+
+    .search-co-content
+      text-align: left
+      border-collapse: collapse
+      .block-table
+        margin: 10px 0
+        label
+          margin: 0 5px 0 0
+          text-align: right
+          width: 90px
+          //min-width: 90px
+          //max-width: 100%
+          font-size: 13px
+        label.key-Word
+          margin: 0 0 0 -20px
+        label.more-Word
+          margin: 0 0 0 -68px
+        input
+          //width: 50%
+          line-height: 25px
+          height: 25px
+      .search-footer-btn
+        position: absolute
+        right: 20px
+        top: 30px // 如果search-h 變小 top:20px
+        padding: 0 10px 0 0
+        .footer-btn-menu-co
+          text-align: center
+          ul
+            li
+              float: left
+              list-style: none
+              padding: 4px
+              div.icon-reStyle
+                width: 28px
+                height: 28px
+                border-radius: 28px
+                margin: 0 auto 0 auto
+                box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+
+    .search-co-btn
+      background: #555
+      border: none
+      color: #fff
+      padding: 5px 20px
+      &:hover
+        background: #9b9b9b
+
+/*-- colorPicker 修改(假日類別設定) --*/
 .spectrumColor
   padding: 0 !important
+/*-- tab-content 介面大小 --*/
+.tab-content-subSet
+  padding: 0 10px 0 5px
+  box-sizing: border-box
+  margin-left: -15px
