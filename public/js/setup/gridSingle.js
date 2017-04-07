@@ -650,7 +650,26 @@ vm = new Vue({
                 title_html: true,
                 minWidth: 800,
                 maxHeight: 600,
-                resizable: true
+                resizable: true,
+                buttons: [
+                    {
+                        text: "Add after save",
+                        "class" : "btn btn-primary",
+                        "v-if" : "createStatus",
+                        "style" : "margin-right: 5px;",
+                        "@click" : "doSaveGrid('addOther')",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    {
+                        text: "OK",
+                        "class" : "btn btn-primary btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ]
             });
             dialog.dialog("open");
 

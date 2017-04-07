@@ -836,7 +836,7 @@ a {
 /* line 239, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleBtnBottom {
   position: fixed;
-  bottom: -20;
+  bottom: 50px;
 }
 
 /*-- 訂房確認書 email -- */
@@ -1052,7 +1052,7 @@ a {
 }
 
 /*-- tab-content 介面大小 -- */
-/* line 388, ../sass/_bacchusMain.sass */
+/* line 389, ../sass/_bacchusMain.sass */
 .tab-content-subSet {
   padding: 0 10px 0 5px;
   box-sizing: border-box;
