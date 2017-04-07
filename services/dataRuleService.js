@@ -136,11 +136,11 @@ exports.getRvrmUploadStaList = function (params, callback) {
 exports.getGuestgrprfUseStaList = function (params,callback) {
     var userSta = [
         {
-            display: 'Y',
+            display: '使用中',
             value: 'Y'
         },
         {
-            display: 'N',
+            display: '未使用',
             value: 'N'
         }
     ];
@@ -153,15 +153,87 @@ exports.getGuestgrprfUseStaList = function (params,callback) {
 exports.getSourcegrprfUseStaList = function (params,callback) {
     var userSta = [
         {
-            display: 'Y',
+            display: '使用中',
             value: 'Y'
         },
         {
-            display: 'N',
+            display: '未使用',
             value: 'N'
         }
     ];
     callback(userSta);
+};
+
+/**
+ * 取得住客類別設定是否留下客戶歷史資料
+ */
+exports.qry_guest_rf_history_sta = function (params,callback) {
+    var historySta = [
+        {
+            display: '留歷史資料，可印旅客登記卡',
+            value: 'Y'
+        },
+        {
+            display: '不留 不印',
+            value: 'N'
+        }
+    ];
+    callback(historySta);
+};
+
+/**
+* 取得住客類別設定有哪些客群
+*/
+exports.qry_guest_rf_guest_way = function (params,callback) {
+    var guestWay = [
+        {
+             display: '散客',
+            value: 'F'
+        },
+        {
+            display: '商務',
+            value: 'C'
+        },
+        {
+            display: '團體',
+            value: 'G'
+        }
+    ];
+    callback(guestWay);
+};
+
+/**
+ * 取得住客類別設定使用還未使用
+ */
+exports.qry_guest_rf_use_sta = function (params,callback) {
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
+
+/**
+ * 取得住客類別設定列印或不列印
+ */
+exports.qry_guest_rf_rcard_prtrent = function (params,callback) {
+    var useSta = [
+        {
+            display: '列印RCARD',
+            value: 'Y'
+        },
+        {
+            display: '不印',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
 };
 
 /**

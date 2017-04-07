@@ -11,7 +11,7 @@ var ReturnClass = require("../returnClass");
 var ErrorClass = require("../errorClass");
 
 module.exports ={
-    CHK_SOURCE_GRP_RF_IS_EXIST_SOURCE_RF : function (postData,session,callback) {
+    chk_source_grp_rf_is_exist_source_rf : function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
