@@ -369,10 +369,8 @@ vm = new Vue({
     ready: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID(function (success) {
-        });
+        this.loadDataGridByPrgID(function (success) {});
         this.loadSingleGridPageField();
-        // $.getScript('/js/vue/vue_datepicker.js');
     },
     data: {
         createStatus: false,    //新增狀態
@@ -644,6 +642,7 @@ vm = new Vue({
         },
         //打開單檔dialog
         showSingleGridDialog: function () {
+
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
@@ -654,6 +653,7 @@ vm = new Vue({
                 resizable: true
             });
             dialog.dialog("open");
+
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {
