@@ -4,10 +4,12 @@
     <dao name="QRY_STATE_RF">
        <statement><![CDATA[
 
-          SELECT * FROM  STATE_RF
-
+          SELECT *
+          FROM  STATE_RF
+          WHERE trim(athena_id) = trim(:athena_id)
         ]]></statement>
 
+        <parameter type="string" kind="3">athena_id</parameter>
 
     </dao>
 
