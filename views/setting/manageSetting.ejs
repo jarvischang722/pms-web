@@ -150,7 +150,7 @@
 </body>
 
 <script>
-
+    var socket = io.connect('/setup');
     var vmMain = new Vue({
         el: '#main-container',
         data: {
@@ -185,7 +185,7 @@
                     this.isTableLockProcessing = true;
                     this.doTableUnLock(function (errorMsg, success) {
                         this.isTableLockProcessing = false;
-                        console.log("解開lock:" + this.usingPrgID);
+                        console.log("解開lock:" + vmMain.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
@@ -203,27 +203,29 @@
                     $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
 
                 } else {
-                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
+//                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
                     //TODO table lock 尚未修好
-//                    this.isTableLockProcessing = true;
-//                    this.doTableLock(this_prg_id, function (errorMsg, success) {
-//                        if(success){
-//                            console.log("鎖上lock:" +  this_prg_id);
-//                        }else{
-//                            console.error("有人用")
-//                        }
-//
-//                        vmMain.isTableLocked = !success;
-//                        vmMain.tableLockMsg = errorMsg;
-//                        this.isTableLockProcessing = false;
-//                        if (!vmMain.isTableLocked) {
-//                            vmMain.usingPrgID = this_prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-//                            $("#prgContentDiv").empty().load('/mainSetUp/' + this_prg_id);
-//                        }else{
-//                            vmMain.usingPrgID = "";
-//                            waitingDialog.hide();
-//                        }
-//                    })
+                    this.isTableLockProcessing = true;
+                    socket.emit('handleTableLock', {
+                        'prg_id':this_prg_id,
+                        'user': <%-JSON.stringify(session.user)%>
+                    })
+
+                    socket.on('checkTableLock', function (result) {
+                        console.log(result);
+                        self.isTableLockProcessing = false;
+                        self.isTableLocked = !result.success;
+                        self.tableLockMsg = result.errorMsg;
+                        self.isTableLockProcessing = false;
+                        if (!self.isTableLocked) {
+                            self.usingPrgID = this_prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+                            $("#prgContentDiv").empty().load('/mainSetUp/' + this_prg_id);
+                        }else{
+                            self.usingPrgID = "";
+                            waitingDialog.hide();
+                        }
+                    })
+
                 }
 
             },
@@ -235,15 +237,35 @@
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
-                $.post("/api/dbTableUnlock", {prg_id: vmMain.usingPrgID}, function (result) {
-                    callback(result.errorMsg, result.success);
+                socket.emit('handleTableUnlock', {
+                    'prg_id':vmMain.usingPrgID,
+                    'user': <%-JSON.stringify(session.user)%>
                 })
+                callback(null,true);
             }
 
 
         }
     })
+    /**Socket Block**/
 
+    /* socket.emit('datagird-process-lock', {
+
+     'prg_id': prg_id,
+     'user_id': '<%= session.user.usr_id %>'
+     });
+
+     socket.on('checkTableLock', function (data) {
+
+     if (data.success) {
+     // lock success
+     vm.fetchDataGridData();
+     vm.isTableLock = false;
+     } else {
+     vm.isTableLock = true;
+     vm.tableLockMsg = data.errorMsg;
+     }
+     }) */
 
 </script>
 </html>

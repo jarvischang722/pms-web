@@ -19,10 +19,12 @@ var port = 8888;
 var app = express();// initail express
 var server = http.createServer(app);
 var io = require('socket.io')(server);
+var dbSvc = require("./services/dbTableService");
 var dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 var mongoAgent = require("./plugins/mongodb");
 var tbSVC = require("./services/dbTableService");
 var _ = require("underscore");
+
 //初始化io event
 require("./plugins/socket.io/socketEvent")(io);
 
@@ -110,31 +112,13 @@ server.listen(port, function () {
  */
 function tableUnlockforAllPrg() {
 
-    mongoAgent.TemplateRf.find({page_id:1,template_id:'datagrid'}).exec(function (err, templates) {
-        var funcs = [];
-        var template = {};
-        _.each(templates, function(template){
-            funcs.push(
-                function (callback) {
-                    tbSVC.doTableUnLock(template.prg_id,
-                        template.lock_table,
-                        "",
-                        "T",
-                        ""
-                        , callback)
-                }
-            )
-        });
+    dbSvc.doTableAllUnLock(function(err,success){
+        if(err){
+            console.error(err);
+        }else{
+            console.log("Table unlock all program ID.");
+        }
 
-        require("async").parallel(funcs, function (err, result) {
-            if(err){
-               console.error("table unlock error!")
-               console.error(err)
-            }else{
-                console.log("table unlock finished!");
-            }
-
-        })
     })
 
 }

@@ -14,23 +14,24 @@ var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
  * @param user_id{String} : 使用者編號
  * @param lock_type{String} : 上鎖類別 T: table | R:recode
  * @param key_cod {String} : recode 才會有
+ * @param athena_id {String} : ATHENA_ID
+ * @param socket_id {String} : socket_id
  * @param callback{function} : 回調函數
  */
-exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod, callback) {
+exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, callback) {
     try {
-
-
         var REVE_CODE = "0200930010";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
             var params = {
                 "REVE-CODE": REVE_CODE,
                 "program_id": prg_id,
                 "table_name": table_name,
-                "key_cod": _.isUndefined(key_cod) ? null : key_cod,
+                "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
                 "user": user_id,
                 "type": lock_type,
-                "session_id": !err && session ? session.value : "",
-                "athena_id": "1001002"
+                "session_id":  "1111",
+                "athena_id": athena_id,
+                "socket_id": socket_id
             };
 
             tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
@@ -61,25 +62,57 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
  * @param user_id{String} : 使用者編號
  * @param lock_type{String} : 上鎖類別 T: table | R:recode
  * @param key_cod {String} : recode 才會有
+ * @param athena_id {String} : ATHENA_ID
+ * @param socket_id {String} : socket_id
  * @param callback{function} : 回調函數
  */
-exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_cod, callback) {
+exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, callback) {
+    try {
+        var REVE_CODE = "0200930011";
+        queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
-    var REVE_CODE = "0200930011";
-    queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
+            var params = {
+                "REVE-CODE": REVE_CODE,
+                "program_id": prg_id,
+                "table_name": table_name,
+                "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
+                "user": user_id,
+                "type": lock_type,
+                "session_id": "1111",
+                "athena_id": athena_id,
+                "socket_id": socket_id
+            };
 
-        var params = {
-            "REVE-CODE": REVE_CODE,
-            "program_id": prg_id,
-            "table_name": table_name,
-            "key_cod": _.isUndefined(key_cod) ? null : key_cod,
-            "user": user_id,
-            "type": lock_type,
-            "session_id": !err && session ? session.value : "",
-            "athena_id": "1001002"
-        };
+            tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+                var success = true;
+                var errorMsg = null;
+                if (err) {
+                    success = false;
+                    errorMsg = err;
+                }
 
-        tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+                if (!err && data["RETN-CODE"] != '0000') {
+                    success = false;
+                    errorMsg = data["RETN-CODE-DESC"] || "";
+                }
+
+                callback(errorMsg, success);
+            })
+
+        });
+    } catch (err) {
+        callback(err, false);
+    }
+};
+
+/**
+ * unlock 全部
+ * @param callback
+ */
+exports.doTableAllUnLock = function (callback) {
+    try {
+        var REVE_CODE = "0200930012";
+        tools.requestApi(sysConfig.api_url, {"REVE-CODE": REVE_CODE}, function (err, res, data) {
             var success = true;
             var errorMsg = null;
             if (err) {
@@ -94,6 +127,8 @@ exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_co
 
             callback(errorMsg, success);
         })
+    } catch (err) {
+        callback(err, false);
+    }
 
-    });
 };
