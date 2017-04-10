@@ -6,7 +6,7 @@ var moment = require('moment');
 var _ = require('underscore');
 var async = require('async');
 var Base64 = require('base-64');
-
+var utf8 = require('utf8');
 
 /**
  * @param {String} apiUrl : 要打API的URL
@@ -25,7 +25,9 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     deUrl = apiUrl + '?lang=' + lang + '&' + '&TxnData=' + params;
 
-    //params   = Base64.encode(params);    //加密
+    var paramsbytes = utf8.encode(params);
+
+    params   = Base64.encode(paramsbytes);    //加密
 
     params = encodeURIComponent(params);
 
