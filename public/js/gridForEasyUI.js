@@ -30,7 +30,7 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
-        }else if(fieldAttrObj.ui_type == "select"){
+        } else if (fieldAttrObj.ui_type == "select") {
             dataType = 'combobox';
         }
 
@@ -54,7 +54,8 @@ var EZfieldClass = {
         //長度
         var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
         var maxLength = fieldAttrObj.ui_field_length;
-        tmpFieldObj.editor.options.validType.push('length[' + mixLength + ',' + maxLength + ']');
+        if (fieldAttrObj.ui_type != "select")    //combobox因text內容有長有短，所以排除此長度驗證
+            tmpFieldObj.editor.options.validType.push('length[' + mixLength + ',' + maxLength + ']');
 
 
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
@@ -69,7 +70,6 @@ var EZfieldClass = {
         tmpFieldObj.multi_lang_table = fieldAttrObj.multi_lang_table;
 
 
-
         // format 顯示資料
         if (dataType == "datebox") {
             tmpFieldObj.formatter = function (date, row, index) {
@@ -81,13 +81,50 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
-        }else if(dataType == "combobox"){
+        } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
-            tmpFieldObj.editor.options.data  =  fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
             tmpFieldObj.editor.options.required = true;
+            tmpFieldObj.formatter = function (val, row, index) {
+                　if(val != null)
+                    return _.findWhere(fieldAttrObj.selectData, {value: val}).display;
+            }
 
+            //combobox連動
+            if (fieldAttrObj.rule_func_name != "") {
+                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+
+                    if (newValue != oldValue && oldValue != "") {
+                        var selectDataRow = $('#prg_dg').datagrid('getSelected');
+                        var postData = {
+                            prg_id: fieldAttrObj.prg_id,
+                            rule_func_name: fieldAttrObj.rule_func_name,
+                            validateField: fieldAttrObj.ui_field_name,
+                            rowData: JSON.parse(JSON.stringify(selectDataRow)),
+                            newValue: newValue,
+                            oldValue: oldValue
+                        }
+
+                        $.post('/api/chkFieldRule', postData, function (result) {
+                            if (result.success) {
+                                if (!_.isUndefined(result.effectValues)) {
+                                    var effectValues = result.effectValues;
+                                    var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+
+                                    $('#prg_dg').datagrid('endEdit', indexRow);
+                                    $('#prg_dg').datagrid('updateRow', {
+                                        index: indexRow,
+                                        row: effectValues
+                                    });
+                                    $('#prg_dg').datagrid('beginEdit', indexRow);
+                                }
+                            }
+                        })
+                    }
+                }
+            }
         }
 
         return tmpFieldObj;

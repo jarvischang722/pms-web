@@ -131,6 +131,29 @@
         "ins_usr" : "輸入者",
         "upd_dat" : "最後異動日",
         "upd_usr" : "最後異動者"
+    },
+    "PMS0810100" :{
+      "source_grp" : "群組代號",
+      "source_grp_nam" : "群組名稱",
+      "use_sta" : "是否使用中",
+      "ins_dat" : "輸入日",
+      "ins_usr" : "輸入者",
+      "upd_dat" : "最後異動日",
+      "upd_usr" : "最後異動者"
+    },
+    "PMS0810090" :{
+      "guest_typ" : "住客類別",
+      "guest_nam" : "名稱",
+      "guest_sna" : "簡稱",
+      "history_sta" : "留歷史資料、可印登記卡",
+      "guest_way" : "類別流程",
+      "use_sta" : "是否使用",
+      "rcard_prtrent" : "RCARD印房租",
+      "guest_grp" : "住客類別群組",
+      "ins_dat" : "輸入日",
+      "ins_usr" : "輸入者",
+      "upd_dat" : "最後異動日",
+      "upd_usr" : "最後異動者"
     }
   },
   "front_desk_conf": "飯店前台參數設定",
