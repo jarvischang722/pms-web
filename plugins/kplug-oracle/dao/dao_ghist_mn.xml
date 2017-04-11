@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810090']-->
+    <dao name="GET_GHIST_MN.GUEST_TYP_COUNT">
+        <statement><![CDATA[
+            select count(*) as guest_count
+             from ghist_mn
+             where athena_id = ?  and trim(guest_typ) = ? and rownum = 1
+
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">guest_typ</parameter>
+    </dao>
+</root>
