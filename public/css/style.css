@@ -1059,6 +1059,53 @@ a {
   margin-left: -15px;
 }
 
+/*-- 訂房特殊版型 日期 -- */
+/* line 397, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid label {
+  min-width: 50px;
+  max-width: 100%;
+}
+/* line 400, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid select, .holidayDateSet .holidayDateSet-content .holidayDateGrid input {
+  height: 34px;
+}
+/* line 403, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .time-daterange label {
+  vertical-align: middle;
+  height: 34px;
+  margin-right: 5px;
+  line-height: 34px;
+}
+/* line 408, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .time-daterange .input-daterange {
+  width: 220px;
+}
+/* line 411, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay {
+  height: 34px;
+  line-height: 34px;
+  border: 1px solid #438EB9;
+  padding: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+/* line 418, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:hover {
+  background: #eeeeee;
+  border: 2px solid #438EB9;
+  color: #438EB9;
+}
+/* line 422, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay.all {
+  background: #438EB9;
+  color: #eee;
+}
+/* line 425, ../sass/_bacchusMain.sass */
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay.all:hover {
+  background: rgba(67, 142, 185, 0.7);
+  border: 1px solid rgba(67, 142, 185, 0.7);
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {

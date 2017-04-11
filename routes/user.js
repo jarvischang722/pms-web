@@ -40,5 +40,7 @@ module.exports = function (app, passport) {
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
     //訂房確認書 email
     app.get('/reservationCheckMail', userCrtl.getReservationCheckMail);
+    //假日日期設定
+    app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
 };
 
