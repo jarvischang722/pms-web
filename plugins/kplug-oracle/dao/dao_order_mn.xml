@@ -46,7 +46,7 @@
         <statement><![CDATA[
        select count(*)  as guest_count
        from order_mn
-        where athena_id = ?  and guest_typ = ? and rownum = 1
+        where athena_id = ?  and trim(guest_typ) = ? and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>

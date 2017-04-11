@@ -88,7 +88,8 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
             tmpFieldObj.editor.options.required = true;
             tmpFieldObj.formatter = function (val, row, index) {
-                return _.findWhere(fieldAttrObj.selectData, {value: val}).display;
+                　if(val != null)
+                    return _.findWhere(fieldAttrObj.selectData, {value: val}).display;
             }
 
             //combobox連動
