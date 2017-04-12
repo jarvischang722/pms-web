@@ -5,7 +5,7 @@
 module.exports = {
     //oracle 設定檔
     oracle: {
-        connectString: "192.168.168.203:1521/MISUTF8",
+        connectString: "125.227.154.170:1521/WRS",
         user: "htce7",
         password: "sql"
     },
