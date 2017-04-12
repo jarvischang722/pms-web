@@ -74,7 +74,7 @@
 
 <script type="text/javascript">
 
-    var socket = io.connect('/datagrid');
+
     var prg_id = '<%= prg_id %>';
     var vm = new Vue({
         el: '#DGApp',
@@ -299,25 +299,7 @@
         }
     })
 
-    /**Socket Block**/
 
-    /* socket.emit('datagird-process-lock', {
-
-        'prg_id': prg_id,
-        'user_id': '<%= session.user.usr_id %>'
-    });
-
-    socket.on('checkTableLock', function (data) {
-
-        if (data.success) {
-            // lock success
-            vm.fetchDataGridData();
-            vm.isTableLock = false;
-        } else {
-            vm.isTableLock = true;
-            vm.tableLockMsg = data.errorMsg;
-        }
-    }) */
 
 </script>
 

@@ -4,9 +4,8 @@
     <dao name="QRY_CONN_SESSION">
        <statement><![CDATA[
 
-          SELECT name, value
-          FROM v$parameter
-           WHERE name = 'sessions'
+        Select UserEnv('SESSIONID') as db_session_id
+        FROM dual
 
         ]]></statement>
 
