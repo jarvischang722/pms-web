@@ -158,7 +158,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
         },
         // 3)
         function (gridInfo, callback) {
-            queryAgent.queryList(gridInfo.rule_func_name, params, 0, 0, function (err, data) {
+            queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                 dataGridRows = data;
                 callback(err, dataGridRows)
             })
@@ -170,14 +170,14 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                 user_id: userInfo.usr_id,
                 athena_id: userInfo.athena_id,
                 prg_id: prg_id,
-                page_id:page_id
+                page_id: page_id
             }).sort({col_seq: 1}).exec(function (err, UserFieldData) {
                 if (err || UserFieldData.length == 0) {
                     mongoAgent.UIDatagridField.find({
                         user_id: "",
                         athena_id: "",
                         prg_id: prg_id,
-                        page_id:page_id
+                        page_id: page_id
                     }).sort({col_seq: 1}).exec(function (err, commonField) {
                         fieldData = commonField;
                         callback(err, fieldData)
@@ -189,9 +189,10 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
             })
         },
         //尋找ui_type有select的話，取得combobox的資料
-        function (fields,callback) {
+        function (fields, callback) {
 
             fieldData = tools.mongoDocToObject(fields);
+
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
                 if (field.ui_type == 'select') {
@@ -203,19 +204,16 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                             }).exec(function (err, selRow) {
                                 fieldData[fIdx].selectData = [];
                                 if (selRow) {
-                                    selRow = selRowx.toObject();
+                                    selRow = selRow.toObject();
                                     fieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                     fieldData[fIdx].referiable = selRow.referiable || "N";
                                     fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-
-
-                                dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
-                                    fieldData[fIdx].selectData = selectData;
-
-                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
-                                });
-                                }else{
+                                    dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
+                                        fieldData[fIdx].selectData = selectData;
+                                        callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                    });
+                                } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
                             })
@@ -605,14 +603,14 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         },
         //抓取新增資料
         function (data, callback) {
-            lo_result.defaultValues = _.extend(lo_result.defaultValues , ruleAgent.getCreateCommonDefaultDataRule(session));
-            if (!_.isEmpty(addRuleFunc) &&　!_.isUndefined(ruleAgent[addRuleFunc])) {
+            lo_result.defaultValues = _.extend(lo_result.defaultValues, ruleAgent.getCreateCommonDefaultDataRule(session));
+            if (!_.isEmpty(addRuleFunc) && !_.isUndefined(ruleAgent[addRuleFunc])) {
                 ruleAgent[addRuleFunc](postData, session, function (err, result) {
-                    lo_result.defaultValues = _.extend(lo_result.defaultValues , result.defaultValues);
+                    lo_result.defaultValues = _.extend(lo_result.defaultValues, result.defaultValues);
                     callback(err, lo_result);
                 })
             } else {
-                callback(null,lo_result);
+                callback(null, lo_result);
             }
 
         }
