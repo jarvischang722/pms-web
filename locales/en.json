@@ -139,5 +139,6 @@
 	"room_group": "Room group",
 	"state_conf": "State",
 	"room_type": "Room Type",
-	"Room Type": "Room Type"
+	"Room Type": "Room Type",
+	"table_in_use":"Table in use (%s)"
 }

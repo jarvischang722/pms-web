@@ -6,6 +6,7 @@ var tools = require("../utils/commonTools");
 var _ = require("underscore");
 var sysConfig = require("../configs/SystemConfig");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+var i18n = require("i18n");
 
 /**
  *
@@ -29,7 +30,7 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
                 "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
                 "user": user_id,
                 "type": lock_type,
-                "session_id":  "1111",
+                "session_id":  "1122334455",
                 "athena_id": athena_id,
                 "socket_id": socket_id
             };
@@ -44,7 +45,7 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
 
                 if (!err && data["RETN-CODE"] != '0000') {
                     success = false;
-                    errorMsg = data["RETN-CODE-DESC"];
+                    errorMsg = i18n.__("table_in_use",data["RETN-CODE-DESC"]);
                 }
 
                 callback(errorMsg, success);
@@ -78,7 +79,7 @@ exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_co
                 "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
                 "user": user_id,
                 "type": lock_type,
-                "session_id": "1111",
+                "session_id": "1122334455",
                 "athena_id": athena_id,
                 "socket_id": socket_id
             };

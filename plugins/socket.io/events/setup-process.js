@@ -30,8 +30,8 @@ module.exports = function (io) {
                     lock_type = template.lock_type == "table" ? "T" : "R";
 
                     dbSVC.doTableLock(prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, function (errorMsg, success) {
-                        console.log(success);
-                        socket.emit('checkTableLock', {success: success, errorMsg: errorMsg});
+
+                        socket.emit('checkTableLock', {success: success, errorMsg: errorMsg,prg_id:prg_id});
                     })
                 }
 

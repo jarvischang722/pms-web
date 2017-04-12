@@ -37,11 +37,20 @@ require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
 
 // i18n setting
 i18n.configure({
+    // watch for changes in json files to reload locale on updates - defaults to false
+    autoReload: true,
+    // setup some locales - other locales default to en silently
     locales: ['zh_tw', 'zh_cn', 'en', 'ja'],
+    // you may alter a site wide default locale
     defaultLocale: 'en',
+    // sets a custom cookie name to parse locale settings from - defaults to NULL
     cookie: sysConfig.secret + 'i18n',
+    // where to store json files - defaults to './locales' relative to modules directory
     directory: __dirname + '/locales',
-    objectNotation: true
+    // enable object notation
+    objectNotation: true,
+    // object or [obj1, obj2] to bind the i18n api and current locale to - defaults to null
+    register: global
 });
 
 require('./utils/passport-cas')(passport);
