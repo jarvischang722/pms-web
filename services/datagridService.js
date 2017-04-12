@@ -213,6 +213,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                                         fieldData[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
+
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
