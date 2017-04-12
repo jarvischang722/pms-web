@@ -16,6 +16,7 @@ module.exports = {
         dbname: "bacchus",
         username: "bacchus",
         password: "mongo"
+
     },
     //是否要Debug模式
     debug : 1

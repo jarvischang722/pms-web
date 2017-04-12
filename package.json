@@ -49,6 +49,7 @@
     "socket.io": "^1.7.2",
     "underscore": "^1.8.3",
     "underscore.string": "^3.2.2",
+    "utf8": "^2.1.2",
     "xmldom": "^0.1.27",
     "xpath": "0.0.23"
   }
