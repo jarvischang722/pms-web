@@ -2,7 +2,6 @@
  * Created by Jun on 2017/2/23.
  */
 var prg_id = $("#prg_id").val();
-var socket = io.connect('/singleGrid');
 var $prg_dtdg = $("#dt_dg");
 var vmHub = new Vue;
 /** 編輯新增Dialog Component **/
