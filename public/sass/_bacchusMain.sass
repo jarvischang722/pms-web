@@ -213,6 +213,9 @@ a
 /*-- singleGridDialogTmp 新增權限 --*/
 #singleGridDialog
   position: relative
+  margin-top: 5px
+  padding-top: 15px
+  padding-bottom: 15px
   .singleRelative
     position: relative
   .singleEditStatus
@@ -227,5 +230,67 @@ a
       margin-top: 5px
       max-width: 85px
       right: 10px
+  // TODO
+  // resize dialog can not correct
+  .singleGridContent
+    height: 300px
+    //max-height: 100%
+    overflow: auto
+  //.singleBtnBottom
+  //  position: absolute
+  //  bottom: 20px
 
+// 訂房確認書 email
+.reserveCheckMail
+  .block-item
+    margin: 10px auto
+    vertical-align: middle
+    label, .spaceColon, input,button,textarea
+      display: inline-block
+      vertical-align: middle
+    label
+      //width: 75px
+      text-align: right
+      vertical-align: middle
+      position: relative
+      padding: 0
+    .spaceColon
+      width: 15px
+      text-align: center
+      min-width: 15px
+    input
+      height: 30px
+    button
+      margin-left: 10px
+    .block-item-content
+      position: relative
+      .btnCheck
+        position: absolute
+        top: 0
+        margin-left: 14px
+    .relative
+      position: relative
+      display: inline-block
+      .tip
+        position: absolute
+        right: 0
+        bottom: -20px
+        font-size: 0.85em
+        color: #ff625f
 
+  .tipWall
+    border: 1px solid #ff625f
+    color: #ff625f
+    padding: 10px
+    p,li
+      line-height: $lineHeight22
+  .changeChoice
+    margin: 10px auto
+    ul
+      display: inline
+      li
+        display: inline
+        margin: 0
+        padding: 5px 10px
+        background: #feffac
+        border: 1px solid #ffd530
