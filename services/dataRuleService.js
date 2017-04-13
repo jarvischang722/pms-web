@@ -237,6 +237,23 @@ exports.qry_guest_rf_rcard_prtrent = function (params,callback) {
 };
 
 /**
+ * PMS0810110取得是否使用
+ */
+exports.qry_source_rf_use_sta = function (params,callback) {
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
+
+/**
  * 使用者離開欄位時檢查
  * @param postData
  * @param session

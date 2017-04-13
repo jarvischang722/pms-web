@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810110取得多筆資料-->
+    <dao name="QRY_SOURCE_RF">
+        <statement><![CDATA[
+           select * from source_rf where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

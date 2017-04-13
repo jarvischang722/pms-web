@@ -8,6 +8,7 @@ var async = require('async');
 var Base64 = require('base-64');
 var utf8 = require('utf8');
 
+
 /**
  * @param {String} apiUrl : 要打API的URL
  * @param {JSON} params :　參數
@@ -34,6 +35,8 @@ exports.requestApi = function (apiUrl, params, callback) {
     url = apiUrl + '?lang=' + lang + '&TxnData=' + params;
 
     console.log(deUrl);
+
+    console.log(url);
 
     request({url: url, encoding: "utf8", timeout: 30000, json: true}, function (err, response, data) {
         var errorMsg = null;

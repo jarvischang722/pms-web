@@ -154,6 +154,16 @@
 			"ins_usr" : "Added By",
 			"upd_dat" : "Modified Date",
 			"upd_usr" : "Modified By"
+		},
+		"PMS0810110" :{
+			"source_typ" : "",
+			"source_nam" : "Group Name",
+			"use_sta" : "In Use",
+			"source_grp" : "Source Group",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",
@@ -162,5 +172,6 @@
 	"room_group": "Room group",
 	"state_conf": "State",
 	"room_type": "Room Type",
-	"Room Type": "Room Type"
+	"Room Type": "Room Type",
+	"table_in_use":"Table in use (%s)"
 }

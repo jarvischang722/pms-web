@@ -109,6 +109,13 @@
                                                                     住客類別設定
                                                                 </a>
                                                             </li>
+                                                            <li>
+                                                                <a data-toggle="tab"來源
+                                                                   @click="loadSetUpPage('PMS0810110')"
+                                                                   href="#">
+                                                                    訂房卡設定
+                                                                </a>
+                                                            </li>
                                                         </ul>
 
                                                         <div class="tab-content">
@@ -164,7 +171,8 @@
 </body>
 
 <script>
-
+    var socket = io.connect('/setup');
+    var userInfo = <%-JSON.stringify(session.user)%>;
     var vmMain = new Vue({
         el: '#main-container',
         data: {
@@ -192,19 +200,23 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
-                var self = this;
+
                 waitingDialog.show("Loading...");
-//                //判斷是否要Unlock
+
+                $("#prgContentDiv").empty();
+                this.isTableLocked = false;
+
+                //判斷是否要Unlock
                 if (!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)) {
                     this.isTableLockProcessing = true;
                     this.doTableUnLock(function (errorMsg, success) {
                         this.isTableLockProcessing = false;
-                        console.log("解開lock:" + this.usingPrgID);
+                        console.log("解開lock:" + vmMain.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
 
-                $("#prgContentDiv").empty();
+
 
                 // Start
                 // 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog
@@ -217,47 +229,45 @@
                     $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
 
                 } else {
-                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
-                    //TODO table lock 尚未修好
-//                    this.isTableLockProcessing = true;
-//                    this.doTableLock(this_prg_id, function (errorMsg, success) {
-//                        if(success){
-//                            console.log("鎖上lock:" +  this_prg_id);
-//                        }else{
-//                            console.error("有人用")
-//                        }
-//
-//                        vmMain.isTableLocked = !success;
-//                        vmMain.tableLockMsg = errorMsg;
-//                        this.isTableLockProcessing = false;
-//                        if (!vmMain.isTableLocked) {
-//                            vmMain.usingPrgID = this_prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-//                            $("#prgContentDiv").empty().load('/mainSetUp/' + this_prg_id);
-//                        }else{
-//                            vmMain.usingPrgID = "";
-//                            waitingDialog.hide();
-//                        }
-//                    })
+                    this.isTableLockProcessing = true;
+                    this.doTableLock(this_prg_id);
                 }
 
             },
             //資料表上鎖
-            doTableLock: function (prg_id, callback) {
-                $.post("/api/dbTableLock", {prg_id: prg_id}, function (result) {
-                    callback(result.errorMsg, result.success);
+            doTableLock: function (prg_id) {
+                socket.emit('handleTableLock', {
+                    'prg_id':prg_id,
+                    'user': userInfo
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
-                $.post("/api/dbTableUnlock", {prg_id: vmMain.usingPrgID}, function (result) {
-                    callback(result.errorMsg, result.success);
+                socket.emit('handleTableUnlock', {
+                    'prg_id':vmMain.usingPrgID,
+                    'user': userInfo
                 })
+                callback(null,true);
             }
 
 
         }
     })
 
-
+    //lock 結果
+    socket.on('checkTableLock', function (result) {
+        console.log(result);
+        vmMain.isTableLockProcessing = false;
+        vmMain.isTableLocked = !result.success;
+        vmMain.tableLockMsg = result.errorMsg;
+        vmMain.isTableLockProcessing = false;
+        if (!vmMain.isTableLocked) {
+            vmMain.usingPrgID = result.prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
+            $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id);
+        }else{
+            vmMain.usingPrgID = "";
+            waitingDialog.hide();
+        }
+    })
 </script>
 </html>
