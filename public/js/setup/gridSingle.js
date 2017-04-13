@@ -641,14 +641,18 @@ vm = new Vue({
         },
         //打開單檔dialog
         showSingleGridDialog: function () {
-
+            var maxHeight = document.documentElement.clientHeight - 200;
+            var height = this.pageTwoFieldData.length * 30;
+                console.log(maxHeight);
+                console.log(height);
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 title: "<div class='widget-header widget-header-small'><h4 class='smaller'></h4></div>",
                 title_html: true,
+                height:_.min(maxHeight,height),
                 minWidth: 800,
-                maxHeight: 600,
+                maxHeight: maxHeight,
                 resizable: true
             });
             dialog.dialog("open");
