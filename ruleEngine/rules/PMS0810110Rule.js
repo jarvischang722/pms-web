@@ -70,10 +70,10 @@ module.exports = {
                             var modifySta = postData.singleRowData.modify_sta.trim();
                             if (modifySta == "N") {
                                 isDeleteRow = false;
-                                callback(isDeleteRow, []);
+                                callback(null, isDeleteRow);
                             } else {
                                 isDeleteRow = true;
-                                callback(isDeleteRow, []);
+                                callback(null, isDeleteRow);
                             }
                         },
                         function (data, callback) {
@@ -82,13 +82,13 @@ module.exports = {
                                     if (data == true) {
                                         if (guestData.guest_count > 0) {
                                             isDeleteRow = false;
-                                            callback(isDeleteRow, []);
+                                            callback(null, isDeleteRow);
                                         } else {
                                             isDeleteRow = true;
-                                            callback(isDeleteRow, []);
+                                            callback(null, isDeleteRow);
                                         }
                                     } else {
-                                        callback(data, []);
+                                        callback(null, data);
                                     }
                                 } else {
                                     callback(err, []);
@@ -100,13 +100,13 @@ module.exports = {
                                     if (data == true) {
                                         if (guestData.guest_count > 0) {
                                             isDeleteRow = false;
-                                            callback(isDeleteRow, []);
+                                            callback(null, isDeleteRow);
                                         } else {
                                             isDeleteRow = true;
-                                            callback(isDeleteRow, []);
+                                            callback(null, isDeleteRow);
                                         }
                                     } else {
-                                        callback(data, []);
+                                        callback(null, data);
                                     }
                                 } else {
                                     callback(err, []);
@@ -138,82 +138,5 @@ module.exports = {
             async.parallel(createSubFunc, function (err, result) {
                 callback(err, result);
             })
-
-        createSubFunc.push(
-            function (callback) {
-                async.waterfall([
-                    function (callback) {
-                        var modifySta = postData.singleRowData.modify_sta.trim();
-                        if (modifySta == "N") {
-                            isDeleteRow = false;
-                            callback(isDeleteRow, []);
-                        } else {
-                            isDeleteRow = true;
-                            callback(isDeleteRow, []);
-                        }
-                    },
-                    function (data, callback) {
-                        queryAgent.query("GET_ORDER_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                            if (!err) {
-                                if (data == true) {
-                                    if (guestData.guest_count > 0) {
-                                        isDeleteRow = false;
-                                        callback(isDeleteRow, []);
-                                    } else {
-                                        isDeleteRow = true;
-                                        callback(isDeleteRow, []);
-                                    }
-                                } else {
-                                    callback(data, []);
-                                }
-                            } else {
-                                callback(err, []);
-                            }
-                        })
-                    }, function (data, callback) {
-                        queryAgent.query("GET_GW_CUST_RF.DEFAULT_GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                            if (!err) {
-                                if (data == true) {
-                                    if (guestData.guest_count > 0) {
-                                        isDeleteRow = false;
-                                        callback(isDeleteRow, []);
-                                    } else {
-                                        isDeleteRow = true;
-                                        callback(isDeleteRow, []);
-                                    }
-                                } else {
-                                    callback(data, []);
-                                }
-                            } else {
-                                callback(err, []);
-                            }
-                        })
-                    }
-                    // , function (data, callback) {  SAM 等待星光大哥確認package
-                    //
-                    // }
-                ], function (errMsg, result) {
-                    if (errMsg) {
-                        lo_error = new ErrorClass();
-                        lo_result.success = false;
-                        if (errMsg == false)
-                            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
-                        else
-                            lo_error.errorMsg = errMsg;
-
-                        lo_error.errorCod = "1111";
-                        callback(lo_error, lo_result);
-
-                    } else {
-                        callback(lo_error, lo_result);
-                    }
-                })
-            }
-        );
-
-        async.parallel(createSubFunc, function (err, result) {
-            callback(err, result);
-        })
-
     }
 }
