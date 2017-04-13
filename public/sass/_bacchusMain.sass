@@ -1,7 +1,7 @@
 $font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
 body
   font-family: $font-family
-  font-size: $font-15
+  font-size: $font-14
 a
   text-decoration: none
   cursor: pointer
@@ -229,7 +229,8 @@ a
       //display: block !important
       margin-top: 5px
       max-width: 85px
-      right: 10px
+      right: 11px
+      padding: 5px
   // TODO
   // resize dialog can not correct
   .singleGridContent
@@ -391,6 +392,12 @@ a
   box-sizing: border-box
   margin-left: -15px
 /*-- 訂房特殊版型 日期 --*/
+@mixin datePin($bk: #5367ff)
+  background: $bk //#5367ff
+  width: 32px
+  height: 32px
+  margin: 1px auto auto 5px
+  vertical-align: middle
 .holidayDateSet
   .holidayDateSet-content
     .holidayDateGrid
@@ -412,7 +419,7 @@ a
           height: 34px
           line-height: 34px
           border: 1px solid #438EB9
-          padding: 4px
+          padding: 6px
           cursor: pointer
           box-sizing: border-box
           &:hover
@@ -426,3 +433,16 @@ a
               background: rgba(67, 142, 185, .7)
               border: 1px solid rgba(67, 142, 185, .7)
               //color: #888
+      .holidayDateSelect
+        .datePin01
+          +datePin($bk: #5367ff)
+        .datePin02
+          +datePin($bk: #8effa9)
+        .datePin03
+          +datePin($bk: #ff5f4e)
+        label
+          vertical-align: middle
+          height: 34px
+          margin-right: 5px
+          line-height: 34px
+
