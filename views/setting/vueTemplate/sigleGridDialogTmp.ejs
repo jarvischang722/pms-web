@@ -103,23 +103,23 @@
                     <div class="col-sm-1 col-xs-1 singleRelative">
                         <div class="row" v-if="editStatus">
                             <div class="singleEditStatus">
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-defaultWidth"
+                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isFistData"
                                         style="" @click="toFirstData">First
                                 </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-defaultWidth"
+                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isFistData"
                                         style="" @click="toPreData">Previous
                                 </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-defaultWidth"
+                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isLastData"
                                         style="" @click="toNextData">next
                                 </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-defaultWidth"
+                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isLastData"
                                         style="" @click="toLastData">Last
                                 </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-defaultWidth"
+                                <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
                                         style=""
                                         @click="handleDeleteSingleData">
                                     Delete
@@ -132,31 +132,34 @@
                 </div>
                 <div class="clearfix"></div>
                 <hr>
-                <div class="col-sm-12 col-xs-12 center">
-                    <div class="singleRelative">
-                        <div class="singleBtnBottom">
-                            <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
-                                    @click="doSaveGrid('addOther')">
-                                Add after save
-                            </button>
-                            <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                                    class="btn btn-primary" @click="doSaveGrid('closeDialog')">
-                                Leave after save
-                            </button>
-                            <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
-                                    @click="doSaveGrid('')">Save
-                            </button>
-                            <button class="btn btn-warning" @click="emitCloseGridDialog">
-                                Leave
-                            </button>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+
+
             </div>
         </div>
         <div class="clearfix"></div>
 
+    </div>
+    <!-- buttons -->
+    <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
+        <div class="singleRelative">
+            <div class="singleBtnBottom">
+                <button v-if="createStatus" class="btn btn-primary" style="margin-right: 5px;"
+                        @click="doSaveGrid('addOther')">
+                    Add after save
+                </button>
+                <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                        class="btn btn-primary" @click="doSaveGrid('closeDialog')">
+                    Leave after save
+                </button>
+                <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
+                        @click="doSaveGrid('')">Save
+                </button>
+                <button class="btn btn-warning" @click="emitCloseGridDialog">
+                    Leave
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
     </div>
     <!-- /.settingSingleDialog -->
 </script>
