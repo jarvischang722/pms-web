@@ -331,26 +331,25 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (!delRow) {
                 alert("請選擇要刪除的資料");
             }
-            delRow["mnRowData"] = this.singleData;
-            $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
-            this.tmpCUD.dt_deleteData.push(delRow);
-            this.endDtEditing();
+            delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            // $.post("/api/handleDataGridDeleteEventRule", {
-            //     prg_id: prg_id,
-            //     deleteData: vm.tmpCUD.deleteData
-            // }, function (result) {
-            //
-            //     console.log(result);
-            //     if(result.success){
-            //         $prg_dg.datagrid('deleteRow', $prg_dg.datagrid('getRowIndex', delRow));
-            //     }else{
-            //         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-            //         vm.endEditing();
-            //         alert(result.errorMsg);
-            //     }
-            //
-            // })
+            vm.tmpCUD.dt_deleteData.push(delRow);
+
+            $.post("/api/handleDataGridDeleteEventRule", {
+                prg_id: prg_id,
+                deleteData: vm.tmpCUD.dt_deleteData
+            }, function (result) {
+
+                console.log(result);
+                if(result.success){
+                    $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
+                }else{
+                    vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
+                    vm.endEditing();
+                    alert(result.errorMsg);
+                }
+
+            })
 
         }
     }
@@ -448,8 +447,7 @@ vm = new Vue({
                 var fieldData = result.fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
-                console.log("-----------");
-                console.log(vm.pageTwoFieldData);
+
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
                     $("#dt_dg_DIV").show();
@@ -466,9 +464,8 @@ vm = new Vue({
                     vm.userInfo = result.userInfo;
             })
         },
-        //show checkbox
+        //Show Checkbox
         showCheckboxDG: function () {
-
             var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
             $('#dgCheckbox').datagrid({
                 columns: [
@@ -513,7 +510,6 @@ vm = new Vue({
                 },
                 onClickRow: function (index, row) {
 
-                    // EZfieldClass.pageTwoFieldOptionsActive(vm.pageTwoFieldData);
                     vm.editingRow = row;
                     vm.editStatus = true;
                     vm.fetchSingleData(row, function (success) {
@@ -604,7 +600,6 @@ vm = new Vue({
             vm.createStatus = true;
             vm.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id}, function (result) {
-
                 if (result.success) {
                     console.log(result);
                     vm.singleData = result.defaultValues;
@@ -641,40 +636,18 @@ vm = new Vue({
         },
         //打開單檔dialog
         showSingleGridDialog: function () {
-            var maxHeight = document.documentElement.clientHeight - 200;
-            var height = this.pageTwoFieldData.length * 30;
-                console.log(maxHeight);
-                console.log(height);
+
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var height = this.pageTwoFieldData.length * 45; // 預設一個row 高度
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                title: "<div class='widget-header widget-header-small'><h4 class='smaller'></h4></div>",
-                title_html: true,
+                title: "MN",
                 height:_.min(maxHeight,height),
-                minWidth: 800,
-                maxHeight: 600,
-                resizable: true,
-                buttons: [
-                    {
-                        text: "Add after save",
-                        "class" : "btn btn-primary",
-                        "v-if" : "createStatus",
-                        "style" : "margin-right: 5px;",
-                        "@click" : "doSaveGrid('addOther')",
-                        click: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    },
-                    {
-                        text: "OK",
-                        "class" : "btn btn-primary btn-minier",
-                        click: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                ]
+                minWidth: 750,
                 maxHeight: maxHeight,
-                resizable: true
+                resizable: true,
+                buttons: "#dialogBtns"
             });
             dialog.dialog("open");
 
