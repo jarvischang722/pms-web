@@ -36,10 +36,13 @@ module.exports = function (app, passport) {
 
     //新增 角色權限
     app.get('/authorityRole', userCrtl.getAuthorityRole);
+
     //新增 人員權限
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
+
     //訂房確認書 email
     app.get('/reservationCheckMail', userCrtl.getReservationCheckMail);
+
     //假日日期設定
     app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
 };
