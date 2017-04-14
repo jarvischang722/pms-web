@@ -28,7 +28,7 @@ h3
       padding: 5px 0
 
 @media (min-width: 992px) and (max-width: 1240px)
-  .navbar-fixed-top + .main-container
+  //.navbar-fixed-top + .main-container
 //padding-top: 90px //edit 1024解析
 
 .top-sec-ul
@@ -150,3 +150,8 @@ h3
   a
     padding-right: 5px
     padding-left: 5px
+
+// 調整primary disable
+.btn-white.btn-primary[disabled]
+  &:hover
+    background-color: transparent !important

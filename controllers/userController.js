@@ -160,3 +160,7 @@ exports.getAuthorityStaff = function (req, res) {
 exports.getReservationCheckMail = function (req, res) {
     res.render("user/reservationCheckMail");
 };
+//假日日期設定
+exports.getHolidayDateSet = function (req, res) {
+    res.render("user/holidayDateSet");
+};

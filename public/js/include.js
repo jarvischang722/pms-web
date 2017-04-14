@@ -107,7 +107,10 @@ $(function () {
 ////            $(this).find('.sub-ul li:first-child').addClass("sub-active");
 //    });
 
-
+    // search toggle
+    $(document).on('click',".show-search-detail",function (e) {
+        $('.rece-search-detail').slideToggle();
+    });
 });
 
 
