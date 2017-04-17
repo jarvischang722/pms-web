@@ -71,10 +71,10 @@ $("#toggle-disabled").click(function() {
     isDisabled = !isDisabled;
     return false;
 });
-
-$("input:disabled").spectrum({
-
-});
+// 導致一般的disable錯誤 edit 20170414
+// $("input:disabled").spectrum({
+//
+// });
 $("#disabled").spectrum({
     disabled: true
 });
