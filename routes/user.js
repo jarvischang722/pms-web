@@ -34,10 +34,18 @@ module.exports = function (app, passport) {
     //取得QuickMenu
     app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);
 
-    //取得權限設計web
-    app.get('/authorityRole',middles, userCrtl.getAuthorityRole);
+    //新增 角色權限
+    app.get('/authorityRole', userCrtl.getAuthorityRole);
 
-    app.get('/authorityStaff',middles, userCrtl.getAuthorityStaff);
+    //新增 人員權限
+    app.get('/authorityStaff', userCrtl.getAuthorityStaff);
 
+    //訂房確認書 email
+    app.get('/reservationCheckMail', userCrtl.getReservationCheckMail);
+
+    //假日日期設定
+    app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
+    //商務公司資料編輯
+    app.get('/businessCompanyData', userCrtl.getBusinessCompanyData);
 };
 

@@ -148,10 +148,23 @@ exports.getUserInfo = function (req, res) {
     res.json({success: !_.isUndefined(req.session.user), errorMsg: 'not login!', userInfo: req.session.user});
 };
 
-//取得權限設計web
+//新增 角色權限
 exports.getAuthorityRole = function (req, res) {
     res.render("user/authorityRole");
 };
+//新增 人員權限
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
+};
+//訂房確認書 email
+exports.getReservationCheckMail = function (req, res) {
+    res.render("user/reservationCheckMail");
+};
+//假日日期設定
+exports.getHolidayDateSet = function (req, res) {
+    res.render("user/holidayDateSet");
+};
+//商務公司資料編輯
+exports.getBusinessCompanyData = function (req, res) {
+    res.render("user/businessCompanyData");
 };

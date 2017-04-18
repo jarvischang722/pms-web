@@ -131,6 +131,29 @@
 			"ins_usr" : "Added By",
 			"upd_dat" : "Modified Date",
 			"upd_usr" : "Modified By"
+		},
+		"PMS0810100" :{
+			"source_grp" : "Source Group",
+			"source_grp_nam" : "Group Name",
+			"use_sta" : "In Use",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
+		},
+		"PMS0810090" :{
+			"guest_typ" : "Guest Type",
+			"guest_nam" : "Type Name",
+			"guest_sna" : "Short Name",
+			"history_sta" : "Guest History",
+			"guest_way" : "Process Type",
+			"use_sta" : "In Use ",
+			"rcard_prtrent" : "Print Rent",
+			"guest_grp" : "Guest Group",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",
@@ -139,5 +162,6 @@
 	"room_group": "Room group",
 	"state_conf": "State",
 	"room_type": "Room Type",
-	"Room Type": "Room Type"
+	"Room Type": "Room Type",
+	"table_in_use":"Table in use (%s)"
 }

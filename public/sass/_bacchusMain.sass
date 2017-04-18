@@ -1,7 +1,7 @@
 $font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
 body
   font-family: $font-family
-  font-size: $font-15
+  font-size: $font-default
 a
   text-decoration: none
   cursor: pointer
@@ -213,6 +213,9 @@ a
 /*-- singleGridDialogTmp 新增權限 --*/
 #singleGridDialog
   position: relative
+  margin-top: 5px
+  padding-top: 15px
+  padding-bottom: 15px
   .singleRelative
     position: relative
   .singleEditStatus
@@ -226,6 +229,259 @@ a
       //display: block !important
       margin-top: 5px
       max-width: 85px
-      right: 10px
+      right: 11px
+      padding: 5px
+  // TODO
+  // resize dialog can not correct
+  .singleGridContent
+    //height: 300px
+    //max-height: 100%
+    //overflow: auto
+  .singleBtnBottom
+    position: fixed
+    bottom: 50px
 
+/*-- 訂房確認書 email --*/
+.reserveCheckMail
+  .block-item
+    margin: 10px auto
+    vertical-align: middle
+    label, .spaceColon, input,button,textarea
+      display: inline-block
+      vertical-align: middle
+    label
+      //width: 75px
+      text-align: right
+      vertical-align: middle
+      position: relative
+      padding: 0
+    .spaceColon
+      width: 15px
+      text-align: center
+      min-width: 15px
+    input
+      height: 30px
+    button
+      margin-left: 10px
+    .block-item-content
+      position: relative
+      .btnCheck
+        position: absolute
+        top: 0
+        margin-left: 14px
+    .relative
+      position: relative
+      display: inline-block
+      .tip
+        position: absolute
+        right: 0
+        bottom: -20px
+        font-size: 0.85em
+        color: #ff625f
 
+  .tipWall
+    border: 1px solid #ff625f
+    color: #ff625f
+    padding: 10px
+    p,li
+      line-height: $lineHeight22
+  .changeChoice
+    margin: 10px auto
+    ul
+      display: inline
+      li
+        display: inline
+        margin: 0
+        padding: 5px 10px
+        background: #feffac
+        border: 1px solid #ffd530
+/*-- 搜尋按鈕 --*/
+.search-content
+  position: relative
+  padding: 0 0 15px 0
+  .search-co
+    position: relative
+    height: auto
+    border: 1px solid #0063ae
+    .search-co-h
+      position: relative
+      font-size: 14px
+      background: #c0d6ee
+      padding: 0 0 0 10px
+      height: 28px
+      line-height: 28px
+      border-bottom: 1px solid #0063ae
+      i
+        color: #fff
+      span
+        margin: 0 0 0 5px
+      .search-right-btn
+        position: absolute
+        right: 20px
+        top: 0
+        .right-btn-menu-co
+          text-align: center
+          ul
+            li
+              float: left
+              list-style: none
+              padding: 0 5px
+              i
+                cursor: pointer
+              div.icon-reStyle
+                width: 32px
+                height: 32px
+                border-radius: 32px
+                margin: 0 auto 4px auto
+                box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+
+    .search-co-content
+      text-align: left
+      border-collapse: collapse
+      .block-table
+        margin: 10px 0
+        label
+          margin: 0 5px 0 0
+          text-align: right
+          width: 90px
+          //min-width: 90px
+          //max-width: 100%
+          font-size: 13px
+        label.key-Word
+          margin: 0 0 0 -20px
+        label.more-Word
+          margin: 0 0 0 -68px
+        input
+          //width: 50%
+          line-height: 25px
+          height: 25px
+      .search-footer-btn
+        position: absolute
+        right: 20px
+        top: 30px // 如果search-h 變小 top:20px
+        padding: 0 10px 0 0
+        .footer-btn-menu-co
+          text-align: center
+          ul
+            li
+              float: left
+              list-style: none
+              padding: 4px
+              div.icon-reStyle
+                width: 28px
+                height: 28px
+                border-radius: 28px
+                margin: 0 auto 0 auto
+                box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+
+    .search-co-btn
+      background: #555
+      border: none
+      color: #fff
+      padding: 5px 20px
+      &:hover
+        background: #9b9b9b
+
+/*-- colorPicker 修改(假日類別設定) --*/
+.spectrumColor
+  padding: 0 !important
+
+/*-- tab-content 介面大小 --*/
+.tab-content-subSet
+  padding: 0 10px 0 5px
+  box-sizing: border-box
+  margin-left: -15px
+/*-- 訂房特殊版型 日期 --*/
+@mixin datePin($bk: #5367ff)
+  background: $bk //#5367ff
+  width: 32px
+  height: 32px
+  margin: 1px auto auto 5px
+  vertical-align: middle
+.holidayDateSet
+  .holidayDateSet-content
+    .holidayDateGrid
+      label
+        min-width: 50px
+        max-width: 100%
+      select,input
+        height: 34px
+      .time-daterange
+        label
+          vertical-align: middle
+          height: 34px
+          margin-right: 5px
+          line-height: 34px
+        .input-daterange
+          width: 220px
+      .weekDate
+        .choiceDay
+          height: 34px
+          line-height: 34px
+          border: 1px solid #438EB9
+          padding: 6px
+          cursor: pointer
+          box-sizing: border-box
+          &:hover
+            background: #eeeeee
+            border: 2px solid #438EB9
+            color: #438EB9
+          &.all
+            background: #438EB9
+            color: #eee
+            &:hover
+              background: rgba(67, 142, 185, .7)
+              border: 1px solid rgba(67, 142, 185, .7)
+              //color: #888
+      .holidayDateSelect
+        .datePin01
+          +datePin($bk: #5367ff)
+        .datePin02
+          +datePin($bk: #8effa9)
+        .datePin03
+          +datePin($bk: #ff5f4e)
+        label
+          vertical-align: middle
+          height: 34px
+          margin-right: 5px
+          line-height: 34px
+
+/*-- 商務公司資料編輯 --*/
+@mixin bsCompany-content
+  label
+    width: 90px
+    text-align: right
+    margin-right: 5px
+  .mainData-tip
+    font-size: 12px
+    margin: auto auto auto 100px
+    line-height: 22px
+    color: #777
+.businessCompanyData
+  .main-content-data
+    +bsCompany-content
+  .tab-block
+    +bsCompany-content
+    .checkbox-width
+      width: 0
+      padding-left: 10px
+    //margin: auto auto 10px auto
+  .billInfo
+    //border: 1px solid #eee
+    .billInfo-head
+      padding-top: 5px
+      padding-bottom: 5px
+      border-bottom: 1px solid #eee
+      margin-bottom: 10px
+      .billInfo-title
+        font-size: $font-lg
+
+  //彈出視窗button
+  .btn-lg-width
+    width: 120%
+    margin-top: 10px
+@media screen and (min-width: 768px) and (max-width: 1030px)
+  .businessCompanyData
+    .main-content-data
+      .input-medium
+        width: 120px

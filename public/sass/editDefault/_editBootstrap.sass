@@ -28,7 +28,7 @@ h3
       padding: 5px 0
 
 @media (min-width: 992px) and (max-width: 1240px)
-  .navbar-fixed-top + .main-container
+  //.navbar-fixed-top + .main-container
 //padding-top: 90px //edit 1024解析
 
 .top-sec-ul
@@ -79,7 +79,6 @@ h3
       height: 100%
       min-height: 41px
       max-height: 100%
-
   .nav-height
     height: auto
     max-height: 100%
@@ -91,6 +90,17 @@ h3
     .menu-text
       height: inherit !important
       padding-left: 24px
+// menu縮進去 錯誤修改(overflow-y 影響到原本的）
+.menu-min
+  .nav-list
+    .nav-height
+      height: auto
+      max-height: 100%
+      overflow-y: visible
+      a
+        height: auto
+        max-height: 100%
+        overflow-y: visible
 .no-skin .sidebar-toggle
   position: absolute
   top: 10px
@@ -134,3 +144,14 @@ h3
 .ace-nav .nav-user-photo
   margin-top: 1px
 
+// 單檔按鈕
+.dataGrid-toolBar01
+  padding: 10px 5px
+  a
+    padding-right: 5px
+    padding-left: 5px
+
+// 調整primary disable
+.btn-white.btn-primary[disabled]
+  &:hover
+    background-color: transparent !important
