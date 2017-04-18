@@ -13,20 +13,22 @@ var moment = require("moment");
 /**
  * 寄送Exception Mail
  * @param mailInfo{Object} :
- *          {
- *              exceptionType: 錯誤類別,
- *              errorMsg : 錯誤資訊
- *          }
+         {
+            exceptionType: 錯誤類別,
+            errorMsg : 錯誤資訊
+         }
  */
 exports.sendExceptionMail = function (mailInfo) {
     var mailFrom = mailerConfig.auth.user || "";
     var mailTo = "";
+    var log_id = mailInfo.log_id || "";
     var exceptionType = mailInfo.exceptionType || "";
     var subject = "Bacchus Exception [ "+ exceptionType + "] ";
     var subtitle = 'Bacchus Exception';
     var memberList = exceptionMailConfig.memberList;
     var exHtml = fs.readFileSync(__dirname + '/../views/mailHtml/exception.ejs', 'utf8');
     var mailContent = ejs.render(exHtml, {
+        "log_id":log_id,
         "exceptionType": exceptionType,
         "errorMsg" : mailInfo.errorMsg,
         "server_ip":ip.address(),

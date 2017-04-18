@@ -13,7 +13,8 @@ var moment = require("moment");
 var tools = require("../utils/commonTools");
 var dataRuleSvc = require("../services/dataRuleService");
 var commonRule = require("../ruleEngine/rules/commonRule");
-
+var logSvc = require("./logService");
+var mailSvc = require("./mailService");
 /**
  * 抓取singlePage 欄位資料
  * @param userInfo {Object}: 使用者登入資料
@@ -624,6 +625,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         // console.dir(apiParams);
         // callback(null, {success:true});
         tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+            var log_id = moment().format("YYYYMMDDHHmmss");
             var err = null;
             if (apiErr) {
                 chk_result.success = false;
@@ -636,6 +638,23 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 err.errorMsg = data["RETN-CODE-DESC"];
             }
 
+            //寄出exceptionMail
+            if(!chk_result.success){
+                mailSvc.sendExceptionMail({
+                    log_id:log_id,
+                    exceptionType: "execSQL",
+                    errorMsg : err.errorMsg
+                })
+            }
+            //log 紀錄
+            logSvc.recordLogAPI({
+                log_id:log_id,
+                success:chk_result.success,
+                prg_id: prg_id,
+                api_prg_code: '0300901000',
+                req_content : apiParams,
+                res_content : data
+            });
             callback(err, chk_result);
         })
     }

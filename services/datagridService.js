@@ -13,6 +13,8 @@ var i18n = require("i18n");
 var tools = require("../utils/commonTools");
 var dataRuleSvc = require("../services/dataRuleService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
+var logSvc = require("./logService");
+var mailSvc = require("./mailService");
 /**
  * 抓取datagrid 資料
  * @param userInfo
@@ -553,6 +555,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
                         var success = true;
                         var errMsg = null;
+                        var log_id = moment().format("YYYYMMDDHHmmss");
                         if (apiErr) {
                             chkResult.success = false;
                             errMsg = apiErr;
@@ -562,6 +565,23 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                             errMsg = data["RETN-CODE-DESC"];
                         }
 
+                        //寄出exceptionMail
+                        if(!chkResult.success){
+                            mailSvc.sendExceptionMail({
+                                log_id:log_id,
+                                exceptionType: "execSQL",
+                                errorMsg : errMsg
+                            })
+                        }
+
+                        logSvc.recordLogAPI({
+                            success:chkResult.success,
+                            log_id:log_id,
+                            prg_id: prg_id,
+                            api_prg_code: '0300901000',
+                            req_content : apiParams,
+                            res_content : data
+                        });
                         callback(errMsg, chkResult);
                     })
                 } else {
