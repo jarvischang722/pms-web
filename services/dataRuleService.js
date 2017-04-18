@@ -252,6 +252,31 @@ exports.qry_source_rf_use_sta = function (params,callback) {
     ];
     callback(useSta);
 };
+/**
+ * FOC設定(PMS0810140)取得下拉選項
+ */
+exports.qry_foc_rf_role_sta_list = function (params,callback) {
+
+    var roleStaList = [
+        {
+            display: '房價最低',
+            value: '1'
+        },
+        {
+            display: '房間數最多的房種',
+            value: '2'
+        },
+        {
+            display: '指定房號',
+            value: '3'
+        },
+        {
+            display: '指定金額',
+            value: '4'
+        }
+    ];
+    callback(roleStaList);
+};
 
 /**
  * 使用者離開欄位時檢查

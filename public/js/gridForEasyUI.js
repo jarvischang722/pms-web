@@ -3,7 +3,7 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
-
+var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData) {
@@ -81,48 +81,118 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
-        } else if (dataType == "combobox") {
+        } else if (dataType == "combobox"  ) {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
-            tmpFieldObj.editor.options.required = true;
             tmpFieldObj.formatter = function (val, row, index) {
                 　if(val != null)
                     return _.findWhere(fieldAttrObj.selectData, {value: val}).display;
             }
 
-            //combobox連動
-            if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+            tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
+                gb_onceEffectFlag = true;
+            }
+        } else if(dataType == "numberbox" ){
+            // 因為想不出連動先暫時註解　SAM 20170418
+            //var event = new MouseEvent("onClick",{view :window,bubbles:true,cancelable:true,client:20});
+            //tmpFieldObj.editor.options.dispatchEvent(event);
 
-                    if (newValue != oldValue && oldValue != "") {
-                        var selectDataRow = $('#prg_dg').datagrid('getSelected');
-                        var postData = {
-                            prg_id: fieldAttrObj.prg_id,
-                            rule_func_name: fieldAttrObj.rule_func_name,
-                            validateField: fieldAttrObj.ui_field_name,
-                            rowData: JSON.parse(JSON.stringify(selectDataRow)),
-                            newValue: newValue,
-                            oldValue: oldValue
-                        }
+            // var ed = $('#prg_dg').datagrid('getEditor',{index:0,field: fieldAttrObj.ui_field_name} );
+            // $(ed.target).trigger('click');
+            //
+            // tmpFieldObj.editor.options.click = function (test) {
+            //     console.log("GGGGGGGGGGGGG");
+            // }
+            // var selectDataRow = $('#prg_dg').datagrid('getSelected');
+            // var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+            // var ed = $('#prg_dg').datagrid('editCell',{index:indexRow,field: fieldAttrObj.ui_field_name} );
 
-                        $.post('/api/chkFieldRule', postData, function (result) {
-                            if (result.success) {
-                                if (!_.isUndefined(result.effectValues)) {
-                                    var effectValues = result.effectValues;
-                                    var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+            // $("_easyui_textbox_input49").next("span").children().first().click(function (test) {
+            //     console.log("GGGGGGGGGGGGGGGGGG");
+            // });
+            // $("_easyui_textbox_input38").next("span").children().first().click(function (test) {
+            //     console.log("JJJJJJJJJJJJJ");
+            // });
+            // $("_easyui_textbox_input27").next("span").children().first().click(function (test) {
+            //     console.log("ASD");
+            // });
+            // document.getElementById("_easyui_textbox_input27").addEventListener("click",function () {
+            //     alert("AA");
+            // })
+            // tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+            //     console.log("GGGGGGGGGG");
+            // }
+            // tmpFieldObj.editor.options.click = function (test) {
+            //     gb_onceEffectFlag = true;
+            // }
 
-                                    $('#prg_dg').datagrid('endEdit', indexRow);
-                                    $('#prg_dg').datagrid('updateRow', {
-                                        index: indexRow,
-                                        row: effectValues
-                                    });
-                                    $('#prg_dg').datagrid('beginEdit', indexRow);
-                                }
-                            }
-                        })
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input49").click(function (test) {
+            //     console.log("GGGGGGGGGGGGGGGGGG");
+            // });
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input38").click(function (test) {
+            //     console.log("JJJJJJJJJJJJJ");
+            // });
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input27").click(function (test) {
+            //     console.log("ASD");
+            // });
+
+            // document.getElementById("_easyui_textbox_input27").onclick  = function () {
+            //     alert("AA");
+            // };
+            // document.getElementById("_easyui_textbox_input49").onclick  = function () {
+            //     alert("AA");
+            // }
+            // document.getElementById("_easyui_textbox_input38").onclick  = function () {
+            //     alert("AA");
+            // }
+
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input49").on('click',function (e) {
+            //     alert("AAAAAA");
+            // });
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input27").on('click',function (e) {
+            //     alert("AAAAAA");
+            // });
+            // tmpFieldObj.editor.options = $("_easyui_textbox_input38").on('click',function (e) {
+            //     alert("AAAAAA");
+            // });
+        }
+
+        //combobox連動
+        if (fieldAttrObj.rule_func_name != "") {
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+
+                //if(fieldAttrObj.ui_type == "number")  gb_onceEffectFlag =true;
+                if (gb_onceEffectFlag &&  newValue != oldValue) {
+                    console.log(newValue +","+ oldValue);
+                    var selectDataRow = $('#prg_dg').datagrid('getSelected');
+                    var postData = {
+                        prg_id: fieldAttrObj.prg_id,
+                        rule_func_name: fieldAttrObj.rule_func_name,
+                        validateField: fieldAttrObj.ui_field_name,
+                        rowData: JSON.parse(JSON.stringify(selectDataRow)),
+                        newValue: newValue,
+                        oldValue: oldValue
                     }
+
+                    $.post('/api/chkFieldRule', postData, function (result) {
+                        gb_onceEffectFlag = false;
+                        if (result.success) {
+                            if (!_.isUndefined(result.effectValues)) {
+                                var effectValues = result.effectValues;
+                                var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+
+                                $('#prg_dg').datagrid('endEdit', indexRow);
+                                $('#prg_dg').datagrid('updateRow', {
+                                    index: indexRow,
+                                    row: effectValues
+                                });
+
+                                $('#prg_dg').datagrid('beginEdit', indexRow);
+                            }
+                        }
+                    })
                 }
             }
         }

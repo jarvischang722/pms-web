@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810140取得多筆-->
+    <dao name="QRY_FOC_RF">
+        <statement><![CDATA[
+         select *
+          from foc_rf
+          where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+
+    </dao>
+</root>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810140-->
+    <dao name="QRY_FOC_DT_FREE_GRP_COUNT">
+        <statement><![CDATA[
+                    select count(*) as source_count from foc_dt
+                    where  athena_id =?
+                    and  free_typ = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">free_typ</parameter>
+
+    </dao>
+</root>
