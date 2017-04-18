@@ -98,11 +98,18 @@
                         </div>
                     </form>
                     <!-- End Content -->
-
+                    <style>
+                        #my-div {
+                            background-color: orange;
+                            width: 200px;
+                            height: 100px;
+                            position: absolute;
+                        }
+                    </style>
                     <!-- Control Panel -->
-                    <div class="col-sm-1 col-xs-1 singleRelative">
-                        <div class="row" v-if="editStatus">
-                            <div class="singleEditStatus">
+                    <div class="col-sm-1 col-xs-1 singleRelative"  >
+                        <div class="row" v-if="editStatus" >
+                            <div class="singleEditStatus" >
                                 <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isFistData"
                                         style="" @click="toFirstData">First
@@ -148,13 +155,13 @@
                     Add after save
                 </button>
                 <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                        class="btn btn-primary" @click="doSaveGrid('closeDialog')">
+                        class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
                     Leave after save
                 </button>
-                <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary"
+                <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary btn-white"
                         @click="doSaveGrid('')">Save
                 </button>
-                <button class="btn btn-warning" @click="emitCloseGridDialog">
+                <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
                     Leave
                 </button>
             </div>

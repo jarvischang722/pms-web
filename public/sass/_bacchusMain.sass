@@ -1,7 +1,7 @@
 $font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
 body
   font-family: $font-family
-  font-size: $font-14
+  font-size: $font-default
 a
   text-decoration: none
   cursor: pointer
@@ -446,3 +446,42 @@ a
           margin-right: 5px
           line-height: 34px
 
+/*-- 商務公司資料編輯 --*/
+@mixin bsCompany-content
+  label
+    width: 90px
+    text-align: right
+    margin-right: 5px
+  .mainData-tip
+    font-size: 12px
+    margin: auto auto auto 100px
+    line-height: 22px
+    color: #777
+.businessCompanyData
+  .main-content-data
+    +bsCompany-content
+  .tab-block
+    +bsCompany-content
+    .checkbox-width
+      width: 0
+      padding-left: 10px
+    //margin: auto auto 10px auto
+  .billInfo
+    //border: 1px solid #eee
+    .billInfo-head
+      padding-top: 5px
+      padding-bottom: 5px
+      border-bottom: 1px solid #eee
+      margin-bottom: 10px
+      .billInfo-title
+        font-size: $font-lg
+
+  //彈出視窗button
+  .btn-lg-width
+    width: 120%
+    margin-top: 10px
+@media screen and (min-width: 768px) and (max-width: 1030px)
+  .businessCompanyData
+    .main-content-data
+      .input-medium
+        width: 120px
