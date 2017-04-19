@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- ['PMS0810090']-->
+    <!-- ['PMS0810090'] [PMS0810110]-->
     <dao name="GET_GW_CUST_RF.DEFAULT_GUEST_TYP_COUNT">
         <statement><![CDATA[
             select count(*) as guest_count

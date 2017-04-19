@@ -18,4 +18,23 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">source_grp</parameter>
     </dao>
+
+    <!-- PMS0810110 取得使用中住客類別群組-->
+    <dao name="QRY_SOURCE_RF_SOURCE_GRP">
+        <statement><![CDATA[
+          select source_grp as value,source_grp_nam as display from source_grp_rf where athena_id = ? and use_sta = 'Y'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+
+    <!-- PMS0810110 確認source_grp有無在群組中-->
+    <dao name="CHK_SOURCE_GRP_RF">
+        <statement><![CDATA[
+          select count(*) as source_count  from source_grp_rf where athena_id = ? and source_grp = ?   and use_sta = 'Y'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">source_grp</parameter>
+    </dao>
 </root>

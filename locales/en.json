@@ -154,6 +154,37 @@
 			"ins_usr" : "Added By",
 			"upd_dat" : "Modified Date",
 			"upd_usr" : "Modified By"
+		},
+		"PMS0810110" :{
+			"source_typ" : "",
+			"source_nam" : "Group Name",
+			"use_sta" : "In Use",
+			"source_grp" : "Source Group",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
+		},
+		"PMS0810140" :{
+			"free_typ" : "FOC Code",
+			"free_rmk" : "Description",
+			"role_sta" : "FOC Rules",
+			"room_qnt" : "For Every",
+			"free_qnt" : "Free",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
+		},
+		"PMS0810200" :{
+			"view_seq" : "",
+			"desc_rmk" : "",
+			"dept_cod" : "",
+			"is_default" : "",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",

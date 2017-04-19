@@ -237,6 +237,65 @@ exports.qry_guest_rf_rcard_prtrent = function (params,callback) {
 };
 
 /**
+ * PMS0810110取得是否使用
+ */
+exports.qry_source_rf_use_sta = function (params,callback) {
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
+/**
+ * FOC設定(PMS0810140)取得下拉選項
+ */
+exports.qry_foc_rf_role_sta_list = function (params,callback) {
+
+    var roleStaList = [
+        {
+            display: '房價最低',
+            value: '1'
+        },
+        {
+            display: '房間數最多的房種',
+            value: '2'
+        },
+        {
+            display: '指定房號',
+            value: '3'
+        },
+        {
+            display: '指定金額',
+            value: '4'
+        }
+    ];
+    callback(roleStaList);
+};
+/**
+ * 交辦事項設定(PMS0810200)取得下拉選項
+ */
+exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
+
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
+
+/**
  * 使用者離開欄位時檢查
  * @param postData
  * @param session
