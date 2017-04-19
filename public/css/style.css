@@ -1402,6 +1402,11 @@ a {
   line-height: 22px;
   color: #777;
 }
+/* line 469, ../sass/_bacchusMain.sass */
+.businessCompanyData .main-content-data .input-spc-1 {
+  width: 476px;
+  max-width: 100%;
+}
 /* line 457, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block label {
   width: 90px;
@@ -1415,32 +1420,41 @@ a {
   line-height: 22px;
   color: #777;
 }
-/* line 471, ../sass/_bacchusMain.sass */
+/* line 474, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block .checkbox-width {
   width: 0;
   padding-left: 10px;
 }
-/* line 477, ../sass/_bacchusMain.sass */
+/* line 480, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
 }
-/* line 482, ../sass/_bacchusMain.sass */
+/* line 485, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head .billInfo-title {
   font-size: 1.2em;
 }
-/* line 486, ../sass/_bacchusMain.sass */
+/* line 487, ../sass/_bacchusMain.sass */
+.businessCompanyData .billInfo .textarea-title {
+  margin: 10px auto;
+}
+/* line 490, ../sass/_bacchusMain.sass */
 .businessCompanyData .btn-lg-width {
   width: 120%;
   margin-top: 10px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 492, ../sass/_bacchusMain.sass */
+  /* line 496, ../sass/_bacchusMain.sass */
   .businessCompanyData .main-content-data .input-medium {
     width: 120px;
+  }
+  /* line 498, ../sass/_bacchusMain.sass */
+  .businessCompanyData .main-content-data .input-spc-1 {
+    width: 300px;
+    max-width: 100%;
   }
 }
 /*------  共用區public ------ */
