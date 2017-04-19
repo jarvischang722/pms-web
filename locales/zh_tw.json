@@ -123,6 +123,15 @@
 			"upd_usr": "最後異動者",
 			"rv_typ": "分類別"
 		},
+		"PMS0810160": {
+			"cancel_cod": "取消原因代號",
+			"cancel_rmk": "說明",
+			"flag1_sta": "訂房取消時可否修改說明",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
+		},
 		"PMS0810080": {
 			"guest_grp": "群組代號",
 			"guest_grp_nam": "群組名稱",

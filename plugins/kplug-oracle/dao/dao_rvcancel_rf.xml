@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--  -->
+    <dao name="QRY_RVCANCEL_RF">
+        <statement><![CDATA[
+			select athena_id, hotel_cod, cancel_cod, cancel_rmk, flag1_sta, ins_dat, ins_usr, upd_dat, upd_usr
+			from rvcancel_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+</root>
