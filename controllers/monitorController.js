@@ -21,7 +21,7 @@ exports.monitor = function (req, res) {
         },
         function (callback) {
             request.get({url: "http://localhost:8888/login", timeout: 20000}, function (err, response, body) {
-                callback('eteetest', body);
+                callback(err, body);
             })
         }
     ], function (err, results) {
