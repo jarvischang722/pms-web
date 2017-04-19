@@ -94,8 +94,10 @@ var EZfieldClass = {
                     var datas = val.split(",");
                     var allValues = "";
                     _.each(datas, function (field) {
-                        var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
-                        allValues += "," + valueName;
+                        if(_.findIndex(fieldAttrObj.selectData, {value: field}) > -1){
+                            var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
+                            allValues += "," + valueName;
+                        }
                     })
                     allValues = allValues.replace(",", "");
                     return allValues;
