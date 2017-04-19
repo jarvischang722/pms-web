@@ -5,20 +5,17 @@
 module.exports = {
     //oracle 設定檔
     oracle: {
-        //connectString: "192.168.168.203:1521/MISUTF8",
-        connectString: "125.227.154.170/WRS",
+        connectString: "125.227.154.170:1521/WRS",
         user: "htce7",
         password: "sql"
     },
     //mongoDB 設定檔
     mongo: {
-         host: "192.168.1.76",
+        host: "192.168.1.76",
         port: "2717",
         dbname: "bacchus",
         username: "bacchus",
         password: "mongo"
-
-
 
     },
     //是否要Debug模式
