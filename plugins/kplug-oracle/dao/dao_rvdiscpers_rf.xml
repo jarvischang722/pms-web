@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 取得多筆 -->
+    <dao name="QRY_RVDISCPERS_RF">
+        <statement><![CDATA[
+			select athena_id, hotel_cod, usr_nam, ins_dat, ins_usr, upd_dat, upd_usr
+			from rvdiscpers_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+</root>

@@ -114,6 +114,13 @@
 			"room_cod_order.room_cod": "Rm Type",
 			"room_cod_order.athena_id": "Athena ID"
 		},
+		"PMS0810120": {
+			"usr_nam": "Approved By",
+			"ins_dat": "Added Date",
+			"ins_usr": "Added By",
+			"upd_dat": "Modified Date",
+			"upd_usr": "Modified By"
+		},
 		"PMS0810130": {
 			"type":"Group",
 			"typ_nam":"Description",
