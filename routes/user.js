@@ -45,6 +45,7 @@ module.exports = function (app, passport) {
 
     //假日日期設定
     app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
+
     //商務公司資料編輯
     app.get('/businessCompanyData', userCrtl.getBusinessCompanyData);
 };
