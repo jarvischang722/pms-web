@@ -31,7 +31,7 @@ exports.prgDataGridDataQuery = function(req,res){
 
         _.each(fieldData,function(field,fIdx){
             fieldData[fIdx]["ui_display_name"] = req.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-        })
+        });
 
         returnData.dataGridRows = dataGridRows;
         returnData.fieldData = fieldData;
@@ -62,21 +62,6 @@ exports.saveFieldOptionByUser =  function(req, res){
 
 
 /**
- * 欄位驗證
- */
-exports.fieldFmtVerify = function(req, res){
-
-    var prg_id = req.body["prg_id"]||"";
-    var ui_field_name = req.body["ui_field_name"]||"";
-    var verifyValue = req.body["verifyValue"]||"";
-
-    datagridSVC.doCheckFieldFormatVerify(prg_id,ui_field_name,verifyValue,function(err,success){
-        res.json({success:success, errorMsg :err });
-    })
-
-};
-
-/**
  * 儲存DataGrid
  */
 exports.saveDataRow = function(req, res){
@@ -90,7 +75,7 @@ exports.saveDataRow = function(req, res){
  * @param req
  * @param res
  */
-exports.getRowDefaultObject = function(req, res){
+exports.handleDataGridAddEventRule = function(req, res){
     datagridSVC.getPrgRowDefaultObject(req.body, req.session,function(err,result){
         res.json({success:err==null , errorMsg :err, prgDefaultObj:result.defaultValues});
     })

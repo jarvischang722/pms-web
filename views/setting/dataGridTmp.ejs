@@ -219,8 +219,7 @@
             appendRow: function () {
 
                 if (this.endEditing()) {
-                    $.post("/api/getRowDefaultObject", {prg_id: prg_id}, function (result) {
-//                    console.log(result);
+                    $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
                         var prgDefaultObj = {createRow: 'Y'};
                         if (result.success) {
                             prgDefaultObj = result.prgDefaultObj;

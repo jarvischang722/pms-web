@@ -306,22 +306,17 @@ Vue.component('sigle-grid-dialog-tmp', {
         appendDtRow: function () {
 
             if (this.endDtEditing()) {
-                // $.post("/api/getRowDefaultObject", {prg_id: prg_id}, function (result) {
-                //
-                //     var prgDefaultObj = {createRow: 'Y'};
-                //     if (result.success) {
-                //         prgDefaultObj = result.prgDefaultObj;
-                //     }
-                //     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
-                //     this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
-                //     $("#dt_dg").datagrid('selectRow', this.dtEditIndex)
-                //         .datagrid('beginEdit', this.dtEditIndex);
-                // })
-                var dtRowObj = {createRow: 'Y'};
-                $("#dt_dg").datagrid('appendRow', dtRowObj);
-                this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
-                $("#dt_dg").datagrid('selectRow', this.dtEditIndex).datagrid('beginEdit', this.dtEditIndex);
+                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
 
+                    var prgDefaultObj = {createRow: 'Y'};
+                    if (result.success) {
+                        prgDefaultObj = result.prgDefaultObj;
+                    }
+                    $("#dt_dg").datagrid('appendRow', prgDefaultObj);
+                    this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
+                    $("#dt_dg").datagrid('selectRow', this.dtEditIndex)
+                        .datagrid('beginEdit', this.dtEditIndex);
+                })
 
             }
         },
