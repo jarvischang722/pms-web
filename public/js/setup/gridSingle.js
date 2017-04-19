@@ -306,27 +306,23 @@ Vue.component('sigle-grid-dialog-tmp', {
         appendDtRow: function () {
 
             if (this.endDtEditing()) {
-                // $.post("/api/getRowDefaultObject", {prg_id: prg_id}, function (result) {
-                //
-                //     var prgDefaultObj = {createRow: 'Y'};
-                //     if (result.success) {
-                //         prgDefaultObj = result.prgDefaultObj;
-                //     }
-                //     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
-                //     this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
-                //     $("#dt_dg").datagrid('selectRow', this.dtEditIndex)
-                //         .datagrid('beginEdit', this.dtEditIndex);
-                // })
-                var dtRowObj = {createRow: 'Y'};
-                $("#dt_dg").datagrid('appendRow', dtRowObj);
-                this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
-                $("#dt_dg").datagrid('selectRow', this.dtEditIndex).datagrid('beginEdit', this.dtEditIndex);
+                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
 
+                    var prgDefaultObj = {createRow: 'Y'};
+                    if (result.success) {
+                        prgDefaultObj = result.prgDefaultObj;
+                    }
+                    $("#dt_dg").datagrid('appendRow', prgDefaultObj);
+                    this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
+                    $("#dt_dg").datagrid('selectRow', this.dtEditIndex)
+                        .datagrid('beginEdit', this.dtEditIndex);
+                })
 
             }
         },
         //刪除選定Dt的Row
         removeDtRow: function () {
+            var self = this;
             var delRow = $("#dt_dg").datagrid('getSelected');
             if (!delRow) {
                 alert("請選擇要刪除的資料");
@@ -339,13 +335,11 @@ Vue.component('sigle-grid-dialog-tmp', {
                 prg_id: prg_id,
                 deleteData: vm.tmpCUD.dt_deleteData
             }, function (result) {
-
-                console.log(result);
                 if(result.success){
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 }else{
                     vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                    vm.endEditing();
+                    self.endDtEditing();
                     alert(result.errorMsg);
                 }
 

@@ -31,8 +31,10 @@ module.exports = function (io) {
 
                     dbSVC.doTableLock(prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, function (errorMsg, success) {
 
-                        socket.emit('checkTableLock', {success: success, errorMsg: errorMsg,prg_id:prg_id});
+                        socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
                     })
+                } else {
+                    socket.emit('checkTableLock', {success: false, errorMsg: "error", prg_id: prg_id});
                 }
 
             })

@@ -41,7 +41,7 @@
         <parameter type="string" kind="3">rv_typ</parameter>
     </dao>
 
-    <!-- [prg_id: PMS0810090 ]  -->
+    <!-- [prg_id: PMS0810090 ][PMS0810110] -->
     <dao name="GET_ORDER_MN.GUEST_TYP_COUNT">
         <statement><![CDATA[
        select count(*)  as guest_count

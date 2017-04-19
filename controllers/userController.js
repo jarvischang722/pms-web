@@ -164,3 +164,7 @@ exports.getReservationCheckMail = function (req, res) {
 exports.getHolidayDateSet = function (req, res) {
     res.render("user/holidayDateSet");
 };
+//商務公司資料編輯
+exports.getBusinessCompanyData = function (req, res) {
+    res.render("user/businessCompanyData");
+};

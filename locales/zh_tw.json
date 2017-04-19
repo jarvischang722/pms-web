@@ -114,6 +114,13 @@
 			"room_cod_order.room_cod": "房型代號",
 			"room_cod_order.athena_id": "Athena ID"
 		},
+		"PMS0810120": {
+			"usr_nam": "姓名",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
+		},
 		"PMS0810130": {
 			"type": "大類別",
 			"typ_nam": "大類別名稱",
@@ -123,6 +130,15 @@
 			"upd_usr": "最後異動者",
 			"rv_typ": "分類別"
 		},
+		"PMS0810160": {
+			"cancel_cod": "取消原因代號",
+			"cancel_rmk": "說明",
+			"flag1_sta": "訂房取消時可否修改說明",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
+		},
 		"PMS0810080": {
 			"guest_grp": "群組代號",
 			"guest_grp_nam": "群組名稱",
@@ -131,6 +147,60 @@
 			"ins_usr": "輸入者",
 			"upd_dat": "最後異動日",
 			"upd_usr": "最後異動者"
+		},
+		"PMS0810100" :{
+			"source_grp" : "Source Group",
+			"source_grp_nam" : "Group Name",
+			"use_sta" : "In Use",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
+		},
+		"PMS0810090" :{
+			"guest_typ" : "Guest Type",
+			"guest_nam" : "Type Name",
+			"guest_sna" : "Short Name",
+			"history_sta" : "Guest History",
+			"guest_way" : "Process Type",
+			"use_sta" : "In Use ",
+			"rcard_prtrent" : "Print Rent",
+			"guest_grp" : "Guest Group",
+			"ins_dat" : "Added Date",
+			"ins_usr" : "Added By",
+			"upd_dat" : "Modified Date",
+			"upd_usr" : "Modified By"
+		},
+		"PMS0810110" :{
+			"source_typ" : "來源類別",
+			"source_nam" : "名稱",
+			"use_sta" : "是否使用",
+			"source_grp" : "群組代號",
+			"ins_dat" : "輸入日",
+			"ins_usr" : "輸入者",
+			"upd_dat" : "最後異動日",
+			"upd_usr" : "最後異動者"
+		},
+		"PMS0810140" :{
+			"free_typ" : "FOC代號",
+			"free_rmk" : "FOC說明",
+			"role_sta" : "FREE規則",
+			"room_qnt" : "每幾間(分母)",
+			"free_qnt" : "FREE間數(分子)",
+			"ins_dat" : "輸入日",
+			"ins_usr" : "輸入者",
+			"upd_dat" : "最後異動日",
+			"upd_usr" : "最後異動者"
+		},
+		"PMS0810200" :{
+			"view_seq" : "顯示順序",
+			"desc_rmk" : "交辦事項內容",
+			"dept_cod" : "可用部門",
+			"is_default" : "預設帶入",
+			"ins_dat" : "輸入日",
+			"ins_usr" : "輸入者",
+			"upd_dat" : "最後異動日",
+			"upd_usr" : "最後異動者"
 		}
 	},
 	"front_desk_conf": "飯店前台參數設定",
