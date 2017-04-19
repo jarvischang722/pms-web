@@ -6,9 +6,9 @@
     <!--<div>Time:{{testTime}}</div>-->
     <!--<mz-datepicker :time.sync="testTime"  format="yyyy/MM/dd"></mz-datepicker>-->
     <div id="singleGridDialog" v-show="false">
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-12 col-xs-12 singleGridContent" >
             <div class="row">
-                <div class="col-sm-12 col-xs-12 singleGridContent">
+                <div class="col-sm-12 col-xs-12 ">
                     <!-- Start Content -->
                     <form id="singleDataForm" method="post">
                         <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
@@ -66,7 +66,6 @@
                                     <input type="hidden"
                                            v-model="singleData[field.ui_field_name]"
                                            v-if="field.visiable == 'N'"/>
-
                                 </div>
                             </div>
 
@@ -98,55 +97,24 @@
                         </div>
                     </form>
                     <!-- End Content -->
-                    <style>
-                        #my-div {
-                            background-color: orange;
-                            width: 200px;
-                            height: 100px;
-                            position: absolute;
-                        }
-                    </style>
+
                     <!-- Control Panel -->
                     <div class="col-sm-1 col-xs-1 singleRelative"  >
-                        <div class="row" v-if="editStatus" >
-                            <div class="singleEditStatus" >
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toFirstData">First
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toPreData">Previous
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toNextData">next
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toLastData">Last
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
-                                        style=""
-                                        @click="handleDeleteSingleData">
-                                    Delete
-                                </button>
-                            </div>
+                        <div class="row">
+
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
                     <!-- End Control Panel -->
-                </div>
+                    </div>
                 <div class="clearfix"></div>
                 <hr>
 
 
             </div>
         </div>
+    </div>
         <div class="clearfix"></div>
 
-    </div>
-    <!-- buttons -->
+        <!-- buttons -->
     <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
         <div class="singleRelative">
             <div class="singleBtnBottom">
@@ -168,5 +136,33 @@
         </div>
         <div class="clearfix"></div>
     </div>
+    <!-- Control Panel -->
+    <div v-if="editStatus">
+        <div class="singleEditStatus">
+            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                    :disabled="isFistData"
+                    style="" @click="toFirstData">First
+            </button>
+            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                    :disabled="isFistData"
+                    style="" @click="toPreData">Previous
+            </button>
+            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                    :disabled="isLastData"
+                    style="" @click="toNextData">next
+            </button>
+            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                    :disabled="isLastData"
+                    style="" @click="toLastData">Last
+            </button>
+            <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                    style=""
+                    @click="handleDeleteSingleData">
+                Delete
+            </button>
+        </div>
+    </div><!-- End Control Panel -->
+    </div>
+    <div class="clearfix"></div>
     <!-- /.settingSingleDialog -->
 </script>

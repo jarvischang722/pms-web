@@ -98,6 +98,7 @@ $(function (){
 //                autoOpen: true,
             dialogClass: "test",
             responsive: true
+            // ,resizable: true
         });
     });
 
