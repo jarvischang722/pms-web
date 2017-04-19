@@ -327,6 +327,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //刪除選定Dt的Row
         removeDtRow: function () {
+            var self = this;
             var delRow = $("#dt_dg").datagrid('getSelected');
             if (!delRow) {
                 alert("請選擇要刪除的資料");
@@ -339,13 +340,11 @@ Vue.component('sigle-grid-dialog-tmp', {
                 prg_id: prg_id,
                 deleteData: vm.tmpCUD.dt_deleteData
             }, function (result) {
-
-                console.log(result);
                 if(result.success){
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 }else{
                     vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                    vm.endEditing();
+                    self.endDtEditing();
                     alert(result.errorMsg);
                 }
 

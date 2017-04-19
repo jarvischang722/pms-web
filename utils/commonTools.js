@@ -29,7 +29,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     var paramsbytes = utf8.encode(params);
 
-    params   = Base64.encode(paramsbytes);    //加密
+    params = Base64.encode(paramsbytes);    //加密
 
     params = encodeURIComponent(params);
 
@@ -44,7 +44,7 @@ exports.requestApi = function (apiUrl, params, callback) {
         if (err) {
             if (err.code == 'ESOCKETTIMEDOUT') {
                 var mailInfo = {
-                    exceptionType:"API Timeout",
+                    exceptionType: "API Timeout",
                     errorMsg: err.code
                 };
                 mailSvc.sendExceptionMail(mailInfo);
@@ -100,23 +100,6 @@ exports.convUtcToDate = function (fieldObject) {
 
 
 /**
- * 合併兩個json object
- * @param obj1 : 第1個json
- * @param obj2 : 第2個json
- * @return mergeObj  : 合併後的JSON
- * **/
-exports.mergeObject = function (obj1, obj2) {
-    var mergeObj = {};
-    for (var attrname in obj1) {
-        mergeObj[attrname] = obj1[attrname];
-    }
-    for (var attrname in obj2) {
-        mergeObj[attrname] = obj2[attrname];
-    }
-    return mergeObj;
-};
-
-/**
  * request 回傳前合併err
  * @param err {null | Object}
  * @param result {Object}
@@ -125,9 +108,9 @@ exports.mergeObject = function (obj1, obj2) {
 exports.mergeRtnErrResultJson = function (err, result) {
     var returnJson = {errorMsg: err ? err.errorMsg || "" : ""};
     if (err) {
-        returnJson = this.mergeObject(err, result);
+        returnJson = _.extend(err, result);
     } else {
-        returnJson = this.mergeObject(returnJson, result);
+        returnJson = _.extend(returnJson, result);
     }
 
     return returnJson;
