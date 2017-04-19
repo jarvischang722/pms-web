@@ -277,6 +277,23 @@ exports.qry_foc_rf_role_sta_list = function (params,callback) {
     ];
     callback(roleStaList);
 };
+/**
+ * 交辦事項設定(PMS0810200)取得下拉選項
+ */
+exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
+
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
 
 /**
  * 使用者離開欄位時檢查

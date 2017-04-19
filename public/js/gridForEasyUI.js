@@ -32,6 +32,8 @@ var EZfieldClass = {
             dataType = 'datetimebox';
         } else if (fieldAttrObj.ui_type == "select") {
             dataType = 'combobox';
+        } else if (fieldAttrObj.ui_type == "multiselect") {
+            dataType = 'combobox';
         }
 
         var tmpFieldObj = {
@@ -81,21 +83,35 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
-        } else if (dataType == "combobox"  ) {
+        } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
             tmpFieldObj.formatter = function (val, row, index) {
-                　if(val != null)
-                    return _.findWhere(fieldAttrObj.selectData, {value: val}).display;
+                //SAM 20170419 為了取得多筆
+                if (val != null) {
+                    var datas = val.split(",");
+                    var allValues = "";
+                    _.each(datas, function (field) {
+                        var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
+                        allValues += "," + valueName;
+                    })
+                    allValues = allValues.replace(",", "");
+                    return allValues;
+                }
+            }
+
+            if (fieldAttrObj.ui_type == "multiselect") {
+                tmpFieldObj.editor.options.multiple = true;
+                tmpFieldObj.editor.options.multiline = true;
             }
 
             tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
                 gb_onceEffectFlag = true;
             }
-        } else if(dataType == "numberbox" ){
-            // 因為想不出連動先暫時註解　SAM 20170418
+        } else if (dataType == "numberbox") {
+            //  因為想不出連動先暫時註解　SAM 20170418
             //var event = new MouseEvent("onClick",{view :window,bubbles:true,cancelable:true,client:20});
             //tmpFieldObj.editor.options.dispatchEvent(event);
 
@@ -163,9 +179,8 @@ var EZfieldClass = {
         if (fieldAttrObj.rule_func_name != "") {
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
 
-                //if(fieldAttrObj.ui_type == "number")  gb_onceEffectFlag =true;
-                if (gb_onceEffectFlag &&  newValue != oldValue) {
-                    console.log(newValue +","+ oldValue);
+                if (gb_onceEffectFlag && newValue != oldValue) {
+                    console.log(newValue + "," + oldValue);
                     var selectDataRow = $('#prg_dg').datagrid('getSelected');
                     var postData = {
                         prg_id: fieldAttrObj.prg_id,

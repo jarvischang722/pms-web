@@ -195,7 +195,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
 
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
-                if (field.ui_type == 'select') {
+                if (field.ui_type == 'select' || field.ui_type == 'multiselect') {
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({
@@ -605,8 +605,8 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         //抓取新增資料
         function (data, callback) {
             lo_result.defaultValues = _.extend(lo_result.defaultValues, ruleAgent.getCreateCommonDefaultDataRule(session));
-            if (!_.isEmpty(addRuleFunc) && !_.isUndefined(ruleAgent[addRuleFunc])) {
-                ruleAgent[addRuleFunc](postData, session, function (err, result) {
+            if (!_.isEmpty(addRuleFunc) && !_.isUndefined(ruleAgent[addRuleFunc.rule_func_name])) {
+                ruleAgent[addRuleFunc.rule_func_name](postData, session, function (err, result) {
                     lo_result.defaultValues = _.extend(lo_result.defaultValues, result.defaultValues);
                     callback(err, lo_result);
                 })

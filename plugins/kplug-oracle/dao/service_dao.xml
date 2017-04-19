@@ -23,5 +23,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_source_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_todo_list_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
     </sql-sources>
 </struts-config>
