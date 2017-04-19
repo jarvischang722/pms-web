@@ -6,6 +6,7 @@ module.exports = {
     //oracle 設定檔
     oracle: {
         connectString: "125.227.154.170:1521/WRS",
+        //connectString: "10.10.10.79:1521/WRS",
         user: "htce7",
         password: "sql"
     },
@@ -16,7 +17,6 @@ module.exports = {
         dbname: "bacchus",
         username: "bacchus",
         password: "mongo"
-
     },
     //是否要Debug模式
     debug : 1

@@ -16,14 +16,11 @@ module.exports = function(app ) {
     //儲存使用者欄位資料
     app.post('/api/saveFieldOptionByUser', dgCrtl.saveFieldOptionByUser);
 
-    //欄位驗證
-    app.post('/api/fieldFmtVerify', dgCrtl.fieldFmtVerify);
-
     //儲存
     app.post('/api/saveDataRow', dgCrtl.saveDataRow);
 
     //取得Row預設值
-    app.post('/api/getRowDefaultObject', dgCrtl.getRowDefaultObject);
+    app.post('/api/handleDataGridAddEventRule', dgCrtl.handleDataGridAddEventRule);
 
     //按下刪除按鈕資料檢查
     app.post('/api/handleDataGridDeleteEventRule', dgCrtl.handleDataGridDeleteEventRule);

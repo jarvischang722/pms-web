@@ -23,6 +23,7 @@ require("./models/mongoose/UI_Type_Select");
 require("./models/mongoose/TemplateRf");
 require("./models/mongoose/TemplateGridSingle");
 require("./models/mongoose/PageFunction");
+require("./models/mongoose/LogsAPI");
 
 
 exports.DatagridFunction = mongoose.model("DatagridFunction");
@@ -33,3 +34,4 @@ exports.UI_Type_Select = mongoose.model("UI_Type_Select");
 exports.TemplateRf = mongoose.model("TemplateRf");
 exports.TemplateGridSingle = mongoose.model("TemplateGridSingle");
 exports.PageFunction = mongoose.model("PageFunction");
+exports.LogsAPI = mongoose.model("LogsAPI");

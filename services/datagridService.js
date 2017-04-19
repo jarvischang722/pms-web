@@ -13,6 +13,8 @@ var i18n = require("i18n");
 var tools = require("../utils/commonTools");
 var dataRuleSvc = require("../services/dataRuleService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
+var logSvc = require("./logService");
+var mailSvc = require("./mailService");
 /**
  * 抓取datagrid 資料
  * @param userInfo
@@ -393,25 +395,15 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
     function getTableName(callback) {
         //抓取對應的table
-        mongoAgent.UI_PageField.findOne({
+        mongoAgent.TemplateRf.findOne({
             page_id: 1,
             prg_id: prg_id,
             template_id: 'datagrid'
-        }, function (err, pageObj) {
-            if (!err && pageObj) {
-                mongoAgent.UI_Type_Grid.findOne({
-                    ui_field_name: pageObj.ui_field_name,
-                    prg_id: prg_id
-                }, function (err, gridObj) {
-                    if (err || !gridObj) {
-                        callback("not found table name", mainTableName);
-                        return;
-                    }
-
-                    gridObj = gridObj.toObject();
-                    mainTableName = gridObj.table_name;
-                    callback(null, mainTableName);
-                })
+        }, function (err, tmpObj) {
+            if (!err && tmpObj) {
+                tmpObj = tmpObj.toObject();
+                mainTableName = tmpObj.table_name;
+                callback(null, mainTableName);
             } else {
                 callback("not found table name", mainTableName);
             }
@@ -419,7 +411,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
     }
 
     //取得此程式的欄位
-    function getPrgField(table_name, callback) {
+    function getPrgField(mainTableName, callback) {
         mongoAgent.UIDatagridField.find({athena_id: '', user_id: '', prg_id: prg_id}, function (err, fieds) {
             if (err) {
                 callback(err, fieds);
@@ -466,12 +458,9 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     _.each(Object.keys(data), function (objKey) {
                         tmpIns[objKey] = data[objKey];
                     });
-                    tmpIns["athena_id"] = userInfo.athena_id;
-                    tmpIns["hotel_cod"] = userInfo.fun_hotel_cod;
-                    tmpIns["ins_dat"] = moment().format("YYYY/MM/DD HH:mm:ss");
-                    tmpIns["ins_usr"] = userInfo.usr_id;
-                    tmpIns["upd_dat"] = moment().format("YYYY/MM/DD HH:mm:ss");
-                    tmpIns["upd_usr"] = userInfo.usr_id;
+
+                    tmpIns = _.extend(tmpIns,ruleAgent.getCreateCommonDefaultDataRule(session));
+
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
                 })
@@ -511,8 +500,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         tmpEdit[objKey] = data[objKey];
                     });
 
-                    tmpEdit["upd_dat"] = moment().format("YYYY/MM/DD HH:mm:ss");
-                    tmpEdit["upd_usr"] = userInfo.usr_id;
+                    tmpEdit = _.extend(tmpEdit,ruleAgent.getEditDefaultDataRule(session));
+
                     delete  tmpEdit["ins_dat"];
                     delete  tmpEdit["ins_usr"];
 
@@ -554,6 +543,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
                         var success = true;
                         var errMsg = null;
+                        var log_id = moment().format("YYYYMMDDHHmmss");
                         if (apiErr) {
                             chkResult.success = false;
                             errMsg = apiErr;
@@ -563,6 +553,23 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                             errMsg = data["RETN-CODE-DESC"];
                         }
 
+                        //寄出exceptionMail
+                        if (!chkResult.success) {
+                            mailSvc.sendExceptionMail({
+                                log_id: log_id,
+                                exceptionType: "execSQL",
+                                errorMsg: errMsg
+                            })
+                        }
+
+                        logSvc.recordLogAPI({
+                            success: chkResult.success,
+                            log_id: log_id,
+                            prg_id: prg_id,
+                            api_prg_code: '0300901000',
+                            req_content: apiParams,
+                            res_content: data
+                        });
                         callback(errMsg, chkResult);
                     })
                 } else {
