@@ -117,15 +117,15 @@ module.exports = {
                         //
                         // }
                     ], function (errMsg, result) {
-                        if (errMsg) {
-                            lo_error = new ErrorClass();
-                            lo_result.success = false;
-                            if (errMsg == false)
-                                lo_error.errorMsg = "已經有使用到此類別，不能刪除";
-                            else
-                                lo_error.errorMsg = errMsg;
+                        if (errMsg == null) {
 
-                            lo_error.errorCod = "1111";
+                            if (result == false) {
+                                lo_error = new ErrorClass();
+                                lo_result.success = false;
+                                lo_error.errorCod = "1111";
+                                lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+                            }
+
                             callback(lo_error, lo_result);
 
                         } else {
