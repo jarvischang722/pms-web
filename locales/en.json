@@ -130,6 +130,15 @@
 			"upd_usr": "Modified By",
 			"rv_typ": "Type"
 		},
+		"PMS0810160": {
+			"cancel_cod": "Cancellation Reason",
+			"cancel_rmk": "Description",
+			"flag1_sta": "Modifiable",
+			"ins_dat": "Added Date",
+			"ins_usr": "Added By",
+			"upd_dat": "Modified Date",
+			"upd_usr": "Modified By"
+		},
 		"PMS0810080" :{
 			"guest_grp" : "Guest Group",
 			"guest_grp_nam" : "Group Name",

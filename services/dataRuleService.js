@@ -296,6 +296,23 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
 };
 
 /**
+ * 訂房取消設定
+ */
+exports.getGuestgrprfUseStaList = function(params, callback){
+    var useSta = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        }
+    ];
+    callback(useSta);
+};
+
+/**
  * 使用者離開欄位時檢查
  * @param postData
  * @param session

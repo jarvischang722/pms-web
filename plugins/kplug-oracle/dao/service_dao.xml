@@ -20,6 +20,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_guest_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_gw_cust_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rvcancel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvdiscpers_rf.xml"/>
     </sql-sources>
 </struts-config>
