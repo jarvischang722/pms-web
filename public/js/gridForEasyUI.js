@@ -88,6 +88,7 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.formatter = function (val, row, index) {
                 //SAM 20170419 為了取得多筆
                 if (val != null) {
