@@ -285,63 +285,6 @@
                                                                                       <button class="btn btn-primary btn-white pull-right btn-sm changeCreditLimit"
                                                                                               role="button">信用額度變更</button>
                                                                                   </div>
-                                                                                  <!-- 信用額度變更 彈出視窗 -->
-                                                                                  <div id="changeCreditLimit-message" class="hide">
-                                                                                      <div class="col-sm-12 col-xs-12">
-                                                                                          <div class="businessCompanyData">
-                                                                                              <div class="col-sm-11 col-xs-11">
-                                                                                                <div class="billInfo">
-                                                                                                  <div class="content">
-                                                                                                      <div class="clearfix"></div>
-                                                                                                      <div class="space-6"></div>
-                                                                                                      <div class="tab-block">
-                                                                              <span class="checkbox">
-                                                                                  <label>可簽帳</label>
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                                                      <span class="lbl"></span>
-                                                                                  </label>
-                                                                              </span>
-                                                                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                                                                          <!--<input type="checkbox" disabled="disabled"/>-->
-                                                                                                      </div>
-
-                                                                                                      <div class="grid-item tab-block">
-                                                                                                          <label>信用額度</label>
-                                                                                                          <input type="number" class="input-medium input_sta_required text-right" />
-                                                                                                      </div>
-                                                                                                      <div class="grid-item tab-block">
-                                                                                                          <label>收款方式</label>
-                                                                                                          <select class="input-medium">
-                                                                                                              <option value="-1">代號-名稱</option>
-                                                                                                              <option value="1">01-月結30天</option>
-                                                                                                              <option value="2">02-月結45天</option>
-                                                                                                              <option value="3">03-月結60天</option>
-                                                                                                              <option value="4">04-月結75天</option>
-                                                                                                          </select>
-                                                                                                      </div>
-                                                                                                      <div class="grid-item tab-block">
-                                                                                                          <label>目前簽帳金額</label>
-                                                                                                          <input type="number" class="input-medium text-right" disabled="disabled" placeholder="0"/>
-                                                                                                      </div>
-                                                                                                      <div class="grid-item tab-block">
-                                                                                                          <label>信用額度餘額</label>
-                                                                                                          <input type="number" class="input-medium text-right" disabled="disabled" placeholder="123"/>
-                                                                                                      </div>
-                                                                                                  </div>
-                                                                                                </div>
-                                                                                              </div>
-                                                                                              <div class="col-sm-1 col-xs-1">
-                                                                                                      <div class="row">
-                                                                                                          <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                                                                                                  role="button">離開</button>
-                                                                                                      </div>
-                                                                                                  </div>
-                                                                                          </div>
-                                                                                      </div>
-                                                                                      <div class="clearfix"></div>
-                                                                                  </div>
-                                                                                  <!-- /.信用額度變更 -->
                                                                               </div>
                                                                           </div>
                                                                           <div class="content">
@@ -495,7 +438,7 @@
                                                                                             <div class="grid">
                                                                                                 <div class="tab-block grid-item">
                                                                                                     <label>完整地址(唯讀)</label>
-                                                                                                    <input type="text" class="input-xlarge" disabled="disabled" />
+                                                                                                    <input type="text" class="input-xxlarge" disabled="disabled" />
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -589,7 +532,7 @@
                                                         role="button">公司關聯圖</button>
                                             </li>
                                             <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-stateChange"
                                                         role="button">狀態變更</button>
                                             </li>
                                         </ul>
@@ -600,6 +543,121 @@
                     </div>
                 </div>
 
+                <!-- 信用額度變更 彈出視窗 -->
+                <div id="changeCreditLimit-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row billInfo">
+                                    <div class="content">
+                                        <div class="clearfix"></div>
+                                        <div class="space-6"></div>
+                                        <div class="tab-block">
+                                                                              <span class="checkbox">
+                                                                                  <label>可簽帳</label>
+                                                                                  <label class="checkbox-width">
+                                                                                      <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                                                      <span class="lbl"></span>
+                                                                                  </label>
+                                                                              </span>
+                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                            <!--<input type="checkbox" disabled="disabled"/>-->
+                                        </div>
+
+                                        <div class="grid-item tab-block">
+                                            <label>信用額度</label>
+                                            <input type="number" class="input-medium input_sta_required text-right" />
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>收款方式</label>
+                                            <select class="input-medium">
+                                                <option value="-1">代號-名稱</option>
+                                                <option value="1">01-月結30天</option>
+                                                <option value="2">02-月結45天</option>
+                                                <option value="3">03-月結60天</option>
+                                                <option value="4">04-月結75天</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>目前簽帳金額</label>
+                                            <input type="number" class="input-medium text-right" disabled="disabled" placeholder="0"/>
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>信用額度餘額</label>
+                                            <input type="number" class="input-medium text-right" disabled="disabled" placeholder="123"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-xs-1">
+                                <div class="row">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                            role="button">離開</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.信用額度變更 -->
+                <!-- 狀態變更 彈出視窗 -->
+                <div id="bs-company-stateChange-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row billInfo no-margin-right">
+                                    <div class="content">
+
+                                        <div class="space-6"></div>
+
+                                        <div class="grid-item">
+                                            <label>狀態</label>
+                                            <select class="input-medium">
+                                                <option value="-1">代碼-狀態說明</option>
+                                                <option value="1">01-確認中</option>
+                                                <option value="2">02-已下單</option>
+                                                <option value="3">03-待簽回</option>
+                                                <option value="4">04-已收訂金</option>
+                                                <option value="5">05-取消</option>
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <!-- 狀態變更  -->
+                                        <table class="easyui-datagrid" title=""  style="height: 200px;"
+                                               data-options="singleSelect:true,collapsible:true,url:'/jsonData/bsCompany_data1.json',method:'get'">
+                                            <thead>
+                                            <tr>
+                                                <th data-options="field:'sort',width:50">序</th>
+                                                <th data-options="field:'num',width:50">代碼</th>
+                                                <th data-options="field:'status',width:80">狀態</th>
+                                                <th data-options="field:'editPerson',width:80">異動者</th>
+                                                <th data-options="field:'editDate',width:150">異動日期</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-xs-1">
+                                <div class="row">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                                    role="button">確定</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                                    role="button">取消</button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.信用額度變更 -->
             </div><!-- /.roomNumPlanPage -->
             </div>
         </div>
@@ -625,6 +683,21 @@
             var dialog = $("#changeCreditLimit-message").removeClass('hide').dialog({
                 modal: true,
                 title: "信用額度變更",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                responsive: true
+            });
+        });
+
+        // 彈出 狀態變更
+        $(document).on('click', ".bs-company-stateChange", function (e) {
+            e.preventDefault();
+            var dialog = $("#bs-company-stateChange-message").removeClass('hide').dialog({
+                modal: true,
+                title: "狀態變更",
                 title_html: true,
                 width: 500,
                 maxwidth: 1920,
