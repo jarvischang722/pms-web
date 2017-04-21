@@ -498,3 +498,43 @@ a
       .input-spc-1
         width: 300px
         max-width: 100%
+
+/*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
+.easyUi-custom1
+  .tabs-header
+    background: #fff
+    border-color: #fff
+    .tabs-wrap
+      ul
+        &.tabs
+          padding: 0
+          li
+            margin: 0 0 -1px 0
+            &.tabs-selected
+              color: #576373
+              border-color: #C5D0DC
+              border-top: 2px solid #4C8FBD !important
+              border-bottom-color: transparent
+              background-color: #FFF
+              z-index: 1
+              //line-height: 18px
+              margin-top: -1px
+              box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15)
+            a
+              border-radius: 0 !important
+              border-color: #C5D0DC
+              background: #F9F9F9
+              color: #999
+              margin-right: -1px
+              position: relative
+              //line-height: 18px
+              &:hover
+                background-color: #FFF
+                color: #4C8FBD
+                border-color: #C5D0DC
+  .tabs-panels
+    // 右側border 消失
+    //margin-left: 1px
+    border:  1px solid #C5D0DC
+    .panel-body
+      padding: 16px 12px

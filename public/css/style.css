@@ -1457,6 +1457,55 @@ a {
     max-width: 100%;
   }
 }
+/*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 -- */
+/* line 504, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header {
+  background: #fff;
+  border-color: #fff;
+}
+/* line 509, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header .tabs-wrap ul.tabs {
+  padding: 0;
+}
+/* line 511, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li {
+  margin: 0 0 -1px 0;
+}
+/* line 513, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li.tabs-selected {
+  color: #576373;
+  border-color: #C5D0DC;
+  border-top: 2px solid #4C8FBD !important;
+  border-bottom-color: transparent;
+  background-color: #FFF;
+  z-index: 1;
+  margin-top: -1px;
+  box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+/* line 523, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a {
+  border-radius: 0 !important;
+  border-color: #C5D0DC;
+  background: #F9F9F9;
+  color: #999;
+  margin-right: -1px;
+  position: relative;
+}
+/* line 531, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a:hover {
+  background-color: #FFF;
+  color: #4C8FBD;
+  border-color: #C5D0DC;
+}
+/* line 535, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-panels {
+  border: 1px solid #C5D0DC;
+}
+/* line 539, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-panels .panel-body {
+  padding: 16px 12px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
