@@ -69,6 +69,7 @@
         </div>
     </div> <!-- /.col-sm-12 -->
 
+    <multi-lang-dialog-tmp></multi-lang-dialog-tmp>
 </div>
 <div class="clearfix"></div>
 
@@ -76,6 +77,11 @@
 
 
     var prg_id = '<%= prg_id %>';
+
+    Vue.component("multi-lang-dialog-tmp", {
+        template: '#multiLangDialogTmp',
+    })
+
     var vm = new Vue({
         el: '#DGApp',
         ready: function () {
@@ -104,6 +110,11 @@
 
                 var saveField = [];
                 var allField = $('#prg_dg').datagrid("getColumnFields");
+
+                //過濾不用存的欄位
+                allField = _.filter(allField, function (field) {
+                    return field != 'langAction'
+                })
 
                 _.each(allField, function (field, fIdx) {
                     var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
@@ -153,11 +164,26 @@
             },
             //顯示資料
             showDataGrid: function (fieldData, dataGridRows) {
-                var columnsData = EZfieldClass.combineFieldOption(fieldData);
+                var columns = EZfieldClass.combineFieldOption(fieldData);
+                var hasMultiLangField = _.filter(fieldData, function (field) {
+                        return field.multi_lang_table != ""
+                    }).length > 0 ?  true : false;
+                if (hasMultiLangField) {
+                    columns.push({
+                        type: 'textbox',
+                        title: "Multi Lang",
+                        field: "langAction",
+                        align: "center",
+                        width: 100,
+                        formatter: function (value, row, index) {
+                            return '<a  href="javascript:void(0)" onclick="editFieldMultiLang()">Edit</a>'
+                        }
 
+                    });
+                }
                 var dgData = {total: dataGridRows.length, rows: dataGridRows};
                 $('#prg_dg').datagrid({
-                    columns: [columnsData],
+                    columns: [columns],
                     remoteSort: false,
                     singleSelect: true,
                     selectOnCheck: true,
@@ -252,9 +278,9 @@
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData
                 }, function (result) {
-                    if(result.success){
+                    if (result.success) {
                         $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
-                    }else{
+                    } else {
                         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                         vm.endEditing();
                         alert(result.errorMsg);
@@ -305,7 +331,25 @@
         }
     })
 
+    //打開多語視窗
+    function editFieldMultiLang() {
+        var width = 500;
+        var maxWidth = 700;
+        var dialog = $("#multiLangDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            title: "Multi Language",
+            height: 350,
+            width: 750,
+            maxWidth: _.min(width, maxWidth),
+            resizable: true,
+            buttons: "#multiDialogBtns"
 
+        });
+
+        dialog.dialog("open");
+    }
 </script>
 
+<%- include ./vueTemplate/multiLangDialogTmp.ejs %>
 <script src="/js/setup/datagrid.js"></script>

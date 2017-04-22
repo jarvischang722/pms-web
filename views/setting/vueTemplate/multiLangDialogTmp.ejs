@@ -1,0 +1,59 @@
+<style>
+    .langTable{
+        max-width: 960px;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+    .langTable thead{
+        background: #AAAAAA;
+    }
+    .langTable tr:nth-child(even){
+        background: #f8f8f8;
+    }
+    .langTable caption{
+        font-size: 24px;
+        padding: 10px;
+    }
+    .langTable td, th{
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+</style>
+<script type="text/x-template" id="multiLangDialogTmp">
+    <div id="multiLangDialog" style="display: none;" align="center">
+        <table class="langTable" style="margin-top: 20px">
+            <thead align="center">
+            <th>Locale</th>
+            <th>Room SNA</th>
+            <th>Room Name</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>EN</td>
+                <td><input value="Exquisite"></td>
+                <td><input value="Exquisite For 8"></td>
+            </tr>
+            <tr>
+                <td>zh_TW</td>
+                <td><input value="精緻"></td>
+                <td><input value="精緻八人房"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-sm-12 col-xs-12 center" id="multiDialogBtns" style="display: none;">
+        <div class="singleRelative">
+            <div class="singleBtnBottom">
+                <button class="btn btn-primary btn-white" @click="">
+                    Save
+                </button>
+                <button class="btn btn-primary btn-white" @click="">
+                    Leave
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</script>

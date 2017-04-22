@@ -16,6 +16,7 @@ var EZfieldClass = {
             }
         });
 
+
         return columnsData;
     },
     /** Page Field 轉換　easyUI datagrid欄位屬性**/

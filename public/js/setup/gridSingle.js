@@ -49,6 +49,24 @@ Vue.component('sigle-grid-dialog-tmp', {
 
     },
     methods: {
+        //打開多語編輯
+        editMultiLang: function () {
+            var width = 500;
+            var maxWidth = 700;
+            var dialog = $("#multiLangDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "Multi Language",
+                height: 350,
+                width: 750,
+                maxWidth: _.min(width, maxWidth),
+                resizable: true,
+                buttons: "#multiDialogBtns"
+
+            });
+
+            dialog.dialog("open");
+        },
         //檢查欄位規則，在離開欄位時
         chk_field_rule: function (ui_field_name, rule_func_name) {
             var self = this;
@@ -133,7 +151,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 if (q) {
                     //刪除前檢查
                     $.post("/api/deleteFuncRule", {
-                        page_id:2,
+                        page_id: 2,
                         prg_id: prg_id,
                         deleteData: [self.singleData]
                     }, function (result) {
@@ -233,8 +251,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             var self = this;
             var columnsData = [];
-                this.$emit("combine-field", this.pageTwoGridFieldData, function (columns) {
-                columnsData =  columns;
+            this.$emit("combine-field", this.pageTwoGridFieldData, function (columns) {
+                columnsData = columns;
             });
 
             $('#dt_dg').datagrid({
@@ -335,9 +353,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 prg_id: prg_id,
                 deleteData: vm.tmpCUD.dt_deleteData
             }, function (result) {
-                if(result.success){
+                if (result.success) {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
-                }else{
+                } else {
                     vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                     self.endDtEditing();
                     alert(result.errorMsg);
@@ -361,7 +379,8 @@ vm = new Vue({
     ready: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID(function (success) {});
+        this.loadDataGridByPrgID(function (success) {
+        });
         this.loadSingleGridPageField();
     },
     data: {
@@ -378,15 +397,15 @@ vm = new Vue({
             createData: [],
             editData: [],
             deleteData: [],
-            dt_createData : [],
-            dt_editData : [],
-            dt_deleteData : [],
+            dt_createData: [],
+            dt_editData: [],
+            dt_deleteData: [],
         },
         singleData: {},         //單檔資訊
         modificableForData: true       //決定是否可以修改資料
     },
     watch: {
-        pageTwoFieldData:function(newObj, oldObj){
+        pageTwoFieldData: function (newObj, oldObj) {
             console.log("-----pageTwoFieldData -----");
             console.log(newObj);
             console.log(oldObj);
@@ -417,9 +436,9 @@ vm = new Vue({
                 createData: [],
                 editData: [],
                 deleteData: [],
-                dt_createData : [],
-                dt_editData : [],
-                dt_deleteData : []
+                dt_createData: [],
+                dt_editData: [],
+                dt_deleteData: []
             }
         },
         //抓取顯示資料
@@ -546,7 +565,7 @@ vm = new Vue({
                     });
 
                     $.post("/api/deleteFuncRule", {
-                        page_id:1,
+                        page_id: 1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCUD.deleteData
                     }, function (result) {
@@ -570,7 +589,7 @@ vm = new Vue({
         //資料儲存
         doSaveCUD: function (callback) {
 
-            var params = _.extend({ prg_id: prg_id} , vm.tmpCUD);
+            var params = _.extend({prg_id: prg_id}, vm.tmpCUD);
             console.log("===Save params===");
             console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -598,7 +617,7 @@ vm = new Vue({
                     console.log(result);
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
-                    vmHub.$emit('showDtDataGrid',[]);
+                    vmHub.$emit('showDtDataGrid', []);
                 } else {
                     alert(result.errorMsg);
                 }
@@ -617,7 +636,7 @@ vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
-                    if(dtData.length>0){
+                    if (dtData.length > 0) {
                         vmHub.$emit('showDtDataGrid', dtData);
                     }
                     callback(true);
@@ -631,13 +650,16 @@ vm = new Vue({
         //打開單檔dialog
         showSingleGridDialog: function () {
 
-            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var maxHeight = document.documentElement.clientHeight -70 ; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 45; // 預設一個row 高度
+            console.log(maxHeight);
+            console.log(height);
+            console.log();
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                title: "MN",
-                height:_.min(maxHeight,height),
+                title: prg_id,
+                height: maxHeight > height ? height : maxHeight,
                 minWidth: 750,
                 maxHeight: maxHeight,
                 resizable: true,
@@ -680,7 +702,7 @@ vm = new Vue({
                     "col_seq": fIdx,
                     "visiable": "Y"
                 };
-                columnOption  = _.extend(columnOption,currentColumOption)
+                columnOption = _.extend(columnOption, currentColumOption);
                 saveField.push(columnOption);
 
             });
