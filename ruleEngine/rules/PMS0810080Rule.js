@@ -7,7 +7,7 @@ var _ = require("underscore");
 var moment = require("moment");
 //var async = require("async");
 var queryAgent = require('../../plugins/kplug-oracle/QueryAgent');
-//var commandRules = require("./commonRule");
+//var commandRules = require("./CommonRule");
 var ReturnClass = require("../returnClass");
 var ErrorClass = require("../errorClass");
 

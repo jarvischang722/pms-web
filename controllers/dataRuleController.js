@@ -9,15 +9,13 @@ var commonTools = require("../utils/commonTools");
  * 欄位規則檢查
  */
 exports.chkFieldRule = function (req, res) {
-    //TODO
-    //1. 回傳連動值
-    //2. 檢查欄位是否符合規則　ex: begin_dat 不能小於 end_dat
 
-    //req.body
-    // * prg_id         : 程式代號
-    // * validateField  : 要驗證的欄位
-    // * singleRowData  : 此筆明細全部資料
-    // * rule_func_name : 欄位規則函數
+    /** req.body :
+         prg_id         : 程式代號
+         validateField  : 要驗證的欄位
+         singleRowData  : 此筆明細全部資料
+         rule_func_name : 欄位規則函數
+     **/
     ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
 
         res.json(commonTools.mergeRtnErrResultJson(err, result));

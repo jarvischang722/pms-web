@@ -211,7 +211,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                                     fieldData[fIdx].referiable = selRow.referiable || "N";
                                     fieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                    dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
+                                    dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
                                         fieldData[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });

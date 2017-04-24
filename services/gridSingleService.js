@@ -12,7 +12,7 @@ var i18n = require("i18n");
 var moment = require("moment");
 var tools = require("../utils/commonTools");
 var dataRuleSvc = require("../services/dataRuleService");
-var commonRule = require("../ruleEngine/rules/commonRule");
+var commonRule = require("../ruleEngine/rules/CommonRule");
 var logSvc = require("./logService");
 var mailSvc = require("./mailService");
 /**
@@ -53,7 +53,7 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                                 la_fields[fIdx].referiable = selRow.referiable || "N";
                                 la_fields[fIdx].defaultVal = selRow.defaultVal || "";
                                 la_fields[fIdx].selectData = [];
-                                dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
                                     la_fields[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
