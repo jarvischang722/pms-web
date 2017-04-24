@@ -50,7 +50,9 @@ i18n.configure({
     // enable object notation
     objectNotation: true,
     // object or [obj1, obj2] to bind the i18n api and current locale to - defaults to null
-    register: global
+    register: global,
+    // query parameter to switch locale (ie. /home?lang=ch) - defaults to NULL
+    queryParameter: 'locale'
 });
 
 require('./utils/passport-cas')(passport);

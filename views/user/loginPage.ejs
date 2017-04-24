@@ -88,9 +88,9 @@
     <!-- 語言 -->
     <div class="navbar-fixed-top align-right lang">
         <!--<select onchange="javascript:handleSelect(this)">-->
-        <select onchange="">
-            <option <%= session.locale == 'zh_TW'? 'selected' : "" %> value="?locale=zh_TW">繁體中文</option>
-            <option <%= session.locale == 'en'? 'selected' : "" %> value="?locale=en">English</option>
+        <select onchange="changeLang(this)">
+            <option <%= session.locale == 'zh_TW'? 'selected' : "" %> value="zh_TW">繁體中文</option>
+            <option <%= session.locale == 'en'? 'selected' : "" %> value="en">English</option>
         </select>
     </div>
 </div>
@@ -98,6 +98,7 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+
 
 
     $(function ($) {
@@ -167,5 +168,9 @@
 
     }
 
+    //更換語系
+    function changeLang(lang){
+        location.href='?locale='+lang.value;
+    }
 </script>
 </html>
