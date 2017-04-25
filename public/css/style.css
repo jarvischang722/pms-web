@@ -155,7 +155,11 @@ table {
   padding: 3px 0;
   vertical-align: middle;
 }
-/* line 14, ../sass/_right-menu.sass */
+/* line 13, ../sass/_right-menu.sass */
+.right-menu-co ul li:first-child {
+  padding: 0 0 3px 0;
+}
+/* line 15, ../sass/_right-menu.sass */
 .right-menu-co ul li div {
   width: 36px;
   height: 36px;
@@ -163,74 +167,74 @@ table {
   margin: 0 auto 4px auto;
   box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
 }
-/* line 22, ../sass/_right-menu.sass */
+/* line 23, ../sass/_right-menu.sass */
 .right-menu-co ul li span {
   font-weight: bold;
 }
-/* line 24, ../sass/_right-menu.sass */
+/* line 25, ../sass/_right-menu.sass */
 .right-menu-co .holiday-btn {
   margin: 38px auto auto auto;
 }
 
-/* line 38, ../sass/_right-menu.sass */
+/* line 39, ../sass/_right-menu.sass */
 .icon-co-03 {
   background: url("../images/icon/03.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
-/* line 33, ../sass/_right-menu.sass */
+/* line 34, ../sass/_right-menu.sass */
 .icon-co-03:hover {
   background: url("../images/icon/03-1.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
 
-/* line 40, ../sass/_right-menu.sass */
+/* line 41, ../sass/_right-menu.sass */
 .icon-co-06 {
   background: url("../images/icon/06.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
-/* line 33, ../sass/_right-menu.sass */
+/* line 34, ../sass/_right-menu.sass */
 .icon-co-06:hover {
   background: url("../images/icon/06-1.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
 
-/* line 42, ../sass/_right-menu.sass */
+/* line 43, ../sass/_right-menu.sass */
 .icon-co-10 {
   background: url("../images/icon/10.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
-/* line 33, ../sass/_right-menu.sass */
+/* line 34, ../sass/_right-menu.sass */
 .icon-co-10:hover {
   background: url("../images/icon/10-1.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
 
-/* line 44, ../sass/_right-menu.sass */
+/* line 45, ../sass/_right-menu.sass */
 .icon-co-11 {
   background: url("../images/icon/11.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
-/* line 33, ../sass/_right-menu.sass */
+/* line 34, ../sass/_right-menu.sass */
 .icon-co-11:hover {
   background: url("../images/icon/11-1.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
 
-/* line 46, ../sass/_right-menu.sass */
+/* line 47, ../sass/_right-menu.sass */
 .icon-co-14 {
   background: url("../images/icon/14.png");
   repeat: no-repeat;
   background-size: 100% 100%;
 }
-/* line 33, ../sass/_right-menu.sass */
+/* line 34, ../sass/_right-menu.sass */
 .icon-co-14:hover {
   background: url("../images/icon/14-1.png");
   repeat: no-repeat;
@@ -440,139 +444,139 @@ h3 {
   background-color: transparent !important;
 }
 
-/* line 2, ../sass/editDefault/_editEasyui.sass */
+/* line 2, ../sass/editDefault/_editEasyUi.sass */
 .panel-body {
   font-size: 13px;
 }
 
-/* line 5, ../sass/editDefault/_editEasyui.sass */
+/* line 5, ../sass/editDefault/_editEasyUi.sass */
 .panel-title {
   font-size: 13px;
 }
 
-/* line 9, ../sass/editDefault/_editEasyui.sass */
+/* line 9, ../sass/editDefault/_editEasyUi.sass */
 .l-btn-text {
   font-size: 13px;
 }
 
-/* line 13, ../sass/editDefault/_editEasyui.sass */
+/* line 13, ../sass/editDefault/_editEasyUi.sass */
 .textbox .textbox-text {
   font-size: 13px;
 }
-/* line 15, ../sass/editDefault/_editEasyui.sass */
+/* line 15, ../sass/editDefault/_editEasyUi.sass */
 .textbox .textbox-prompt {
   font-size: 13px;
 }
 
-/* line 18, ../sass/editDefault/_editEasyui.sass */
+/* line 18, ../sass/editDefault/_editEasyUi.sass */
 .combobox-item, .combobox-group, .combobox-stick {
   font-size: 13px;
 }
 
-/* line 21, ../sass/editDefault/_editEasyui.sass */
+/* line 21, ../sass/editDefault/_editEasyUi.sass */
 .tabs-title {
   font-size: 13px;
 }
 
-/* line 24, ../sass/editDefault/_editEasyui.sass */
+/* line 24, ../sass/editDefault/_editEasyUi.sass */
 .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
   font-size: 13px;
 }
 
-/* line 28, ../sass/editDefault/_editEasyui.sass */
+/* line 28, ../sass/editDefault/_editEasyUi.sass */
 .datagrid-header .datagrid-cell span {
   font-size: 13px;
 }
 
-/* line 32, ../sass/editDefault/_editEasyui.sass */
+/* line 32, ../sass/editDefault/_editEasyUi.sass */
 .datagrid-view .datagrid-editable-input {
   font-size: 13px;
 }
 
-/* line 35, ../sass/editDefault/_editEasyui.sass */
+/* line 35, ../sass/editDefault/_editEasyUi.sass */
 .pagination-info {
   font-size: 13px;
 }
 
-/* line 38, ../sass/editDefault/_editEasyui.sass */
+/* line 38, ../sass/editDefault/_editEasyUi.sass */
 .pagination span {
   font-size: 13px;
 }
 
-/* line 43, ../sass/editDefault/_editEasyui.sass */
+/* line 43, ../sass/editDefault/_editEasyUi.sass */
 .calendar table {
   font-size: 12px;
 }
-/* line 45, ../sass/editDefault/_editEasyui.sass */
+/* line 45, ../sass/editDefault/_editEasyUi.sass */
 .calendar table td, .calendar table th {
   font-size: 12px;
 }
 
-/* line 49, ../sass/editDefault/_editEasyui.sass */
+/* line 49, ../sass/editDefault/_editEasyUi.sass */
 .calendar-title span {
   font-size: 12px;
 }
 
-/* line 52, ../sass/editDefault/_editEasyui.sass */
+/* line 52, ../sass/editDefault/_editEasyUi.sass */
 .calendar-menu {
   font-size: 12px;
 }
 
-/* line 55, ../sass/editDefault/_editEasyui.sass */
+/* line 55, ../sass/editDefault/_editEasyUi.sass */
 .calendar-menu-year {
   font-size: 12px;
 }
 
-/* line 59, ../sass/editDefault/_editEasyui.sass */
+/* line 59, ../sass/editDefault/_editEasyUi.sass */
 .datebox-button a {
   font-size: 13px;
 }
 
-/* line 62, ../sass/editDefault/_editEasyui.sass */
+/* line 62, ../sass/editDefault/_editEasyUi.sass */
 .progressbar-text {
   font-size: 13px;
 }
 
-/* line 65, ../sass/editDefault/_editEasyui.sass */
+/* line 65, ../sass/editDefault/_editEasyUi.sass */
 .slider-tip {
   font-size: 13px;
 }
 
-/* line 69, ../sass/editDefault/_editEasyui.sass */
+/* line 69, ../sass/editDefault/_editEasyUi.sass */
 .slider-rulelabel span {
   font-size: 13px;
 }
 
-/* line 72, ../sass/editDefault/_editEasyui.sass */
+/* line 72, ../sass/editDefault/_editEasyUi.sass */
 .menu-text {
   font-size: 13px;
 }
-/* line 74, ../sass/editDefault/_editEasyui.sass */
+/* line 74, ../sass/editDefault/_editEasyUi.sass */
 .menu-text span {
   font-size: 13px;
 }
 
-/* line 77, ../sass/editDefault/_editEasyui.sass */
+/* line 77, ../sass/editDefault/_editEasyUi.sass */
 .tree-title {
   font-size: 13px;
 }
 
-/* line 80, ../sass/editDefault/_editEasyui.sass */
+/* line 80, ../sass/editDefault/_editEasyUi.sass */
 .tree-node-proxy {
   font-size: 13px;
 }
 
-/* line 83, ../sass/editDefault/_editEasyui.sass */
+/* line 83, ../sass/editDefault/_editEasyUi.sass */
 .tree-editor {
   font-size: 13px;
 }
 
-/* line 86, ../sass/editDefault/_editEasyui.sass */
+/* line 86, ../sass/editDefault/_editEasyUi.sass */
 .tooltip-content {
   font-size: 13px;
 }
 
-/* line 89, ../sass/editDefault/_editEasyui.sass */
+/* line 89, ../sass/editDefault/_editEasyUi.sass */
 .switchbutton-on, .switchbutton-off, .switchbutton-handle {
   font-size: 13px;
 }
@@ -1404,8 +1408,9 @@ a {
 }
 /* line 469, ../sass/_bacchusMain.sass */
 .businessCompanyData .main-content-data .input-spc-1 {
-  width: 476px;
+  width: 439px;
   max-width: 100%;
+  height: 35px;
 }
 /* line 457, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block label {
@@ -1420,58 +1425,117 @@ a {
   line-height: 22px;
   color: #777;
 }
-/* line 474, ../sass/_bacchusMain.sass */
+/* line 475, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block .checkbox-width {
   width: 0;
   padding-left: 10px;
 }
 /* line 480, ../sass/_bacchusMain.sass */
+.businessCompanyData .tab-block.billCheckbox .checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* line 485, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
 }
-/* line 485, ../sass/_bacchusMain.sass */
+/* line 490, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head .billInfo-title {
   font-size: 1.2em;
 }
-/* line 487, ../sass/_bacchusMain.sass */
+/* line 492, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .textarea-title {
   margin: 10px auto;
 }
-/* line 490, ../sass/_bacchusMain.sass */
+/* line 495, ../sass/_bacchusMain.sass */
 .businessCompanyData .btn-lg-width {
   width: 120%;
   margin-top: 10px;
 }
+/* line 498, ../sass/_bacchusMain.sass */
+.businessCompanyData .dealContent-select {
+  margin-bottom: 10px;
+}
+/* line 500, ../sass/_bacchusMain.sass */
+.businessCompanyData .dealContent-select .checkbox {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+/* line 504, ../sass/_bacchusMain.sass */
+.businessCompanyData .dealContent-select .checkbox .lbl .txt {
+  margin: auto 5px;
+}
+/* line 507, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-otherRemark-content .marginB-c1 {
+  margin-bottom: 10px;
+}
+/* line 510, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-contribution-content .tab-block {
+  margin: 5px auto;
+}
+/* line 512, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord {
+  margin: 10px auto;
+  border-left: 2px solid #D15B47;
+  border-bottom: 1px solid #eee;
+}
+/* line 457, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord label {
+  width: 90px;
+  text-align: right;
+  margin-right: 5px;
+}
+/* line 461, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord .mainData-tip {
+  font-size: 12px;
+  margin: auto auto auto 100px;
+  line-height: 22px;
+  color: #777;
+}
+/* line 517, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord:first-child {
+  margin: 0 auto 10px auto;
+}
+/* line 523, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord .grid {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+/* line 526, ../sass/_bacchusMain.sass */
+.businessCompanyData .bs-changeRecord .grid .grid-item {
+  width: 30%;
+  height: auto;
+}
 
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 496, ../sass/_bacchusMain.sass */
-  .businessCompanyData .main-content-data .input-medium {
+  /* line 533, ../sass/_bacchusMain.sass */
+  .businessCompanyData .main-content-data .medium-c1 {
     width: 120px;
   }
-  /* line 498, ../sass/_bacchusMain.sass */
+  /* line 535, ../sass/_bacchusMain.sass */
   .businessCompanyData .main-content-data .input-spc-1 {
-    width: 300px;
+    width: 349px;
     max-width: 100%;
   }
 }
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 -- */
-/* line 504, ../sass/_bacchusMain.sass */
+/* line 541, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header {
   background: #fff;
   border-color: #fff;
 }
-/* line 509, ../sass/_bacchusMain.sass */
+/* line 546, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs {
   padding: 0;
 }
-/* line 511, ../sass/_bacchusMain.sass */
+/* line 548, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li {
   margin: 0 0 -1px 0;
 }
-/* line 513, ../sass/_bacchusMain.sass */
+/* line 550, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li.tabs-selected {
   color: #576373;
   border-color: #C5D0DC;
@@ -1482,7 +1546,7 @@ a {
   margin-top: -1px;
   box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
 }
-/* line 523, ../sass/_bacchusMain.sass */
+/* line 560, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a {
   border-radius: 0 !important;
   border-color: #C5D0DC;
@@ -1491,18 +1555,18 @@ a {
   margin-right: -1px;
   position: relative;
 }
-/* line 531, ../sass/_bacchusMain.sass */
+/* line 569, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a:hover {
   background-color: #FFF;
   color: #4C8FBD;
   border-color: #C5D0DC;
 }
-/* line 535, ../sass/_bacchusMain.sass */
+/* line 573, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-panels {
   border: 1px solid #C5D0DC;
 }
-/* line 539, ../sass/_bacchusMain.sass */
-.easyUi-custom1 .tabs-panels .panel-body {
+/* line 578, ../sass/_bacchusMain.sass */
+.easyUi-custom1 .tabs-panels .panel-body.padding-tabs {
   padding: 16px 12px;
 }
 
@@ -1548,189 +1612,194 @@ a {
 }
 
 /* line 18, ../sass/modules/_public.sass */
+.margin-5 {
+  margin: 5px;
+}
+
+/* line 20, ../sass/modules/_public.sass */
 .height87 {
   height: 87px;
 }
 
-/* line 21, ../sass/modules/_public.sass */
+/* line 23, ../sass/modules/_public.sass */
 .height60 {
   height: 60px;
 }
 
-/* line 23, ../sass/modules/_public.sass */
+/* line 25, ../sass/modules/_public.sass */
 .pointer {
   cursor: pointer;
 }
 
-/* line 25, ../sass/modules/_public.sass */
+/* line 27, ../sass/modules/_public.sass */
 .notice {
   color: #ff0000;
   font-weight: bold;
 }
 
-/* line 28, ../sass/modules/_public.sass */
+/* line 30, ../sass/modules/_public.sass */
 .bold {
   font-weight: bold;
 }
 
-/* line 30, ../sass/modules/_public.sass */
+/* line 32, ../sass/modules/_public.sass */
 .markOne {
   color: #478FCA;
   font-weight: bold;
 }
 
-/* line 33, ../sass/modules/_public.sass */
+/* line 35, ../sass/modules/_public.sass */
 .lineHeight14 {
   line-height: 14px;
 }
 
-/* line 35, ../sass/modules/_public.sass */
+/* line 37, ../sass/modules/_public.sass */
 .lineHeight18 {
   line-height: 18px;
 }
 
-/* line 37, ../sass/modules/_public.sass */
+/* line 39, ../sass/modules/_public.sass */
 .lineHeight24 {
   line-height: 24px;
 }
 
-/* line 39, ../sass/modules/_public.sass */
+/* line 41, ../sass/modules/_public.sass */
 .lineHeight27 {
   line-height: 27px;
 }
 
-/* line 41, ../sass/modules/_public.sass */
+/* line 43, ../sass/modules/_public.sass */
 .lineHeight34 {
   line-height: 34px;
 }
 
-/* line 44, ../sass/modules/_public.sass */
+/* line 46, ../sass/modules/_public.sass */
 .font-14 {
   font-size: 14px;
 }
 
-/* line 46, ../sass/modules/_public.sass */
+/* line 48, ../sass/modules/_public.sass */
 .font-15 {
   font-size: 15px;
 }
 
-/* line 48, ../sass/modules/_public.sass */
+/* line 50, ../sass/modules/_public.sass */
 .font-default {
   font-size: 13px;
 }
 
-/* line 50, ../sass/modules/_public.sass */
+/* line 52, ../sass/modules/_public.sass */
 .font-lg {
   font-size: 1.2em;
 }
 
-/* line 52, ../sass/modules/_public.sass */
+/* line 54, ../sass/modules/_public.sass */
 .font-2x {
   font-size: 1.5em;
 }
 
-/* line 54, ../sass/modules/_public.sass */
+/* line 56, ../sass/modules/_public.sass */
 .font-3x {
   font-size: 1.8em;
 }
 
-/* line 56, ../sass/modules/_public.sass */
+/* line 58, ../sass/modules/_public.sass */
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 61, ../sass/modules/_public.sass */
+/* line 63, ../sass/modules/_public.sass */
 .dark {
   color: #333 !important;
 }
 
-/* line 63, ../sass/modules/_public.sass */
+/* line 65, ../sass/modules/_public.sass */
 .white {
   color: #fff !important;
 }
 
-/* line 65, ../sass/modules/_public.sass */
+/* line 67, ../sass/modules/_public.sass */
 .red {
   color: #DD5A43 !important;
 }
 
-/* line 67, ../sass/modules/_public.sass */
+/* line 69, ../sass/modules/_public.sass */
 .red2 {
   color: #E08374 !important;
 }
 
-/* line 69, ../sass/modules/_public.sass */
+/* line 71, ../sass/modules/_public.sass */
 .light-red {
   color: #FF7777 !important;
 }
 
-/* line 71, ../sass/modules/_public.sass */
+/* line 73, ../sass/modules/_public.sass */
 .blue {
   color: #478FCA !important;
 }
 
-/* line 73, ../sass/modules/_public.sass */
+/* line 75, ../sass/modules/_public.sass */
 .light-blue {
   color: #93CBF9 !important;
 }
 
-/* line 75, ../sass/modules/_public.sass */
+/* line 77, ../sass/modules/_public.sass */
 .green {
   color: #69AA46 !important;
 }
 
-/* line 77, ../sass/modules/_public.sass */
+/* line 79, ../sass/modules/_public.sass */
 .light-green {
   color: #B0D877 !important;
 }
 
-/* line 79, ../sass/modules/_public.sass */
+/* line 81, ../sass/modules/_public.sass */
 .orange {
   color: #FF892A !important;
 }
 
-/* line 81, ../sass/modules/_public.sass */
+/* line 83, ../sass/modules/_public.sass */
 .orange2 {
   color: #FEB902 !important;
 }
 
-/* line 83, ../sass/modules/_public.sass */
+/* line 85, ../sass/modules/_public.sass */
 .light-orange {
   color: #FCAC6F !important;
 }
 
-/* line 85, ../sass/modules/_public.sass */
+/* line 87, ../sass/modules/_public.sass */
 .purple {
   color: #A069C3 !important;
 }
 
-/* line 87, ../sass/modules/_public.sass */
+/* line 89, ../sass/modules/_public.sass */
 .pink {
   color: #C6699F !important;
 }
 
-/* line 89, ../sass/modules/_public.sass */
+/* line 91, ../sass/modules/_public.sass */
 .pink2 {
   color: #D6487E !important;
 }
 
-/* line 91, ../sass/modules/_public.sass */
+/* line 93, ../sass/modules/_public.sass */
 .brown {
   color: brown !important;
 }
 
-/* line 93, ../sass/modules/_public.sass */
+/* line 95, ../sass/modules/_public.sass */
 .grey {
   color: #777 !important;
 }
 
-/* line 95, ../sass/modules/_public.sass */
+/* line 97, ../sass/modules/_public.sass */
 .light-grey {
   color: #BBB !important;
 }
 
-/* line 100, ../sass/modules/_public.sass */
+/* line 102, ../sass/modules/_public.sass */
 .space-6 {
   max-height: 1px;
   min-height: 1px;
@@ -1738,10 +1807,58 @@ a {
   margin: 6px 0 5px;
 }
 
-/* line 106, ../sass/modules/_public.sass */
+/* line 107, ../sass/modules/_public.sass */
+.space-custom-5 {
+  max-height: 1px;
+  min-height: 1px;
+  overflow: hidden;
+  margin: 0 0 5px;
+}
+
+/* line 114, ../sass/modules/_public.sass */
 .input_sta_required {
   background-color: #c6f2d9 !important;
   /* (186, 242, 234) */
+}
+
+/* line 118, ../sass/modules/_public.sass */
+.input-medium.medium-c1 {
+  width: 165px;
+  height: 35px;
+}
+
+/* line 121, ../sass/modules/_public.sass */
+.input-h35 {
+  height: 35px !important;
+}
+
+/* line 124, ../sass/modules/_public.sass */
+.dateBox-custom1 .textbox {
+  height: 35px;
+  line-height: 28px;
+  border-radius: 0;
+  border: 1px solid #D5D5D3;
+}
+/* line 129, ../sass/modules/_public.sass */
+.dateBox-custom1 .combo-arrow {
+  background-color: #dddddd;
+  width: 24px !important;
+}
+
+/* line 132, ../sass/modules/_public.sass */
+.border-block-left {
+  border-left: 1px solid #dddddd;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  /* line 140, ../sass/modules/_public.sass */
+  .input-medium.medium-c1 {
+    width: 120px;
+  }
+}
+/* line 142, ../sass/modules/_public.sass */
+.margin-spacing-3 {
+  margin: 3px auto;
 }
 
 /*-------------- responsive -------------- */

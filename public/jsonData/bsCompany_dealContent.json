@@ -1,0 +1,14 @@
+{"total":28,
+	"rows":[
+	{"dealNum":"12345","dealStartDate":"2017/04/19","dealEndDate":"2017/04/25","referPriceCode":"133","housePriceName":"特等房","referDiscount":"0.6","remarks1":"男testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"67890","dealStartDate":"2017/03/22","dealEndDate":"2017/04/01","referPriceCode":"432","housePriceName":"豪華房","referDiscount":"0.5","remarks1":"女testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"12345","dealStartDate":"2017/04/19","dealEndDate":"2017/04/25","referPriceCode":"133","housePriceName":"特等房","referDiscount":"0.6","remarks1":"男testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"67890","dealStartDate":"2017/03/22","dealEndDate":"2017/04/01","referPriceCode":"432","housePriceName":"豪華房","referDiscount":"0.5","remarks1":"女testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"12345","dealStartDate":"2017/04/19","dealEndDate":"2017/04/25","referPriceCode":"133","housePriceName":"特等房","referDiscount":"0.6","remarks1":"男testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"67890","dealStartDate":"2017/03/22","dealEndDate":"2017/04/01","referPriceCode":"432","housePriceName":"豪華房","referDiscount":"0.5","remarks1":"女testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"12345","dealStartDate":"2017/04/19","dealEndDate":"2017/04/25","referPriceCode":"133","housePriceName":"特等房","referDiscount":"0.6","remarks1":"男testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"67890","dealStartDate":"2017/03/22","dealEndDate":"2017/04/01","referPriceCode":"432","housePriceName":"豪華房","referDiscount":"0.5","remarks1":"女testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"12345","dealStartDate":"2017/04/19","dealEndDate":"2017/04/25","referPriceCode":"133","housePriceName":"特等房","referDiscount":"0.6","remarks1":"男testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"},
+	{"dealNum":"67890","dealStartDate":"2017/03/22","dealEndDate":"2017/04/01","referPriceCode":"432","housePriceName":"豪華房","referDiscount":"0.5","remarks1":"女testtest","remark2":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息"}
+]}
+

@@ -1,0 +1,17 @@
+{"total":28,
+	"rows":[
+	{"yearMonth":"2016/01","useRoom":"0","roomRent":"0","foodConsume":"0","otherConsume":"0","totalConsume":"0"},
+	{"yearMonth":"2016/02","useRoom":"0","roomRent":"0","foodConsume":"0","otherConsume":"0","totalConsume":"0"},
+	{"yearMonth":"2016/03","useRoom":"1","roomRent":"2350","foodConsume":"890","otherConsume":"50","totalConsume":"3290"},
+	{"yearMonth":"2016/04","useRoom":"1","roomRent":"2350","foodConsume":"0","otherConsume":"0","totalConsume":"3290"},
+	{"yearMonth":"2016/05","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/06","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/07","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/08","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/09","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/10","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/11","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"2016/12","useRoom":"","roomRent":"","foodConsume":"","otherConsume":"","totalConsume":""},
+	{"yearMonth":"總計","useRoom":"2","roomRent":"4700","foodConsume":"890","otherConsume":"50","totalConsume":"5640"}
+]}
+

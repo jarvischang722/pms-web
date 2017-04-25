@@ -15,6 +15,8 @@
   margin-top: 0 !important
 .margin-top91
   margin-top: 87px
+.margin-5
+  margin: 5px
 .height87
   height: 87px
 //border: none
@@ -102,8 +104,40 @@ a
   min-height: 1px
   overflow: hidden
   margin: 6px 0 5px
+.space-custom-5
+  max-height: 1px
+  min-height: 1px
+  overflow: hidden
+  margin: 0 0 5px
+
 // custom
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
+.input-medium
+  &.medium-c1
+    width: 165px
+    height: $inputHeight
+.input-h35
+  height: $inputHeight !important
+.dateBox-custom1
+  .textbox
+    height: 35px
+    line-height: 28px
+    border-radius: 0
+    border: 1px solid #D5D5D3
+  .combo-arrow
+    background-color: #dddddd
+    width: 24px !important
+.border-block-left
+  border-left: 1px solid #dddddd
 
+
+
+
+@media screen and (min-width: 768px) and (max-width: 1030px)
+  .input-medium
+    &.medium-c1
+      width: 120px
+.margin-spacing-3
+  margin: 3px auto

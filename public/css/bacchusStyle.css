@@ -46,189 +46,194 @@ body {
 }
 
 /* line 18, ../sass/modules/_public.sass */
+.margin-5 {
+  margin: 5px;
+}
+
+/* line 20, ../sass/modules/_public.sass */
 .height87 {
   height: 87px;
 }
 
-/* line 21, ../sass/modules/_public.sass */
+/* line 23, ../sass/modules/_public.sass */
 .height60 {
   height: 60px;
 }
 
-/* line 23, ../sass/modules/_public.sass */
+/* line 25, ../sass/modules/_public.sass */
 .pointer {
   cursor: pointer;
 }
 
-/* line 25, ../sass/modules/_public.sass */
+/* line 27, ../sass/modules/_public.sass */
 .notice {
   color: #ff0000;
   font-weight: bold;
 }
 
-/* line 28, ../sass/modules/_public.sass */
+/* line 30, ../sass/modules/_public.sass */
 .bold {
   font-weight: bold;
 }
 
-/* line 30, ../sass/modules/_public.sass */
+/* line 32, ../sass/modules/_public.sass */
 .markOne {
   color: #478FCA;
   font-weight: bold;
 }
 
-/* line 33, ../sass/modules/_public.sass */
+/* line 35, ../sass/modules/_public.sass */
 .lineHeight14 {
   line-height: 14px;
 }
 
-/* line 35, ../sass/modules/_public.sass */
+/* line 37, ../sass/modules/_public.sass */
 .lineHeight18 {
   line-height: 18px;
 }
 
-/* line 37, ../sass/modules/_public.sass */
+/* line 39, ../sass/modules/_public.sass */
 .lineHeight24 {
   line-height: 24px;
 }
 
-/* line 39, ../sass/modules/_public.sass */
+/* line 41, ../sass/modules/_public.sass */
 .lineHeight27 {
   line-height: 27px;
 }
 
-/* line 41, ../sass/modules/_public.sass */
+/* line 43, ../sass/modules/_public.sass */
 .lineHeight34 {
   line-height: 34px;
 }
 
-/* line 44, ../sass/modules/_public.sass */
+/* line 46, ../sass/modules/_public.sass */
 .font-14 {
   font-size: 14px;
 }
 
-/* line 46, ../sass/modules/_public.sass */
+/* line 48, ../sass/modules/_public.sass */
 .font-15 {
   font-size: 15px;
 }
 
-/* line 48, ../sass/modules/_public.sass */
+/* line 50, ../sass/modules/_public.sass */
 .font-default {
   font-size: 13px;
 }
 
-/* line 50, ../sass/modules/_public.sass */
+/* line 52, ../sass/modules/_public.sass */
 .font-lg {
   font-size: 1.2em;
 }
 
-/* line 52, ../sass/modules/_public.sass */
+/* line 54, ../sass/modules/_public.sass */
 .font-2x {
   font-size: 1.5em;
 }
 
-/* line 54, ../sass/modules/_public.sass */
+/* line 56, ../sass/modules/_public.sass */
 .font-3x {
   font-size: 1.8em;
 }
 
-/* line 56, ../sass/modules/_public.sass */
+/* line 58, ../sass/modules/_public.sass */
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 61, ../sass/modules/_public.sass */
+/* line 63, ../sass/modules/_public.sass */
 .dark {
   color: #333 !important;
 }
 
-/* line 63, ../sass/modules/_public.sass */
+/* line 65, ../sass/modules/_public.sass */
 .white {
   color: #fff !important;
 }
 
-/* line 65, ../sass/modules/_public.sass */
+/* line 67, ../sass/modules/_public.sass */
 .red {
   color: #DD5A43 !important;
 }
 
-/* line 67, ../sass/modules/_public.sass */
+/* line 69, ../sass/modules/_public.sass */
 .red2 {
   color: #E08374 !important;
 }
 
-/* line 69, ../sass/modules/_public.sass */
+/* line 71, ../sass/modules/_public.sass */
 .light-red {
   color: #FF7777 !important;
 }
 
-/* line 71, ../sass/modules/_public.sass */
+/* line 73, ../sass/modules/_public.sass */
 .blue {
   color: #478FCA !important;
 }
 
-/* line 73, ../sass/modules/_public.sass */
+/* line 75, ../sass/modules/_public.sass */
 .light-blue {
   color: #93CBF9 !important;
 }
 
-/* line 75, ../sass/modules/_public.sass */
+/* line 77, ../sass/modules/_public.sass */
 .green {
   color: #69AA46 !important;
 }
 
-/* line 77, ../sass/modules/_public.sass */
+/* line 79, ../sass/modules/_public.sass */
 .light-green {
   color: #B0D877 !important;
 }
 
-/* line 79, ../sass/modules/_public.sass */
+/* line 81, ../sass/modules/_public.sass */
 .orange {
   color: #FF892A !important;
 }
 
-/* line 81, ../sass/modules/_public.sass */
+/* line 83, ../sass/modules/_public.sass */
 .orange2 {
   color: #FEB902 !important;
 }
 
-/* line 83, ../sass/modules/_public.sass */
+/* line 85, ../sass/modules/_public.sass */
 .light-orange {
   color: #FCAC6F !important;
 }
 
-/* line 85, ../sass/modules/_public.sass */
+/* line 87, ../sass/modules/_public.sass */
 .purple {
   color: #A069C3 !important;
 }
 
-/* line 87, ../sass/modules/_public.sass */
+/* line 89, ../sass/modules/_public.sass */
 .pink {
   color: #C6699F !important;
 }
 
-/* line 89, ../sass/modules/_public.sass */
+/* line 91, ../sass/modules/_public.sass */
 .pink2 {
   color: #D6487E !important;
 }
 
-/* line 91, ../sass/modules/_public.sass */
+/* line 93, ../sass/modules/_public.sass */
 .brown {
   color: brown !important;
 }
 
-/* line 93, ../sass/modules/_public.sass */
+/* line 95, ../sass/modules/_public.sass */
 .grey {
   color: #777 !important;
 }
 
-/* line 95, ../sass/modules/_public.sass */
+/* line 97, ../sass/modules/_public.sass */
 .light-grey {
   color: #BBB !important;
 }
 
-/* line 100, ../sass/modules/_public.sass */
+/* line 102, ../sass/modules/_public.sass */
 .space-6 {
   max-height: 1px;
   min-height: 1px;
@@ -236,10 +241,58 @@ a {
   margin: 6px 0 5px;
 }
 
-/* line 106, ../sass/modules/_public.sass */
+/* line 107, ../sass/modules/_public.sass */
+.space-custom-5 {
+  max-height: 1px;
+  min-height: 1px;
+  overflow: hidden;
+  margin: 0 0 5px;
+}
+
+/* line 114, ../sass/modules/_public.sass */
 .input_sta_required {
   background-color: #c6f2d9 !important;
   /* (186, 242, 234) */
+}
+
+/* line 118, ../sass/modules/_public.sass */
+.input-medium.medium-c1 {
+  width: 165px;
+  height: 35px;
+}
+
+/* line 121, ../sass/modules/_public.sass */
+.input-h35 {
+  height: 35px !important;
+}
+
+/* line 124, ../sass/modules/_public.sass */
+.dateBox-custom1 .textbox {
+  height: 35px;
+  line-height: 28px;
+  border-radius: 0;
+  border: 1px solid #D5D5D3;
+}
+/* line 129, ../sass/modules/_public.sass */
+.dateBox-custom1 .combo-arrow {
+  background-color: #dddddd;
+  width: 24px !important;
+}
+
+/* line 132, ../sass/modules/_public.sass */
+.border-block-left {
+  border-left: 1px solid #dddddd;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  /* line 140, ../sass/modules/_public.sass */
+  .input-medium.medium-c1 {
+    width: 120px;
+  }
+}
+/* line 142, ../sass/modules/_public.sass */
+.margin-spacing-3 {
+  margin: 3px auto;
 }
 
 /* line 11, ../sass/bacchusStyle.sass */
