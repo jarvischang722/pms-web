@@ -84,6 +84,16 @@
     .input {
         height: 50px;
     }
+
+    .prg_idLbH3 {
+        display: block;
+        font-size: 1.17em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
 </style>
 <script>
     $(document).ready(function(){
@@ -91,7 +101,10 @@
     });
 </script>
 <div id="app">
-    <input type="hidden" id="prg_id" value="<%= prg_id %>">
+    <div class="col-xs-12">
+        <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+    </div>
+    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
     <div class="row" style="margin-left: -5px;">
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
