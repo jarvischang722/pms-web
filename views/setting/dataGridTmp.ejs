@@ -21,8 +21,21 @@
         background-size: 100% 100%;
     }
 
+    .prg_idLbH3 {
+        display: block;
+        font-size: 1.17em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+    }
+
 </style>
 <div id="DGApp">
+    <div class="col-xs-12">
+        <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+    </div>
     <div class="col-xs-12" v-show="!isTableLock">
         <div class="col-sm-11 col-xs-11">
             <div class="row">
@@ -154,7 +167,6 @@
             //顯示資料
             showDataGrid: function (fieldData, dataGridRows) {
                 var columnsData = EZfieldClass.combineFieldOption(fieldData);
-
                 var dgData = {total: dataGridRows.length, rows: dataGridRows};
                 $('#prg_dg').datagrid({
                     columns: [columnsData],
@@ -226,7 +238,10 @@
             appendRow: function () {
                 var dataCount = $("#prg_dg").datagrid("getData").total;    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
                 if (this.endEditing()) {
-                    $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
+                    $.post("/api/handleDataGridAddEventRule", {
+                        prg_id: prg_id,
+                        dataCount: dataCount
+                    }, function (result) {
                         var prgDefaultObj = {createRow: 'Y'};
                         if (result.success) {
                             prgDefaultObj = result.prgDefaultObj;
@@ -252,9 +267,9 @@
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData
                 }, function (result) {
-                    if(result.success){
+                    if (result.success) {
                         $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
-                    }else{
+                    } else {
                         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                         vm.endEditing();
                         alert(result.errorMsg);
