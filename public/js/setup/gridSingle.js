@@ -4,6 +4,65 @@
 var prg_id = $("#prg_id").val();
 var $prg_dtdg = $("#dt_dg");
 var vmHub = new Vue;
+
+Vue.filter("filterLocaleContent",function (langContent,locale) {
+    console.log(langContent);
+    console.log(locale);
+    var m_lang_val = "";
+    var fIdx = _.findIndex(langContent,{locale:locale});
+    if( fIdx > -1){
+        m_lang_val = langContent[fIdx].words || "";
+    }
+    return m_lang_val;
+})
+
+/** 欄位多語系Dialog **/
+Vue.component("field-multi-lang-dialog-tmp", {
+    template: '#fieldMultiLangDialogTmp',
+    props: ['sys_locales'],
+    data: function () {
+        return {
+            editingMultiLangField:"",
+            multiLangContentList:[]
+        }
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('editFieldMultiLang', function (fieldInfo) {
+            self.getFieldMultiLangContent(fieldInfo)
+        });
+    },
+    methods: {
+        getFieldMultiLangContent: function (fieldInfo) {
+            var self = this;
+            $.post("/api/fieldAllLocaleContent", fieldInfo, function (result) {
+                self.multiLangContentList = result.multiLangContentList;
+                self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
+            })
+        },
+        openFieldMultiLangDialog: function(fieldName){
+            var width = 500;
+            var maxWidth = 700;
+            var dialog = $("#fieldMultiLangTmpDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: fieldName,
+                height: 200,
+                width: width,
+                //  maxWidth: _.min([width, maxWidth]),
+                resizable: true,
+                buttons: "#multiDialogBtns"
+            });
+
+            dialog.dialog("open");
+        },
+        closeFieldMultiLangDialog: function () {
+            $("#fieldMultiLangTmpDialog").dialog("close");
+        }
+    }
+
+})
+
 /** 編輯新增Dialog Component **/
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
@@ -13,7 +72,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-            testTime: "2017/03/20",
             dtEditIndex: undefined
         }
     },
@@ -50,22 +108,9 @@ Vue.component('sigle-grid-dialog-tmp', {
     },
     methods: {
         //打開多語編輯
-        editMultiLang: function () {
-            var width = 500;
-            var maxWidth = 700;
-            var dialog = $("#multiLangDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                title: "Multi Language",
-                height: 350,
-                width: 750,
-                maxWidth: _.min(width, maxWidth),
-                resizable: true,
-                buttons: "#multiDialogBtns"
-
-            });
-
-            dialog.dialog("open");
+        editMultiLang: function (fieldInfo) {
+            console.log(fieldInfo);
+            vmHub.$emit('editFieldMultiLang',fieldInfo)
         },
         //檢查欄位規則，在離開欄位時
         chk_field_rule: function (ui_field_name, rule_func_name) {
@@ -384,6 +429,7 @@ vm = new Vue({
         this.loadSingleGridPageField();
     },
     data: {
+        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:","")),
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
         deleteStatus: false,    //刪除狀態

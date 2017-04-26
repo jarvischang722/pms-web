@@ -114,69 +114,6 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
                 gb_onceEffectFlag = true;
             }
-        } else if (dataType == "numberbox") {
-            //  因為想不出連動先暫時註解　SAM 20170418
-            //var event = new MouseEvent("onClick",{view :window,bubbles:true,cancelable:true,client:20});
-            //tmpFieldObj.editor.options.dispatchEvent(event);
-
-            // var ed = $('#prg_dg').datagrid('getEditor',{index:0,field: fieldAttrObj.ui_field_name} );
-            // $(ed.target).trigger('click');
-            //
-            // tmpFieldObj.editor.options.click = function (test) {
-            //     console.log("GGGGGGGGGGGGG");
-            // }
-            // var selectDataRow = $('#prg_dg').datagrid('getSelected');
-            // var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
-            // var ed = $('#prg_dg').datagrid('editCell',{index:indexRow,field: fieldAttrObj.ui_field_name} );
-
-            // $("_easyui_textbox_input49").next("span").children().first().click(function (test) {
-            //     console.log("GGGGGGGGGGGGGGGGGG");
-            // });
-            // $("_easyui_textbox_input38").next("span").children().first().click(function (test) {
-            //     console.log("JJJJJJJJJJJJJ");
-            // });
-            // $("_easyui_textbox_input27").next("span").children().first().click(function (test) {
-            //     console.log("ASD");
-            // });
-            // document.getElementById("_easyui_textbox_input27").addEventListener("click",function () {
-            //     alert("AA");
-            // })
-            // tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-            //     console.log("GGGGGGGGGG");
-            // }
-            // tmpFieldObj.editor.options.click = function (test) {
-            //     gb_onceEffectFlag = true;
-            // }
-
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input49").click(function (test) {
-            //     console.log("GGGGGGGGGGGGGGGGGG");
-            // });
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input38").click(function (test) {
-            //     console.log("JJJJJJJJJJJJJ");
-            // });
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input27").click(function (test) {
-            //     console.log("ASD");
-            // });
-
-            // document.getElementById("_easyui_textbox_input27").onclick  = function () {
-            //     alert("AA");
-            // };
-            // document.getElementById("_easyui_textbox_input49").onclick  = function () {
-            //     alert("AA");
-            // }
-            // document.getElementById("_easyui_textbox_input38").onclick  = function () {
-            //     alert("AA");
-            // }
-
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input49").on('click',function (e) {
-            //     alert("AAAAAA");
-            // });
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input27").on('click',function (e) {
-            //     alert("AAAAAA");
-            // });
-            // tmpFieldObj.editor.options = $("_easyui_textbox_input38").on('click',function (e) {
-            //     alert("AAAAAA");
-            // });
         }
 
         //combobox連動
@@ -274,6 +211,10 @@ var EZfieldClass = {
             }
 
         })
+    },
+    //datagrid 多語系datagird
+    datagridForMultiLang : function(fieldData){
+
     }
 
 };

@@ -260,7 +260,11 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, c
         });
 
         async.parallel(funcs, function (err, langResults) {
-            multiLangData = _.groupBy(multiLangData, "locale");
+            // multiLangData = _.groupBy(multiLangData, "locale");
+            _.each(multiLangData,function(data,idx){
+                multiLangData[idx][data.field_name] = data.words||"";
+            });
+            
             callback(multiLangData);
         })
     });
