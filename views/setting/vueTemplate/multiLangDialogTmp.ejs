@@ -24,21 +24,20 @@
     <div id="multiLangDialog" style="display: none;" align="center">
         <table class="langTable" style="margin-top: 20px">
             <thead align="center">
-            <th>Locale</th>
-            <th>Room SNA</th>
-            <th>Room Name</th>
+            <th>Locale {{prgFieldDataAttr.length}}</th>
+            <th v-for="field in prgFieldDataAttr">field.ui_display_name</th>
             </thead>
             <tbody>
-            <tr>
-                <td>EN</td>
-                <td><input value="Exquisite"></td>
-                <td><input value="Exquisite For 8"></td>
+            <tr v-for="locale in sys_locales">
+                <td>{{ locale.name}} </td>
+                <!--<td><input value="Exquisite"></td>-->
+                <!--<td><input value="Exquisite For 8"></td>-->
             </tr>
-            <tr>
-                <td>zh_TW</td>
-                <td><input value="精緻"></td>
-                <td><input value="精緻八人房"></td>
-            </tr>
+            <!--<tr>-->
+                <!--<td>zh_TW</td>-->
+                <!--<td><input value="精緻"></td>-->
+                <!--<td><input value="精緻八人房"></td>-->
+            <!--</tr>-->
             </tbody>
         </table>
 
@@ -49,7 +48,7 @@
                 <button class="btn btn-primary btn-white" @click="">
                     Save
                 </button>
-                <button class="btn btn-primary btn-white" @click="">
+                <button class="btn btn-primary btn-white" @click="closeMultiLangDialog">
                     Leave
                 </button>
             </div>

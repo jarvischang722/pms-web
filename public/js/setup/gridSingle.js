@@ -652,9 +652,6 @@ vm = new Vue({
 
             var maxHeight = document.documentElement.clientHeight -70 ; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 45; // 預設一個row 高度
-            console.log(maxHeight);
-            console.log(height);
-            console.log();
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,

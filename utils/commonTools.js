@@ -61,18 +61,18 @@ exports.requestApi = function (apiUrl, params, callback) {
 
 /**
  * mongodb _doc 轉成物件
- * @param dataRows
+ * @param mongoDataRows{Array}: 從mongo 撈出來的多筆資料
  */
-exports.mongoDocToObject = function (dataRows) {
+exports.mongoDocToObject = function (mongoDataRows) {
     try {
-        _.each(dataRows, function (row, idx) {
-            dataRows[idx] = row.toObject();
+        _.each(mongoDataRows, function (row, idx) {
+            mongoDataRows[idx] = row.toObject();
         })
-    } catch (err) {
-
+    } catch (ex) {
+        console.error(ex);
     }
 
-    return dataRows;
+    return mongoDataRows;
 };
 
 /**

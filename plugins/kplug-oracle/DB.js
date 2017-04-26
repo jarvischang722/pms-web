@@ -37,8 +37,9 @@ var daoList = [];
 list.forEach(function (source) {
 	var daoPath2 = path.join(__dirname, './dao/', XMLUtil.getAttr(source, "path"));
 	daoList[daoList.length] = XMLUtil.createDocument(daoPath2);
-	console.log("load dao:" + XMLUtil.getAttr(source, "path"));
+	//console.log("load dao:" + XMLUtil.getAttr(source, "path"));
 });
+console.log("Complete the dao loading." );
 
 function DB() {
 
@@ -67,13 +68,13 @@ DB.prototype.create = function (opt) {
 				connectString: option.connectString
 			},
 			function (err, p) {
-				console.log(p._createdDate)
+				// console.log(p._createdDate)
 				pools[option.id] = p;
 				p.id = option.id;
 				if (pools['default'] == null) {
 					pools['default'] = p;
 				}
-				console.log('create pool:' + option.id);
+				//console.log('create pool:' + option.id);
 				if (_.isUndefined(option.months) == false) {
 					option.months.forEach(function (month) {
 						months[month] = p;

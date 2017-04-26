@@ -15,6 +15,7 @@ var dataRuleSvc = require("../services/dataRuleService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var logSvc = require("./logService");
 var mailSvc = require("./mailService");
+var langSvc = require("./langService");
 /**
  * 抓取datagrid 資料
  * @param userInfo
@@ -115,11 +116,12 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
 
 /**
  * 取datagrid 資料欄位 (新)
- * @param userInfo
+ * @param session
  * @param prg_id
  * @param callback
  */
-exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
+exports.fetchPrgDataGrid = function (session, prg_id, callback) {
+    var userInfo = session.user;
     var page_id = 1;
     var params = {
         user_id: userInfo.usr_id,
@@ -165,7 +167,7 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                 callback(err, dataGridRows)
             })
         },
-        //找尋field 屬性資料
+        // 4)找尋field 屬性資料
         function (dataRow, callback) {
             //先依使用者id 與館別找此PRG_ID有無欄位屬性，若無則抓預設
             mongoAgent.UIDatagridField.find({
@@ -180,20 +182,18 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
                         athena_id: "",
                         prg_id: prg_id,
                         page_id: page_id
-                    }).sort({col_seq: 1}).exec(function (err, commonField) {
-                        fieldData = commonField;
+                    }).sort({col_seq: 1}).exec(function (err, commonFields) {
+                        fieldData = tools.mongoDocToObject(commonFields);
                         callback(err, fieldData)
                     })
                 } else {
-                    fieldData = UserFieldData;
+                    fieldData = tools.mongoDocToObject(UserFieldData);
                     callback(err, fieldData);
                 }
             })
         },
-        //尋找ui_type有select的話，取得combobox的資料
+        // 5)尋找ui_type有select的話，取得combobox的資料
         function (fields, callback) {
-
-            fieldData = tools.mongoDocToObject(fields);
 
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
@@ -228,14 +228,19 @@ exports.fetchPrgDataGrid = function (userInfo, prg_id, callback) {
             async.parallel(selectDSFunc, function (err, result) {
                 callback(err, result)
             })
+        },
+        // 6)內容多語處理
+        function (data, callback) {
+            langSvc.handleMultiDataLangConv(dataGridRows, prg_id, page_id, session.locale, function (err, Rows) {
+                dataGridRows = Rows;
+                callback(null, dataGridRows);
+            })
         }
     ], function (err, result) {
 
         if (err) {
             console.error(err);
         }
-
-        //fieldData = tools.mongoDocToObject(fieldData);
 
         callback(err, dataGridRows, fieldData)
 
@@ -459,7 +464,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         tmpIns[objKey] = data[objKey];
                     });
 
-                    tmpIns = _.extend(tmpIns,ruleAgent.getCreateCommonDefaultDataRule(session));
+                    tmpIns = _.extend(tmpIns, ruleAgent.getCreateCommonDefaultDataRule(session));
 
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
@@ -500,7 +505,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         tmpEdit[objKey] = data[objKey];
                     });
 
-                    tmpEdit = _.extend(tmpEdit,ruleAgent.getEditDefaultDataRule(session));
+                    tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
 
                     delete  tmpEdit["ins_dat"];
                     delete  tmpEdit["ins_usr"];

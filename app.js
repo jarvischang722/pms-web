@@ -63,7 +63,8 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
+
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -90,7 +91,20 @@ app.use(function (req, res, next) {
     next();
 });
 
-
+//設定系統提供語系
+app.use(function (req, res, next) {
+    var options = {
+        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        //httpOnly: true, // The cookie only accessible by the web server
+        //signed: true // Indicates if the cookie should be signed
+    };
+    var localeInfo = [
+        {lang: 'en', sort: 1, name: 'english'},
+        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')}
+    ];
+    res.cookie('sys_locales', localeInfo, options);
+    next();
+});
 routing(app, passport);
 
 // catch 404 and forward to error handler
@@ -123,10 +137,10 @@ server.listen(port, function () {
  */
 function tableUnlockforAllPrg() {
 
-    dbSvc.doTableAllUnLock(function(err,success){
-        if(err){
+    dbSvc.doTableAllUnLock(function (err, success) {
+        if (err) {
             console.error(err);
-        }else{
+        } else {
             console.log("Table unlock all program ID.");
         }
 
