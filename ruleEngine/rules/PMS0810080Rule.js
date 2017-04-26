@@ -12,7 +12,7 @@ var ReturnClass = require("../returnClass");
 var ErrorClass = require("../errorClass");
 
 module.exports ={
-    CHK_GUEST_GRP_RF_ISEXIST_GUESTRF : function (postData,session,callback) {
+    chk_guest_grp_rf_isexist_guestrf : function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
