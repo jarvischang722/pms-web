@@ -13,9 +13,9 @@
     <!-- 取得住客類別設定資料-->
     <dao name="QRY_GUEST_RF">
         <statement><![CDATA[
-           select * from
-           guest_rf
-           where athena_id = ?
+          select athena_id, guest_typ, guest_sna, guest_nam, history_sta, guest_way, use_sta, rcard_prtrent, guest_grp, ins_dat, ins_usr, upd_dat, upd_usr
+          from guest_rf
+          where athena_id = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

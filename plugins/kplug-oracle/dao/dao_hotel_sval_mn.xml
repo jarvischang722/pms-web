@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810090有使用到下列列別則不可刪除-->
+    <dao name="CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN">
+        <statement><![CDATA[
+
+                select count(*) as hotel_sval_mn_count
+                from hotel_sval_mn
+                where athena_id = ? and sys_cod = 'HFD' and val_rmk = 'ghist_mn_guest_typ' and rownum = 1
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+
+    </dao>
+</root>
