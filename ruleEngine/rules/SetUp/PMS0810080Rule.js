@@ -6,16 +6,13 @@
 var _ = require("underscore");
 var moment = require("moment");
 //var async = require("async");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var queryAgent = require('../../plugins/kplug-oracle/QueryAgent');
+//var commandRules = require("./commonRule");
+var ReturnClass = require("../returnClass");
+var ErrorClass = require("../errorClass");
 
 module.exports ={
-    CHK_GUEST_GRP_RF_ISEXIST_GUESTRF : function (postData,session,callback) {
+    chk_guest_grp_rf_isexist_guestrf : function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
