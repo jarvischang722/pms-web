@@ -1082,7 +1082,6 @@ a {
 }
 /* line 239, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleGridContent {
-  height: 300px;
   max-height: 100%;
   overflow-y: auto;
   padding: 10px;
