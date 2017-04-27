@@ -117,13 +117,13 @@ a
 .input-medium
   &.medium-c1
     width: 165px
-    height: $inputHeight
+    height: $inputHeight-medium
 .input-h35
-  height: $inputHeight !important
+  height: $inputHeight-medium !important
 .dateBox-custom1
   .textbox
-    height: 35px
-    line-height: 28px
+    height: $inputHeight-medium
+    line-height: $inputHeight-medium - 5px
     border-radius: 0
     border: 1px solid #D5D5D3
   .combo-arrow
@@ -132,12 +132,11 @@ a
 .border-block-left
   border-left: 1px solid #dddddd
 
-
+.margin-spacing-3
+  margin: 3px auto
 
 
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .input-medium
     &.medium-c1
       width: 120px
-.margin-spacing-3
-  margin: 3px auto

@@ -75,7 +75,7 @@ table {
 .grid-item {
   /*width: 300px */
   margin-right: 10px;
-  height: 40px;
+  height: 35px;
   float: left;
 }
 /* line 20, ../sass/vendor/_grid.sass */
@@ -279,6 +279,11 @@ h3 {
   padding: 5px 0;
 }
 
+/* line 31, ../sass/editDefault/_editBootstrap.sass */
+select.form-control {
+  padding: 4px 2px;
+}
+
 /* line 34, ../sass/editDefault/_editBootstrap.sass */
 .top-sec-ul {
   max-width: 100%;
@@ -287,91 +292,67 @@ h3 {
   background: #F5F5F5;
 }
 
-/* header css */
-/* jqGrid html */
-/* line 45, ../sass/editDefault/_editBootstrap.sass */
-.jqGridEdit-table .ui-jqgrid .ui-jqgrid-labels {
-  background: #c0d6ee;
-  background-image: none;
-}
-/* line 48, ../sass/editDefault/_editBootstrap.sass */
-.jqGridEdit-table.margin-5 {
-  margin: 0 0 10px 0;
-}
-
-/* line 50, ../sass/editDefault/_editBootstrap.sass */
-.rateCode03-table {
-  margin: 20px 0 0 0;
-}
-
-/* line 54, ../sass/editDefault/_editBootstrap.sass */
+/* line 44, ../sass/editDefault/_editBootstrap.sass */
 .tabs-left.counter-tabs > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
   min-width: 30px;
   font-weight: bold;
 }
 
-/* line 60, ../sass/editDefault/_editBootstrap.sass */
+/* line 50, ../sass/editDefault/_editBootstrap.sass */
 .form-widget-label select, .form-widget-selectEdit select {
   padding: 0;
   height: auto;
 }
 
-/* line 64, ../sass/editDefault/_editBootstrap.sass */
+/* line 54, ../sass/editDefault/_editBootstrap.sass */
 .input-sm {
   height: 24px;
 }
 
-@media screen and (max-width: 992px) {
-  /* line 69, ../sass/editDefault/_editBootstrap.sass */
-  .top-sec-ul {
-    z-index: 1024;
-    padding-top: 50px;
-  }
-}
 /*-- sidebar --/ */
-/* line 74, ../sass/editDefault/_editBootstrap.sass */
+/* line 60, ../sass/editDefault/_editBootstrap.sass */
 .nav-list {
   position: relative;
   border-right: 1px solid #438EB9;
 }
-/* line 78, ../sass/editDefault/_editBootstrap.sass */
+/* line 64, ../sass/editDefault/_editBootstrap.sass */
 .nav-list > li:before {
   height: 100%;
   min-height: 41px;
   max-height: 100%;
 }
-/* line 82, ../sass/editDefault/_editBootstrap.sass */
+/* line 68, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 86, ../sass/editDefault/_editBootstrap.sass */
+/* line 72, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 90, ../sass/editDefault/_editBootstrap.sass */
+/* line 76, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height .menu-text {
   height: inherit !important;
   padding-left: 24px;
 }
 
-/* line 96, ../sass/editDefault/_editBootstrap.sass */
+/* line 82, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
-/* line 100, ../sass/editDefault/_editBootstrap.sass */
+/* line 86, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
 
-/* line 104, ../sass/editDefault/_editBootstrap.sass */
+/* line 90, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle {
   position: absolute;
   top: 10px;
@@ -379,7 +360,7 @@ h3 {
   border: #F79263;
   background: #F79263;
 }
-/* line 110, ../sass/editDefault/_editBootstrap.sass */
+/* line 96, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle > .ace-icon {
   background: #F79263;
   color: #fff;
@@ -387,63 +368,75 @@ h3 {
   border-radius: 0;
 }
 
-/* line 119, ../sass/editDefault/_editBootstrap.sass */
+/* line 105, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 121, ../sass/editDefault/_editBootstrap.sass */
+/* line 107, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 125, ../sass/editDefault/_editBootstrap.sass */
+/* line 111, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 130, ../sass/editDefault/_editBootstrap.sass */
+/* line 114, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 118, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 138, ../sass/editDefault/_editBootstrap.sass */
+/* line 122, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 141, ../sass/editDefault/_editBootstrap.sass */
+/* line 125, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 144, ../sass/editDefault/_editBootstrap.sass */
+/* line 128, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
 }
 
-/* line 148, ../sass/editDefault/_editBootstrap.sass */
+/* line 132, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 {
   padding: 10px 5px;
 }
-/* line 150, ../sass/editDefault/_editBootstrap.sass */
+/* line 134, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 a {
   padding-right: 5px;
   padding-left: 5px;
 }
 
-/* line 156, ../sass/editDefault/_editBootstrap.sass */
+/* line 140, ../sass/editDefault/_editBootstrap.sass */
 .btn-white.btn-primary[disabled]:hover {
   background-color: transparent !important;
 }
 
+/* line 144, ../sass/editDefault/_editBootstrap.sass */
+.input-medium {
+  height: 30px;
+}
+
+@media screen and (max-width: 992px) {
+  /* line 149, ../sass/editDefault/_editBootstrap.sass */
+  .top-sec-ul {
+    z-index: 1024;
+    padding-top: 50px;
+  }
+}
 /* line 2, ../sass/editDefault/_editEasyUi.sass */
 .panel-body {
   font-size: 13px;
@@ -1408,7 +1401,7 @@ a {
 .businessCompanyData .main-content-data .input-spc-1 {
   width: 439px;
   max-width: 100%;
-  height: 35px;
+  height: 30px;
 }
 /* line 456, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block label {
@@ -1830,18 +1823,18 @@ a {
 /* line 118, ../sass/modules/_public.sass */
 .input-medium.medium-c1 {
   width: 165px;
-  height: 35px;
+  height: 30px;
 }
 
 /* line 121, ../sass/modules/_public.sass */
 .input-h35 {
-  height: 35px !important;
+  height: 30px !important;
 }
 
 /* line 124, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
-  height: 35px;
-  line-height: 28px;
+  height: 30px;
+  line-height: 25px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
@@ -1856,15 +1849,15 @@ a {
   border-left: 1px solid #dddddd;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 140, ../sass/modules/_public.sass */
-  .input-medium.medium-c1 {
-    width: 120px;
-  }
-}
-/* line 142, ../sass/modules/_public.sass */
+/* line 135, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  /* line 141, ../sass/modules/_public.sass */
+  .input-medium.medium-c1 {
+    width: 120px;
+  }
+}
 /*-------------- responsive -------------- */
