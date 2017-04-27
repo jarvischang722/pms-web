@@ -82,6 +82,11 @@
         </div>
     </div> <!-- /.col-sm-12 -->
 
+    <multi-lang-dialog-tmp
+            :sys_locales="sys_locales"
+            :prg_field-data-attr="prgFieldDataAttr">
+    </multi-lang-dialog-tmp>
+
 </div>
 <div class="clearfix"></div>
 
@@ -89,18 +94,55 @@
 
 
     var prg_id = '<%= prg_id %>';
-    var vm = new Vue({
+    var vmHub = new Vue;
+    Vue.component("multi-lang-dialog-tmp", {
+        template: '#multiLangDialogTmp',
+        props: ['sys_locales','prgFieldDataAttr'],
+        data: function () {
+            return {}
+        },
+        created: function () {
+            console.log(this.sys_locales);
+            var self = this;
+            vmHub.$on('getRowMultiLangContent', function (data) {
+                self.getRowMultiLangContent(data.rowIdx)
+            });
+        },
+        methods: {
+            getRowMultiLangContent: function (rowIdx) {
+                var params = {
+                    langTable: "",
+                    rowData: $('#prg_dg').datagrid("getRows")[rowIdx],
+                    prg_id: prg_id,
+                    page_id: 1
+
+                };
+
+                $.post("/api/multiLangFieldContentByKey", params, function (result) {
+                    console.log(result);
+                })
+            }
+        },
+        closeMultiLangDialog: function () {
+            alert(123);
+            $("#multiLangDialog").dialog("close");
+        }
+    })
+
+    vm = new Vue({
         el: '#DGApp',
         ready: function () {
             this.initTmpCUD();
             this.fetchDataGridData();
         },
         data: {
+            prgFieldDataAttr:[],   //這隻程式的欄位屬性
             isTableLock: false,
             tableLockMsg: "",
             editIndex: undefined,
             tmpCUD: {},
-            saving: false
+            saving: false,
+            sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:",""))
         },
         watch: {},
         methods: {
@@ -117,6 +159,11 @@
 
                 var saveField = [];
                 var allField = $('#prg_dg').datagrid("getColumnFields");
+
+                //過濾不用存的欄位
+                allField = _.filter(allField, function (field) {
+                    return field != 'langAction'
+                })
 
                 _.each(allField, function (field, fIdx) {
                     var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
@@ -161,12 +208,31 @@
                 // waitingDialog.show();
                 $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                     waitingDialog.hide();
+                    vm.prgfieldDataAttr = result.fieldData;
+                    console.log(vm.prgfieldDataAttr);
                     vm.showDataGrid(result.fieldData, result.dataGridRows)
                 });
             },
             //顯示資料
             showDataGrid: function (fieldData, dataGridRows) {
                 var columnsData = EZfieldClass.combineFieldOption(fieldData);
+                var hasMultiLangField = _.filter(fieldData, function (field) {
+                    return field.multi_lang_table != ""
+                }).length > 0 ? true : false;
+                if (hasMultiLangField) {
+//                if (true) {
+                    columnsData.push({
+                        type: 'textbox',
+                        title: "Multi Lang",
+                        field: "langAction",
+                        align: "center",
+                        width: 100,
+                        formatter: function (value, row, index) {
+                            return '<a  href="javascript:void(0)" onclick="editFieldMultiLang('+index+')">Edit</a>'
+                        }
+
+                    });
+                }
                 var dgData = {total: dataGridRows.length, rows: dataGridRows};
                 $('#prg_dg').datagrid({
                     columns: [columnsData],
@@ -174,6 +240,7 @@
                     singleSelect: true,
                     selectOnCheck: true,
                     checkOnSelect: true,
+                    width : "100%",
                     data: dgData,
                     onClickCell: vm.onClickCell,
                     onEndEdit: vm.onEndEdit,
@@ -195,7 +262,6 @@
             },
             //按下一個Row
             onClickCell: function (index, field) {
-
                 if (vm.editIndex != index) {
                     if (this.endEditing()) {
                         $('#prg_dg').datagrid('selectRow', index)
@@ -211,10 +277,11 @@
                         }, 0);
                     }
                 }
+
+
             },
             //結束編輯
             onEndEdit: function (index, row, changes) {
-
                 if (row.createRow == 'Y') {
                     this.tmpCUD.createData.push(row);
                 } else {
@@ -238,10 +305,7 @@
             appendRow: function () {
                 var dataCount = $("#prg_dg").datagrid("getData").total;    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
                 if (this.endEditing()) {
-                    $.post("/api/handleDataGridAddEventRule", {
-                        prg_id: prg_id,
-                        dataCount: dataCount
-                    }, function (result) {
+                    $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
                         var prgDefaultObj = {createRow: 'Y'};
                         if (result.success) {
                             prgDefaultObj = result.prgDefaultObj;
@@ -314,13 +378,42 @@
             getChanges: function () {
                 var rows = $('#prg_dg').datagrid('getChanges');
                 //alert(rows.length + ' rows xare changed!');
+            },
+            //多語系編輯
+            editFieldMultiLang: function (rowIdx) {
+                    vmHub.$emit("getRowMultiLangContent",{rowIdx:rowIdx});
+                    this.openMultiLangDialog();
+
+            },
+            //打開多語系編輯Dialog
+            openMultiLangDialog: function () {
+                var width = 500;
+                var maxWidth = 700;
+                var dialog = $("#multiLangDialog").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: "Multi Language",
+                    height: 350,
+                    width: 750,
+                    maxWidth: _.min(width, maxWidth),
+                    resizable: true,
+                    buttons: "#multiDialogBtns"
+
+                });
+
+                dialog.dialog("open");
             }
 
 
         }
     })
 
+    //打開多語視窗
+    function editFieldMultiLang(rowIdx) {
+        vm.editFieldMultiLang(rowIdx);
+    }
 
 </script>
 
+<%- include ./vueTemplate/multiLangDialogTmp.ejs %>
 <script src="/js/setup/datagrid.js"></script>

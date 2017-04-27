@@ -27,7 +27,7 @@ exports.prgDataGridDataQuery = function(req,res){
         return;
     }
 
-    datagridSVC.fetchPrgDataGrid(req.session.user,prg_id,function(err, dataGridRows, fieldData){
+    datagridSVC.fetchPrgDataGrid(req.session,prg_id,function(err, dataGridRows, fieldData){
 
         _.each(fieldData,function(field,fIdx){
             fieldData[fIdx]["ui_display_name"] = req.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";

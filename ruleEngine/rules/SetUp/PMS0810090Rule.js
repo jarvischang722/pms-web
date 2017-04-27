@@ -4,10 +4,13 @@
 var _ = require("underscore");
 var moment = require("moment");
 var async = require("async");
-var queryAgent = require('../../plugins/kplug-oracle/QueryAgent');
-//var commandRules = require("./commonRule");
-var ReturnClass = require("../returnClass");
-var ErrorClass = require("../errorClass");
+var path = require('path');
+var appRootDir = path.dirname(require.main.filename);
+var ruleRootPath = appRootDir+"/ruleEngine/";
+var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var commandRules = require("./../CommonRule");
+var ReturnClass = require(ruleRootPath+"/returnClass");
+var ErrorClass = require(ruleRootPath+"/errorClass");
 
 module.exports = {
     chk_guest_rf_guest_way: function (postData, session, callback) {
@@ -118,25 +121,26 @@ module.exports = {
                                 callback(err, []);
                             }
                         })
+                    },
+                    function (data, callback) {
+                        queryAgent.query("CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN".toUpperCase(), params, function (err, guestData) {
+                            if (!err) {
+                                if (data != false) {
+                                    if (guestData.hotel_sval_mn_count > 0) {
+                                        isUsed = true;
+                                        callback(isUsed, []);
+                                    } else {
+                                        isUsed = false;
+                                        callback(isUsed, []);
+                                    }
+                                } else {
+                                    callback(isUsed, []);
+                                }
+                            } else {
+                                callback(err, []);
+                            }
+                        })
                     }
-                    // },  SAM 20170410 等宏興大哥與星光大哥確定
-                    // function (data, callback) {
-                    //     queryAgent.query("GET_COMP_SVAL".toUpperCase(), params, function (err, guestData) {
-                    //         if (!err) {
-                    //             if (data != false) {
-                    //                 if (guestData.guest_count > 0) {
-                    //                     isUsed = true;
-                    //                     callback(isUsed, []);
-                    //                 } else {
-                    //                     isUsed = false;
-                    //                     callback(isUsed, []);
-                    //                 }
-                    //             } else {
-                    //                 callback(isUsed, []);
-                    //             }
-                    //         }
-                    //     })
-                    // }
                 ], function (errMsg, result) {
                     if (errMsg) {
                         lo_error = new ErrorClass();

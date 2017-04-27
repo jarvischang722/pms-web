@@ -15,7 +15,6 @@ var i18n = require('i18n');
  * 登入頁面
  */
 exports.loginPage = function (req, res, next) {
-
     if (req.session.user) {
         if (!_.isUndefined(req.session.user.sys_id)) {
             res.redirect("/");

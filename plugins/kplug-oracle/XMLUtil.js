@@ -14,6 +14,11 @@ exports.createDocument = function (path) {
 	return doc;
 };
 
+exports.createDocumentFromString = function (data) {
+	var doc = new dom().parseFromString(data);
+	return doc;
+};
+
 exports.saveDocument = function (doc, path) {
 	var data = fs.writeFileSync(path, doc.toString(), 'utf-8');
 };

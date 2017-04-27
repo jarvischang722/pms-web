@@ -12,9 +12,10 @@ var i18n = require("i18n");
 var moment = require("moment");
 var tools = require("../utils/commonTools");
 var dataRuleSvc = require("../services/dataRuleService");
-var commonRule = require("../ruleEngine/rules/commonRule");
+var commonRule = require("../ruleEngine/rules/CommonRule");
 var logSvc = require("./logService");
 var mailSvc = require("./mailService");
+var langSvc = require("./langService");
 /**
  * 抓取singlePage 欄位資料
  * @param userInfo {Object}: 使用者登入資料
@@ -53,7 +54,7 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                                 la_fields[fIdx].referiable = selRow.referiable || "N";
                                 la_fields[fIdx].defaultVal = selRow.defaultVal || "";
                                 la_fields[fIdx].selectData = [];
-                                dataRuleSvc.GET_SELECT_OPTIONS(userInfo, selRow, function (selectData) {
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
                                     la_fields[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
@@ -139,11 +140,14 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     queryAgent.query(sql_tag, postData, function (err, rowData) {
 
                         if (err || !rowData) {
-                            callback("no data", {});
-                            return;
+                            return  callback("no data", {});
                         }
-                        lo_rowData = tools.convUtcToDate(rowData);
-                        callback(null, rowData);
+
+                        langSvc.handleSingleDataLangConv(rowData, prg_id, 2, session.locale, function (err, rowData) {
+                            lo_rowData = rowData;
+                            lo_rowData = tools.convUtcToDate(rowData);
+                            callback(null, rowData);
+                        });
 
                     })
                 });
@@ -175,7 +179,6 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     },
                     function (grid, callback) {
                         if (_.size(grid)) {
-
 
                             var params = {
                                 athena_id: userInfo.athena_id,
@@ -383,7 +386,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     //DT 刪除資料規則檢查
     function chkDtDeleteRule(fields, callback) {
 
-        if(!_.isUndefined(postData["dt_deleteData"]) && postData["dt_deleteData"].length > 0 ){
+        if (!_.isUndefined(postData["dt_deleteData"]) && postData["dt_deleteData"].length > 0) {
             postData["page_id"] = page_id;
             postData["isDtData"] = true;
             dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
@@ -393,7 +396,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     callback(null, result)
                 }
             })
-        }else{
+        } else {
             callback(null, true)
         }
 
@@ -639,21 +642,21 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             }
 
             //寄出exceptionMail
-            if(!chk_result.success){
+            if (!chk_result.success) {
                 mailSvc.sendExceptionMail({
-                    log_id:log_id,
+                    log_id: log_id,
                     exceptionType: "execSQL",
-                    errorMsg : err.errorMsg
+                    errorMsg: err.errorMsg
                 })
             }
             //log 紀錄
             logSvc.recordLogAPI({
-                log_id:log_id,
-                success:chk_result.success,
+                log_id: log_id,
+                success: chk_result.success,
                 prg_id: prg_id,
                 api_prg_code: '0300901000',
-                req_content : apiParams,
-                res_content : data
+                req_content: apiParams,
+                res_content: data
             });
             callback(err, chk_result);
         })

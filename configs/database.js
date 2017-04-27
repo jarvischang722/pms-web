@@ -3,21 +3,23 @@
  * 資料庫設定檔
  */
 module.exports = {
-    //oracle 設定檔
-    oracle: {
-        connectString: "125.227.154.170:1521/WRS",
-        //connectString: "10.10.10.79:1521/WRS",
+    //oracle 設定檔{Array}
+    oracle: [{
+        id: 'o1',
+        connectString: "192.168.168.203/MISUTF8",
         user: "htce7",
-        password: "sql"
-    },
+        password: "sql",
+        months: [1, 2, 3, 4, 5, 6],
+        debug: 0
+    }]
+    ,
     //mongoDB 設定檔
     mongo: {
         host: "192.168.1.76",
+        // host: "127.0.0.1",
         port: "2717",
         dbname: "bacchus",
         username: "bacchus",
         password: "mongo"
-    },
-    //是否要Debug模式
-    debug : 1
+    }
 };
