@@ -24,6 +24,7 @@ require("./models/mongoose/TemplateRf");
 require("./models/mongoose/TemplateGridSingle");
 require("./models/mongoose/PageFunction");
 require("./models/mongoose/LogsAPI");
+require("./models/mongoose/Sessions");
 
 
 exports.DatagridFunction = mongoose.model("DatagridFunction");
@@ -35,3 +36,4 @@ exports.TemplateRf = mongoose.model("TemplateRf");
 exports.TemplateGridSingle = mongoose.model("TemplateGridSingle");
 exports.PageFunction = mongoose.model("PageFunction");
 exports.LogsAPI = mongoose.model("LogsAPI");
+exports.Sessions = mongoose.model("Sessions");

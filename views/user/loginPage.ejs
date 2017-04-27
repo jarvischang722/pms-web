@@ -101,10 +101,9 @@
 <script type="text/javascript">
 
 
-
     $(function ($) {
 
-        console.log(JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:","")));
+
         showUserCookie();
         $(document).on('click', '.toolbar a[data-target]', function (e) {
             e.preventDefault();
