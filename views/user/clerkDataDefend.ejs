@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ../common/head %>
+<%- include ../common/importFiles %>
+
+
+<body class="no-skin" id="app">
+
+<!-- #section:basics/navbar.layout -->
+<%- include ../common/navbar.ejs %>
+<!-- include header.html -->
+<script type="text/javascript">
+    var global_using_prg_id = ""; //目前使用中的程式
+
+
+    $(function () {
+        //選第一個對照檔
+        $("#settingUl li").first().find("a").click();
+
+    })
+
+    //網頁讀取
+    function loadSettingPage(prg_id) {
+
+//        $("#controlReservationTab01").load('/mainSetUp/' + prg_id);
+        //TODO 需改成用load的方式
+        var iframe = document.getElementById('proIframe');
+        iframe.src = '/mainSetUp/' + prg_id;
+    }
+
+    // 判斷iframe 大小
+    function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    }
+
+</script>
+<!-- /section:basics/navbar.layout -->
+<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+
+        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+
+
+        <%- include('../common/moduleMenu2',{}) %>
+
+        <div class="companyInfo">
+            <img src="/images/athena_log.png"/>
+        </div>
+        <!-- /section:basics/sidebar.layout.minimize -->
+    </div>
+
+    <!-- /section:basics/sidebar -->
+
+    <div class="main-content">
+        <div class="main-content-inner">
+
+            <%- include('../common/subsysMenu2',{}) %>
+
+            <div class="page-content">
+            <div class="">
+                <div class="page-header">
+                </div><!-- /.page-header -->
+
+                <div class="row">
+
+                        <div class="col-xs-12">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row no-margin-right">
+                                        <div class="search-content">
+                                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                            <div class="search-co">
+                                                <div class="search-co-h">
+                                                    <i class="ace-icon fa fa-search search-icon"></i>
+                                                    <span>搜尋</span>
+                                                    <div class="row search-right-btn">
+                                                        <div class="right-btn-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <i class="fa fa-chevron-down show-search-detail"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="search-co-content col-xs-12">
+                                                        <div class="col-sm-4">
+
+                                                        </div>
+                                                        <div class="col-sm-4">
+
+                                                        </div>
+                                                        <div class="col-sm-4">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                                        <div class="row search-footer-btn" style="top:0;">
+                                                            <div class="footer-btn-menu-co">
+                                                                <ul>
+                                                                    <li>
+                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                             title="查詢"
+                                                                             style="padding: 0 0 5px 0;">
+                                                                            <div class="icon-reStyle icon-co-14"></div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                             title="清除" style="padding: 0 0 5px 0;">
+                                                                            <div class="icon-reStyle icon-co-11"></div>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>  <!-- /.footer-btn-menu-co -->
+                                                        </div> <!-- /.search-footer-btn -->
+                                                        <div class="grid width-95">
+                                                            <div class="grid-item block-table">
+                                                                <label>業務員代號</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>業務員姓名</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>是否為員工</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>狀態</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>停用年月</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>停月年月</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>業務員組別</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>飯店業務</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>餐廳業務</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>會員業務</label>
+                                                                <input type="text" class="input-medium medium-c1"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div> <!-- row-->
+                                            </div> <!-- /.search-co -->
+
+                                        </div> <!-- /.row  search-content-->
+                                </div>
+                            </div>
+                        </div> <!-- /.col-sm-12 -->
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row no-margin-right">
+                                    <!-- 歷史消費 dataGrid -->
+                                    <table id="clerkDataGridResult-table"></table>
+                                </div>
+                            </div>
+                            <div class="col-xs-1 col-sm-1">
+                                <div class="row">
+                                    <div class="right-menu-co">
+                                        <ul>
+                                            <li>
+                                                <button id="ins-btn"
+                                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button">新增</button>
+                                            </li>
+
+                                            <li>
+                                                <button id="remove-btn"
+                                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                                        role="button">刪除</button>
+                                            </li>
+                                            <li>
+                                                <button id="ins-btn"
+                                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button">修改</button>
+                                            </li>
+                                            <li>
+                                                <button id="ins-btn"
+                                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                                        role="button">業務員指派</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- /.col-sm-12 -->
+                        <div class="clearfix"></div>
+
+                </div>
+                <!-- 信用額度變更 彈出視窗 -->
+                <div id="changeCreditLimit-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row billInfo">
+                                    <div class="content">
+                                        <div class="clearfix"></div>
+                                        <div class="space-custom-5"></div>
+                                        <div class="tab-block">
+                                          <span class="checkbox">
+                                              <label>可簽帳</label>
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl"></span>
+                                              </label>
+                                          </span>
+                                            <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
+                                            <!--<input type="checkbox" disabled="disabled"/>-->
+                                        </div>
+
+                                        <div class="grid-item tab-block">
+                                            <label>信用額度</label>
+                                            <input type="number" class="input-medium medium-c1 input_sta_required text-right" />
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>收款方式</label>
+                                            <select class="input-medium medium-c1">
+                                                <option value="-1">代號-名稱</option>
+                                                <option value="1">01-月結30天</option>
+                                                <option value="2">02-月結45天</option>
+                                                <option value="3">03-月結60天</option>
+                                                <option value="4">04-月結75天</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>目前簽帳金額</label>
+                                            <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="0"/>
+                                        </div>
+                                        <div class="grid-item tab-block">
+                                            <label>信用額度餘額</label>
+                                            <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="123"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-xs-1">
+                                <div class="row">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                            role="button">離開</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.信用額度變更 -->
+                <!-- 狀態變更 彈出視窗 -->
+                <div id="bs-company-stateChange-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row billInfo no-margin-right">
+                                    <div class="content">
+
+                                        <div class="space-6"></div>
+
+                                        <div class="grid-item">
+                                            <label>狀態</label>
+                                            <select class="input-medium medium-c1">
+                                                <option value="-1">代碼-狀態說明</option>
+                                                <option value="1">01-確認中</option>
+                                                <option value="2">02-已下單</option>
+                                                <option value="3">03-待簽回</option>
+                                                <option value="4">04-已收訂金</option>
+                                                <option value="5">05-取消</option>
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <!-- 狀態變更  -->
+                                        <table class="easyui-datagrid" title=""  style="height: 200px;"
+                                               data-options="singleSelect:true,collapsible:true,url:'/jsonData/bsCompany_data1.json',method:'get'">
+                                            <thead>
+                                            <tr>
+                                                <th data-options="field:'sort',width:50">序</th>
+                                                <th data-options="field:'num',width:50">代碼</th>
+                                                <th data-options="field:'status',width:80">狀態</th>
+                                                <th data-options="field:'editPerson',width:80">異動者</th>
+                                                <th data-options="field:'editDate',width:150">異動日期</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-xs-1">
+                                <div class="row">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                                    role="button">確定</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                                    role="button">取消</button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.狀態變更 -->
+                <!-- 顯示月份明細 彈出視窗 -->
+                <div id="bs-company-displayMonth-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="margin-5">
+                            <!-- 貢獻度-顯示月份明細 dataGrid -->
+                            <table id="displayMonth-table"></table>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- /.顯示月份明細 -->
+                <!-- 修改業務員 彈出視窗 -->
+                <div id="bs-company-editClerk-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-10 col-xs-10">
+                                <div class="row billInfo">
+                                    <div class="content">
+                                        <div class="space-custom-5"></div>
+                                        <div class="grid-item tab-block">
+                                            <label>指定業務員</label>
+                                            <select class="input-medium medium-c1">
+                                                <option value="1">陳瑞克</option>
+                                                <option value="2">王大園</option>
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                          <div class="checkbox clerkCheckbox">
+                                              <!---->
+                                              <label class="">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl"><span class="txt">更新未來訂房卡</span></span>
+                                              </label>
+                                              <label></label>
+                                          </div>
+
+                                        <div class="space-6"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-xs-2">
+                                <div class="row no-margin-right">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                            role="button">修改業務員</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                </div>
+                <!-- /.顯示月份明細 -->
+            </div><!-- /.roomNumPlanPage -->
+            </div>
+        </div>
+    </div><!-- /.main-content -->
+    <%- include ../common/footer %>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+
+</body>
+
+<script type="text/javascript">
+    $(function (){
+
+        // 彈出SettingNewDialog
+        $(document).on('click', ".changeCreditLimit", function (e) {
+            e.preventDefault();
+            var dialog = $("#changeCreditLimit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "信用額度變更",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                responsive: true
+            });
+        });
+
+
+        // 業務員資料維護-查詢結果 dataGrid
+        $('#clerkDataGridResult-table').datagrid({
+            singleSelect:true,
+            collapsible:true,
+            // 從json 撈
+            url:'/jsonData/bsCompany_clerkDataGridResult.json',
+            method:'get',
+            columns:[[
+                {field:'clerkNum',title:'業務員代號',width:100},
+                {field:'clerkName',title:'業務員姓名',width:100},
+                {field:'ifStaff',title:'是否為員工',width:100},
+                {field:'status',title:'狀態',width:100},
+                {field:'disabledYear',title:'停用年月',width:100},
+                {field:'clerkTeam',title:'業務員組別',width:100},
+                {field:'hotelBusiness',title:'飯店業務',width:100},
+                {field:'foodBusiness',title:'餐飲業務',width:100},
+                {field:'memberBusiness',title:'會員業務',width:100}
+            ]]
+
+        });
+
+
+
+
+    });
+</script>
+
+
+</html>
