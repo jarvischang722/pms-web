@@ -3,7 +3,9 @@
     <!-- PMS0810110取得多筆資料-->
     <dao name="QRY_SOURCE_RF">
         <statement><![CDATA[
-           select * from source_rf where athena_id = ?
+           select athena_id, source_typ, source_nam, use_sta, source_grp, modify_sta, ins_dat, ins_usr, upd_dat, upd_usr
+           from source_rf
+           where athena_id = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
