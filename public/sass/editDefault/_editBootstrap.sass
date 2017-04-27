@@ -27,9 +27,9 @@ h3
     li
       padding: 5px 0
 
-@media (min-width: 992px) and (max-width: 1240px)
-  //.navbar-fixed-top + .main-container
-//padding-top: 90px //edit 1024解析
+
+select.form-control
+  padding: 4px 2px
 
 .top-sec-ul
   max-width: 100%
@@ -38,17 +38,7 @@ h3
   background: #F5F5F5
 //z-index: 1030
 
-/* header css */
 
-/* jqGrid html */
-.jqGridEdit-table
-  .ui-jqgrid .ui-jqgrid-labels
-    background: #c0d6ee
-    background-image: none
-  &.margin-5
-    margin: 0 0 10px 0
-.rateCode03-table
-  margin: 20px 0 0 0
 
 //int_Counter.html 綜合櫃台 左邊的表格
 .tabs-left.counter-tabs > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a
@@ -64,11 +54,7 @@ h3
 .input-sm
   height: 24px
 
-// /.hsuan bug edit
-@media screen and (max-width: 992px)
-  .top-sec-ul
-    z-index: 1024
-    padding-top: 50px
+
 
 /*-- sidebar --/
 .nav-list
@@ -125,8 +111,6 @@ h3
 .page-content
   padding: 8px 10px 24px
 
-.nav-header
-//max-height: 35px
 .ace-nav > li
   line-height: 35px
   height: 35px
@@ -156,6 +140,12 @@ h3
   &:hover
     background-color: transparent !important
 
-//
+// 調整所有input 高
+.input-medium
+  height: $inputHeight-medium
 
-
+// /.hsuan bug edit
+@media screen and (max-width: 992px)
+  .top-sec-ul
+    z-index: 1024
+    padding-top: 50px

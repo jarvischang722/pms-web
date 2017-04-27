@@ -103,24 +103,25 @@
             return {}
         },
         created: function () {
-            console.log(this.sys_locales);
+
             var self = this;
             vmHub.$on('getRowMultiLangContent', function (data) {
+
                 self.$emit('update-multi-lang-dg');
                 self.getRowMultiLangContent(data.rowIdx)
             });
         },
         methods: {
             getRowMultiLangContent: function (rowIdx) {
+
                 var params = {
-                    langTable: "",
                     rowData: $('#prg_dg').datagrid("getRows")[rowIdx],
                     prg_id: prg_id,
                     page_id: 1
-
                 };
-
+console.log(params);
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
+                    console.log("multilang---====");
                     console.log(result);
                 })
             },
@@ -228,8 +229,8 @@
                 var hasMultiLangField = _.filter(fieldData, function (field) {
                     return field.multi_lang_table != ""
                 }).length > 0 ? true : false;
-//                if (hasMultiLangField) {
-                if (true) {
+                if (hasMultiLangField) {
+//                if (true) {
                     columnsData.push({
                         type: 'textbox',
                         title: "Multi Lang",

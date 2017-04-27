@@ -701,15 +701,16 @@ vm = new Vue({
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
+                height:_.min([maxHeight,height]),
                 title: prg_id,
-                height: maxHeight > height ? height : maxHeight,
                 minWidth: 750,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
             });
             dialog.dialog("open");
-
+            // 給 dialog "內容"高 值
+            $(".singleGridContent").css("height", _.min([maxHeight,height]));
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {

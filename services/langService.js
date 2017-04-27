@@ -246,7 +246,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, c
         var keys = {}; //找尋的key value
         _.each(la_keyableFields, function (fieldName) {
             if (!_.isUndefined(rowData[fieldName])) {
-                keys[fieldName] = rowData[fieldName];
+                keys[fieldName] = rowData[fieldName].trim();
             }
         });
         _.each(la_multiLangFields, function (field) {
@@ -254,6 +254,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, c
                 function (callback) {
                     _thisSvc.handleMultiLangContentByKey(field.multi_lang_table, "", keys, function (err, langData) {
                         multiLangData = _.union(multiLangData, langData);
+                        callback(null,langData );
                     })
                 }
             );
