@@ -143,7 +143,7 @@
                                 <div class="space-6"></div>
 
                                 <!-------- tabPage -------->
-                                <div class="easyui-tabs easyUi-custom1" style="">
+                                <div class="easyui-tabs easyUi-custom1">
                                     <div title="相關設定" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
@@ -164,7 +164,7 @@
                                                                                 <input type="text" class="input-medium medium-c1" />
                                                                             </div>
                                                                             <div class="tab-block grid-item">
-                                                                                <label>區域代號</label>
+                                                                                <label>區域別</label>
                                                                                 <input type="text" class="input-medium medium-c1" />
                                                                             </div>
                                                                             <div class="tab-block grid-item">
@@ -172,7 +172,7 @@
                                                                                 <input type="text" class="input-medium medium-c1" />
                                                                             </div>
                                                                             <div class="tab-block grid-item">
-                                                                                <label>預設分帳規則</label>
+                                                                                <label>分帳規則</label>
                                                                                 <input type="text" class="input-medium medium-c1" />
                                                                             </div>
                                                                             <div class="tab-block grid-item">
@@ -221,7 +221,7 @@
                                                                                   <span class="lbl"></span>
                                                                               </label>
                                                                           </span>
-                                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                                            <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
                                                                             <!--<input type="checkbox" disabled="disabled"/>-->
                                                                         </div>
 
@@ -432,7 +432,28 @@
                                         </div>
                                     </div>
                                     <div title="業務員"   class="padding-tabs">
-                                        <p>業務員</p>
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-xs-11 col-sm-11">
+                                                    <div class="row no-margin-right">
+                                                        <!-- 業務員 dataGrid -->
+                                                        <table id="clerk-table"></table>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-1 col-sm-1">
+                                                    <div class="row">
+                                                        <div class="right-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <button class="btn btn-primary btn-white btn-defaultWidth bs-company-editClerk"
+                                                                            role="button">修改業務員</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div title="合約內容" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
@@ -457,7 +478,6 @@
                                                                       <span class="lbl"><span class="txt">過期不顯示</span></span>
                                                                   </label>
                                                               </span>
-                                                                <input name="form-field-checkbox" type="checkbox" class="ace">
                                                                 <!--<input type="checkbox" disabled="disabled"/>-->
                                                             </div>
                                                             <div class="clearfix"></div>
@@ -490,20 +510,114 @@
                                         </div>
                                     </div>
                                     <div title="拜訪紀錄" class="padding-tabs">
-                                        <p>拜訪紀錄</p>
-                                    </div>
-                                    <div title="其他備註" class="padding-tabs">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row">
                                                 <div class="col-xs-11 col-sm-11">
                                                     <div class="row no-margin-right">
                                                         <div class="col-xs-6 col-sm-6">
                                                             <div class="row no-margin-right">
+                                                                <!-- 拜訪紀錄 dataGrid -->
+                                                                <table id="visitRecord-table"></table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 border-block-left">
+
+                                                                <div class="billInfo grid">
+                                                                    <div class="col-xs-12 col-sm-12">
+                                                                        <div class="row billInfo-head">
+                                                                            <p class="billInfo-title">修改拜訪紀錄</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content">
+                                                                        <div class="grid">
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>拜訪方式</label>
+                                                                                <select class="input-medium medium-c1">
+                                                                                    <option value="1">1.親訪</option>
+                                                                                    <option value="2">2.電訪</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="tab-block grid-item dateBox-custom1">
+                                                                                <label>預定拜訪日</label>
+                                                                                <input class="easyui-datebox input-medium medium-c1">
+                                                                            </div>
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>拜訪狀態</label>
+                                                                                <select class="input-medium medium-c1">
+                                                                                    <option value="Y">Y:已拜訪</option>
+                                                                                    <option value="N">N:未拜訪</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>客戶反應</label>
+                                                                                <select class="input-medium medium-c1">
+                                                                                    <option value="1">1.非常好</option>
+                                                                                    <option value="2">2.還不錯</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>實際拜訪日</label>
+                                                                                <input type="text" class="input-medium medium-c1" />
+                                                                            </div>
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>交通費</label>
+                                                                                <input type="text" class="input-medium medium-c1" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="grid">
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>主旨</label>
+                                                                                <input type="text" class="input-medium medium-c1" placeholder="初談合約" />
+                                                                            </div>
+                                                                            <div class="tab-block grid-item">
+                                                                                <label>資料寄發記錄</label>
+                                                                                <input type="text" class="input-medium medium-c1" placeholder="飯店目錄" />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="grid">
+                                                                            <label class="margin-spacing-3">內容(摘要)</label>
+                                                                            <textarea class="form-control" rows="4" placeholder="談合約其貢獻度數字以及房價等級定義"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-1 col-sm-1">
+                                                    <div class="row">
+                                                        <div class="right-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                            role="button">新增拜訪紀錄</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                            role="button">刪除拜訪紀錄</button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div title="其他備註" class="padding-tabs">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-xs-11 col-sm-11">
+                                                    <div class="row no-margin-right">
+                                                        <div class="col-xs-7 col-sm-7">
+                                                            <div class="row no-margin-right">
                                                                 <!-- 其他備註 dataGrid -->
                                                                 <table id="otherRemarks-table"></table>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-6 col-sm-6 border-block-left">
+                                                        <div class="col-xs-5 col-sm-5 border-block-left">
                                                             <div class="bs-otherRemark-content">
                                                                 <div class="billInfo grid">
                                                                     <div class="col-xs-12 col-sm-12">
@@ -847,7 +961,7 @@
                                                   <span class="lbl"></span>
                                               </label>
                                           </span>
-                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                            <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
                                             <!--<input type="checkbox" disabled="disabled"/>-->
                                         </div>
 
@@ -956,6 +1070,49 @@
                     <div class="clearfix"></div>
                 </div>
                 <!-- /.顯示月份明細 -->
+                <!-- 修改業務員 彈出視窗 -->
+                <div id="bs-company-editClerk-message" class="hide">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-10 col-xs-10">
+                                <div class="row billInfo">
+                                    <div class="content">
+                                        <div class="space-custom-5"></div>
+                                        <div class="grid-item tab-block">
+                                            <label>指定業務員</label>
+                                            <select class="input-medium medium-c1">
+                                                <option value="1">陳瑞克</option>
+                                                <option value="2">王大園</option>
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                          <div class="checkbox clerkCheckbox">
+                                              <!---->
+                                              <label class="">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl"><span class="txt">更新未來訂房卡</span></span>
+                                              </label>
+                                              <label></label>
+                                          </div>
+
+                                        <div class="space-6"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-xs-2">
+                                <div class="row no-margin-right">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                            role="button">修改業務員</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                </div>
+                <!-- /.顯示月份明細 -->
             </div><!-- /.roomNumPlanPage -->
             </div>
         </div>
@@ -1020,6 +1177,28 @@
             });
         });
 
+        // 彈出 修改業務員
+        $(document).on('click', ".bs-company-editClerk", function (e) {
+            e.preventDefault();
+            var dialog = $("#bs-company-editClerk-message").removeClass('hide').dialog({
+                modal: true,
+                title: "修改業務員",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                responsive: true
+            });
+        });
+
+        // tabs setting
+        $('.easyUi-custom1').tabs({
+            // 可以resize 左右，但height 會變大
+//           fit: true
+//            height: 400
+        });
+
         // 相關人員 dataGrid
         var dgData = {"total":28,
             "rows":[
@@ -1080,6 +1259,25 @@
 //        console.log($('#dg').datagrid("getRows"));
 
         // 合約內容 dataGrid
+        $('#clerk-table').datagrid({
+            singleSelect:true,
+            collapsible:true,
+            // 從json 撈
+            url:'/jsonData/bsCompany_clerk.json',
+            method:'get',
+            columns:[[
+                {field:'clerk',title:'業務員',width:100},
+                {field:'startDate',title:'開始日期',width:100},
+                {field:'endDate',title:'結束日期',width:100},
+                {field:'inputDate',title:'輸入日',width:200},
+                {field:'inputPerson',title:'輸入者',width:100},
+                {field:'lastEditDate',title:'最後異動日',width:200},
+                {field:'lastEditMan',title:'最後異動者',width:100}
+            ]]
+
+        });
+
+        // 合約內容 dataGrid
         $('#dealContent-table').datagrid({
             singleSelect:true,
             collapsible:true,
@@ -1097,6 +1295,26 @@
                 {field:'remarks2',title:'備註2',width:100}
             ]]
 
+        });
+
+        // 拜訪紀錄 dataGrid
+        $('#visitRecord-table').datagrid({
+            singleSelect:true,
+            collapsible:true,
+            // 從json 撈
+            url:'/jsonData/bsCompany_visitRecord.json',
+            method:'get',
+            columns:[[
+                {field:'visitWay',title:'拜訪方式',width:70},
+                {field:'visitDate',title:'預定拜訪日',width:70},
+                {field:'visitStatus',title:'拜訪狀態',width:70},
+                {field:'customReflect',title:'客戶反應',width:70},
+                {field:'subject',title:'主旨',width:70},
+                {field:'dataSendRecord',title:'資料寄發記錄',width:70},
+                {field:'contentSum',title:'內容(摘要)',width:70},
+                {field:'realVisitDate',title:'實際拜訪日',width:70},
+                {field:'traffic',title:'交通費',width:70,align:'right'}
+            ]]
         });
 
         // 其他備註 dataGrid
