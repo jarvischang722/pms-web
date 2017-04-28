@@ -289,8 +289,16 @@ a {
   margin: 3px auto;
 }
 
+/* line 139, ../sass/modules/_public.sass */
+.multiLangDGPosition {
+  width: 80%;
+  top: 30%;
+  left: 10%;
+  position: absolute;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 141, ../sass/modules/_public.sass */
+  /* line 146, ../sass/modules/_public.sass */
   .input-medium.medium-c1 {
     width: 120px;
   }
