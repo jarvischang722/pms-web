@@ -5,21 +5,20 @@ var prg_id = $("#prg_id").val();
 var $prg_dtdg = $("#dt_dg");
 var vmHub = new Vue;
 
-Vue.filter("filterLocaleContent",function (langContent,locale) {
-    console.log(langContent);
-    console.log(locale);
+Vue.filter("filterLocaleContent",function (langContent,locale,field_name) {
     var m_lang_val = "";
     var fIdx = _.findIndex(langContent,{locale:locale});
     if( fIdx > -1){
-        m_lang_val = langContent[fIdx].words || "";
+        m_lang_val = langContent[fIdx][field_name] || "";
     }
+
     return m_lang_val;
-})
+});
 
 /** 欄位多語系Dialog **/
 Vue.component("field-multi-lang-dialog-tmp", {
     template: '#fieldMultiLangDialogTmp',
-    props: ['sys_locales'],
+    props: ['sys_locales','singleData'],
     data: function () {
         return {
             editingMultiLangField:"",
@@ -29,15 +28,26 @@ Vue.component("field-multi-lang-dialog-tmp", {
     created: function () {
         var self = this;
         vmHub.$on('editFieldMultiLang', function (fieldInfo) {
-            self.getFieldMultiLangContent(fieldInfo)
+             self.editingMultiLangFieldName = fieldInfo.ui_field_name;
+                self.getFieldMultiLangContent(fieldInfo)
         });
     },
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
+
             var self = this;
-            $.post("/api/fieldAllLocaleContent", fieldInfo, function (result) {
+            var params = {
+                rowData: this.singleData,
+                prg_id: fieldInfo.prg_id,
+                page_id:2,
+                ui_field_name:fieldInfo.ui_field_name
+            }
+
+            $.post("/api/fieldAllLocaleContent", params, function (result) {
+
                 self.multiLangContentList = result.multiLangContentList;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
+                console.table( JSON.parse(JSON.stringify(self.multiLangContentList)));
             })
         },
         openFieldMultiLangDialog: function(fieldName){
@@ -109,7 +119,6 @@ Vue.component('sigle-grid-dialog-tmp', {
     methods: {
         //打開多語編輯
         editMultiLang: function (fieldInfo) {
-            console.log(fieldInfo);
             vmHub.$emit('editFieldMultiLang',fieldInfo)
         },
         //檢查欄位規則，在離開欄位時

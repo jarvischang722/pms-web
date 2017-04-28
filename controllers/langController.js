@@ -12,10 +12,14 @@ var mongoAgent = require("../plugins/mongodb");
  * 一個欄位全語系的內容
  */
 exports.fieldAllLocaleContent = function (req, res) {
-    var langTable = req.body["multi_lang_table"];
+
+    var rowData = req.body["rowData"];
+    var prg_id = req.body["prg_id"];
+    var page_id = req.body["page_id"];
     var ui_field_name = req.body["ui_field_name"];
-    langSVC.handleMultiLangContentByField(langTable, ui_field_name, "", function (err, ContentList) {
-        res.json({success: !err, err: err, multiLangContentList: ContentList});
+
+    langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, "gridsingle",ui_field_name, function (multiLangData) {
+        res.json({success: true, multiLangContentList: multiLangData});
     })
 };
 
@@ -27,8 +31,8 @@ exports.multiLangFieldContentByKey = function (req, res) {
     var rowData = req.body["rowData"];
     var prg_id = req.body["prg_id"];
     var page_id = req.body["page_id"];
-    var dataType = req.body["dataType"] || "datagrid"; // datagrid | girdsingle
-    langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, dataType, function (multiLangData) {
+    var dataType = req.body["dataType"] || "datagrid"; // da`tagrid | girdsingle
+    langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, dataType,"", function (multiLangData) {
         res.json({success: true, multiLangContent: multiLangData});
     })
 

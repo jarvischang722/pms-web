@@ -22,7 +22,7 @@
 </style>
 <script type="text/x-template" id="fieldMultiLangDialogTmp">
     <div id="fieldMultiLangTmpDialog" style="display: none;" >
-        <h2>{{editingMultiLangField.ui_display_name}}</h2>
+
         <table class="langTable" style="margin-top: 20px" align="center">
             <thead align="center">
                 <th v-for="locale in sys_locales">{{locale.name}}</th>
@@ -30,7 +30,7 @@
             <tbody>
             <tr >
                 <td v-for="locale in sys_locales">
-                    <input value="{{multiLangContentList | filterLocaleContent locale.lang}}" >
+                    <input value="{{multiLangContentList | filterLocaleContent locale.lang editingMultiLangFieldName}}" >
                 </td>
             </tr>
             </tbody>

@@ -103,26 +103,22 @@
             return {}
         },
         created: function () {
-
             var self = this;
             vmHub.$on('getRowMultiLangContent', function (data) {
-
-                self.$emit('update-multi-lang-dg');
                 self.getRowMultiLangContent(data.rowIdx)
             });
         },
         methods: {
             getRowMultiLangContent: function (rowIdx) {
-
+                var self = this;
                 var params = {
                     rowData: $('#prg_dg').datagrid("getRows")[rowIdx],
                     prg_id: prg_id,
                     page_id: 1
                 };
-console.log(params);
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
-                    console.log("multilang---====");
                     console.log(result);
+                    self.$emit('update-multi-lang-dg',result);
                 })
             },
             closeMultiLangDialog: function () {
@@ -151,8 +147,7 @@ console.log(params);
         watch: {
             prgFieldDataAttr:function(newVal){
                 this.multiLangField = _.filter(this.prgFieldDataAttr,function(field){
-//                    return field.multi_lang_table == ""
-                    return field.ui_field_name == "room_nam"
+                    return field.multi_lang_table != ""
                 })
             }
         },
@@ -414,20 +409,11 @@ console.log(params);
 
                 dialog.dialog("open");
             },
-            updateMultiLangDG : function(multiLangDgData){
+            updateMultiLangDG : function(data){
 
-                var multiLangDgData = [
-                    {
-                    locale:'en',
-                        room_nam:''
-
-                },
-                    {
-                        locale:'zh_TW',
-                        room_nam:'',
-
-                    }
-                ];
+                var multiLangDgData = _.uniq(data.multiLangContent);
+                console.table(multiLangDgData);
+                console.log(this.multiLangField);
                 var columnsData = [{
                     type: 'textbox',
                     title: "Locale",
@@ -446,7 +432,7 @@ console.log(params);
                 _.each(columnsData,function(column){
                     widtd += Number(column.width);
                 })
-
+                console.log(multiLangDgData);
                 console.log(columnsData);
                 $('#multiLangDG').datagrid({
                     columns: [columnsData],
