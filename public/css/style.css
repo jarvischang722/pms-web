@@ -75,7 +75,7 @@ table {
 .grid-item {
   /*width: 300px */
   margin-right: 10px;
-  height: 40px;
+  height: 35px;
   float: left;
 }
 /* line 20, ../sass/vendor/_grid.sass */
@@ -279,6 +279,11 @@ h3 {
   padding: 5px 0;
 }
 
+/* line 31, ../sass/editDefault/_editBootstrap.sass */
+select.form-control {
+  padding: 4px 2px;
+}
+
 /* line 34, ../sass/editDefault/_editBootstrap.sass */
 .top-sec-ul {
   max-width: 100%;
@@ -287,91 +292,67 @@ h3 {
   background: #F5F5F5;
 }
 
-/* header css */
-/* jqGrid html */
-/* line 45, ../sass/editDefault/_editBootstrap.sass */
-.jqGridEdit-table .ui-jqgrid .ui-jqgrid-labels {
-  background: #c0d6ee;
-  background-image: none;
-}
-/* line 48, ../sass/editDefault/_editBootstrap.sass */
-.jqGridEdit-table.margin-5 {
-  margin: 0 0 10px 0;
-}
-
-/* line 50, ../sass/editDefault/_editBootstrap.sass */
-.rateCode03-table {
-  margin: 20px 0 0 0;
-}
-
-/* line 54, ../sass/editDefault/_editBootstrap.sass */
+/* line 44, ../sass/editDefault/_editBootstrap.sass */
 .tabs-left.counter-tabs > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
   min-width: 30px;
   font-weight: bold;
 }
 
-/* line 60, ../sass/editDefault/_editBootstrap.sass */
+/* line 50, ../sass/editDefault/_editBootstrap.sass */
 .form-widget-label select, .form-widget-selectEdit select {
   padding: 0;
   height: auto;
 }
 
-/* line 64, ../sass/editDefault/_editBootstrap.sass */
+/* line 54, ../sass/editDefault/_editBootstrap.sass */
 .input-sm {
   height: 24px;
 }
 
-@media screen and (max-width: 992px) {
-  /* line 69, ../sass/editDefault/_editBootstrap.sass */
-  .top-sec-ul {
-    z-index: 1024;
-    padding-top: 50px;
-  }
-}
 /*-- sidebar --/ */
-/* line 74, ../sass/editDefault/_editBootstrap.sass */
+/* line 60, ../sass/editDefault/_editBootstrap.sass */
 .nav-list {
   position: relative;
   border-right: 1px solid #438EB9;
 }
-/* line 78, ../sass/editDefault/_editBootstrap.sass */
+/* line 64, ../sass/editDefault/_editBootstrap.sass */
 .nav-list > li:before {
   height: 100%;
   min-height: 41px;
   max-height: 100%;
 }
-/* line 82, ../sass/editDefault/_editBootstrap.sass */
+/* line 68, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 86, ../sass/editDefault/_editBootstrap.sass */
+/* line 72, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 90, ../sass/editDefault/_editBootstrap.sass */
+/* line 76, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height .menu-text {
   height: inherit !important;
   padding-left: 24px;
 }
 
-/* line 96, ../sass/editDefault/_editBootstrap.sass */
+/* line 82, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
-/* line 100, ../sass/editDefault/_editBootstrap.sass */
+/* line 86, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
 
-/* line 104, ../sass/editDefault/_editBootstrap.sass */
+/* line 90, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle {
   position: absolute;
   top: 10px;
@@ -379,7 +360,7 @@ h3 {
   border: #F79263;
   background: #F79263;
 }
-/* line 110, ../sass/editDefault/_editBootstrap.sass */
+/* line 96, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle > .ace-icon {
   background: #F79263;
   color: #fff;
@@ -387,63 +368,75 @@ h3 {
   border-radius: 0;
 }
 
-/* line 119, ../sass/editDefault/_editBootstrap.sass */
+/* line 105, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 121, ../sass/editDefault/_editBootstrap.sass */
+/* line 107, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 125, ../sass/editDefault/_editBootstrap.sass */
+/* line 111, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 130, ../sass/editDefault/_editBootstrap.sass */
+/* line 114, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 118, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 138, ../sass/editDefault/_editBootstrap.sass */
+/* line 122, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 141, ../sass/editDefault/_editBootstrap.sass */
+/* line 125, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 144, ../sass/editDefault/_editBootstrap.sass */
+/* line 128, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
 }
 
-/* line 148, ../sass/editDefault/_editBootstrap.sass */
+/* line 132, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 {
   padding: 10px 5px;
 }
-/* line 150, ../sass/editDefault/_editBootstrap.sass */
+/* line 134, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 a {
   padding-right: 5px;
   padding-left: 5px;
 }
 
-/* line 156, ../sass/editDefault/_editBootstrap.sass */
+/* line 140, ../sass/editDefault/_editBootstrap.sass */
 .btn-white.btn-primary[disabled]:hover {
   background-color: transparent !important;
 }
 
+/* line 144, ../sass/editDefault/_editBootstrap.sass */
+.input-medium {
+  height: 30px;
+}
+
+@media screen and (max-width: 992px) {
+  /* line 149, ../sass/editDefault/_editBootstrap.sass */
+  .top-sec-ul {
+    z-index: 1024;
+    padding-top: 50px;
+  }
+}
 /* line 2, ../sass/editDefault/_editEasyUi.sass */
 .panel-body {
   font-size: 13px;
@@ -579,6 +572,17 @@ h3 {
 /* line 89, ../sass/editDefault/_editEasyUi.sass */
 .switchbutton-on, .switchbutton-off, .switchbutton-handle {
   font-size: 13px;
+}
+
+/* line 93, ../sass/editDefault/_editEasyUi.sass */
+.menu-icon {
+  margin-top: 0;
+  top: 30%;
+}
+
+/* line 97, ../sass/editDefault/_editEasyUi.sass */
+.menu-min .menu-icon {
+  top: 0;
 }
 
 /*-------- login.html -------- */
@@ -1082,67 +1086,64 @@ a {
 }
 /* line 239, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleGridContent {
-  min-height: 300px;
-  height: au;
   max-height: 100%;
   overflow-y: auto;
-  padding: 10px;
   box-sizing: border-box;
 }
-/* line 247, ../sass/_bacchusMain.sass */
+/* line 245, ../sass/_bacchusMain.sass */
 #singleGridDialog .singleBtnBottom {
   position: fixed;
   bottom: 50px;
 }
 
 /*-- 訂房確認書 email -- */
-/* line 253, ../sass/_bacchusMain.sass */
+/* line 251, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item {
   margin: 10px auto;
   vertical-align: middle;
 }
-/* line 256, ../sass/_bacchusMain.sass */
+/* line 254, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item label, .reserveCheckMail .block-item .spaceColon, .reserveCheckMail .block-item input, .reserveCheckMail .block-item button, .reserveCheckMail .block-item textarea {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 259, ../sass/_bacchusMain.sass */
+/* line 257, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item label {
   text-align: right;
   vertical-align: middle;
   position: relative;
   padding: 0;
 }
-/* line 265, ../sass/_bacchusMain.sass */
+/* line 263, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item .spaceColon {
   width: 15px;
   text-align: center;
   min-width: 15px;
 }
-/* line 269, ../sass/_bacchusMain.sass */
+/* line 267, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item input {
   height: 30px;
 }
-/* line 271, ../sass/_bacchusMain.sass */
+/* line 269, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item button {
   margin-left: 10px;
 }
-/* line 273, ../sass/_bacchusMain.sass */
+/* line 271, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item .block-item-content {
   position: relative;
 }
-/* line 275, ../sass/_bacchusMain.sass */
+/* line 273, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item .block-item-content .btnCheck {
   position: absolute;
   top: 0;
   margin-left: 14px;
 }
-/* line 279, ../sass/_bacchusMain.sass */
+/* line 277, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item .relative {
   position: relative;
   display: inline-block;
 }
-/* line 282, ../sass/_bacchusMain.sass */
+/* line 280, ../sass/_bacchusMain.sass */
 .reserveCheckMail .block-item .relative .tip {
   position: absolute;
   right: 0;
@@ -1150,25 +1151,25 @@ a {
   font-size: 0.85em;
   color: #ff625f;
 }
-/* line 289, ../sass/_bacchusMain.sass */
+/* line 287, ../sass/_bacchusMain.sass */
 .reserveCheckMail .tipWall {
   border: 1px solid #ff625f;
   color: #ff625f;
   padding: 10px;
 }
-/* line 293, ../sass/_bacchusMain.sass */
+/* line 291, ../sass/_bacchusMain.sass */
 .reserveCheckMail .tipWall p, .reserveCheckMail .tipWall li {
   line-height: 22px;
 }
-/* line 295, ../sass/_bacchusMain.sass */
+/* line 293, ../sass/_bacchusMain.sass */
 .reserveCheckMail .changeChoice {
   margin: 10px auto;
 }
-/* line 297, ../sass/_bacchusMain.sass */
+/* line 295, ../sass/_bacchusMain.sass */
 .reserveCheckMail .changeChoice ul {
   display: inline;
 }
-/* line 299, ../sass/_bacchusMain.sass */
+/* line 297, ../sass/_bacchusMain.sass */
 .reserveCheckMail .changeChoice ul li {
   display: inline;
   margin: 0;
@@ -1178,18 +1179,18 @@ a {
 }
 
 /*-- 搜尋按鈕 -- */
-/* line 306, ../sass/_bacchusMain.sass */
+/* line 304, ../sass/_bacchusMain.sass */
 .search-content {
   position: relative;
   padding: 0 0 15px 0;
 }
-/* line 309, ../sass/_bacchusMain.sass */
+/* line 307, ../sass/_bacchusMain.sass */
 .search-content .search-co {
   position: relative;
   height: auto;
   border: 1px solid #0063ae;
 }
-/* line 313, ../sass/_bacchusMain.sass */
+/* line 311, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h {
   position: relative;
   font-size: 14px;
@@ -1199,35 +1200,35 @@ a {
   line-height: 28px;
   border-bottom: 1px solid #0063ae;
 }
-/* line 321, ../sass/_bacchusMain.sass */
+/* line 319, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h i {
   color: #fff;
 }
-/* line 323, ../sass/_bacchusMain.sass */
+/* line 321, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h span {
   margin: 0 0 0 5px;
 }
-/* line 325, ../sass/_bacchusMain.sass */
+/* line 323, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h .search-right-btn {
   position: absolute;
   right: 20px;
   top: 0;
 }
-/* line 329, ../sass/_bacchusMain.sass */
+/* line 327, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co {
   text-align: center;
 }
-/* line 332, ../sass/_bacchusMain.sass */
+/* line 330, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li {
   float: left;
   list-style: none;
   padding: 0 5px;
 }
-/* line 336, ../sass/_bacchusMain.sass */
+/* line 334, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li i {
   cursor: pointer;
 }
-/* line 338, ../sass/_bacchusMain.sass */
+/* line 336, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-h .search-right-btn .right-btn-menu-co ul li div.icon-reStyle {
   width: 32px;
   height: 32px;
@@ -1235,53 +1236,48 @@ a {
   margin: 0 auto 4px auto;
   box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
 }
-/* line 345, ../sass/_bacchusMain.sass */
+/* line 343, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content {
   text-align: left;
   border-collapse: collapse;
 }
-/* line 348, ../sass/_bacchusMain.sass */
+/* line 346, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .block-table {
-  margin: 10px 0;
+  margin: 0;
 }
-/* line 350, ../sass/_bacchusMain.sass */
+/* line 348, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .block-table label {
   margin: 0 5px 0 0;
   text-align: right;
   width: 90px;
   font-size: 13px;
 }
-/* line 357, ../sass/_bacchusMain.sass */
+/* line 355, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .block-table label.key-Word {
   margin: 0 0 0 -20px;
 }
-/* line 359, ../sass/_bacchusMain.sass */
+/* line 357, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .block-table label.more-Word {
   margin: 0 0 0 -68px;
 }
-/* line 361, ../sass/_bacchusMain.sass */
-.search-content .search-co .search-co-content .block-table input {
-  line-height: 25px;
-  height: 25px;
-}
-/* line 365, ../sass/_bacchusMain.sass */
+/* line 360, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .search-footer-btn {
   position: absolute;
   right: 20px;
   top: 30px;
   padding: 0 10px 0 0;
 }
-/* line 370, ../sass/_bacchusMain.sass */
+/* line 365, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co {
   text-align: center;
 }
-/* line 373, ../sass/_bacchusMain.sass */
+/* line 368, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co ul li {
   float: left;
   list-style: none;
   padding: 4px;
 }
-/* line 377, ../sass/_bacchusMain.sass */
+/* line 372, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co ul li div.icon-reStyle {
   width: 28px;
   height: 28px;
@@ -1289,26 +1285,39 @@ a {
   margin: 0 auto 0 auto;
   box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
 }
+/* line 378, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content .search-footer-btn .right-menu-co {
+  margin: 3px 5px auto auto;
+}
+/* line 381, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content.rece-search-detail {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 /* line 384, ../sass/_bacchusMain.sass */
+.search-content .search-co .search-co-content.rece-search-detail .search-footer-btn {
+  top: 0;
+}
+/* line 386, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-btn {
   background: #555;
   border: none;
   color: #fff;
   padding: 5px 20px;
 }
-/* line 389, ../sass/_bacchusMain.sass */
+/* line 391, ../sass/_bacchusMain.sass */
 .search-content .search-co .search-co-btn:hover {
   background: #9b9b9b;
 }
 
 /*-- colorPicker 修改(假日類別設定) -- */
-/* line 393, ../sass/_bacchusMain.sass */
+/* line 395, ../sass/_bacchusMain.sass */
 .spectrumColor {
   padding: 0 !important;
 }
 
 /*-- tab-content 介面大小 -- */
-/* line 397, ../sass/_bacchusMain.sass */
+/* line 399, ../sass/_bacchusMain.sass */
 .tab-content-subSet {
   padding: 0 10px 0 5px;
   box-sizing: border-box;
@@ -1316,27 +1325,27 @@ a {
 }
 
 /*-- 訂房特殊版型 日期 -- */
-/* line 411, ../sass/_bacchusMain.sass */
+/* line 413, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid label {
   min-width: 50px;
   max-width: 100%;
 }
-/* line 414, ../sass/_bacchusMain.sass */
+/* line 416, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid select, .holidayDateSet .holidayDateSet-content .holidayDateGrid input {
   height: 34px;
 }
-/* line 417, ../sass/_bacchusMain.sass */
+/* line 419, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .time-daterange label {
   vertical-align: middle;
   height: 34px;
   margin-right: 5px;
   line-height: 34px;
 }
-/* line 422, ../sass/_bacchusMain.sass */
+/* line 424, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .time-daterange .input-daterange {
   width: 220px;
 }
-/* line 425, ../sass/_bacchusMain.sass */
+/* line 427, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay {
   height: 34px;
   line-height: 34px;
@@ -1345,23 +1354,23 @@ a {
   cursor: pointer;
   box-sizing: border-box;
 }
-/* line 432, ../sass/_bacchusMain.sass */
+/* line 434, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:hover {
   background: #eeeeee;
   border: 2px solid #438EB9;
   color: #438EB9;
 }
-/* line 436, ../sass/_bacchusMain.sass */
+/* line 438, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay.all {
   background: #438EB9;
   color: #eee;
 }
-/* line 439, ../sass/_bacchusMain.sass */
+/* line 441, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay.all:hover {
   background: rgba(67, 142, 185, 0.7);
   border: 1px solid rgba(67, 142, 185, 0.7);
 }
-/* line 444, ../sass/_bacchusMain.sass */
+/* line 446, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .holidayDateSelect .datePin01 {
   background: #5367ff;
   width: 32px;
@@ -1369,7 +1378,7 @@ a {
   margin: 1px auto auto 5px;
   vertical-align: middle;
 }
-/* line 446, ../sass/_bacchusMain.sass */
+/* line 448, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .holidayDateSelect .datePin02 {
   background: #8effa9;
   width: 32px;
@@ -1377,7 +1386,7 @@ a {
   margin: 1px auto auto 5px;
   vertical-align: middle;
 }
-/* line 448, ../sass/_bacchusMain.sass */
+/* line 450, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .holidayDateSelect .datePin03 {
   background: #ff5f4e;
   width: 32px;
@@ -1385,7 +1394,7 @@ a {
   margin: 1px auto auto 5px;
   vertical-align: middle;
 }
-/* line 450, ../sass/_bacchusMain.sass */
+/* line 452, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .holidayDateSelect label {
   vertical-align: middle;
   height: 34px;
@@ -1394,149 +1403,157 @@ a {
 }
 
 /*-- 商務公司資料編輯 -- */
-/* line 458, ../sass/_bacchusMain.sass */
+/* line 460, ../sass/_bacchusMain.sass */
 .businessCompanyData .main-content-data label {
   width: 90px;
   text-align: right;
   margin-right: 5px;
 }
-/* line 462, ../sass/_bacchusMain.sass */
+/* line 464, ../sass/_bacchusMain.sass */
 .businessCompanyData .main-content-data .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
   line-height: 22px;
   color: #777;
 }
-/* line 470, ../sass/_bacchusMain.sass */
+/* line 472, ../sass/_bacchusMain.sass */
 .businessCompanyData .main-content-data .input-spc-1 {
   width: 439px;
   max-width: 100%;
-  height: 35px;
+  height: 30px;
 }
-/* line 458, ../sass/_bacchusMain.sass */
+/* line 460, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block label {
   width: 90px;
   text-align: right;
   margin-right: 5px;
 }
-/* line 462, ../sass/_bacchusMain.sass */
+/* line 464, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
   line-height: 22px;
   color: #777;
 }
-/* line 476, ../sass/_bacchusMain.sass */
+/* line 478, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block .checkbox-width {
   width: 0;
   padding-left: 10px;
 }
-/* line 481, ../sass/_bacchusMain.sass */
+/* line 483, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block.billCheckbox .checkbox {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 486, ../sass/_bacchusMain.sass */
+/* line 488, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
   margin-bottom: 10px;
 }
-/* line 491, ../sass/_bacchusMain.sass */
+/* line 493, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .billInfo-head .billInfo-title {
   font-size: 1.2em;
 }
-/* line 493, ../sass/_bacchusMain.sass */
+/* line 495, ../sass/_bacchusMain.sass */
 .businessCompanyData .billInfo .textarea-title {
   margin: 10px auto;
 }
-/* line 496, ../sass/_bacchusMain.sass */
+/* line 498, ../sass/_bacchusMain.sass */
 .businessCompanyData .btn-lg-width {
   width: 120%;
   margin-top: 10px;
 }
-/* line 499, ../sass/_bacchusMain.sass */
+/* line 501, ../sass/_bacchusMain.sass */
 .businessCompanyData .dealContent-select {
   margin-bottom: 10px;
 }
-/* line 501, ../sass/_bacchusMain.sass */
+/* line 503, ../sass/_bacchusMain.sass */
 .businessCompanyData .dealContent-select .checkbox {
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 505, ../sass/_bacchusMain.sass */
+/* line 507, ../sass/_bacchusMain.sass */
 .businessCompanyData .dealContent-select .checkbox .lbl .txt {
   margin: auto 5px;
 }
-/* line 508, ../sass/_bacchusMain.sass */
+/* line 510, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-otherRemark-content .marginB-c1 {
   margin-bottom: 10px;
 }
-/* line 511, ../sass/_bacchusMain.sass */
+/* line 513, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-contribution-content .tab-block {
   margin: 5px auto;
 }
-/* line 513, ../sass/_bacchusMain.sass */
+/* line 515, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord {
   margin: 10px auto;
   border-left: 2px solid #D15B47;
   border-bottom: 1px solid #eee;
 }
-/* line 458, ../sass/_bacchusMain.sass */
+/* line 460, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord label {
   width: 90px;
   text-align: right;
   margin-right: 5px;
 }
-/* line 462, ../sass/_bacchusMain.sass */
+/* line 464, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
   line-height: 22px;
   color: #777;
 }
-/* line 518, ../sass/_bacchusMain.sass */
+/* line 520, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord:first-child {
   margin: 0 auto 10px auto;
 }
-/* line 524, ../sass/_bacchusMain.sass */
+/* line 526, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord .grid {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-/* line 527, ../sass/_bacchusMain.sass */
+/* line 529, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord .grid .grid-item {
   width: 30%;
   height: auto;
 }
+/* line 533, ../sass/_bacchusMain.sass */
+.businessCompanyData .clerkCheckbox {
+  margin: auto auto auto 10px;
+}
+/* line 536, ../sass/_bacchusMain.sass */
+.businessCompanyData .clerkCheckbox .lbl .txt {
+  margin: auto 5px;
+}
 
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 534, ../sass/_bacchusMain.sass */
+  /* line 541, ../sass/_bacchusMain.sass */
   .businessCompanyData .main-content-data .medium-c1 {
     width: 120px;
   }
-  /* line 536, ../sass/_bacchusMain.sass */
+  /* line 543, ../sass/_bacchusMain.sass */
   .businessCompanyData .main-content-data .input-spc-1 {
     width: 349px;
     max-width: 100%;
   }
 }
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 -- */
-/* line 542, ../sass/_bacchusMain.sass */
+/* line 549, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header {
   background: #fff;
   border-color: #fff;
 }
-/* line 547, ../sass/_bacchusMain.sass */
+/* line 554, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs {
   padding: 0;
 }
-/* line 549, ../sass/_bacchusMain.sass */
+/* line 556, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li {
   margin: 0 0 -1px 0;
 }
-/* line 551, ../sass/_bacchusMain.sass */
+/* line 558, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li.tabs-selected {
   color: #576373;
   border-color: #C5D0DC;
@@ -1547,7 +1564,7 @@ a {
   margin-top: -1px;
   box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);
 }
-/* line 561, ../sass/_bacchusMain.sass */
+/* line 568, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a {
   border-radius: 0 !important;
   border-color: #C5D0DC;
@@ -1556,17 +1573,17 @@ a {
   margin-right: -1px;
   position: relative;
 }
-/* line 570, ../sass/_bacchusMain.sass */
+/* line 577, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-header .tabs-wrap ul.tabs li a:hover {
   background-color: #FFF;
   color: #4C8FBD;
   border-color: #C5D0DC;
 }
-/* line 574, ../sass/_bacchusMain.sass */
+/* line 581, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-panels {
   border: 1px solid #C5D0DC;
 }
-/* line 579, ../sass/_bacchusMain.sass */
+/* line 586, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-panels .panel-body.padding-tabs {
   padding: 16px 12px;
 }
@@ -1825,18 +1842,18 @@ a {
 /* line 118, ../sass/modules/_public.sass */
 .input-medium.medium-c1 {
   width: 165px;
-  height: 35px;
+  height: 30px;
 }
 
 /* line 121, ../sass/modules/_public.sass */
 .input-h35 {
-  height: 35px !important;
+  height: 30px !important;
 }
 
 /* line 124, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
-  height: 35px;
-  line-height: 28px;
+  height: 30px;
+  line-height: 25px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
@@ -1851,15 +1868,15 @@ a {
   border-left: 1px solid #dddddd;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 140, ../sass/modules/_public.sass */
-  .input-medium.medium-c1 {
-    width: 120px;
-  }
-}
-/* line 142, ../sass/modules/_public.sass */
+/* line 135, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
+@media screen and (min-width: 768px) and (max-width: 1030px) {
+  /* line 141, ../sass/modules/_public.sass */
+  .input-medium.medium-c1 {
+    width: 120px;
+  }
+}
 /*-------------- responsive -------------- */

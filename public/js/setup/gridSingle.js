@@ -4,6 +4,75 @@
 var prg_id = $("#prg_id").val();
 var $prg_dtdg = $("#dt_dg");
 var vmHub = new Vue;
+
+Vue.filter("filterLocaleContent",function (langContent,locale,field_name) {
+    var m_lang_val = "";
+    var fIdx = _.findIndex(langContent,{locale:locale});
+    if( fIdx > -1){
+        m_lang_val = langContent[fIdx][field_name] || "";
+    }
+
+    return m_lang_val;
+});
+
+/** 欄位多語系Dialog **/
+Vue.component("field-multi-lang-dialog-tmp", {
+    template: '#fieldMultiLangDialogTmp',
+    props: ['sys_locales','singleData'],
+    data: function () {
+        return {
+            editingMultiLangField:"",
+            multiLangContentList:[]
+        }
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('editFieldMultiLang', function (fieldInfo) {
+             self.editingMultiLangFieldName = fieldInfo.ui_field_name;
+                self.getFieldMultiLangContent(fieldInfo)
+        });
+    },
+    methods: {
+        getFieldMultiLangContent: function (fieldInfo) {
+
+            var self = this;
+            var params = {
+                rowData: this.singleData,
+                prg_id: fieldInfo.prg_id,
+                page_id:2,
+                ui_field_name:fieldInfo.ui_field_name
+            }
+
+            $.post("/api/fieldAllLocaleContent", params, function (result) {
+
+                self.multiLangContentList = result.multiLangContentList;
+                self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
+                console.table( JSON.parse(JSON.stringify(self.multiLangContentList)));
+            })
+        },
+        openFieldMultiLangDialog: function(fieldName){
+            var width = 500;
+            var maxWidth = 700;
+            var dialog = $("#fieldMultiLangTmpDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: fieldName,
+                height: 200,
+                width: width,
+                //  maxWidth: _.min([width, maxWidth]),
+                resizable: true,
+                buttons: "#multiDialogBtns"
+            });
+
+            dialog.dialog("open");
+        },
+        closeFieldMultiLangDialog: function () {
+            $("#fieldMultiLangTmpDialog").dialog("close");
+        }
+    }
+
+})
+
 /** 編輯新增Dialog Component **/
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
@@ -13,7 +82,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-            testTime: "2017/03/20",
             dtEditIndex: undefined
         }
     },
@@ -50,22 +118,8 @@ Vue.component('sigle-grid-dialog-tmp', {
     },
     methods: {
         //打開多語編輯
-        editMultiLang: function () {
-            var width = 500;
-            var maxWidth = 700;
-            var dialog = $("#multiLangDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                title: "Multi Language",
-                height: 350,
-                width: 750,
-                maxWidth: _.min(width, maxWidth),
-                resizable: true,
-                buttons: "#multiDialogBtns"
-
-            });
-
-            dialog.dialog("open");
+        editMultiLang: function (fieldInfo) {
+            vmHub.$emit('editFieldMultiLang',fieldInfo)
         },
         //檢查欄位規則，在離開欄位時
         chk_field_rule: function (ui_field_name, rule_func_name) {
@@ -384,6 +438,7 @@ vm = new Vue({
         this.loadSingleGridPageField();
     },
     data: {
+        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:","")),
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
         deleteStatus: false,    //刪除狀態
@@ -655,15 +710,16 @@ vm = new Vue({
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
+                height:_.min([maxHeight,height]),
                 title: prg_id,
-                height: maxHeight > height ? height : maxHeight,
                 minWidth: 750,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
             });
             dialog.dialog("open");
-
+            // 給 dialog "內容"高 值
+            $(".singleGridContent").css("height", _.min([maxHeight,height]));
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {

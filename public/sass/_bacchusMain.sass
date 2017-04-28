@@ -238,11 +238,9 @@ a
   // resize dialog can not correct
   .singleGridContent
     //height: auto
-    min-height: 300px
-    height: auto
+    //height: 300px
     max-height: 100%
     overflow-y: auto
-    padding: 10px
     box-sizing: border-box
   .singleBtnBottom
     position: fixed
@@ -346,7 +344,7 @@ a
       text-align: left
       border-collapse: collapse
       .block-table
-        margin: 10px 0
+        margin: 0
         label
           margin: 0 5px 0 0
           text-align: right
@@ -358,10 +356,7 @@ a
           margin: 0 0 0 -20px
         label.more-Word
           margin: 0 0 0 -68px
-        input
-          //width: 50%
-          line-height: 25px
-          height: 25px
+
       .search-footer-btn
         position: absolute
         right: 20px
@@ -380,7 +375,14 @@ a
                 border-radius: 28px
                 margin: 0 auto 0 auto
                 box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+        .right-menu-co
+          margin: 3px 5px auto auto
 
+      &.rece-search-detail
+        padding-top: 10px
+        padding-bottom: 10px
+        .search-footer-btn
+          top: 0
     .search-co-btn
       background: #555
       border: none
@@ -470,7 +472,7 @@ a
     .input-spc-1
       width: 439px
       max-width: 100%
-      height: $inputHeight
+      height: $inputHeight-medium
   .tab-block
     +bsCompany-content
     .checkbox-width
@@ -527,7 +529,12 @@ a
       .grid-item
         width: 30%
         height: auto
-
+  // 修改業務員
+  .clerkCheckbox
+    margin: auto auto auto 10px
+    .lbl
+      .txt
+        margin: auto 5px
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .businessCompanyData
     .main-content-data

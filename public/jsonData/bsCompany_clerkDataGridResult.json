@@ -1,0 +1,13 @@
+{"total":28,
+	"rows":[
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0002","clerkName":"李四","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0003","clerkName":"王五","ifStaff":"Y:是","status":"X:停用","disabledYear":"2017/01","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""},
+	{"clerkNum":"A0001","clerkName":"張三","ifStaff":"Y:是","status":"N:正常","disabledYear":"","clerkTeam":"001","hotelBusiness":"","foodBusiness":"","memberBusiness":""}
+]}
+

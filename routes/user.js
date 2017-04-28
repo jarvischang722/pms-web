@@ -48,5 +48,8 @@ module.exports = function (app, passport) {
 
     //商務公司資料編輯
     app.get('/businessCompanyData', userCrtl.getBusinessCompanyData);
+
+    //業務員資料編輯(業務→業務員設定作業→業務員資料維護)
+    app.get('/clerkDataDefend', userCrtl.getClerkDataDefend);
 };
 

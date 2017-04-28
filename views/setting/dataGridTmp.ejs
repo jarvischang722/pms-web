@@ -83,8 +83,9 @@
     </div> <!-- /.col-sm-12 -->
 
     <multi-lang-dialog-tmp
+            @update-multi-lang-dg="updateMultiLangDG"
             :sys_locales="sys_locales"
-            :prg_field-data-attr="prgFieldDataAttr">
+            :prg-field-data-attr="prgFieldDataAttr">
     </multi-lang-dialog-tmp>
 
 </div>
@@ -97,12 +98,11 @@
     var vmHub = new Vue;
     Vue.component("multi-lang-dialog-tmp", {
         template: '#multiLangDialogTmp',
-        props: ['sys_locales','prgFieldDataAttr'],
+        props: ['sys_locales','prgFieldDataAttr','updateMultiLangDG'],
         data: function () {
             return {}
         },
         created: function () {
-            console.log(this.sys_locales);
             var self = this;
             vmHub.$on('getRowMultiLangContent', function (data) {
                 self.getRowMultiLangContent(data.rowIdx)
@@ -110,23 +110,22 @@
         },
         methods: {
             getRowMultiLangContent: function (rowIdx) {
+                var self = this;
                 var params = {
-                    langTable: "",
                     rowData: $('#prg_dg').datagrid("getRows")[rowIdx],
                     prg_id: prg_id,
                     page_id: 1
-
                 };
-
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
                     console.log(result);
+                    self.$emit('update-multi-lang-dg',result);
                 })
+            },
+            closeMultiLangDialog: function () {
+                $("#multiLangDialog").dialog("close");
             }
-        },
-        closeMultiLangDialog: function () {
-            alert(123);
-            $("#multiLangDialog").dialog("close");
         }
+
     })
 
     vm = new Vue({
@@ -137,6 +136,7 @@
         },
         data: {
             prgFieldDataAttr:[],   //這隻程式的欄位屬性
+            multiLangField:[],   //多語系欄位
             isTableLock: false,
             tableLockMsg: "",
             editIndex: undefined,
@@ -144,7 +144,13 @@
             saving: false,
             sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:",""))
         },
-        watch: {},
+        watch: {
+            prgFieldDataAttr:function(newVal){
+                this.multiLangField = _.filter(this.prgFieldDataAttr,function(field){
+                    return field.multi_lang_table != ""
+                })
+            }
+        },
         methods: {
             //
             initTmpCUD: function () {
@@ -208,8 +214,7 @@
                 // waitingDialog.show();
                 $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                     waitingDialog.hide();
-                    vm.prgfieldDataAttr = result.fieldData;
-                    console.log(vm.prgfieldDataAttr);
+                    vm.prgFieldDataAttr = result.fieldData;
                     vm.showDataGrid(result.fieldData, result.dataGridRows)
                 });
             },
@@ -382,6 +387,7 @@
             //多語系編輯
             editFieldMultiLang: function (rowIdx) {
                     vmHub.$emit("getRowMultiLangContent",{rowIdx:rowIdx});
+//                    this.updateMultiLangDG();
                     this.openMultiLangDialog();
 
             },
@@ -393,15 +399,52 @@
                     autoOpen: false,
                     modal: true,
                     title: "Multi Language",
-                    height: 350,
+                    height: 250,
                     width: 750,
-                    maxWidth: _.min(width, maxWidth),
+                    maxWidth: _.min([width, maxWidth]),
                     resizable: true,
                     buttons: "#multiDialogBtns"
 
                 });
 
                 dialog.dialog("open");
+            },
+            updateMultiLangDG : function(data){
+
+                var multiLangDgData = _.uniq(data.multiLangContent);
+                console.table(multiLangDgData);
+                console.log(this.multiLangField);
+                var columnsData = [{
+                    type: 'textbox',
+                    title: "Locale",
+                    field: "locale",
+                    width: 100,
+                    editor:{
+                        options:{
+                            readonly:true
+                        }
+                    }
+                }];
+
+                columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
+
+                var widtd = 10;
+                _.each(columnsData,function(column){
+                    widtd += Number(column.width);
+                })
+                console.log(multiLangDgData);
+                console.log(columnsData);
+                $('#multiLangDG').datagrid({
+                    columns: [columnsData],
+                    remoteSort: false,
+                    singleSelect: true,
+                    selectOnCheck: true,
+                    checkOnSelect: true,
+                    width : widtd,
+                    data: multiLangDgData,
+                    onClickCell: vm.onClickCell,
+                    onEndEdit: vm.onEndEdit,
+                })
             }
 
 

@@ -9,8 +9,6 @@ var dbSVC = require("../../../services/dbTableService");
 module.exports = function (io) {
 
     io.of("/setup").on('connection', function (socket) {
-
-        // table lock
         socket.on('handleTableLock', function (data) {
             var prg_id = data.prg_id || "";
             var page_id = data.page_id || 1;

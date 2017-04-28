@@ -1,0 +1,52 @@
+<style>
+    .langTable{
+        max-width: 960px;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+    .langTable thead{
+        background: #AAAAAA;
+    }
+    .langTable tr:nth-child(even){
+        background: #f8f8f8;
+    }
+    .langTable caption{
+        font-size: 24px;
+        padding: 10px;
+    }
+    .langTable td, th{
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+</style>
+<script type="text/x-template" id="fieldMultiLangDialogTmp">
+    <div id="fieldMultiLangTmpDialog" style="display: none;" >
+
+        <table class="langTable" style="margin-top: 20px" align="center">
+            <thead align="center">
+                <th v-for="locale in sys_locales">{{locale.name}}</th>
+            </thead>
+            <tbody>
+            <tr >
+                <td v-for="locale in sys_locales">
+                    <input value="{{multiLangContentList | filterLocaleContent locale.lang editingMultiLangFieldName}}" >
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12 col-xs-12 center" id="multiDialogBtns" style="display: none;">
+        <div class="singleRelative">
+            <div class="singleBtnBottom">
+                <button class="btn btn-primary btn-white" @click="">
+                    Save
+                </button>
+                <button class="btn btn-primary btn-white" @click="closeFieldMultiLangDialog">
+                    Leave
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</script>

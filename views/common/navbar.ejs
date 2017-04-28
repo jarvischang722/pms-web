@@ -175,11 +175,29 @@
     <div class="clearfix"></div>
 </div>
 
+<!-- 逾時登出Modal -->
+<div class="remodal" data-remodal-id="sessionModal" >
+    <h2>
+        逾時登出
+    </h2>
+    <br>
+    <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+</div>
+
 <script>
+    var socket = io.connect('/webStatus');
+    socket.emit("checkSessionExist");
+
     $(function () {
         updateDateTime();
         setInterval(updateDateTime, 1000);
+
+
+        $(document).on('closing', '.remodal', function (e) {
+            location.href="/login";
+        });
     })
+
     function updateDateTime() {
         var datetime = moment(new Date()).format("YYYY/MM/DD A hh:mm:ss");
         $("#datetimeSpan").html(datetime);
@@ -196,4 +214,12 @@
             }
         })
     }
+
+
+    //接收socket 回傳
+    socket.on("sessionStatus",function(session){
+        var inst = $('[data-remodal-id=sessionModal]').remodal();
+        inst.open();
+    })
+
 </script>
