@@ -71,7 +71,12 @@ var EZfieldClass = {
         tmpFieldObj.format_func_name = fieldAttrObj.format_func_name;
         tmpFieldObj.grid_field_name = fieldAttrObj.grid_field_name;
         tmpFieldObj.multi_lang_table = fieldAttrObj.multi_lang_table;
+        tmpFieldObj.styler = function(){
+            if(fieldAttrObj.requirable == "Y"){
+                return 'background-color:rgb(198, 242, 217);';
+            }
 
+        };
 
         // format 顯示資料
         if (dataType == "datebox") {

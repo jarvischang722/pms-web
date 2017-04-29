@@ -84,6 +84,8 @@
 
     <multi-lang-dialog-tmp
             @update-multi-lang-dg="updateMultiLangDG"
+            @end-multi-lang-editing="endMultiLangEditing"
+            @temp-exec-data="tempExecData"
             :sys_locales="sys_locales"
             :prg-field-data-attr="prgFieldDataAttr">
     </multi-lang-dialog-tmp>
@@ -98,7 +100,7 @@
     var vmHub = new Vue;
     Vue.component("multi-lang-dialog-tmp", {
         template: '#multiLangDialogTmp',
-        props: ['sys_locales','prgFieldDataAttr','updateMultiLangDG'],
+        props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing','tempExecData'],
         data: function () {
             return {}
         },
@@ -117,12 +119,25 @@
                     page_id: 1
                 };
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
-                    console.log(result);
-                    self.$emit('update-multi-lang-dg',result);
+                    self.$emit('update-multi-lang-dg', result);
                 })
             },
             closeMultiLangDialog: function () {
                 $("#multiLangDialog").dialog("close");
+            },
+            //寫入此筆編輯Row
+            saveMultiLang: function () {
+                if (this.$emit('end-multi-lang-editing')) {
+                    var selectIndex = $('#prg_dg').datagrid("getRowIndex", $('#prg_dg').datagrid("getSelected"));
+                    var multiLang = $("#multiLangDG").datagrid("getRows");
+                    $('#prg_dg').datagrid('updateRow', {
+                        index: selectIndex,
+                        row: {
+                            multiLang: multiLang
+                        }
+                    });
+                    this.$emit('temp-exec-data',$('#prg_dg').datagrid("getSelected"));
+                }
             }
         }
 
@@ -135,18 +150,19 @@
             this.fetchDataGridData();
         },
         data: {
-            prgFieldDataAttr:[],   //這隻程式的欄位屬性
-            multiLangField:[],   //多語系欄位
+            prgFieldDataAttr: [],   //這隻程式的欄位屬性
+            multiLangField: [],   //多語系欄位
             isTableLock: false,
             tableLockMsg: "",
             editIndex: undefined,
+            multiLangEditIndex: undefined,
             tmpCUD: {},
             saving: false,
-            sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:",""))
+            sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
         },
         watch: {
-            prgFieldDataAttr:function(newVal){
-                this.multiLangField = _.filter(this.prgFieldDataAttr,function(field){
+            prgFieldDataAttr: function (newVal) {
+                this.multiLangField = _.filter(this.prgFieldDataAttr, function (field) {
                     return field.multi_lang_table != ""
                 })
             }
@@ -233,7 +249,7 @@
                         align: "center",
                         width: 100,
                         formatter: function (value, row, index) {
-                            return '<a  href="javascript:void(0)" onclick="editFieldMultiLang('+index+')">Edit</a>'
+                            return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>'
                         }
 
                     });
@@ -245,7 +261,7 @@
                     singleSelect: true,
                     selectOnCheck: true,
                     checkOnSelect: true,
-                    width : "100%",
+                    width: "100%",
                     data: dgData,
                     onClickCell: vm.onClickCell,
                     onEndEdit: vm.onEndEdit,
@@ -287,12 +303,7 @@
             },
             //結束編輯
             onEndEdit: function (index, row, changes) {
-                if (row.createRow == 'Y') {
-                    this.tmpCUD.createData.push(row);
-                } else {
-                    this.tmpCUD.updateData.push(row);
-                }
-
+                this.tempExecData(row);
             },
             endEditing: function () {
                 if (this.editIndex == undefined) {
@@ -382,14 +393,11 @@
             //獲取改變的Row
             getChanges: function () {
                 var rows = $('#prg_dg').datagrid('getChanges');
-                //alert(rows.length + ' rows xare changed!');
             },
             //多語系編輯
             editFieldMultiLang: function (rowIdx) {
-                    vmHub.$emit("getRowMultiLangContent",{rowIdx:rowIdx});
-//                    this.updateMultiLangDG();
-                    this.openMultiLangDialog();
-
+                vmHub.$emit("getRowMultiLangContent", {rowIdx: rowIdx});
+                this.openMultiLangDialog();
             },
             //打開多語系編輯Dialog
             openMultiLangDialog: function () {
@@ -409,19 +417,17 @@
 
                 dialog.dialog("open");
             },
-            updateMultiLangDG : function(data){
+            updateMultiLangDG: function (data) {
 
                 var multiLangDgData = _.uniq(data.multiLangContent);
-                console.table(multiLangDgData);
-                console.log(this.multiLangField);
                 var columnsData = [{
                     type: 'textbox',
                     title: "Locale",
                     field: "locale",
-                    width: 100,
-                    editor:{
-                        options:{
-                            readonly:true
+                    width: 70,
+                    editor: {
+                        options: {
+                            readonly: true
                         }
                     }
                 }];
@@ -429,22 +435,62 @@
                 columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
 
                 var widtd = 10;
-                _.each(columnsData,function(column){
+                _.each(columnsData, function (column) {
                     widtd += Number(column.width);
                 })
-                console.log(multiLangDgData);
-                console.log(columnsData);
                 $('#multiLangDG').datagrid({
                     columns: [columnsData],
                     remoteSort: false,
                     singleSelect: true,
                     selectOnCheck: true,
                     checkOnSelect: true,
-                    width : widtd,
+                    width: widtd,
                     data: multiLangDgData,
-                    onClickCell: vm.onClickCell,
-                    onEndEdit: vm.onEndEdit,
+                    onClickCell: function (index, field) {
+                        if (vm.multiLangEditIndex != index) {
+                            if (vm.endMultiLangEditing()) {
+                                $('#multiLangDG').datagrid('selectRow', index).datagrid('beginEdit', index);
+                                var ed = $('#multiLangDG').datagrid('getEditor', {index: index, field: field});
+                                if (ed) {
+                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                }
+                                vm.multiLangEditIndex = index;
+                            }
+                        }
+
+                    }
                 })
+            },
+            endMultiLangEditing: function () {
+                if (this.multiLangEditIndex == undefined) {
+                    return true
+                }
+                if ($('#multiLangDG').datagrid('validateRow', vm.multiLangEditIndex)) {
+                    $('#multiLangDG').datagrid('endEdit', vm.multiLangEditIndex);
+                    vm.multiLangEditIndex = undefined;
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            //將資料放入暫存
+            tempExecData :function(rowData){
+                console.log(rowData);
+                if (rowData.createRow == 'Y') {
+                    this.tmpCUD.createData.push(rowData);
+                } else {
+                    //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+                    var keyVals = _.pluck(_.where(this.prgFieldDataAttr,{keyable:'Y'}),"ui_field_name");
+                    var condKey = {};
+                    _.each(keyVals,function(field_name){
+                        condKey[field_name] = rowData[field_name] || "";
+                    })
+                    var existIdx = _.findIndex(this.tmpCUD.updateData,condKey) ;
+                    if(existIdx > -1 ){
+                        this.tmpCUD.updateData.splice(existIdx,1);
+                    }
+                    this.tmpCUD.updateData.push(rowData);
+                }
             }
 
 
