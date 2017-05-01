@@ -140,7 +140,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     queryAgent.query(sql_tag, postData, function (err, rowData) {
 
                         if (err || !rowData) {
-                            return  callback("no data", {});
+                            return callback("no data", {});
                         }
 
                         langSvc.handleSingleDataLangConv(rowData, prg_id, 2, session.locale, function (err, rowData) {
@@ -230,15 +230,6 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
         }
     )
 
-
-};
-
-/**
- * 獲取新增一筆資料預設值
- * @param userInfo
- * @param ui_field_name
- */
-exports.fetchPageCreateRowDefaultVal = function (userInfo, ui_field_name) {
 
 };
 
@@ -349,7 +340,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     if (fields.length > 0) {
                         fields = tools.mongoDocToObject(fields);
                     }
-
+                    prgFields = fields;
                     la_keyFields = _.where(fields, {keyable: 'Y'}) || [];
                     callback(null, la_keyFields);
                 });
@@ -451,7 +442,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //組合此筆要新增刪除修改的資料
     function combineMainData(chkReuslt, callback) {
-
+        var la_multiLangFields = _.filter(prgFields, function (field) {
+            return field.multi_lang_table != ""
+        });  //多語系欄位
         async.parallel([
             //新增 0200
             function (callback) {
@@ -469,7 +462,36 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
-                })
+
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
+                    if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                        _.each(data.multiLang, function (lo_lang) {
+                            var ls_locale = lo_lang.locale || "";
+                            _.each(lo_lang, function (langVal, fieldName) {
+                                if (fieldName != "locale" && !_.isEmpty(langVal)) {
+                                    var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                    var lo_langTmp = {
+                                        function: '1',
+                                        table_name: langTable,
+                                        locale: ls_locale,
+                                        field_name: fieldName,
+                                        words: langVal
+                                    };
+                                    _.each(_.pluck(la_keyFields, "ui_field_name"), function (keyField) {
+                                        if (!_.isUndefined(data[keyField])) {
+                                            lo_langTmp[keyField] = typeof data[keyField] === "string"
+                                                ? data[keyField].trim() : data[keyField];
+                                        }
+                                    });
+                                    savaExecDatas[exec_seq] = lo_langTmp;
+                                    exec_seq++;
+                                }
+                            })
+                        })
+                    }
+
+                });
+
                 callback(null, '0200');
             },
             //刪除 0300
@@ -495,11 +517,16 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             },
             //修改 0400
             function (callback) {
+                if (editData.length == 0) {
+                    return callback(null, '0400');
+                }
+
                 _.each(editData, function (data) {
                     var tmpEdit = {"function": "2", "table_name": mainTableName}; //2  編輯
                     _.each(Object.keys(data), function (objKey) {
                         tmpEdit[objKey] = data[objKey];
                     });
+                    var lo_keysData = {};
                     tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
                     tmpEdit.condition = [];
                     //組合where 條件
@@ -510,13 +537,99 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 operation: "=",
                                 value: data[keyField.ui_field_name]
                             })
+                            lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
                         }
 
                     });
-                    savaExecDatas[exec_seq] = tmpEdit;
-                    exec_seq++;
+
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
+                    if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                        var langProcessFunc = [];
+                        _.each(data.multiLang, function (lo_lang) {
+                            var ls_locale = lo_lang.locale || "";
+                            langProcessFunc.push(
+                                function (callback) {
+                                    var chkFuncs = [];
+                                    _.each(lo_lang, function (langVal, fieldName) {
+                                        if (fieldName != "locale" && !_.isEmpty(langVal)) {
+                                            chkFuncs.push(
+                                                function (callback) {
+                                                    var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                    var lo_langTmp = {
+                                                        table_name: langTable,
+                                                        words: langVal
+                                                    };
+                                                    var lo_condition = [
+                                                        {
+                                                            key: "locale",
+                                                            operation: "=",
+                                                            value: ls_locale
+                                                        },
+                                                        {
+                                                            key: "field_name",
+                                                            operation: "=",
+                                                            value: fieldName
+                                                        }
+                                                    ];
+                                                    _.each(_.pluck(la_keyFields, "ui_field_name"), function (keyField) {
+                                                        if (!_.isUndefined(data[keyField])) {
+                                                            lo_condition.push({
+                                                                key: keyField,
+                                                                operation: "=",
+                                                                value: data[keyField]
+                                                            });
+                                                            lo_keysData[keyField] = typeof data[keyField] === "string"
+                                                                ? data[keyField].trim() : data[keyField];
+
+                                                        }
+                                                    });
+
+
+                                                    //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
+                                                    langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
+                                                        if (rows.length > 0) {
+                                                            lo_langTmp["function"] = "2";  //編輯
+                                                            lo_langTmp["condition"] = lo_condition; //放入條件
+                                                        } else {
+                                                            lo_langTmp["function"] = "1";  //新增;
+                                                            lo_langTmp["locale"] = ls_locale;  //
+                                                            lo_langTmp["field_name"] = fieldName;  //
+                                                            lo_langTmp = _.extend(lo_langTmp, lo_keysData);
+                                                        }
+
+                                                        savaExecDatas[exec_seq] = lo_langTmp;
+                                                        exec_seq++;
+
+                                                        callback(null, rows);
+
+                                                    })
+                                                }
+                                            );
+                                        }
+
+
+                                    })
+                                    async.parallel(chkFuncs, function (err, results) {
+                                        callback(null, results);
+                                    })
+                                }
+                            );
+
+                        });
+
+                        async.parallel(langProcessFunc, function (err, results) {
+                            savaExecDatas[exec_seq] = tmpEdit;
+                            exec_seq++;
+                            callback(null, '0400');
+                        })
+                    } else {
+                        savaExecDatas[exec_seq] = tmpEdit;
+                        exec_seq++;
+                        callback(null, '0400');
+                    }
                 });
-                callback(null, '0400');
+
+
             }
         ], function (err, result) {
             callback(err, result);

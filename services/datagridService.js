@@ -475,7 +475,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     savaExecDatas[exec_seq] = tmpIns;
                     exec_seq++;
 
-                    //處理每一筆多語系
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
                     if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                         _.each(data.multiLang, function (lo_lang) {
                             var ls_locale = lo_lang.locale || "";
@@ -561,7 +561,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         }
                     });
 
-                    /** 處理每一筆多語系 **/
+                    /** 處理每一筆多語系 handleSaveMultiLang **/
                     if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                         var langProcessFunc = [];
                         _.each(data.multiLang, function (lo_lang) {

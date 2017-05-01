@@ -43,7 +43,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 prg_id: fieldInfo.prg_id,
                 page_id: 2,
                 ui_field_name: fieldInfo.ui_field_name
-            }
+            };
 
             $.post("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
@@ -470,7 +470,8 @@ vm = new Vue({
             dt_deleteData: [],
         },
         singleData: {},         //單檔資訊
-        modificableForData: true       //決定是否可以修改資料
+        modificableForData: true,       //決定是否可以修改資料
+        dtData:[]
     },
     watch: {
         pageTwoFieldData: function (newObj, oldObj) {
@@ -654,7 +655,7 @@ vm = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
-
+            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCUD);
             console.log("===Save params===");
             console.log(params);
@@ -676,6 +677,7 @@ vm = new Vue({
         },
         //新增按鈕Event
         switchToCreateStatus: function () {
+            vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id}, function (result) {
@@ -701,6 +703,7 @@ vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
+                    vm.dtData = dtData;
                     if (dtData.length > 0) {
                         vmHub.$emit('showDtDataGrid', dtData);
                     }
@@ -715,8 +718,12 @@ vm = new Vue({
         //打開單檔dialog
         showSingleGridDialog: function () {
 
-            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 45; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
+            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
+            if(this.dtData.length > 0){
+                //加上 dt 高度
+                height += this.dtData.length * 60;
+            }
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
@@ -729,7 +736,7 @@ vm = new Vue({
             });
             dialog.dialog("open");
             // 給 dialog "內容"高 值
-            $(".singleGridContent").css("height", _.min([maxHeight, height]));
+            $(".singleGridContent").css("height", _.max([maxHeight, height]) );
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {

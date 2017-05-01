@@ -58,7 +58,7 @@ var EZfieldClass = {
         var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
         var maxLength = fieldAttrObj.ui_field_length;
         if (fieldAttrObj.ui_type != "select")    //combobox因text內容有長有短，所以排除此長度驗證
-            tmpFieldObj.editor.options.validType.push('length[' + mixLength + ',' + maxLength + ']');
+            tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
 
 
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
@@ -88,7 +88,7 @@ var EZfieldClass = {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
             tmpFieldObj.formatter = datetimeFunc;
-            tmpFieldObj.editor.options.formatter = datetimeFunc;
+            //tmpFieldObj.editor.options.formatter = datetimeFunc;
         } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
