@@ -273,7 +273,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
         async.parallel(funcs, function (err, langResults) {
             var result = [];
 
-            var localeGrp = _.uniq(_.pluck(multiLangData, "locale"));
+            var localeGrp = ["en","zh_TW"];  //TODO 之後需要抓取動館別設定語系
             _.each(localeGrp, function (locale) {
                 var localeData = _.where(multiLangData, {locale: locale});
                 var langRowObj = {locale: locale};
@@ -290,6 +290,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
 
 };
 
+
 /**
  * 組合條件
  * @param keys{Object} : 每一個key 值
@@ -302,7 +303,8 @@ function combineCondition(keys) {
 
         var fieldCond = "";
         //判斷為日期
-        if (moment(keys[fieldName], ["YYYY/MM/DD", "YYYY-MM-DD"]).isValid()) {
+        var patternDat = /_dat$/i; //找尋欄位是dat或date結尾
+        if (moment(keys[fieldName], ["YYYY/MM/DD", "YYYY-MM-DD"]).isValid() && patternDat.test(fieldName)) {
             fieldCond = fieldName + " = to_date('" + fieldVal + "','YYYY/MM/DD')";
         } else {
             //非日期

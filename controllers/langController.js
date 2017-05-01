@@ -31,7 +31,7 @@ exports.multiLangFieldContentByKey = function (req, res) {
     var rowData = req.body["rowData"];
     var prg_id = req.body["prg_id"];
     var page_id = req.body["page_id"];
-    var dataType = req.body["dataType"] || "datagrid"; // da`tagrid | girdsingle
+    var dataType = req.body["dataType"] || "datagrid"; // datagrid | girdsingle
     langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, dataType,"", function (multiLangData) {
         res.json({success: true, multiLangContent: multiLangData});
     })
