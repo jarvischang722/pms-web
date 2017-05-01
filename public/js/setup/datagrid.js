@@ -3,6 +3,7 @@
  */
 var prg_id = ls_prg_id;
 var vmHub = new Vue;
+
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
@@ -25,14 +26,14 @@ Vue.component("multi-lang-dialog-tmp", {
                 page_id: 1
             };
 
-            if (!_.isUndefined(rowData.createRow) && _.isEqual(rowData.createRow,"Y")) {
+            if (!_.isUndefined(rowData.createRow) && _.isEqual(rowData.createRow, "Y")) {
                 var multiLangContent = [];
-                _.each(this.sys_locales,function(locale){
+                _.each(this.sys_locales, function (locale) {
                     multiLangContent.push({
-                        locale:locale.lang
+                        locale: locale.lang
                     });
                 });
-                self.$emit('update-multi-lang-dg', {multiLangContent:multiLangContent});
+                self.$emit('update-multi-lang-dg', {multiLangContent: multiLangContent});
                 return;
             }
 
@@ -49,8 +50,7 @@ Vue.component("multi-lang-dialog-tmp", {
                 var selectIndex = $('#prg_dg').datagrid("getRowIndex", $('#prg_dg').datagrid("getSelected"));
                 var multiLang = $("#multiLangDG").datagrid("getRows");
                 var updateRow = $('#prg_dg').datagrid("getSelected");
-                console.log(updateRow);
-                updateRow["multiLang"]  = multiLang;
+                updateRow["multiLang"] = multiLang;
                 $('#prg_dg').datagrid('updateRow', {
                     index: selectIndex,
                     row: updateRow
@@ -62,7 +62,7 @@ Vue.component("multi-lang-dialog-tmp", {
 
 })
 
-vm = new Vue({
+var vm = new Vue({
     el: '#DGApp',
     ready: function () {
         this.initTmpCUD();
@@ -387,28 +387,20 @@ vm = new Vue({
         },
         //將資料放入暫存
         tempExecData: function (rowData) {
+            var dataType = rowData.createRow == 'Y'
+                ? "createData" : "updateData";  //判斷此筆是新增或更新
             var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
             var condKey = {};
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = rowData[field_name] || "";
             });
-            if (rowData.createRow == 'Y') {
-                //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
-                var existIdx = _.findIndex(this.tmpCUD.createData, condKey);
-                if (existIdx > -1) {
-                    this.tmpCUD.createData.splice(existIdx, 1);
-                }
-                this.tmpCUD.createData.push(rowData);
-            } else {
-                //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
-                var existIdx = _.findIndex(this.tmpCUD.updateData, condKey);
-                if (existIdx > -1) {
-                    this.tmpCUD.updateData.splice(existIdx, 1);
-                }
-                this.tmpCUD.updateData.push(rowData);
+            //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+            var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
+            if (existIdx > -1) {
+                this.tmpCUD[dataType].splice(existIdx, 1);
             }
 
-
+            this.tmpCUD[dataType].push(rowData);
         }
 
 
