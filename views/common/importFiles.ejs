@@ -39,8 +39,10 @@
 <!-- boostrap modal -->
 <script src="/js/modal-dialog.js"></script>
 
+<!-- Load i18n 語系內容-->
+<%-include i18nLang.ejs%>
 
-
+<script src="/js/sprintf.js"></script>
 
 <!-- easy ui -->
 <script>
@@ -68,7 +70,9 @@
 
 
 <!-- underscore 套件 -->
-<script src="/js/underscore/underscore-min.js"></script>
+<script src="/js/underscore/underscore-min.js" type="text/javascript"></script>
+<!--<script src="/js/underscore/underscore.string.min.js" type="text/javascript"></script>-->
+<!--<script type="text/javascript"> _.mixin(_.str.exports()) </script>-->
 
 <!-- 時間套件 -->
 <script src="/js/moment/moment.min.js"></script>

@@ -30,7 +30,8 @@ Vue.component("multi-lang-dialog-tmp", {
                 var multiLangContent = [];
                 _.each(this.sys_locales, function (locale) {
                     multiLangContent.push({
-                        locale: locale.lang
+                        locale: locale.lang,
+                        display_locale: locale.name
                     });
                 });
                 self.$emit('update-multi-lang-dg', {multiLangContent: multiLangContent});
@@ -51,11 +52,13 @@ Vue.component("multi-lang-dialog-tmp", {
                 var multiLang = $("#multiLangDG").datagrid("getRows");
                 var updateRow = $('#prg_dg').datagrid("getSelected");
                 updateRow["multiLang"] = multiLang;
+                console.log(multiLang);
                 $('#prg_dg').datagrid('updateRow', {
                     index: selectIndex,
                     row: updateRow
                 });
                 this.$emit('temp-exec-data', $('#prg_dg').datagrid("getSelected"));
+                this.closeMultiLangDialog();
             }
         }
     }
@@ -335,7 +338,7 @@ var vm = new Vue({
             var columnsData = [{
                 type: 'textbox',
                 title: "Locale",
-                field: "locale",
+                field: "display_locale",
                 width: 70,
                 editor: {
                     options: {

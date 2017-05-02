@@ -81,9 +81,10 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 if(!_.isEmpty($(this).val())){
                     multiLang.push(tmpObj);
                 }
-            })
+            });
 
             this.singleData["multiLang"] = multiLang;
+            this.closeFieldMultiLangDialog();
         }
     }
 

@@ -18,4 +18,7 @@ module.exports = function(app ) {
     //全部多語欄位資料
     app.post('/api/multiLangFieldContentByKey', langCrtl.multiLangFieldContentByKey);
 
+    //取得i18n 語系對應檔內容
+    app.post('/api/getLocaleContent',  langCrtl.getLocaleContent);
+
 };

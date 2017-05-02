@@ -237,7 +237,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
     var _thisSvc = this;
     var collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
     mongoAgent[collection].find({prg_id: prg_id, page_id: Number(page_id)}, function (err, fieldData) {
-        if (err || fieldData.length == 0 ) {
+        if (err || fieldData.length == 0) {
             return callback({});
         }
         fieldData = commonTools.mongoDocToObject(fieldData);
@@ -254,7 +254,10 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
 
         var funcs = [];
         var keys = {}; //找尋的key value
-        if(_.isUndefined(rowData)){ rowData = {} };
+        if (_.isUndefined(rowData)) {
+            rowData = {}
+        }
+        ;
         _.each(la_keyableFields, function (fieldName) {
             if (!_.isUndefined(rowData[fieldName])) {
                 keys[fieldName] = rowData[fieldName].trim();
@@ -274,10 +277,12 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
         async.parallel(funcs, function (err, langResults) {
             var result = [];
 
-            var localeGrp = ["en", "zh_TW"];  //TODO 之後需要抓取動館別設定語系
+            //TODO 之後需要抓取動館別設定語系
+            var localeGrp = [{lang: 'en', sort: 1, name: 'English'},
+                {lang: 'zh_TW', sort: 2, name: '繁體中文'}];
             _.each(localeGrp, function (locale) {
-                var localeData = _.where(multiLangData, {locale: locale});
-                var langRowObj = {locale: locale};
+                var localeData = _.where(multiLangData, {locale: locale.lang});
+                var langRowObj = {locale: locale.lang,display_locale: locale.name};
                 _.each(localeData, function (data) {
                     langRowObj[data.field_name] = data.words || "";
                 });
