@@ -736,7 +736,7 @@ vm = new Vue({
             });
             dialog.dialog("open");
             // 給 dialog "內容"高 值
-            $(".singleGridContent").css("height", _.max([maxHeight, height]) );
+            $(".singleGridContent").css("height", _.min([maxHeight, height])+20 );
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {
