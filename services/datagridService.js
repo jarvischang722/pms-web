@@ -640,6 +640,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                                });
 
                            }else{
+                               savaExecDatas[exec_seq] = tmpEdit;
+                               exec_seq++;
                                callback(null, '0400');
                            }
                        }
