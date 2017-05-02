@@ -120,8 +120,6 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
  * @param callback
  */
 exports.fetchPrgDataGrid = function (session, prg_id, callback) {
-    console.log("======i18n======");
-    console.log(i18n.__("Room Type"));
     var userInfo = session.user;
     var page_id = 1;
     var params = {
