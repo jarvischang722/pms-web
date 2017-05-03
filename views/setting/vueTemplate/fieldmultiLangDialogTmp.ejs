@@ -31,7 +31,7 @@
             <tbody>
             <tr>
                 <td v-for="locale in sys_locales">
-                    <input value="{{multiLangContentList | filterLocaleContent locale.lang editingMultiLangFieldName}}" >
+                    <input v-model="fieldMultiLang[locale.lang][editingLangField]" data-locale="{{locale.lang}}" :id="editingLangField" value="{{multiLangContentList | filterLocaleContent locale.lang editingLangField}}" class="multi_lang_input" >
                 </td>
             </tr>
             </tbody>
@@ -40,7 +40,7 @@
     <div class="col-sm-12 col-xs-12 center" id="multiDialogBtns" style="display: none;">
         <div class="singleRelative">
             <div class="singleBtnBottom">
-                <button class="btn btn-primary btn-white" @click="">
+                <button class="btn btn-primary btn-white" @click="saveFieldMultiLang">
                     Save
                 </button>
                 <button class="btn btn-primary btn-white" @click="closeFieldMultiLangDialog">

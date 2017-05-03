@@ -3,6 +3,17 @@
  * **/
 
 $.extend($.fn.validatebox.defaults.rules, {
+    ChkLength: {
+        //資料長度驗證
+        validator: function (value, params) {
+
+            var minLength = params[0];
+            var maxLength = params[1];
+
+            return value.length <= maxLength && value.length >= minLength;
+        },
+        message: 'Length limit between {0} to {1}'
+    },
     //驗證中文字
     CHS: {
         validator: function (value, param) {

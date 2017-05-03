@@ -58,7 +58,7 @@ var EZfieldClass = {
         var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
         var maxLength = fieldAttrObj.ui_field_length;
         if (fieldAttrObj.ui_type != "select")    //combobox因text內容有長有短，所以排除此長度驗證
-            tmpFieldObj.editor.options.validType.push('length[' + mixLength + ',' + maxLength + ']');
+            tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
 
 
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
@@ -71,7 +71,12 @@ var EZfieldClass = {
         tmpFieldObj.format_func_name = fieldAttrObj.format_func_name;
         tmpFieldObj.grid_field_name = fieldAttrObj.grid_field_name;
         tmpFieldObj.multi_lang_table = fieldAttrObj.multi_lang_table;
+        tmpFieldObj.styler = function(){
+            if(fieldAttrObj.requirable == "Y"){
+                return 'background-color:rgb(198, 242, 217);';
+            }
 
+        };
 
         // format 顯示資料
         if (dataType == "datebox") {
@@ -83,7 +88,7 @@ var EZfieldClass = {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
             tmpFieldObj.formatter = datetimeFunc;
-            tmpFieldObj.editor.options.formatter = datetimeFunc;
+            //tmpFieldObj.editor.options.formatter = datetimeFunc;
         } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';

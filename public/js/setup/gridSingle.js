@@ -2,13 +2,13 @@
  * Created by Jun on 2017/2/23.
  */
 var prg_id = $("#prg_id").val();
-var $prg_dtdg = $("#dt_dg");
 var vmHub = new Vue;
 
-Vue.filter("filterLocaleContent",function (langContent,locale,field_name) {
+Vue.filter("filterLocaleContent", function (langContent, locale, field_name) {
+
     var m_lang_val = "";
-    var fIdx = _.findIndex(langContent,{locale:locale});
-    if( fIdx > -1){
+    var fIdx = _.findIndex(langContent, {locale: locale});
+    if (fIdx > -1) {
         m_lang_val = langContent[fIdx][field_name] || "";
     }
 
@@ -18,39 +18,40 @@ Vue.filter("filterLocaleContent",function (langContent,locale,field_name) {
 /** 欄位多語系Dialog **/
 Vue.component("field-multi-lang-dialog-tmp", {
     template: '#fieldMultiLangDialogTmp',
-    props: ['sys_locales','singleData'],
+    props: ['sys_locales', 'singleData'],
     data: function () {
         return {
-            editingMultiLangField:"",
-            multiLangContentList:[]
+
+            editingLangField: "",
+            multiLangContentList: [],
+            fieldMultiLang: {
+            }
         }
     },
     created: function () {
         var self = this;
         vmHub.$on('editFieldMultiLang', function (fieldInfo) {
-             self.editingMultiLangFieldName = fieldInfo.ui_field_name;
-                self.getFieldMultiLangContent(fieldInfo)
+            self.getFieldMultiLangContent(fieldInfo)
         });
     },
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
-
+            this.editingLangField = fieldInfo.ui_field_name;
             var self = this;
             var params = {
                 rowData: this.singleData,
                 prg_id: fieldInfo.prg_id,
-                page_id:2,
-                ui_field_name:fieldInfo.ui_field_name
-            }
+                page_id: 2,
+                ui_field_name: fieldInfo.ui_field_name
+            };
 
             $.post("/api/fieldAllLocaleContent", params, function (result) {
-
                 self.multiLangContentList = result.multiLangContentList;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                console.table( JSON.parse(JSON.stringify(self.multiLangContentList)));
+                console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             })
         },
-        openFieldMultiLangDialog: function(fieldName){
+        openFieldMultiLangDialog: function (fieldName) {
             var width = 500;
             var maxWidth = 700;
             var dialog = $("#fieldMultiLangTmpDialog").dialog({
@@ -68,6 +69,21 @@ Vue.component("field-multi-lang-dialog-tmp", {
         },
         closeFieldMultiLangDialog: function () {
             $("#fieldMultiLangTmpDialog").dialog("close");
+        },
+        saveFieldMultiLang: function () {
+
+            var multiLang = [];
+            //TODO 暫時用jquery 取資料
+            $(".multi_lang_input").each(function(){
+                var tmpObj = {};
+                tmpObj['locale'] = $(this).data("locale");
+                tmpObj[$(this).attr("id")] = $(this).val();
+                if(!_.isEmpty($(this).val())){
+                    multiLang.push(tmpObj);
+                }
+            })
+
+            this.singleData["multiLang"] = multiLang;
         }
     }
 
@@ -119,7 +135,7 @@ Vue.component('sigle-grid-dialog-tmp', {
     methods: {
         //打開多語編輯
         editMultiLang: function (fieldInfo) {
-            vmHub.$emit('editFieldMultiLang',fieldInfo)
+            vmHub.$emit('editFieldMultiLang', fieldInfo)
         },
         //檢查欄位規則，在離開欄位時
         chk_field_rule: function (ui_field_name, rule_func_name) {
@@ -132,13 +148,11 @@ Vue.component('sigle-grid-dialog-tmp', {
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
-                    console.log(result);
                     if (result.success) {
                         //連動帶回的值
                         if (!_.isUndefined(result.effectValues)) {
                             var effectValues = result.effectValues;
                             _.each(Object.keys(effectValues), function (key) {
-                                console.log("key:" + key + "@" + effectValues[key]);
                                 self.singleData[key] = effectValues[key] || "";
                             })
                         }
@@ -326,8 +340,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     } else {
                         self["tmpCUD"].dt_editData.push(row);
                     }
-                    console.log("==== Edit end ====");
-                    console.log(self["tmpCUD"]);
+
                 },
                 // onEndEdit: onEndEdit,
                 onDropColumn: function () {
@@ -438,7 +451,7 @@ vm = new Vue({
         this.loadSingleGridPageField();
     },
     data: {
-        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:","")),
+        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
         deleteStatus: false,    //刪除狀態
@@ -457,13 +470,12 @@ vm = new Vue({
             dt_deleteData: [],
         },
         singleData: {},         //單檔資訊
-        modificableForData: true       //決定是否可以修改資料
+        modificableForData: true,       //決定是否可以修改資料
+        dtData:[]
     },
     watch: {
         pageTwoFieldData: function (newObj, oldObj) {
-            console.log("-----pageTwoFieldData -----");
-            console.log(newObj);
-            console.log(oldObj);
+
         },
         editStatus: function (newVal) {
             if (newVal) {
@@ -643,7 +655,7 @@ vm = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
-
+            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCUD);
             console.log("===Save params===");
             console.log(params);
@@ -665,11 +677,11 @@ vm = new Vue({
         },
         //新增按鈕Event
         switchToCreateStatus: function () {
+            vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id}, function (result) {
                 if (result.success) {
-                    console.log(result);
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
                     vmHub.$emit('showDtDataGrid', []);
@@ -691,6 +703,7 @@ vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
+                    vm.dtData = dtData;
                     if (dtData.length > 0) {
                         vmHub.$emit('showDtDataGrid', dtData);
                     }
@@ -705,12 +718,16 @@ vm = new Vue({
         //打開單檔dialog
         showSingleGridDialog: function () {
 
-            var maxHeight = document.documentElement.clientHeight -70 ; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 45; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
+            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
+            if(this.dtData.length > 0){
+                //加上 dt 高度
+                height += this.dtData.length * 60;
+            }
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                height:_.min([maxHeight,height]),
+                height: _.min([maxHeight, height]),
                 title: prg_id,
                 minWidth: 750,
                 maxHeight: maxHeight,
@@ -719,7 +736,7 @@ vm = new Vue({
             });
             dialog.dialog("open");
             // 給 dialog "內容"高 值
-            $(".singleGridContent").css("height", _.min([maxHeight,height]));
+            $(".singleGridContent").css("height", _.min([maxHeight, height])+20 );
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {
