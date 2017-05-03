@@ -65,6 +65,7 @@ Vue.component("multi-lang-dialog-tmp", {
 
 })
 
+
 var vm = new Vue({
     el: '#DGApp',
     ready: function () {
@@ -168,7 +169,7 @@ var vm = new Vue({
                     title: "Multi Lang",
                     field: "langAction",
                     align: "center",
-                    width: 100,
+                    width: 70,
                     formatter: function (value, row, index) {
                         return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>'
                     }
@@ -229,6 +230,7 @@ var vm = new Vue({
                 this.editIndex = undefined;
                 return true;
             } else {
+
                 return false;
             }
         },
@@ -349,17 +351,17 @@ var vm = new Vue({
 
             columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
 
-            var widtd = 10;
+            var width = 10;
             _.each(columnsData, function (column) {
-                widtd += Number(column.width);
-            })
+                width += Number(column.width);
+            });
             $('#multiLangDG').datagrid({
                 columns: [columnsData],
                 remoteSort: false,
                 singleSelect: true,
                 selectOnCheck: true,
                 checkOnSelect: true,
-                width: widtd,
+                width: width,
                 data: multiLangDgData,
                 onClickCell: function (index, field) {
                     if (vm.multiLangEditIndex != index) {
@@ -412,7 +414,7 @@ var vm = new Vue({
 
 //打開多語視窗
 function editFieldMultiLang(rowIdx) {
-    if(this.endEditing()){
+    if(vm.endEditing()){
         vm.editFieldMultiLang(rowIdx);
     }
 }

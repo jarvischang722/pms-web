@@ -24,8 +24,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
             editingLangField: "",
             multiLangContentList: [],
-            fieldMultiLang: {
-            }
+            fieldMultiLang: {}
         }
     },
     created: function () {
@@ -52,16 +51,15 @@ Vue.component("field-multi-lang-dialog-tmp", {
             })
         },
         openFieldMultiLangDialog: function (fieldName) {
-            var width = 500;
-            var maxWidth = 700;
+            var width = 300;
+            var height = ((this.sys_locales.length + 1) * 40) + 100;
             var dialog = $("#fieldMultiLangTmpDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 title: fieldName,
-                height: 200,
+                height: height,
                 width: width,
-                //  maxWidth: _.min([width, maxWidth]),
-                resizable: true,
+                resizable: false,
                 buttons: "#multiDialogBtns"
             });
 
@@ -74,11 +72,11 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
             var multiLang = [];
             //TODO 暫時用jquery 取資料
-            $(".multi_lang_input").each(function(){
+            $(".multi_lang_input").each(function () {
                 var tmpObj = {};
                 tmpObj['locale'] = $(this).data("locale");
                 tmpObj[$(this).attr("id")] = $(this).val();
-                if(!_.isEmpty($(this).val())){
+                if (!_.isEmpty($(this).val())) {
                     multiLang.push(tmpObj);
                 }
             });
@@ -255,63 +253,64 @@ Vue.component('sigle-grid-dialog-tmp', {
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
 
-            var self = this;
-            var targetRowAfterDelete = {}; //刪除後要指向的資料
-            if (this.deleteStatue) {
-                var rowsNum = $("#dg").datagrid('getRows').length;
-                var currentRowIdx = $("#dg").datagrid('getRowIndex', self.editingRow); //目前索引
-                if (currentRowIdx == rowsNum - 1) {
-                    //刪除的資料已經是最後一筆 就取datagrid最末筆
-                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
+            if (this.endDtEditing()) {
+                var self = this;
+                var targetRowAfterDelete = {}; //刪除後要指向的資料
+                if (this.deleteStatue) {
+                    var rowsNum = $("#dg").datagrid('getRows').length;
+                    var currentRowIdx = $("#dg").datagrid('getRowIndex', self.editingRow); //目前索引
+                    if (currentRowIdx == rowsNum - 1) {
+                        //刪除的資料已經是最後一筆 就取datagrid最末筆
+                        targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
 
-                } else {
-                    //取下一筆
-                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
+                    } else {
+                        //取下一筆
+                        targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
+                    }
                 }
-            }
 
-            if (this.createStatus) {
-                this.tmpCUD.createData = [this.singleData];
-            } else if (this.editStatus) {
-                this.tmpCUD.editData = [this.singleData];
-            }
+                if (this.createStatus) {
+                    this.tmpCUD.createData = [this.singleData];
+                } else if (this.editStatus) {
+                    this.tmpCUD.editData = [this.singleData];
+                }
 
 
-            //先驗證有無欄位沒驗證過的
-            this.$emit('do-save-cud', function (success) {
-                if (success) {
-                    //儲存後離開
-                    if (saveAfterAction == "closeDialog") {
-                        self.singleData = {};
-                        self.emitCloseGridDialog();
-                    }
-                    //新增完再新增另一筆
-                    else if (saveAfterAction == "addOther") {
-                        self.singleData = {};
-                        self.emitSwitchToCreateStatus();
-                    }
-
-                    if (self.deleteStatue) {
-                        /**
-                         * 刪除成功
-                         * 1.取下一筆
-                         * 2.無下一筆時取datagrid 最後一筆
-                         * 3.連一筆都沒有關掉dialog 回多筆
-                         **/
-                        if ($("#dg").datagrid('getRows').length > 0) {
-                            self.editingRow = targetRowAfterDelete;
-                            self.emitFetchSingleData();
-                        } else {
-                            //連一筆都沒有就關掉視窗
+                //先驗證有無欄位沒驗證過的
+                this.$emit('do-save-cud', function (success) {
+                    if (success) {
+                        //儲存後離開
+                        if (saveAfterAction == "closeDialog") {
+                            self.singleData = {};
                             self.emitCloseGridDialog();
                         }
+                        //新增完再新增另一筆
+                        else if (saveAfterAction == "addOther") {
+                            self.singleData = {};
+                            self.emitSwitchToCreateStatus();
+                        }
+
+                        if (self.deleteStatue) {
+                            /**
+                             * 刪除成功
+                             * 1.取下一筆
+                             * 2.無下一筆時取datagrid 最後一筆
+                             * 3.連一筆都沒有關掉dialog 回多筆
+                             **/
+                            if ($("#dg").datagrid('getRows').length > 0) {
+                                self.editingRow = targetRowAfterDelete;
+                                self.emitFetchSingleData();
+                            } else {
+                                //連一筆都沒有就關掉視窗
+                                self.emitCloseGridDialog();
+                            }
+
+                        }
+
 
                     }
-
-
-                }
-            });
-
+                });
+            }
 
         },
         /**  DT Data grid event**/
@@ -323,7 +322,22 @@ Vue.component('sigle-grid-dialog-tmp', {
             this.$emit("combine-field", this.pageTwoGridFieldData, function (columns) {
                 columnsData = columns;
             });
+            var hasMultiLangField = _.filter(this.pageTwoGridFieldData, function (field) {
+                return field.multi_lang_table != ""
+            }).length > 0 ? true : false;
+            if (hasMultiLangField) {
+                columnsData.push({
+                    type: 'textbox',
+                    title: "Multi Lang",
+                    field: "langAction",
+                    align: "center",
+                    width: 70,
+                    formatter: function (value, row, index) {
+                        return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>'
+                    }
 
+                });
+            }
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [columnsData],
@@ -390,7 +404,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //新增一個Dt Row
         appendDtRow: function () {
-
+            var self = this;
             if (this.endDtEditing()) {
                 $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
 
@@ -399,9 +413,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                         prgDefaultObj = result.prgDefaultObj;
                     }
                     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
-                    this.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
-                    $("#dt_dg").datagrid('selectRow', this.dtEditIndex)
-                        .datagrid('beginEdit', this.dtEditIndex);
+                    self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
+                    $("#dt_dg").datagrid('selectRow', self.dtEditIndex)
+                        .datagrid('beginEdit', self.dtEditIndex);
                 })
 
             }
@@ -472,7 +486,7 @@ vm = new Vue({
         },
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
-        dtData:[]
+        dtData: []
     },
     watch: {
         pageTwoFieldData: function (newObj, oldObj) {
@@ -605,16 +619,7 @@ vm = new Vue({
 
         //根據欄位屬性組資料
         combineField: function (fieldData, callback) {
-            var columnsData = [];
-
-            _.each(fieldData, function (field) {
-                //決定欄位是否顯示
-                if (field.visiable == "Y") {
-                    columnsData.push(EZfieldClass.fieldConvEzAttr(field));
-                }
-            });
-
-            callback(columnsData);
+            callback(EZfieldClass.combineFieldOption(fieldData));
         },
         //dg row刪除
         removeRow: function () {
@@ -705,9 +710,7 @@ vm = new Vue({
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
                     vm.dtData = dtData;
-                    if (dtData.length > 0) {
-                        vmHub.$emit('showDtDataGrid', dtData);
-                    }
+                    vmHub.$emit('showDtDataGrid', dtData);
                     callback(true);
                 } else {
                     vm.singleData = {};
@@ -721,10 +724,11 @@ vm = new Vue({
 
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
-            if(this.dtData.length > 0){
+            if(this.pageTwoGridFieldData.length > 0){
                 //加上 dt 高度
-                height += this.dtData.length * 60;
+                height += ( this.dtData.length * 35 ) + 130;
             }
+
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
@@ -737,7 +741,7 @@ vm = new Vue({
             });
             dialog.dialog("open");
             // 給 dialog "內容"高 值
-            $(".singleGridContent").css("height", _.min([maxHeight, height])+20 );
+            $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
         //關閉單檔dialog
         closeSingleGridDialog: function () {

@@ -221,7 +221,7 @@
 	"PMS0810130_name": "前檯訂房分析",
 	"PMS0810140_name": "FOC",
 	"PMS0810150_name": "訂房類別",
-	"PMS0810160_name": "州別",
+	"PMS0810160_name": "訂房取消原因設定",
 	"PMS0810170_name": "假日類別",
 	"PMS0810200_name": "交辦事項",
 	"table_in_use": "Table in use (%s)",
@@ -232,7 +232,11 @@
 		"Modify": "Modify",
 		"Delete": "Delete",
 		"Search": "Search",
-        "business": "Business"
+        "business": "Business",
+		"Next": "Next",
+		"Previous": "Previous",
+		"First": "First",
+		"Last": "Last"
 	},
 	"Validation": {
 		"Formatter": {
