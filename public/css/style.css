@@ -1842,47 +1842,47 @@ a {
   margin: 0 0 5px;
 }
 
-/* line 127, ../sass/modules/_public.sass */
+/* line 126, ../sass/modules/_public.sass */
 .input_sta_required {
   background-color: #c6f2d9 !important;
   /* (186, 242, 234) */
 }
 
-/* line 131, ../sass/modules/_public.sass */
+/* line 130, ../sass/modules/_public.sass */
 .input-medium.medium-c1 {
   width: 165px;
   height: 25px;
 }
 
-/* line 134, ../sass/modules/_public.sass */
+/* line 133, ../sass/modules/_public.sass */
 .input-h35 {
   height: 25px !important;
 }
 
-/* line 137, ../sass/modules/_public.sass */
+/* line 136, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 142, ../sass/modules/_public.sass */
+/* line 141, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 145, ../sass/modules/_public.sass */
+/* line 144, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 148, ../sass/modules/_public.sass */
+/* line 147, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 152, ../sass/modules/_public.sass */
+/* line 151, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -1890,7 +1890,7 @@ a {
   position: absolute;
 }
 
-/* line 158, ../sass/modules/_public.sass */
+/* line 157, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 1.17em;
@@ -1900,21 +1900,21 @@ a {
   font-weight: bold;
 }
 
-/* line 169, ../sass/modules/_public.sass */
+/* line 168, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 176, ../sass/modules/_public.sass */
+/* line 175, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"] {
   border-radius: 5px !important;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 182, ../sass/modules/_public.sass */
+  /* line 181, ../sass/modules/_public.sass */
   .input-medium.medium-c1 {
     width: 120px;
   }

@@ -5,7 +5,7 @@
         border-collapse: collapse;
     }
     .langTable thead{
-        background: #AAAAAA;
+        background: #f5f5f5;
     }
     .langTable tr:nth-child(even){
         background: #f8f8f8;
@@ -17,7 +17,8 @@
     .langTable td, th{
         text-align: left;
         padding: 8px;
-        border: 1px solid #ccc;
+        /*border: 1px solid #ccc;*/
+        border: 1px solid #95B8E7;
     }
 </style>
 <script type="text/x-template" id="fieldMultiLangDialogTmp">
@@ -28,7 +29,7 @@
                 <th v-for="locale in sys_locales">{{locale.name}}</th>
             </thead>
             <tbody>
-            <tr >
+            <tr>
                 <td v-for="locale in sys_locales">
                     <input value="{{multiLangContentList | filterLocaleContent locale.lang editingMultiLangFieldName}}" >
                 </td>
