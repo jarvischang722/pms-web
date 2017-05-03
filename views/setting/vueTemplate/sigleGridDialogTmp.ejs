@@ -3,9 +3,9 @@
     <!--<div>Time:{{testTime}}</div>-->
     <!--<mz-datepicker :time.sync="testTime"  format="yyyy/MM/dd"></mz-datepicker>-->
     <div id="singleGridDialog" v-show="false">
-        <div class="col-sm-12 col-xs-12">
+        <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
-                <div class="col-sm-12 col-xs-12 singleGridContent">
+                <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
                     <form id="singleDataForm" method="post">
                         <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
@@ -23,6 +23,7 @@
                                           display: inline-block; min-width: 15px;">:</span>
 
                                     <!--  text & number -->
+                                    <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
                                            @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
                                            v-if="field.visiable == 'Y' &&
