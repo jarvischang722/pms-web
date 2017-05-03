@@ -412,5 +412,7 @@ var vm = new Vue({
 
 //打開多語視窗
 function editFieldMultiLang(rowIdx) {
-    vm.editFieldMultiLang(rowIdx);
+    if(this.endEditing()){
+        vm.editFieldMultiLang(rowIdx);
+    }
 }
