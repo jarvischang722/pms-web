@@ -1,0 +1,9 @@
+<script>
+    var go_i18nLang = {};
+    $.post("/api/getLocaleContent",function(result){
+        if(result.success){
+            go_i18nLang = result.localeContent;
+            console.log(go_i18nLang);
+        }
+    });
+</script>

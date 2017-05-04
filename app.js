@@ -122,7 +122,7 @@ app.use(function (req, res, next) {
         //signed: true // Indicates if the cookie should be signed
     };
     var localeInfo = [
-        {lang: 'en', sort: 1, name: 'english'},
+        {lang: 'en', sort: 1, name: 'English'},
         {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')}
     ];
     res.cookie('sys_locales', localeInfo, options);
