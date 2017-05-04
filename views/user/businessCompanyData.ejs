@@ -224,6 +224,22 @@
                                                                                     <label>信用額度餘額</label>
                                                                                     <input type="number" class="input-medium medium-c1" disabled="disabled" placeholder="476544"/>
                                                                                 </div>
+                                                                                <div class="grid-item tab-block">
+                                                                                    <label>公司關係別</label>
+                                                                                    <select class="input-medium medium-c1">
+                                                                                        <option value="-1">公司關係別</option>
+                                                                                        <option value="1">1-關係</option>
+                                                                                        <option value="2">2-非關係</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="grid-item tab-block">
+                                                                                    <label>應收帳別</label>
+                                                                                    <select class="input-medium medium-c1">
+                                                                                        <option value="-1">應收帳別</option>
+                                                                                        <option value="1">Ｎ:一般</option>
+                                                                                        <option value="2">Ｓ:非一般</option>
+                                                                                    </select>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -312,28 +328,46 @@
                                                                                                 <div class="grid">
                                                                                                     <div class="tab-block grid-item">
                                                                                                         <label>郵遞區號</label>
-                                                                                                        <input type="text" class="input-medium medium-c1" placeholder="104台北市中山區"/>
+
+                                                                                                        <select class="input-medium medium-c1">
+                                                                                                            <option value="-1">郵遞區號</option>
+                                                                                                            <option value="1">10211:台北市中山區</option>
+                                                                                                            <option value="2">10222:台北市中山區</option>
+                                                                                                            <option value="3">10323:台北市中山區</option>
+                                                                                                            <option value="4">10423:台北市中山區</option>
+                                                                                                            <option value="5">10543:台北市中山區</option>
+                                                                                                        </select>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="grid">
                                                                                                     <div class="tab-block grid-item">
-                                                                                                        <label>完整地址</label>
-                                                                                                        <input type="text" class="input-xxlarge input-h35" disabled="disabled" placeholder="104台北市中山區松江路309號8樓"/>
+                                                                                                        <label class="pull-left">地址</label>
+                                                                                                        <textarea class="input-xxlarge pull-left textArea-float" rows="4"></textarea>
+                                                                                                        <div class="clearfix"></div>
+                                                                                                        <!--<input type="text" class="input-xxlarge input-h35" disabled="disabled" placeholder="104台北市中山區松江路309號8樓"/>-->
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
 
                                                                                             <div id="billAddress" class="tab-pane">
-                                                                                                <<div class="grid">
+                                                                                                <div class="grid">
                                                                                                     <div class="tab-block grid-item">
                                                                                                         <label>郵遞區號</label>
-                                                                                                        <input type="text" class="input-medium medium-c1" placeholder="104台北市中山區"/>
+                                                                                                        <select class="input-medium medium-c1">
+                                                                                                            <option value="-1">郵遞區號</option>
+                                                                                                            <option value="1">10211:台北市中山區</option>
+                                                                                                            <option value="2">10222:台北市中山區</option>
+                                                                                                            <option value="3">10323:台北市中山區</option>
+                                                                                                            <option value="4">10423:台北市中山區</option>
+                                                                                                            <option value="5">10543:台北市中山區</option>
+                                                                                                        </select>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="grid">
                                                                                                     <div class="tab-block grid-item">
-                                                                                                        <label>完整地址</label>
-                                                                                                        <input type="text" class="input-xxlarge input-h35" disabled="disabled" placeholder="104台北市中山區松江路309號8樓"/>
+                                                                                                        <label class="pull-left">地址</label>
+                                                                                                        <textarea class="input-xxlarge pull-left textArea-float" rows="4"></textarea>
+                                                                                                        <div class="clearfix"></div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -867,6 +901,22 @@
                                                 <label>信用額度餘額</label>
                                                 <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="123"/>
                                             </div>
+                                            <div class="grid-item tab-block">
+                                                <label>公司關係別</label>
+                                                <select class="input-medium medium-c1">
+                                                    <option value="-1">公司關係別</option>
+                                                    <option value="1">1-關係</option>
+                                                    <option value="2">2-非關係</option>
+                                                </select>
+                                            </div>
+                                            <div class="grid-item tab-block">
+                                                <label>應收帳別</label>
+                                                <select class="input-medium medium-c1">
+                                                    <option value="-1">應收帳別</option>
+                                                    <option value="1">Ｎ:一般</option>
+                                                    <option value="2">Ｓ:非一般</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1021,7 +1071,9 @@
                                                     </div>
                                                     <div class="tab-block grid-item dateBox-custom1">
                                                         <label>預定拜訪日</label>
-                                                        <input class="easyui-datebox input-medium medium-c1">
+                                                        <!--<input class="easyui-datebox input-medium medium-c1">-->
+                                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass" type="date" required="">
+
                                                     </div>
                                                     <div class="tab-block grid-item">
                                                         <label>拜訪狀態</label>
@@ -1115,7 +1167,7 @@
                                                         <div class="tab-block marginB-c1">
                                                             <!--<label>備註內容</label>-->
                                                             <!--<input type="text" class="input-medium medium-c1" />-->
-                                                            <textarea class="form-control" rows="4" placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成難用"></textarea>
+                                                            <textarea class="form-control" rows="4" placeholder="黃董事長住宿一定要高樓層並要有兩顆硬枕頭，夫人不要女用浴袍要換成男用"></textarea>
                                                         </div>
                                                         <div class="clearfix"></div>
 
@@ -1233,7 +1285,7 @@
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
-                responsive: true
+                resizable: true
             });
         });
 
@@ -1242,14 +1294,18 @@
             e.preventDefault();
             var dialog = $("#bs-company-visitRecord-message").removeClass('hide').dialog({
                 modal: true,
+                autoOpen: false,
                 title: "修改拜訪紀錄",
                 title_html: true,
-                width: 500,
+                width: 800,
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
-                responsive: true
+                resizable: true
+//                responsive: true
             });
+
+
         });
 
         // 彈出 其他備註 多筆
@@ -1263,7 +1319,7 @@
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
-                responsive: true
+                resizable: true
             });
         });
 

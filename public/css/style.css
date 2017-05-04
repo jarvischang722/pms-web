@@ -83,39 +83,43 @@ table {
 .grid-item select {
   border-radius: 0;
 }
-
 /* line 20, ../sass/vendor/_grid.sass */
+.grid-item .textArea-float {
+  margin-left: 5px;
+}
+
+/* line 22, ../sass/vendor/_grid.sass */
 .grid-item-input {
   width: 100px;
   height: 50px;
 }
 
-/* line 24, ../sass/vendor/_grid.sass */
+/* line 26, ../sass/vendor/_grid.sass */
 .grid-item--width2 {
   width: 320px;
 }
 
-/* line 27, ../sass/vendor/_grid.sass */
+/* line 29, ../sass/vendor/_grid.sass */
 .grid-item--width3 {
   width: 480px;
 }
 
-/* line 30, ../sass/vendor/_grid.sass */
+/* line 32, ../sass/vendor/_grid.sass */
 .grid-item--width4 {
   width: 640px;
 }
 
-/* line 33, ../sass/vendor/_grid.sass */
+/* line 35, ../sass/vendor/_grid.sass */
 .grid-item--height2 {
   height: 200px;
 }
 
-/* line 36, ../sass/vendor/_grid.sass */
+/* line 38, ../sass/vendor/_grid.sass */
 .grid-item--height3 {
   height: 260px;
 }
 
-/* line 39, ../sass/vendor/_grid.sass */
+/* line 41, ../sass/vendor/_grid.sass */
 .grid-item--height4 {
   height: 360px;
 }
@@ -348,70 +352,70 @@ select.form-control {
   border-radius: 0;
 }
 
-/* line 105, ../sass/editDefault/_editBootstrap.sass */
+/* line 104, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 107, ../sass/editDefault/_editBootstrap.sass */
+/* line 106, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 111, ../sass/editDefault/_editBootstrap.sass */
+/* line 110, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 114, ../sass/editDefault/_editBootstrap.sass */
+/* line 113, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 118, ../sass/editDefault/_editBootstrap.sass */
+/* line 117, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 122, ../sass/editDefault/_editBootstrap.sass */
+/* line 121, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 125, ../sass/editDefault/_editBootstrap.sass */
+/* line 124, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 128, ../sass/editDefault/_editBootstrap.sass */
+/* line 127, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
 }
 
-/* line 132, ../sass/editDefault/_editBootstrap.sass */
+/* line 131, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 {
   padding: 10px 5px;
 }
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 133, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 a {
   padding-right: 5px;
   padding-left: 5px;
 }
 
-/* line 140, ../sass/editDefault/_editBootstrap.sass */
+/* line 139, ../sass/editDefault/_editBootstrap.sass */
 .btn-white.btn-primary[disabled]:hover {
   background-color: transparent !important;
 }
 
-/* line 144, ../sass/editDefault/_editBootstrap.sass */
+/* line 143, ../sass/editDefault/_editBootstrap.sass */
 .input-medium {
   height: 25px;
 }
 
 @media screen and (max-width: 992px) {
-  /* line 149, ../sass/editDefault/_editBootstrap.sass */
+  /* line 148, ../sass/editDefault/_editBootstrap.sass */
   .top-sec-ul {
     z-index: 1024;
     padding-top: 50px;
@@ -1422,7 +1426,7 @@ a {
 }
 /* line 483, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block.billCheckbox .checkbox {
-  margin: 6px auto 0 auto;
+  margin: 2px auto 0 auto;
 }
 /* line 485, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block.billCheckbox .checkbox label {
