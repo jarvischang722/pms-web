@@ -23,6 +23,7 @@
                                           display: inline-block; min-width: 15px;">:</span>
 
                                     <!--  text & number -->
+                                    <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
                                            @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
                                            v-if="field.visiable == 'Y' &&

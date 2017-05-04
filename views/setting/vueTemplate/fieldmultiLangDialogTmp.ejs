@@ -17,7 +17,8 @@
     .langTable td, th{
         text-align: left;
         padding: 8px;
-        border: 1px solid #ccc;
+        /*border: 1px solid #ccc;*/
+        border: 1px solid #95B8E7;
     }
 </style>
 <script type="text/x-template" id="fieldMultiLangDialogTmp">
@@ -26,10 +27,8 @@
         <table class="langTable" style="margin-top: 20px" align="center">
 
             <tbody>
-            <tr v-for="locale in sys_locales">
-                <td >  {{locale.name}} </td >
-
-                <td >
+            <tr >
+                <td v-for="locale in sys_locales">
                     <input v-model="fieldMultiLang[locale.lang][editingLangField]" data-locale="{{locale.lang}}" :id="editingLangField" value="{{multiLangContentList | filterLocaleContent locale.lang editingLangField}}" class="multi_lang_input" >
                 </td>
             </tr>

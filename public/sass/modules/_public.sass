@@ -9,6 +9,8 @@
   padding-left: 0
 .no-padding-right
   padding-right: 0
+.padding-5
+  padding: 5px
 .no-margin
   margin: 0 !important
 .no-margin-top
@@ -22,6 +24,17 @@
 //border: none
 .height60
   height: 60px
+
+// width
+.width-5
+  width: 5% !important
+.width-10
+  width: 10% !important
+.width-15
+  width: 15% !important
+.width-20
+  width: 20% !important
+
 .pointer
   cursor: pointer
 .notice
@@ -109,7 +122,6 @@ a
   min-height: 1px
   overflow: hidden
   margin: 0 0 5px
-
 // custom
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
@@ -135,12 +147,35 @@ a
 .margin-spacing-3
   margin: 3px auto
 //**
-   **Jun
+   **Jun css
 .multiLangDGPosition
   width: 80%
   top: 30%
   left: 10%
   position: absolute
+
+.prg_idLbH3
+  display: block
+  font-size: 1.17em
+  //margin-top: 1em
+  margin-bottom: 1em
+  margin-left: 0
+  margin-right: 0
+  font-weight: bold
+
+// number spinner 消失
+input.numStyle-none
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button
+    -moz-appearance: none
+    -webkit-appearance: none
+    margin: 0
+
+// input border-radius
+input[type="text"],
+input[type="number"]
+  border-radius: 5px !important
+
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .input-medium
     &.medium-c1
