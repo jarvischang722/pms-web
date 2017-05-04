@@ -1923,4 +1923,9 @@ input[type="number"] {
     width: 120px;
   }
 }
+/* line 190, ../sass/modules/_public.sass */
+.gritter-item-wrapper.gritter-info {
+  background-color: #438eb9;
+}
+
 /*-------------- responsive -------------- */
