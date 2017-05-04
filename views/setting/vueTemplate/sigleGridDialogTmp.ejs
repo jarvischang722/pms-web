@@ -32,6 +32,7 @@
                                              ( (field.ui_type == 'date' || field.ui_type == 'datetime' )
                                              &&  field.modificable == 'N'))"
                                            :type="field.ui_type"
+                                           class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :required="field.requirable == 'Y'"
