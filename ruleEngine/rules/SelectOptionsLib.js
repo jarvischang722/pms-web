@@ -112,6 +112,18 @@ exports.PrintRcardList = function () {
     return Rcard;
 };
 
+/**
+ * checkbox是否使用
+ * @returns
+ */
+exports.checkStaList = function () {
+    var checkList = {
+        on:'Y',
+        off:'N'
+    };
+
+    return checkList;
+};
 
 
 //TODO 將搬到 [程式編碼]Rule裡
@@ -214,5 +226,24 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
 exports.getGuestgrprfUseStaList = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null,lo_result);
+};
+
+/**
+ * 住客帳調整原因bincome
+ */
+exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
+
+
+/**
+ * 住客帳調整原因cancel
+ */
+exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
     callback(null,lo_result);
 };

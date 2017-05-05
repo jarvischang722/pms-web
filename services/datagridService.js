@@ -196,7 +196,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
 
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
-                if (field.ui_type == 'select' || field.ui_type == 'multiselect') {
+                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type =='checkbox') {
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({

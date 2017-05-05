@@ -35,6 +35,8 @@ var EZfieldClass = {
             dataType = 'combobox';
         } else if (fieldAttrObj.ui_type == "multiselect") {
             dataType = 'combobox';
+        } else if (fieldAttrObj.ui_type == "checkbox") {
+            dataType = 'checkbox';
         }
 
         var tmpFieldObj = {
@@ -60,6 +62,11 @@ var EZfieldClass = {
         if (fieldAttrObj.ui_type != "select")    //combobox因text內容有長有短，所以排除此長度驗證
             tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
 
+        //checkbox
+        if(fieldAttrObj.ui_type == "checkbox"){
+            //tmpFieldObj.editor.options.push( fieldAttrObj.selectData);
+            tmpFieldObj.editor.options =  fieldAttrObj.selectData;
+        }
 
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
         tmpFieldObj.ui_field_num_point = fieldAttrObj.ui_field_num_point;
@@ -118,6 +125,16 @@ var EZfieldClass = {
 
             tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
                 gb_onceEffectFlag = true;
+            }
+        }else if(dataType == "checkbox"){
+            tmpFieldObj.formatter = function (val,row,index) {
+                var fieldName ="";
+                // _.each(fieldAttrObj.selectData,function (field) {
+                //     fieldName = field == 'Y' ? "使用" : "不使用";
+                //    return fieldName;
+                // })
+                fieldName = val == 'Y' ? "使用" : "不使用";
+                return fieldName;
             }
         }
 
