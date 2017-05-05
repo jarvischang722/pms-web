@@ -1,43 +1,7 @@
-<style>
-    select {
-        color: #000000 !important;
-    }
-
-    input {
-        color: #000000 !important;
-    }
-
-    body {
-        background-color: #ffffff;
-    }
-
-    .input_sta_required {
-        /*background-color: rgb(100, 218, 141) !important;*/
-        background-color: rgb(198, 242, 217) !important;  /* (186, 242, 234) */
-    }
-
-    .input_sta_readonly {
-        background-color: #dadada !important;
-    }
-
-    .btnUnable {
-        background-color: #d2d2d2 !important;
-        border-color: #d2d2d2 !important;
-    }
-
-    /* ---- grid ---- */
-
-
-    /* ---- grid-item ---- */
-   /**/
-    /*.input {*/
-        /*height: 50px;*/
-    /*}*/
-
-</style>
+<link rel="stylesheet" href="/css/setup/gridSingle.css">
 <script>
-    $(document).ready(function(){
-        $.ajaxSetup({ cache: false });
+    $(document).ready(function () {
+        $.ajaxSetup({cache: false});
     });
 </script>
 <div id="app">
@@ -82,13 +46,17 @@
                             <li>
                                 <button id="ins-btn" @click="switchToCreateStatus"
                                         class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button"><%= __("program")["PMS0810010"]["btn_insert"] %> </button>
+                                        role="button">
+                                    <%= __("SystemCommon").Add %>
+                                </button>
                             </li>
 
                             <li>
                                 <button id="remove-btn" @click="removeRow"
                                         class="btn btn-danger btn-white btn-defaultWidth"
-                                        role="button"><%= __("program")["PMS0810010"]["btn_delete"] %></button>
+                                        role="button">
+                                    <%= __("SystemCommon").Delete %>
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -102,10 +70,10 @@
             @switch-to-create-status="switchToCreateStatus"
             @fetch-single-data="fetchSingleData"
             @do-save-cud="doSaveCUD"
-            @combine-field = "combineField"
+            @combine-field="combineField"
             :single-data="singleData"
             :page-two-field-data="pageTwoFieldData"
-            :page-two-grid-field-data = "pageTwoGridFieldData"
+            :page-two-grid-field-data="pageTwoGridFieldData"
             :create-status="createStatus"
             :edit-status="editStatus"
             :delete-status="deleteStatus"
@@ -115,11 +83,23 @@
             :modificable-for-data="modificableForData">
     </sigle-grid-dialog-tmp>
 
-    <field-multi-lang-dialog-tmp :sys_locales="sys_locales"   :single-data="singleData" ></field-multi-lang-dialog-tmp>
+    <field-multi-lang-dialog-tmp
+            :sys_locales="sys_locales"
+            :single-data="singleData">
+    </field-multi-lang-dialog-tmp>
+
+    <multi-lang-dialog-tmp
+            @update-multi-lang-dg="updateMultiLangDG"
+            @end-multi-lang-editing="endMultiLangEditing"
+            @temp-exec-data="tempExecData"
+            :sys_locales="sys_locales"
+            :dt-multi-lang-field="dtMultiLangField">
+    </multi-lang-dialog-tmp>
 </div>
 
 <!-- settingSingleDialog-message 彈出視窗 -->
 <%- include ./vueTemplate/sigleGridDialogTmp.ejs %>
-<%- include ./vueTemplate/fieldmultiLangDialogTmp.ejs%>
+<%- include ./vueTemplate/fieldmultiLangDialogTmp.ejs %>
+<%- include ./vueTemplate/multiLangDialogTmp.ejs %>
 <script src="/js/setup/gridSingle.js"></script>
 <script src="/js/vue/vue_datepicker.js"></script>

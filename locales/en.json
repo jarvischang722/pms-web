@@ -232,13 +232,18 @@
     "Modify": "Modify",
     "Delete": "Delete",
     "Search": "Search",
+    "Save": "Save",
     "business": "Business",
     "Next": "Next",
     "Previous": "Previous",
     "First": "First",
     "Last": "Last",
+    "Add_after_save":"Add after save",
+    "Leave_after_save":"Leave after save",
+    "Leave":"Leave",
     "Login": "Login",
-    "Logout": "Logout"
+    "Logout": "Logout",
+    "Loading": "Loading"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. "

@@ -232,13 +232,18 @@
 		"Modify": "修改",
 		"Delete": "刪除",
 		"Search": "查詢",
+		"Save": "儲存",
 		"business": "業務",
 		"Next": "下一筆",
 		"Previous": "前一筆",
 		"First": "第一筆",
 		"Last": "最後一筆",
+		"Add_after_save":"儲存後繼續新增",
+		"Leave_after_save":"儲存後離開",
+		"Leave":"離開",
 		"Login": "登入",
-		"Logout": "登出"
+		"Logout": "登出",
+		"Loading": "讀取中"
 	},
 	"SystemWarn": {
 		"Idle_auto_logout": "您閒置時間過長，請重新登錄"

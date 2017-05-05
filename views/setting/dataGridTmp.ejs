@@ -1,29 +1,3 @@
-<style>
-    body {
-        background-color: #ffffff;
-    }
-
-    .icon-toggle {
-        background: url('../images/icon/14.png');
-        repeat: no-repeat;
-        background-size: 100% 100%;
-    }
-
-    .icon-toggle2 {
-        background: url('../images/icon/14-1.png');
-        repeat: no-repeat;
-        background-size: 100% 100%;
-    }
-
-    .icon-toggle3 {
-        background: url('../images/icon/14-2.png');
-        repeat: no-repeat;
-        background-size: 100% 100%;
-    }
-
-
-
-</style>
 <div id="DGApp">
     <div class="col-xs-12">
         <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -55,18 +29,24 @@
                         <li>
                             <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="appendRow"
-                                    role="button"><%= __("program")["PMS0810010"]["btn_insert"] %></button>
+                                    role="button">
+                                <%= __("SystemCommon").Add %>
+                            </button>
                         </li>
                         <li>
                             <button id="remove-btn" :disabled="saving"
                                     class="btn btn-danger btn-white btn-defaultWidth"
                                     @click="removeRow();"
-                                    role="button"><%= __("program")["PMS0810010"]["btn_delete"] %></button>
+                                    role="button">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
                         </li>
                         <li>
                             <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="doSave();"
-                                    role="button"><%= __("program")["PMS0810010"]["btn_save"] %></button>
+                                    role="button">
+                                <%= __("SystemCommon").Save %>
+                            </button>
                         </li>
                     </ul>
                 </div>
