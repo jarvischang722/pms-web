@@ -202,6 +202,14 @@
 			"upd_dat": "Modified Date",
 			"upd_usr": "Modified By"
 		},
+		"PMS0860050": {
+			"visit_typ": "Visit Code",
+			"visit_nam": "Visit Name",
+			"ins_dat": "Added Date",
+			"ins_usr": "Added By",
+			"upd_dat": "Modified Date",
+			"upd_usr": "Modified By"
+		},
 		"PMS0830060": {
 			"remark_cod": "Reason Code",
 			"remark_nam": "Reason",
@@ -235,6 +243,7 @@
 	"PMS0810170_name": "假日類別",
 	"PMS0810200_name": "交辦事項",
 	"PMS0830060_name": "住客帳調整原因設定",
+	"PMS0860050_name": "拜訪方式設定",
 	"table_in_use": "Table in use (%s)",
 	"SystemCommon": {
 		"OK": "OK",
