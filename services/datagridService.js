@@ -255,7 +255,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
  * @param fieldOptions
  * @param callback
  */
-exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) {
+exports.doSaveFieldOption = function (prg_id, page_id,userInfo, fieldOptions, callback) {
     var saveFuncs = [];
 
     _.each(fieldOptions, function (field) {
@@ -268,7 +268,8 @@ exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) 
                     user_id: userInfo.usr_id.trim(),
                     athena_id: userInfo.athena_id,
                     ui_field_name: field.ui_field_name.trim(),
-                    prg_id: prg_id
+                    prg_id: prg_id,
+                    page_id: Number(page_id)
                 }).exec(function (err, userField) {
 
                     if (err) {
@@ -280,13 +281,15 @@ exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) 
                     field.athena_id = userInfo.athena_id;
                     field.prg_id = prg_id.trim();
 
+
                     if (userField) {
                         //更新
                         mongoAgent.UIDatagridField.update({
                                 user_id: userInfo.usr_id.trim(),
                                 athena_id: userInfo.athena_id,
                                 ui_field_name: field.ui_field_name.trim(),
-                                prg_id: prg_id
+                                prg_id: prg_id,
+                                page_id: Number(page_id)
                             }
                             , field, function (err) {
                                 if (err) {

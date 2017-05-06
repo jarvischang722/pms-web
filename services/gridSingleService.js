@@ -75,18 +75,35 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
 
             if (ln_grid_field_idx > -1) {
                 var lo_grid_field = la_fields[ln_grid_field_idx];
+
                 mongoAgent.UIDatagridField.find({
                     prg_id: prg_id,
-                    page_id: page_id,
+                    user_id: userInfo.usr_id,
+                    athena_id: userInfo.athena_id,
+                    page_id: Number(page_id),
                     grid_field_name: lo_grid_field.ui_field_name
-                }, function (err, fields) {
-                    if (!err && fields) {
+                }).sort({col_seq: 1}).exec(function (err, fields) {
+                    if (err || fields.length == 0) {
+                        mongoAgent.UIDatagridField.find({
+                            user_id: "",
+                            athena_id: "",
+                            prg_id: prg_id,
+                            page_id: page_id
+                        }).sort({col_seq: 1}).exec(function (err, commonFields) {
+                            lo_grid_field.datagridFields = tools.mongoDocToObject(commonFields);
+                            _.each(lo_grid_field.datagridFields, function (field, fIdx) {
+                                lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
+                            });
+                            callback(err, commonFields)
+                        })
+                    } else {
                         lo_grid_field.datagridFields = tools.mongoDocToObject(fields);
                         _.each(lo_grid_field.datagridFields, function (field, fIdx) {
                             lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-                        })
+                        });
                         callback(err, fields);
                     }
+
                 })
             } else {
                 callback(null, 'grid');
@@ -453,11 +470,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
 
                     _.each(Object.keys(data), function (objKey) {
-                        var value = data[objKey];
-                        if (typeof data[objKey] === 'string') {
-                            data[objKey] = data[objKey].trim();
+                        if (!_.isUndefined(data[objKey])) {
+                            var value = data[objKey];
+                            if (typeof data[objKey] === 'string') {
+                                data[objKey] = data[objKey].trim();
+                            }
+                            tmpIns[objKey] = value;
                         }
-                        tmpIns[objKey] = value;
                     });
                     tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                     savaExecDatas[exec_seq] = tmpIns;
@@ -524,7 +543,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 _.each(editData, function (data) {
                     var tmpEdit = {"function": "2", "table_name": mainTableName}; //2  編輯
                     _.each(Object.keys(data), function (objKey) {
-                        tmpEdit[objKey] = data[objKey];
+                        if (!_.isUndefined(data[objKey])) {
+                            tmpEdit[objKey] = data[objKey];
+                        }
                     });
                     var lo_keysData = {};
                     tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
@@ -652,11 +673,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 delete data["mnRowData"];
 
                 _.each(Object.keys(data), function (objKey) {
-                    var value = data[objKey];
-                    if (typeof data[objKey] === 'string') {
-                        data[objKey] = data[objKey].trim();
+                    if (!_.isUndefined(data[objKey])) {
+                        var value = data[objKey];
+                        if (typeof data[objKey] === 'string') {
+                            data[objKey] = data[objKey].trim();
+                        }
+                        tmpIns[objKey] = value;
                     }
-                    tmpIns[objKey] = value;
                 });
 
                 //塞入mn pk
@@ -677,7 +700,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 delete data["mnRowData"];
 
                 _.each(Object.keys(data), function (objKey) {
-                    tmpEdit[objKey] = data[objKey].trim();
+                    var objValue = data[objKey];
+                    if (!_.isUndefined(data[objKey]) && typeof objValue === "string"  ) {
+                        tmpEdit[objKey] = objValue.trim();
+                    }
+                    tmpEdit[objKey] = objValue;
                 });
 
                 //塞入mn pk

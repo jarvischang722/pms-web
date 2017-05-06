@@ -47,8 +47,9 @@ exports.prgDataGridDataQuery = function(req,res){
 exports.saveFieldOptionByUser =  function(req, res){
     var fieldOptions = req.body["fieldOptions"];
     var prg_id = req.body["prg_id"];
+    var page_id = req.body["page_id"] || 1;
 
-    datagridSVC.doSaveFieldOption(prg_id,req.session.user,fieldOptions,function(err,success){
+    datagridSVC.doSaveFieldOption(prg_id,page_id,req.session.user,fieldOptions,function(err,success){
           var errorCode = '';
           if(err){
               errorCode = '1000';

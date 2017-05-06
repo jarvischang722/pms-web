@@ -249,6 +249,7 @@
                 $(".window-shadow").remove();
                 $(".window-mask").remove();
 
+                $("#multiLangDialogTmp").remove();
 
                 if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
                     $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
