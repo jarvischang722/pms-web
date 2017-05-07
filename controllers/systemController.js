@@ -67,3 +67,68 @@ exports.changeHotelCod = function (req, res) {
     })
 
 };
+
+/** 子系統 **/
+
+/**
+ * 訂房
+ */
+exports.reservation = function (req, res) {
+    res.render('subsystem/reservation');
+};
+
+/**
+ * 接待
+ */
+exports.reception = function (req, res) {
+    res.render('subsystem/reception');
+};
+
+/**
+ * 出納
+ */
+exports.cashier = function (req, res) {
+    res.render('subsystem/cashier');
+};
+
+/**
+ * 房務
+ */
+exports.housekeeping = function (req, res) {
+    res.render('subsystem/housekeeping');
+};
+
+/**
+ * 夜核
+ */
+exports.night_check = function (req, res) {
+    res.render('subsystem/night_check');
+};
+
+/**
+ * 業務
+ */
+exports.business = function (req, res) {
+    res.render('subsystem/business');
+};
+
+/**
+ * 報表
+ */
+exports.report = function (req, res) {
+    res.render('subsystem/report');
+};
+
+/**
+ * 設定
+ */
+exports.setup = function (req, res) {
+    res.render('subsystem/setup');
+};
+
+/**
+ * 自訂
+ */
+exports.customize_setup = function (req, res) {
+    res.render('subsystem/customize_setup');
+};
