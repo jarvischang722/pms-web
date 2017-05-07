@@ -271,7 +271,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             self.showDtDataGrid(dtDataGridRows)
         });
         vmHub.$on('tempExecData', function (row) {
-            console.log(row);
             self.tempExecData(row)
         });
 
@@ -544,7 +543,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             var saveField = [];
             var allField = $('#dt_dg').datagrid("getColumnFields");
-            console.log(allField);
+
             //過濾不用存的欄位
             allField = _.filter(allField, function (field) {
                 return field != 'langAction'
@@ -592,8 +591,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         appendDtRow: function () {
             var self = this;
             if (this.endDtEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
-
+                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
@@ -632,13 +630,13 @@ Vue.component('sigle-grid-dialog-tmp', {
             })
 
         },
-        //datagrid資料放入暫存
+        //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-
+            rowData["mnRowData"] = this.singleData;
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
                 ? "dt_createData" : "dt_editData";
-            var fieldDataList =  this.pageTwoDataGridFieldData;
+            var fieldDataList = this.pageTwoDataGridFieldData;
             var keyVals = _.pluck(_.where(fieldDataList, {keyable: 'Y'}), "ui_field_name");
             var condKey = {};
             _.each(keyVals, function (field_name) {
@@ -651,7 +649,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
 
             this.tmpCUD[dataType].push(rowData);
-            console.log(this.tmpCUD);
         }
     }
 });
@@ -877,7 +874,6 @@ vm = new Vue({
             console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
-                console.log(result);
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
@@ -994,7 +990,7 @@ vm = new Vue({
 
             $.post("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
-                page_id:1,
+                page_id: 1,
                 fieldOptions: saveField
             });
         }
