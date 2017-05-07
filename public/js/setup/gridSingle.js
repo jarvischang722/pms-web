@@ -115,7 +115,7 @@ Vue.component("multi-lang-dialog-tmp", {
         //寫入此筆編輯Row
         saveMultiLang: function () {
             if (this.endMultiLangEditing()) {
-                var selectIndex = $('#multiLangDG').datagrid("getRowIndex", $('#multiLangDG').datagrid("getSelected"));
+                var selectIndex = $('#dt_dg').datagrid("getRowIndex", $('#dt_dg').datagrid("getSelected"));
                 var multiLang = $("#multiLangDG").datagrid("getRows");
                 var updateRow = $('#dt_dg').datagrid("getSelected");
                 updateRow["multiLang"] = multiLang;
