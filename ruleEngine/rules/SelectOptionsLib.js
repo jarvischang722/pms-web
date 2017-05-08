@@ -113,6 +113,33 @@ exports.PrintRcardList = function () {
 };
 
 /**
+ * 取得FOC角色狀態
+ * @returns {Array}
+ */
+exports.getFocRfRoleStaList = function () {
+    var roleStaList = [
+        {
+            display: '房價最低',
+            value: '1'
+        },
+        {
+            display: '房間數最多的房種',
+            value: '2'
+        },
+        {
+            display: '指定房號',
+            value: '3'
+        },
+        {
+            display: '指定金額',
+            value: '4'
+        }
+    ];
+
+    return roleStaList;
+};
+
+/**
  * checkbox是否使用
  * @returns
  */
@@ -207,7 +234,7 @@ exports.qry_source_rf_use_sta = function (params,callback) {
  */
 exports.qry_foc_rf_role_sta_list = function (params,callback) {
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.UseStaList();
+    lo_result.selectOptions = optionsLib.getFocRfRoleStaList();
     callback(null,lo_result);
 };
 
