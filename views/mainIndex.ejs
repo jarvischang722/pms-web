@@ -5,11 +5,7 @@
 
 <body class="no-skin">
 <script>
-
-        location.href='/manageSetting';
-
-
-
+        location.href= getCookie("subsystem_first_url");
 </script>
 
 <!-- #section:basics/navbar.layout -->
@@ -54,7 +50,7 @@
             </div>
         </div><!-- /.sidebar-shortcuts -->
 
-        <%- include('common/moduleMenu',{}) %>
+        <%- include('common/moduleMenu',{module:''}) %>
 
 
         <!-- #section:basics/sidebar.layout.minimize -->

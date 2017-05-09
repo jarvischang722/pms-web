@@ -10,16 +10,16 @@
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../common/moduleMenu',{}) %>
+        <%-defineContent('moduleMenu')%>
     </div>
 
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../common/subsysMenu',{}) %>
-            <div class="page-content" id="mainContent">
+            <%-defineContent('subsysMenu')%>
+            <div class="page-content">
                 <!-- 主內容 -->
-                <h1>訂房</h1>
+                <%-defineContent('mainContent')%>
             </div>
         </div>
     </div><!-- /.main-content -->
@@ -32,5 +32,5 @@
 
 </body>
 
-
+<%- script %>
 </html>

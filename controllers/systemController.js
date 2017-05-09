@@ -109,7 +109,7 @@ exports.night_check = function (req, res) {
  * 業務
  */
 exports.business = function (req, res) {
-    res.render('subsystem/business');
+    res.render('subsystem/business/');
 };
 
 /**
@@ -123,7 +123,7 @@ exports.report = function (req, res) {
  * 設定
  */
 exports.setup = function (req, res) {
-    res.render('subsystem/setup');
+    res.render('subsystem/setup/index');
 };
 
 /**

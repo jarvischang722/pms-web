@@ -100,16 +100,18 @@ exports.selectSystem = function (req, res) {
                 req.session.user.sys_name_en = sysObj["sys_name_en"];
                 req.session.user.sys_name_zh_tw = sysObj["sys_name_zh_tw"];
                 roleFuncSvc.updateUserPurview(req, function (err) {
-                    res.json({success: err == null, errorMsg: err});
+                    var subsystem_first_url = '/setup/front_desk_conf#reservation_comparison';
+                    res.cookie('subsystem_first_url', subsystem_first_url);
+                    res.redirect(subsystem_first_url);  //TODO 導到可選第一個子系統
                 });
 
             })
         } else {
-            res.json({success: false, errorMsg: '未選擇系統別'});
+            res.send("Not found system!");
         }
 
     } catch (err) {
-        res.json({success: false, errorMsg: err});
+        res.send(err);
     }
 };
 
