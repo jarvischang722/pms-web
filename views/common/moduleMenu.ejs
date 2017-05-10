@@ -5,14 +5,12 @@
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
     </li>
-
     <li class="nav-height">
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
-                               <%= __("front_desk_conf") %>
-                            </span>
-
+                 <%= __("front_desk_conf") %>
+            </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
@@ -25,7 +23,6 @@
                     <i class="menu-icon fa fa-caret-right"></i>
                     <%= __("reserve_comparsion") %>
                 </a>
-
             </li>
             <% } %>
         </ul>

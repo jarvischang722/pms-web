@@ -10,13 +10,13 @@
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../../common/moduleMenu',{}) %>
+        <%- include('../../common/moduleMenu',{module:'setup'}) %>
     </div>
 
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../../common/subsysMenu',{}) %>
+            <%- include('../../common/subsysMenu',{subsysType:'setup'}) %>
             <div id="setupMainContent" class="page-content" >
                 <!-- 主內容 -->
             </div>
@@ -35,5 +35,5 @@
 </html>
 
 <script>
-
+    location.href='/setup/front_desk_conf#reservation_comparison';
 </script>

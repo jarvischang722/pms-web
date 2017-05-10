@@ -2,24 +2,27 @@
 
     <div class="top-ul">
         <ul id="subsysUl">
-            <% session.user.subsysGrp.forEach(function(sysItem){ %>
-            <li>
-                <a href="javascript:void(0)" onclick="selSubsys('<%= sysItem.subsys_id %>')">
-                    <%= sysItem.subsys_nam %>
+            <% session.user.subsysMenu.forEach(function(sysItem){ %>
+            <%
+                var subsys_url = "";
+                var activeClass = "";
+                switch (sysItem.subsys_id) {
+                    case 'PMS0600000':
+                        activeClass = subsysType == 'business'  ? 'active-01' : "";
+                        subsys_url = '/businessCompanyData'
+                        break;
+                    case 'PMS0800000':
+                        activeClass = subsysType == 'setup' ? 'active-01' : "";
+                        subsys_url = '/subsystem/setup/index'
+                        break;
+                }
+            %>
+            <li class="<%=activeClass%>">
+                <a  href="<%= subsys_url %>" style="color:#FFFFFF;">
+                    <%= sysItem["subsys_nam_" + session.locale] %>
                 </a>
             </li>
             <% }) %>
-            <li class="active-01">
-                <a href="/manageSetting"  style="color:#FFFFFF;">
-                    <%= __("BAC01P0140")["setup"] %>
-                </a>
-            </li>
-
-            <li>
-                <a href="/businessCompanyData" style="color:#FFFFFF;" >
-                    <%= __("SystemCommon")["business"]%>
-                </a>
-            </li>
         </ul>
     </div> <!-- /.top-ul -->
     <!-- Quick menu  -->
@@ -49,20 +52,15 @@
     <!--<div class="secondMenu-ul secondMenu-ul-fixed" style="position: fixed;top:100px; right: 0; left: 200px;  z-index: 1024;">-->
 
 
-
     <script>
         var globalSubsysGrp = [];
         $(function () {
-//        $("#subsysUl li").first().find("a").click();
-//        console.log( $("#subsysUl li").first().html());
-            // initial();
             $(document).on("click", "#subsysUl a", function () {
                 $("#subsysUl a").removeClass("active-01");
                 $(this).addClass("active-01");
             })
         })
         function initial() {
-
             getSubsysGrp();
         }
         function getSubsysGrp() {

@@ -39,15 +39,6 @@ exports.systemOption = function (req, res) {
 
 };
 
-
-/**
- *
- */
-exports.manageReservation = function (req, res) {
-    res.render('reserve/manageReservation');
-};
-
-
 /**
  * 換館別
  */
