@@ -246,7 +246,7 @@ var vm = new Vue({
                     $('#prg_dg').datagrid('selectRow', vm.editIndex)
                         .datagrid('beginEdit', vm.editIndex);
                 })
-
+                $("#gridEdit").val(vm.tmpCUD);
             }
         },
         //刪除選定的Row
@@ -257,6 +257,7 @@ var vm = new Vue({
             }
 
             vm.tmpCUD.deleteData.push(delRow);
+            $("#gridEdit").val(vm.tmpCUD);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -275,7 +276,6 @@ var vm = new Vue({
         },
         //儲存
         doSave: function () {
-
             if (this.endEditing()) {
 
                 var params = {
@@ -404,6 +404,7 @@ var vm = new Vue({
             }
 
             this.tmpCUD[dataType].push(rowData);
+            $("#gridEdit").val(this.tmpCUD);
         }
 
 
