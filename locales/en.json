@@ -219,6 +219,13 @@
 			"ins_usr": "Added By",
 			"upd_dat": "Modified Date",
 			"upd_usr": "Modified By"
+		},"PMS0860020": {
+			"business_cod": "行業代號",
+			"business_rmk": "行業名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",
@@ -244,6 +251,7 @@
 	"PMS0810200_name": "交辦事項",
 	"PMS0830060_name": "住客帳調整原因設定",
 	"PMS0860050_name": "拜訪方式設定",
+	"PMS0860020_name": "行業別設定",
 	"table_in_use": "Table in use (%s)",
 	"SystemCommon": {
 		"OK": "OK",

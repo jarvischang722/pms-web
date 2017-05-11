@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0860020'] cust_mn筆數-->
+    <dao name="QRY_BUSINESS_RF_IS_EXIST_CUST_MN_COUNT">
+        <statement><![CDATA[
+            select count(*) custcount from cust_mn
+            where athena_id =?  and business_cod =? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">business_cod</parameter>
+    </dao>
+</root>
