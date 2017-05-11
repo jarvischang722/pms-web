@@ -236,7 +236,12 @@
 		"Next": "下一筆",
 		"Previous": "前一筆",
 		"First": "第一筆",
-		"Last": "最後一筆"
+		"Last": "最後一筆",
+		"Login": "登入",
+		"Logout": "登出"
+	},
+	"SystemWarn": {
+		"Idle_auto_logout": "您閒置時間過長，請重新登錄"
 	},
 	"Validation": {
 		"Formatter": {
