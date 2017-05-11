@@ -1,0 +1,14 @@
+{"total":28,
+  "rows":[
+    {"clerkNum":"<input type='checkbox' checked/>","clerkName":"23598233","ifStaff":"德安資訊國際股份有限公司台北分公司","status":"正常","subject":"已簽約","disabledYear":"N:非會員","clerkTeam":"簽約公司","hotelBusiness":"北區","memberBusiness":"資訊業"},
+    {"clerkNum":"<input type='checkbox' checked/>","clerkName":"72074775","ifStaff":"全立發機械廠股份有限公司","status":"正常","subject":"洽談中","disabledYear":"N:非會員","clerkTeam":"簽約公司","hotelBusiness":"北區","memberBusiness":"製造業"},
+    {"clerkNum":"<input type='checkbox' checked/>","clerkName":"11915305","ifStaff":"台灣日立股份有限公司","status":"正常","subject":"已簽約","disabledYear":"N:非會員","clerkTeam":"簽約公司","hotelBusiness":"中區","memberBusiness":""},
+    {"clerkNum":"<input type='checkbox'>","clerkName":"12476629","ifStaff":"台灣佳能股份有限公司","status":"潛力","subject":"未簽約","disabledYear":"N:非會員","clerkTeam":"簽約公司","hotelBusiness":"南區","memberBusiness":""},
+    {"clerkNum":"<input type='checkbox'>","clerkName":"23598233","ifStaff":"安安旅行社","status":"黑名單","subject":"未簽約","disabledYear":"N:非會員","clerkTeam":"旅行社","hotelBusiness":"東區","memberBusiness":"網路訂房"},
+    {"clerkNum":"","clerkName":"","ifStaff":"","status":"","subject":"","disabledYear":"","clerkTeam":"","hotelBusiness":"","memberBusiness":""},
+    {"clerkNum":"","clerkName":"","ifStaff":"","status":"","subject":"","disabledYear":"","clerkTeam":"","hotelBusiness":"","memberBusiness":""},
+    {"clerkNum":"","clerkName":"","ifStaff":"","status":"","subject":"","disabledYear":"","clerkTeam":"","hotelBusiness":"","memberBusiness":""},
+    {"clerkNum":"","clerkName":"","ifStaff":"","status":"","subject":"","disabledYear":"","clerkTeam":"","hotelBusiness":"","memberBusiness":""},
+    {"clerkNum":"","clerkName":"","ifStaff":"","status":"","subject":"","disabledYear":"","clerkTeam":"","hotelBusiness":"","memberBusiness":""}
+  ]}
+
