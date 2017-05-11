@@ -201,6 +201,16 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0830020": {
+      "sort_cod": "",
+      "serv_typ": "",
+      "type_nam": "",
+      "use_typ": "",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
