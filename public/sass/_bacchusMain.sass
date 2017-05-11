@@ -300,7 +300,7 @@ a
         padding: 5px 10px
         background: #feffac
         border: 1px solid #ffd530
-/*-- 搜尋按鈕 --*/
+/*-- 搜尋列表 --*/
 .search-content
   position: relative
   padding: 0 0 15px 0
@@ -328,7 +328,7 @@ a
           text-align: center
           ul
             li
-              float: left
+              //float: left
               list-style: none
               padding: 0 5px
               i
@@ -344,7 +344,6 @@ a
       text-align: left
       border-collapse: collapse
       .block-table
-        margin: 0
         label
           margin: 0 5px 0 0
           text-align: right
@@ -382,7 +381,7 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: 0
+          top: -5px
     .search-co-btn
       background: #555
       border: none
@@ -512,8 +511,8 @@ a
     .marginB-c1
       margin-bottom: 10px
   .bs-contribution-content
-    .tab-block
-      margin: 5px auto
+    //.tab-block
+      //margin: 5px auto
   .bs-changeRecord
     +bsCompany-content
     margin: 10px auto
@@ -552,10 +551,11 @@ a
     .BusinessModify-title
       font-size: 1.2em
   .tab-block label
-    width: 100px !important
+    //width: 100px !important
     text-align: right
     margin-right: 5px
-    vertical-align: text-top
+    margin-bottom: 0
+    //vertical-align: text-top
   .single
     width: 600px
   .checkboxGrid
@@ -575,7 +575,7 @@ a
 input[type="date"]
   padding: 1px 3px
 input[type="radio"], input[type="checkbox"]
-  margin: 0px
+  margin: 0
 .BusinessModify-Right
   ul
     margin-top: 19px
@@ -618,14 +618,10 @@ input[type="radio"], input[type="checkbox"]
     margin-bottom: 10px
     .NewVisit-title
       font-size: 1.2em
-  .tab-block label
-    width: 100px !important
-    vertical-align: text-top
-    margin-right: 5px
   .checkboxGrid
-    margin-top: 6px
-    .checkLabel
-      width: 40px !important
+    label
+      &.checkLabel
+        width: 40px
   //查詢結果表格
 .result-panel-body
   td
@@ -641,8 +637,6 @@ ul.newVisitOther-btn
 //ho-新增拜訪記錄end
 
 //修改拜訪記錄
-.tab-block.grid-item.single-input
-  width: 400px
 .NewDetail-wrap
   .input-medium.medium-c1
     width: 300px
