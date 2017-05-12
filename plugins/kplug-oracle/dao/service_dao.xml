@@ -33,5 +33,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
     </sql-sources>
 </struts-config>

@@ -165,6 +165,13 @@
                                                                     <%= __("PMS0860020_name") %>
                                                                 </a>
                                                             </li>
+                                                            <li :class="{active: usingPrgID == 'PMS0860040'}">
+                                                                <a
+                                                                        @click="loadSetUpPage('PMS0860040')"
+                                                                        href="#">
+                                                                    <%= __("PMS0860040_name") %>
+                                                                </a>
+                                                            </li>
                                                         </ul>
 
                                                         <div class="tab-content">
