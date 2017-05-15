@@ -8,110 +8,53 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
-    chkUsetyp: function (postData, session, callback){
+    chkUsetyp: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        var params = {
-            athena_id: session.user.athena_id,
-            modify_sta: postData.singleRowData.modify_sta
-        };
 
-        var createSubFunc = [];
-        var isDeleteRow = false;
+        var isDeleteRow = (postData.rowData.modify_sta == "N") ? false : true;
+
+        if (isDeleteRow == false) {
+            lo_error = new ErrorClass();
+            postData.rowData.use_typ = postData.oldValue;
+            lo_result.effectValues = postData.rowData;
+            lo_result.success = false;
+            lo_error.errorCod = "1111";
+            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+        }
+        callback(lo_error, lo_result);
     },
-
-    chkSourcerfModifysta: function (postData, session, callback) {
+    chk_serv_type_rf_is_exist_service_rf: function(postData, session, callback){
         var lo_result = new ReturnClass();
         var lo_error = null;
+        var modifySta = postData.singleRowData.modify_sta;
         var params = {
             athena_id: session.user.athena_id,
-            source_grp: postData.singleRowData.source_grp
+            hotel_cod: postData.singleRowData.hotel_cod,
+            serv_typ: postData.singleRowData.serv_typ
         };
 
-        var createSubFunc = [];
-        var isDeleteRow = false;
+        // 1.欄位modify_sta不為’Y’的，則不可刪除
+        var isDeleteRow = (modifySta != "Y") ? false : true;
 
-        createSubFunc.push(
-            function (callback) {
-                async.waterfall([
-                    function (callback) {
-                        var modifySta = postData.singleRowData.modify_sta.trim();
-                        if (modifySta == "N") {
-                            isDeleteRow = false;
-                            callback(null, isDeleteRow);
-                        } else {
-                            isDeleteRow = true;
-                            callback(null, isDeleteRow);
-                        }
-                    },
-                    function (data, callback) {
-                        queryAgent.query("GET_ORDER_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                            if (!err) {
-                                if (data == true) {
-                                    if (guestData.guest_count > 0) {
-                                        isDeleteRow = false;
-                                        callback(null, isDeleteRow);
-                                    } else {
-                                        isDeleteRow = true;
-                                        callback(null, isDeleteRow);
-                                    }
-                                } else {
-                                    callback(null, data);
-                                }
-                            } else {
-                                callback(err, []);
-                            }
-                        })
-                    }, function (data, callback) {
-                        queryAgent.query("GET_GW_CUST_RF.DEFAULT_GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                            if (!err) {
-                                if (data == true) {
-                                    if (guestData.guest_count > 0) {
-                                        isDeleteRow = false;
-                                        callback(null, isDeleteRow);
-                                    } else {
-                                        isDeleteRow = true;
-                                        callback(null, isDeleteRow);
-                                    }
-                                } else {
-                                    callback(null, data);
-                                }
-                            } else {
-                                callback(err, []);
-                            }
-                        })
-                    }
-                    // , function (data, callback) {  SAM 等待星光大哥確認package
-                    //
-                    // }
-                ], function (errMsg, result) {
-                    if (errMsg == null) {
-
-                        if (result == false) {
-                            lo_error = new ErrorClass();
-                            lo_result.success = false;
-                            lo_error.errorCod = "1111";
-                            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
-                        }
-
-                        callback(lo_error, lo_result);
-
-                    } else {
-                        callback(lo_error, lo_result);
-                    }
-                })
+        // 2.檢查若服務項目設定有使用，則不可刪除
+        queryAgent.query("chk_serv_type_rf_is_exist_service_rf".toUpperCase(), params, function (err, chkResult) {
+            if(chkResult){
+                if(chkResult.service_count > 0 || isDeleteRow == true){
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "服務項目有使用，則不可刪除";
+                    lo_error.errorCod = "1111";
+                }
+                callback(lo_error, lo_result);
             }
-        );
-
-        async.parallel(createSubFunc, function (err, result) {
-            callback(err, result);
-        })
+        });
     }
 }
