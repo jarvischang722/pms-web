@@ -201,6 +201,16 @@
 			"ins_usr": "輸入者",
 			"upd_dat": "最後異動日",
 			"upd_usr": "最後異動者"
+		},
+		"PMS0830060": {
+			"remark_cod": "代號",
+			"remark_nam": "原因",
+			"bincome_sta": "補入使用",
+			"cancel_sta": "註銷使用",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
 		}
 	},
 	"front_desk_conf": "飯店前台參數設定",
@@ -224,6 +234,7 @@
 	"PMS0810160_name": "訂房取消原因設定",
 	"PMS0810170_name": "假日類別",
 	"PMS0810200_name": "交辦事項",
+	"PMS0830060_name": "住客帳調整原因設定",
 	"table_in_use": "%s 使用中",
 	"SystemCommon": {
 		"OK": "確定",

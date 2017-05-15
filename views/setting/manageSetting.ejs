@@ -5,151 +5,209 @@
 
 
 <body class="no-skin" id="app">
+<style>
 
-<div class="controlReservation">
-    <div class="page-header">
-    </div><!-- /.page-header -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <!-- #section:elements.tab.position -->
-                                    <div class="tabbable tabs-left">
-                                        <ul class="nav nav-tabs" id="settingUl">
-                                            <li class="active">
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810010')"
-                                                   href="#">
-                                                    <%= __("PMS0810010_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810020')"
-                                                   href="#">
-                                                    <%= __("PMS0810020_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810040')"
-                                                   href="#">
-                                                    <%= __("PMS0810040_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810080')"
-                                                   href="#">
-                                                    <%= __("PMS0810080_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810090')"
-                                                   href="#">
-                                                    <%= __("PMS0810090_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810100')"
-                                                   href="#">
-                                                    <%= __("PMS0810100_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810110')"
-                                                   href="#">
-                                                    <%= __("PMS0810110_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810120')"
-                                                   href="#">
-                                                    <%= __("PMS0810120_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810130')"
-                                                   href="#">
-                                                    <%= __("PMS0810130_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810140')"
-                                                   href="#">
-                                                    <%= __("PMS0810140_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810160')"
-                                                   href="#">
-                                                    <%= __("PMS0810160_name") %>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab"
-                                                   @click="loadSetUpPage('PMS0810200')"
-                                                   href="#">
-                                                    <%= __("PMS0810200_name") %>
-                                                </a>
-                                            </li>
-                                        </ul>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
+<!-- #section:basics/navbar.layout -->
+<%- include ../common/navbar.ejs %>
+<!-- include header.html -->
+<script type="text/javascript">
 
-                                        <div class="tab-content">
-                                            <!-- 對照檔內容 -->
-                                            <div id="prgContentDiv" v-show="!isTableLocked"
-                                                 style="overflow-x: hidden;display: none;"
-                                                 class="tab-pane in active">
-                                            </div>
+    $(function () {
+        //選第一個對照檔
+        $("#settingUl li").first().find("a").click();
 
-                                            <!-- table lock 訊息 -->
-                                            <div align="center" v-show="isTableLocked"
-                                                 style="display: none;">
-                                                <p>
-                                                    <image width="64" src="/images/lock.png"/>
-                                                </p>
-                                                <p>
-                                                    <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
-                                                </p>
+    })
 
-                                            </div>
+</script>
+<!-- /section:basics/navbar.layout -->
+<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
-                                        </div>
-                                    </div>
-
-                                    <!-- /section:elements.tab.position -->
-                                </div><!-- /.col -->
+    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
 
-                            </div>
-                        </div>
+        <%- include('../common/moduleMenu',{}) %>
 
-
-                    </div>
-                </div>
-            </div>
+        <div class="companyInfo">
+            <img src="/images/athena_log.png"/>
         </div>
+        <!-- /section:basics/sidebar.layout.minimize -->
     </div>
 
-</div>
+    <!-- /section:basics/sidebar -->
+
+    <div class="main-content">
+        <div class="main-content-inner">
+
+            <%- include('../common/subsysMenu',{}) %>
+
+            <div class="page-content">
+                <div class="controlReservation">
+                    <div class="page-header">
+                    </div><!-- /.page-header -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <!-- #section:elements.tab.position -->
+                                                    <div class="tabbable tabs-left">
+                                                        <ul class="nav nav-tabs" id="settingUl">
+                                                            <li class="active">
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810010')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810010_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810020')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810020_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810040')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810040_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810080')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810080_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810090')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810090_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810100')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810100_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810110')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810110_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810120')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810120_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810130')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810130_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810140')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810140_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810160')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810160_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0810200')"
+                                                                   href="#">
+                                                                    <%= __("PMS0810200_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0830060')"
+                                                                   href="#">
+                                                                    <%= __("PMS0830060_name") %>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+
+                                                        <div class="tab-content">
+                                                            <!-- 對照檔內容 -->
+                                                            <div id="prgContentDiv" v-show="!isTableLocked"
+                                                                 style="overflow-x: hidden;display: none;"
+                                                                 class="tab-pane in active">
+                                                            </div>
+
+                                                            <!-- table lock 訊息 -->
+                                                            <div align="center" v-show="isTableLocked"
+                                                                 style="display: none;">
+                                                                <p>
+                                                                    <image width="64" src="/images/lock.png"/>
+                                                                </p>
+                                                                <p>
+                                                                    <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
+                                                                </p>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- /section:elements.tab.position -->
+                                                </div><!-- /.col -->
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.roomNumPlanPage -->
+            </div>
+        </div>
+    </div><!-- /.main-content -->
+    <%- include ../common/footer %>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
 
 
 </body>
 
 <script>
     var socket = io.connect('/setup');
-    var userInfo = <%- JSON.stringify(session.user) %>;
+    var userInfo = <%-JSON.stringify(session.user)%>;
     var vmMain = new Vue({
         el: '#main-container',
         data: {
@@ -178,7 +236,8 @@
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
                 this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
-                waitingDialog.show(go_i18nLang.SystemCommon.Loading);
+                waitingDialog.show("Loading...");
+
                 $("#prgContentDiv").empty();
                 this.isTableLocked = false;
 
@@ -187,18 +246,19 @@
                     this.isTableLockProcessing = true;
                     this.doTableUnLock(function (errorMsg, success) {
                         this.isTableLockProcessing = false;
-//                        console.log("解開lock:" + vmMain.usingPrgID);
+                        console.log("解開lock:" + vmMain.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
 
 
-                /** 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog **/
+
+                // Start
+                // 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog
                 $(".panel.window").remove();
                 $(".window-shadow").remove();
                 $(".window-mask").remove();
 
-                $("#multiLangDialogTmp").remove();
 
                 if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
                     $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
@@ -212,23 +272,26 @@
             //資料表上鎖
             doTableLock: function (prg_id) {
                 socket.emit('handleTableLock', {
-                    'prg_id': prg_id,
+                    'prg_id':prg_id,
                     'user': userInfo
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
                 socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID,
+                    'prg_id':vmMain.usingPrgID,
                     'user': userInfo
                 })
-                callback(null, true);
+                callback(null,true);
             }
+
+
         }
     })
 
-    //Lock 結果
+    //lock 結果
     socket.on('checkTableLock', function (result) {
+        console.log(result);
         vmMain.isTableLockProcessing = false;
         vmMain.isTableLocked = !result.success;
         vmMain.tableLockMsg = result.errorMsg;
@@ -236,7 +299,7 @@
         if (!vmMain.isTableLocked) {
             vmMain.usingPrgID = result.prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
             $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id);
-        } else {
+        }else{
             vmMain.usingPrgID = "";
             waitingDialog.hide();
         }
