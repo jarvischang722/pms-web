@@ -30,5 +30,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_servtype_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
     </sql-sources>
 </struts-config>

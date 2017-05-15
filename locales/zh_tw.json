@@ -211,6 +211,14 @@
 			"ins_usr": "輸入者",
 			"upd_dat": "最後異動日",
 			"upd_usr": "最後異動者"
+		},
+		"PMS0860010": {
+			"type_cod": "類別代號",
+			"type_nam": "類別名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
 		}
 	},
 	"front_desk_conf": "飯店前台參數設定",
@@ -235,6 +243,7 @@
 	"PMS0810170_name": "假日類別",
 	"PMS0810200_name": "交辦事項",
 	"PMS0830020_name": "服務種類設定",
+	"PMS0860010_name": "商務公司類別設定",
 	"table_in_use": "%s 使用中",
 	"Room Type": "Room Type",
 	"SystemCommon": {
