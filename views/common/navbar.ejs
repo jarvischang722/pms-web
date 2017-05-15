@@ -125,6 +125,24 @@
                      </li> -->
                 </ul>
             </li>
+
+            <!-- /section:basics/navbar.user_menu -->
+            <!--<li class="light-orange dropdown-modal">-->
+                <!--<a data-toggle="dropdown" href="#" class="dropdown-toggle">-->
+                    <!--<i class="ace-icon fa fa-th"></i>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">-->
+                    <!--<li class="dropdown-content">-->
+                        <!--<ul class="dropdown-menu dropdown-navbar">-->
+                            <!--<li style="text-align:center;">-->
+                                <!--<img src="/images/flow04.png"/>-->
+                            <!--</li>-->
+
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+
             <!-- #section:basics/navbar.user_menu -->
             <li class="light-blue dropdown-modal">
                 <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -143,7 +161,7 @@
                     <li>
                         <a href="#" onclick="doLogout()">
                             <i class="ace-icon fa fa-power-off"></i>
-                            <%= __("SystemCommon")["Logout"] %>
+                            <%= __("BAC01P0120")["logout"] %>
                         </a>
                     </li>
                 </ul>
@@ -160,13 +178,10 @@
 <!-- 逾時登出Modal -->
 <div class="remodal" data-remodal-id="sessionModal" >
     <h2>
-        <!--逾時登出-->
-        <%=__("SystemWarn").Idle_auto_logout%>
+        逾時登出
     </h2>
     <br>
-    <button data-remodal-action="confirm" class="remodal-confirm">
-        <%=__("SystemCommon").OK%>
-    </button>
+    <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
 </div>
 
 <script>

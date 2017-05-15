@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0860040 查詢remark_dt筆數-->
+    <dao name="QRY_REMARK_TYP_RF_IS_EXIST_CUST_MN_COUNT">
+        <statement><![CDATA[
+                select count(*) countremark from remark_dt
+                where athena_id =?  and remark_typ =? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">remark_typ</parameter>
+    </dao>
+</root>

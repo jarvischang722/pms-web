@@ -3,7 +3,9 @@
     <!-- 查詢訂房卡來源群組設定資料-->
     <dao name="QRY_SOURCE_GRP_RF">
         <statement><![CDATA[
-           select  *  from source_grp_rf where athena_id =  ?
+          select athena_id, source_grp, source_grp_nam, use_sta, ins_dat, ins_usr, upd_dat, upd_usr
+          from source_grp_rf
+          where athena_id = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

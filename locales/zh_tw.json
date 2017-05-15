@@ -211,6 +211,27 @@
 			"ins_usr": "輸入者",
 			"upd_dat": "最後異動日",
 			"upd_usr": "最後異動者"
+		},"PMS0860050": {
+			"visit_typ": "拜訪方式代號",
+			"visit_nam": "拜訪方式名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
+		},"PMS0860020": {
+			"business_cod": "行業代號",
+			"business_rmk": "行業名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
+		},"PMS0860040": {
+			"remark_typ": "備註類別代號",
+			"type_nam": "備註類別名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
 		}
 	},
 	"front_desk_conf": "飯店前台參數設定",

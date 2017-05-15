@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0860050-->
+    <dao name="QRY_PS_VISIT_RF_GET_COUNT">
+        <statement><![CDATA[
+               select count(*) as visitcount
+               from ps_visit_dt
+               where athena_id =?  and visit_typ =? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">visit_typ</parameter>
+    </dao>
+</root>

@@ -113,11 +113,11 @@ exports.PrintRcardList = function () {
 };
 
 /**
- * FOC設定-Foc rules
+ * 取得FOC角色狀態
  * @returns {Array}
  */
-exports.getFocRoleStaList = function () {
-    var rolesList = [
+exports.getFocRfRoleStaList = function () {
+    var roleStaList = [
         {
             display: '房價最低',
             value: '1'
@@ -136,9 +136,21 @@ exports.getFocRoleStaList = function () {
         }
     ];
 
-    return rolesList;
+    return roleStaList;
 };
 
+/**
+ * checkbox是否使用
+ * @returns
+ */
+exports.checkStaList = function () {
+    var checkList = {
+        on:'Y',
+        off:'N'
+    };
+
+    return checkList;
+};
 
 
 //TODO 將搬到 [程式編碼]Rule裡
@@ -222,7 +234,7 @@ exports.qry_source_rf_use_sta = function (params,callback) {
  */
 exports.qry_foc_rf_role_sta_list = function (params,callback) {
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.getFocRoleStaList();
+    lo_result.selectOptions = optionsLib.getFocRfRoleStaList();
     callback(null,lo_result);
 };
 
@@ -241,5 +253,24 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
 exports.getGuestgrprfUseStaList = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null,lo_result);
+};
+
+/**
+ * 住客帳調整原因bincome
+ */
+exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
+
+
+/**
+ * 住客帳調整原因cancel
+ */
+exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
     callback(null,lo_result);
 };

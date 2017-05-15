@@ -1,14 +1,14 @@
-{"total":10,
+{"total":28,
 	"rows":[
-	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"客房櫃台","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"創意料理","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"50","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"客房櫃台","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"創意料理","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"客房櫃台","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"創意料理","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"客房櫃台","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"創意料理","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"客房櫃台","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
-	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"創意料理","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"50","uniformNum":"23598233","invoiceNum":"YU56784393"}
+	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"客房櫃台","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"創意料理","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"50","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"客房櫃台","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"創意料理","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"客房櫃台","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"創意料理","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"客房櫃台","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"1","consumeHall":"台北館","consumePlace":"創意料理","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"40","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"3","consumeHall":"台北館","consumePlace":"客房櫃台","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"0","uniformNum":"23598233","invoiceNum":"YU56784393"},
+	{"consumeDate":"2016/3/5","serialNum":"2","consumeHall":"台北館","consumePlace":"創意料理","consumeCategory":"HC","consumePrice":"2350","subPay":"0","consumeDescription":"客房消費結帳","consumeTip":"50","uniformNum":"23598233","invoiceNum":"YU56784393"}
 ]}
 

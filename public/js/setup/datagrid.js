@@ -65,7 +65,6 @@ Vue.component("multi-lang-dialog-tmp", {
 
 })
 
-
 var vm = new Vue({
     el: '#DGApp',
     ready: function () {
@@ -170,7 +169,7 @@ var vm = new Vue({
                     title: "Multi Lang",
                     field: "langAction",
                     align: "center",
-                    width: 70,
+                    width: 100,
                     formatter: function (value, row, index) {
                         return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>'
                     }
@@ -231,7 +230,6 @@ var vm = new Vue({
                 this.editIndex = undefined;
                 return true;
             } else {
-
                 return false;
             }
         },
@@ -249,7 +247,7 @@ var vm = new Vue({
                     $('#prg_dg').datagrid('selectRow', vm.editIndex)
                         .datagrid('beginEdit', vm.editIndex);
                 })
-
+                $("#gridEdit").val(vm.tmpCUD);
             }
         },
         //刪除選定的Row
@@ -260,6 +258,7 @@ var vm = new Vue({
             }
 
             vm.tmpCUD.deleteData.push(delRow);
+            $("#gridEdit").val(vm.tmpCUD);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -278,7 +277,6 @@ var vm = new Vue({
         },
         //儲存
         doSave: function () {
-
             if (this.endEditing()) {
 
                 var params = {
@@ -352,17 +350,17 @@ var vm = new Vue({
 
             columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
 
-            var width = 10;
+            var widtd = 10;
             _.each(columnsData, function (column) {
-                width += Number(column.width);
-            });
+                widtd += Number(column.width);
+            })
             $('#multiLangDG').datagrid({
                 columns: [columnsData],
                 remoteSort: false,
                 singleSelect: true,
                 selectOnCheck: true,
                 checkOnSelect: true,
-                width: width,
+                width: widtd,
                 data: multiLangDgData,
                 onClickCell: function (index, field) {
                     if (vm.multiLangEditIndex != index) {
@@ -407,6 +405,7 @@ var vm = new Vue({
             }
 
             this.tmpCUD[dataType].push(rowData);
+            $("#gridEdit").val(this.tmpCUD);
         }
 
 
@@ -415,7 +414,5 @@ var vm = new Vue({
 
 //打開多語視窗
 function editFieldMultiLang(rowIdx) {
-    if(vm.endEditing()){
-        vm.editFieldMultiLang(rowIdx);
-    }
+    vm.editFieldMultiLang(rowIdx);
 }
