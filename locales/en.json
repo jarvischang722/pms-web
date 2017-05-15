@@ -70,11 +70,10 @@
 		},
 		"PMS0810040": {
 			"athena_id": "Athena ID",
-			"hotel_cod": "Hotel Code",
 			"state_cod": "State Code",
 			"state_nam": "State Name",
 			"ins_dat": "Added Date",
-			"ins_usr": "Added by",
+			"ins_usr": "Added By",
 			"upd_dat": "Upd Date",
 			"upd_usr": "Upd  User"
 		},
@@ -233,6 +232,13 @@
 			"ins_usr": "Added By",
 			"upd_dat": "Modified Date",
 			"upd_usr": "Modified By"
+		},"PMS0810220": {
+			"transport_cod": "交通類別代號",
+			"transport_nam": "交通類別名稱",
+			"ins_dat": "Added Date",
+			"ins_usr": "Added By",
+			"upd_dat": "Modified Date",
+			"upd_usr": "Modified By"
 		}
 	},
 	"front_desk_conf": "Front Desk Configuration",
@@ -260,6 +266,7 @@
 	"PMS0860050_name": "拜訪方式設定",
 	"PMS0860020_name": "行業別設定",
 	"PMS0860040_name": "備註類別設定",
+	"PMS0810220_name": "交通類別設定",
 	"table_in_use": "Table in use (%s)",
 	"SystemCommon": {
 		"OK": "OK",

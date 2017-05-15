@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS08110220'] 取得筆數 -->
+    <dao name="QRY_HFD_PICKUP_DT_COUNT">
+        <statement><![CDATA[
+                select count(*) pickupcount
+               from hfd_pickup_dt
+               where athena_id =? and  schedule_way = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">transport_cod</parameter>
+    </dao>
+</root>

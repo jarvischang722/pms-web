@@ -70,7 +70,6 @@
 		},
 		"PMS0810040": {
 			"athena_id": "Athena ID",
-			"hotel_cod": "館別",
 			"state_cod": "洲別代號",
 			"state_nam": "洲別名稱",
 			"ins_dat": "輸入日",
@@ -232,6 +231,13 @@
 			"ins_usr": "輸入者",
 			"upd_dat": "最後異動日",
 			"upd_usr": "最後異動者"
+		},"PMS0810220": {
+			"transport_cod": "交通類別代號",
+			"transport_nam": "交通類別名稱",
+			"ins_dat": "輸入日",
+			"ins_usr": "輸入者",
+			"upd_dat": "最後異動日",
+			"upd_usr": "最後異動者"
 		}
 	},
 	"front_desk_conf": "飯店前台參數設定",
@@ -259,6 +265,7 @@
 	"PMS0860050_name": "拜訪方式設定",
 	"PMS0860020_name": "行業別設定",
 	"PMS0860040_name": "備註類別設定",
+	"PMS0810220_name": "交通類別設定",
 	"table_in_use": "%s 使用中",
 	"Room Type": "Room Type",
 	"SystemCommon": {
