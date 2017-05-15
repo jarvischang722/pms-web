@@ -21,4 +21,7 @@ module.exports = function(app  ) {
     app.get('/subsystem/setup', middles, systCrtl.setup);
     app.get('/subsystem/customize_setup', middles, systCrtl.customize_setup);
 
+    /** **/
+    app.post('/api/getGroupMdlPros', middles, systCrtl.getGroupMdlPros);
+
 };

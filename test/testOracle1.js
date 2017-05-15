@@ -16,7 +16,7 @@ var params = {
     fun_hotel_cod:'02',
     subsys_id : "PMS0300000",
     hotel_cod:'99',
-    athena_id: 1001002,
+    athena_id: 1,
     rv2_typ:"1",
     rv7_typ :"7",
     begin_dat:'2017/03/06',
@@ -24,7 +24,7 @@ var params = {
     contact1_cod:'04'
 }
 
-test2(params);
+test3();
 
 function test1(params) {
     queryAgent.query("CHK_ORDER_MN_RV_TYP_IS_EXIST", params, function (err, data) {
@@ -48,6 +48,22 @@ function test2(params) {
     });
 }
 
+function  test3(){
+    var params = {
+        user_athena_id : 1,
+        user_comp_cod : 'MIRACHU',
+        user_id : 'a14017',
+        athena_id : 1,
+        func_hotel_cod : '02',
+        subsys_id : 'PMS080000',
+        pre_id : 'PMS0810000',
+        id_typ:'PROCESS'
+    };
+    queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", params, 0,0,function (err, data) {
+        console.error(err);
+        console.log(data);
+    });
+}
 // funcSvc.querySubsyMdulBySys(params,function(err,grp){
 //     console.log(err);
 //     console.log(grp);

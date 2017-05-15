@@ -82,49 +82,76 @@
             select distinct a.func_athena_id menu_athena_ID, trim(func_comp_cod) as func_comp_cod  ,
             trim(func_hotel_cod) as func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod  from BAC_ROLE_FUNCTION a
             join bac_role_user b on a.role_athena_id = b.role_athena_id and a.role_comp_cod = b.role_comp_cod and a.role_id = b.role_id
-            where b.user_athena_id = 1
+            where b.user_athena_id = :user_athena_id
             and trim(b.user_comp_cod) = :user_comp_cod
             and trim(b.user_id) = :user_id
             and  trim(a.func_athena_id) = trim(:athena_id)
             and  trim(a.func_hotel_cod) = trim(:func_hotel_cod)
             and id_typ <> 'FUNCTION'
-            order by level_nos,sort_cod,current_id
+
         ]]>
         </statement>
+        <parameter type="string" kind="3">user_athena_id</parameter>
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
+        <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
+        <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
+        <orderby>  order by level_nos,sort_cod,current_id</orderby>
     </dao>
+
+    <!--找出模組相對應的process-->
+    <dao name="QRY_BAC_PROCESS_BY_MODULE">
+        <statement><![CDATA[
+         select distinct sys_id, mdl_id , pro_id, pro_name as pro_name_zh_TW, pro_ename as pro_name_en , pro_url
+            from BAC_ROLE_FUNCTION a
+            join bac_role_user b on a.role_athena_id = b.role_athena_id and a.role_comp_cod = b.role_comp_cod and a.role_id = b.role_id
+            inner join s99_process  pro  on pro.mdl_id = pre_id
+            where b.user_athena_id = :user_athena_id
+            and trim(b.user_comp_cod) = :user_comp_cod
+            and trim(b.user_id) = :user_id
+            and  trim(a.func_athena_id) = trim(:athena_id)
+            and  trim(a.func_hotel_cod) = trim(:func_hotel_cod)
+            and id_typ <> 'FUNCTION'
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">user_athena_id</parameter>
+        <parameter type="string" kind="3">user_comp_cod</parameter>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">func_hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
+        <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
+        <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
+        <orderby>  order by pro_id</orderby>
+    </dao>
+
 
     <!--使用者可使用快選menu-->
     <dao name="QRY_USER_QUICK_MENU">
         <statement><![CDATA[
+            select distinct a.athena_id Menu_AthenaID, a.comp_cod , a.hotel_cod , a.subsys_id , a.pro_id ,a.sort_cod
+            from bac_quickmenu a
+            join bac_role_function g on g.func_athena_id = a.athena_id and g.current_id = a.pro_id
+            join bac_role_user h on h.role_athena_id = g.role_athena_id and h.role_id = g.role_id
+            where h.user_athena_id = trim(:user_athena_id)
+            and trim(h.user_comp_cod) = trim(:user_comp_cod)
+            and trim(h.user_id) = trim(:user_id)
+            and trim(a.athena_id) = trim(:athena_id)
+            and trim(a.hotel_cod) = trim(:func_hotel_cod)
 
-            select distinct bac_quickmenu.comp_cod, s99_company.cmp_name, bac_quickmenu.hotel_cod,
-            hotel_rf.hotel_nam, bac_quickmenu.sys_id, s99_system.sys_name, bac_quickmenu.subsys_id, bac_subsysmenu.subsys_nam,
-            bac_quickmenu.pro_id, s99_process.pro_name, bac_quickmenu.sort_cod from bac_quickmenu
-            join s99_company on bac_quickmenu.comp_cod = s99_company.cmp_id
-            join hotel_rf on bac_quickmenu.hotel_cod = hotel_rf.hotel_cod
-            join s99_system on bac_quickmenu.sys_id = s99_system.sys_id
-            join bac_subsysmenu on bac_quickmenu.subsys_id = bac_subsysmenu.subsys_id
-            join s99_process on bac_quickmenu.pro_id = s99_process.pro_id
-            join bac_role_function on bac_role_function.fun_comp_cod = bac_quickmenu.comp_cod and bac_role_function.fun_hotel_cod = bac_quickmenu.hotel_cod and bac_role_function.pro_id = bac_quickmenu.pro_id
-            join bac_role_user on bac_role_function.role_comp_cod = bac_role_user.role_comp_cod and bac_role_function.role_id = bac_role_user.role_id
-            where trim(bac_role_user.user_comp_cod) = trim(:user_comp_cod)
-            and trim(bac_role_user.user_id) = trim(:user_id)
-            and trim(bac_role_function.sys_id) = trim(:sys_id)
-            and trim(bac_quickmenu.subsys_id) = trim(:subsys_id)
-            and trim(bac_quickmenu.hotel_cod) = trim(:fun_hotel_cod)
-            order by bac_quickmenu.comp_cod,bac_quickmenu.hotel_cod,bac_quickmenu.sys_id,bac_quickmenu.subsys_id,bac_quickmenu.sort_cod,bac_quickmenu.pro_id
         ]]>
         </statement>
 
+        <parameter type="string" kind="3">user_athena_id</parameter>
         <parameter type="string" kind="3">user_comp_cod</parameter>
         <parameter type="string" kind="3">user_id</parameter>
-        <parameter type="string" kind="3">sys_id</parameter>
-        <parameter type="string" kind="3">subsys_id</parameter>
-        <parameter type="string" kind="3">fun_hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">func_hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="a.subsys_id = :subsys_id">subsys_id</parameter>
+        <orderby> order by a.athena_id, a.comp_cod,a.hotel_cod,a.subsys_id,a.sort_cod,a.pro_id</orderby>
 
     </dao>
 
@@ -153,7 +180,7 @@
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select pro.* ,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en
+         select pro.* ,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          where pro.SYS_ID = :sys_id

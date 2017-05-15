@@ -8,7 +8,7 @@ var roleFuncSvc = require("../services/roleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-
+var roleSvc = require("../services/roleFuncService");
 /**
  * 首頁
  */
@@ -122,4 +122,16 @@ exports.setup = function (req, res) {
  */
 exports.customize_setup = function (req, res) {
     res.render('subsystem/customize_setup');
+};
+
+
+
+/**
+ * 取得設定模組裡所有的設定名稱
+ */
+exports.getGroupMdlPros =  function(req, res){
+    var mdl_id = req.body.mdl_id;
+    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id,function(err,ProsList){
+        res.json({success:_.isNull(err), errorMsg:err, prosList:ProsList});
+    })
 };

@@ -5,38 +5,65 @@
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
     </li>
+    <% session.user.subsysMenu.forEach(function(subsys){ %>
+    <% if(subsys.subsys_id == current_subsys_id) { %>
+    <% subsys.mdlMenu.forEach(function(mdlItem){ %>
     <li class="nav-height">
+        <% if(mdlItem.group_sta == "N"){ %>
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
-                 <%= __("front_desk_conf") %>
+                    <!-- 模組名稱 -->
+                <%= mdlItem["mdl_name_" + session.locale] %>
             </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
+
+
         <ul class="submenu">
             <!-- 飯店前台參數設定 -->
-            <% if(module == 'front_desk_conf'){ %>
+
+            <% mdlItem.processMenu.forEach(function(proItem){ %>
+
             <li>
-                <a onclick="javascript:window.open('/setup/front_desk_conf#reservation_comparison')"
+                <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
                    target="_blank">
                     <i class="menu-icon fa fa-caret-right"></i>
-                    <%= __("reserve_comparsion") %>
+                    <!-- 作業名稱 -->
+                    <%= proItem.pro_name %>
                 </a>
             </li>
-            <% } %>
+
+            <% }) %>
+
         </ul>
+
+        <% } else{%>
+        <a onclick="javascript:window.open('<%= mdlItem.mdl_url %>')" class="dropdown-toggle">
+            <i class="menu-icon fa fa-desktop"></i>
+            <span class="menu-text">
+                    <!-- 模組名稱 -->
+                <%= mdlItem["mdl_name_" + session.locale] %>
+            </span>
+        </a>
+
+        <%}%>
     </li>
+    <% }) %>
+    <% } %>
+    <% }) %>
+
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
         <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
            data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
     </div>
 </ul>
 
-<script>
-    function toFirstSubSyst() {
-        var firstSubSyst_url = getCookie("subsystem_first_url");
-        location.href = firstSubSyst_url;
-        location.reload();
-    }
-</script>
+<!--<script>-->
+    <!--function toFirstSubSyst() {-->
+        <!--var firstSubSyst_url = getCookie("subsystem_first_url");-->
+        <!--location.href = firstSubSyst_url;-->
+        <!--location.reload();-->
+    <!--}-->
+<!--</script>-->

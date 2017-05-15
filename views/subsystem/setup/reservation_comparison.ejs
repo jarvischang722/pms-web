@@ -1,6 +1,4 @@
-<body class="no-skin" id="app">
-
-<div class="controlReservation">
+<div class="controlReservation" id="app">
     <div class="page-header">
     </div><!-- /.page-header -->
     <div class="row">
@@ -98,6 +96,14 @@
                                                     <%= __("PMS0810200_name") %>
                                                 </a>
                                             </li>
+
+                                            <li v-for="menu in setupMenu">
+                                                <a data-toggle="tab"
+                                                   @click="loadSetUpPage(menu.pro_url)"
+                                                   href="#">
+                                                    {{menu['pro_name']}}
+                                                </a>
+                                            </li>
                                         </ul>
 
                                         <div class="tab-content">
@@ -122,9 +128,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- /section:elements.tab.position -->
-                                </div><!-- /.col -->
-
+                                </div>
 
                             </div>
                         </div>
@@ -139,14 +143,15 @@
 </div>
 
 
-</body>
-
 <script>
+    var subsysMenu = <%- JSON.stringify(session.user.subsysMenu || {}) %>
     var socket = io.connect('/setup');
     var userInfo = <%- JSON.stringify(session.user) %>;
+    console.log(subsysMenu);
     var vmMain = new Vue({
         el: '#main-container',
         data: {
+            setupMenu: [],  //此模組的設定檔
             isTableLockProcessing: true,  //打API 上鎖程序是否正在執行
             usingPrgID: "",  //使用中的prg_id
             isTableLocked: false,// 是否被上鎖中

@@ -16,5 +16,7 @@ module.exports = function(app  ) {
     /** 訂房對照檔 **/
     app.get('/setup/reservation_comparison', middles, setupCrtl.reservation_comparison);
 
+    /** 設定Layout **/
+    app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
 };
