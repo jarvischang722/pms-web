@@ -201,6 +201,16 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0830060": {
+      "remark_cod": "代號",
+      "remark_nam": "原因",
+      "bincome_sta": "補入使用",
+      "cancel_sta": "註銷使用",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
