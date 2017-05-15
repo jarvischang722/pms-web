@@ -1,0 +1,7 @@
+{"total":28,
+  "rows":[
+    {"VisitCheck":"<input type='checkbox' checked/>","VisitNum":"23598233","VisitName":"德安資訊國際股份有限公司台北分公司","VisitStatus":"正常","VisitContract":"已簽約","visitMethod":"電訪","visitPlanned":"2017/05/08","visitVStatus":"N:預定拜訪","visitFeedback":"nice","visitPurpose":"goodjob","visitDocuments":"123","visitRemarks":"321123","visitActual":"2017/05/09","visitExpense":"5000"},
+    {"VisitCheck":"<input type='checkbox' checked/>","VisitNum":"72074775","VisitName":"全立發機械廠股份有限公司","VisitStatus":"正常","VisitContract":"洽談中","visitMethod":"電訪","visitPlanned":"2017/05/08","visitVStatus":"N:預定拜訪","visitFeedback":"apple","visitPurpose":"goodjob","visitDocuments":"123","visitRemarks":"321123","visitActual":"2017/05/09","visitExpense":"5000"},
+    {"VisitCheck":"<input type='checkbox' checked/>","VisitNum":"11915305","VisitName":"台灣日立股份有限公司","VisitStatus":"正常","VisitContract":"已簽約","visitMethod":"電訪","visitPlanned":"2017/05/08","visitVStatus":"N:預定拜訪","visitFeedback":"wtf","visitPurpose":"goodjob","visitDocuments":"123","visitRemarks":"321123","visitActual":"2017/05/09","visitExpense":"5000"}
+  ]}
+

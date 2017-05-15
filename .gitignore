@@ -4,5 +4,6 @@
 .idea
 node_modules/
 public/.DS_Store
-
+configs/database.js
+.sass-cache/
 

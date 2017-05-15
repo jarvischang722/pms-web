@@ -300,7 +300,7 @@ a
         padding: 5px 10px
         background: #feffac
         border: 1px solid #ffd530
-/*-- 搜尋按鈕 --*/
+/*-- 搜尋列表 --*/
 .search-content
   position: relative
   padding: 0 0 15px 0
@@ -328,7 +328,7 @@ a
           text-align: center
           ul
             li
-              float: left
+              //float: left
               list-style: none
               padding: 0 5px
               i
@@ -344,7 +344,6 @@ a
       text-align: left
       border-collapse: collapse
       .block-table
-        margin: 0
         label
           margin: 0 5px 0 0
           text-align: right
@@ -382,7 +381,7 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: 0
+          top: -5px
     .search-co-btn
       background: #555
       border: none
@@ -512,8 +511,8 @@ a
     .marginB-c1
       margin-bottom: 10px
   .bs-contribution-content
-    .tab-block
-      margin: 5px auto
+    //.tab-block
+      //margin: 5px auto
   .bs-changeRecord
     +bsCompany-content
     margin: 10px auto
@@ -537,6 +536,114 @@ a
     .lbl
       .txt
         margin: auto 5px
+
+//ho-修改業務員表格
+.ChangeBusiness-wrap
+  .input-medium.medium-c1
+    width: 190px !important
+.BusinessModify-Left
+  margin: 19px 0
+  .BusinessModify-head
+    padding-top: 5px
+    padding-bottom: 5px
+    border-bottom: 1px solid #eee
+    margin-bottom: 10px
+    .BusinessModify-title
+      font-size: 1.2em
+  .tab-block label
+    //width: 100px !important
+    text-align: right
+    margin-right: 5px
+    margin-bottom: 0
+    //vertical-align: text-top
+  .single
+    width: 600px
+  .checkboxGrid
+    .checkLabel
+      width: 0px !important
+  .checkboxGroup
+    margin-left: 110px
+  .checkboxGrid
+    width: 150px
+  .BusinessProperty-wrap
+    margin-top: 10px
+    .input-medium
+      width: 300px
+      margin-top: 5px
+    .BusinessProperty
+      text-align: center
+input[type="date"]
+  padding: 1px 3px
+input[type="radio"], input[type="checkbox"]
+  margin: 0
+.BusinessModify-Right
+  ul
+    margin-top: 19px
+.Large-input .input-medium.medium-c1
+  width: 240px
+.XLarge-input .input-medium.medium-c1
+  width: 270px !important
+//ho-修改業務員表格end
+
+//ho-異動紀錄
+.BusinessChangeLog
+  width: 570px
+  margin: 0 auto
+  .bs-changeRecord
+    margin: 10px auto
+    border-left: 2px solid #D15B47
+    border-bottom: 1px solid #eee
+    .grid
+      padding-top: 5px
+      padding-bottom: 5px
+      .grid-item
+        width: 30%
+        height: auto
+//ho-異動紀錄end
+
+//ho-禁止輸入
+.SelectDisable
+  cursor: not-allowed
+  background-color: #eee
+  color: $grey
+//禁止輸入end
+
+//ho-新增拜訪記錄
+.NewVisit-Iquire
+  margin: 19px 0
+  .NewVisit-head
+    padding-top: 5px
+    padding-bottom: 5px
+    border-bottom: 1px solid #eee
+    margin-bottom: 10px
+    .NewVisit-title
+      font-size: 1.2em
+  .checkboxGrid
+    label
+      &.checkLabel
+        width: 40px
+  //查詢結果表格
+.result-panel-body
+  td
+    padding: 3px !important
+  //新增拜訪編輯
+.NewVisitRecord-wrap
+  margin: 10px 0
+.newVisit-textarea
+  margin-left: 110px
+  margin-top: -14px
+ul.newVisitOther-btn
+  margin-top: 30px
+//ho-新增拜訪記錄end
+
+//修改拜訪記錄
+.NewDetail-wrap
+  .input-medium.medium-c1
+    width: 300px
+  .tab-block.grid-item.single-input
+    width: 600px
+//修改拜訪記錄end
+
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .businessCompanyData
     .main-content-data
@@ -587,3 +694,4 @@ a
     .panel-body
       &.padding-tabs
         padding: 16px 12px
+
