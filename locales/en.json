@@ -166,8 +166,8 @@
       "upd_usr": "Modified By"
     },
     "PMS0810110": {
-      "source_typ": "來源類別",
-      "source_nam": "Group Name",
+      "source_typ": "Source",
+      "source_nam": "Name",
       "use_sta": "In Use",
       "source_grp": "Source Group",
       "ins_dat": "Added Date",
