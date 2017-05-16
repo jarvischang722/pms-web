@@ -124,7 +124,8 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
     var page_id = 1;
     var params = {
         user_id: userInfo.usr_id,
-        athena_id: userInfo.athena_id
+        athena_id: userInfo.athena_id,
+        hotel_cod : userInfo.fun_hotel_cod
     };
     var dataGridRows = [];
     var fieldData = [];
