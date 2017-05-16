@@ -5,35 +5,7 @@
 
 
 <body class="no-skin" id="app">
-<script>
 
-    $.extend($.fn.datagrid.defaults.editors, {
-        color: {
-            init: function(container, options){
-                var input = $('<input type="text" class="datagrid-editable-input">').appendTo(container);
-                input.color(options);
-                return input;
-            },
-            destroy: function(target){
-                $(target).color('destroy');
-            },
-            getValue: function(target){
-                return $(target).color('getValue');
-            },
-            setValue: function(target, value){
-                $(target).color('setValue', value);
-            },
-            resize: function(target, width){
-                $(target).color('resize', width);
-            }
-        }
-    })
-
-    function getDgRow(){
-        console.log($("#dg_color").datagrid("getRows"));
-    }
-
-</script>
 
 <!-- #section:basics/navbar.layout -->
 <%- include ../common/navbar.ejs %>
@@ -310,17 +282,6 @@
                                                        data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
                                                     <thead>
                                                     <tr>
-                                                        <th data-options="field:'itemid',width:80">管別</th>
-                                                        <th data-options="field:'productid',width:150">Product</th>
-                                                        <th data-options="field:'listprice',width:80">日期類別</th>
-                                                        <th data-options="field:'unitcost',width:80">類別名稱</th>
-                                                        <th data-options="field:'displayColor',width:80,name:'Color',value:'#93c47d',group:'ID Settings',editor:'color'">顯示的顏色</th>
-                                                        <th data-options="field:'status',width:80,align:''">輸入者</th>
-
-                                                        <th data-options="field:'enterDate',width:100,align:''">輸入日</th>
-                                                        <th data-options="field:'lastEditPerson',width:80,align:''">最後異動者</th>
-                                                        <th data-options="field:'lastEditDate',width:100">最後異動日</th>
-                                                        <!--<th data-options="field:'lastEditDate',width:80,align:'center'">最後異動日</th>-->
                                                     </tr>
                                                     </thead>
                                                 </table>
@@ -372,3 +333,136 @@
 
 </body>
 </html>
+<script>
+
+    $(function(){
+
+        $(document).on("change",".dg_colorPicker_class",function(){
+            var dataGridName = "dg_color";
+            var dataIdx = $(this).data("index");
+            var color_cod = $(this).val();
+            var field_name = $(this).data("field_name");
+            var updateRow = {};
+            updateRow[field_name] = color_cod;
+            $('#'+dataGridName).datagrid('updateRow',{
+                index: dataIdx,
+                row: updateRow
+            });
+        })
+    })
+
+    $('#dg_color').datagrid({
+        columns:[[
+            {field:'itemid',title:'Item ID',width:80},
+            {field:'listprice',title:'Attribute',width:200},
+            {field:'unitcost',title:'unitcost',width:80},
+            {field:'displayColor',title:'displayColor',width:80,editor:{
+                options:{
+//                    formatter : function (val, row, index) {
+//
+//                        return 12345;
+//                     }
+                }
+            },
+                formatter: function (color_cod,row,index) {
+                    console.log(this);
+                    return "<input type='color' class='dg_colorPicker_class spectrumColor' data-index="+index+" data-field_name='displayColor' value='"+color_cod+"'  />";
+                }
+            },
+            {field:'status',title:'Status',width:80},
+            {field:'enterDate',title:'enterDate',width:80},
+            {field:'lastEditPerson',title:'lastEditPerson',width:80},
+            {field:'lastEditDate',title:'lastEditDate',width:80}
+        ]]
+    });
+
+    $.extend($.fn.datagrid.defaults.editors, {
+        colorpicker: {//colorpicker就是你要自定义editor的名称
+            init: function (container, options) {
+                // var input = $('<input class="easyuidatetimebox">').appendTo(container);
+                var input = $('<input>').appendTo(container);
+
+                input.ColorPicker({
+                    color: '#0000ff',
+                    onShow: function (colpkr) {
+                        $(colpkr).fadeIn(500);
+                        return false;
+                    },
+                    onHide: function (colpkr) {
+                        $(colpkr).fadeOut(500);
+                        return false;
+                    },
+                    onChange: function (hsb, hex, rgb) {
+                        //                    $('#colorSelector div').css('backgroundColor', '#' + hex);
+                        input.css('backgroundColor', '#' + hex);
+                        input.val('#' + hex);
+                    }
+                });
+                return input;
+            },
+            getValue: function (target) {
+                return $(target).val();
+            },
+            setValue: function (target, value) {
+                $(target).val(value);
+                $(target).css('backgroundColor', value);
+                $(target).ColorPickerSetColor(value);
+            },
+            resize: function (target, width) {
+                var input = $(target);
+                if ($.boxModel == true) {
+                    input.width(width - (input.outerWidth() - input.width()));
+                } else {
+                    input.width(width);
+                }
+            }
+        }
+    });
+//    $.extend($.fn.datagrid.defaults.editors, {
+//        colorpicker: {//colorpicker就是你要自定义editor的名称
+//            init: function (container, options) {
+//                // var input = $('<input class="easyuidatetimebox">').appendTo(container);
+//                var input = $('<input>').appendTo(container);
+//
+//                input.ColorPicker({
+//                    color: '#0000ff',
+//                    onShow: function (colpkr) {
+//                        $(colpkr).fadeIn(500);
+//                        return false;
+//                    },
+//                    onHide: function (colpkr) {
+//                        $(colpkr).fadeOut(500);
+//                        return false;
+//                    },
+//                    onChange: function (hsb, hex, rgb) {
+//                        //                    $('#colorSelector div').css('backgroundColor', '#' + hex);
+//                        input.css('backgroundColor', '#' + hex);
+//                        input.val('#' + hex);
+//                    }
+//                });
+//                return input;
+//            },
+//            getValue: function (target) {
+//                return $(target).val();
+//            },
+//            setValue: function (target, value) {
+//                $(target).val(value);
+//                $(target).css('backgroundColor', value);
+//                $(target).ColorPickerSetColor(value);
+//            },
+//            resize: function (target, width) {
+//                var input = $(target);
+//                if ($.boxModel == true) {
+//                    input.width(width - (input.outerWidth() - input.width()));
+//                } else {
+//                    input.width(width);
+//                }
+//            }
+//        }
+//    });
+
+    function getDgRow(){
+        console.log($("#dg_color").datagrid("getRows"));
+    }
+
+</script>
