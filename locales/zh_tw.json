@@ -143,13 +143,13 @@
       "upd_usr": "最後異動者"
     },
     "PMS0810100": {
-      "source_grp": "Source Group",
-      "source_grp_nam": "Group Name",
-      "use_sta": "In Use",
-      "ins_dat": "Added Date",
-      "ins_usr": "Added By",
-      "upd_dat": "Modified Date",
-      "upd_usr": "Modified By"
+      "source_grp": "群組代號",
+      "source_grp_nam": "群組名稱",
+      "use_sta": "是否使用中",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     },
     "PMS0810090": {
       "guest_typ": "市場類別",
