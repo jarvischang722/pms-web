@@ -144,6 +144,7 @@ var vm = new Vue({
 
             $.post("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
+                page_id: 1,
                 fieldOptions: saveField
             });
         },

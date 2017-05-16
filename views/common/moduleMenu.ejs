@@ -1,38 +1,58 @@
 <ul class="nav nav-list" id="moduleUl">
     <li class="active nav-height">
-        <a href="/">
+        <a href="javascript:void(0)" onclick="toFirstSubSyst()">
             <i class="menu-icon fa fa-tachometer"></i>
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
-
-        <!--<b class="arrow"></b>-->
     </li>
-
+    <% session.user.subsysMenu.forEach(function(subsys){ %>
+    <% if(subsys.subsys_id == current_subsys_id) { %>
+    <% subsys.mdlMenu.forEach(function(mdlItem){ %>
     <li class="nav-height">
+        <% if(mdlItem.group_sta == "N"){ %>
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
-                               <%= __("front_desk_conf") %>
-                            </span>
-
+                    <!-- 模組名稱 -->
+                <%= mdlItem["mdl_name_" + session.locale] %>
+            </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
-        <!--<b class="arrow"></b>-->
+
+
+
         <ul class="submenu">
-            <li class="">
-                <!--<a href="manageReservation.html" target="_blank" class="dropdown-toggle"> dropdown-toggle 在下拉一層-->
-                <a onclick="javascript:window.open('/manageSetting')" target="_blank">
+            <!-- 飯店前台參數設定 -->
+
+            <% mdlItem.processMenu.forEach(function(proItem){ %>
+
+            <li>
+                <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
+                   target="_blank">
                     <i class="menu-icon fa fa-caret-right"></i>
-                    <%= __("reserve_comparsion") %>
+                    <!-- 作業名稱 -->
+                    <%= proItem.pro_name %>
                 </a>
-
-                <!--<b class="arrow"></b>-->
-
             </li>
+
+            <% }) %>
 
         </ul>
 
+        <% } else{%>
+        <a onclick="javascript:window.open('<%= mdlItem.mdl_url %>')" class="dropdown-toggle">
+            <i class="menu-icon fa fa-desktop"></i>
+            <span class="menu-text">
+                    <!-- 模組名稱 -->
+                <%= mdlItem["mdl_name_" + session.locale] %>
+            </span>
+        </a>
+
+        <%}%>
     </li>
+    <% }) %>
+    <% } %>
+    <% }) %>
 
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
         <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
@@ -40,4 +60,10 @@
     </div>
 </ul>
 
-<!-- /.nav-list -->
+<!--<script>-->
+    <!--function toFirstSubSyst() {-->
+        <!--var firstSubSyst_url = getCookie("subsystem_first_url");-->
+        <!--location.href = firstSubSyst_url;-->
+        <!--location.reload();-->
+    <!--}-->
+<!--</script>-->

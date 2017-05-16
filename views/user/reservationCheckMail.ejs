@@ -5,6 +5,35 @@
 
 
 <body class="no-skin" id="app">
+<script>
+
+    $.extend($.fn.datagrid.defaults.editors, {
+        color: {
+            init: function(container, options){
+                var input = $('<input type="text" class="datagrid-editable-input">').appendTo(container);
+                input.color(options);
+                return input;
+            },
+            destroy: function(target){
+                $(target).color('destroy');
+            },
+            getValue: function(target){
+                return $(target).color('getValue');
+            },
+            setValue: function(target, value){
+                $(target).color('setValue', value);
+            },
+            resize: function(target, width){
+                $(target).color('resize', width);
+            }
+        }
+    })
+
+    function getDgRow(){
+        console.log($("#dg_color").datagrid("getRows"));
+    }
+
+</script>
 
 <!-- #section:basics/navbar.layout -->
 <%- include ../common/navbar.ejs %>
@@ -40,7 +69,7 @@
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
 
-        <%- include('../common/moduleMenu',{}) %>
+        <%- include('../common/moduleMenu',{current_subsys_id:''}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -53,7 +82,7 @@
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../common/subsysMenu',{}) %>
+            <%- include('../common/subsysMenu',{subsysType:''}) %>
 
             <div class="page-content">
             <div class="controlReservation">
@@ -225,7 +254,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="search-co-content col-xs-12 rece-search-detail " style="display: none;">
-                                                                <div class="row search-footer-btn" style="top:0;">
+                                                                <div class="row search-footer-btn">
                                                                     <div class="footer-btn-menu-co">
                                                                         <ul>
                                                                             <li>
@@ -277,7 +306,7 @@
 
                                                 </div> <!-- /.row  search-content-->
                                                 <!-- 假日類別對照檔 -->
-                                                <table class="easyui-datagrid" title="假日類別對照檔"  style="height: 250px;"
+                                                <table id="dg_color" class="easyui-datagrid" title="假日類別對照檔"  style="height: 250px;"
                                                        data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
                                                     <thead>
                                                     <tr>
@@ -285,7 +314,7 @@
                                                         <th data-options="field:'productid',width:150">Product</th>
                                                         <th data-options="field:'listprice',width:80">日期類別</th>
                                                         <th data-options="field:'unitcost',width:80">類別名稱</th>
-                                                        <th data-options="field:'displayColor',width:80">顯示的顏色</th>
+                                                        <th data-options="field:'displayColor',width:80,name:'Color',value:'#93c47d',group:'ID Settings',editor:'color'">顯示的顏色</th>
                                                         <th data-options="field:'status',width:80,align:''">輸入者</th>
 
                                                         <th data-options="field:'enterDate',width:100,align:''">輸入日</th>
@@ -305,7 +334,7 @@
                                                     <ul>
                                                         <li>
                                                             <button id="ins-btn" @click="switchToCreateStatus"
-                                                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    class="btn btn-primary btn-white btn-defaultWidth"  onclick="getDgRow();"
                                                                     role="button"><%= __("program")["PMS0810010"]["btn_insert"] %> </button>
                                                         </li>
 

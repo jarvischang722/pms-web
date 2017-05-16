@@ -94,22 +94,24 @@ exports.selectSystem = function (req, res) {
                 fun_hotel_cod: req.session.user.fun_hotel_cod
             };
             queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
-                var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {}
+                var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
 
                 req.session.user.sys_id = sysObj.sys_id;
                 req.session.user.sys_name_en = sysObj["sys_name_en"];
                 req.session.user.sys_name_zh_tw = sysObj["sys_name_zh_tw"];
                 roleFuncSvc.updateUserPurview(req, function (err) {
-                    res.json({success: err == null, errorMsg: err});
+                    var subsystem_first_url = '/setup/PMS0810000';
+                    res.cookie('subsystem_first_url', subsystem_first_url);
+                    res.redirect(subsystem_first_url);  //TODO 導到可選第一個子系統
                 });
 
             })
         } else {
-            res.json({success: false, errorMsg: '未選擇系統別'});
+            res.send("Not found system!");
         }
 
     } catch (err) {
-        res.json({success: false, errorMsg: err});
+        res.send(err);
     }
 };
 

@@ -14,7 +14,7 @@ var middles = [i18nMW,authMW,hotelMW];
 module.exports = function(app  ) {
 
     //設定
-    app.get('/manageSetting', middles, setCrtl.manageSetting);
+    //app.get('/manageSetting', middles, setCrtl.manageSetting);
 
     //設定檔
     app.get('/dataSetting/:prg_id', middles, setCrtl.dataSetting);

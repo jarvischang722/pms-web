@@ -65,6 +65,9 @@
     </a>
 </div><!-- /.main-container -->
 
+<form action="/api/selectSystem" method="post" id="sys_form">
+     <input type="hidden" id="sys_id"   name="sys_id" value="pppppp">
+</form>
 
 </body>
 </html>
@@ -72,13 +75,8 @@
 <script>
 
     function selectSys(sys_id) {
-        $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
-            if (result.success) {
-                location.href = "/";
-            } else {
-                alert(result.errorMsg);
-            }
-        });
+        $("#sys_id").val(sys_id);
+        $("#sys_form").submit();
     }
 
 </script>

@@ -75,18 +75,35 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
 
             if (ln_grid_field_idx > -1) {
                 var lo_grid_field = la_fields[ln_grid_field_idx];
+
                 mongoAgent.UIDatagridField.find({
                     prg_id: prg_id,
-                    page_id: page_id,
+                    user_id: userInfo.usr_id,
+                    athena_id: userInfo.athena_id,
+                    page_id: Number(page_id),
                     grid_field_name: lo_grid_field.ui_field_name
-                }, function (err, fields) {
-                    if (!err && fields) {
+                }).sort({col_seq: 1}).exec(function (err, fields) {
+                    if (err || fields.length == 0) {
+                        mongoAgent.UIDatagridField.find({
+                            user_id: "",
+                            athena_id: "",
+                            prg_id: prg_id,
+                            page_id: page_id
+                        }).sort({col_seq: 1}).exec(function (err, commonFields) {
+                            lo_grid_field.datagridFields = tools.mongoDocToObject(commonFields);
+                            _.each(lo_grid_field.datagridFields, function (field, fIdx) {
+                                lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
+                            });
+                            callback(err, commonFields)
+                        })
+                    } else {
                         lo_grid_field.datagridFields = tools.mongoDocToObject(fields);
                         _.each(lo_grid_field.datagridFields, function (field, fIdx) {
                             lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-                        })
+                        });
                         callback(err, fields);
                     }
+
                 })
             } else {
                 callback(null, 'grid');
@@ -253,6 +270,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     var dt_createData = postData["dt_createData"] || [];
     var dt_editData = postData["dt_editData"] || [];
     var prgFields = [];        // 執行 program  的欄位
+    var la_dtPrgDatagridFields = [];   // 執行 dt datagrid 的欄位
     var mainTableName = "";    // 主要Table name
     var dtTableName = "";      // DT Table name
     var la_keyFields = [];        // 主檔資料表pk
@@ -310,7 +328,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     prg_id: prg_id,
                     ui_field_name: dtfield.toObject().ui_field_name
                 };
-                mongoAgent.UI_Type_Grid.findOne(params).exec(function (err, grid) {
+                mongoAgent.TemplateRf.findOne({
+                    prg_id: prg_id,
+                    page_id: 2,
+                    template_id: 'datagrid'
+                }).exec(function (err, grid) {
                     if (grid) {
                         dtTableName = grid.toObject().table_name;
                         callback(err, dtTableName);
@@ -345,6 +367,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     callback(null, la_keyFields);
                 });
             },
+            //取dt datagrid欄位
             function (callback) {
 
                 if (!_.isEmpty(dtTableName)) {
@@ -359,8 +382,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                         }
                         if (fields.length > 0) {
                             fields = tools.mongoDocToObject(fields);
+                            la_dtPrgDatagridFields = fields;
                         }
-                        la_dtkeyFields = _.where(fields, {keyable: 'Y'}) || [];
+                        la_dtkeyFields = _.where(la_dtPrgDatagridFields, {keyable: 'Y'}) || [];
                         callback(null, la_dtkeyFields);
                     });
                 } else {
@@ -453,11 +477,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
 
                     _.each(Object.keys(data), function (objKey) {
-                        var value = data[objKey];
-                        if (typeof data[objKey] === 'string') {
-                            data[objKey] = data[objKey].trim();
+                        if (!_.isUndefined(data[objKey])) {
+                            var value = data[objKey];
+                            if (typeof data[objKey] === 'string') {
+                                data[objKey] = data[objKey].trim();
+                            }
+                            tmpIns[objKey] = value;
                         }
-                        tmpIns[objKey] = value;
                     });
                     tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                     savaExecDatas[exec_seq] = tmpIns;
@@ -524,7 +550,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 _.each(editData, function (data) {
                     var tmpEdit = {"function": "2", "table_name": mainTableName}; //2  編輯
                     _.each(Object.keys(data), function (objKey) {
-                        tmpEdit[objKey] = data[objKey];
+                        if (!_.isUndefined(data[objKey])) {
+                            tmpEdit[objKey] = data[objKey];
+                        }
                     });
                     var lo_keysData = {};
                     tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
@@ -643,6 +671,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //組合DT 新增修改執行資料
     function combineDtCreateEditExecData(chkResult, callback) {
+        var la_dtMultiLangFields = _.filter(la_dtPrgDatagridFields, function (field) {
+            return field.multi_lang_table != ""
+        });  //多語系欄位
+
         try {
             //dt 新增
             _.each(dt_createData, function (data) {
@@ -652,11 +684,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 delete data["mnRowData"];
 
                 _.each(Object.keys(data), function (objKey) {
-                    var value = data[objKey];
-                    if (typeof data[objKey] === 'string') {
-                        data[objKey] = data[objKey].trim();
+                    if (!_.isUndefined(data[objKey])) {
+                        var value = data[objKey];
+                        if (typeof data[objKey] === 'string') {
+                            data[objKey] = data[objKey].trim();
+                        }
+                        tmpIns[objKey] = value;
                     }
-                    tmpIns[objKey] = value;
                 });
 
                 //塞入mn pk
@@ -667,6 +701,32 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 });
                 savaExecDatas[exec_seq] = tmpIns;
                 exec_seq++;
+
+                /** 處理每一筆多語系 handleSaveMultiLang **/
+                if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                    _.each(data.multiLang, function (lo_lang) {
+                        var ls_locale = lo_lang.locale || "";
+                        _.each(lo_lang, function (langVal, fieldName) {
+                            if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
+                                var langTable = _.findWhere(la_dtMultiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                var lo_langTmp = {
+                                    function: '1',
+                                    table_name: langTable,
+                                    locale: ls_locale,
+                                    field_name: fieldName,
+                                    words: langVal
+                                };
+                                _.each(_.pluck(la_dtkeyFields, "ui_field_name"), function (keyField) {
+                                    if (!_.isUndefined(data[keyField])) {
+                                        lo_langTmp[keyField] = typeof data[keyField] === "string" ? data[keyField].trim() : data[keyField];
+                                    }
+                                });
+                                savaExecDatas[exec_seq] = lo_langTmp;
+                                exec_seq++;
+                            }
+                        })
+                    })
+                }
             });
 
             //dt 編輯
@@ -677,7 +737,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 delete data["mnRowData"];
 
                 _.each(Object.keys(data), function (objKey) {
-                    tmpEdit[objKey] = data[objKey].trim();
+                    var objValue = data[objKey];
+                    if (!_.isUndefined(data[objKey]) && typeof objValue === "string") {
+                        tmpEdit[objKey] = objValue.trim();
+                    }
+                    tmpEdit[objKey] = objValue;
                 });
 
                 //塞入mn pk
@@ -703,6 +767,88 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 });
                 savaExecDatas[exec_seq] = tmpEdit;
                 exec_seq++;
+
+                /** 處理每一筆多語系 handleSaveMultiLang **/
+                if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                    var langProcessFunc = [];
+                    _.each(data.multiLang, function (lo_lang) {
+                        var ls_locale = lo_lang.locale || "";
+                        langProcessFunc.push(
+                            function (callback) {
+                                var chkFuncs = [];
+                                _.each(lo_lang, function (langVal, fieldName) {
+                                    if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
+                                        chkFuncs.push(
+                                            function (callback) {
+                                                var langTable = _.findWhere(la_dtMultiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                var lo_langTmp = {
+                                                    table_name: langTable,
+                                                    words: langVal
+                                                };
+                                                var lo_condition = [
+                                                    {
+                                                        key: "locale",
+                                                        operation: "=",
+                                                        value: ls_locale
+                                                    },
+                                                    {
+                                                        key: "field_name",
+                                                        operation: "=",
+                                                        value: fieldName
+                                                    }
+                                                ];
+                                                var lo_keysData = {};
+                                                _.each(_.pluck(la_dtkeyFields, "ui_field_name"), function (keyField) {
+                                                    if (!_.isUndefined(tmpEdit[keyField])) {
+                                                        lo_condition.push({
+                                                            key: keyField,
+                                                            operation: "=",
+                                                            value: data[keyField]
+                                                        });
+                                                        lo_keysData[keyField] = typeof tmpEdit[keyField] === "string"
+                                                            ? data[keyField].trim() : tmpEdit[keyField];
+
+                                                    }
+                                                });
+
+
+                                                //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
+                                                langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
+                                                    if (rows.length > 0) {
+                                                        lo_langTmp["function"] = "2";  //編輯
+                                                        lo_langTmp["condition"] = lo_condition; //放入條件
+                                                    } else {
+                                                        lo_langTmp["function"] = "1";  //新增;
+                                                        lo_langTmp["locale"] = ls_locale;  //
+                                                        lo_langTmp["field_name"] = fieldName;  //
+                                                        lo_langTmp = _.extend(lo_langTmp, lo_keysData);
+                                                    }
+
+                                                    savaExecDatas[exec_seq] = lo_langTmp;
+                                                    exec_seq++;
+
+                                                    callback(null, rows);
+
+                                                })
+                                            }
+                                        );
+                                    }
+                                });
+                                async.parallel(chkFuncs, function (err, results) {
+                                    callback(null, results);
+                                })
+                            }
+                        );
+
+                    });
+
+                    async.parallel(langProcessFunc, function (err, results) {
+                        callback(null, '0400');
+                    });
+
+                } else {
+                    callback(null, '0400');
+                }
             });
 
 

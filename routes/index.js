@@ -16,9 +16,6 @@ module.exports = function(app, passport ) {
     //館別切換
     app.post('/changeHotelCod', sysCrtl.changeHotelCod);
 
-    //
-    app.get('/manageReservation', middles, sysCrtl.manageReservation);
-
 
 };
 

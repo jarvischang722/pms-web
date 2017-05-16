@@ -53,7 +53,10 @@ var EZfieldClass = {
                 required: fieldAttrObj.requirable == "Y",
                 readonly: fieldAttrObj.modificable == "N",
                 validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
-            }
+            },
+
+
+
         };
 
         //長度

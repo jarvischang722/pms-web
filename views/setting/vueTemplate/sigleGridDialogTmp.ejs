@@ -13,16 +13,18 @@
                                 <div class="grid-item " v-for="field in fields">
                                     <label :style="{width:field.label_width + 'px'}"
                                            v-if="field.visiable == 'Y'">
-                                        <span v-if=" field.requirable == 'Y' "  style="color: red;">*</span>
-                                        <a @click="editMultiLang(field)" v-if="field.multi_lang_table != ''">{{field.ui_display_name}}</a>
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
+                                            {{field.ui_display_name}}
+                                        </a>
                                         <span v-else>{{field.ui_display_name}} </span>
-
                                     </label>
                                     <span v-if="field.visiable == 'Y'"
                                           style="width: 15px; text-align: center;
                                           display: inline-block; min-width: 15px;">:</span>
 
-                                    <!--  text & number -->
+                                    <!--  Text & Number -->
+                                    <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
                                            @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
                                            v-if="field.visiable == 'Y' &&
@@ -31,6 +33,7 @@
                                              ( (field.ui_type == 'date' || field.ui_type == 'datetime' )
                                              &&  field.modificable == 'N'))"
                                            :type="field.ui_type"
+                                           class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :required="field.requirable == 'Y'"
@@ -78,19 +81,17 @@
                                 </table>
 
                                 <div id="tb" style="height:auto" class="dataGrid-toolBar01">
-
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-add',plain:true"
                                        @click="appendDtRow">
                                         <i class="fa fa-plus green"></i>
-                                        Add
+                                        <%= __("SystemCommon").Add %>
                                     </a>
-
                                     <a href="javascript:void(0)" class="easyui-linkbutton"
                                        data-options="iconCls:'icon-remove',plain:true"
                                        @click="removeDtRow">
                                         <i class="fa fa-minus red"></i>
-                                        Delete
+                                        <%= __("SystemCommon").Delete %>
                                     </a>
                                 </div>
                             </div>
@@ -104,24 +105,24 @@
                             <div class="singleEditStatus">
                                 <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isFistData"
-                                        style="" @click="toFirstData">First
+                                        style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                 </button>
                                 <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isFistData"
-                                        style="" @click="toPreData">Previous
+                                        style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                 </button>
                                 <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isLastData"
-                                        style="" @click="toNextData">next
+                                        style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                 </button>
                                 <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                         :disabled="isLastData"
-                                        style="" @click="toLastData">Last
+                                        style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                 </button>
                                 <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
                                         style=""
                                         @click="handleDeleteSingleData">
-                                    Delete
+                                    <%= __("SystemCommon").Delete %>
                                 </button>
                             </div>
                         </div>
@@ -143,17 +144,19 @@
             <div class="singleBtnBottom">
                 <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
                         @click="doSaveGrid('addOther')">
-                    Add after save
+                    <%= __("SystemCommon").Add_after_save %>
                 </button>
                 <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
                         class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
-                    Leave after save
+                    <%= __("SystemCommon").Leave_after_save %>
                 </button>
-                <button v-if="editStatus" :disabled="editStatus && !modificableForData " class="btn btn-primary btn-white"
-                        @click="doSaveGrid('')">Save
+                <button v-if="editStatus" :disabled="editStatus && !modificableForData "
+                        class="btn btn-primary btn-white"
+                        @click="doSaveGrid('')">
+                    <%= __("SystemCommon").Save %>
                 </button>
                 <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
-                    Leave
+                    <%= __("SystemCommon").Leave %>
                 </button>
             </div>
         </div>

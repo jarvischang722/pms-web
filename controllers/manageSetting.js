@@ -8,10 +8,10 @@ var mongoAgent = require("../plugins/mongodb");
 
 
 /**
- *
+ * 訂房對照檔
  */
-exports.manageSetting = function (req, res) {
-    res.render('setting/manageSetting');
+exports.reservation_comparison = function (req, res) {
+    res.render('setting/reservation_comparison');
 };
 
 

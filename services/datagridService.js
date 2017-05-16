@@ -255,7 +255,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
  * @param fieldOptions
  * @param callback
  */
-exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) {
+exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, callback) {
     var saveFuncs = [];
 
     _.each(fieldOptions, function (field) {
@@ -268,7 +268,8 @@ exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) 
                     user_id: userInfo.usr_id.trim(),
                     athena_id: userInfo.athena_id,
                     ui_field_name: field.ui_field_name.trim(),
-                    prg_id: prg_id
+                    prg_id: prg_id,
+                    page_id: Number(page_id)
                 }).exec(function (err, userField) {
 
                     if (err) {
@@ -280,13 +281,15 @@ exports.doSaveFieldOption = function (prg_id, userInfo, fieldOptions, callback) 
                     field.athena_id = userInfo.athena_id;
                     field.prg_id = prg_id.trim();
 
+
                     if (userField) {
                         //更新
                         mongoAgent.UIDatagridField.update({
                                 user_id: userInfo.usr_id.trim(),
                                 athena_id: userInfo.athena_id,
                                 ui_field_name: field.ui_field_name.trim(),
-                                prg_id: prg_id
+                                prg_id: prg_id,
+                                page_id: Number(page_id)
                             }
                             , field, function (err) {
                                 if (err) {
@@ -533,118 +536,119 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 var updateFuncs = [];
                 _.each(updateData, function (data) {
                     updateFuncs.push(
-                       function(callback){
-                           var tmpEdit = {"function": "2"}; //2  編輯
-                           tmpEdit["table_name"] = mainTableName;
-                           tmpEdit["athena_id"] = userInfo.athena_id;
-                           tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
+                        function (callback) {
+                            var tmpEdit = {"function": "2"}; //2  編輯
+                            tmpEdit["table_name"] = mainTableName;
+                            tmpEdit["athena_id"] = userInfo.athena_id;
+                            tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
 
-                           _.each(Object.keys(data), function (objKey) {
-                               tmpEdit[objKey] = data[objKey];
-                           });
+                            _.each(Object.keys(data), function (objKey) {
+                                tmpEdit[objKey] = data[objKey];
+                            });
 
-                           tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
+                            tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
 
-                           delete  tmpEdit["ins_dat"];
-                           delete  tmpEdit["ins_usr"];
+                            delete  tmpEdit["ins_dat"];
+                            delete  tmpEdit["ins_usr"];
 
-                           tmpEdit.condition = [];
-                           var lo_keysData = {};
-                           //組合where 條件
-                           _.each(keyFields, function (keyField, keyIdx) {
-                               if (!_.isUndefined(data[keyField])) {
-                                   tmpEdit.condition.push({
-                                       key: keyField,
-                                       operation: "=",
-                                       value: data[keyField]
-                                   });
-                                   lo_keysData[keyField] = data[keyField];
-                               }
-                           });
+                            tmpEdit.condition = [];
+                            var lo_keysData = {};
+                            //組合where 條件
+                            _.each(keyFields, function (keyField, keyIdx) {
+                                if (!_.isUndefined(data[keyField])) {
+                                    tmpEdit.condition.push({
+                                        key: keyField,
+                                        operation: "=",
+                                        value: data[keyField]
+                                    });
+                                    lo_keysData[keyField] = data[keyField];
+                                }
+                            });
 
-                           /** 處理每一筆多語系 handleSaveMultiLang **/
-                           if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
-                               var langProcessFunc = [];
-                               _.each(data.multiLang, function (lo_lang) {
-                                   var ls_locale = lo_lang.locale || "";
-                                   langProcessFunc.push(
-                                       function (callback) {
-                                           var chkFuncs = [];
-                                           _.each(lo_lang, function (langVal, fieldName) {
-                                               if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
-                                                   chkFuncs.push(
-                                                       function (callback) {
-                                                           var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
-                                                           var lo_langTmp = {
-                                                               table_name: langTable,
-                                                               words: langVal
-                                                           };
-                                                           var lo_condition = [
-                                                               {
-                                                                   key: "locale",
-                                                                   operation: "=",
-                                                                   value: ls_locale
-                                                               },
-                                                               {
-                                                                   key: "field_name",
-                                                                   operation: "=",
-                                                                   value: fieldName
-                                                               }
-                                                           ];
-                                                           _.each(keyFields, function (keyField) {
-                                                               if (!_.isUndefined(data[keyField])) {
-                                                                   lo_condition.push({
-                                                                       key: keyField,
-                                                                       operation: "=",
-                                                                       value: data[keyField]
-                                                                   });
-                                                                   lo_keysData[keyField] = typeof data[keyField] === "string"
-                                                                       ? data[keyField].trim() : data[keyField];
+                            savaExecDatas[exec_seq] = tmpEdit;
+                            exec_seq++;
 
-                                                               }
-                                                           });
+                            /** 處理每一筆多語系 handleSaveMultiLang **/
+                            if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
+                                var langProcessFunc = [];
+                                _.each(data.multiLang, function (lo_lang) {
+                                    var ls_locale = lo_lang.locale || "";
+                                    langProcessFunc.push(
+                                        function (callback) {
+                                            var chkFuncs = [];
+                                            _.each(lo_lang, function (langVal, fieldName) {
+                                                if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
+                                                    chkFuncs.push(
+                                                        function (callback) {
+                                                            var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
+                                                            var lo_langTmp = {
+                                                                table_name: langTable,
+                                                                words: langVal
+                                                            };
+                                                            var lo_condition = [
+                                                                {
+                                                                    key: "locale",
+                                                                    operation: "=",
+                                                                    value: ls_locale
+                                                                },
+                                                                {
+                                                                    key: "field_name",
+                                                                    operation: "=",
+                                                                    value: fieldName
+                                                                }
+                                                            ];
+                                                            _.each(keyFields, function (keyField) {
+                                                                if (!_.isUndefined(data[keyField])) {
+                                                                    lo_condition.push({
+                                                                        key: keyField,
+                                                                        operation: "=",
+                                                                        value: data[keyField]
+                                                                    });
+                                                                    lo_keysData[keyField] = typeof data[keyField] === "string"
+                                                                        ? data[keyField].trim() : data[keyField];
+
+                                                                }
+                                                            });
 
 
-                                                           //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
-                                                           langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
-                                                               if (rows.length > 0) {
-                                                                   lo_langTmp["function"] = "2";  //編輯
-                                                                   lo_langTmp["condition"] = lo_condition; //放入條件
-                                                               } else {
-                                                                   lo_langTmp["function"] = "1";  //新增;
-                                                                   lo_langTmp["locale"] = ls_locale;  //
-                                                                   lo_langTmp["field_name"] = fieldName;  //
-                                                                   lo_langTmp = _.extend(lo_langTmp, lo_keysData);
-                                                               }
+                                                            //檢查key + field 是否在langTable 有資料, 有的話更新, 沒有則新增
+                                                            langSvc.handleMultiLangContentByKey(langTable, ls_locale, lo_keysData, fieldName, function (err, rows) {
+                                                                if (rows.length > 0) {
+                                                                    lo_langTmp["function"] = "2";  //編輯
+                                                                    lo_langTmp["condition"] = lo_condition; //放入條件
+                                                                } else {
+                                                                    lo_langTmp["function"] = "1";  //新增;
+                                                                    lo_langTmp["locale"] = ls_locale;  //
+                                                                    lo_langTmp["field_name"] = fieldName;  //
+                                                                    lo_langTmp = _.extend(lo_langTmp, lo_keysData);
+                                                                }
 
-                                                               savaExecDatas[exec_seq] = lo_langTmp;
-                                                               exec_seq++;
+                                                                savaExecDatas[exec_seq] = lo_langTmp;
+                                                                exec_seq++;
 
-                                                               callback(null, rows);
+                                                                callback(null, rows);
 
-                                                           })
-                                                       }
-                                                   );
-                                               }
-                                           });
-                                           async.parallel(chkFuncs, function (err, results) {
-                                               callback(null, results);
-                                           })
-                                       }
-                                   );
+                                                            })
+                                                        }
+                                                    );
+                                                }
+                                            });
+                                            async.parallel(chkFuncs, function (err, results) {
+                                                callback(null, results);
+                                            })
+                                        }
+                                    );
 
-                               });
+                                });
 
-                               async.parallel(langProcessFunc, function (err, results) {
-                                   callback(null, '0400');
-                               });
+                                async.parallel(langProcessFunc, function (err, results) {
+                                    callback(null, '0400');
+                                });
 
-                           }else{
-                               savaExecDatas[exec_seq] = tmpEdit;
-                               exec_seq++;
-                               callback(null, '0400');
-                           }
-                       }
+                            } else {
+                                callback(null, '0400');
+                            }
+                        }
                     );
                 })
 
@@ -721,11 +725,12 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     };
     var addRuleFunc = "";  //按下新增按鈕的規則
     var prg_id = postData["prg_id"];
+    var page_id = postData["page_id"] || 1;
     async.waterfall([
         //抓取規則
         function (callback) {
             mongoAgent.DatagridFunction
-                .findOne({prg_id: prg_id, func_id: '0200'}).exec(function (err, funcRules) {
+                .findOne({prg_id: prg_id, page_id: page_id, func_id: '0200'}).exec(function (err, funcRules) {
 
                 if (funcRules) {
                     addRuleFunc = funcRules.toObject();

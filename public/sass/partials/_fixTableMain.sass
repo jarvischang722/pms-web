@@ -1,0 +1,389 @@
+@charset "UTF-8"
+body
+  font-family: Microsoft JhengHei, Arial, "Helvetica Neue", Helvetica, sans-serif
+
+
+// wp003
+$open-color: #7ab800
+$close-color: #dc5034
+$open-close-color: #f2af00
+$open-text-color: #fff
+$holiday-color: #FECAE4
+$date-color: #DAEAFC
+$orangeTag: #FDDDCC
+$orange2Tag: #E7B296
+$greenTag: #E2EFDC
+$yellowTag: #FEFC38
+$subTreeColor: #3334A6
+// height
+$lineHeight18: 18px
+
+// switch //wp003
+$switchWidth:    120px       // 200px
+$switchHeight:   120px       // 200px
+$switchFontSize:  16px       //  19px
+$switchPaddingL:  20px       //  45px
+$switchPaddingL2:  6px       //  12px
+$switchPaddingT:   6px       //  12px
+$switchLeft:      23px       //  39px
+@mixin switchBefore
+  -webkit-transition: all .3s
+  visibility: visible
+  position: relative
+  display: block
+  width:  $switchWidth*0.4   // 80px
+  height: $switchHeight*0.2  // 40px
+  //border: 1px solid #313338
+  border-radius: 5px
+  content: ""
+  padding-left: $switchPaddingL
+  padding-top:  $switchPaddingT
+  text-transform: uppercase
+  font-weight: bold
+  color: #eee
+  box-sizing: border-box
+  background: $close-color  //tomato
+  border: none
+@mixin switchAfter
+  -webkit-transition: all .3s
+  visibility: visible
+  position: absolute
+  top: 3px
+  left: 0
+  width:  $switchWidth*0.2    // 40px
+  height: $switchHeight*0.2   // 40px
+  border-radius: 50%
+  content: '\f00d'
+  font-family: FontAwesome
+  font-size: $switchFontSize
+  color: #fff
+  padding-top: 1px
+  padding-left: 4px
+  box-sizing: border-box
+  display: inline-block
+
+
+.headBlock
+  margin: auto auto 10px auto
+  .title
+    font-size: $font-2x
+    padding: 15px
+  .commentBlock
+    .comment
+      //float: left
+      display: inline-block
+      margin: auto auto 15px 10px
+      //line-height: 20px
+      .colorBlock
+        vertical-align: middle
+        width: 23px
+        height: 23px
+        //float: left
+        display: inline-block
+        &.open
+          background: $open-color
+        &.closeFix
+          background: $close-color
+        &.open-close
+          background: $open-close-color
+
+  .choiceDate
+    margin: auto auto auto 10px
+    .choiceWeek
+      line-height: 27px
+      span
+        margin: auto auto auto 10px
+        i
+          cursor: pointer
+    select
+      padding: 5px
+%open-close-s
+  &.open
+    background: $open-color
+    color: $open-text-color
+    cursor: pointer
+  &.closeFix
+    background: $close-color
+    color: $open-text-color
+    cursor: pointer
+  &.open-close
+    background: $open-close-color
+    color: $open-text-color
+    cursor: pointer
+  &.holiday-color
+    background: $holiday-color
+  &.dateColor
+    background: $date-color
+    padding: 3px
+  &.orangeTag
+    background: $orangeTag !important
+  &.orange2Tag
+    background: $orange2Tag !important
+  &.greenTag
+    background: $greenTag !important
+  &.yellowTag
+    background: $yellowTag !important
+  i
+    padding-right: 5px
+.themeTable
+  thead
+    th
+      line-height: $lineHeight18
+      @extend %open-close-s
+      text-align: center
+  .numeric
+    @extend %open-close-s
+    text-align: center
+  input
+    &.input-s
+      width: 30px
+      padding: 5px
+  .editWindow
+    margin: auto auto auto 3px
+    cursor: pointer
+  .syncNum
+    margin-top: 5px
+    width: auto
+    display: inline-block
+    .syncNumValue
+      border: 1px solid #888
+      padding: 5px 10px
+      //box-sizing: border-box
+      //min-width: 30px
+      text-align: center
+      margin: auto 5px auto auto
+  .no-data
+    height: 20px
+// tooltip
+$wrapper-color: #fff  //#fff
+$wrapper-bg-color: #825C26 //#1496bb
+@mixin wrapperTooltip($wrapLeft)
+  color: $wrapper-color
+  background: $wrapper-bg-color
+  bottom: 100%
+  display: block
+  left: $wrapLeft
+  margin-bottom: 10px
+  opacity: 0
+  padding: 10px
+  pointer-events: none
+  position: absolute
+  //width: 100%
+  min-width: 80px
+  max-width: 100%
+  +transform(translateY(10px))
+  +transition(all .25s ease-out)
+  //+box-shadow(2px 2px 6px rgba(0, 0, 0, 0.28))
+  &:before
+    bottom: -20px
+    content: " "
+    display: block
+    height: 20px
+    left: 0
+    position: absolute
+    width: 100%
+  &:after
+    border-left: solid transparent 10px
+    border-right: solid transparent 10px
+    border-top: solid $wrapper-bg-color 10px
+    bottom: -10px
+    content: " "
+    height: 0
+    left: 50%
+    margin-left: -13px
+    position: absolute
+    width: 0
+
+.wrapper
+  text-transform: uppercase
+  //background: #ececec
+  //cursor: help
+  padding: 5px 10px
+  position: relative
+  -webkit-transform: translateZ(0)
+  /* webkit flicker fix
+  -webkit-font-smoothing: antialiased
+  /* webkit text rendering fix.
+  .tooltip
+    +wrapperTooltip(-32px)
+  .tooltip2
+    +wrapperTooltip(-17px)
+  &:hover .tooltip, &:hover .tooltip2
+    opacity: 1
+    pointer-events: auto
+    +transform(translateY(0px))
+/* This bridges the gap so you can mouse into the tooltip without it disappearing
+/* CSS Triangles - see Trevor's post
+/* IE can just show/hide with no transition
+.lte8 .wrapper
+  .tooltip,.tooltip2
+    display: none
+  &:hover .tooltip,&:hover .tooltip2
+    display: block
+
+// /.tooltip
+
+// switch toggle
+// https://codepen.io/ranjithlingala/pen/Dwzhq
+// https://codepen.io/bork/pen/Brhkd
+// https://codepen.io/seyedi/pen/HmKpz
+// https://codepen.io/katmai7/pen/adsBo
+.switchButton
+  //width: $switchWidth
+  //height: $switchHeight
+  margin: auto
+  input
+    display: block
+    //margin: 0 auto 40px
+    &[type="checkbox"]
+      cursor: pointer
+      -webkit-transition: all .3s
+      width: 40px
+      position: relative
+      visibility: hidden
+      //margin: 0 3px 0 4px
+      &:before
+        +switchBefore
+      &:after
+        +switchAfter
+      &:checked
+        &:before
+          +switchBefore
+          padding-left: $switchPaddingL2
+          background: $open-color
+        &:after
+          left: $switchLeft
+          content: '\f00c'
+
+
+// https://codepen.io/JonasBadalic/pen/bVWoWX
+// https://codepen.io/ajerez/pen/doOGqR //this example
+$switch-height: 24px
+$switch-width: $switch-height - 1
+$knob-height: 24px
+$translate-distance: $switch-width
+.switch-btn
+  position: relative
+  outline: 0
+  appearance: none
+  -webkit-perspective: 1000
+  -webkit-backface-visibility: hidden
+  -webkit-transform: translate3d(0,0,0)
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
+  width: $switch-width*2 //60px
+  height: $switch-height
+  margin: 2px auto 2px 4px
+  &:before , &:after
+    position: absolute
+    color: white
+    top: 8px
+    font-size: 13px
+    font-weight: 700
+  &:before
+    left: -19px
+  &:after
+    right: -17px
+  input
+    display: none
+  input + label
+    display: block
+    position: absolute
+    cursor: pointer
+    user-select: none
+    width: $switch-width*2 //60px
+    &:before, &:after
+      content: ""
+      position: absolute
+      border-radius: 5px
+      transition: all 0.25s ease-in-out
+    &:before
+      height: $switch-height
+      width: $switch-width*2
+      background-color: $open-color
+    &:after
+      top: 3px
+      left: 2px
+      width: $knob-height
+      height: $knob-height
+      color: #fff
+      content: '\f00c'
+      padding-top: 1px
+      padding-left: 2px
+      box-sizing: border-box
+      display: inline-block
+      font-family: FontAwesome
+      +transform(translate($translate-distance, 0))
+  input:checked + label:after
+    color: #fff
+    content: '\f00d'
+    padding-top: 1px
+    padding-left: 4px
+    box-sizing: border-box
+    display: inline-block
+    font-family: FontAwesome
+    transition: all 0.25s ease-in-out
+    +transform(translate(0 ,0))
+
+  input:checked + label:before
+    background-color: $close-color
+
+
+.holiday-color
+  background-color: $holiday-color
+.dateColor
+  background-color: $date-color
+.orangeTag
+  background-color: $orangeTag !important
+.orange2Tag
+  background-color: $orange2Tag !important
+.greenTag
+  background-color: $greenTag !important
+.yellowTag
+  background-color: $yellowTag !important
+
+
+
+.fht-table,
+.fht-table thead,
+.fht-table tfoot,
+.fht-table tbody,
+.fht-table tr,
+.fht-table th,
+.fht-table td
+  vertical-align: middle
+
+// 日曆title 樣式
+$ca-height: 30px
+.ca-headerTitle
+  .ca-headerIcon
+    margin: auto auto auto 5px
+//connact jquery.fixheadertable.js →→ tableProp.thead[index]
+.td-first
+  position: relative
+  //width: 107px !important
+  //.fht-cell
+  //  width: 80px !important
+  //  min-width: 90px !important
+  //  max-width: 100% !important
+  //  overflow-x: auto
+// https://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
+
+
+
+// todo
+// absolute height false
+.height-fntThead
+  //height: 40px !important
+  //margin-bottom: 1px !important
+  padding-bottom: 6px !important
+  border-bottom: 2px solid #778899 !important
+  .ca-center
+    margin: auto auto auto 30%
+    box-sizing: border-box
+.roomNumTip
+  position: absolute
+  right: 0
+  border-left: 1px solid #888
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px

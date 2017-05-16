@@ -28,3 +28,19 @@
         <!-- /section:basics/footer -->
     </div>
 </div>
+
+<script>
+    //TODO
+    $("#sidebar-collapse").click();
+    $("#sidebar-collapse").click();
+
+    var url_hash = window.location.hash.replace("#","");
+    if(!_.isEmpty(url_hash)){
+        $("#setupMainContent").load("/setup/"+url_hash);
+    }
+
+    function loadProgram(prgram_url){
+        location.href = prgram_url;
+        location.reload();
+    }
+</script>

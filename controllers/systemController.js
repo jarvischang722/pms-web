@@ -8,7 +8,7 @@ var roleFuncSvc = require("../services/roleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-
+var roleSvc = require("../services/roleFuncService");
 /**
  * 首頁
  */
@@ -39,15 +39,6 @@ exports.systemOption = function (req, res) {
 
 };
 
-
-/**
- *
- */
-exports.manageReservation = function (req, res) {
-    res.render('reserve/manageReservation');
-};
-
-
 /**
  * 換館別
  */
@@ -66,4 +57,81 @@ exports.changeHotelCod = function (req, res) {
         res.json({success: err == null, errorMsg: err});
     })
 
+};
+
+/** 子系統 **/
+
+/**
+ * 訂房
+ */
+exports.reservation = function (req, res) {
+    res.render('subsystem/reservation');
+};
+
+/**
+ * 接待
+ */
+exports.reception = function (req, res) {
+    res.render('subsystem/reception');
+};
+
+/**
+ * 出納
+ */
+exports.cashier = function (req, res) {
+    res.render('subsystem/cashier');
+};
+
+/**
+ * 房務
+ */
+exports.housekeeping = function (req, res) {
+    res.render('subsystem/housekeeping');
+};
+
+/**
+ * 夜核
+ */
+exports.night_check = function (req, res) {
+    res.render('subsystem/night_check');
+};
+
+/**
+ * 業務
+ */
+exports.business = function (req, res) {
+    res.render('subsystem/business/');
+};
+
+/**
+ * 報表
+ */
+exports.report = function (req, res) {
+    res.render('subsystem/report');
+};
+
+/**
+ * 設定
+ */
+exports.setup = function (req, res) {
+    res.render('subsystem/setup/index');
+};
+
+/**
+ * 自訂
+ */
+exports.customize_setup = function (req, res) {
+    res.render('subsystem/customize_setup');
+};
+
+
+
+/**
+ * 取得設定模組裡所有的設定名稱
+ */
+exports.getGroupMdlPros =  function(req, res){
+    var mdl_id = req.body.mdl_id;
+    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id,function(err,ProsList){
+        res.json({success:_.isNull(err), errorMsg:err, prosList:ProsList});
+    })
 };
