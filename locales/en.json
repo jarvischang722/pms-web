@@ -65,7 +65,6 @@
     },
     "PMS0810040": {
       "athena_id": "Athena ID",
-      "hotel_cod": "Hotel Code",
       "state_cod": "State Code",
       "state_nam": "State Name",
       "ins_dat": "Added Date",

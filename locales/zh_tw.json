@@ -65,7 +65,6 @@
     },
     "PMS0810040": {
       "athena_id": "Athena ID",
-      "hotel_cod": "館別",
       "state_cod": "洲別代號",
       "state_nam": "洲別名稱",
       "ins_dat": "輸入日",
