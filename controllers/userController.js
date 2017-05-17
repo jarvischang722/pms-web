@@ -173,3 +173,7 @@ exports.getBusinessCompanyData = function (req, res) {
 exports.getClerkDataDefend = function (req, res) {
     res.render("user/clerkDataDefend");
 };
+//業務員資料編輯(業務→業務員設定作業→業務員資料維護)
+exports.getReservationRoomType = function (req, res) {
+    res.render("user/reservationRoomType");
+};

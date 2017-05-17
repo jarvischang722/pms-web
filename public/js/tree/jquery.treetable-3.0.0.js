@@ -485,7 +485,7 @@ function treeToggle(obj){
     status1 = "display: none;";
   }
 
-  $("#priceSetting tbody").find("tr[data-tt-parent-id='" + ttid + "']").attr("style", status1);
+  $(".treeControl tbody").find("tr[data-tt-parent-id='" + ttid + "']").attr("style", status1);
 
 
 

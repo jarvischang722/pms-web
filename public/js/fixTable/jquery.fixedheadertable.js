@@ -592,7 +592,7 @@
 
         $obj.find('thead tr:first-child > *').each(function(index) {
             // edit js 0310 connact class="td-first"
-          tableProp.thead[index] = ($(this).width()+19) + tableProp.border;
+          tableProp.thead[index] = ($(this).width()) + tableProp.border;
             // default
           //tableProp.thead[index] = ($(this).width()+30) + tableProp.border;
         });
@@ -603,7 +603,7 @@
 
         $obj.find('tbody tr:first-child > *').each(function(index) {
             // edit js 0310
-          tableProp.tbody[index] = ($(this).width()+19) + tableProp.border;
+          tableProp.tbody[index] = ($(this).width()) + tableProp.border;
             // default
           //tableProp.tbody[index] = ($(this).width()) + tableProp.border;
         });
