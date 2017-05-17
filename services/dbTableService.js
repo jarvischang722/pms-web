@@ -30,7 +30,7 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
                 "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
                 "user": user_id,
                 "type": lock_type,
-                "session_id":  "1122334455",
+                "session_id": session.db_session_id || "",
                 "athena_id": athena_id,
                 "socket_id": socket_id
             };
@@ -41,11 +41,12 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
                 if (err) {
                     success = false;
                     errorMsg = err;
-                }
 
-                if (!err && data["RETN-CODE"] != '0000') {
-                    success = false;
-                    errorMsg = i18n.__("table_in_use",data["RETN-CODE-DESC"]);
+                } else {
+                    if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                        success = false;
+                        errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
+                    }
                 }
 
                 callback(errorMsg, success);
@@ -79,7 +80,7 @@ exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_co
                 "key_cod": _.isUndefined(key_cod) ? "" : key_cod,
                 "user": user_id,
                 "type": lock_type,
-                "session_id": "1122334455",
+                "session_id": session.db_session_id || "",
                 "athena_id": athena_id,
                 "socket_id": socket_id
             };
@@ -90,11 +91,11 @@ exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_co
                 if (err) {
                     success = false;
                     errorMsg = err;
-                }
-
-                if (!err && data["RETN-CODE"] != '0000') {
-                    success = false;
-                    errorMsg = data["RETN-CODE-DESC"] || "";
+                } else {
+                    if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                        success = false;
+                        errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
+                    }
                 }
 
                 callback(errorMsg, success);
@@ -119,11 +120,11 @@ exports.doTableAllUnLock = function (callback) {
             if (err) {
                 success = false;
                 errorMsg = err;
-            }
-
-            if (!err && data["RETN-CODE"] != '0000') {
-                success = false;
-                errorMsg = data["RETN-CODE-DESC"] || "";
+            } else {
+                if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                    success = false;
+                    errorMsg = data["RETN-CODE-DESC"] || "";
+                }
             }
 
             callback(errorMsg, success);

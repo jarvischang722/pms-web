@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<%-include common/head%>
-<%-include common/importFiles%>
+<%- include common/head %>
+<%- include common/importFiles %>
 
 <body class="no-skin">
 <script>
-        location.href= getCookie("subsystem_first_url");
+    location.href = getCookie("subsystem_first_url");
 </script>
 
 <!-- #section:basics/navbar.layout -->
-<%-include common/navbar.ejs %>
+<%- include common/navbar.ejs %>
 <!-- include header.html -->
 
 <!-- /section:basics/navbar.layout -->
@@ -50,7 +50,7 @@
             </div>
         </div><!-- /.sidebar-shortcuts -->
 
-        <%- include('common/moduleMenu',{module:''}) %>
+        <%- include('common/moduleMenu',{current_subsys_id:''}) %>
 
 
         <!-- #section:basics/sidebar.layout.minimize -->
@@ -78,7 +78,7 @@
         </div>
     </div><!-- /.main-content -->
 
-    <%-include common/footer%>
+    <%- include common/footer %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>

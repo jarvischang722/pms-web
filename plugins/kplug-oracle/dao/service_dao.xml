@@ -35,5 +35,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="holiday_kind_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_daily_event.xml"/>
     </sql-sources>
 </struts-config>

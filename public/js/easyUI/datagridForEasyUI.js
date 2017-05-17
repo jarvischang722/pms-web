@@ -3,6 +3,7 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
+
 var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
@@ -38,7 +39,7 @@ var EZfieldClass = {
         } else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
-            dataType = 'textbox';
+            dataType = 'color';
         }
 
         var tmpFieldObj = {
@@ -69,6 +70,7 @@ var EZfieldClass = {
             tmpFieldObj.editor.options = fieldAttrObj.selectData;
         }
 
+        tmpFieldObj.ui_type = fieldAttrObj.ui_type;
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
         tmpFieldObj.ui_field_num_point = fieldAttrObj.ui_field_num_point;
         tmpFieldObj.visiable = fieldAttrObj.visiable;
@@ -133,11 +135,15 @@ var EZfieldClass = {
                 return fieldName;
             }
         } else if (fieldAttrObj.ui_type == "color") {
-            tmpFieldObj.formatter = function (color_val, row, index) {
+            var lf_colorFormatter  = function (color_cod, row, index) {
+                var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
-                return "<input type='color' " + disabled + " class='dg_colorPicker_class spectrumColor' data-index=" + index + " data-field_name='" + tmpFieldObj.field + "' value='" + color_val + "'  />";
-            }
+                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
+            };
+            tmpFieldObj.formatter = lf_colorFormatter;
+
         }
+
 
         //combobox連動
         if (fieldAttrObj.rule_func_name != "") {
@@ -179,19 +185,41 @@ var EZfieldClass = {
 
 };
 
+var ColorFunc = {
+    //選擇顏色事件
+    selectEvent: function (field_name, rowIdx, _this) {
+        var dataGridName = "prg_dg";
+        var updateRow = {};
+        var color_cod = colorTool.hexToColorCod(_this.value);
+        updateRow[field_name] = color_cod;
+        vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
+        vm.endEditing();
+        $('#' + dataGridName).datagrid('updateRow', {
+            index: rowIdx,
+            row: updateRow
+        });
+    }
+};
+
 
 $(function () {
-    //選擇顏色事件
-    $(document).on("change", ".dg_colorPicker_class", function () {
+
+    $(document).on("input", ".dg_colorPicker_class", function () {
         var dataGridName = "prg_dg";
         var dataIdx = $(this).data("index");
         var color_cod = $(this).val();
         var field_name = $(this).data("field_name");
         var updateRow = {};
+        console.log("===color_cod===");
+        console.log(color_cod);
         updateRow[field_name] = color_cod;
         $('#' + dataGridName).datagrid('updateRow', {
             index: dataIdx,
             row: updateRow
         });
+
+
     })
 })
+
+

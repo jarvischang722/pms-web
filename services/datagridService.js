@@ -124,7 +124,8 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
     var page_id = 1;
     var params = {
         user_id: userInfo.usr_id,
-        athena_id: userInfo.athena_id
+        athena_id: userInfo.athena_id,
+        hotel_cod: userInfo.fun_hotel_cod
     };
     var dataGridRows = [];
     var fieldData = [];
@@ -163,7 +164,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         function (gridInfo, callback) {
             queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                 dataGridRows = data;
-                callback(err, dataGridRows)
+                callback(null, dataGridRows)
             })
         },
         // 4)找尋field 屬性資料
@@ -196,7 +197,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
 
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
-                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type =='checkbox') {
+                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox') {
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({
@@ -679,10 +680,14 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 if (apiErr) {
                     chkResult.success = false;
                     errMsg = apiErr;
-                }
-                else if (data["RETN-CODE"] != "0000") {
+                } else if (data["SYSMSG"]["MSG-ID"] == "0000") {
+                    if (data["RETN-CODE"] != "0000") {
+                        chkResult.success = false;
+                        errMsg = data["RETN-CODE-DESC"];
+                    }
+                } else if (data["SYSMSG"]["MSG-ID"] != "0000") {
                     chkResult.success = false;
-                    errMsg = data["RETN-CODE-DESC"];
+                    errMsg = data["SYSMSG"]["MSG-DESC"];
                 }
 
                 //寄出exceptionMail

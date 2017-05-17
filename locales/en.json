@@ -235,6 +235,26 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0810170": {
+      "day_sta": "Season Type",
+      "day_nam": "Season Name",
+      "color_num": "Color",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0810210": {
+      "begin_dat": "Start Date",
+      "end_dat": "End Date",
+      "event_nam": "Event Name",
+      "view_seq": "Show Seq",
+      "color_num": "Color",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",

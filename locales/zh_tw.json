@@ -235,6 +235,26 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0810170": {
+      "day_sta": "日期類別",
+      "day_nam": "類別名稱",
+      "color_num": "顯示的顏色",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
+    },
+    "PMS0810210": {
+      "begin_dat": "開始日期",
+      "end_dat": "結束日期",
+      "event_nam": "活動/展期名稱",
+      "view_seq": "顯示順序",
+      "color_num": "底色的顏色",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     }
   },
   "front_desk_conf": "飯店前台參數設定",

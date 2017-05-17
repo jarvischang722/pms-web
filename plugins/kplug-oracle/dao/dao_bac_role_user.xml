@@ -105,7 +105,7 @@
     <!--找出模組相對應的process-->
     <dao name="QRY_BAC_PROCESS_BY_MODULE">
         <statement><![CDATA[
-         select distinct sys_id, mdl_id , pro_id, pro_name as pro_name_zh_TW, pro_ename as pro_name_en , pro_url
+         select distinct sys_id, mdl_id , pro_id, pro_name as pro_name_zh_TW, pro_ename as pro_name_en , pro_url ,pro.flag2_sta
             from BAC_ROLE_FUNCTION a
             join bac_role_user b on a.role_athena_id = b.role_athena_id and a.role_comp_cod = b.role_comp_cod and a.role_id = b.role_id
             inner join s99_process  pro  on pro.mdl_id = pre_id
@@ -115,6 +115,7 @@
             and  trim(a.func_athena_id) = trim(:athena_id)
             and  trim(a.func_hotel_cod) = trim(:func_hotel_cod)
             and id_typ <> 'FUNCTION'
+            and flag2_sta = 'Y'
         ]]>
         </statement>
         <parameter type="int" kind="3">user_athena_id</parameter>

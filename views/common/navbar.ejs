@@ -59,8 +59,8 @@
 
             <li class="purple dropdown-modal">
                 <!--<a data-toggle="dropdown" class="dropdown-toggle" href="#">-->
-                    <!--<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
-                    <!--<span class="badge badge-important">8</span>-->
+                <!--<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
+                <!--<span class="badge badge-important">8</span>-->
                 <!--</a>-->
 
                 <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
@@ -128,36 +128,29 @@
 
             <!-- /section:basics/navbar.user_menu -->
             <!--<li class="light-orange dropdown-modal">-->
-                <!--<a data-toggle="dropdown" href="#" class="dropdown-toggle">-->
-                    <!--<i class="ace-icon fa fa-th"></i>-->
-                <!--</a>-->
-                <!--<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">-->
-                    <!--<li class="dropdown-content">-->
-                        <!--<ul class="dropdown-menu dropdown-navbar">-->
-                            <!--<li style="text-align:center;">-->
-                                <!--<img src="/images/flow04.png"/>-->
-                            <!--</li>-->
+            <!--<a data-toggle="dropdown" href="#" class="dropdown-toggle">-->
+            <!--<i class="ace-icon fa fa-th"></i>-->
+            <!--</a>-->
+            <!--<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">-->
+            <!--<li class="dropdown-content">-->
+            <!--<ul class="dropdown-menu dropdown-navbar">-->
+            <!--<li style="text-align:center;">-->
+            <!--<img src="/images/flow04.png"/>-->
+            <!--</li>-->
 
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
+            <!--</ul>-->
+            <!--</li>-->
+            <!--</ul>-->
             <!--</li>-->
 
             <!-- #section:basics/navbar.user_menu -->
             <li class="light-blue dropdown-modal">
                 <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                    <img class="nav-user-photo" src="/images/user-icon.png"  width="35" alt=""/>
-                    <!--<span class="user-info">-->
-                    <!--<small>Welcome,</small>-->
-                    <!--Jason-->
-                    <!--</span>-->
+                    <img class="nav-user-photo" src="/images/user-icon.png" width="35" alt=""/>
                     <i class="ace-icon fa fa-caret-down"></i>
                 </a>
-
                 <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-
                     <li class="divider"></li>
-
                     <li>
                         <a href="#" onclick="doLogout()">
                             <i class="ace-icon fa fa-power-off"></i>
@@ -166,22 +159,18 @@
                     </li>
                 </ul>
             </li>
-
-
         </ul>
     </div>
-
-    <!-- /section:basics/navbar.dropdown -->
     <div class="clearfix"></div>
 </div>
 
 <!-- 逾時登出Modal -->
-<div class="remodal" data-remodal-id="sessionModal" >
+<div class="remodal" data-remodal-id="sessionModal">
     <h2>
-        逾時登出
+        <%= __("SystemWarn").Idle_auto_logout %>
     </h2>
     <br>
-    <button data-remodal-action="confirm" class="remodal-confirm">OK</button>
+    <button data-remodal-action="confirm" class="remodal-confirm"><%= __("SystemCommon").OK %></button>
 </div>
 
 <script>
@@ -194,7 +183,7 @@
 
 
         $(document).on('closing', '.remodal', function (e) {
-            location.href="/login";
+            location.href = "/login";
         });
     })
 
@@ -217,7 +206,7 @@
 
 
     //接收socket 回傳
-    socket.on("sessionStatus",function(session){
+    socket.on("sessionStatus", function (session) {
         var inst = $('[data-remodal-id=sessionModal]').remodal();
         inst.open();
     })

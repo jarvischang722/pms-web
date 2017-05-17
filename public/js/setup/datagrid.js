@@ -111,25 +111,7 @@ var vm = new Vue({
 
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
-                var editType = currentColumOption.editor.type
-                var ui_type = "text";
-                if (editType == "textbox") {
-                    ui_type = "text";
-                } else if (editType == "numberbox") {
-                    ui_type = "number";
-                } else if (editType == "datebox") {
-                    ui_type = "date";
-                } else if (editType == "datetimebox") {
-                    ui_type = "datetime";
-                } else if (editType == "combobox") {
-                    var getMulitSelect = currentColumOption.editor.options.multiline;
-
-                    if (getMulitSelect == true)
-                        ui_type = "multiselect";
-                    else
-                        ui_type = "select";
-                }
-
+                var ui_type = currentColumOption.ui_type;
                 var columnOption = {
                     "prg_id": prg_id,
                     "ui_field_name": field,
@@ -137,9 +119,8 @@ var vm = new Vue({
                     "col_seq": fIdx,
                     "visiable": "Y"
                 };
-                columnOption = _.extend(columnOption, currentColumOption)
+                columnOption = _.extend(columnOption, currentColumOption);
                 saveField.push(columnOption);
-
             });
 
             $.post("/api/saveFieldOptionByUser", {
@@ -222,6 +203,7 @@ var vm = new Vue({
             this.tempExecData(row);
         },
         endEditing: function () {
+
             if (this.editIndex == undefined) {
                 return true
             }
