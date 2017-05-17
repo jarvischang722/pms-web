@@ -122,16 +122,42 @@ a
   min-height: 1px
   overflow: hidden
   margin: 0 0 5px
+
 // custom
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
+
 .input-medium
   &.medium-c1
-    width: 165px
-    height: $inputHeight-medium
+    +input-s1(165px)
+    @media screen and (min-width: 768px) and (max-width: 1030px)
+      +input-s1(120px)
+  &.medium-c2
+    +input-s1(179px)
+    @media screen and (min-width: 768px) and (max-width: 1030px)
+      +input-s1(134px)
+  &.addedBy
+    +input-s1(74px)
+  &.addedDate
+    +input-s1(140px)
+  &.bill-input-s1
+    +input-s1(120px)
+  &.bill-input-s2
+    +input-s1(245px)
+
 .input-h35
   height: $inputHeight-medium !important
+.input-spc-1
+  +input-s1
+  @media screen and (min-width: 768px) and (max-width: 1030px)
+    +input-s1(349px)
+.input-spc-key
+  +input-s1(466px)
+  @media screen and (min-width: 768px) and (max-width: 1030px)
+    +input-s1(376px)
+.input-mLeft-1
+  margin-left: 28px
 .dateBox-custom1
   .textbox
     height: $inputHeight-medium
@@ -143,7 +169,6 @@ a
     width: 24px !important
 .border-block-left
   border-left: 1px solid #dddddd
-
 .margin-spacing-3
   margin: 3px auto
 //**
@@ -177,10 +202,12 @@ input[type="number"],
 input[type="date"]
   border-radius: 5px !important
 
-@media screen and (min-width: 768px) and (max-width: 1030px)
-  .input-medium
-    &.medium-c1
-      width: 120px
+//建立margin 迴圈
+//$width-number: 40
+//@for $i from 1 through $width-number
+//  .marginLeft-#{$i}
+//    margin-left: $i px
+
 
 //#gritter-notice-wrapper
 //  bottom: 20px !important

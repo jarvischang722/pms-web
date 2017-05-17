@@ -92,7 +92,6 @@ a
       visibility: visible
       opacity: 1
 
-
 /*-- footer --*/
 .bacchus-footer
   padding-top: 220px
@@ -178,6 +177,31 @@ a
       height: 12px
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
+
+/*-- top-sec-menu --*/
+.standard-table
+  width: 100%
+  border-collapse: collapse
+  position: relative
+  th,td
+    border: 1px solid $border-color
+    padding-left: 5px
+    position: relative
+  .td-disable
+    background: #d6d6d6
+  .moreClick
+    position: absolute
+    right: 0
+    bottom: 0
+    //width: 25px
+    height: 20px
+    //line-height: $inputHeight-medium
+    border: 1px solid #888
+    background: $border-color
+    border-radius: 5px
+    padding: 0 5px 0 5px
+    box-sizing: border-box
+    cursor: pointer
 
 
 /*-- authorityNewActor 新增權限 --*/
@@ -355,7 +379,17 @@ a
           margin: 0 0 0 -20px
         label.more-Word
           margin: 0 0 0 -68px
-
+        .moreClick
+          //width: 25px
+          height: $inputHeight-medium
+          //line-height: $inputHeight-medium
+          border: 1px solid $border-color
+          background: $border-color
+          border-radius: 5px
+          padding: 3px 5px 4px 5px
+          box-sizing: border-box
+          cursor: pointer
+          //margin-top: -1px
       .search-footer-btn
         position: absolute
         right: 20px
@@ -382,6 +416,15 @@ a
         padding-bottom: 10px
         .search-footer-btn
           top: -5px
+      .searchCheckbox
+        .checkbox
+          margin: 5px auto 0 auto
+          label
+            padding-left: 10px
+            .lbl
+              &:before
+                margin-right: 3px
+
     .search-co-btn
       background: #555
       border: none
@@ -469,8 +512,7 @@ a
   .main-content-data
     +bsCompany-content
     .input-spc-1
-      width: 439px
-      max-width: 100%
+      +input-s1
       height: $inputHeight-medium
   .tab-block
     +bsCompany-content
@@ -479,6 +521,7 @@ a
       padding-left: 10px
     //margin: auto auto 10px auto
     &.billCheckbox
+      height: 25px
       .checkbox
         margin: 2px auto 0 auto
         label
@@ -493,8 +536,11 @@ a
       margin-bottom: 10px
       .billInfo-title
         font-size: $font-lg
+      p
+        margin-bottom: 0
     .textarea-title
       margin: 10px auto
+
   //彈出視窗button
   .btn-lg-width
     width: 120%
@@ -525,8 +571,6 @@ a
     //&:nth-child(even)
     //  border-right: 2px solid #D15B47
     .grid
-      padding-top: 5px
-      padding-bottom: 5px
       .grid-item
         width: 30%
         height: auto
@@ -580,9 +624,9 @@ input[type="radio"], input[type="checkbox"]
   ul
     margin-top: 19px
 .Large-input .input-medium.medium-c1
-  width: 240px
+  +input-s1(240px)
 .XLarge-input .input-medium.medium-c1
-  width: 270px !important
+  +input-s1(270px !important)
 //ho-修改業務員表格end
 
 //ho-異動紀錄
@@ -648,10 +692,9 @@ ul.newVisitOther-btn
   .businessCompanyData
     .main-content-data
       .medium-c1
-        width: 120px
+        +input-s1(120px)
       .input-spc-1
-        width: 349px
-        max-width: 100%
+        +input-s1(349px)
 
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
 .easyUi-custom1
@@ -694,4 +737,3 @@ ul.newVisitOther-btn
     .panel-body
       &.padding-tabs
         padding: 16px 12px
-
