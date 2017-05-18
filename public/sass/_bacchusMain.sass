@@ -92,7 +92,6 @@ a
       visibility: visible
       opacity: 1
 
-
 /*-- footer --*/
 .bacchus-footer
   padding-top: 220px
@@ -178,6 +177,31 @@ a
       height: 12px
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
+
+/*-- top-sec-menu --*/
+.standard-table
+  width: 100%
+  border-collapse: collapse
+  position: relative
+  th,td
+    border: 1px solid $border-color
+    padding-left: 5px
+    position: relative
+  .td-disable
+    background: #d6d6d6
+  .moreClick
+    position: absolute
+    right: 0
+    bottom: 0
+    //width: 25px
+    height: 20px
+    //line-height: $inputHeight-medium
+    border: 1px solid #888
+    background: $border-color
+    border-radius: 5px
+    padding: 0 5px 0 5px
+    box-sizing: border-box
+    cursor: pointer
 
 
 /*-- authorityNewActor 新增權限 --*/
@@ -300,7 +324,7 @@ a
         padding: 5px 10px
         background: #feffac
         border: 1px solid #ffd530
-/*-- 搜尋按鈕 --*/
+/*-- 搜尋列表 --*/
 .search-content
   position: relative
   padding: 0 0 15px 0
@@ -328,7 +352,7 @@ a
           text-align: center
           ul
             li
-              float: left
+              //float: left
               list-style: none
               padding: 0 5px
               i
@@ -344,7 +368,6 @@ a
       text-align: left
       border-collapse: collapse
       .block-table
-        margin: 0
         label
           margin: 0 5px 0 0
           text-align: right
@@ -356,7 +379,17 @@ a
           margin: 0 0 0 -20px
         label.more-Word
           margin: 0 0 0 -68px
-
+        .moreClick
+          //width: 25px
+          height: $inputHeight-medium
+          //line-height: $inputHeight-medium
+          border: 1px solid $border-color
+          background: $border-color
+          border-radius: 5px
+          padding: 3px 5px 4px 5px
+          box-sizing: border-box
+          cursor: pointer
+          //margin-top: -1px
       .search-footer-btn
         position: absolute
         right: 20px
@@ -382,7 +415,16 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: 0
+          top: -5px
+      .searchCheckbox
+        .checkbox
+          margin: 3px auto 0 auto
+          label
+            padding-left: 10px
+            .lbl
+              &:before
+                margin-right: 3px
+
     .search-co-btn
       background: #555
       border: none
@@ -460,7 +502,7 @@ a
   label
     width: 90px
     text-align: right
-    margin-right: 5px
+    margin-right: 0
   .mainData-tip
     font-size: 12px
     margin: auto auto auto 100px
@@ -470,8 +512,7 @@ a
   .main-content-data
     +bsCompany-content
     .input-spc-1
-      width: 439px
-      max-width: 100%
+      +input-s1
       height: $inputHeight-medium
   .tab-block
     +bsCompany-content
@@ -480,9 +521,12 @@ a
       padding-left: 10px
     //margin: auto auto 10px auto
     &.billCheckbox
+      height: 25px
       .checkbox
-        margin-top: 0
-        margin-bottom: 0
+        margin: 2px auto 0 auto
+        label
+          min-height: initial
+          cursor: auto
   .billInfo
     //border: 1px solid #eee
     .billInfo-head
@@ -492,8 +536,11 @@ a
       margin-bottom: 10px
       .billInfo-title
         font-size: $font-lg
+      p
+        margin-bottom: 0
     .textarea-title
       margin: 10px auto
+
   //彈出視窗button
   .btn-lg-width
     width: 120%
@@ -510,8 +557,8 @@ a
     .marginB-c1
       margin-bottom: 10px
   .bs-contribution-content
-    .tab-block
-      margin: 5px auto
+    //.tab-block
+      //margin: 5px auto
   .bs-changeRecord
     +bsCompany-content
     margin: 10px auto
@@ -524,8 +571,6 @@ a
     //&:nth-child(even)
     //  border-right: 2px solid #D15B47
     .grid
-      padding-top: 5px
-      padding-bottom: 5px
       .grid-item
         width: 30%
         height: auto
@@ -535,14 +580,121 @@ a
     .lbl
       .txt
         margin: auto 5px
+
+//ho-修改業務員表格
+.ChangeBusiness-wrap
+  .input-medium.medium-c1
+    width: 190px !important
+.businessModify-Left
+  margin: 19px 0
+  .BusinessModify-head
+    padding-top: 5px
+    padding-bottom: 5px
+    border-bottom: 1px solid #eee
+    margin-bottom: 10px
+    .BusinessModify-title
+      font-size: 1.2em
+  .tab-block label
+    //width: 100px !important
+    text-align: right
+    margin-right: 5px
+    margin-bottom: 0
+    //vertical-align: text-top
+  .single
+    width: 600px
+  .checkboxGrid
+    .checkLabel
+      width: 0px !important
+  .checkboxGroup
+    margin-left: 110px
+  .checkboxGrid
+    width: 150px
+  .BusinessProperty-wrap
+    margin-top: 10px
+    .input-medium
+      width: 300px
+      margin-top: 5px
+    .BusinessProperty
+      text-align: center
+input[type="date"]
+  padding: 1px 3px
+input[type="radio"], input[type="checkbox"]
+  margin: 0
+.BusinessModify-Right
+  ul
+    margin-top: 19px
+.Large-input .input-medium.medium-c1
+  +input-s1(240px)
+.XLarge-input .input-medium.medium-c1
+  +input-s1(270px !important)
+//ho-修改業務員表格end
+
+//ho-異動紀錄
+.BusinessChangeLog
+  width: 570px
+  margin: 0 auto
+  .bs-changeRecord
+    margin: 10px auto
+    border-left: 2px solid #D15B47
+    border-bottom: 1px solid #eee
+    .grid
+      padding-top: 5px
+      padding-bottom: 5px
+      .grid-item
+        width: 30%
+        height: auto
+//ho-異動紀錄end
+
+//ho-禁止輸入
+.SelectDisable
+  cursor: not-allowed
+  background-color: #eee
+  color: $grey
+//禁止輸入end
+
+//ho-新增拜訪記錄
+.NewVisit-Iquire
+  margin: 19px 0
+  .NewVisit-head
+    padding-top: 5px
+    padding-bottom: 5px
+    border-bottom: 1px solid #eee
+    margin-bottom: 10px
+    .NewVisit-title
+      font-size: 1.2em
+  .checkboxGrid
+    label
+      &.checkLabel
+        width: 40px
+  //查詢結果表格
+.result-panel-body
+  td
+    padding: 3px !important
+  //新增拜訪編輯
+.NewVisitRecord-wrap
+  margin: 10px 0
+.newVisit-textarea
+  margin-left: 110px
+  margin-top: -14px
+ul.newVisitOther-btn
+  margin-top: 30px
+//ho-新增拜訪記錄end
+
+//修改拜訪記錄
+.NewDetail-wrap
+  .input-medium.medium-c1
+    width: 300px
+  .tab-block.grid-item.single-input
+    width: 600px
+//修改拜訪記錄end
+
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .businessCompanyData
     .main-content-data
       .medium-c1
-        width: 120px
+        +input-s1(120px)
       .input-spc-1
-        width: 349px
-        max-width: 100%
+        +input-s1(349px)
 
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
 .easyUi-custom1

@@ -40,7 +40,6 @@
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
 
-        <%- include('../common/moduleMenu2',{}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -53,7 +52,6 @@
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../common/subsysMenu2',{}) %>
 
             <div class="page-content">
             <div class="">
@@ -65,102 +63,101 @@
                         <div class="col-xs-12">
                             <div class="col-sm-11 col-xs-11">
                                 <div class="row no-margin-right">
-                                        <div class="search-content">
-                                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                            <div class="search-co">
-                                                <div class="search-co-h">
-                                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                                    <span>搜尋</span>
-                                                    <div class="row search-right-btn">
-                                                        <div class="right-btn-menu-co">
-                                                            <ul>
-                                                                <li>
-                                                                    <i class="fa fa-chevron-down show-search-detail"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                    <div class="search-content">
+                                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                        <div class="search-co">
+                                            <div class="search-co-h">
+                                                <i class="ace-icon fa fa-search search-icon"></i>
+                                                <span>搜尋</span>
+                                                <div class="row search-right-btn">
+                                                    <div class="right-btn-menu-co">
+                                                        <ul>
+                                                            <li>
+                                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="search-co-content col-xs-12">
-                                                        <div class="col-sm-4">
+                                            </div>
+                                            <div class="row">
+                                                <div class="search-co-content col-xs-12">
+                                                    <div class="col-sm-4">
 
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                    </div>
+                                                </div>
+                                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                                    <div class="row search-footer-btn">
+                                                        <div class="footer-btn-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                         title="查詢"
+                                                                         style="padding: 0 0 5px 0;">
+                                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                         title="清除" style="padding: 0 0 5px 0;">
+                                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>  <!-- /.footer-btn-menu-co -->
+                                                    </div> <!-- /.search-footer-btn -->
+                                                    <div class="grid width-95">
+                                                        <div class="grid-item block-table">
+                                                            <label>Sales Id</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
                                                         </div>
-                                                        <div class="col-sm-4">
-
+                                                        <div class="grid-item block-table">
+                                                            <label>Name</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
                                                         </div>
-                                                        <div class="col-sm-4">
-
+                                                        <div class="grid-item block-table">
+                                                            <label>Employee</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Status</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Stop Date</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Stop Date</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Team</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Hotel</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>F&B</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>Membership</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
                                                         </div>
                                                     </div>
-                                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                                        <div class="row search-footer-btn">
-                                                            <div class="footer-btn-menu-co">
-                                                                <ul>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="查詢"
-                                                                             style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="清除" style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>  <!-- /.footer-btn-menu-co -->
-                                                        </div> <!-- /.search-footer-btn -->
-                                                        <div class="grid width-95">
-                                                            <div class="grid-item block-table">
-                                                                <label>Sales Id</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Name</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Employee</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Status</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Team</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Hotel</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>F&B</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Membership</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </div> <!-- row-->
-                                            </div> <!-- /.search-co -->
-
-                                        </div> <!-- /.row  search-content-->
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div> <!-- row-->
+                                        </div> <!-- /.search-co -->
+                                    </div> <!-- /.row  search-content-->
                                 </div>
                             </div>
                         </div> <!-- /.col-sm-12 -->
@@ -207,7 +204,7 @@
                 </div>
                 <!-- 業務員修改 彈出視窗 -->
                 <div id="changeBusiness-page" class="hide">
-                        <div class="col-sm-10 col-xs-10 BusinessModify-Left">
+                        <div class="col-sm-10 col-xs-10 businessModify-Left">
                             <div class="col-xs-12 col-sm-12">
                                 <!--<div class="row BusinessModify-head">-->
                                     <!--<p class="BusinessModify-title">修改業務員</p>-->
