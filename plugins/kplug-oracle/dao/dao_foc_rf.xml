@@ -3,12 +3,13 @@
     <!-- PMS0810140取得多筆-->
     <dao name="QRY_FOC_RF">
         <statement><![CDATA[
-         select *
-          from foc_rf
-          where athena_id = ?
+               select athena_id, hotel_cod, free_typ, free_rmk, room_qnt, free_qnt, role_sta, ins_dat, ins_usr, upd_dat, upd_usr
+               from foc_rf
+               where athena_id = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
 
     </dao>
 </root>

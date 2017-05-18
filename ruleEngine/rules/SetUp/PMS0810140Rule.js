@@ -19,6 +19,7 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod,
             free_typ: postData.singleRowData.free_typ
         };
 
