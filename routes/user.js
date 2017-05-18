@@ -52,7 +52,10 @@ module.exports = function (app, passport) {
     //業務員資料編輯(業務→業務員設定作業→業務員資料維護)
     app.get('/clerkDataDefend', userCrtl.getClerkDataDefend);
 
-    //業務員資料編輯(業務→業務員設定作業→業務員資料維護)
+    //依房型訂房
     app.get('/reservationRoomType', userCrtl.getReservationRoomType);
+
+    //setUp 房價設定
+    app.get('/setRateCode', userCrtl.getSetRateCode);
 };
 

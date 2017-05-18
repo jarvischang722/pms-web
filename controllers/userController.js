@@ -173,7 +173,11 @@ exports.getBusinessCompanyData = function (req, res) {
 exports.getClerkDataDefend = function (req, res) {
     res.render("user/clerkDataDefend");
 };
-//業務員資料編輯(業務→業務員設定作業→業務員資料維護)
+//依房型訂房
 exports.getReservationRoomType = function (req, res) {
     res.render("user/reservationRoomType");
+};
+//setUp 房價設定
+exports.getSetRateCode = function (req, res) {
+    res.render("user/setRateCode");
 };

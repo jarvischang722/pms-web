@@ -138,9 +138,9 @@ a
     @media screen and (min-width: 768px) and (max-width: 1030px)
       +input-s1(134px)
   &.medium-c3
-    +input-s1(68px)
+    +input-s1(106px)
   &.medium-c3-col2
-    +input-s1(240px)
+    +input-s1(315px)
   &.addedBy
     +input-s1(74px)
   &.addedDate
@@ -149,7 +149,10 @@ a
     +input-s1(120px)
   &.bill-input-s2
     +input-s1(245px)
-
+  &.rateCode-s1
+    +input-s1(180px)
+  &.mini-c1
+    +input-s1(70px)
 .input-h35
   height: $inputHeight-medium !important
 .input-spc-1
@@ -221,3 +224,23 @@ input[type="date"]
 
 .gritter-item-wrapper.gritter-info
   background-color: rgba(67,142,185,1)
+
+.popCheckbox
+  .checkbox
+    margin: 0 auto
+    .ace
+      padding-right: 5px
+    label
+      width: auto
+      .lbl
+        &:before
+          margin-right: 3px
+.subTree-s
+  th,td
+    color: #3a67df !important
+  .td-first
+    color: #3a67df !important
+.subTree-title
+  color: #3a67df !important
+table.treetable span.indenter
+  width: auto
