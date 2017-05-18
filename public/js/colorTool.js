@@ -36,6 +36,9 @@ var colorTool = {
     },
     //反轉成16進位
     colorCodToHex: function (colorCod) {
+        if (_.isUndefined(colorCod)) {
+            colorCod = 0;
+        }
         colorCod = Number(colorCod);
         var lo_rgb = colorTool.colorCodToRgb(colorCod);
         return colorTool.rgbToHex(lo_rgb.r, lo_rgb.g, lo_rgb.b);

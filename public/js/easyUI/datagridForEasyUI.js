@@ -193,7 +193,7 @@ var ColorFunc = {
         var color_cod = colorTool.hexToColorCod(_this.value);
         updateRow[field_name] = color_cod;
         vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
-       // vm.endEditing();
+        vm.endEditing();
         $('#' + dataGridName).datagrid('updateRow', {
             index: rowIdx,
             row: updateRow
