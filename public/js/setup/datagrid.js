@@ -275,6 +275,7 @@ var vm = new Vue({
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
                         vm.initTmpCUD();
+                        $("#gridEdit").val(null);
                         alert('save success!');
                     } else {
                         alert(result.errorMsg);
