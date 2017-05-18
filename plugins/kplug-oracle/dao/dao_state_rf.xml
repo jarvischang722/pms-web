@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-
+    <!--PMS0810040 洲別設定 取得多筆 -->
     <dao name="QRY_STATE_RF">
        <statement><![CDATA[
-
-          SELECT *
-          FROM  STATE_RF
-          WHERE trim(athena_id) = trim(:athena_id)
+                SELECT athena_id, state_cod, state_nam, ins_dat, ins_usr, upd_dat, upd_usr
+               FROM state_rf
+               WHERE trim(athena_id) = trim(:athena_id)
         ]]></statement>
-
         <parameter type="string" kind="3">athena_id</parameter>
-
     </dao>
-
 
 </root>
