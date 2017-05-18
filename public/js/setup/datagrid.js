@@ -204,12 +204,12 @@ var vm = new Vue({
         },
         endEditing: function () {
 
-            if (this.editIndex == undefined) {
+            if (vm.editIndex == undefined) {
                 return true
             }
-            if ($('#prg_dg').datagrid('validateRow', this.editIndex)) {
-                $('#prg_dg').datagrid('endEdit', this.editIndex);
-                this.editIndex = undefined;
+            if ($('#prg_dg').datagrid('validateRow', vm.editIndex)) {
+                $('#prg_dg').datagrid('endEdit', vm.editIndex);
+                vm.editIndex = undefined;
                 return true;
             } else {
                 return false;

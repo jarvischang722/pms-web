@@ -193,7 +193,7 @@ var ColorFunc = {
         var color_cod = colorTool.hexToColorCod(_this.value);
         updateRow[field_name] = color_cod;
         vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
-        vm.endEditing();
+       // vm.endEditing();
         $('#' + dataGridName).datagrid('updateRow', {
             index: rowIdx,
             row: updateRow
@@ -204,22 +204,22 @@ var ColorFunc = {
 
 $(function () {
 
-    $(document).on("input", ".dg_colorPicker_class", function () {
-        var dataGridName = "prg_dg";
-        var dataIdx = $(this).data("index");
-        var color_cod = $(this).val();
-        var field_name = $(this).data("field_name");
-        var updateRow = {};
-        console.log("===color_cod===");
-        console.log(color_cod);
-        updateRow[field_name] = color_cod;
-        $('#' + dataGridName).datagrid('updateRow', {
-            index: dataIdx,
-            row: updateRow
-        });
-
-
-    })
+    // $(document).on("input", ".dg_colorPicker_class", function () {
+    //     var dataGridName = "prg_dg";
+    //     var dataIdx = $(this).data("index");
+    //     var color_cod = $(this).val();
+    //     var field_name = $(this).data("field_name");
+    //     var updateRow = {};
+    //     console.log("===color_cod===");
+    //     console.log(color_cod);
+    //     updateRow[field_name] = color_cod;
+    //     $('#' + dataGridName).datagrid('updateRow', {
+    //         index: dataIdx,
+    //         row: updateRow
+    //     });
+    //
+    //
+    // })
 })
 
 
