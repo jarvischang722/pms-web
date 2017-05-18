@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830020']取得多筆 -->
+    <dao name="QRY_SERV_TYPE_RF">
+        <statement><![CDATA[
+
+        select athena_id, hotel_cod, serv_typ, type_nam, modify_sta, use_typ, sort_cod, ins_dat, ins_usr, upd_dat, upd_usr
+        from servtype_rf where athena_id = trim(:athena_id)
+
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <!--<parameter type="string" kind="3">hotel_cod</parameter>-->
+    </dao>
+    <!--
+        ['PMS0830020']
+        1.欄位modify_sta不為’Y’的，則不可刪除
+        2.檢查若服務項目設定有使用，則不可刪除
+    -->
+    <dao name="CHK_SERV_TYPE_RF_IS_EXIST_SERVICE_RF">
+        <statement><![CDATA[
+
+        select count(*) as service_count from service_rf
+        where athena_id = trim(:athena_id)
+        and hotel_cod = trim(:hotel_cod)
+        and serv_typ = trim(:serv_typ)
+
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">serv_typ</parameter>
+    </dao>
+
+
+</root>

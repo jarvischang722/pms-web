@@ -255,6 +255,24 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0860010": {
+      "type_cod": "Corp Type",
+      "type_nam": "Name",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0830020": {
+      "sort_cod": "排序",
+      "serv_typ": "服務種類",
+      "type_nam": "類別名稱",
+      "use_typ": "使用規則",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
@@ -275,9 +293,11 @@
   "PMS0810130_name": "前檯訂房分析",
   "PMS0810140_name": "FOC",
   "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "州別",
+  "PMS0810160_name": "訂房取消原因設定",
   "PMS0810170_name": "假日類別",
   "PMS0810200_name": "交辦事項",
+  "PMS0860010_name": "商務公司類別設定",
+  "PMS0830020_name": "服務種類設定",
   "PMS0830060_name": "住客帳調整原因設定",
   "PMS0860050_name": "拜訪方式設定",
   "PMS0860020_name": "行業別設定",

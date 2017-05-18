@@ -146,6 +146,20 @@
                                                             </li>
                                                             <li>
                                                                 <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0830020')"
+                                                                   href="#">
+                                                                    <%= __("PMS0830020_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
+                                                                   @click="loadSetUpPage('PMS0860010')"
+                                                                   href="#">
+                                                                    <%= __("PMS0860010_name") %>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tab"
                                                                    @click="loadSetUpPage('PMS0830060')"
                                                                    href="#">
                                                                     <%= __("PMS0830060_name") %>
@@ -235,7 +249,7 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
-                this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
+//                this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
                 waitingDialog.show("Loading...");
 
                 $("#prgContentDiv").empty();

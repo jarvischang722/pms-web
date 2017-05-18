@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0860010] 取得多筆 -->
+    <dao name="QRY_CUST_TYPE_RF">
+        <statement><![CDATA[
+			select type_cod, type_nam, ins_dat, ins_usr, upd_dat, upd_usr, athena_id  from cust_type_rf where athena_id = trim(:athena_id)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+</root>
