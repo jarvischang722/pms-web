@@ -380,8 +380,15 @@ label {
   font-size: 13px !important;
 }
 
+/* line 149, ../sass/editDefault/_editBootstrap.sass */
+.container_12 .grid_12 {
+  width: 95% !important;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 @media screen and (max-width: 992px) {
-  /* line 151, ../sass/editDefault/_editBootstrap.sass */
+  /* line 156, ../sass/editDefault/_editBootstrap.sass */
   .top-sec-ul {
     z-index: 1024;
     padding-top: 50px;
@@ -1256,6 +1263,25 @@ body {
   padding-left: 5px;
   padding-right: 5px;
   padding-bottom: 1px;
+}
+
+/* line 393, ../sass/partials/_fixTableMain.sass */
+.subTree-s th, .subTree-s td {
+  color: #3a67df !important;
+}
+/* line 395, ../sass/partials/_fixTableMain.sass */
+.subTree-s .td-first {
+  color: #3a67df !important;
+}
+
+/* line 397, ../sass/partials/_fixTableMain.sass */
+.subTree-title {
+  color: #3a67df !important;
+}
+
+/* line 399, ../sass/partials/_fixTableMain.sass */
+table.treetable span.indenter {
+  width: auto;
 }
 
 /*-------- login.html -------- */
@@ -2948,25 +2974,6 @@ input[type="date"] {
 /* line 236, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
-}
-
-/* line 239, ../sass/modules/_public.sass */
-.subTree-s th, .subTree-s td {
-  color: #3a67df !important;
-}
-/* line 241, ../sass/modules/_public.sass */
-.subTree-s .td-first {
-  color: #3a67df !important;
-}
-
-/* line 243, ../sass/modules/_public.sass */
-.subTree-title {
-  color: #3a67df !important;
-}
-
-/* line 245, ../sass/modules/_public.sass */
-table.treetable span.indenter {
-  width: auto;
 }
 
 /*-------------- responsive -------------- */

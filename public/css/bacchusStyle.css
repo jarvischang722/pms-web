@@ -474,25 +474,6 @@ input[type="date"] {
   margin-right: 3px;
 }
 
-/* line 239, ../sass/modules/_public.sass */
-.subTree-s th, .subTree-s td {
-  color: #3a67df !important;
-}
-/* line 241, ../sass/modules/_public.sass */
-.subTree-s .td-first {
-  color: #3a67df !important;
-}
-
-/* line 243, ../sass/modules/_public.sass */
-.subTree-title {
-  color: #3a67df !important;
-}
-
-/* line 245, ../sass/modules/_public.sass */
-table.treetable span.indenter {
-  width: auto;
-}
-
 /* line 11, ../sass/bacchusStyle.sass */
 .lang {
   margin: 20px 20px 0 0;

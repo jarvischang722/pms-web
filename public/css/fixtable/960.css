@@ -88,7 +88,7 @@
 }
 .container_12 .grid_12,
 .container_16 .grid_16 {
-	min-width: 700px;
+	/*min-width: 700px;*/
 	max-width: 100%;
 	overflow-x: auto;
 }

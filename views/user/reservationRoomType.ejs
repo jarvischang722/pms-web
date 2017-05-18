@@ -2934,6 +2934,28 @@
             $(".fht-tbody").css("height", height-80);
         });
 
+//        grid_12
+        var tableWidth1 = $(".sidebar").width();
+        console.log(tableWidth1);
+//        console.log(header2);
+        tableWidth=$(window).width()-tableWidth1-10;
+        $(".grid_12").css("width", "95% !important");
+//        $(".grid_12").find(".fht-fixed-body").css("width", "95%");
+        $(".fht-body").css("width", "95% !important");
+//        $("#resRoomType-table").css("width", tableWidth-80);
+//        $(".fht-table").css("width", tableWidth-80);
+//        $(".fancyTable").css("width", tableWidth-80);
+        $(window).resize(function() {
+            tableWidth=$(window).width()-tableWidth1-10;
+            $(".grid_12").css("width", "95%");
+            $(".fht-body").css("width", "95%");
+//            $(".grid_12").find(".fht-fixed-body").css("width", tableWidth-80)
+//            $("#resRoomType-table").css("width", tableWidth-80);
+//            $(".fht-table").css("width", tableWidth-80);
+//            $(".fht-fixed-body").css("width", tableWidth-80);
+            console.log(tableWidth);
+        });
+
         //$(document).on('click',".controlSub",function(e){
         //$('.sub-content').toggle();
         //});
