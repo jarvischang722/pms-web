@@ -3,13 +3,15 @@
 
     <dao name="QRY_ROOM_RF">
         <statement><![CDATA[
-
-         SELECT * FROM  ROOM_RF
-         WHERE trim(athena_id) = trim(:athena_id)
+                SELECT athena_id, hotel_cod, room_typ, room_nam, room_sna, room_qnt, ins_dat, ins_usr, upd_dat, upd_usr
+                FROM room_rf
+               WHERE trim(athena_id) = trim(:athena_id)
+               and trim(hotel_cod) = trim(:hotel_cod)
 
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
     <dao name="QRY_ROOM_RF_DELETE">

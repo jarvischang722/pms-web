@@ -53,7 +53,6 @@
   "program": {
     "PMS0810010": {
       "athena_id": "Athena ID",
-      "del": "刪除",
       "hotel_cod": "館別",
       "room_typ": "房型類別",
       "room_nam": "房型類別說明",
@@ -62,11 +61,7 @@
       "ins_dat": "輸入日",
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
-      "upd_usr": "最後異動者",
-      "btn_insert": "新增",
-      "btn_delete": "刪除",
-      "btn_modify": "修改",
-      "btn_save": "儲存"
+      "upd_usr": "最後異動者"
     },
     "PMS0810040": {
       "athena_id": "Athena ID",
@@ -148,27 +143,27 @@
       "upd_usr": "最後異動者"
     },
     "PMS0810100": {
-      "source_grp": "Source Group",
-      "source_grp_nam": "Group Name",
-      "use_sta": "In Use",
-      "ins_dat": "Added Date",
-      "ins_usr": "Added By",
-      "upd_dat": "Modified Date",
-      "upd_usr": "Modified By"
+      "source_grp": "群組代號",
+      "source_grp_nam": "群組名稱",
+      "use_sta": "是否使用中",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     },
     "PMS0810090": {
-      "guest_typ": "Guest Type",
-      "guest_nam": "Type Name",
-      "guest_sna": "Short Name",
-      "history_sta": "Guest History",
-      "guest_way": "Process Type",
-      "use_sta": "In Use ",
-      "rcard_prtrent": "Print Rent",
-      "guest_grp": "Guest Group",
-      "ins_dat": "Added Date",
-      "ins_usr": "Added By",
-      "upd_dat": "Modified Date",
-      "upd_usr": "Modified By"
+      "guest_typ": "市場類別",
+      "guest_nam": "名稱",
+      "guest_sna": "簡稱",
+      "history_sta": "留歷史資料、可印登記卡",
+      "guest_way": "類別流程",
+      "use_sta": "是否使用",
+      "rcard_prtrent": "RCARD印房租",
+      "guest_grp": "市場類別群組",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     },
     "PMS0810110": {
       "source_typ": "來源類別",

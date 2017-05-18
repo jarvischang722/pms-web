@@ -53,7 +53,6 @@
   "program": {
     "PMS0810010": {
       "athena_id": "Athena ID",
-      "del": "Delete",
       "hotel_cod": "Hotel Code",
       "room_typ": "Rm Type Code",
       "room_nam": "Description",
@@ -62,11 +61,7 @@
       "ins_dat": "Added Date",
       "ins_usr": "Added by",
       "upd_dat": "Modified Date",
-      "upd_usr": "Modified By",
-      "btn_insert": "Add",
-      "btn_delete": "Delete",
-      "btn_modify": "Edit",
-      "btn_save": "Save"
+      "upd_usr": "Modified By"
     },
     "PMS0810040": {
       "athena_id": "Athena ID",
@@ -171,8 +166,8 @@
       "upd_usr": "Modified By"
     },
     "PMS0810110": {
-      "source_typ": "來源類別",
-      "source_nam": "Group Name",
+      "source_typ": "Source",
+      "source_nam": "Name",
       "use_sta": "In Use",
       "source_grp": "Source Group",
       "ins_dat": "Added Date",

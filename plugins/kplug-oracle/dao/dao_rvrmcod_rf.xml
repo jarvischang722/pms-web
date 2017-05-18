@@ -131,11 +131,12 @@
 
         select count(*) as room_count
         from rvrmcod_rf
-        where athena_id = :athena_id and trim(room_typ) = trim(:room_typ)
+        where trim(athena_id) = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod) and trim(room_typ) = trim(:room_typ)
 
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_typ</parameter>
     </dao>
 
