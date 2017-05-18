@@ -36,7 +36,7 @@
                                                                 <a data-toggle="tab"
                                                                    @click="loadSetUpPage(proc.pro_id)"
                                                                    href="javascript:void(0)">
-                                                                    {{proc['pro_name_<%=session.locale.toLowerCase()%>']}}
+                                                                    {{proc['pro_name_<%=session.locale%>']}}
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -133,6 +133,7 @@
                     if(result.success){
                         vmMain.prosList = result.prosList;
                         vmMain.doFirstPrg();
+                        console.log( vmMain.prosList    );
                     }
                 });
             },

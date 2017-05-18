@@ -386,9 +386,6 @@ exports.doSaveDataGrid = function (postData, session, callback) {
     var userInfo = session.user;
     var hotel_cod = userInfo["fun_hotel_cod"];
     var prg_id = postData["prg_id"] || "";
-    var deleteData = postData["deleteData"] || [];
-    var createData = postData["createData"] || [];
-    var updateData = postData["updateData"] || [];
     var prgFields = []; //prg 所屬的欄位
 
     async.waterfall([
@@ -447,6 +444,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     savaExecDatas[exec_seq] = d_action;
                     exec_seq++;
                 });
+                postData = result.postData;
             }
             callback(err, result);
         })
@@ -454,7 +452,9 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
     //實作儲存
     function doSaveDataByAPI(chkResult, callback) {
-
+        var deleteData = postData["deleteData"] || [];
+        var createData = postData["createData"] || [];
+        var updateData = postData["updateData"] || [];
         var keyFields = _.pluck(_.where(prgFields, {keyable: 'Y'}), "ui_field_name") || []; //屬於key 的欄位
         var la_multiLangFields = _.filter(prgFields, function (field) {
             return field.multi_lang_table != ""
@@ -468,6 +468,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 _.each(createData, function (data) {
                     var tmpIns = {"function": "1"}; //1  新增
                     tmpIns["table_name"] = mainTableName;
+
+                    data = handleDateFormat(prgFields, data);
 
                     _.each(Object.keys(data), function (objKey) {
                         tmpIns[objKey] = data[objKey];
@@ -542,6 +544,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                             tmpEdit["table_name"] = mainTableName;
                             tmpEdit["athena_id"] = userInfo.athena_id;
                             tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
+
+                            data = handleDateFormat(prgFields, data);
 
                             _.each(Object.keys(data), function (objKey) {
                                 tmpEdit[objKey] = data[objKey];
@@ -759,3 +763,27 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
 };
 
 
+/**
+ * 根據field 屬性格式化日期格式
+ * @param prgFields
+ * @param rowData
+ * @return {*}
+ */
+function handleDateFormat(prgFields , rowData){
+    prgFields = _.filter(prgFields,function(field){
+        return field.ui_type == 'date' || field.ui_type == 'datetime';
+    });
+
+    _.each(rowData,function(val,field_name){
+         var la_tmpField = _.findWhere(prgFields,{ui_field_name:field_name}) ;
+         if(!_.isUndefined(la_tmpField)){
+             if(la_tmpField.ui_type == 'date' ){
+                 rowData[field_name] = moment(val).format("YYYY/MM/DD");
+             }else if(la_tmpField.ui_type == 'datetime' ){
+                 rowData[field_name] = moment(val).format("YYYY/MM/DD HH:mm:ss");
+             }
+         }
+    });
+
+    return rowData;
+}

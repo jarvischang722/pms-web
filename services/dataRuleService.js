@@ -306,6 +306,8 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
     var la_before_save_create_sql_action = [];      //儲存前需要新增插入資料庫的動作
     var la_before_save_delete_sql_action = [];      //儲存前需要刪除資料庫的動作
     var la_before_save_update_sql_action = [];      //儲存前需要修改資料庫的動作
+    var lo_beforeSaveCreateCheckResult  = [];       //檢查update 結果
+    var lo_beforeSaveUpdateCheckResult  = [];       //檢查
 
     mongoAgent.DatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
         if (ruleFuncs.length > 0) {
@@ -317,7 +319,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             var beforeCreateFuncRule = _.findIndex(ruleFuncs, {func_id: '0521'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0521'}).rule_func_name
                 : "";
-            _.each(createData, function (c_data) {
+            _.each(createData, function (c_data,cIdx) {
                 if (!_.isEmpty(beforeCreateFuncRule) && !_.isUndefined(ruleAgent[beforeCreateFuncRule])) {
                     var createPostData = {
                         singleRowData: c_data
@@ -328,6 +330,9 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                             ruleAgent[beforeCreateFuncRule](createPostData, session, function (err, result) {
                                 if (result.extendExecDataArrSet.length > 0) {
                                     la_before_save_create_sql_action = _.union(la_before_save_create_sql_action, result.extendExecDataArrSet);
+                                }
+                                if(_.isUndefined(result.modifiedRowData) && _.size(result.modifiedRowData) > 0){
+                                     postData["createData"][cIdx] = result.modifiedRowData;
                                 }
                                 callback(err ? err.errorMsg : null, result.success)
                             })
@@ -410,7 +415,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             result.la_before_save_create_sql_action = la_before_save_create_sql_action;
             result.la_before_save_delete_sql_action = la_before_save_delete_sql_action;
             result.la_before_save_update_sql_action = la_before_save_update_sql_action;
-
+            result.postData = postData;
             callback(err, result);
         });
 
