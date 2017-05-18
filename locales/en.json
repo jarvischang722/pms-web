@@ -70,7 +70,6 @@
     },
     "PMS0810040": {
       "athena_id": "Athena ID",
-      "hotel_cod": "Hotel Code",
       "state_cod": "State Code",
       "state_nam": "State Name",
       "ins_dat": "Added Date",
@@ -213,28 +212,35 @@
       "upd_usr": "Modified By"
     },
     "PMS0860050": {
-      "visit_typ": "拜訪方式代號",
-      "visit_nam": "拜訪方式名稱",
-      "ins_dat": "輸入日",
-      "ins_usr": "輸入者",
-      "upd_dat": "最後異動日",
-      "upd_usr": "最後異動者"
+      "visit_typ": "Visit Code",
+      "visit_nam": "Visit Name",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     },
     "PMS0860020": {
-      "business_cod": "行業代號",
-      "business_rmk": "行業名稱",
-      "ins_dat": "輸入日",
-      "ins_usr": "輸入者",
-      "upd_dat": "最後異動日",
-      "upd_usr": "最後異動者"
+      "business_cod": "Industry code",
+      "business_rmk": "Industry name",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     },
     "PMS0860040": {
-      "remark_typ": "備註類別代號",
-      "type_nam": "備註類別名稱",
-      "ins_dat": "輸入日",
-      "ins_usr": "輸入者",
-      "upd_dat": "最後異動日",
-      "upd_usr": "最後異動者"
+      "remark_typ": "Remark Code",
+      "type_nam": "Remark Name",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },"PMS0810220": {
+      "transport_cod": "交通類別代號",
+      "transport_nam": "交通類別名稱",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     },
     "PMS0810170": {
       "day_sta": "Season Type",
@@ -293,7 +299,7 @@
   "PMS0810130_name": "前檯訂房分析",
   "PMS0810140_name": "FOC",
   "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "訂房取消原因設定",
+  "PMS0810160_name": "房取消原因設定",
   "PMS0810170_name": "假日類別",
   "PMS0810200_name": "交辦事項",
   "PMS0860010_name": "商務公司類別設定",
@@ -302,6 +308,7 @@
   "PMS0860050_name": "拜訪方式設定",
   "PMS0860020_name": "行業別設定",
   "PMS0860040_name": "備註類別設定",
+  "PMS0810220_name": "交通類別設定",
   "table_in_use": "Table in use (%s)",
   "SystemCommon": {
     "OK": "OK",
