@@ -99,8 +99,8 @@ exports.night_check = function (req, res) {
 /**
  * 業務
  */
-exports.business = function (req, res) {
-    res.render('subsystem/business/');
+exports.sales = function (req, res) {
+    res.render('subsystem/sales/');
 };
 
 /**

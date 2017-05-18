@@ -5,17 +5,18 @@
             <%   var la_quickMenu = []; %>
             <% session.user.subsysMenu.forEach(function(sysItem){ %>
             <%
-                var subsys_url = "";
                 var activeClass = "";
-                switch (sysItem.subsys_id) {
+                var subsys_url = "";
+                if(current_subsys_id == sysItem.subsys_id){
+                    activeClass ='active-01';
+                    la_quickMenu = sysItem.quickMenu || [];
+                }
+
+                switch (sysItem.subsys_id ) {
                     case 'PMS0600000':
-                        activeClass = subsysType == 'business' ? 'active-01' : "";
-                        la_quickMenu = sysItem.quickMenu || [];
                         subsys_url = '/businessCompanyData'
                         break;
                     case 'PMS0800000':
-                        activeClass = subsysType == 'setup' ? 'active-01' : "";
-                        la_quickMenu = sysItem.quickMenu || [];
                         subsys_url = '/subsystem/setup'
                         break;
                 }
