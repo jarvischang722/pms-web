@@ -234,7 +234,8 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
-    },"PMS0810220": {
+    },
+    "PMS0810220": {
       "transport_cod": "交通類別代號",
       "transport_nam": "交通類別名稱",
       "ins_dat": "Added Date",
