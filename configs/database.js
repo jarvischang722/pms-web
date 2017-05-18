@@ -14,10 +14,9 @@ module.exports = {
     }],
     //mongoDB 設定檔
     mongo: {
-        host: "192.168.1.76",
+        // host: "192.168.1.76",
+        host: "127.0.0.1",
         port: "2717",
-        // host: "127.0.0.1",
-        // port: "27017",
         dbname: "bacchus",
         username: "bacchus",
         password: "mongo"
