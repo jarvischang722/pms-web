@@ -2123,7 +2123,7 @@ a {
 .businessCompanyData .main-content-data label {
   width: 90px;
   text-align: right;
-  margin-right: 5px;
+  margin-right: 0;
 }
 /* line 506, ../sass/_bacchusMain.sass */
 .businessCompanyData .main-content-data .mainData-tip {
@@ -2143,7 +2143,7 @@ a {
 .businessCompanyData .tab-block label {
   width: 90px;
   text-align: right;
-  margin-right: 5px;
+  margin-right: 0;
 }
 /* line 506, ../sass/_bacchusMain.sass */
 .businessCompanyData .tab-block .mainData-tip {
@@ -2221,7 +2221,7 @@ a {
 .businessCompanyData .bs-changeRecord label {
   width: 90px;
   text-align: right;
-  margin-right: 5px;
+  margin-right: 0;
 }
 /* line 506, ../sass/_bacchusMain.sass */
 .businessCompanyData .bs-changeRecord .mainData-tip {
@@ -2780,43 +2780,55 @@ a {
   }
 }
 /* line 140, ../sass/modules/_public.sass */
+.input-medium.medium-c3 {
+  width: 68px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 142, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col2 {
+  width: 240px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 144, ../sass/modules/_public.sass */
 .input-medium.addedBy {
   width: 74px;
   max-width: 100%;
   height: 25px;
 }
-/* line 142, ../sass/modules/_public.sass */
+/* line 146, ../sass/modules/_public.sass */
 .input-medium.addedDate {
   width: 140px;
   max-width: 100%;
   height: 25px;
 }
-/* line 144, ../sass/modules/_public.sass */
+/* line 148, ../sass/modules/_public.sass */
 .input-medium.bill-input-s1 {
   width: 120px;
   max-width: 100%;
   height: 25px;
 }
-/* line 146, ../sass/modules/_public.sass */
+/* line 150, ../sass/modules/_public.sass */
 .input-medium.bill-input-s2 {
   width: 245px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 149, ../sass/modules/_public.sass */
+/* line 153, ../sass/modules/_public.sass */
 .input-h35 {
   height: 25px !important;
 }
 
-/* line 151, ../sass/modules/_public.sass */
+/* line 155, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 439px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 151, ../sass/modules/_public.sass */
+  /* line 155, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -2824,14 +2836,14 @@ a {
   }
 }
 
-/* line 155, ../sass/modules/_public.sass */
+/* line 159, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 155, ../sass/modules/_public.sass */
+  /* line 159, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -2839,35 +2851,35 @@ a {
   }
 }
 
-/* line 159, ../sass/modules/_public.sass */
+/* line 163, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 162, ../sass/modules/_public.sass */
+/* line 166, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 167, ../sass/modules/_public.sass */
+/* line 171, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 170, ../sass/modules/_public.sass */
+/* line 174, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 172, ../sass/modules/_public.sass */
+/* line 176, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 176, ../sass/modules/_public.sass */
+/* line 180, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -2875,7 +2887,7 @@ a {
   position: absolute;
 }
 
-/* line 182, ../sass/modules/_public.sass */
+/* line 186, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 1.17em;
@@ -2885,21 +2897,21 @@ a {
   font-weight: bold;
 }
 
-/* line 193, ../sass/modules/_public.sass */
+/* line 197, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 200, ../sass/modules/_public.sass */
+/* line 204, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"] {
   border-radius: 5px !important;
 }
 
-/* line 218, ../sass/modules/_public.sass */
+/* line 222, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
