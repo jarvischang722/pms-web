@@ -21,6 +21,7 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod,
             transport_cod : postData.singleRowData.transport_cod
         };
 

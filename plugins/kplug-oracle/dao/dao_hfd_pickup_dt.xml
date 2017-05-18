@@ -5,10 +5,11 @@
         <statement><![CDATA[
                 select count(*) pickupcount
                from hfd_pickup_dt
-               where athena_id =? and  schedule_way = ? and rownum = 1
+               where athena_id =?  and  trim(hotel_cod) = ? and  schedule_way = ? and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">transport_cod</parameter>
     </dao>
 </root>
