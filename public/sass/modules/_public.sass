@@ -151,8 +151,10 @@ a
     +input-s1(245px)
   &.rateCode-s1
     +input-s1(180px)
-  &.mini-c1
-    +input-s1(70px)
+  &.rateCode-s2
+    +input-s1(43px)
+  &.rateCode-s3
+    +input-s1(135px)
 .input-h35
   height: $inputHeight-medium !important
 .input-spc-1
@@ -227,7 +229,7 @@ input[type="date"]
 
 .popCheckbox
   .checkbox
-    margin: 0 auto
+    margin: 1px auto 0 auto
     .ace
       padding-right: 5px
     label
@@ -235,3 +237,11 @@ input[type="date"]
       .lbl
         &:before
           margin-right: 3px
+        //.txt
+        //  line-height: 19px
+  &.lbl-after
+    .txt
+      line-height: 22px
+    .checkbox
+      label
+        padding-left: 10px
