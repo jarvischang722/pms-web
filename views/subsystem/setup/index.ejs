@@ -10,13 +10,13 @@
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../../common/moduleMenu',{module:'setup'}) %>
+        <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0800000'}) %>
     </div>
 
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../../common/subsysMenu',{subsysType:'setup'}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000'}) %>
             <div id="setupMainContent" class="page-content" >
                 <!-- 主內容 -->
             </div>
@@ -33,3 +33,8 @@
 
 
 </html>
+<script>
+    $(function(){
+      $("#quickMenuUl li").first().click();
+    })
+</script>

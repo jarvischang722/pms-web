@@ -99,8 +99,8 @@ exports.night_check = function (req, res) {
 /**
  * 業務
  */
-exports.business = function (req, res) {
-    res.render('subsystem/business/');
+exports.sales = function (req, res) {
+    res.render('subsystem/sales/');
 };
 
 /**
@@ -131,7 +131,8 @@ exports.customize_setup = function (req, res) {
  */
 exports.getGroupMdlPros =  function(req, res){
     var mdl_id = req.body.mdl_id;
-    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id,function(err,ProsList){
+    var la_locales = req.cookies.sys_locales || [];
+    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id,la_locales,function(err,ProsList){
         res.json({success:_.isNull(err), errorMsg:err, prosList:ProsList});
     })
 };

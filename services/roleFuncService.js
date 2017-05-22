@@ -131,7 +131,10 @@ exports.updateUserPurview = function (req, callback) {
 
                     _.each(subsysList, function (subsys, sysIdx) {
                         _.each(la_locales, function (locale) {
-                            var lo_subsysLang = _.findWhere(langContent, {subsys_id: subsys.subsys_id, locale: locale.lang});
+                            var lo_subsysLang = _.findWhere(langContent, {
+                                subsys_id: subsys.subsys_id,
+                                locale: locale.lang
+                            });
                             subsysList[sysIdx]["subsys_nam_" + locale.lang] = lo_subsysLang ? lo_subsysLang.words : "";
                         })
                     });
@@ -140,8 +143,15 @@ exports.updateUserPurview = function (req, callback) {
                 });
             });
         },
+        //找出作業的多語系
         function (subsysList, callback) {
-            //找出系統模組
+            langSvc.handleMultiLangContentByField("lang_s99_process", "pro_name", "", function (err, proLangList) {
+                callback(err, subsysList, proLangList);
+            })
+        },
+        //找出系統模組
+        function (subsysList, proLangList, callback) {
+
             queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: sys_id}, 0, 0, function (err, mdlProList) {
                 var mdlList = [];
                 //TODO 多語系
@@ -149,6 +159,12 @@ exports.updateUserPurview = function (req, callback) {
                 var mdlMenu = _.groupBy(mdlProList, "mdl_id");
                 _.each(mdlMenu, function (processMenu, mdl_id) {
                     var lo_mdlInfo = mdlMenu[mdl_id][0];
+                    _.each(processMenu, function (pro, pIdx) {
+                        _.each(la_locales, function (locale) {
+                            var lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
+                            processMenu[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
+                        })
+                    });
                     mdlList.push({
                         mdl_id: lo_mdlInfo.mdl_id,
                         mdl_name_zh_TW: lo_mdlInfo.mdl_name_zh_tw,
@@ -201,7 +217,7 @@ exports.updateUserPurview = function (req, callback) {
                             var lo_subsys = _.findWhere(subsysList, {subsys_id: lo_pro.pre_id});
                             var lo_mdl = _.findWhere(lo_subsys.mdlMenu, {mdl_id: quickData.pro_id});
                             if (!_.isUndefined(lo_mdl)) {
-                                 tmpQuickObj = {
+                                tmpQuickObj = {
                                     pro_id: lo_mdl.mdl_id,
                                     pro_url: lo_mdl.mdl_url,
                                     subsys_id: quickData.subsys_id
@@ -215,18 +231,13 @@ exports.updateUserPurview = function (req, callback) {
                             }
                         } else if (lo_pro.id_typ == "PROCESS") {
 
-                            var lo_pro = _.findWhere(la_allMdlProList,{pro_id:lo_pro.pro_id});
-                            if(!_.isUndefined(lo_pro)){
+                            var lo_pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.pro_id});
+                            if (!_.isUndefined(lo_pro)) {
                                 tmpQuickObj = {
                                     pro_id: lo_pro.pro_id,
                                     pro_url: lo_pro.pro_url,
                                     subsys_id: quickData.subsys_id
                                 };
-                                _.each(la_locales, function (locale) {
-                                    if (!_.isUndefined(lo_pro["pro_name_" + locale.lang])) {
-                                        tmpQuickObj["pro_name_" + locale.lang] = lo_pro["pro_name_" + locale.lang];
-                                    }
-                                });
                                 la_allQuickMenu.push(tmpQuickObj);
                             }
 
@@ -265,21 +276,31 @@ exports.updateUserPurview = function (req, callback) {
  * @param mdl_id
  * @param callback
  */
-exports.handleGroupMdlProcess = function(userInfo , mdl_id, callback){
+exports.handleGroupMdlProcess = function (userInfo, mdl_id, la_locales, callback) {
     var params = {
         user_athena_id: userInfo.user_athena_id,
         user_comp_cod: userInfo.cmp_id.trim(),
         user_id: userInfo.usr_id,
         athena_id: userInfo.athena_id,
         func_hotel_cod: userInfo.fun_hotel_cod,
-        pre_id:mdl_id,
-        id_typ:"PROCESS"
+        pre_id: mdl_id,
+        id_typ: "PROCESS"
     };
-    queryAgent.queryList("QRY_BAC_PROCESS_BY_MODULE",params ,0,0,function(err,prosList){
-        if(err){
-            callback(null , []);
-        }else{
-            callback(null , prosList);
+    queryAgent.queryList("QRY_BAC_PROCESS_BY_MODULE", params, 0, 0, function (err, prosList) {
+        if (err) {
+            callback(null, []);
+        } else {
+            langSvc.handleMultiLangContentByField("lang_s99_process", "pro_name", "", function (err, proLangList) {
+                //多語系
+                _.each(prosList, function (pro, pIdx) {
+                    _.each(la_locales, function (locale) {
+                        var lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
+                        prosList[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
+                    })
+                });
+                callback(null, prosList);
+            })
+
         }
     })
 };

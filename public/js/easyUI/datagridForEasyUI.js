@@ -3,6 +3,7 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
+
 var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
@@ -37,6 +38,8 @@ var EZfieldClass = {
             dataType = 'combobox';
         } else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
+        } else if (fieldAttrObj.ui_type == "color") {
+            dataType = 'color';
         }
 
         var tmpFieldObj = {
@@ -54,23 +57,20 @@ var EZfieldClass = {
                 readonly: fieldAttrObj.modificable == "N",
                 validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
             },
-
-
-
         };
 
         //長度
         var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
         var maxLength = fieldAttrObj.ui_field_length;
-        if (fieldAttrObj.ui_type != "select")    //combobox因text內容有長有短，所以排除此長度驗證
+        if (fieldAttrObj.ui_type != "select") {   //combobox因text內容有長有短，所以排除此長度驗證
             tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
-
+        }
         //checkbox
-        if(fieldAttrObj.ui_type == "checkbox"){
-            //tmpFieldObj.editor.options.push( fieldAttrObj.selectData);
-            tmpFieldObj.editor.options =  fieldAttrObj.selectData;
+        if (fieldAttrObj.ui_type == "checkbox") {
+            tmpFieldObj.editor.options = fieldAttrObj.selectData;
         }
 
+        tmpFieldObj.ui_type = fieldAttrObj.ui_type;
         tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
         tmpFieldObj.ui_field_num_point = fieldAttrObj.ui_field_num_point;
         tmpFieldObj.visiable = fieldAttrObj.visiable;
@@ -81,14 +81,14 @@ var EZfieldClass = {
         tmpFieldObj.format_func_name = fieldAttrObj.format_func_name;
         tmpFieldObj.grid_field_name = fieldAttrObj.grid_field_name;
         tmpFieldObj.multi_lang_table = fieldAttrObj.multi_lang_table;
-        tmpFieldObj.styler = function(){
-            if(fieldAttrObj.requirable == "Y"){
+        tmpFieldObj.styler = function () {
+            if (fieldAttrObj.requirable == "Y") {
                 return 'background-color:rgb(198, 242, 217);';
             }
 
         };
 
-        // format 顯示資料
+        // Formatter 顯示資料
         if (dataType == "datebox") {
             tmpFieldObj.formatter = function (date, row, index) {
                 return moment(date).format("YYYY/MM/DD");
@@ -106,20 +106,19 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.formatter = function (val, row, index) {
-                //SAM 20170419 為了取得多筆
                 if (val != null) {
                     var datas = val.split(",");
                     var allValues = "";
                     _.each(datas, function (field) {
-                        if(_.findIndex(fieldAttrObj.selectData, {value: field}) > -1){
+                        if (_.findIndex(fieldAttrObj.selectData, {value: field}) > -1) {
                             var valueName = _.findWhere(fieldAttrObj.selectData, {value: field}).display;
                             allValues += "," + valueName;
                         }
-                    })
+                    });
                     allValues = allValues.replace(",", "");
                     return allValues;
                 }
-            }
+            };
 
             if (fieldAttrObj.ui_type == "multiselect") {
                 tmpFieldObj.editor.options.multiple = true;
@@ -129,24 +128,27 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
                 gb_onceEffectFlag = true;
             }
-        }else if(dataType == "checkbox"){
-            tmpFieldObj.formatter = function (val,row,index) {
-                var fieldName ="";
-                // _.each(fieldAttrObj.selectData,function (field) {
-                //     fieldName = field == 'Y' ? "使用" : "不使用";
-                //    return fieldName;
-                // })
-                fieldName = val == 'Y' ? "使用" : "不使用";
+        } else if (dataType == "checkbox") {
+            tmpFieldObj.formatter = function (val, row, index) {
+                //TODO 值不可寫死
+                var fieldName = val == 'Y' ? "使用" : "不使用";
                 return fieldName;
             }
+        } else if (fieldAttrObj.ui_type == "color") {
+            var lf_colorFormatter  = function (color_cod, row, index) {
+                var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
+                var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
+                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
+            };
+            tmpFieldObj.formatter = lf_colorFormatter;
+
         }
+
 
         //combobox連動
         if (fieldAttrObj.rule_func_name != "") {
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-
                 if (gb_onceEffectFlag && newValue != oldValue) {
-                    console.log(newValue + "," + oldValue);
                     var selectDataRow = $('#prg_dg').datagrid('getSelected');
                     var postData = {
                         prg_id: fieldAttrObj.prg_id,
@@ -155,7 +157,7 @@ var EZfieldClass = {
                         rowData: JSON.parse(JSON.stringify(selectDataRow)),
                         newValue: newValue,
                         oldValue: oldValue
-                    }
+                    };
 
                     $.post('/api/chkFieldRule', postData, function (result) {
                         gb_onceEffectFlag = false;
@@ -179,67 +181,45 @@ var EZfieldClass = {
         }
 
         return tmpFieldObj;
-    },
-    /** 欄位屬性轉換成EZ UI Form 屬性**/
-    fieldConvEzFormOption: function (fieldAttrObj) {
-
-        var tmpOptions = {
-            required: fieldAttrObj.requirable == "Y",
-            readonly: fieldAttrObj.modificable == "N",
-            validType: fieldAttrObj.format_func_name != "" ? [fieldAttrObj.format_func_name] : [],
-            width: fieldAttrObj.width,
-            field: fieldAttrObj.ui_field_name.toLowerCase()
-        };
-
-        //長度
-        var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
-        var maxLength = fieldAttrObj.ui_field_length;
-        if (!_.isNull(maxLength) && !_.isNull(maxLength)) {
-            tmpOptions.validType.push('length[' + mixLength + ',' + maxLength + ']');
-        }
-
-        // format 顯示資料
-        if (fieldAttrObj.ui_type == "date") {
-            tmpOptions.formatter = function (date, row, index) {
-                return moment(date).format("YYYY/MM/DD");
-            }
-        } else if (fieldAttrObj.ui_type == "datetimebox") {
-
-            tmpOptions.formatter = function (date) {
-                return moment(date).format("YYYY/MM/DD HH:mm:ss");
-            };
-        }
-
-        return tmpOptions;
-    },
-    //產生easyUI html
-    pageTwoFieldOptionsActive: function (fieldData) {
-
-        _.each(fieldData, function (field) {
-            var inputFieldID = "singleGrid_" + field.ui_field_name;   //form input 的ID
-            var dataType = "text";   //input 種類
-            if (field.ui_type == "text") {
-                dataType = 'textbox';
-            } else if (field.ui_type == "number") {
-                dataType = 'numberbox';
-            } else if (field.ui_type == "date") {
-                dataType = 'datebox';
-            } else if (field.ui_type == "datetime") {
-                dataType = 'datetimebox';
-            }
-            var dataOpts = EZfieldClass.fieldConvEzFormOption(field);
-            var ui_display_name = field.ui_display_name;
-
-            if (field.visiable == "Y") {
-                // 初始化屬性
-                $('#' + inputFieldID)[dataType](dataOpts);
-            }
-
-        })
-    },
-    //datagrid 多語系datagird
-    datagridForMultiLang : function(fieldData){
-
     }
 
 };
+
+var ColorFunc = {
+    //選擇顏色事件
+    selectEvent: function (field_name, rowIdx, _this) {
+        var dataGridName = "prg_dg";
+        var updateRow = {};
+        var color_cod = colorTool.hexToColorCod(_this.value);
+        updateRow[field_name] = color_cod;
+        vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
+        vm.endEditing();
+        $('#' + dataGridName).datagrid('updateRow', {
+            index: rowIdx,
+            row: updateRow
+        });
+    }
+};
+
+
+$(function () {
+
+    // $(document).on("input", ".dg_colorPicker_class", function () {
+    //     var dataGridName = "prg_dg";
+    //     var dataIdx = $(this).data("index");
+    //     var color_cod = $(this).val();
+    //     var field_name = $(this).data("field_name");
+    //     var updateRow = {};
+    //     console.log("===color_cod===");
+    //     console.log(color_cod);
+    //     updateRow[field_name] = color_cod;
+    //     $('#' + dataGridName).datagrid('updateRow', {
+    //         index: dataIdx,
+    //         row: updateRow
+    //     });
+    //
+    //
+    // })
+})
+
+

@@ -14,7 +14,7 @@
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../../common/subsysMenu',{subsysType:'setup'}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000'}) %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
                 <div class="controlReservation" >
@@ -33,10 +33,10 @@
                                                         <ul class="nav nav-tabs" id="settingUl">
                                                             <li v-for="proc in prosList"
                                                                 :class="{active: usingPrgID == proc.pro_id}">
-                                                                <a data-toggle="tab"
+                                                                <a
                                                                    @click="loadSetUpPage(proc.pro_id)"
                                                                    href="javascript:void(0)">
-                                                                    {{proc['pro_name_<%=session.locale.toLowerCase()%>']}}
+                                                                    {{proc['pro_name_<%=session.locale%>']}}
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -128,16 +128,30 @@
             //讀取此Module 所有對照檔
             loadProcess : function(){
                 this.prosList = [];
+
                 $.post("/api/getGroupMdlPros",{mdl_id:gs_mdl_id},function(result){
-                    console.log(result);
+
                     if(result.success){
                         vmMain.prosList = result.prosList;
                         vmMain.doFirstPrg();
+
                     }
                 });
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
+                var oldPrgId = this.usingPrgID;
+                var datagridEdit = $("#gridEdit").val();
+                if (!_.isEmpty(datagridEdit)) {
+                    if (datagridEdit.createData.length > 0 || datagridEdit.deleteData.length > 0 || datagridEdit.updateData.length > 0) {
+                        if (!confirm("有異動過資料，請問是否離開?")) {
+                            //event.preventDefault();
+                            $("#" + oldPrgId).addClass('active');
+                            $('#' + this_prg_id).removeClass('active');
+                            return;
+                        }
+                    }
+                }
                 this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
                 waitingDialog.show(go_i18nLang.SystemCommon.Loading);
                 $("#prgContentDiv").empty();

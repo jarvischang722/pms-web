@@ -39,6 +39,9 @@
 
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
+
+    <%- include('../common/moduleMenu',{current_subsys_id:'PMS0600000'}) %>
+
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
         </div>
@@ -49,6 +52,8 @@
 
     <div class="main-content">
         <div class="main-content-inner">
+
+            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0600000'}) %>
 
             <div class="page-content">
                 <div class="businessCompanyData">

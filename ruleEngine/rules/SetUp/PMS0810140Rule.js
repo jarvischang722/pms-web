@@ -6,15 +6,15 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     //FOC_DT.FREE_TYP已經用到的,此筆資料不可刪除
-    chk_foc_rf_is_exist_foc_dt　: function (postData, session, callback) {
+    chk_foc_rf_is_exist_foc_dt: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
@@ -50,7 +50,7 @@ module.exports = {
         }
     },
     //role_sta=4指定金額時free_qnt 固定為1不可修改
-    chk_foc_rf_role_sta :function (postData, session, callback) {
+    chk_foc_rf_role_sta: function (postData, session, callback) {
         var roleStaNewValue = postData.newValue;
         var lo_result = new ReturnClass();
         var lo_error = null;
@@ -60,12 +60,12 @@ module.exports = {
             postData.rowData.role_sta = roleStaNewValue;
             lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
-        }else {
+        } else {
             callback(lo_error, lo_result);
         }
     },
     //role_sta=4指定金額時free_qnt 固定為1不可修改
-    chk_foc_rf_free_qnt :function (postData, session, callback) {
+    chk_foc_rf_free_qnt: function (postData, session, callback) {
         var freeQntNewValue = postData.singleRowData.free_qnt;
         var roleStaValue = postData.singleRowData.role_sta;
         // var freeQntNewValue = postData.newValue;
@@ -77,12 +77,12 @@ module.exports = {
         if (freeQntNewValue != "1" && roleStaValue == "4") {
             //postData.rowData.free_qnt = "1";
             lo_error = new ErrorClass();
-            lo_error.errorMsg="FREE規則為『4.指定金額』,FREE間數(分子)必須為1";
-            lo_result.success=false;
-            lo_error.errorCod="1111";
+            lo_error.errorMsg = "FREE規則為『4.指定金額』,FREE間數(分子)必須為1";
+            lo_result.success = false;
+            lo_error.errorCod = "1111";
             //lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
-        }else {
+        } else {
             callback(lo_error, lo_result);
         }
     }
