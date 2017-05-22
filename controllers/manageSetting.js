@@ -63,23 +63,16 @@ exports.gridSingleSetUp = function (req, res) {
  * Table lock
  */
 exports.dbTableLock = function (req, res) {
+    var userInfo = req.session.user;
     var page_id = req.body["page_id"] || 1;
     var prg_id = req.body["prg_id"];
-    var user = req.session.user.usr_id || "";
-    var athena_id = req.session.user.athena_id || "";
     var key_cod = req.body["key_cod"] || "";
     mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
         if (!err && template) {
             template = template.toObject();
-            tbSVC.doTableLock(prg_id,
-                template.lock_table,
-                user,
-                template.lock_type == "table" ? "T" : "R",
-                key_cod,
-                athena_id,
-                "",
-                function (err, success) {
+            tbSVC.doTableLock(prg_id, template.lock_table, userInfo,
+                template.lock_type == "table" ? "T" : "R", key_cod, "", function (err, success) {
                     res.json({success: success, errorMsg: err})
                 })
         } else {
@@ -94,23 +87,16 @@ exports.dbTableLock = function (req, res) {
  * Table unlock
  */
 exports.dbTableUnLock = function (req, res) {
+    var userInfo = req.session.user;
     var page_id = req.body["page_id"] || 1;
     var prg_id = req.body["prg_id"];
-    var user = req.session.user.usr_id || "";
-    var athena_id = req.session.user.athena_id || "";
     var key_cod = req.body["key_cod"] || "";
     mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
         if (!err && template) {
             template = template.toObject();
-            tbSVC.doTableUnLock(prg_id,
-                template.lock_table,
-                user,
-                template.lock_type == "table" ? "T" : "R",
-                key_cod,
-                athena_id,
-                "",
-                function (err, success) {
+            tbSVC.doTableUnLock(prg_id, template.lock_table, userInfo,
+                template.lock_type == "table" ? "T" : "R", key_cod, "", function (err, success) {
                     res.json({success: success, errorMsg: err})
                 })
         } else {
