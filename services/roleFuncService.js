@@ -93,7 +93,7 @@ exports.updateUserPurview = function (req, callback) {
         user_comp_cod: userInfo.cmp_id.trim(),
         user_id: userInfo.usr_id,
         athena_id: userInfo.athena_id,
-        func_hotel_cod: userInfo.fun_hotel_cod
+        func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
     var la_allMdlProList = [];  // 全部作業
     var la_allMenuList = []; // 全部Menu 
@@ -107,7 +107,7 @@ exports.updateUserPurview = function (req, callback) {
                 menuList = _.where(menuList, {
                     menu_athena_id: req.session.user.athena_id,
                     func_comp_cod: req.session.user.cmp_id.trim(),
-                    func_hotel_cod: req.session.user.fun_hotel_cod,
+                    func_hotel_cod: req.session.user.fun_hotel_cod.trim(),
                 });
 
                 la_allMenuList = menuList;

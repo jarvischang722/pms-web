@@ -17,7 +17,7 @@
             <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000'}) %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
-                <div class="controlReservation" >
+                <div class="controlReservation">
                     <div class="page-header">
                     </div><!-- /.page-header -->
                     <div class="row">
@@ -34,9 +34,16 @@
                                                             <li v-for="proc in prosList"
                                                                 :class="{active: usingPrgID == proc.pro_id}">
                                                                 <a
-                                                                   @click="loadSetUpPage(proc.pro_id)"
-                                                                   href="javascript:void(0)">
-                                                                    {{proc['pro_name_<%=session.locale%>']}}
+                                                                        @click="loadSetUpPage(proc.pro_id)"
+                                                                        href="javascript:void(0)">
+                                                                    {{proc['pro_name_<%= session.locale %>']}}
+                                                                </a>
+                                                            </li>
+                                                            <li  :class="{active: usingPrgID == 'PMS0810050'}">
+                                                                <a
+                                                                        @click="loadSetUpPage('PMS0810050')"
+                                                                        href="javascript:void(0)">
+                                                                    交通接駁設定
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -91,7 +98,7 @@
     if (!_.isEmpty(url_hash)) {
         $("#MainContentDiv").load(url_hash);
     }
-    var gs_mdl_id = '<%=mdl_id%>';
+    var gs_mdl_id = '<%= mdl_id %>';
     var socket = io.connect('/setup');
     var userInfo = <%- JSON.stringify(session.user) %>;
 
@@ -104,7 +111,7 @@
             isTableLocked: false,// 是否被上鎖中
             tableLockMsg: "",// 上鎖訊息
             userInfo:<%- JSON.stringify(session.user || {}) %>,
-            prosList:[]
+            prosList: []
         },
         ready: function () {
             //偵測離開頁面
@@ -121,17 +128,17 @@
         methods: {
             //打開第一個對照檔
             doFirstPrg: function () {
-                if(this.prosList.length > 0){
+                if (this.prosList.length > 0) {
                     this.loadSetUpPage(vmMain.prosList[0].pro_id);
                 }
             },
             //讀取此Module 所有對照檔
-            loadProcess : function(){
+            loadProcess: function () {
                 this.prosList = [];
 
-                $.post("/api/getGroupMdlPros",{mdl_id:gs_mdl_id},function(result){
+                $.post("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}, function (result) {
 
-                    if(result.success){
+                    if (result.success) {
                         vmMain.prosList = result.prosList;
                         vmMain.doFirstPrg();
 
@@ -211,6 +218,7 @@
         if (!vmMain.isTableLocked) {
             vmMain.usingPrgID = result.prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
             $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id);
+            waitingDialog.hide();
         } else {
             vmMain.usingPrgID = "";
             waitingDialog.hide();

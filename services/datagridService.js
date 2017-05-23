@@ -125,7 +125,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
     var params = {
         user_id: userInfo.usr_id,
         athena_id: userInfo.athena_id,
-        hotel_cod : userInfo.fun_hotel_cod
+        hotel_cod: userInfo.fun_hotel_cod
     };
     var dataGridRows = [];
     var fieldData = [];
@@ -175,14 +175,14 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 athena_id: userInfo.athena_id,
                 prg_id: prg_id,
                 page_id: page_id
-            }).sort({col_seq: 1}).exec(function (err, UserFieldData) {
+            }).sort({col_seq: 1}).select({_id: 0}).exec(function (err, UserFieldData) {
                 if (err || UserFieldData.length == 0) {
                     mongoAgent.UIDatagridField.find({
                         user_id: "",
                         athena_id: "",
                         prg_id: prg_id,
                         page_id: page_id
-                    }).sort({col_seq: 1}).exec(function (err, commonFields) {
+                    }).sort({col_seq: 1}).select({_id: 0}).exec(function (err, commonFields) {
                         fieldData = tools.mongoDocToObject(commonFields);
                         callback(err, fieldData)
                     })
@@ -197,7 +197,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
 
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
-                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type =='checkbox') {
+                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox') {
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({
@@ -251,68 +251,75 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
 
 /**
  * 儲存使用者離開後datagrid 欄位的屬性
- * @param prg_id
- * @param userInfo
- * @param fieldOptions
+ * @param prg_id {String}
+ * @param page_id {Number}
+ * @param userInfo {Object}
+ * @param fieldOptions {Array}
  * @param callback
  */
 exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, callback) {
     var saveFuncs = [];
+    var lo_fieldGrp = _.groupBy(fieldOptions, "grid_field_name");
 
-    _.each(fieldOptions, function (field) {
-        saveFuncs.push(
-            //檢查有無相同資訊 (user_id,hotel_cod,ui_field_name,prg_id) 為一個key
-            //有則更新 , 沒有就新增
+    _.each(lo_fieldGrp, function (fields, grid_field_name) {
+        _.each(fields, function (field) {
+            field.user_id = userInfo.usr_id.trim();
+            field.athena_id = userInfo.athena_id;
+            field.prg_id = prg_id.trim();
 
-            function (callback) {
-                mongoAgent.UIDatagridField.findOne({
-                    user_id: userInfo.usr_id.trim(),
-                    athena_id: userInfo.athena_id,
-                    ui_field_name: field.ui_field_name.trim(),
-                    prg_id: prg_id,
-                    page_id: Number(page_id)
-                }).exec(function (err, userField) {
+            saveFuncs.push(
+                //檢查有無相同資訊 (user_id,hotel_cod,ui_field_name,prg_id) 為一個key
+                //有則更新 , 沒有就新增
 
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
+                function (callback) {
+                    var lo_key = {
+                        ui_field_name: field.ui_field_name.trim(),
+                        prg_id: prg_id,
+                        page_id: Number(page_id),
+                        grid_field_name: grid_field_name
+                    };
+                    mongoAgent.UIDatagridField.find(lo_key).select({_id: 0}).exec(function (err, commonField) {
 
-                    field.user_id = userInfo.usr_id.trim();
-                    field.athena_id = userInfo.athena_id;
-                    field.prg_id = prg_id.trim();
+                        if (err) {
+                            callback(err, null);
+                            return;
+                        }
+
+                        commonField = tools.mongoDocToObject(commonField);
+
+                        var userField = _.findWhere(commonField, {
+                            user_id: userInfo.usr_id.trim(),
+                            athena_id: String(userInfo.athena_id),
+                            prg_id: prg_id.trim()
+                        });
 
 
-                    if (userField) {
-                        //更新
-                        mongoAgent.UIDatagridField.update({
-                                user_id: userInfo.usr_id.trim(),
-                                athena_id: userInfo.athena_id,
-                                ui_field_name: field.ui_field_name.trim(),
-                                prg_id: prg_id,
-                                page_id: Number(page_id)
-                            }
-                            , field, function (err) {
+                        if (userField) {
+                            field = _.extend(userField, field);
+                            lo_key["user_id"] = userInfo.usr_id.trim();
+                            lo_key["athena_id"] = Number(userInfo.athena_id);
+                            lo_key["prg_id"] = prg_id.trim();
+
+                            //更新
+                            mongoAgent.UIDatagridField.update(lo_key, field, function (err) {
                                 if (err) {
-                                    callback(err, null);
                                     return;
+                                    callback(err, null);
                                 }
-
                                 callback(null, field.ui_field_name);
-
                             })
-                    } else {
+                        } else {
+                            //新增
+                            var UIDgFieldSchema = new mongoAgent.UIDatagridField(field);
+                            UIDgFieldSchema.save(function (err) {
+                                callback(err, field.ui_field_name);
+                            })
+                        }
+                    });
 
-                        //新增
-                        var UIDgFieldSchema = new mongoAgent.UIDatagridField(field);
-                        UIDgFieldSchema.save(function (err) {
-                            callback(err, field.ui_field_name);
-                        })
-                    }
-                });
-
-            }
-        );
+                }
+            );
+        });
     });
 
     async.parallel(saveFuncs, function (err, result) {
@@ -769,20 +776,20 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
  * @param rowData
  * @return {*}
  */
-function handleDateFormat(prgFields , rowData){
-    prgFields = _.filter(prgFields,function(field){
+function handleDateFormat(prgFields, rowData) {
+    prgFields = _.filter(prgFields, function (field) {
         return field.ui_type == 'date' || field.ui_type == 'datetime';
     });
 
-    _.each(rowData,function(val,field_name){
-         var la_tmpField = _.findWhere(prgFields,{ui_field_name:field_name}) ;
-         if(!_.isUndefined(la_tmpField)){
-             if(la_tmpField.ui_type == 'date' ){
-                 rowData[field_name] = moment(val).format("YYYY/MM/DD");
-             }else if(la_tmpField.ui_type == 'datetime' ){
-                 rowData[field_name] = moment(val).format("YYYY/MM/DD HH:mm:ss");
-             }
-         }
+    _.each(rowData, function (val, field_name) {
+        var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
+        if (!_.isUndefined(la_tmpField)) {
+            if (la_tmpField.ui_type == 'date') {
+                rowData[field_name] = moment(val).format("YYYY/MM/DD");
+            } else if (la_tmpField.ui_type == 'datetime') {
+                rowData[field_name] = moment(val).format("YYYY/MM/DD HH:mm:ss");
+            }
+        }
     });
 
     return rowData;

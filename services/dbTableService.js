@@ -12,16 +12,18 @@ var i18n = require("i18n");
  *
  * @param prg_id{String} : 程式編號
  * @param table_name{String}: lock的table
- * @param user_id{String} : 使用者編號
+ * @param userInfo{Object} : 使用者資訊
  * @param lock_type{String} : 上鎖類別 T: table | R:recode
  * @param key_cod {String} : recode 才會有
- * @param athena_id {String} : ATHENA_ID
  * @param socket_id {String} : socket_id
  * @param callback{function} : 回調函數
  */
-exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, callback) {
+exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod, socket_id, callback) {
     try {
-        var REVE_CODE = "0200930010";
+        let user_id = userInfo.usr_id;
+        let athena_id = userInfo.athena_id;
+        let hotel_cod = userInfo.fun_hotel_cod;
+        let REVE_CODE = "0200930010";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
             var params = {
                 "REVE-CODE": REVE_CODE,
@@ -32,6 +34,7 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
                 "type": lock_type,
                 "session_id": session.db_session_id || "",
                 "athena_id": athena_id,
+                "hotel_cod": hotel_cod,
                 "socket_id": socket_id
             };
 
@@ -61,16 +64,18 @@ exports.doTableLock = function (prg_id, table_name, user_id, lock_type, key_cod,
  *
  * @param prg_id{String} : 程式編號
  * @param table_name{String}: unlock的table
- * @param user_id{String} : 使用者編號
+ * @param userInfo{Object} : 使用者資訊
  * @param lock_type{String} : 上鎖類別 T: table | R:recode
  * @param key_cod {String} : recode 才會有
- * @param athena_id {String} : ATHENA_ID
  * @param socket_id {String} : socket_id
  * @param callback{function} : 回調函數
  */
-exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, callback) {
+exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_cod, socket_id, callback) {
     try {
-        var REVE_CODE = "0200930011";
+        let user_id = userInfo.usr_id;
+        let athena_id = userInfo.athena_id;
+        let hotel_cod = userInfo.fun_hotel_cod;
+        let REVE_CODE = "0200930011";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
             var params = {
@@ -82,6 +87,7 @@ exports.doTableUnLock = function (prg_id, table_name, user_id, lock_type, key_co
                 "type": lock_type,
                 "session_id": session.db_session_id || "",
                 "athena_id": athena_id,
+                "hotel_cod": hotel_cod,
                 "socket_id": socket_id
             };
 
