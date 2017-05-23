@@ -481,13 +481,33 @@ function treeToggle(obj){
   var title1 = "";
   if(title == "Expand"){    //Collapse
     status1 = "display: table-row;";
-  } else {
+    iterateTreeToogle(ttid, status1, false);
+  } else { // title == "Collapse"
     status1 = "display: none;";
+    iterateTreeToogle(ttid, status1, true);
   }
 
-  $(".treeControl tbody").find("tr[data-tt-parent-id='" + ttid + "']").attr("style", status1);
+  // $(".treeControl tbody").find("tr[data-tt-parent-id='" + ttid + "']").attr("style", status1);
 
 
 
 
+}
+
+function iterateTreeToogle(ttid, status1, isIterate){
+    $(".fht-tbody > .treetable").find("tr[data-tt-parent-id='" + ttid + "']").each(function(){
+        $(this).attr("style", status1);
+        var lv_isExpand = (status1 == "display: table-row;") ? true: false;
+        $(this).find('a').attr('title', lv_isExpand ? "Expand": "Collapse");
+        if($(this).hasClass('collpased')|| $(this).hasClass('expanded')){
+            if(lv_isExpand){
+                $(this).removeClass("expanded").addClass("collapsed");
+            }else{
+                $(this).removeClass("collapsed").addClass("expanded");
+            }
+        }
+        if(isIterate){
+            iterateTreeToogle($(this).attr('data-tt-id'), status1, isIterate);
+        }
+    });
 }

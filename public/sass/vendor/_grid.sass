@@ -71,6 +71,7 @@
   display: table
   border-collapse: collapse
   width: 100%
+  border: 1px solid $borderStyle
   .css_thead
     display: table-header-group
   .css_tbody
@@ -80,6 +81,27 @@
     vertical-align: middle
   .css_th, .css_td
     display: table-cell
-    border: 1px solid $border-color
-    padding-top: 5px
+    border: 1px solid $borderStyle
+    padding-right: 5px
     padding-left: 5px
+    &.padding-top
+      padding-top: 5px
+  .css_th
+    font-weight: bold
+  &.top_none
+    border-top: 0
+  .td-disable
+    background: #d6d6d6
+  //.moreClick
+  //  position: absolute
+  //  right: 0
+  //  bottom: 0
+  //  //width: 25px
+  //  height: 20px
+  //  //line-height: $inputHeight-medium
+  //  border: 1px solid #888
+  //  background: $border-color
+  //  border-radius: 5px
+  //  padding: 0 5px 0 5px
+  //  box-sizing: border-box
+  //  cursor: pointer

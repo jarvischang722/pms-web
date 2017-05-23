@@ -45,6 +45,7 @@
 .markOne
   color: $blue
   font-weight: bold
+
 .lineHeight14
   line-height: 14px
 .lineHeight18
@@ -110,7 +111,11 @@ a
 .light-grey
   color: $light-grey !important
 
-
+// btn
+.btn-sm-font
+  padding: 3px 9px
+  font-size: $font-btn
+  margin-top: -1px
 // space height
 .space-6
   max-height: 1px
@@ -151,11 +156,15 @@ a
     +input-s1(245px)
   &.rateCode-s1
     +input-s1(180px)
+  &.rateCode-s1-col2
+    +input-s1(464px)
   &.rateCode-s2
     +input-s1(43px)
   &.rateCode-s3
     +input-s1(135px)
-.input-h35
+  &.rateCode-s4
+    +input-s1(695px)
+.input-hMedium
   height: $inputHeight-medium !important
 .input-spc-1
   +input-s1
@@ -167,6 +176,7 @@ a
     +input-s1(376px)
 .input-mLeft-1
   margin-left: 28px
+
 .dateBox-custom1
   .textbox
     height: $inputHeight-medium
