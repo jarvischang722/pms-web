@@ -57,5 +57,9 @@ module.exports = function (app, passport) {
 
     //setUp 房價設定
     app.get('/setRateCode', userCrtl.getSetRateCode);
+
+    //交通接駁設定
+    app.get('/trafficConnection', userCrtl.getTrafficConnection);
+
 };
 

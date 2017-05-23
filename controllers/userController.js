@@ -181,3 +181,7 @@ exports.getReservationRoomType = function (req, res) {
 exports.getSetRateCode = function (req, res) {
     res.render("user/setRateCode");
 };
+//交通接駁設定
+exports.getTrafficConnection = function (req, res) {
+    res.render("user/trafficConnection");
+};
