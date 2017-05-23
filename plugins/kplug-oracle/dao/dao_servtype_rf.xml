@@ -5,11 +5,11 @@
         <statement><![CDATA[
 
         select athena_id, hotel_cod, serv_typ, type_nam, modify_sta, use_typ, sort_cod, ins_dat, ins_usr, upd_dat, upd_usr
-        from servtype_rf where athena_id = trim(:athena_id)
+        from servtype_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = :hotel_cod
 
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
-        <!--<parameter type="string" kind="3">hotel_cod</parameter>-->
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
     <!--
         ['PMS0830020']

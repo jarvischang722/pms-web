@@ -32,6 +32,23 @@ module.exports = {
         }
         callback(lo_error, lo_result);
     },
+    chkTypenam:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        var isDeleteRow = (postData.rowData.modify_sta == "N") ? false : true;
+
+        if (isDeleteRow == false) {
+            lo_error = new ErrorClass();
+            if (postData.oldValue != "") {
+                postData.rowData.use_typ = postData.oldValue;
+                lo_result.effectValues = postData.rowData;
+            }
+            lo_error.errorCod = "1111";
+            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+        }
+        callback(lo_error, lo_result);
+    },
     chk_serv_type_rf_is_exist_service_rf: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
