@@ -11,7 +11,7 @@ var mongoAgent = require("../plugins/mongodb");
  * 訂房對照檔
  */
 exports.reservation_comparison = function (req, res) {
-    res.render('setting/reservation_comparison');
+    res.render('subsystem/setup/reservation_comparison');
 };
 
 
@@ -19,7 +19,7 @@ exports.reservation_comparison = function (req, res) {
  * 設定檔
  */
 exports.dataSetting = function (req, res) {
-    res.render("setting/dataGridTmp", {prg_id: req.params.prg_id});
+    res.render("subsystem/setup/dataGridTmp", {prg_id: req.params.prg_id});
 };
 
 /**
@@ -29,12 +29,17 @@ exports.mainSetUp = function (req, res) {
 
     var prg_id = req.params.prg_id || "";
     var temp_page = "";
-    mongoAgent.UI_PageField.findOne({prg_id: prg_id, page_id: 1}, function (err, pageInfo) {
-        if (pageInfo) {
-            if (pageInfo.template_id == "gridsingle") {
+    mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: 1}, function (err, tmpInfo) {
+        if (tmpInfo) {
+            if (tmpInfo.template_id == "gridsingle") {
+                //單筆
                 temp_page = 'gridSingleSetUp';
-            } else if (pageInfo.template_id == "datagrid") {
+            } else if (tmpInfo.template_id == "datagrid") {
+                //多筆
                 temp_page = 'dataGridSetUp';
+            }else{
+                //特殊版型
+                temp_page = 'specialSetUp';
             }
             res.redirect("/" + temp_page + "/" + prg_id);
         } else {
@@ -49,14 +54,21 @@ exports.mainSetUp = function (req, res) {
  * 多檔設定頁面
  */
 exports.dataGridSetUp = function (req, res) {
-    res.render("setting/dataGridTmp", {prg_id: req.params.prg_id});
+    res.render("subsystem/setup/dataGridTmp", {prg_id: req.params.prg_id});
 };
 
 /**
  * 單檔設定頁面
  */
 exports.gridSingleSetUp = function (req, res) {
-    res.render("setting/gridSingle", {prg_id: req.params.prg_id});
+    res.render("subsystem/setup/gridSingle", {prg_id: req.params.prg_id});
+};
+
+/**
+ * 特殊版型設定頁面
+ */
+exports.specialSetUp = function (req, res) {
+    res.render("subsystem/setup/specialTmp/"+req.params.prg_id, {prg_id: req.params.prg_id});
 };
 
 /**

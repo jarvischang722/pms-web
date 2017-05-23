@@ -24,7 +24,7 @@ module.exports = function (io) {
 
             mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
-                if (!err && template) {
+                if (!err && template && !_.isEmpty(template.lock_table)) {
                     template = template.toObject();
                     table_name = template.lock_table;
                     lock_type = template.lock_type == "table" ? "T" : "R";
@@ -56,7 +56,7 @@ module.exports = function (io) {
 
             mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
-                if (!err && template) {
+                if (!err && template && !_.isEmpty(template.lock_table)) {
                     template = template.toObject();
                     table_name = template.lock_table;
                     lock_type = template.lock_type == "table" ? "T" : "R";

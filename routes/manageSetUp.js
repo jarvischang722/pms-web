@@ -26,6 +26,8 @@ module.exports = function(app  ) {
 
     app.get('/gridSingleSetUp/:prg_id', middles, setCrtl.gridSingleSetUp);
 
+    app.get('/specialSetUp/:prg_id', middles, setCrtl.specialSetUp);
+
     app.post('/api/dbTableLock',  setCrtl.dbTableLock);
 
     app.post('/api/dbTableUnLock', setCrtl.dbTableUnLock);
