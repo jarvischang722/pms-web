@@ -265,6 +265,14 @@ exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
     callback(null,lo_result);
 };
 
+/**
+ * 合約狀態設定
+ */
+exports.qry_contract_status_rf_default_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
 
 /**
  * 住客帳調整原因cancel

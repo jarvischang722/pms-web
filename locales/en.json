@@ -275,6 +275,26 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0810060": {
+      "live_cod": "代號",
+      "live_nam": "名稱",
+      "live_sna": "簡稱",
+      "contry_cod": "國籍",
+      "view_seq": "顯示順序",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0860070": {
+      "status_cod": "狀態代號",
+      "status_desc": "狀態說明",
+      "default_sta": "預設狀態",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
@@ -295,7 +315,7 @@
   "PMS0810130_name": "前檯訂房分析",
   "PMS0810140_name": "FOC",
   "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "房取消原因設定",
+  "PMS0810160_name": "訂房取消原因設定",
   "PMS0810170_name": "假日類別",
   "PMS0810200_name": "交辦事項",
   "PMS0860010_name": "商務公司類別設定",
