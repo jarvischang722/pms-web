@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820010'] 取得多筆-->
+    <dao name="QRY_CHARACTER_RF">
+        <statement><![CDATA[
+              select athena_id, hotel_cod, character_cod, character_nam, sys_default, ins_dat, ins_usr, upd_dat, upd_usr
+              from character_rf where athena_id = trim(:athean_id)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <!--<parameter type="string" kind="3">hotel_cod</parameter>-->
+    </dao>
+</root>

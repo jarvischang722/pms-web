@@ -52,4 +52,17 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
+
+    <!-- [prg_id: PMS0820010 ] 房間設定 -->
+    <dao name="CHK_CHARACTER_RF_DEL">
+        <statement><![CDATA[
+        SELECT COUNT(*)
+        FROM ROOM_MN
+        WHERE ATHENA_ID = trim(:thean_id) AMD  HOTEL_COD = trim(:hotel_cod) AND INSTR( CHARACTER_RMK, '''' || '房間特色代號character_cod' || '''' ) > 0 AND ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 </root>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820010'] 未來入住之訂房卡明細-->
+    <dao name="CHK_CHARACTER_RF_DEL">
+        <statement><![CDATA[
+              SELECT COUNT(*) FROM ORDER_DT WHERE ATHENA_ID = ? AMD  HOTEL_COD = ? AND  ORDER_STA = 'N' AND CI_DAT >= '參數滾房租日' AND INSTR( CHARACTER_RMK, ''''|| '房間特色代號' || '''' ) > 0 AND ROWNUM <= 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+</root>

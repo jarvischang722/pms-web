@@ -275,6 +275,15 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0820010": {
+      "character_cod": "Feature Code",
+      "character_nam": "Feature",
+      "sys_default": "Default",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
@@ -305,6 +314,7 @@
   "PMS0860020_name": "行業別設定",
   "PMS0860040_name": "備註類別設定",
   "PMS0810220_name": "交通類別設定",
+  "PMS0820010_name": "房間特色設定",
   "table_in_use": "Table in use (%s)",
   "SystemCommon": {
     "OK": "OK",
