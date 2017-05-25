@@ -674,8 +674,6 @@ label {
 .fancyTable tbody tr td {
   /* appearance */
   background-color: #fff;
-  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0) 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(50%, rgba(255, 255, 255, 0.2)), color-stop(51%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(255, 255, 255, 0)));
   /* text */
   color: #262c31;
 }
@@ -3058,8 +3056,8 @@ a {
 /* line 217, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
-  font-size: 1.17em;
-  margin-bottom: 1em;
+  font-size: 16px !important;
+  margin-bottom: 0.5em;
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;

@@ -494,8 +494,8 @@ a {
 /* line 217, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
-  font-size: 1.17em;
-  margin-bottom: 1em;
+  font-size: 16px !important;
+  margin-bottom: 0.5em;
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;

@@ -2912,8 +2912,10 @@
     });
 
     $(function(){
-        $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 });
-        //fixedColumns: 1
+        $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+        //fixedColumns             : 固定左側列行數
+        //addPxForFixedColumnsWidth: 固定左側列行數-寬
+        //everyColumnsAddWith      : 每一個欄位的-寬
 
         // tree
         $("table").agikiTreeTable({persist: true, persistStoreName: "files"});
