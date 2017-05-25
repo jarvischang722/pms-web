@@ -16,14 +16,15 @@ module.exports = function(app  ) {
     /** 訂房對照檔 **/
     app.get('/setup/reservation_comparison', middles, setupCrtl.reservation_comparison);
 
+    /** 訂房確認書 email **/
+    app.get('/reservationCheckMail', setupCrtl.getReservationCheckMail);
+
+    /** 假日日期設定 **/
+    app.get('/holidayDateSet', setupCrtl.getHolidayDateSet);
+
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
-    // /** 訂房確認書 email **/
-    // app.get('/setup/reservationCheckMail', setupCrtl.getReservationCheckMail);
-    //
-    // /** 假日日期設定 **/
-    // app.get('/setup/holidayDateSet', setupCrtl.getHolidayDateSet);
 
 
 };

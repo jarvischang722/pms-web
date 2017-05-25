@@ -157,14 +157,14 @@ exports.getAuthorityRole = function (req, res) {
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
-/** 訂房確認書 email **/
-exports.getReservationCheckMail = function (req, res) {
-    res.render("user/reservationCheckMail");
-};
-//假日日期設定
-exports.getHolidayDateSet = function (req, res) {
-    res.render("user/holidayDateSet");
-};
+// /** 訂房確認書 email **/
+// exports.getReservationCheckMail = function (req, res) {
+//     res.render("user/reservationCheckMail");
+// };
+// //假日日期設定
+// exports.getHolidayDateSet = function (req, res) {
+//     res.render("user/holidayDateSet");
+// };
 
 //依房型訂房
 exports.getReservationRoomType = function (req, res) {

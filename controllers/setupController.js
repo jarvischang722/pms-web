@@ -32,11 +32,11 @@ exports.setupLayout = function (req, res) {
 
 
 
-// /** 訂房確認書 email **/
-// exports.getReservationCheckMail = function (req, res) {
-//     res.render("subsystem/setup/reservationCheckMail");
-// };
-// //假日日期設定
-// exports.getHolidayDateSet = function (req, res) {
-//     res.render("subsystem/setup/holidayDateSet");
-// };
+/** 訂房確認書 email **/
+exports.getReservationCheckMail = function (req, res) {
+    res.render("subsystem/setup/specialTmp/reservationCheckMail");
+};
+//假日日期設定
+exports.getHolidayDateSet = function (req, res) {
+    res.render("subsystem/setup/specialTmp/holidayDateSet");
+};
