@@ -19,4 +19,11 @@ module.exports = function(app  ) {
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
+    // /** 訂房確認書 email **/
+    // app.get('/setup/reservationCheckMail', setupCrtl.getReservationCheckMail);
+    //
+    // /** 假日日期設定 **/
+    // app.get('/setup/holidayDateSet', setupCrtl.getHolidayDateSet);
+
+
 };

@@ -157,7 +157,7 @@ exports.getAuthorityRole = function (req, res) {
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
-//訂房確認書 email
+/** 訂房確認書 email **/
 exports.getReservationCheckMail = function (req, res) {
     res.render("user/reservationCheckMail");
 };
@@ -165,14 +165,7 @@ exports.getReservationCheckMail = function (req, res) {
 exports.getHolidayDateSet = function (req, res) {
     res.render("user/holidayDateSet");
 };
-//商務公司資料編輯
-exports.getBusinessCompanyData = function (req, res) {
-    res.render("user/businessCompanyData");
-};
-//業務員資料編輯(業務→業務員設定作業→業務員資料維護)
-exports.getClerkDataDefend = function (req, res) {
-    res.render("user/clerkDataDefend");
-};
+
 //依房型訂房
 exports.getReservationRoomType = function (req, res) {
     res.render("user/reservationRoomType");

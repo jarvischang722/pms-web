@@ -40,17 +40,11 @@ module.exports = function (app, passport) {
     //新增 人員權限
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
 
-    //訂房確認書 email
+    /** 訂房確認書 email **/
     app.get('/reservationCheckMail', userCrtl.getReservationCheckMail);
 
-    //假日日期設定
+    /** 假日日期設定 **/
     app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
-
-    //商務公司資料編輯
-    app.get('/businessCompanyData', userCrtl.getBusinessCompanyData);
-
-    //業務員資料編輯(業務→業務員設定作業→業務員資料維護)
-    app.get('/clerkDataDefend', userCrtl.getClerkDataDefend);
 
     //依房型訂房
     app.get('/reservationRoomType', userCrtl.getReservationRoomType);
