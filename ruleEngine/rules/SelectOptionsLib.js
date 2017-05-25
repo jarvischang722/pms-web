@@ -140,6 +140,86 @@ exports.getFocRfRoleStaList = function () {
 };
 
 /**
+ * 取得聯絡類別
+ * @returns {Array}
+ */
+exports.getContactContractTypList = function () {
+    var contractTypList = [
+        {
+            display: '電話',
+            value: 'T'
+        },
+        {
+            display: '傳真',
+            value: 'F'
+        },
+        {
+            display: '行動電話',
+            value: 'M'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
+ * 取得地址類別
+ * @returns {Array}
+ */
+exports.getAddressContractTypList = function () {
+    var contractTypList = [
+        {
+            display: '地址',
+            value: 'A'
+        },
+        {
+            display: '電子郵件',
+            value: 'E'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
+ * 取得聯絡設定是否刪除
+ * @returns {Array}
+ */
+exports.getDeleteFlagList = function () {
+    var deleteFlagList = [
+        {
+            display: '不可刪除',
+            value: 'N'
+        },
+        {
+            display: '可刪除',
+            value: 'Y'
+        }
+    ];
+
+    return deleteFlagList;
+};
+
+/**
+ * 取得聯絡設定是否刪除
+ * @returns {Array}
+ */
+exports.getIsCanUse = function () {
+    var useList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return useList;
+};
+
+/**
  * checkbox是否使用
  * @returns
  */
@@ -265,6 +345,14 @@ exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
     callback(null,lo_result);
 };
 
+/**
+ * 合約狀態設定
+ */
+exports.qry_contract_status_rf_default_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
 
 /**
  * 住客帳調整原因cancel
@@ -272,5 +360,59 @@ exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
 exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
+
+/**
+ * 聯絡設定取得聯絡類別
+ */
+exports.qry_contact_rf_contact_typ = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getContactContractTypList();
+    callback(null,lo_result);
+};
+
+/**
+ * 地址設定取得地址類別
+ */
+exports.qry_address_rf_contact_typ = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getAddressContractTypList();
+    callback(null,lo_result);
+};
+
+/**
+ * 聯絡設定取得是否可刪除
+ */
+exports.qry_contact_rf_delete_flag = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getDeleteFlagList();
+    callback(null,lo_result);
+};
+
+/**
+ * 地址設定取得是否可刪除
+ */
+exports.qry_address_rf_delete_flag = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getDeleteFlagList();
+    callback(null,lo_result);
+};
+
+/**
+ * 地址設定取得商務公司使用
+ */
+exports.qry_address_rf_cust_use = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null,lo_result);
+};
+
+/**
+ * 地址設定取得住客歷史使用
+ */
+exports.qry_address_rf_ghist_use = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null,lo_result);
 };

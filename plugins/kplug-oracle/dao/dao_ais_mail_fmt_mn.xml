@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810030'] 取得郵件代號設定-->
+    <dao name="QRY_CNTRY_RF_MAIL>FMT">
+        <statement><![CDATA[
+                select remark1
+                from ais_mail_fmt_mn
+                where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

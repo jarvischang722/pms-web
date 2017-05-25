@@ -299,6 +299,69 @@
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
       }
+    },
+    "PMS0810060": {
+      "live_cod": "代號",
+      "live_nam": "名稱",
+      "live_sna": "簡稱",
+      "contry_cod": "國籍",
+      "view_seq": "顯示順序",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0860070": {
+      "status_cod": "狀態代號",
+      "status_desc": "狀態說明",
+      "default_sta": "預設狀態",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "CMM0110010": {
+      "contact_cod": "Contact Code",
+      "contact_nam": "Contact Name",
+      "contact_typ": "Contact Type",
+      "delete_flag": "Delete?",
+      "seq_nos": "Sequence",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "CMM0110020": {
+      "add_cod": "Address Code",
+      "add_nam": "Address Name",
+      "add_typ": "Address Type",
+      "delete_flag": "Delete?",
+      "cust_use": "Corporate",
+      "ghist_use": "Guest",
+      "seq_nos": "Sequence",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0810030": {
+      "contry_cod": "國籍代號",
+      "statistic_cod": "統計代號",
+      "conyty_sna": "國籍簡稱",
+      "contry_nam": "國籍名稱",
+      "state_cod": "洲別代號",
+      "iso_cod": "ISO代號",
+      "lang_cod": "使用語言",
+      "mail_fmt": "郵件格式代號",
+      "ais_mail_fmt_mn.remark1": "格式說明",
+      "view_seq": "顯示順序",
+      "wrs_sort_cod": "Wrs顯示排序",
+      "hq_cod": "EIS國籍",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    }
   },
   "front_desk_conf": "Front Desk Configuration",
   "front_desk_setup": "Front Desk Setup",
@@ -318,7 +381,7 @@
   "PMS0810130_name": "前檯訂房分析",
   "PMS0810140_name": "FOC",
   "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "房取消原因設定",
+  "PMS0810160_name": "訂房取消原因設定",
   "PMS0810170_name": "假日類別",
   "PMS0810200_name": "交辦事項",
   "PMS0860010_name": "商務公司類別設定",

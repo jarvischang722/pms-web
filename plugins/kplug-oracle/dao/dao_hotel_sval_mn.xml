@@ -13,4 +13,18 @@
         <parameter type="string" kind="1">athena_id</parameter>
 
     </dao>
+
+    <!-- PMS0810030 有使用到下列列別則不可刪除-->
+    <dao name="QRY_HOTEL_SVAL_MN_IS_CNTRY_RF_DEL">
+        <statement><![CDATA[
+
+                select  hotel_cod
+                from  hotel_sval_mn
+                Where  athena_id =? and sys_cod='HFD' AND VAL_RMK= 'contry_cod' And rownum =1
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+
+    </dao>
 </root>

@@ -32,6 +32,15 @@ $.extend($.fn.validatebox.defaults.rules, {
         },
         message: '請輸入文字'
     },
+    //一定要輸入兩碼
+    FmtExactlyTwoWord: {
+        validator: function (value) {
+            var reg = /^\d{2}$/;
+            $.fn.validatebox.defaults.rules.FmtExactlyTwoWord.message = go_i18nLang.Validation.Formatter["FmtExactlyTwoWord"]  ;
+            return reg.test(value);
+        },
+        message: '一定要輸入2碼'
+    },
     //0到5碼數字
     FmtZeroToFiveNum: {
         validator: function (value) {

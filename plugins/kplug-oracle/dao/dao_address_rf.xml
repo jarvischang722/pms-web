@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['CMM0110020'] 查詢資料-->
+    <dao name="QRY_ADDRESS_RF">
+        <statement><![CDATA[
+                 select athena_id, add_cod, add_nam, add_typ, delete_flag, seq_nos, cust_use, ghist_use,ins_dat, ins_usr, upd_dat, upd_usr
+                  from address_rf
+                   where athena_id = ?
+                   order by seq_nos,add_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>
