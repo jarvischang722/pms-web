@@ -275,7 +275,30 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
-    }
+    },
+    "PMS0810050":{
+      "arrive_cod":"No.",
+      "arrive_spot":"Departure place",
+      "arrive_tim":"Departure time",
+      "leave_cod":"No.",
+      "leave_spot":"出發地點",
+      "leave_tim":"出發時間",
+      "to_spot":"Arrival place",
+      "to_tim":"Landing time",
+      "company_rmk":"Co. Remarks",
+      "remark":"Remarks",
+      "day1":"Sun",
+      "day2":"Mon",
+      "day3":"Tue",
+      "day4":"Wed",
+      "day5":"Thu",
+      "day6":"Fri",
+      "day7":"Sat",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+      }
   },
   "front_desk_conf": "Front Desk Configuration",
   "front_desk_setup": "Front Desk Setup",

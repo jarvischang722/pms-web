@@ -86,7 +86,7 @@ exports.querySubsysQuickMenu = function (params, callback) {
 exports.updateUserPurview = function (req, callback) {
 
     var userInfo = req.session.user;
-    var sys_id = userInfo.sys_id;
+    var ls_sys_id = userInfo.sys_id;
     var la_locales = req.cookies.sys_locales || [];
     var params = {
         user_athena_id: userInfo.user_athena_id,
@@ -118,10 +118,10 @@ exports.updateUserPurview = function (req, callback) {
         function (la_menuSubSys, callback) {
             //找出系統全部子系統
             var la_allMenuSubSys = _.where(la_allMenuList, {
-                pre_id: sys_id,
+                pre_id: ls_sys_id,
                 id_typ: 'SUBSYS'
             });
-            queryAgent.queryList("QRY_BAC_SUBSYSTEM_BY_SYS_ID", {sys_id: sys_id}, 0, 0, function (err, subsysList) {
+            queryAgent.queryList("QRY_BAC_SUBSYSTEM_BY_SYS_ID", {sys_id: ls_sys_id}, 0, 0, function (err, subsysList) {
                 subsysList = alasql("select subsys.* " +
                     "from  ? subsys  " +
                     "inner join ? meun_sub_sys  on meun_sub_sys.current_id = subsys.subsys_id "
@@ -152,7 +152,7 @@ exports.updateUserPurview = function (req, callback) {
         //找出系統模組
         function (subsysList, proLangList, callback) {
 
-            queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: sys_id}, 0, 0, function (err, mdlProList) {
+            queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: ls_sys_id}, 0, 0, function (err, mdlProList) {
                 var mdlList = [];
                 //TODO 多語系
                 la_allMdlProList = mdlProList;
@@ -208,6 +208,22 @@ exports.updateUserPurview = function (req, callback) {
                 if (err) {
                     callback(null, subsysList);
                 }
+
+                allQuickMenuList = filterSysIdMenu(ls_sys_id, allQuickMenuList);
+
+                //過濾此系統的quickMenu
+                function filterSysIdMenu(sys_id, allQuickMenuList) {
+                    var la_subsys_id = _.pluck(_.where(la_allMenuList, {
+                        pre_id: sys_id,
+                        id_typ: 'SUBSYS'
+                    }), "current_id");
+                    allQuickMenuList = _.filter(allQuickMenuList, function (quick) {
+                        return _.indexOf(la_subsys_id, quick.subsys_id) > -1
+                    });
+
+                    return allQuickMenuList;
+                }
+
                 _.each(allQuickMenuList, function (quickData) {
                     var tmpQuickObj = {};
                     var lo_pro = _.findWhere(la_allMenuList, {current_id: quickData.pro_id});

@@ -1,7 +1,7 @@
 /**
  * Created by Jun on 2017/2/23.
  */
-var prg_id = ls_prg_id;
+var prg_id = gs_prg_id;
 var vmHub = new Vue;
 
 Vue.component("multi-lang-dialog-tmp", {

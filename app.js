@@ -98,6 +98,11 @@ io.use(function (socket, next) {
 
 app.use(sessionMiddleware);
 
+//Layout 設定
+// app.use(expressLayouts);
+// app.set("layout extractScripts", true);
+// app.set('layout', 'layouts/mainLayout');
+
 //初始化io event
 require("./plugins/socket.io/socketEvent")(io);
 

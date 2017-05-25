@@ -152,8 +152,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 ui_field_name: pageInfo.ui_field_name
             }, function (err, gridInfo) {
                 if (err || !gridInfo) {
-                    err = "找不到對應的資料";
-                    return callback(err, null);
+                    gridInfo = [];
                 }
 
                 callback(err, gridInfo)
@@ -162,10 +161,15 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         },
         // 3)
         function (gridInfo, callback) {
-            queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
-                dataGridRows = data;
-                callback(err, dataGridRows)
-            })
+            if (!_.isUndefined(gridInfo.rule_func_name) && !_.isEmpty(gridInfo.rule_func_name)) {
+                queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
+                    dataGridRows = data;
+                    callback(err, dataGridRows)
+                })
+            } else {
+                callback(null, [])
+            }
+
         },
         // 4)找尋field 屬性資料
         function (dataRow, callback) {
