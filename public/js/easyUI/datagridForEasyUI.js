@@ -125,9 +125,15 @@ var EZfieldClass = {
                 tmpFieldObj.editor.options.multiline = true;
             }
 
-            tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
-                gb_onceEffectFlag = true;
+            if(fieldAttrObj.rule_func_name != ""){
+                tmpFieldObj.editor.options.onChange = function(newValue, oldValue){
+                    if(oldValue == "") return false;
+                    console.log(oldValue);
+                }
             }
+            // tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
+            //     gb_onceEffectFlag = true;
+            // }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 //TODO 值不可寫死
@@ -141,43 +147,52 @@ var EZfieldClass = {
                 return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
-
+        }
+        else if(fieldAttrObj.ui_type == "text"){
+            if(fieldAttrObj.rule_func_name != ""){
+                tmpFieldObj.editor.type = dataType;
+                tmpFieldObj.editor.options.onChange = function(newValue, oldValue){
+                    if(oldValue == "") return false;
+                    console.log(oldValue);
+                }
+            }
         }
 
 
         //combobox連動
         if (fieldAttrObj.rule_func_name != "") {
-            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                if (gb_onceEffectFlag && newValue != oldValue) {
-                    var selectDataRow = $('#prg_dg').datagrid('getSelected');
-                    var postData = {
-                        prg_id: fieldAttrObj.prg_id,
-                        rule_func_name: fieldAttrObj.rule_func_name,
-                        validateField: fieldAttrObj.ui_field_name,
-                        rowData: JSON.parse(JSON.stringify(selectDataRow)),
-                        newValue: newValue,
-                        oldValue: oldValue
-                    };
 
-                    $.post('/api/chkFieldRule', postData, function (result) {
-                        gb_onceEffectFlag = false;
-                        if (result.success) {
-                            if (!_.isUndefined(result.effectValues)) {
-                                var effectValues = result.effectValues;
-                                var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
-
-                                $('#prg_dg').datagrid('endEdit', indexRow);
-                                $('#prg_dg').datagrid('updateRow', {
-                                    index: indexRow,
-                                    row: effectValues
-                                });
-
-                                $('#prg_dg').datagrid('beginEdit', indexRow);
-                            }
-                        }
-                    })
-                }
-            }
+            // tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+            //     if (gb_onceEffectFlag && newValue != oldValue) {
+            //         var selectDataRow = $('#prg_dg').datagrid('getSelected');
+            //         var postData = {
+            //             prg_id: fieldAttrObj.prg_id,
+            //             rule_func_name: fieldAttrObj.rule_func_name,
+            //             validateField: fieldAttrObj.ui_field_name,
+            //             rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            //             newValue: newValue,
+            //             oldValue: oldValue
+            //         };
+            //
+            //         $.post('/api/chkFieldRule', postData, function (result) {
+            //             gb_onceEffectFlag = false;
+            //             if (result.success) {
+            //                 if (!_.isUndefined(result.effectValues)) {
+            //                     var effectValues = result.effectValues;
+            //                     var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+            //
+            //                     $('#prg_dg').datagrid('endEdit', indexRow);
+            //                     $('#prg_dg').datagrid('updateRow', {
+            //                         index: indexRow,
+            //                         row: effectValues
+            //                     });
+            //
+            //                     $('#prg_dg').datagrid('beginEdit', indexRow);
+            //                 }
+            //             }
+            //         })
+            //     }
+            // }
         }
 
         return tmpFieldObj;
