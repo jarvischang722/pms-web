@@ -127,6 +127,12 @@ a
   min-height: 1px
   overflow: hidden
   margin: 0 0 5px
+.space-custom-6
+  max-height: 1px
+  min-height: 1px
+  overflow: hidden
+  margin: 6px 0 5px
+  border-bottom: 1px solid $border-color
 
 // custom
 .input_sta_required
@@ -138,6 +144,8 @@ a
     +input-s1(165px)
     @media screen and (min-width: 768px) and (max-width: 1030px)
       +input-s1(120px)
+  &.medium-c1-col2
+    +input-s1(488px)
   &.medium-c2
     +input-s1(179px)
     @media screen and (min-width: 768px) and (max-width: 1030px)
@@ -146,6 +154,8 @@ a
     +input-s1(106px)
   &.medium-c3-col2
     +input-s1(315px)
+  &.medium-c3-col4
+    +input-s1(655px)
   &.addedBy
     +input-s1(74px)
   &.addedDate
@@ -164,6 +174,10 @@ a
     +input-s1(135px)
   &.rateCode-s4
     +input-s1(695px)
+  &.popWindow-s1
+    +input-s1(150px)
+  &.popWindow-s1-col2
+    +input-s1(409px)
 .input-hMedium
   height: $inputHeight-medium !important
 .input-spc-1

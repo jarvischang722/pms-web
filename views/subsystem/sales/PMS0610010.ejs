@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include ../common/head %>
-<%- include ../common/importFiles %>
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
 
 
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
-<%- include ../common/navbar.ejs %>
+<%- include ../../common/navbar.ejs %>
 <!-- include header.html -->
 <script type="text/javascript">
     var global_using_prg_id = ""; //目前使用中的程式
@@ -40,7 +40,7 @@
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
 
-    <%- include('../common/moduleMenu',{current_subsys_id:'PMS0600000'}) %>
+    <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0600000'}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -53,7 +53,7 @@
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0600000'}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0600000'}) %>
 
             <div class="page-content">
                 <div class="businessCompanyData">
@@ -281,23 +281,20 @@
                                                     <input type="text" class="input-medium medium-c1" placeholder="23598233"/>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>上階公司</label>
-                                                    <input type="text" class="input-spc-1" placeholder="23598231 德安資訊國際股份有限公司"/>
-                                                    <!--<span class="mainData-tip">(顯示公司編號:公司名稱)</span>-->
-                                                </div>
-                                            </div>
-                                            <!--<div class="space-custom-5"></div>-->
+                                                    <label>種類</label>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>公司名稱</label>
-                                                    <input type="text" class="input-spc-1" placeholder="德安資訊國際股份有限公司台北分公司"/>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="yes">Y:會員</option>
+                                                        <option value="no">N:非會員</option>
+                                                    </select>
                                                 </div>
+
                                                 <div class="grid-item">
                                                     <label>狀態</label>
                                                     <input type="text" class="input-medium medium-c1" placeholder="正常"/>
                                                 </div>
                                             </div>
+                                            <!--<div class="space-custom-5"></div>-->
 
                                             <div class="grid">
                                                 <div class="grid-item">
@@ -305,15 +302,19 @@
                                                     <input type="text" class="input-medium medium-c1" placeholder="黃先生"/>
                                                 </div>
                                                 <div class="grid-item">
+                                                    <label>公司名稱</label>
+                                                    <input type="text" class="input-spc-1" placeholder="德安資訊國際股份有限公司台北分公司"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
                                                     <label>統一編號</label>
                                                     <input type="text" class="input-medium medium-c1" placeholder="2358233"/>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>種類</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="yes">Y:會員</option>
-                                                        <option value="no">N:非會員</option>
-                                                    </select>
+                                                    <label>發票抬頭</label>
+                                                    <input type="text" class="input-medium input-spc-1" placeholder="德安資訊國際股份有限公司台北分公司"/>
                                                 </div>
                                             </div>
 
@@ -323,17 +324,11 @@
                                                     <input type="text" class="input-medium medium-c1" placeholder="陳瑞克"/>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>發票抬頭</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="德安資訊國際股份有限公司台北分公司"/>
+                                                    <label>上階公司</label>
+                                                    <input type="text" class="input-spc-1" placeholder="23598231 德安資訊國際股份有限公司"/>
+                                                    <!--<span class="mainData-tip">(顯示公司編號:公司名稱)</span>-->
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>等級</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="0">0</option>
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                    </select>
-                                                </div>
+
                                             </div>
 
                                             <div class="grid">
@@ -346,18 +341,21 @@
                                                     <input type="text" class="input-medium medium-c1" placeholder="北區"/>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>合約處理狀態</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="1">已簽約</option>
-                                                        <option value="2">未簽約</option>
-                                                    </select>
+                                                    <label>行業別</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
                                                 </div>
+
                                             </div>
 
                                             <div class="grid">
+
                                                 <div class="grid-item">
-                                                    <label>行業別</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
+                                                    <label>等級</label>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                    </select>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>分帳規則</label>
@@ -367,10 +365,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>收取DM</label>
+                                                    <label>合約處理狀態</label>
                                                     <select class="input-medium medium-c1">
-                                                        <option value="yes">Y:是</option>
-                                                        <option value="no">Ｎ:否</option>
+                                                        <option value="1">已簽約</option>
+                                                        <option value="2">未簽約</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -389,23 +387,35 @@
                                                                 <div class="col-xs-12 col-sm-12">
                                                                     <div class="row no-margin-right">
                                                                         <div class="billInfo grid">
-                                                                            <div class="col-xs-12 col-sm-12">
-                                                                                <div class="row billInfo-head">
-                                                                                    <div class="col-xs-6 col-sm-6">
-                                                                                        <div class="row">
-                                                                                            <p class="billInfo-title">簽帳資訊</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-xs-6 col-sm-6">
-                                                                                        <div class="row">
-                                                                                            <button class="btn btn-primary btn-white pull-right btn-sm changeCreditLimit"
-                                                                                                    role="button">信用額度變更</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
                                                                             <div class="content">
                                                                                 <div class="grid">
+                                                                                    <div class="grid-item">
+                                                                                        <label>收取DM</label>
+                                                                                        <select class="input-medium medium-c1">
+                                                                                            <option value="yes">Y:是</option>
+                                                                                            <option value="no">Ｎ:否</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="tab-block grid-item billCheckbox">
+                                                                                        <span class="checkbox">
+                                                                                          <label>可簽帳</label>
+                                                                                          <label class="checkbox-width">
+                                                                                              <input name="form-field-checkbox" type="checkbox" class="ace" disabled="disabled" checked>
+                                                                                              <span class="lbl"></span>
+                                                                                          </label>
+                                                                                        </span>
+                                                                                        <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
+                                                                                        <!--<input type="checkbox" disabled="disabled"/>-->
+                                                                                        <!--<div class="clearfix"></div>-->
+                                                                                    </div>
+                                                                                    <div class="pull-right grid-item">
+                                                                                        <button class="btn btn-primary btn-white pull-right btn-sm changeCreditLimit"
+                                                                                                role="button">信用額度變更</button>
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+                                                                                <div class="grid">
+
                                                                                     <div class="tab-block grid-item">
                                                                                         <label>公司關係別</label>
                                                                                         <select class="input-medium bill-input-s1">
@@ -429,18 +439,6 @@
                                                                                 </div>
                                                                                 <div class="grid">
                                                                                     <!--style="width: 263px;"-->
-                                                                                    <div class="tab-block grid-item billCheckbox">
-                                                                                        <span class="checkbox">
-                                                                                          <label>可簽帳</label>
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox" type="checkbox" class="ace" disabled="disabled" checked>
-                                                                                              <span class="lbl"></span>
-                                                                                          </label>
-                                                                                        </span>
-                                                                                        <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
-                                                                                        <!--<input type="checkbox" disabled="disabled"/>-->
-                                                                                        <!--<div class="clearfix"></div>-->
-                                                                                    </div>
                                                                                     <div class="tab-block grid-item">
                                                                                         <label>信用額度</label>
                                                                                         <input type="number" class="input-medium bill-input-s1" disabled="disabled" placeholder="50000"/>
@@ -591,7 +589,7 @@
                                                         <div class="col-xs-11 col-sm-11">
                                                             <div class="row no-margin-right">
                                                                 <!-- 相關人員 table -->
-                                                                <table id="relatedPerson-table"></table>
+                                                                <table id="relatedPerson-table" style="height: 310px;"></table>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-1 col-sm-1">
@@ -617,13 +615,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div title="業務員"   class="padding-tabs">
+                                            <div title="業務員" class="padding-tabs">
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="row">
                                                         <div class="col-xs-11 col-sm-11">
                                                             <div class="row no-margin-right">
                                                                 <!-- 業務員 dataGrid -->
-                                                                <table id="clerk-table"></table>
+                                                                <table id="clerk-table" style="height: 310px;"></table>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-1 col-sm-1">
@@ -669,7 +667,7 @@
                                                                     <div class="clearfix"></div>
                                                                 </div>
                                                                 <!-- 合約內容 dataGrid -->
-                                                                <table id="dealContent-table"></table>
+                                                                <table id="dealContent-table" style="height: 280px;"></table>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-1 col-sm-1">
@@ -703,7 +701,7 @@
                                                                 <!--<div class="col-xs-12 col-sm-12">-->
                                                                 <!--<div class="row no-margin-right">-->
                                                                 <!-- 拜訪紀錄 dataGrid -->
-                                                                <table id="visitRecord-table"></table>
+                                                                <table id="visitRecord-table" style="height: 310px;"></table>
                                                                 <!--</div>-->
                                                                 <!--</div>-->
                                                                 <div class="clearfix"></div>
@@ -739,7 +737,7 @@
                                                         <div class="col-xs-11 col-sm-11">
                                                             <div class="row no-margin-right">
                                                                 <!-- 其他備註 dataGrid -->
-                                                                <table id="otherRemarks-table"></table>
+                                                                <table id="otherRemarks-table" style="height: 310px;"></table>
                                                                 <div class="clearfix"></div>
                                                             </div>
                                                         </div>
@@ -773,7 +771,7 @@
                                                         <div class="col-xs-11 col-sm-11">
                                                             <div class="row no-margin-right">
                                                                 <!-- 歷史消費 dataGrid -->
-                                                                <table id="historyConsumption-table"></table>
+                                                                <table id="historyConsumption-table" style="height: 310px;"></table>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-1 col-sm-1">
@@ -854,7 +852,7 @@
                                                                 <div class="col-xs-6 col-sm-6">
                                                                     <div class="row">
                                                                         <!-- 貢獻度 dataGrid -->
-                                                                        <table id="contribution-table"></table>
+                                                                        <table id="contribution-table" style="height: 310px;"></table>
                                                                     </div>
                                                                 </div>
 
@@ -1534,7 +1532,7 @@
             </div>
         </div>
     </div><!-- /.main-content -->
-    <%- include ../common/footer %>
+    <%- include ../../common/footer %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>

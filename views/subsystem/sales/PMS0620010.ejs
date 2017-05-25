@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include ../common/head %>
-<%- include ../common/importFiles %>
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
 
 
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
-<%- include ../common/navbar.ejs %>
+<%- include ../../common/navbar.ejs %>
 <!-- include header.html -->
 <script type="text/javascript">
     var global_using_prg_id = ""; //目前使用中的程式
@@ -39,7 +39,7 @@
 
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-            <%- include('../common/moduleMenu',{current_subsys_id:'PMS0600000'}) %>
+            <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0600000'}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -52,7 +52,7 @@
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0600000'}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0600000'}) %>
             <div class="page-content">
             <div class="">
                 <div class="page-header">
@@ -175,7 +175,7 @@
                                         <ul>
                                             <li>
                                                 <button id="ins-btn"
-                                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                                        class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
                                                         role="button">新增</button>
                                             </li>
 
@@ -206,8 +206,8 @@
                 <div id="changeBusiness-page" class="hide">
                         <div class="col-sm-10 col-xs-10 businessModify-Left">
                             <div class="col-xs-12 col-sm-12">
-                                <!--<div class="row BusinessModify-head">-->
-                                    <!--<p class="BusinessModify-title">修改業務員</p>-->
+                                <!--<div class="row businessModify-head">-->
+                                    <!--<p class="businessModify-title">修改業務員</p>-->
                                 <!--</div>-->
                             </div>
                             <div class="ChangeBusiness-wrap">
@@ -229,7 +229,7 @@
                                     </div>
                                     <div class="grid-item tab-block single">
                                         <label>Name</label>
-                                        <select id="" class="input-medium medium-c1">
+                                        <select id="" class="input-medium medium-c1-col2">
                                             <option value="1">Markelle Fultz</option>
                                             <option value="2">Josh Jackson</option>
                                             <option value="3">Lonzo Ball</option>
@@ -268,16 +268,34 @@
                                 <div class="grid">
                                     <div class="checkboxGroup">
                                         <div class="tab-block grid-item checkboxGrid">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                            <label class="checkLabel">Hotel</label>
+                                            <div class="popCheckbox">
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <span class="lbl">Hotel</span>
+                                                      </label>
+                                                  </span>
+                                            </div>
                                         </div>
                                         <div class="tab-block grid-item checkboxGrid">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                            <label class="checkLabel">F&B</label>
+                                            <div class="popCheckbox">
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <span class="lbl">F&B</span>
+                                                      </label>
+                                                  </span>
+                                            </div>
                                         </div>
                                         <div class="tab-block grid-item checkboxGrid">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                            <label class="checkLabel">Membership</label>
+                                            <div class="popCheckbox">
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <span class="lbl">Membership</span>
+                                                      </label>
+                                                  </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -308,8 +326,8 @@
                                 </div>
                             <div class="BusinessProperty-wrap">
                              <div class="col-xs-12 col-sm-12">
-                                 <div class="row BusinessModify-head">
-                                     <p class="BusinessModify-title">Property</p>
+                                 <div class="row businessModify-head">
+                                     <span class="businessModify-title">Property</span>
                                   </div>
                                  <div class="BusinessProperty">
                                      <div class="col-xs-12 col-sm-12">
@@ -352,9 +370,10 @@
                         <div class="col-sm-2 col-xs-2 right-menu-co BusinessModify-Right">
                             <ul>
                                 <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                                <li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>
+                                <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
+                                <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
                                 <li><button class="btn btn-primary btn-white btn-defaultWidth NewChangeLog" role="button">Change Log</button></li>
+                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit</button></li>
                             </ul>
                     </div>
                     </div>
@@ -1124,7 +1143,7 @@
             </div>
         </div>
     </div><!-- /.main-content -->
-    <%- include ../common/footer %>
+    <%- include ../../common/footer %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
