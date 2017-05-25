@@ -46,5 +46,11 @@
         <sql-source base="true" comment="test" key="test" path="dao_cntry_nam.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_livecod_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_contract_status_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_address_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_contact_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_contact_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cntry_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_eis_cntry_rf.xml"/>
     </sql-sources>
 </struts-config>
