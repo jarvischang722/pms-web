@@ -30,11 +30,10 @@ module.exports = function (io) {
                     lock_type = template.lock_type == "table" ? "T" : "R";
 
                     dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
-
                         socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
                     })
                 } else {
-                    socket.emit('checkTableLock', {success: false, errorMsg: "error", prg_id: prg_id});
+                    socket.emit('checkTableLock', {success: false, errorMsg: "Not found Program.", prg_id: prg_id});
                 }
 
             })

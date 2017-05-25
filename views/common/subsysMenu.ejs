@@ -1,18 +1,17 @@
 <div class="col-xs-12 top-sec-ul breadcrumbs-fixed">
-
     <div class="top-ul">
         <ul id="subsysUl">
-            <%   var la_quickMenu = []; %>
+            <% var la_quickMenu = []; %>
             <% session.user.subsysMenu.forEach(function(sysItem){ %>
             <%
                 var activeClass = "";
                 var subsys_url = "";
-                if(current_subsys_id == sysItem.subsys_id){
-                    activeClass ='active-01';
+                if (current_subsys_id == sysItem.subsys_id) {
+                    activeClass = 'active-01';
                     la_quickMenu = sysItem.quickMenu || [];
                 }
 
-                switch (sysItem.subsys_id ) {
+                switch (sysItem.subsys_id) {
                     case 'PMS0600000':
                         subsys_url = '/businessCompanyData'
                         break;
@@ -32,11 +31,12 @@
     <!-- Quick menu  -->
     <div class="secondMenu-ul secondMenuClick ">
         <ul id="quickMenuUl">
-        <% la_quickMenu.forEach(function(quick){%>
-            <li  onclick="loadProgram('<%=quick.pro_url%>')">
-                <%= quick["pro_name_"+session.locale] %>
+            <% la_quickMenu.forEach(function(quick){ %>
+            <% var active = quick.pro_id == pro_id ? 'activeThis' : "" %>
+            <li onclick="loadProgram('<%= quick.pro_url %>')" class="<%= active %>">
+                <%= quick["pro_name_" + session.locale] %>
             </li>
-        <%})%>
+            <% }) %>
         </ul>
     </div> <!-- /.secondMenuUl -->
 

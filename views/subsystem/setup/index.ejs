@@ -10,14 +10,14 @@
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0800000'}) %>
+        <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0800000',pro_id:''}) %>
     </div>
 
     <div class="main-content">
         <div class="main-content-inner">
 
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000'}) %>
-            <div id="setupMainContent" class="page-content" >
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000',pro_id:''}) %>
+            <div id="setupMainContent" class="page-content">
                 <!-- 主內容 -->
             </div>
         </div>
@@ -34,7 +34,7 @@
 
 </html>
 <script>
-    $(function(){
-      $("#quickMenuUl li").first().click();
+    $(function () {
+        $("#quickMenuUl li").first().click();
     })
 </script>
