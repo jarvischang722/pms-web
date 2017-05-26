@@ -2,6 +2,8 @@
  * Created by Jun Chang on 2017/5/26.
  * 基本的Datagrid新增刪除修改
  * Base on EasyUI
+ * Dependency package : underscore.js
+ *
  */
 
 function DatagridBaseClass() {
@@ -20,9 +22,7 @@ function DatagridBaseClass() {
 
     //datagrid 初始化
     this.init = function (prg_id, dgName, fieldData) {
-        fieldData = _.filter(fieldData, function (field) {
-            return field.ui_field_name == "arrive_cod";
-        });
+
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.fieldData = fieldData;

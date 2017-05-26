@@ -68,6 +68,10 @@ DB.prototype.create = function (opt) {
 				connectString: option.connectString
 			},
 			function (err, p) {
+				if(err){
+					console.error(err);
+                    process.exit(1);
+				}
 				// console.log(p._createdDate)
 				pools[option.id] = p;
 				p.id = option.id;
