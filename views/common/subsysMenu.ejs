@@ -12,11 +12,32 @@
                 }
 
                 switch (sysItem.subsys_id) {
+                    case 'PMS0100000':
+                        subsys_url = '/subsystem/reservation'
+                        break;
+                    case 'PMS0200000':
+                        subsys_url = '/subsystem/reception'
+                        break;
+                    case 'PMS0300000':
+                        subsys_url = '/subsystem/cashier'
+                        break;
+                    case 'PMS0400000':
+                        subsys_url = '/subsystem/housekeeping'
+                        break;
+                    case 'PMS0500000':
+                        subsys_url = '/subsystem/night_check'
+                        break;
                     case 'PMS0600000':
                         subsys_url = '/subsystem/sales'
                         break;
+                    case 'PMS0700000':
+                        subsys_url = '/subsystem/report'
+                        break;
                     case 'PMS0800000':
                         subsys_url = '/subsystem/setup'
+                        break;
+                    case 'PMS0900000':
+                        subsys_url = '/subsystem/customize_setup'
                         break;
                 }
             %>
