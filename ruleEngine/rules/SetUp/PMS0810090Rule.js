@@ -6,11 +6,11 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     chk_guest_rf_guest_way: function (postData, session, callback) {
@@ -45,7 +45,7 @@ module.exports = {
         var createSubFunc = [];
         var lo_result = new ReturnClass();
         var lo_error = null;
-        //以下五種狀況如有一項沒過就不能刪除
+        //以下四種狀況如有一項沒過就不能刪除
         createSubFunc.push(
             function (callback) {
                 async.waterfall([
@@ -121,39 +121,41 @@ module.exports = {
                                 callback(err, []);
                             }
                         })
-                    },
-                    function (data, callback) {
-                        queryAgent.query("CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN".toUpperCase(), params, function (err, guestData) {
-                            if (!err) {
-                                if (data != false) {
-                                    if (guestData.hotel_sval_mn_count > 0) {
-                                        isUsed = true;
-                                        callback(isUsed, []);
-                                    } else {
-                                        isUsed = false;
-                                        callback(isUsed, []);
-                                    }
-                                } else {
-                                    callback(isUsed, []);
-                                }
-                            } else {
-                                callback(err, []);
-                            }
-                        })
                     }
+                    //因SD有變，這個不做檢查
+                    // },
+                    // function (data, callback) {
+                    //     queryAgent.query("CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN".toUpperCase(), params, function (err, guestData) {
+                    //         if (!err) {
+                    //             if (data != false) {
+                    //                 if (guestData.hotel_sval_mn_count > 0) {
+                    //                     isUsed = true;
+                    //                     callback(isUsed, []);
+                    //                 } else {
+                    //                     isUsed = false;
+                    //                     callback(isUsed, []);
+                    //                 }
+                    //             } else {
+                    //                 callback(isUsed, []);
+                    //             }
+                    //         } else {
+                    //             callback(err, []);
+                    //         }
+                    //     })
+                    // }
                 ], function (errMsg, result) {
                     if (errMsg) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         if (errMsg == true)
-                            lo_error.errorMsg = "已經有重複資料";
+                            lo_error.errorMsg = "已使用此類別，不可刪除";
                         else
                             lo_error.errorMsg = errMsg;
 
                         lo_error.errorCod = "1111";
                         callback(lo_error, lo_result);
 
-                    }else {
+                    } else {
                         callback(lo_error, lo_result);
                     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- PMS0810090有使用到下列列別則不可刪除-->
+    <!-- PMS0810090有使用到下列列別則不可刪除(目前未使用，但先保留)-->
     <dao name="CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN">
         <statement><![CDATA[
 
