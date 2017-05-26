@@ -183,7 +183,6 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 if (err || UserFieldData.length == 0) {
                     mongoAgent.UIDatagridField.find({
                         user_id: "",
-                        athena_id: "",
                         prg_id: prg_id,
                         page_id: page_id
                     }).sort({col_seq: 1}).select({_id: 0}).exec(function (err, commonFields) {
@@ -268,7 +267,7 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
     _.each(lo_fieldGrp, function (fields, grid_field_name) {
         _.each(fields, function (field) {
             field.user_id = userInfo.usr_id.trim();
-            field.athena_id = userInfo.athena_id;
+            field.athena_id = Number(userInfo.athena_id);
             field.prg_id = prg_id.trim();
 
             saveFuncs.push(
@@ -292,10 +291,11 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                         commonField = tools.mongoDocToObject(commonField);
 
                         var userField = _.findWhere(commonField, {
-                            user_id: userInfo.usr_id.trim(),
-                            athena_id: String(userInfo.athena_id),
-                            prg_id: prg_id.trim()
-                        });
+                                user_id: userInfo.usr_id.trim(),
+                                athena_id: Number(userInfo.athena_id),
+                                prg_id: prg_id.trim()
+                            })
+                        ;
 
 
                         if (userField) {
@@ -798,3 +798,5 @@ function handleDateFormat(prgFields, rowData) {
 
     return rowData;
 }
+
+

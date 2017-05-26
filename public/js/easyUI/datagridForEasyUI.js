@@ -40,6 +40,8 @@ var EZfieldClass = {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
+        }else if (fieldAttrObj.ui_type == "time") {
+            dataType = 'timespinner';
         }
 
         var tmpFieldObj = {
@@ -141,6 +143,17 @@ var EZfieldClass = {
                 return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
+
+        } else if(fieldAttrObj.ui_type =='time'){
+
+            var timeFormatter = function (time, row, index) {
+                if(_.isEmpty(time) || time.length != 4){
+                    return time;
+                }
+                return time.substring(0,2) + ":" +time.substring(2,4);
+            };
+            tmpFieldObj.formatter = timeFormatter;
+            // tmpFieldObj.editor.options.formatter = timeFormatter;
 
         }
 

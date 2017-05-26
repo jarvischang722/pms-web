@@ -25,6 +25,7 @@ module.exports = function(app  ) {
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
-
+    /** 交通接駁設定資料 **/
+    app.post('/api/getTrafficData',setupCrtl.getTrafficData);
 
 };

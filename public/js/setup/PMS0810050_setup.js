@@ -18,6 +18,7 @@ var vueMain = new Vue({
     ready: function () {
         waitingDialog.hide();
         this.fetchDgFieldData();
+
     },
 
     data: {
@@ -30,7 +31,8 @@ var vueMain = new Vue({
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         dgInsPickUp : {}, //接機的dg
         dgInsSeeUp : {},  //送機的dg
-        dgIns :{}         //目前在作業的dg 從dgInsPickUp or dgInsSeeUp 取得
+        dgIns :{},         //目前在作業的dg 從dgInsPickUp or dgInsSeeUp 取得
+        trafficData: {},  //交通接駁資料
     },
     watch:{
         gs_active:function(newVal,oldVal){
@@ -39,20 +41,27 @@ var vueMain = new Vue({
             }else{
                 this.dgIns = this.dgInsSeeUp;
             }
+        },
+        trafficData:function(newObj){
+            console.log(newObj);
+            this.dgInsPickUp.loadDgData(newObj.arrive_rf);
+            this.dgInsSeeUp.loadDgData(newObj.leave_rf);
         }
     },
     methods: {
 
-        //抓取顯示資料
+        //抓取欄位顯示資料
         fetchDgFieldData: function () {
-            // waitingDialog.show();
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id,page_id:1}, function (result) {
-                // console.log(result);
-                waitingDialog.hide();
-                vueMain.prgFieldDataAttr = result.fieldData;
-                // , result.dataGridRows
-                console.log(result.fieldData);
-                vueMain.createDatagrid(result.fieldData)
+                vueMain.createDatagrid(result.fieldData);
+                vueMain.fetchTrafficData();
+            });
+        },
+        //抓取資料
+        fetchTrafficData : function(){
+
+            $.post("/api/getTrafficData", {prg_id: prg_id,page_id:1}, function (result) {
+                vueMain.trafficData = result.trafficData;
             });
         },
         //顯示資料
@@ -62,7 +71,6 @@ var vueMain = new Vue({
 
             this.dgInsPickUp  = new DatagridExtClass();
             this.dgInsPickUp.init(prg_id,'pick_off_dg', pickupField);
-            this.dgInsPickUp.loadDgData([{arrive_cod: 'a12211122'}, {arrive_cod: '55555'}, {arrive_cod: '444444'}]);
             this.dgIns = this.dgInsPickUp;
 
             this.dgInsSeeUp  = new DatagridBaseClass();

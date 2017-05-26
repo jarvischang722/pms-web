@@ -7,7 +7,7 @@
             remark, day1, day2, day3, day4, day5, day6, day7, ins_dat,
             ins_usr, upd_dat, upd_usr
             from hfd_arrive_rf
-            where athena_id = ? and hotel_cod = ?
+            where athena_id = ? and trim(hotel_cod )= trim(?)
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
