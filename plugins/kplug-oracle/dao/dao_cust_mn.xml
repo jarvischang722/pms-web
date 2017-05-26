@@ -17,6 +17,22 @@
     </dao>
 
     <!--
+    [PMS0860020] 未於商務公司資料中指定者可刪除
+    訊息:在商務公司資料維護已使用,不可刪除
+-->
+    <dao name="QRY_BUSINESS_RF_IS_EXIST_CUST_MN_COUNT">
+        <statement><![CDATA[
+			select count(*) as cust_mn_count from cust_mn
+			where  athena_id = trim(:athena_id)
+			and trim(business_cod) = trim(:business_cod)
+			and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">business_cod</parameter>
+    </dao>
+
+    <!--
     [PMS0860070] 在商務公司資料維護已使用,不可刪除
     訊息:在商務公司資料維護已使用,不可刪除
 -->

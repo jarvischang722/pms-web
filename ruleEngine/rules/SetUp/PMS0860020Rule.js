@@ -26,7 +26,7 @@ module.exports = {
 
         queryAgent.query("QRY_BUSINESS_RF_IS_EXIST_CUST_MN_COUNT".toUpperCase(), params, function (err, guestData) {
             if (!err) {
-                if (guestData.custcount > 0) {
+                if (guestData.cust_mn_count > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
                     lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
