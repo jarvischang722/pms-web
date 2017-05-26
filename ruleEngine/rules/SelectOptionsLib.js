@@ -51,6 +51,26 @@ exports.UseStaList = function () {
 };
 
 /**
+ * 可修改狀態選單
+ * @returns {Array}
+ */
+exports.UseRvancelRfFlagStaList = function () {
+
+    var uploadOptions = [
+        {
+            display: '可修改',
+            value: 'Y'
+        },
+        {
+            display: '不可修改',
+            value: 'N'
+        }
+    ];
+
+    return uploadOptions;
+};
+
+/**
  * 歷史狀態選單
  * @returns {Array}
  */
@@ -328,11 +348,11 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
 };
 
 /**
- * 訂房取消設定
+ * 訂房取消原因設定
  */
-exports.getGuestgrprfUseStaList = function(params, callback){
+exports.getRvcancelrfFlag1sta = function(params, callback){
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.UseStaList();
+    lo_result.selectOptions = optionsLib.UseRvancelRfFlagStaList();
     callback(null,lo_result);
 };
 
