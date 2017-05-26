@@ -110,43 +110,68 @@
                                                         </div> <!-- /.search-footer-btn -->
                                                         <div class="grid width-95">
                                                             <div class="grid-item block-table">
-                                                                <label>Sales Id</label>
+                                                                <label>館別代號</label>
+                                                                <select class="input-medium medium-c1">
+                                                                    <option value="1">01:花園台北館</option>
+                                                                    <option value="2">02:德安花園酒店台中分公司</option>
+                                                                    <option value="3">03:合併財報測試</option>
+                                                                    <option value="4">04:RM大飯店</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>房價代號</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Name</label>
+                                                                <label>房價名稱</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Employee</label>
+                                                                <label>顯示內容</label>
+                                                                <select class="input-medium medium-c1">
+                                                                    <option value="1">預設顯示</option>
+                                                                    <option value="2">預設不顯示</option>
+                                                                    <option value="3">全部</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>MENU選單</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Status</label>
+                                                                <label>套裝行程</label>
+                                                                <select class="input-medium medium-c1">
+                                                                    <option value="1">全部</option>
+                                                                    <option value="2">是</option>
+                                                                    <option value="3">否</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="grid-item block-table">
+                                                                <label>最少住宿天數</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
+                                                                <label>專案代碼</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
+                                                                <label>自用</label>
+                                                                <select class="input-medium medium-c1">
+                                                                    <option value="1">全部</option>
+                                                                    <option value="2">是</option>
+                                                                    <option value="3">否</option>
+                                                                </select>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Team</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
+                                                                <label>招待</label>
+                                                                <select class="input-medium medium-c1">
+                                                                    <option value="1">全部</option>
+                                                                    <option value="2">是</option>
+                                                                    <option value="3">否</option>
+                                                                </select>
                                                             </div>
                                                             <div class="grid-item block-table">
-                                                                <label>Hotel</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>F&B</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Membership</label>
+                                                                <label>可使用時段查詢</label>
                                                                 <input type="text" class="input-medium medium-c1"/>
                                                             </div>
                                                         </div>
@@ -178,18 +203,13 @@
 
                                                 <li>
                                                     <button id="remove-btn"
-                                                            class="btn btn-danger btn-white btn-defaultWidth setRateCode-1"
+                                                            class="btn btn-danger btn-white btn-defaultWidth"
                                                             role="button">刪除</button>
                                                 </li>
                                                 <li>
                                                     <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                                            class="btn btn-primary btn-white btn-defaultWidth setRateCode-1"
                                                             role="button">修改</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">業務員指派</button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -933,18 +953,19 @@
             singleSelect:true,
             collapsible:true,
             // 從json 撈
-            url:'/jsonData/bsCompany_clerkDataGridResult.json',
+            url:'/jsonData/reservation_RateCode.json',
             method:'get',
             columns:[[
-                {field:'clerkNum',title:'Sales Id',width:100},
-                {field:'clerkName',title:'Name',width:100},
-                {field:'ifStaff',title:'Employee',width:100},
-                {field:'status',title:'Status',width:100},
-                {field:'disabledYear',title:'Stop Date',width:100},
-                {field:'clerkTeam',title:'Team',width:100},
-                {field:'hotelBusiness',title:'Hotel',width:100},
-                {field:'foodBusiness',title:'F&B',width:100},
-                {field:'memberBusiness',title:'Membership',width:100}
+                {field:'choose',title:'選擇',width:100},
+                {field:'roomCode',title:'房價代號',width:100},
+                {field:'roomName',title:'房價名稱',width:100},
+                {field:'anotherName',title:'別名',width:100},
+                {field:'menu',title:'MENU選單',width:100},
+                {field:'roomChangeChoose',title:'訂房可異動房價',width:100},
+                {field:'setTripChoose',title:'為套裝行程',width:100},
+                {field:'useDescription',title:'使用說明',width:200},
+                {field:'MasterRatecod',title:'Master Ratecod',width:100},
+                {field:'hall',title:'館別',width:100}
             ]]
 
         });

@@ -228,7 +228,7 @@
                                         </div> <!-- /.search-co -->
                                     </div> <!-- /.row  search-content-->
                                     <!-- 商務公司 table -->
-                                    <table id="bs-companyMain-table"></table>
+                                    <table id="bs-companyMain-table" style="width: 100%;"></table>
 
                                     <div class="clearfix"></div>
 
@@ -383,7 +383,7 @@
                                         <div class="space-6"></div>
 
                                         <!-------- tabPage -------->
-                                        <div class="easyui-tabs easyUi-custom1" style="height: 380px; overflow-y: auto;">
+                                        <div class="easyui-tabs easyUi-custom1" style="min-height: 0; height: 380px !important; overflow-y: auto;">
                                             <div title="相關設定" class="padding-tabs">
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="row">
@@ -1689,12 +1689,12 @@
                 resizable: true
             });
         });
-
+//        $('.easyUi-custom1').css("height","100px");
         // tabs setting
         $('.easyUi-custom1').tabs({
             // 可以resize 左右，但height 會變大
-//           fit: true
-//            height: 400
+//            fit: true,
+//            height: auto
         });
 
 
