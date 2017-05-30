@@ -37,9 +37,9 @@
 <!-- /section:basics/navbar.layout -->
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-
+        <%- include('../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -51,152 +51,179 @@
 
     <div class="main-content">
         <div class="main-content-inner">
+            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
             <div class="page-content">
                 <div class="">
                     <div class="page-header">
                     </div><!-- /.page-header -->
 
                     <div class="row">
-                            <div class="col-xs-12">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row no-margin-right">
-                                        <div class="search-content">
-                                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                            <div class="search-co">
-                                                <div class="search-co-h">
-                                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                                    <span>搜尋</span>
-                                                    <div class="row search-right-btn">
-                                                        <div class="right-btn-menu-co">
-                                                            <ul>
-                                                                <li>
-                                                                    <i class="fa fa-chevron-down show-search-detail"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row no-margin-right">
+                                    <div class="search-content">
+                                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                        <div class="search-co">
+                                            <div class="search-co-h">
+                                                <i class="ace-icon fa fa-search search-icon"></i>
+                                                <span>搜尋</span>
+                                                <div class="row search-right-btn">
+                                                    <div class="right-btn-menu-co">
+                                                        <ul>
+                                                            <li>
+                                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="search-co-content col-xs-12">
-                                                        <div class="col-sm-4">
+                                            </div>
+                                            <div class="row">
+                                                <div class="search-co-content col-xs-12">
+                                                    <div class="col-sm-4">
 
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                    </div>
+                                                </div>
+                                                <div class="search-co-content col-xs-12 rece-search-detail"
+                                                     style="display: none;">
+                                                    <div class="row search-footer-btn">
+                                                        <div class="footer-btn-menu-co">
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="" data-rel="tooltip"
+                                                                         data-placement="bottom"
+                                                                         title="查詢"
+                                                                         style="padding: 0 0 5px 0;">
+                                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="" data-rel="tooltip"
+                                                                         data-placement="bottom"
+                                                                         title="清除" style="padding: 0 0 5px 0;">
+                                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>  <!-- /.footer-btn-menu-co -->
+                                                    </div> <!-- /.search-footer-btn -->
+                                                    <div class="grid width-95">
+                                                        <div class="grid-item block-table">
+                                                            <label>館別代號</label>
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">01:花園台北館</option>
+                                                                <option value="2">02:德安花園酒店台中分公司</option>
+                                                                <option value="3">03:合併財報測試</option>
+                                                                <option value="4">04:RM大飯店</option>
+                                                            </select>
                                                         </div>
-                                                        <div class="col-sm-4">
-
+                                                        <div class="grid-item block-table">
+                                                            <label>房價代號</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
                                                         </div>
-                                                        <div class="col-sm-4">
-
+                                                        <div class="grid-item block-table">
+                                                            <label>房價名稱</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>顯示內容</label>
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">預設顯示</option>
+                                                                <option value="2">預設不顯示</option>
+                                                                <option value="3">全部</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>MENU選單</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>套裝行程</label>
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">全部</option>
+                                                                <option value="2">是</option>
+                                                                <option value="3">否</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>最少住宿天數</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>專案代碼</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>自用</label>
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">全部</option>
+                                                                <option value="2">是</option>
+                                                                <option value="3">否</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>招待</label>
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">全部</option>
+                                                                <option value="2">是</option>
+                                                                <option value="3">否</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="grid-item block-table">
+                                                            <label>可使用時段查詢</label>
+                                                            <input type="text" class="input-medium medium-c1"/>
                                                         </div>
                                                     </div>
-                                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                                        <div class="row search-footer-btn">
-                                                            <div class="footer-btn-menu-co">
-                                                                <ul>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="查詢"
-                                                                             style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="清除" style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>  <!-- /.footer-btn-menu-co -->
-                                                        </div> <!-- /.search-footer-btn -->
-                                                        <div class="grid width-95">
-                                                            <div class="grid-item block-table">
-                                                                <label>Sales Id</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Name</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Employee</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Status</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Stop Date</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Team</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Hotel</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>F&B</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Membership</label>
-                                                                <input type="text" class="input-medium medium-c1"/>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </div> <!-- row-->
-                                            </div> <!-- /.search-co -->
-                                        </div> <!-- /.row  search-content-->
-                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div> <!-- row-->
+                                        </div> <!-- /.search-co -->
+                                    </div> <!-- /.row  search-content-->
                                 </div>
-                            </div> <!-- /.col-sm-12 -->
-                            <div class="clearfix"></div>
-                            <div class="col-xs-12">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row no-margin-right">
-                                        <!-- 歷史消費 dataGrid -->
-                                        <table id="clerkDataGridResult-table"></table>
-                                    </div>
+                            </div>
+                        </div> <!-- /.col-sm-12 -->
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12">
+                            <div class="col-sm-11 col-xs-11">
+                                <div class="row no-margin-right">
+                                    <!-- 歷史消費 dataGrid -->
+                                    <table id="clerkDataGridResult-table"></table>
                                 </div>
-                                <div class="col-xs-1 col-sm-1">
-                                    <div class="row">
-                                        <div class="right-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth setRateCode-1"
-                                                            role="button">新增</button>
-                                                </li>
+                            </div>
+                            <div class="col-xs-1 col-sm-1">
+                                <div class="row">
+                                    <div class="right-menu-co">
+                                        <ul>
+                                            <li>
+                                                <button id="ins-btn"
+                                                        class="btn btn-primary btn-white btn-defaultWidth setRateCode-1"
+                                                        role="button">新增
+                                                </button>
+                                            </li>
 
-                                                <li>
-                                                    <button id="remove-btn"
-                                                            class="btn btn-danger btn-white btn-defaultWidth setRateCode-1"
-                                                            role="button">刪除</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">修改</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">業務員指派</button>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                            <li>
+                                                <button id="remove-btn"
+                                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                                        role="button">刪除
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button id="ins-btn"
+                                                        class="btn btn-primary btn-white btn-defaultWidth setRateCode-1"
+                                                        role="button">修改
+                                                </button>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div> <!-- /.col-sm-12 -->
-                            <div class="clearfix"></div>
+                            </div>
+                        </div> <!-- /.col-sm-12 -->
+                        <div class="clearfix"></div>
 
                     </div>
                     <!-- rate code 彈出視窗 -->
@@ -210,18 +237,21 @@
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>Rate code</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="RACK"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="RACK"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Dep,Rate</label>
-                                                    <input type="text" class="input-medium rateCode-s1-col2" placeholder="DIS70,DIS80"/>
+                                                    <input type="text" class="input-medium rateCode-s1-col2"
+                                                           placeholder="DIS70,DIS80"/>
                                                 </div>
                                                 <!--除了主檔以外其他未使用-->
                                                 <div class="tab-block grid-item" style="display: none;">
                                                     <div class="popCheckbox">
                                                         <span class="checkbox">
                                                           <label class="checkbox-width">
-                                                              <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                              <input name="form-field-checkbox" type="checkbox"
+                                                                     class="ace">
                                                               <span class="lbl">Base Rate</span>
                                                           </label>
                                                       </span>
@@ -233,26 +263,31 @@
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>Rate name</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="原價"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="原價"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Source Code</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="01:電話訂房"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="01:電話訂房"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Rate Group</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="01:散客房價"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="01:散客房價"/>
                                                 </div>
                                             </div>
                                             <!--3-->
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>Menu</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="原價"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="原價"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Market Code</label>
-                                                    <input type="text" class="input-medium rateCode-s1" placeholder="LOF:一般散客"/>
+                                                    <input type="text" class="input-medium rateCode-s1"
+                                                           placeholder="LOF:一般散客"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Type</label>
@@ -272,7 +307,8 @@
                                             <div class="space-6"></div>
                                         </div><!--main-content-data-->
                                         <!-------- tabPage -------->
-                                        <div class="easyui-tabs easyUi-custom1" style="height: 400px; overflow-y: auto;">
+                                        <div class="easyui-tabs easyUi-custom1"
+                                             style="height: 400px; overflow-y: auto;">
                                             <div title="Details" class="padding-tabs">
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="row">
@@ -288,7 +324,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                           <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                              <input name="form-field-checkbox"
+                                                                                                     type="checkbox"
+                                                                                                     class="ace">
                                                                                               <span class="lbl">
                                                                                                 <span class="txt">Active</span>
                                                                                               </span>
@@ -298,7 +336,9 @@
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
                                                                                     <label>Display</label>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="1"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="1"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -308,7 +348,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                               <label class="checkbox-width">
-                                                                                                  <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                                  <input name="form-field-checkbox"
+                                                                                                         type="checkbox"
+                                                                                                         class="ace">
                                                                                                   <span class="lbl">
                                                                                                     <span class="txt">Sale Date</span>
                                                                                                   </span>
@@ -317,12 +359,18 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
-                                                                                    <label class="label-spc-2">Start Date</label>
-                                                                                    <input type="date" class="input-medium rateCode-s3" placeholder="2016/01/01"/>
+                                                                                    <label class="label-spc-2">Start
+                                                                                        Date</label>
+                                                                                    <input type="date"
+                                                                                           class="input-medium rateCode-s3"
+                                                                                           placeholder="2016/01/01"/>
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
-                                                                                    <label class="label-spc-2">End Date</label>
-                                                                                    <input type="text" class="input-medium rateCode-s3" placeholder="2016/01/01"/>
+                                                                                    <label class="label-spc-2">End
+                                                                                        Date</label>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s3"
+                                                                                           placeholder="2016/01/01"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -333,12 +381,16 @@
                                                                             <div class="grid">
                                                                                 <div class="tab-block grid-item">
                                                                                     <span>Stays</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder=""/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder=""/>
                                                                                     <span class="label-spc">Night</span>
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
                                                                                     <span>Hours</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="20"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="20"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -347,11 +399,15 @@
                                                                                 <div class="tab-block grid-item">
                                                                                     <span>preSale</span>
                                                                                     <span>mix.</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="30"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="30"/>
                                                                                     <span>night</span>
                                                                                     <span>and</span>
                                                                                     <span>max.</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="45"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="45"/>
                                                                                     <span>night</span>
                                                                                 </div>
                                                                             </div>
@@ -363,7 +419,9 @@
                                                                             <div class="grid">
                                                                                 <div class="tab-block grid-item">
                                                                                     <span>NO. of People</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="1"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="1"/>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -373,7 +431,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                               <label class="checkbox-width">
-                                                                                                  <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                                  <input name="form-field-checkbox"
+                                                                                                         type="checkbox"
+                                                                                                         class="ace">
                                                                                                   <span class="lbl">
                                                                                                       <span class="txt">member</span>
                                                                                                   </span>
@@ -392,7 +452,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                               <label class="checkbox-width">
-                                                                                                  <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                                  <input name="form-field-checkbox"
+                                                                                                         type="checkbox"
+                                                                                                         class="ace">
                                                                                                   <span class="lbl">
                                                                                                     <span class="txt">Rate override</span>
                                                                                                   </span>
@@ -408,7 +470,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                               <label class="checkbox-width">
-                                                                                                  <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                                  <input name="form-field-checkbox"
+                                                                                                         type="checkbox"
+                                                                                                         class="ace">
                                                                                                   <span class="lbl">
                                                                                                       <span class="txt">Comm. override</span>
                                                                                                   </span>
@@ -418,7 +482,9 @@
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
                                                                                     <span>commission</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="1"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="1"/>
                                                                                     <span>%</span>
                                                                                 </div>
                                                                             </div>
@@ -450,7 +516,9 @@
                                                                                     <div class="popCheckbox">
                                                                                         <span class="checkbox">
                                                                                               <label class="checkbox-width">
-                                                                                                  <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                                                                  <input name="form-field-checkbox"
+                                                                                                         type="checkbox"
+                                                                                                         class="ace">
                                                                                                   <span class="lbl">
                                                                                                     <span class="txt">Occupancy From</span>
                                                                                                   </span>
@@ -459,22 +527,28 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="tab-block grid-item">
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="20"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="20"/>
                                                                                     <span>%</span>
                                                                                     <span>to</span>
-                                                                                    <input type="text" class="input-medium rateCode-s2" placeholder="70"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s2"
+                                                                                           placeholder="70"/>
                                                                                     <span>%</span>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <!--7-->
-                                                                      <div class="css_tr">
+                                                                    <div class="css_tr">
                                                                         <div class="css_td padding-top width-100">
                                                                             <div class="grid">
                                                                                 <div class="tab-block grid-item">
                                                                                     <label>Description</label>
-                                                                                    <input type="text" class="input-medium rateCode-s4" placeholder="20"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s4"
+                                                                                           placeholder="20"/>
                                                                                     <span class="moreClick">...</span>
                                                                                 </div>
                                                                             </div>
@@ -486,7 +560,9 @@
                                                                             <div class="grid">
                                                                                 <div class="tab-block grid-item">
                                                                                     <label>CFM Remarks</label>
-                                                                                    <input type="text" class="input-medium rateCode-s4" placeholder="20"/>
+                                                                                    <input type="text"
+                                                                                           class="input-medium rateCode-s4"
+                                                                                           placeholder="20"/>
                                                                                     <span class="moreClick">...</span>
                                                                                 </div>
                                                                             </div>
@@ -513,36 +589,72 @@
                                                                                         <div class="css_table standard-table">
                                                                                             <div class="css_thead">
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_th width-25">Start date</div>
-                                                                                                    <div class="css_th width-25">End date</div>
-                                                                                                    <div class="css_th width-50">Date rule</div>
+                                                                                                    <div class="css_th width-25">
+                                                                                                        Start date
+                                                                                                    </div>
+                                                                                                    <div class="css_th width-25">
+                                                                                                        End date
+                                                                                                    </div>
+                                                                                                    <div class="css_th width-50">
+                                                                                                        Date rule
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="css_tbody">
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_td">2017/01/01</div>
-                                                                                                    <div class="css_td">2017/01/31</div>
-                                                                                                    <div class="css_td">平日</div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/01
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/31
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        平日
+                                                                                                    </div>
                                                                                                 </div>
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_td">2017/01/01</div>
-                                                                                                    <div class="css_td">2017/01/31</div>
-                                                                                                    <div class="css_td">旺日</div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/01
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/31
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        旺日
+                                                                                                    </div>
                                                                                                 </div>
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_td">2017/01/01</div>
-                                                                                                    <div class="css_td">2017/01/31</div>
-                                                                                                    <div class="css_td">星期一,星期二,星期三,星期四,星期五</div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/01
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/31
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        星期一,星期二,星期三,星期四,星期五
+                                                                                                    </div>
                                                                                                 </div>
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_td">2017/01/01</div>
-                                                                                                    <div class="css_td">2017/01/31</div>
-                                                                                                    <div class="css_td">星期六</div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/01
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/31
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        星期六
+                                                                                                    </div>
                                                                                                 </div>
                                                                                                 <div class="css_tr">
-                                                                                                    <div class="css_td">2017/01/01</div>
-                                                                                                    <div class="css_td">2017/01/31</div>
-                                                                                                    <div class="css_td">星期日</div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/01
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        2017/01/31
+                                                                                                    </div>
+                                                                                                    <div class="css_td">
+                                                                                                        星期日
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -556,11 +668,15 @@
                                                                                         <ul>
                                                                                             <li>
                                                                                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                                        role="button">add</button>
+                                                                                                        role="button">
+                                                                                                    add
+                                                                                                </button>
                                                                                             </li>
                                                                                             <li>
                                                                                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                                        role="button">delete</button>
+                                                                                                        role="button">
+                                                                                                    delete
+                                                                                                </button>
                                                                                             </li>
                                                                                         </ul>
                                                                                     </div>
@@ -590,8 +706,12 @@
                                                                             <option>1.欄位:基本售價</option>
                                                                             <option>2.欄位:服務費</option>
                                                                         </select>
-                                                                        <input type="text" class="input-medium medium-c1" placeholder="2500"/>
-                                                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font">設定費用</button>
+                                                                        <input type="text"
+                                                                               class="input-medium medium-c1"
+                                                                               placeholder="2500"/>
+                                                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font">
+                                                                            設定費用
+                                                                        </button>
                                                                     </div>
                                                                     <div class="clearfix"></div>
                                                                 </div>
@@ -618,54 +738,71 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="css_tbody">
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td">SD</div>
-                                                                            <div class="css_td">單人房</div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">平日</div>
-                                                                            <div class="css_td text-right">2000</div>
-                                                                            <div class="css_td text-right">200</div>
-                                                                        </div>
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td">DW</div>
-                                                                            <div class="css_td">單人房</div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">旺日</div>
-                                                                            <div class="css_td text-right">2500</div>
-                                                                            <div class="css_td text-right">250</div>
-                                                                        </div>
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td">LD</div>
-                                                                            <div class="css_td">奢華雙人客房</div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">星期一,星期二,星期三,星期四,星期五</div>
-                                                                            <div class="css_td text-right">20%</div>
-                                                                            <div class="css_td text-right">20%</div>
-                                                                        </div>
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td">FM</div>
-                                                                            <div class="css_td">家庭房</div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">星期六</div>
-                                                                            <div class="css_td text-right">15%</div>
-                                                                            <div class="css_td text-right">15%</div>
-                                                                        </div>
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td"></div>
-                                                                            <div class="css_td"></div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">星期六</div>
-                                                                            <div class="css_td text-right">10%</div>
-                                                                            <div class="css_td text-right">10%</div>
-                                                                        </div>
-                                                                        <div class="css_tr">
-                                                                            <div class="css_td"></div>
-                                                                            <div class="css_td"></div>
-                                                                            <div class="css_td td-disable">2017/01/31~2017/01/31</div>
-                                                                            <div class="css_td td-disable">星期六</div>
-                                                                            <div class="css_td text-right">2200</div>
-                                                                            <div class="css_td text-right">200</div>
-                                                                        </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td">SD</div>
+                                                                                <div class="css_td">單人房</div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">平日</div>
+                                                                                <div class="css_td text-right">2000
+                                                                                </div>
+                                                                                <div class="css_td text-right">200</div>
+                                                                            </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td">DW</div>
+                                                                                <div class="css_td">單人房</div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">旺日</div>
+                                                                                <div class="css_td text-right">2500
+                                                                                </div>
+                                                                                <div class="css_td text-right">250</div>
+                                                                            </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td">LD</div>
+                                                                                <div class="css_td">奢華雙人客房</div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">
+                                                                                    星期一,星期二,星期三,星期四,星期五
+                                                                                </div>
+                                                                                <div class="css_td text-right">20%</div>
+                                                                                <div class="css_td text-right">20%</div>
+                                                                            </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td">FM</div>
+                                                                                <div class="css_td">家庭房</div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">星期六</div>
+                                                                                <div class="css_td text-right">15%</div>
+                                                                                <div class="css_td text-right">15%</div>
+                                                                            </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td"></div>
+                                                                                <div class="css_td"></div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">星期六</div>
+                                                                                <div class="css_td text-right">10%</div>
+                                                                                <div class="css_td text-right">10%</div>
+                                                                            </div>
+                                                                            <div class="css_tr">
+                                                                                <div class="css_td"></div>
+                                                                                <div class="css_td"></div>
+                                                                                <div class="css_td td-disable">
+                                                                                    2017/01/31~2017/01/31
+                                                                                </div>
+                                                                                <div class="css_td td-disable">星期六</div>
+                                                                                <div class="css_td text-right">2200
+                                                                                </div>
+                                                                                <div class="css_td text-right">200</div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -677,11 +814,13 @@
                                                                     <ul>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">新增房型</button>
+                                                                                    role="button">新增房型
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                                    role="button">刪除房型</button>
+                                                                                    role="button">刪除房型
+                                                                            </button>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -699,7 +838,8 @@
                                                                         <div class="css_thead">
                                                                             <div class="css_tr">
                                                                                 <div class="css_th width-10">服務項目</div>
-                                                                                <div class="css_th width-15">服務項目名稱</div>
+                                                                                <div class="css_th width-15">服務項目名稱
+                                                                                </div>
                                                                                 <div class="css_th width-10">單價</div>
                                                                                 <div class="css_th width-10">數量</div>
                                                                                 <div class="css_th width-15">服務方式</div>
@@ -722,7 +862,8 @@
                                                                             <div class="css_tr">
                                                                                 <div class="css_td">114</div>
                                                                                 <div class="css_td">旺日加價</div>
-                                                                                <div class="css_td text-right">1000</div>
+                                                                                <div class="css_td text-right">1000
+                                                                                </div>
                                                                                 <div class="css_td text-right">1</div>
                                                                                 <div class="css_td">C:自訂規則</div>
                                                                                 <div class="css_td">旺日</div>
@@ -770,27 +911,33 @@
                                                                     <ul>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">新增</button>
+                                                                                    role="button">新增
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                                    role="button">刪除</button>
+                                                                                    role="button">刪除
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">複製</button>
+                                                                                    role="button">複製
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">複製房型</button>
+                                                                                    role="button">複製房型
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">貼上</button>
+                                                                                    role="button">貼上
+                                                                            </button>
                                                                         </li>
                                                                         <li>
                                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">全部貼上</button>
+                                                                                    role="button">全部貼上
+                                                                            </button>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -810,7 +957,9 @@
                                                                     <div class="grid">
                                                                         <div class="grid-item">
                                                                             <label>Dep.Rate</label>
-                                                                            <input type="text" class="input-medium rateCode-s1" placeholder="DIS70,DIS80"/>
+                                                                            <input type="text"
+                                                                                   class="input-medium rateCode-s1"
+                                                                                   placeholder="DIS70,DIS80"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -829,7 +978,9 @@
                                                                     <div class="grid">
                                                                         <div class="grid-item">
                                                                             <label>金額</label>
-                                                                            <input type="text" class="input-medium rateCode-s1 text-right" placeholder="70%" />
+                                                                            <input type="text"
+                                                                                   class="input-medium rateCode-s1 text-right"
+                                                                                   placeholder="70%"/>
                                                                             <select class="input-medium rateCode-s3">
                                                                                 <option value="1">依比例</option>
                                                                                 <option value="2">依金額</option>
@@ -861,27 +1012,33 @@
                                                 <ul>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Save</button>
+                                                                role="button">Save
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Copy</button>
+                                                                role="button">Copy
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Preview</button>
+                                                                role="button">Preview
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">房價一覽表</button>
+                                                                role="button">房價一覽表
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Extra Adult</button>
+                                                                role="button">Extra Adult
+                                                        </button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Exit</button>
+                                                                role="button">Exit
+                                                        </button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -894,7 +1051,7 @@
                     </div>
                     <!-- /.rate code 彈出視窗 -->
 
-            </div>
+                </div>
             </div><!-- /.page-content -->
         </div><!-- /.main-content-inner -->
     </div><!-- /.main-content -->
@@ -911,7 +1068,7 @@
 </body>
 
 <script type="text/javascript">
-    $(function (){
+    $(function () {
 
         // 彈出setRateCode
         $(document).on('click', ".setRateCode-1", function (e) {
@@ -930,125 +1087,126 @@
 
         // 業務員資料維護-查詢結果 dataGrid
         $('#clerkDataGridResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_clerkDataGridResult.json',
-            method:'get',
-            columns:[[
-                {field:'clerkNum',title:'Sales Id',width:100},
-                {field:'clerkName',title:'Name',width:100},
-                {field:'ifStaff',title:'Employee',width:100},
-                {field:'status',title:'Status',width:100},
-                {field:'disabledYear',title:'Stop Date',width:100},
-                {field:'clerkTeam',title:'Team',width:100},
-                {field:'hotelBusiness',title:'Hotel',width:100},
-                {field:'foodBusiness',title:'F&B',width:100},
-                {field:'memberBusiness',title:'Membership',width:100}
+            url: '/jsonData/reservation_RateCode.json',
+            method: 'get',
+            columns: [[
+                {field: 'choose', title: '選擇', width: 100},
+                {field: 'roomCode', title: '房價代號', width: 100},
+                {field: 'roomName', title: '房價名稱', width: 100},
+                {field: 'anotherName', title: '別名', width: 100},
+                {field: 'menu', title: 'MENU選單', width: 100},
+                {field: 'roomChangeChoose', title: '訂房可異動房價', width: 100},
+                {field: 'setTripChoose', title: '為套裝行程', width: 100},
+                {field: 'useDescription', title: '使用說明', width: 200},
+                {field: 'MasterRatecod', title: 'Master Ratecod', width: 100},
+                {field: 'hall', title: '館別', width: 100}
             ]]
 
         });
 
         //  新增拜訪查詢
         $('#NewVisitResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_newVisit.json',
-            method:'get',
-            columns:[[
-                {field:'clerkNum',title:'Choose',width:60},
-                {field:'clerkName',title:'Co. Id',width:80},
-                {field:'ifStaff',title:'Co. Name',width:180},
-                {field:'status',title:'Status',width:50},
-                {field:'subject',title:'Contract',width:70},
-                {field:'disabledYear',title:'Co. Type',width:60},
-                {field:'clerkTeam',title:'Category',width:70},
-                {field:'hotelBusiness',title:'Region',width:70},
-                {field:'memberBusiness',title:'Industry',width:60}
+            url: '/jsonData/bsCompany_newVisit.json',
+            method: 'get',
+            columns: [[
+                {field: 'clerkNum', title: 'Choose', width: 60},
+                {field: 'clerkName', title: 'Co. Id', width: 80},
+                {field: 'ifStaff', title: 'Co. Name', width: 180},
+                {field: 'status', title: 'Status', width: 50},
+                {field: 'subject', title: 'Contract', width: 70},
+                {field: 'disabledYear', title: 'Co. Type', width: 60},
+                {field: 'clerkTeam', title: 'Category', width: 70},
+                {field: 'hotelBusiness', title: 'Region', width: 70},
+                {field: 'memberBusiness', title: 'Industry', width: 60}
             ]]
 
         });
 
         //  新增拜訪編輯
         $('#NewVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_newVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60}
+            url: '/jsonData/bsCompany_newVisitRecord.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60}
             ]]
 
         });
 
         //修改拜訪記錄
         $('#ModifyVisitResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_modifyVisit.json',
-            method:'get',
-            columns:[[
-                {field:'VisitCheck',title:'Choose',width:60},
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60},
-                {field:'visitAdd',title:'Add Date',width:60},
-                {field:'visitAddUser',title:'Add Staff',width:60},
-                {field:'visitLD',title:'Last Revise Date',width:60},
-                {field:'visitLS',title:'Last Revise Staff',width:60}
+            url: '/jsonData/bsCompany_modifyVisit.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitCheck', title: 'Choose', width: 60},
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60},
+                {field: 'visitAdd', title: 'Add Date', width: 60},
+                {field: 'visitAddUser', title: 'Add Staff', width: 60},
+                {field: 'visitLD', title: 'Last Revise Date', width: 60},
+                {field: 'visitLS', title: 'Last Revise Staff', width: 60}
             ]]
 
         });
 
         $('#ModifyVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_modifyVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60},
-                {field:'visitAdd',title:'Add Date',width:60},
-                {field:'visitAddUser',title:'Add Staff',width:60},
-                {field:'visitLD',title:'Last Revise Date',width:60},
-                {field:'visitLS',title:'Last Revise Staff',width:60}
+            url: '/jsonData/bsCompany_modifyVisitRecord.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60},
+                {field: 'visitAdd', title: 'Add Date', width: 60},
+                {field: 'visitAddUser', title: 'Add Staff', width: 60},
+                {field: 'visitLD', title: 'Last Revise Date', width: 60},
+                {field: 'visitLS', title: 'Last Revise Staff', width: 60}
             ]]
 
         });
