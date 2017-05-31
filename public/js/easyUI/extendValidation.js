@@ -90,5 +90,14 @@ $.extend($.fn.validatebox.defaults.rules, {
             return Number(value) < 0;
         },
         message: '請輸入小於0的數字'
+    },
+    //時間格式HH:MM
+    FmtHHMM : {
+        validator: function (value) {
+            var reg = /([0-1][0-9]|2[0-3])\:[0-5][0-9]/;
+            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["FmtHHMM"]  ;
+            return reg.test(value);
+        },
+        message: '時間格式HH:MM'
     }
 });

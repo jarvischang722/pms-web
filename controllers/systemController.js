@@ -9,6 +9,7 @@ var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/roleFuncService");
+var dbSvc = require("../services/dbTableService");
 /**
  * 首頁
  */
@@ -125,14 +126,22 @@ exports.customize_setup = function (req, res) {
 };
 
 
-
 /**
  * 取得設定模組裡所有的設定名稱
  */
-exports.getGroupMdlPros =  function(req, res){
+exports.getGroupMdlPros = function (req, res) {
     var mdl_id = req.body.mdl_id;
     var la_locales = req.cookies.sys_locales || [];
-    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id,la_locales,function(err,ProsList){
-        res.json({success:_.isNull(err), errorMsg:err, prosList:ProsList});
+    roleSvc.handleGroupMdlProcess(req.session.user, mdl_id, la_locales, function (err, ProsList) {
+        res.json({success: _.isNull(err), errorMsg: err, prosList: ProsList});
+    })
+};
+
+/**
+ * 執行sql 程序
+ */
+exports.execSQLProcess = function (req, res) {
+    dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
+        res.json({success: success, errorMsg: err });
     })
 };

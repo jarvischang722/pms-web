@@ -32,15 +32,13 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
-        } else if (fieldAttrObj.ui_type == "select") {
-            dataType = 'combobox';
-        } else if (fieldAttrObj.ui_type == "multiselect") {
+        } else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
             dataType = 'combobox';
         } else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
-        }else if (fieldAttrObj.ui_type == "time") {
+        } else if (fieldAttrObj.ui_type == "time") {
             dataType = 'timespinner';
         }
 
@@ -70,6 +68,7 @@ var EZfieldClass = {
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData;
+            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -137,23 +136,15 @@ var EZfieldClass = {
                 return fieldName;
             }
         } else if (fieldAttrObj.ui_type == "color") {
-            var lf_colorFormatter  = function (color_cod, row, index) {
+            var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
                 return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
 
-        } else if(fieldAttrObj.ui_type =='time'){
+        } else if (fieldAttrObj.ui_type == 'time') {
 
-            var timeFormatter = function (time, row, index) {
-                if(_.isEmpty(time) || time.length != 4){
-                    return time;
-                }
-                return time.substring(0,2) + ":" +time.substring(2,4);
-            };
-            tmpFieldObj.formatter = timeFormatter;
-            // tmpFieldObj.editor.options.formatter = timeFormatter;
 
         }
 
@@ -214,6 +205,19 @@ var ColorFunc = {
     }
 };
 
+$.fn.timespinner.defaults.formatter = function(date){
+    if (!date){return '';}
+    var opts = $(this).timespinner('options');
+    var tt = [formatN(date.getHours()), formatN(date.getMinutes())];
+    if (opts.showSeconds){
+        tt.push(formatN(date.getSeconds()));
+    }
+    return tt.join(opts.separator);
+
+    function formatN(value){
+        return (value < 10 ? '0' : '') + value;
+    }
+}
 
 $(function () {
 

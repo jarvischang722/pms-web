@@ -21,29 +21,30 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
 
     //datagrid 初始化
-    this.init = function (prg_id, dgName, fieldData) {
-
+    this.init = function (prg_id, dgName, columns) {
         self.prg_id = prg_id;
         self.dgName = dgName;
-        self.fieldData = fieldData;
+        self.columns = columns;
         $('#' + dgName).datagrid({
-            columns: [EZfieldClass.combineFieldOption(fieldData)],
+            columns: [columns],
             remoteSort: false,
             singleSelect: true,
             selectOnCheck: true,
             checkOnSelect: true,
             width: "100%",
-            onClickCell: self.onClickCell,
-            onEndEdit: self.onEndEdit,
-            onDropColumn: self.doSaveColumnFields,    //當移動順序欄位時
-            onResizeColumn: self.doSaveColumnFields,  //當欄位時寬度異動時
+            onClickCell: this.onClickCell,
+            onEndEdit: this.onEndEdit,
+            onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
+            onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
             // onSortColumn: function () {
             //     $("#dgCheckbox").datagrid('uncheckAll');
             // }
         }).datagrid('columnMoving');
     };
 
-    //新刪修暫存容器 初始化
+    /**
+     * 新刪修暫存容器 初始化
+     */
     this.initTmpCUD = function () {
         self.tmpCUD = {
             createData: [],
@@ -51,7 +52,11 @@ function DatagridBaseClass() {
             deleteData: []
         };
     };
-    //按下一個Row
+    /**
+     * 按下一個Row
+     * @param index
+     * @param field
+     */
     this.onClickCell = function (index, field) {
         if (self.editIndex != index) {
             if (self.endEditing()) {
@@ -72,7 +77,10 @@ function DatagridBaseClass() {
 
 
     };
-    //讀取資料到datagrid 顯示
+    /**
+     * 讀取資料到datagrid 顯示
+     * @param dataGridRows{Array} : 資料集
+     */
     this.loadDgData = function (dataGridRows) {
         var dgData = {total: dataGridRows.length, rows: dataGridRows};
         $('#' + this.dgName).datagrid("loadData", dgData)
@@ -80,10 +88,31 @@ function DatagridBaseClass() {
 
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
-        self.doTmpExecData(row);
         /** 讓子類別實作這個方法 interface 概念 **/
+        row = self.filterRowData(row);
+        self.doTmpExecData(row);
+
     };
-    // 確認是否可以結束編輯
+
+    /**
+     * 過濾一筆資料
+     * @param rowData {Object} : 每一筆資料
+     * @return rowData
+     */
+    this.filterRowData = function (rowData) {
+        var lao_columns = self.columns;
+        _.each(rowData, function (val, key) {
+            if (_.findIndex(lao_columns, {field: key}) > -1
+                && _.findWhere(lao_columns, {field: key}).ui_type == 'time') {
+                rowData[key] = val.replace(":", "");
+            }
+        });
+        return rowData;
+    };
+    /**
+     * 確認是否可以結束編輯
+     * @return {boolean}
+     */
     this.endEditing = function () {
         if (this.editIndex == undefined) {
             return true
@@ -97,7 +126,9 @@ function DatagridBaseClass() {
         }
     };
 
-    //新增一個Row
+    /**
+     * 新增一個Row
+     */
     this.appendRow = function () {
         if (self.endEditing()) {
             $.post("/api/handleDataGridAddEventRule", {prg_id: self.prg_id}, function (result) {
@@ -113,7 +144,9 @@ function DatagridBaseClass() {
             // $("#gridEdit").val(self.tmpCUD);
         }
     };
-    //刪除選定的Row
+    /**
+     * 刪除選定的Row
+     */
     this.removeRow = function removeRow() {
         var delRow = $('#' + this.dgName).datagrid('getSelected');
         if (!delRow) {
@@ -139,7 +172,10 @@ function DatagridBaseClass() {
 
     };
 
-    //儲存個人化欄位屬性
+
+    /**
+     * 儲存個人化欄位屬性
+     */
     this.doSaveColumnFields = function () {
 
         var saveField = [];
@@ -171,11 +207,14 @@ function DatagridBaseClass() {
         });
     }
 
-    //將資料放入暫存
+    /**
+     * 將資料放入暫存
+     * @param rowData 要處理的那筆資料
+     */
     this.doTmpExecData = function (rowData) {
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
-        var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
+        var keyVals = _.pluck(_.where(this.columns, {keyable: 'Y'}), "field");
         var condKey = {};
         _.each(keyVals, function (field_name) {
             condKey[field_name] = rowData[field_name] || "";

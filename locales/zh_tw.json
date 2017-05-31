@@ -425,7 +425,8 @@
       "ChkGreaterZeroNum": "請輸入大於0的數字",
       "ChkGteZeroNum": "請輸入大於等於0的數字",
       "ChkLteZeroNum": "請輸入小於等於0的數字",
-      "ChkLessZeroNum": "請輸入小於0的數字"
+      "ChkLessZeroNum": "請輸入小於0的數字",
+      "FmtHHMM": "時間格式HH:MM"
     }
   }
 }

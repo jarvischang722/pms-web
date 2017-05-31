@@ -425,7 +425,8 @@
       "ChkGreaterZeroNum": "Please enter number greater than 0",
       "ChkGteZeroNum": "Please enter  number greater than or equal to 0",
       "ChkLteZeroNum": "Please enter  number less than or equal to 0",
-      "ChkLessZeroNum": "Please enter number less than 0"
+      "ChkLessZeroNum": "Please enter number less than 0",
+      "FmtHHMM": "Time format is 'HH:MM'"
     }
   }
 }

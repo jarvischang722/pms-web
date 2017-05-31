@@ -38,7 +38,7 @@
                     <ul>
                         <li>
                             <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="appendRow"
+                                    @click="doAppendRow"
                                     role="button">
                                 <%= __("SystemCommon").Add %>
                             </button>
@@ -46,7 +46,7 @@
                         <li>
                             <button id="remove-btn" :disabled="saving"
                                     class="btn btn-danger btn-white btn-defaultWidth"
-                                    @click="removeRow();"
+                                    @click="doRemoveRow();"
                                     role="button">
                                 <%= __("SystemCommon").Delete %>
                             </button>
@@ -69,4 +69,5 @@
 <script type="text/javascript">
     var gs_prg_id = '<%= prg_id %>';
 </script>
+<script src="/js/easyUI/DatagridExtPMS0810050Class.js"></script>
 <script src="/js/setup/PMS0810050_setup.js"></script>
