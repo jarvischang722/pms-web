@@ -247,13 +247,18 @@ exports.updateUserPurview = function (req, callback) {
                             }
                         } else if (lo_pro.id_typ == "PROCESS") {
 
-                            var lo_pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.pro_id});
-                            if (!_.isUndefined(lo_pro)) {
+                            var pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.current_id});
+                            if (!_.isUndefined(pro)) {
                                 tmpQuickObj = {
-                                    pro_id: lo_pro.pro_id,
-                                    pro_url: lo_pro.pro_url,
+                                    pro_id: pro.pro_id,
+                                    pro_url: pro.pro_url,
                                     subsys_id: quickData.subsys_id
                                 };
+                                _.each(la_locales, function (locale) {
+                                    if (!_.isUndefined(pro["pro_name_" + locale.lang])) {
+                                        tmpQuickObj["pro_name_" + locale.lang] = pro["pro_name_" + locale.lang];
+                                    }
+                                });
                                 la_allQuickMenu.push(tmpQuickObj);
                             }
 

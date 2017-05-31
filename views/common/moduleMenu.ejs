@@ -20,26 +20,25 @@
         </a>
 
 
-
         <ul class="submenu">
             <!-- 飯店前台參數設定 -->
 
             <% mdlItem.processMenu.forEach(function(proItem){ %>
-
-            <li>
-                <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
-                   target="_blank">
-                    <i class="menu-icon fa fa-caret-right"></i>
-                    <!-- 作業名稱 -->
-                    <%= proItem["pro_name_"+ session.locale] %>
-                </a>
-            </li>
-
+                <% if(proItem.flag2_sta == "Y"){ %>
+                <li>
+                    <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
+                       target="_blank">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        <!-- 作業名稱 -->
+                        <%= proItem["pro_name_" + session.locale] %>
+                    </a>
+                </li>
+                <% } %>
             <% }) %>
 
         </ul>
 
-        <% } else{%>
+        <% } else{ %>
         <a onclick="javascript:window.open('<%= mdlItem.mdl_url %>')" class="dropdown-toggle">
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
@@ -48,7 +47,7 @@
             </span>
         </a>
 
-        <%}%>
+        <% } %>
     </li>
     <% }) %>
     <% } %>
@@ -61,9 +60,9 @@
 </ul>
 
 <!--<script>-->
-    <!--function toFirstSubSyst() {-->
-        <!--var firstSubSyst_url = getCookie("subsystem_first_url");-->
-        <!--location.href = firstSubSyst_url;-->
-        <!--location.reload();-->
-    <!--}-->
+<!--function toFirstSubSyst() {-->
+<!--var firstSubSyst_url = getCookie("subsystem_first_url");-->
+<!--location.href = firstSubSyst_url;-->
+<!--location.reload();-->
+<!--}-->
 <!--</script>-->
