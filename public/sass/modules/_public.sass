@@ -118,6 +118,10 @@ a
   padding: 3px 9px
   font-size: $font-btn
   margin-top: -1px
+.btn-sm-font2
+  padding: 3px 9px
+  font-size: $font-btn
+  margin-top: 1px
 // space height
 .space-6
   max-height: 1px
@@ -153,11 +157,15 @@ a
     @media screen and (min-width: 768px) and (max-width: 1030px)
       +input-s1(134px)
   &.medium-c3
-    +input-s1(106px)
+    +input-s1(100px)
+  &.medium-c3-col1-5
+    +input-s1(200px)
   &.medium-c3-col2
-    +input-s1(315px)
+    +input-s1(304px)
+  &.medium-c3-col3
+    +input-s1(508px)
   &.medium-c3-col4
-    +input-s1(655px)
+    +input-s1(634px)
   &.addedBy
     +input-s1(74px)
   &.addedDate
@@ -216,9 +224,9 @@ a
 
 .prg_idLbH3
   display: block
-  font-size: 1.17em
+  font-size: $font-16 !important
   //margin-top: 1em
-  margin-bottom: 1em
+  margin-bottom: .5em
   margin-left: 0
   margin-right: 0
   font-weight: bold

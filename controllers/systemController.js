@@ -65,49 +65,49 @@ exports.changeHotelCod = function (req, res) {
  * 訂房
  */
 exports.reservation = function (req, res) {
-    res.render('subsystem/reservation');
+    res.render('subsystem/reservation/index');
 };
 
 /**
  * 接待
  */
 exports.reception = function (req, res) {
-    res.render('subsystem/reception');
+    res.render('subsystem/reception/index');
 };
 
 /**
  * 出納
  */
 exports.cashier = function (req, res) {
-    res.render('subsystem/cashier');
+    res.render('subsystem/cashier/index');
 };
 
 /**
  * 房務
  */
 exports.housekeeping = function (req, res) {
-    res.render('subsystem/housekeeping');
+    res.render('subsystem/housekeeping/index');
 };
 
 /**
  * 夜核
  */
 exports.night_check = function (req, res) {
-    res.render('subsystem/night_check');
+    res.render('subsystem/night_check/index');
 };
 
 /**
  * 業務
  */
 exports.sales = function (req, res) {
-    res.render('subsystem/sales/');
+    res.render('subsystem/sales/index');
 };
 
 /**
  * 報表
  */
 exports.report = function (req, res) {
-    res.render('subsystem/report');
+    res.render('subsystem/report/index');
 };
 
 /**
