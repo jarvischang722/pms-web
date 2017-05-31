@@ -217,9 +217,9 @@ var vm = new Vue({
         },
         //新增一個Row
         appendRow: function () {
-            var dataCount = $("#prg_dg").datagrid("getData").total;    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
+            var girdDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
             if (this.endEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id}, function (result) {
+                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id,girdDataInfo:girdDataInfo}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
