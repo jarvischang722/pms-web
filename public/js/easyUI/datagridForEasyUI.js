@@ -158,19 +158,13 @@ var EZfieldClass = {
                 }
             }
         }
-
-
-        //combobox連動
-        // if (fieldAttrObj.rule_func_name != "") {
-        //      都在onchange_Action裡，共用
-        // }
-
         return tmpFieldObj;
     }
 
 };
 
-function onChange_Action(fieldAttrObj, oldValue, newValue){
+// onchange執行時，檢查規則
+function onChange_Action(fieldAttrObj, oldValue, newValue) {
     if (newValue != oldValue) {
         var selectDataRow = $('#prg_dg').datagrid('getSelected');
         var postData = {
@@ -183,36 +177,44 @@ function onChange_Action(fieldAttrObj, oldValue, newValue){
         };
 
         $.post('/api/chkFieldRule', postData, function (result) {
-            // gb_onceEffectFlag = false;
-            // if (result.success) {
-            if (result.success == false) {
-                // if (!_.isUndefined(result.effectValues)) {
-                //     var effectValues = result.effectValues;
-                //     var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
-                //
-                //     $('#prg_dg').datagrid('endEdit', indexRow);
-                //     $('#prg_dg').datagrid('updateRow', {
-                //         index: indexRow,
-                //         row: effectValues
-                //     });
-                //
-                //     $('#prg_dg').datagrid('beginEdit', indexRow);
-                // }
-                alert(result.errorMsg);
-                if (!_.isUndefined(result.effectValues)) {
-                    var effectValues = result.effectValues;
-                    var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+            if (result.success) {
+                //是否要show出訊息
+                if (result.showAlert) {
+                    alert(result.alertMsg);
+                }
 
-                    $('#prg_dg').datagrid('endEdit', indexRow);
-                    $('#prg_dg').datagrid('updateRow', {
-                        index: indexRow,
-                        row: effectValues
-                    });
-
-                    $('#prg_dg').datagrid('beginEdit', indexRow);
+                //是否要show出詢問視窗
+                if (result.showConfirm) {
+                    if (confirm(result.confirmMsg)) {
+                        //有沒有要再打一次ajax到後端
+                        if (result.isGoPostAjax) {
+                            $.post(result.ajaxURL, postData, function (ajaxResult) {
+                                if (!ajaxResult.success) {
+                                    alert(ajaxResult.errorMsg);
+                                }
+                            })
+                        }
+                    }
                 }
             }
-        })
+            else {
+                alert(result.errorMsg);
+            }
+
+            //連動帶回的值
+            if (!_.isUndefined(result.effectValues)) {
+                var effectValues = result.effectValues;
+                var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+
+                $('#prg_dg').datagrid('endEdit', indexRow);
+                $('#prg_dg').datagrid('updateRow', {
+                    index: indexRow,
+                    row: effectValues
+                });
+
+                $('#prg_dg').datagrid('beginEdit', indexRow);
+            }
+        });
     }
 }
 
