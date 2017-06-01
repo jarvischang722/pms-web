@@ -4,7 +4,7 @@
  * moment套件(必須)
  */
 
-var gb_onceEffectFlag = true;
+// var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData) {
@@ -125,10 +125,11 @@ var EZfieldClass = {
                 tmpFieldObj.editor.options.multiline = true;
             }
 
-            if(fieldAttrObj.rule_func_name != ""){
-                tmpFieldObj.editor.options.onChange = function(newValue, oldValue){
-                    if(oldValue == "") return false;
-                    console.log(oldValue);
+            //combobox連動
+            if (fieldAttrObj.rule_func_name != "") {
+                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                    if (oldValue == "") return false;
+                    onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
             // tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
@@ -141,64 +142,79 @@ var EZfieldClass = {
                 return fieldName;
             }
         } else if (fieldAttrObj.ui_type == "color") {
-            var lf_colorFormatter  = function (color_cod, row, index) {
+            var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
                 return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
-        else if(fieldAttrObj.ui_type == "text"){
-            if(fieldAttrObj.rule_func_name != ""){
+        else if (fieldAttrObj.ui_type == "text") {
+            if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.type = dataType;
-                tmpFieldObj.editor.options.onChange = function(newValue, oldValue){
-                    if(oldValue == "") return false;
-                    console.log(oldValue);
+                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                    if (oldValue == "") return false;
+                    onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
         }
 
 
         //combobox連動
-        if (fieldAttrObj.rule_func_name != "") {
-
-            // tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-            //     if (gb_onceEffectFlag && newValue != oldValue) {
-            //         var selectDataRow = $('#prg_dg').datagrid('getSelected');
-            //         var postData = {
-            //             prg_id: fieldAttrObj.prg_id,
-            //             rule_func_name: fieldAttrObj.rule_func_name,
-            //             validateField: fieldAttrObj.ui_field_name,
-            //             rowData: JSON.parse(JSON.stringify(selectDataRow)),
-            //             newValue: newValue,
-            //             oldValue: oldValue
-            //         };
-            //
-            //         $.post('/api/chkFieldRule', postData, function (result) {
-            //             gb_onceEffectFlag = false;
-            //             if (result.success) {
-            //                 if (!_.isUndefined(result.effectValues)) {
-            //                     var effectValues = result.effectValues;
-            //                     var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
-            //
-            //                     $('#prg_dg').datagrid('endEdit', indexRow);
-            //                     $('#prg_dg').datagrid('updateRow', {
-            //                         index: indexRow,
-            //                         row: effectValues
-            //                     });
-            //
-            //                     $('#prg_dg').datagrid('beginEdit', indexRow);
-            //                 }
-            //             }
-            //         })
-            //     }
-            // }
-        }
+        // if (fieldAttrObj.rule_func_name != "") {
+        //      都在onchange_Action裡，共用
+        // }
 
         return tmpFieldObj;
     }
 
 };
+
+function onChange_Action(fieldAttrObj, oldValue, newValue){
+    if (newValue != oldValue) {
+        var selectDataRow = $('#prg_dg').datagrid('getSelected');
+        var postData = {
+            prg_id: fieldAttrObj.prg_id,
+            rule_func_name: fieldAttrObj.rule_func_name,
+            validateField: fieldAttrObj.ui_field_name,
+            rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            newValue: newValue,
+            oldValue: oldValue
+        };
+
+        $.post('/api/chkFieldRule', postData, function (result) {
+            // gb_onceEffectFlag = false;
+            // if (result.success) {
+            if (result.success == false) {
+                // if (!_.isUndefined(result.effectValues)) {
+                //     var effectValues = result.effectValues;
+                //     var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+                //
+                //     $('#prg_dg').datagrid('endEdit', indexRow);
+                //     $('#prg_dg').datagrid('updateRow', {
+                //         index: indexRow,
+                //         row: effectValues
+                //     });
+                //
+                //     $('#prg_dg').datagrid('beginEdit', indexRow);
+                // }
+                alert(result.errorMsg);
+                if (!_.isUndefined(result.effectValues)) {
+                    var effectValues = result.effectValues;
+                    var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+
+                    $('#prg_dg').datagrid('endEdit', indexRow);
+                    $('#prg_dg').datagrid('updateRow', {
+                        index: indexRow,
+                        row: effectValues
+                    });
+
+                    $('#prg_dg').datagrid('beginEdit', indexRow);
+                }
+            }
+        })
+    }
+}
 
 var ColorFunc = {
     //選擇顏色事件
