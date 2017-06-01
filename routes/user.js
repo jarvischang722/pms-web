@@ -46,14 +46,6 @@ module.exports = function (app, passport) {
     // /** 假日日期設定 **/
     // app.get('/holidayDateSet', userCrtl.getHolidayDateSet);
 
-    //依房型訂房
-    app.get('/reservationRoomType', userCrtl.getReservationRoomType);
-
-    //setUp 房價設定
-    app.get('/setRateCode', userCrtl.getSetRateCode);
-
-    //交通接駁設定
-    app.get('/trafficConnection', userCrtl.getTrafficConnection);
 
 };
 

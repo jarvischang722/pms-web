@@ -1,0 +1,12 @@
+{"total":28,
+	"rows":[
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"302","roomPriceCode":"A6000-01:溫情6000","roomPrice":"6000","rebate":"1714","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"513","roomPriceCode":"S9500-01:94標準客房","roomPrice":"7800","rebate":"1714","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"520","roomPriceCode":"A6000-01:溫情6000","roomPrice":"6500","rebate":"1714","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"212","roomPriceCode":"S9500-01:94標準客房","roomPrice":"5850","rebate":"1714","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"432","roomPriceCode":"A6000-01:溫情6000","roomPrice":"6000","rebate":"1714","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"564","roomPriceCode":"S9500-01:94標準客房","roomPrice":"6000","rebate":"0","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"302","roomPriceCode":"A6000-01:溫情6000","roomPrice":"6000","rebate":"0","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""},
+	{"office":"FO","arriveDate":"2005/10/24","departDate":"2005/10/24","roomNum":"302","roomPriceCode":"S9500-01:94標準客房","roomPrice":"6000","rebate":"0","rebateCreditor":"","consumption":"10370","guestCategory":"NOR","proxyCompany":"大XXX設","hall":"01","remark":""}
+	]}
+

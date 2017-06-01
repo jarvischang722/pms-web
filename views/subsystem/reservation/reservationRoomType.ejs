@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include ../common/head %>
-<%- include ../common/importFiles %>
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
 
 
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
-<%- include ../common/navbar.ejs %>
+<%- include ../../common/navbar.ejs %>
 <!-- include header.html -->
 
 <!-- /section:basics/navbar.layout -->
@@ -15,7 +15,7 @@
 
         <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-            <%- include('../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
+            <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
 
 
         <div class="companyInfo">
@@ -28,7 +28,7 @@
 
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
             <div class="page-content">
                 <div class="">
                     <div class="page-header"></div><!-- /.page-header -->
@@ -2606,10 +2606,9 @@
                                                             class="btn btn-primary btn-white btn-defaultWidth"
                                                             role="button">下一頁</button>
                                                 </li>
-                                                <!--reservationDialog-1-->
                                                 <li>
                                                     <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth "
+                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
                                                             role="button">訂房</button>
                                                 </li>
                                                 <li>
@@ -2642,14 +2641,14 @@
                                 <!--正文 end-->
                             <!--</div>-->
                     </div>
-                    <!-- 商務維護公司 彈出視窗 -->
-                    <div id="reservationDialog-1-message" class="hide padding-5" style="top: 0 !important;">
+                    <!-- 住客歷史 彈出視窗 -->
+                    <div id="reservationDialog-1-message" class="hide padding-5 " style="top: 0 !important;">
                         <div class="businessCompanyData">
                             <div class="col-xs-12 col-sm-12">
                                 <div class="row">
                                     <div class="col-xs-11 col-sm-11">
                                         <!-------- tabPage -------->
-                                        <div class="easyui-tabs easyUi-custom1" style="height: 380px; overflow-y: auto;">
+                                        <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto;">
                                             <div title="基本資料" class="padding-tabs">
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="row">
@@ -2661,10 +2660,6 @@
                                                                     <label>Full Name</label>
                                                                     <input type="text" class="input-medium medium-c3-col2" placeholder="23598233"/>
                                                                 </div>
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>住客歷史編號</label>-->
-                                                                    <!--<input type="text" class="input-medium medium-c3-col2" placeholder="23598231 德安資訊國際股份有限公司"/>-->
-                                                                <!--</div>-->
                                                                 <div class="grid-item">
                                                                     <label>稱謂</label>
                                                                     <input type="text" class="input-medium medium-c3" placeholder="正常"/>
@@ -2717,21 +2712,6 @@
                                                             </div>
                                                             <!--4-->
                                                             <div class="grid">
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>出生日期</label>-->
-                                                                    <!--<input type="text" class="input-medium medium-c3" placeholder="黃先生"/>-->
-                                                                <!--</div>-->
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>使用語言</label>-->
-                                                                    <!--<select class="input-medium medium-c3">-->
-                                                                        <!--<option value="yes">Y:會員</option>-->
-                                                                        <!--<option value="no">N:非會員</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>信用卡號</label>-->
-                                                                    <!--<input type="text" class="input-medium medium-c3" placeholder="2358233"/>-->
-                                                                <!--</div>-->
                                                                 <div class="grid-item">
                                                                     <label>行動電話</label>
                                                                     <input type="text" class="input-medium medium-c3-col2" placeholder="0923654561"/>
@@ -2750,14 +2730,6 @@
                                                             </div>
                                                             <!--5-->
                                                             <div class="grid">
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>有效日期</label>-->
-                                                                    <!--<select class="input-medium medium-c3">-->
-                                                                        <!--<option value="0">0</option>-->
-                                                                        <!--<option value="1">1</option>-->
-                                                                        <!--<option value="2">2</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
                                                                 <div class="grid-item">
                                                                     <label>住家電話</label>
                                                                     <input type="text" class="input-medium medium-c3-col2" placeholder="02-98765432"/>
@@ -2772,21 +2744,14 @@
                                                                 </div>
                                                                 <div class="grid-item">
                                                                     <label>出生日期</label>
-                                                                    <input type="date" class="input-medium medium-c3" placeholder="陳瑞克"/>
+                                                                    <input type="date" class="input-medium medium-c3" placeholder="1977/01/11"/>
                                                                 </div>
                                                             </div>
                                                             <!--5-->
                                                             <div class="grid">
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>車號</label>-->
-                                                                    <!--<select class="input-medium medium-c3">-->
-                                                                        <!--<option value="1">已簽約</option>-->
-                                                                        <!--<option value="2">未簽約</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
                                                                 <div class="grid-item">
                                                                     <label>公司電話</label>
-                                                                    <input type="text" class="input-medium medium-c3-col2" placeholder="簽約公司"/>
+                                                                    <input type="text" class="input-medium medium-c3-col2" placeholder="02-98765432"/>
                                                                 </div>
                                                                 <div class="grid-item">
                                                                     <label>職稱</label>
@@ -2798,25 +2763,11 @@
                                                                 </div>
                                                                 <div class="grid-item">
                                                                     <label>結婚紀念日</label>
-                                                                    <input type="date" class="input-medium medium-c3" placeholder="陳瑞克"/>
+                                                                    <input type="date" class="input-medium medium-c3" placeholder="1997/01/11"/>
                                                                 </div>
                                                             </div>
                                                             <!--6-->
                                                             <div class="grid">
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>航空會員</label>-->
-                                                                    <!--<select class="input-medium medium-c3">-->
-                                                                        <!--<option value="1">01:團體</option>-->
-                                                                        <!--<option value="2">02:個人</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                                <!--<div class="grid-item">-->
-                                                                    <!--<label>航空卡號</label>-->
-                                                                    <!--<select class="input-medium medium-c3">-->
-                                                                        <!--<option value="yes">Y:是</option>-->
-                                                                        <!--<option value="no">Ｎ:否</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
                                                                 <div class="grid-item">
                                                                     <label>傳真電話</label>
                                                                     <input type="text" class="input-medium medium-c3-col2" placeholder="(02)98765432"/>
@@ -2842,8 +2793,8 @@
                                                                 <div class="grid-item">
                                                                     <label>餐飲折扣類別</label>
                                                                     <select class="input-medium medium-c3-col1-5">
-                                                                        <option value="1"></option>
-                                                                        <option value="2"></option>
+                                                                        <option value="1">餐飲折扣類別1</option>
+                                                                        <option value="2">餐飲折扣類別2</option>
                                                                     </select>
                                                                 </div>
                                                                 <button class="btn btn-sm btn-primary btn-white btn-sm-font2">各館折扣</button>
@@ -2862,176 +2813,143 @@
                                                             <!--9-->
                                                             <div class="grid">
                                                                 <div class="grid-item">
-                                                                    <label>電子郵件</label>
-                                                                    <input type="text" class="input-medium medium-c3-col2" placeholder="資訊業"/>
+                                                                    <label>代訂公司</label>
+                                                                    <select class="input-medium medium-c3-col2">
+                                                                        <option value="1">A公司</option>
+                                                                        <option value="2">B公司</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="grid-item">
-                                                                    <label>收取DM</label>
-                                                                    <select class="input-medium medium-c3-col2">
-                                                                        <option value="1">01:團體</option>
-                                                                        <option value="2">02:個人</option>
+                                                                    <label>信用卡號</label>
+                                                                    <input type="text" class="input-medium medium-c3-card" placeholder="1234567890123456"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>有效日期</label>
+                                                                    <input type="text" class="input-medium medium-c3-card-2" placeholder="12/19"/>
+                                                                </div>
+                                                            </div>
+                                                            <!--10-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>公司名稱</label>
+                                                                    <input type="text" class="input-medium medium-c3-col2">
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>航空卡號</label>
+                                                                    <input type="text" class="input-medium medium-c3-card-3" placeholder="1234567890123456"/>
+                                                                    <span class="moreClick">...</span>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>航空會員</label>
+                                                                    <select class="input-medium medium-c3-card-2">
+                                                                        <option value="1">是</option>
+                                                                        <option value="2">否</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <!--10-->
-                                                            <div class="grid">
-                                                                <div class="grid-item">
-                                                                    <label>地址</label>
-                                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                                                </div>
-                                                            </div>
-                                                            <!--10-->
-                                                            <div class="clearfix"></div>
-                                                            <div class="col-sm-12">
-                                                                <div class="row">
-                                                                    <div class="col-sm-6">
-                                                                        <div class="row">
-                                                                            <div class="grid">
-                                                                                <div class="grid-item">
-                                                                                    <label>代訂公司</label>
-                                                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid">
-                                                                                <div class="grid-item">
-                                                                                    <label>公司名稱</label>
-                                                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid">
-                                                                                <div class="grid-item">
-                                                                                    <label>發票抬頭</label>
-                                                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid">
-                                                                                <div class="grid-item">
-                                                                                    <label>統一編號</label>
-                                                                                    <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-6">
-                                                                        <div class="row">
-                                                                            <textarea class="form-control"></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
                                                             <!--11-->
                                                             <div class="grid">
-                                                                <div class="tab-block grid-item">
-                                                                    <label class="label-spc">added Date</label>
-                                                                    <input type="text" class="input-medium addedDate" disabled="disabled" placeholder="2015/01/01 12:30:00" />
+                                                                <div class="grid-item">
+                                                                    <label>發票抬頭</label>
+                                                                    <input type="text" class="input-medium medium-c3-col2_2" placeholder="發票抬頭"/>
+                                                                    <span class="moreClick">...</span>
                                                                 </div>
-                                                                <div class="tab-block grid-item">
-                                                                    <label class="label-spc">added by</label>
-                                                                    <input type="text" class="input-medium addedBy" disabled="disabled" placeholder="2015 0101 12:30" />
+                                                                <div class="grid-item">
+                                                                    <label>統一編號</label>
+                                                                    <input type="text" class="input-medium medium-c3" placeholder=""/>
                                                                 </div>
-                                                                <div class="tab-block grid-item">
-                                                                    <label class="label-spc">Updated Date</label>
-                                                                    <input type="date" class="input-medium addedDate" disabled="disabled" />
-                                                                </div>
-                                                                <div class="tab-block grid-item">
-                                                                    <label class="label-spc">Updated by</label>
-                                                                    <input type="text" class="input-medium addedBy" disabled="disabled" />
+                                                                <div class="grid-item">
+                                                                    <label>收取DM</label>
+                                                                    <select class="input-medium medium-c3">
+                                                                        <option value="0">是</option>
+                                                                        <option value="1">否</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="space-6"></div>
+                                                            <!--12-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>備註</label>
+                                                                    <input type="text" class="input-medium medium-c3-col3" placeholder=""/>
+                                                                    <span class="moreClick">備註</span>
+                                                                </div>
+                                                            </div>
+                                                            <!--13-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>新增日</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>新增者</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>最後異動日</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>最後異動者</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-12"></div>
+                                                            <!--14-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>喜好房號</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder=""/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>最近入住房號</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder=""  disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>房間喜好特色</label>
+                                                                    <input type="text" class="input-medium medium-c3-col2_2" placeholder=""  disabled="disabled"/>
+                                                                    <span class="moreClick">...</span>
+                                                                </div>
+                                                            </div>
+                                                            <!--15-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>來訪次數</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>首次來訪日</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>房租消費金額</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>其他消費金額</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                            </div>
+                                                            <!--16-->
+                                                            <div class="grid">
+                                                                <div class="grid-item">
+                                                                    <label>來訪天數</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>最近來訪日</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>餐飲消費金額</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                                <div class="grid-item">
+                                                                    <label>消費總額</label>
+                                                                    <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
                                                         </div><!--main-content-data-->
-                                                        <div class="billInfo grid">
-                                                            <div class="col-xs-12 col-sm-12">
-                                                                <div class="row billInfo-head">
-                                                                    <div class="col-xs-6 col-sm-6">
-                                                                        <div class="row">
-                                                                            <p class="billInfo-title">簽帳資訊</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-xs-6 col-sm-6">
-                                                                        <div class="row">
-                                                                            <button class="btn btn-primary btn-white pull-right btn-sm changeCreditLimit"
-                                                                                    role="button">信用額度變更</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="content">
-                                                                <div class="grid">
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>公司關係別</label>
-                                                                        <select class="input-medium bill-input-s1">
-                                                                            <option value="-1">公司關係別</option>
-                                                                            <option value="1">1-關係</option>
-                                                                            <option value="2">2-非關係</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>應收帳別</label>
-                                                                        <select class="input-medium bill-input-s1">
-                                                                            <option value="-1">應收帳別</option>
-                                                                            <option value="1">Ｎ:一般</option>
-                                                                            <option value="2">Ｓ:非一般</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>帳務所屬代號</label>
-                                                                        <input type="text" class="input-medium bill-input-s2" disabled="disabled" placeholder="23598231:德安資訊國際股份有限公司"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid">
-                                                                    <!--style="width: 263px;"-->
-                                                                    <div class="tab-block grid-item billCheckbox">
-                                                                        <span class="checkbox">
-                                                                          <label>可簽帳</label>
-                                                                          <label class="checkbox-width">
-                                                                              <input name="form-field-checkbox" type="checkbox" class="ace" disabled="disabled" checked>
-                                                                              <span class="lbl"></span>
-                                                                          </label>
-                                                                        </span>
-                                                                        <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
-                                                                        <!--<input type="checkbox" disabled="disabled"/>-->
-                                                                        <!--<div class="clearfix"></div>-->
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>信用額度</label>
-                                                                        <input type="number" class="input-medium bill-input-s1" disabled="disabled" placeholder="50000"/>
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>目前簽帳金額</label>
-                                                                        <input type="number" class="input-medium bill-input-s1" disabled="disabled" placeholder="23456"/>
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label>信用額度餘額</label>
-                                                                        <input type="number" class="input-medium bill-input-s1" disabled="disabled" placeholder="476544"/>
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <label class="margin-spacing-3">備註</label>
-                                                                    <textarea class="form-control" rows="4" placeholder="1.每天免費洗衣一套工作服 2.免費市區電費"></textarea>
-                                                                </div>
-                                                                <div class="space-6"></div>
-                                                                <div class="grid">
-                                                                    <div class="tab-block grid-item">
-                                                                        <label class="label-spc">added Date</label>
-                                                                        <input type="text" class="input-medium addedDate" disabled="disabled" placeholder="2015/01/01 12:30:00" />
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label class="label-spc">added by</label>
-                                                                        <input type="text" class="input-medium addedBy" disabled="disabled" placeholder="2015 0101 12:30" />
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label class="label-spc">Updated Date</label>
-                                                                        <input type="date" class="input-medium addedDate" disabled="disabled" />
-                                                                    </div>
-                                                                    <div class="tab-block grid-item">
-                                                                        <label class="label-spc">Updated by</label>
-                                                                        <input type="text" class="input-medium addedBy" disabled="disabled" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -3042,92 +2960,20 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-12">
                                                             <div class="row">
-                                                                <!--聯絡方式-->
                                                                 <div class="col-xs-12 col-sm-12">
                                                                     <div class="row">
-                                                                        <div class="billInfo grid">
-                                                                            <div class="col-xs-12 col-sm-12">
-                                                                                <div class="row billInfo-head">
-                                                                                    <p class="billInfo-title">聯絡方式</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="content">
-                                                                                <div class="grid">
-                                                                                    <div class="tab-block grid-item">
-                                                                                        <label>公司電話</label>
-                                                                                        <input type="text" class="input-medium medium-c3" placeholder="02-2176066"/>
-                                                                                    </div>
-                                                                                    <div class="tab-block grid-item">
-                                                                                        <label>傳真電話</label>
-                                                                                        <input type="text" class="input-medium medium-c3" placeholder="02-25170886"/>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!--聯絡方式-->
-                                                                <div class="clearfix"></div>
-                                                                <!--地址-->
-                                                                <div class="col-xs-12 col-sm-12">
-                                                                    <div class="row">
-                                                                        <div class="billInfo grid">
-                                                                            <div class="col-xs-12 col-sm-12">
-                                                                                <div class="row billInfo-head">
-                                                                                    <p class="billInfo-title">地址</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-xs-11 col-sm-11">
-                                                                                <div class="row no-margin-right">
-                                                                                    <div class="content">
-                                                                                        <table class="standard-table">
-                                                                                            <thead>
-                                                                                            <tr>
-                                                                                                <th class="width-15">地址類別</th>
-                                                                                                <th class="width-15">郵遞區號</th>
-                                                                                                <th class="width-70">地址</th>
-                                                                                            </tr>
-                                                                                            </thead>
-                                                                                            <tbody>
-                                                                                            <tr>
-                                                                                                <td>公司地址</td>
-                                                                                                <td>104</td>
-                                                                                                <td>台北市中山區松江路309號8樓 <span class="moreClick contractMoreInfo">...</span></td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>帳單地址</td>
-                                                                                                <td></td>
-                                                                                                <td><span class="moreClick contractMoreInfo">...</span></td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>電子郵件</td>
-                                                                                                <td class="td-disable"></td>
-                                                                                                <td>service@athena.com.tw<span class="moreClick contractMoreInfo">...</span></td>
-                                                                                            </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                        <div class="reserveShopInfo">
+                                                                            <p class="title">預約來館資料</p>
+                                                                            <!--預約來館資料table-->
+                                                                            <table id="reservation_reserveShopInfo-table" style="height: 200px;"></table>
 
-                                                                            <div class="col-xs-1 col-sm-1">
-                                                                                <div class="row">
-                                                                                    <div class="right-menu-co">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                                        role="button">複製至</button>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
+                                                                            <p class="title">住客歷史來訪</p>
+                                                                            <!--住客歷史來訪table-->
+                                                                            <table id="reservation_guestVisitHistory-table" style="height: 200px;"></table>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
-                                                                <!--地址-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -3137,31 +2983,81 @@
                                             <div title="管別備註" class="padding-tabs">
                                                 <div class="col-xs-12 col-sm-12">
                                                     <div class="row">
-                                                        <div class="col-xs-11 col-sm-11">
-                                                            <div class="row no-margin-right">
-                                                                <!-- 相關人員 table -->
-                                                                <table id="relatedPerson-table"></table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-1 col-sm-1">
-                                                            <div class="row">
-                                                                <div class="right-menu-co">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">新增聯絡人</button>
-                                                                        </li>
-                                                                        <li>
-                                                                            <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                                    role="button">刪除聯絡人</button>
-                                                                        </li>
-                                                                        <li>
-                                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">加入秘書積點</button>
-                                                                        </li>
-                                                                    </ul>
+                                                        <!--館別備註 table-->
+                                                        <table id="reservation_hallRemark-table" style="height: 200px;"></table>
+
+                                                        <div class="space-12"></div>
+                                                        <div class="singleHallRemark">
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                <div class="row">
+                                                                    <div class="col-xs-11 col-sm-11">
+                                                                        <div class="row no-margin-right">
+                                                                            <div class="main-content-data">
+                                                                                <div class="grid">
+                                                                                    <div class="grid-item">
+                                                                                        <label>館別</label>
+                                                                                        <select class="input-medium medium-c3">
+                                                                                            <option value="0">0</option>
+                                                                                            <option value="1">1</option>
+                                                                                            <option value="2">2</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="grid-item">
+                                                                                        <label>序號</label>
+                                                                                        <select class="input-medium medium-c3">
+                                                                                            <option value="1">01</option>
+                                                                                            <option value="2">02</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid">
+                                                                                    <label class="pull-left">備註</label>
+                                                                                    <textarea class="pull-left remarkInput" rows="4" placeholder=""></textarea>
+                                                                                </div>
+                                                                                <div class="clearfix"></div>
+                                                                                <div class="space-4"></div>
+                                                                                <div class="grid">
+                                                                                    <div class="grid-item">
+                                                                                        <label>輸入者</label>
+                                                                                        <input type="text" class="input-medium medium-c3" placeholder=""/>
+                                                                                    </div>
+                                                                                    <div class="grid-item">
+                                                                                        <label>輸入日</label>
+                                                                                        <input type="date" class="input-medium medium-c3" placeholder=""/>
+                                                                                    </div>
+                                                                                <div class="grid">
+                                                                                </div>
+                                                                                    <div class="grid-item">
+                                                                                        <label>最後異動者</label>
+                                                                                        <input type="text" class="input-medium medium-c3" placeholder=""/>
+                                                                                    </div>
+                                                                                    <div class="grid-item">
+                                                                                        <label>最後異動日</label>
+                                                                                        <input type="date" class="input-medium medium-c3" placeholder=""/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-1 col-sm-1">
+                                                                        <div class="row">
+                                                                            <div class="right-menu-co">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <button class="btn btn-primary btn-white btn-defaultWidth bs-company-editOtherRemark"
+                                                                                                role="button">add</button>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                                                role="button">delete</button>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="clearfix"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3177,27 +3073,51 @@
                                                 <ul>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">clone</button>
+                                                                role="button">add</button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                                 role="button">save</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">leave</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth segement"
+                                                                role="button">copy</button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">公司關聯圖</button>
+                                                                role="button">住客歷史分類</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth bs-company-stateChange"
-                                                                role="button">合約狀態變更</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">住客照片</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth bs-company-changeRecord"
-                                                                role="button">異動紀錄</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth segement"
+                                                                role="button">證件掃描</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">其他聯絡方式</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">留言</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">失物</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">顧客意見</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">家庭成員</button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">紀念日</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -3213,7 +3133,7 @@
             </div>
         </div>
     </div><!-- /.main-content -->
-    <%- include ../common/footer %>
+    <%- include ../../common/footer %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
@@ -3228,7 +3148,7 @@
 <script type="text/javascript">
     $(function (){
 
-        // 彈出 商務公司維護
+        // 彈出 住客歷史維護
         $(document).on('click', ".reservationDialog-1", function (e) {
             e.preventDefault();
             var dialog = $("#reservationDialog-1-message").removeClass('hide').dialog({
@@ -3237,10 +3157,85 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
+                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
             });
+        });
+
+        // 預約來館資料 dataGrid
+        $('#reservation_reserveShopInfo-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_reserveShopInfo.json',
+            method: 'get',
+            columns: [[
+                {field: 'cardStatus', title: '訂房卡狀態', width: 100},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'coDate', title: 'C/Ｏ日期', width: 100},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'checkStatus', title: '確認狀態', width: 100},
+                {field: 'companyName', title: '公司名稱', width: 100},
+                {field: 'proxyCompanyName', title: '代訂公司名稱', width: 100},
+                {field: 'retainDate', title: '保留日', width: 100},
+                {field: 'contactMan', title: '連絡人', width: 100},
+                {field: 'roomKind', title: '房種', width: 100},
+                {field: 'adult', title: '大人', width: 100},
+                {field: 'child', title: '小孩', width: 100},
+                {field: 'addedDate', title: '新增日期', width: 100},
+                {field: 'addedBy', title: '新增者', width: 100},
+                {field: 'lastDate', title: '最後修改日', width: 100},
+                {field: 'lastBy', title: '最後修改者', width: 100},
+                {field: 'firstName', title: 'First Name', width: 100},
+                {field: 'lastName', title: 'Last Name', width: 100}
+            ]]
+
+        });
+
+        // 住客來訪歷史 dataGrid
+        $('#reservation_guestVisitHistory-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_guestVisitHistory.json',
+            method: 'get',
+            columns: [[
+                {field: 'office', title: '廳別', width: 100},
+                {field: 'arriveDate', title: '到達日', width: 100},
+                {field: 'departDate', title: '離開日', width: 100},
+                {field: 'roomNum', title: '房號', width: 100},
+                {field: 'roomPriceCode', title: '房價代號', width: 100},
+                {field: 'roomPrice', title: '房價', width: 100, align:'right'},
+                {field: 'rebate', title: '折扣', width: 100, align:'right'},
+                {field: 'rebateCreditor', title: '折扣債權人', width: 100},
+                {field: 'consumption', title: '總消費額', width: 100, align:'right'},
+                {field: 'guestCategory', title: '住客類別', width: 100},
+                {field: 'proxyCompany', title: '代訂公司', width: 100},
+                {field: 'hall', title: '館別', width: 100},
+                {field: 'remark', title: '備註', width: 100}
+            ]]
+
+        });
+
+        // 住客來訪歷史 dataGrid
+        $('#reservation_hallRemark-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_hallRemark.json',
+            method: 'get',
+            columns: [[
+                {field: 'hall', title: '館別', width: 100},
+                {field: 'no', title: '序號', width: 100},
+                {field: 'remark', title: '備註', width: 200},
+                {field: 'inputPerson', title: '輸入者', width: 100},
+                {field: 'inputDate', title: '輸入日', width: 100},
+                {field: 'lastInputPerson', title: '最後異動者', width: 100},
+                {field: 'lastInputDate', title: '最後異動日', width: 100}
+            ]]
+
         });
 
     });
@@ -3297,6 +3292,14 @@
         //$(document).on('click',".controlSub",function(e){
         //$('.sub-content').toggle();
         //});
+
+        // 住客歷史 height
+        $(window).resize(function() {
+        var guestHoliday = $(window).height()-10;
+            $(".guestHoliday").css("height","guestHoliday");
+            console.log(guestHoliday);
+            console.log($(window).height());
+        });
     });
 </script>
 
