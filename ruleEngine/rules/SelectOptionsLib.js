@@ -252,6 +252,24 @@ exports.checkStaList = function () {
     return checkList;
 };
 
+/**
+ * [PMS0820010_房間特色設定] 系統預設
+ * @returns {array}
+ */
+exports.getCharacterrfSysdefaultList = function(){
+    var lo_SysdefaultList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ]
+    return lo_SysdefaultList;
+}
+
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -436,3 +454,12 @@ exports.qry_address_rf_ghist_use = function(params, callback){
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null,lo_result);
 };
+
+/**
+ * 房間特色設定(PMS0820010)取得系統預設下拉選項
+ */
+exports.qryCharacterrfSysdefault = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
+    callback(null,lo_result);
+}

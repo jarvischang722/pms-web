@@ -360,6 +360,15 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0820010": {
+      "character_cod": "Feature Code",
+      "character_nam": "Feature",
+      "sys_default": "Default",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "front_desk_conf": "Front Desk Configuration",
@@ -380,7 +389,7 @@
   "PMS0810130_name": "前檯訂房分析",
   "PMS0810140_name": "FOC",
   "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "訂房取消原因設定",
+  "PMS0810160_name": "房取消原因設定",
   "PMS0810170_name": "假日類別",
   "PMS0810200_name": "交辦事項",
   "PMS0860010_name": "商務公司類別設定",
@@ -390,6 +399,7 @@
   "PMS0860020_name": "行業別設定",
   "PMS0860040_name": "備註類別設定",
   "PMS0810220_name": "交通類別設定",
+  "PMS0820010_name": "房間特色設定",
   "table_in_use": "Table in use (%s)",
   "SystemCommon": {
     "OK": "OK",
@@ -420,7 +430,6 @@
       "FmtFourEngNum": "Only enter zero to five numbers",
       "FmtCharacters": "Please enter the text",
       "FmtZeroToFiveNum": "Only enter zero to five numbers",
-      "FmtExactlyTwoWord": "Only enter zero to two numbers",
       "FmtZeroToTenNum": "Only enter zero to ten numbers",
       "ChkGreaterZeroNum": "Please enter number greater than 0",
       "ChkGteZeroNum": "Please enter  number greater than or equal to 0",
