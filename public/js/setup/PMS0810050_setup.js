@@ -9,7 +9,7 @@ var vueMain = new Vue({
         this.fetchDgFieldData();
     },
     data: {
-        gs_active: "pickup",    //正在使用 pickup 接機 | seeup 送機
+        gs_active: "pickup",    //正在使用 pickup 接機 | dropoff 送機
         prgFieldDataAttr: [],   //這隻程式的欄位屬性
         multiLangField: [],   //多語系欄位
         editIndex: undefined,
@@ -17,8 +17,8 @@ var vueMain = new Vue({
         saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         dgInsPickUp: {}, //接機的dg
-        dgInsSeeUp: {},  //送機的dg
-        dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsSeeUp 取得
+        dgInsDropOff: {},  //送機的dg
+        dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsDropOff 取得
         trafficData: {}, //交通接駁資料
     },
     watch: {
@@ -26,12 +26,12 @@ var vueMain = new Vue({
             if (active == 'pickup') {
                 this.dgIns = this.dgInsPickUp;
             } else {
-                this.dgIns = this.dgInsSeeUp;
+                this.dgIns = this.dgInsDropOff;
             }
         },
         trafficData: function (newObj) {
             this.dgInsPickUp.loadDgData(newObj.arrive_rf);
-            this.dgInsSeeUp.loadDgData(newObj.leave_rf);
+            this.dgInsDropOff.loadDgData(newObj.leave_rf);
         }
     },
     methods: {
@@ -67,15 +67,15 @@ var vueMain = new Vue({
                 }
             });
             var pickupField = _.where(columns, {"grid_field_name": 'hfd_arrive_rf'});
-            var seeupField = _.where(columns, {"grid_field_name": 'hfd_leave_rf'});
+            var dropoffField = _.where(columns, {"grid_field_name": 'hfd_leave_rf'});
 
             //接機
             this.dgInsPickUp = new DatagridBaseClass();
             this.dgInsPickUp.init(gs_prg_id, 'pick_off_dg', pickupField);
 
             //送機
-            this.dgInsSeeUp = new DatagridBaseClass();
-            this.dgInsSeeUp.init(gs_prg_id, 'see_off_dg', seeupField);
+            this.dgInsDropOff = new DatagridBaseClass();
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', dropoffField);
 
             //將接機instance 指向dgIns
             this.dgIns = this.dgInsPickUp;
@@ -139,7 +139,7 @@ $(function () {
             if (index == 0) {
                 vueMain.gs_active = 'pickup'
             } else {
-                vueMain.gs_active = 'seeup'
+                vueMain.gs_active = 'dropoff'
             }
         }
     });
