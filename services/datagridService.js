@@ -740,6 +740,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         }
     };
     var addRuleFunc = "";  //按下新增按鈕的規則
+    var addTypeSelect = "";  //帶預設值
     var prg_id = postData["prg_id"];
     var page_id = postData["page_id"] || 1;
     async.waterfall([
@@ -752,6 +753,17 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
                     addRuleFunc = funcRules.toObject();
                 }
 
+                callback(err, true);
+            });
+        },
+        //取得欄位預設值
+        function (data, callback) {
+            mongoAgent.UI_Type_Select
+                .findOne({prg_id: prg_id}).find(function (err, funcRules) {
+
+                if (funcRules) {
+                    addTypeSelect = funcRules;
+                }
                 callback(err, true);
             })
         },
@@ -766,7 +778,17 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
             } else {
                 callback(null, lo_result);
             }
-
+        },
+        //將預設值放進欄位中
+        function (data, callback) {
+            _.each(addTypeSelect, function (funRow) {
+                funRow = funRow.toObject();
+                if (funRow["defaultVal"] != "") {
+                    var columnName = funRow["ui_field_name"];
+                    lo_result.defaultValues[columnName] = funRow["defaultVal"];
+                }
+            })
+            callback(null, lo_result);
         }
     ], function (err, result) {
         callback(null, lo_result);

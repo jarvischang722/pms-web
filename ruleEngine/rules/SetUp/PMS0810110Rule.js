@@ -60,7 +60,7 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
-            source_grp: postData.singleRowData.source_grp
+            source_typ: postData.singleRowData.source_typ.trim()
         };
 
         var createSubFunc = [];
@@ -80,10 +80,10 @@ module.exports = {
                             }
                         },
                         function (data, callback) {
-                            queryAgent.query("GET_ORDER_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
+                            queryAgent.query("GET_ORDER_MN.SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
                                 if (!err) {
                                     if (data == true) {
-                                        if (guestData.guest_count > 0) {
+                                        if (guestData.source_count > 0) {
                                             isDeleteRow = false;
                                             callback(null, isDeleteRow);
                                         } else {
@@ -98,7 +98,7 @@ module.exports = {
                                 }
                             })
                         }, function (data, callback) {
-                            queryAgent.query("GET_GW_CUST_RF.DEFAULT_GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
+                            queryAgent.query("GET_GW_CUST_RF.DEFAULT_SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
                                 if (!err) {
                                     if (data == true) {
                                         if (guestData.guest_count > 0) {
@@ -116,7 +116,7 @@ module.exports = {
                                 }
                             })
                         }
-                        // , function (data, callback) {  SAM 等待星光大哥確認package
+                        // , function (data, callback) {
                         //
                         // }
                     ], function (errMsg, result) {

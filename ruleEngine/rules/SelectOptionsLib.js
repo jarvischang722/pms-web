@@ -51,6 +51,26 @@ exports.UseStaList = function () {
 };
 
 /**
+ * 可修改狀態選單
+ * @returns {Array}
+ */
+exports.UseRvancelRfFlagStaList = function () {
+
+    var uploadOptions = [
+        {
+            display: '可修改',
+            value: 'Y'
+        },
+        {
+            display: '不可修改',
+            value: 'N'
+        }
+    ];
+
+    return uploadOptions;
+};
+
+/**
  * 歷史狀態選單
  * @returns {Array}
  */
@@ -232,6 +252,24 @@ exports.checkStaList = function () {
     return checkList;
 };
 
+/**
+ * [PMS0820010_房間特色設定] 系統預設
+ * @returns {array}
+ */
+exports.getCharacterrfSysdefaultList = function(){
+    var lo_SysdefaultList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ]
+    return lo_SysdefaultList;
+}
+
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -328,11 +366,11 @@ exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
 };
 
 /**
- * 訂房取消設定
+ * 訂房取消原因設定
  */
-exports.getGuestgrprfUseStaList = function(params, callback){
+exports.getRvcancelrfFlag1sta = function(params, callback){
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.UseStaList();
+    lo_result.selectOptions = optionsLib.UseRvancelRfFlagStaList();
     callback(null,lo_result);
 };
 
@@ -416,3 +454,12 @@ exports.qry_address_rf_ghist_use = function(params, callback){
     lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null,lo_result);
 };
+
+/**
+ * 房間特色設定(PMS0820010)取得系統預設下拉選項
+ */
+exports.qryCharacterrfSysdefault = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
+    callback(null,lo_result);
+}

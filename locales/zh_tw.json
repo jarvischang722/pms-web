@@ -360,6 +360,15 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0820010": {
+      "character_cod": "房間特色代號",
+      "character_nam": "房間特色說明",
+      "sys_default": "系統預設",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     }
   },
   "front_desk_conf": "飯店前台參數設定",
@@ -390,6 +399,7 @@
   "PMS0860020_name": "行業別設定",
   "PMS0860040_name": "備註類別設定",
   "PMS0810220_name": "交通類別設定",
+  "PMS0820010_name": "房間特色設定",
   "table_in_use": "%s 使用中",
   "SystemCommon": {
     "OK": "確定",
@@ -420,7 +430,6 @@
       "FmtFourEngNum": "格式為四碼英文數字",
       "FmtCharacters": "請輸入文字",
       "FmtZeroToFiveNum": "0到5碼數字",
-      "FmtExactlyTwoWord": "2碼數字",
       "FmtZeroToTenNum": "0到10碼數字",
       "ChkGreaterZeroNum": "請輸入大於0的數字",
       "ChkGteZeroNum": "請輸入大於等於0的數字",

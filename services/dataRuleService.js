@@ -436,7 +436,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     mongoAgent.DatagridFunction.findOne({prg_id: prg_id, func_id: '0300'}, function (err, deleteRule) {
 
         var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
-        if (!_.isEmpty(beforeDeleteFuncRule)) {
+        if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {
             _.each(deleteData, function (d_data) {
                 var deletePostData = {
                     singleRowData: d_data
