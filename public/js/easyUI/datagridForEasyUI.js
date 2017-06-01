@@ -4,7 +4,7 @@
  * moment套件(必須)
  */
 
-// var gb_onceEffectFlag = true;
+var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData) {
@@ -32,14 +32,14 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
-        } else if (fieldAttrObj.ui_type == "select") {
-            dataType = 'combobox';
-        } else if (fieldAttrObj.ui_type == "multiselect") {
+        } else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
             dataType = 'combobox';
         } else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
+        } else if (fieldAttrObj.ui_type == "time") {
+            dataType = 'timespinner';
         }
 
         var tmpFieldObj = {
@@ -68,6 +68,7 @@ var EZfieldClass = {
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData;
+            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -125,16 +126,9 @@ var EZfieldClass = {
                 tmpFieldObj.editor.options.multiline = true;
             }
 
-            //combobox連動
-            if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") return false;
-                    onChange_Action(fieldAttrObj, oldValue, newValue);
-                }
+            tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
+                gb_onceEffectFlag = true;
             }
-            // tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
-            //     gb_onceEffectFlag = true;
-            // }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 //TODO 值不可寫死
@@ -148,75 +142,52 @@ var EZfieldClass = {
                 return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
+
+        } else if (fieldAttrObj.ui_type == 'time') {
+
+
         }
-        else if (fieldAttrObj.ui_type == "text") {
-            if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.type = dataType;
-                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") return false;
-                    onChange_Action(fieldAttrObj, oldValue, newValue);
+
+
+        //combobox連動
+        if (fieldAttrObj.rule_func_name != "") {
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                if (gb_onceEffectFlag && newValue != oldValue) {
+                    var selectDataRow = $('#prg_dg').datagrid('getSelected');
+                    var postData = {
+                        prg_id: fieldAttrObj.prg_id,
+                        rule_func_name: fieldAttrObj.rule_func_name,
+                        validateField: fieldAttrObj.ui_field_name,
+                        rowData: JSON.parse(JSON.stringify(selectDataRow)),
+                        newValue: newValue,
+                        oldValue: oldValue
+                    };
+
+                    $.post('/api/chkFieldRule', postData, function (result) {
+                        gb_onceEffectFlag = false;
+                        if (result.success) {
+                            if (!_.isUndefined(result.effectValues)) {
+                                var effectValues = result.effectValues;
+                                var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
+
+                                $('#prg_dg').datagrid('endEdit', indexRow);
+                                $('#prg_dg').datagrid('updateRow', {
+                                    index: indexRow,
+                                    row: effectValues
+                                });
+
+                                $('#prg_dg').datagrid('beginEdit', indexRow);
+                            }
+                        }
+                    })
                 }
             }
         }
+
         return tmpFieldObj;
     }
 
 };
-
-// onchange執行時，檢查規則
-function onChange_Action(fieldAttrObj, oldValue, newValue) {
-    if (newValue != oldValue) {
-        var selectDataRow = $('#prg_dg').datagrid('getSelected');
-        var postData = {
-            prg_id: fieldAttrObj.prg_id,
-            rule_func_name: fieldAttrObj.rule_func_name,
-            validateField: fieldAttrObj.ui_field_name,
-            rowData: JSON.parse(JSON.stringify(selectDataRow)),
-            newValue: newValue,
-            oldValue: oldValue
-        };
-
-        $.post('/api/chkFieldRule', postData, function (result) {
-            if (result.success) {
-                //是否要show出訊息
-                if (result.showAlert) {
-                    alert(result.alertMsg);
-                }
-
-                //是否要show出詢問視窗
-                if (result.showConfirm) {
-                    if (confirm(result.confirmMsg)) {
-                        //有沒有要再打一次ajax到後端
-                        if (result.isGoPostAjax) {
-                            $.post(result.ajaxURL, postData, function (ajaxResult) {
-                                if (!ajaxResult.success) {
-                                    alert(ajaxResult.errorMsg);
-                                }
-                            })
-                        }
-                    }
-                }
-            }
-            else {
-                alert(result.errorMsg);
-            }
-
-            //連動帶回的值
-            if (!_.isUndefined(result.effectValues)) {
-                var effectValues = result.effectValues;
-                var indexRow = $('#prg_dg').datagrid('getRowIndex', selectDataRow);
-
-                $('#prg_dg').datagrid('endEdit', indexRow);
-                $('#prg_dg').datagrid('updateRow', {
-                    index: indexRow,
-                    row: effectValues
-                });
-
-                $('#prg_dg').datagrid('beginEdit', indexRow);
-            }
-        });
-    }
-}
 
 var ColorFunc = {
     //選擇顏色事件
@@ -234,6 +205,19 @@ var ColorFunc = {
     }
 };
 
+$.fn.timespinner.defaults.formatter = function(date){
+    if (!date){return '';}
+    var opts = $(this).timespinner('options');
+    var tt = [formatN(date.getHours()), formatN(date.getMinutes())];
+    if (opts.showSeconds){
+        tt.push(formatN(date.getSeconds()));
+    }
+    return tt.join(opts.separator);
+
+    function formatN(value){
+        return (value < 10 ? '0' : '') + value;
+    }
+}
 
 $(function () {
 

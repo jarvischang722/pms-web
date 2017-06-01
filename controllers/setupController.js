@@ -5,6 +5,7 @@ var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var tbSVC = require("../services/dbTableService");
 var mongoAgent = require("../plugins/mongodb");
+var trafficSvc = require("../services/trafficService");
 
 
 /**
@@ -12,13 +13,6 @@ var mongoAgent = require("../plugins/mongodb");
  */
 exports.front_desk_conf = function (req, res) {
     res.render('subsystem/setup/front_desk_conf');
-};
-
-/**
- * 訂房對照檔
- */
-exports.reservation_comparison = function (req, res) {
-    res.render('subsystem/setup/reservation_comparison', {sys_id: req.params.sys_id, subsys_id: req.params.subsys_id});
 };
 
 
@@ -31,7 +25,6 @@ exports.setupLayout = function (req, res) {
 };
 
 
-
 /** 訂房確認書 email **/
 exports.getReservationCheckMail = function (req, res) {
     res.render("subsystem/setup/specialTmp/reservationCheckMail");
@@ -39,4 +32,14 @@ exports.getReservationCheckMail = function (req, res) {
 //假日日期設定
 exports.getHolidayDateSet = function (req, res) {
     res.render("subsystem/setup/specialTmp/holidayDateSet");
+};
+
+
+/**
+ * 獲取交通接駁資料
+ */
+exports.getTrafficData = function (req, res) {
+    trafficSvc.handleTrafficData(req.body, req.session, function (err, trafficData) {
+        res.json({success: _.isNull(err), trafficData: trafficData});
+    })
 };

@@ -39,17 +39,6 @@
     "international_certification": "國際認證",
     "copyright": "版權所有"
   },
-  "BAC01P0140": {
-    "reservations": "訂房",
-    "front_desk": "接待",
-    "cashier": "出納",
-    "room_management ": "房務",
-    "night_audit": "夜核",
-    "sales_marketing": "業務",
-    "reports": "報表",
-    "setup": "設定",
-    "own_menu": "自訂"
-  },
   "program": {
     "PMS0810010": {
       "athena_id": "Athena ID",
@@ -277,6 +266,8 @@
       "upd_usr": "最後異動者"
     },
     "PMS0810050": {
+      "pick_up": "接機",
+      "drop_off": "送機",
       "arrive_cod": "代號",
       "arrive_spot": "接駁地點",
       "arrive_tim": "接駁時間",
@@ -360,46 +351,8 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
-    },
-    "PMS0820010": {
-      "character_cod": "房間特色代號",
-      "character_nam": "房間特色說明",
-      "sys_default": "系統預設",
-      "ins_dat": "輸入日",
-      "ins_usr": "輸入者",
-      "upd_dat": "最後異動日",
-      "upd_usr": "最後異動者"
     }
   },
-  "front_desk_conf": "飯店前台參數設定",
-  "front_desk_setup": "前台參數設定",
-  "reserve_comparsion": "訂房對照檔",
-  "PMS0810010_name": "房間類別",
-  "PMS0810020_name": "房型",
-  "PMS0810030_name": "國籍",
-  "PMS0810040_name": "洲別",
-  "PMS0810050_name": "交通接駁",
-  "PMS0810060_name": "送機班次",
-  "PMS0810070_name": "假日日期",
-  "PMS0810080_name": "市場類別群組",
-  "PMS0810090_name": "市場類別",
-  "PMS0810100_name": "訂房卡來源群組",
-  "PMS0810110_name": "訂房卡來源",
-  "PMS0810120_name": "訂房折扣及房種升等授權者",
-  "PMS0810130_name": "前檯訂房分析",
-  "PMS0810140_name": "FOC",
-  "PMS0810150_name": "訂房類別",
-  "PMS0810160_name": "訂房取消原因設定",
-  "PMS0810170_name": "假日類別",
-  "PMS0810200_name": "交辦事項",
-  "PMS0830020_name": "服務種類設定",
-  "PMS0860010_name": "商務公司類別設定",
-  "PMS0830060_name": "住客帳調整原因設定",
-  "PMS0860050_name": "拜訪方式設定",
-  "PMS0860020_name": "行業別設定",
-  "PMS0860040_name": "備註類別設定",
-  "PMS0810220_name": "交通類別設定",
-  "PMS0820010_name": "房間特色設定",
   "table_in_use": "%s 使用中",
   "SystemCommon": {
     "OK": "確定",
@@ -430,11 +383,13 @@
       "FmtFourEngNum": "格式為四碼英文數字",
       "FmtCharacters": "請輸入文字",
       "FmtZeroToFiveNum": "0到5碼數字",
+      "FmtExactlyTwoWord": "2碼數字",
       "FmtZeroToTenNum": "0到10碼數字",
       "ChkGreaterZeroNum": "請輸入大於0的數字",
       "ChkGteZeroNum": "請輸入大於等於0的數字",
       "ChkLteZeroNum": "請輸入小於等於0的數字",
-      "ChkLessZeroNum": "請輸入小於0的數字"
+      "ChkLessZeroNum": "請輸入小於0的數字",
+      "FmtHHMM": "時間格式HH:MM"
     }
   }
 }

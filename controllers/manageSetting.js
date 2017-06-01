@@ -7,13 +7,6 @@ var tbSVC = require("../services/dbTableService");
 var mongoAgent = require("../plugins/mongodb");
 
 
-/**
- * 訂房對照檔
- */
-exports.reservation_comparison = function (req, res) {
-    res.render('subsystem/setup/reservation_comparison');
-};
-
 
 /**
  * 設定檔

@@ -5,10 +5,13 @@
 <div class="row" id="app">
     <div class="col-xs-12 col-sm-12">
         <div class="col-sm-11 col-xs-11">
+            <div class="row">
+                <label id="prg_Id" class="prg_idLbH3 label-fontLg"><%= prg_id %></label>
+            </div>
             <div class="row no-margin-right">
                 <!-------- tabPage -------->
                 <div id="traffic_tab" class="easyui-tabs easyUi-custom1" style="height: 380px; overflow-y: auto;">
-                    <div title="Pick up" class="padding-tabs">
+                    <div title="<%= __("program")["PMS0810050"]["pick_up"]%>" class="padding-tabs">
                         <div class="col-xs-12 col-sm-12">
                             <div class="row">
                                 <table id="pick_off_dg" style="height: 300px;"></table>
@@ -16,7 +19,7 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div title="See up" class="padding-tabs">
+                    <div title="<%= __("program")["PMS0810050"]["drop_off"]%>" class="padding-tabs">
                         <div class="col-xs-12 col-sm-12">
                             <div class="row">
                                 <table id="see_off_dg" style="height: 300px;"></table>
@@ -35,7 +38,7 @@
                     <ul>
                         <li>
                             <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="appendRow"
+                                    @click="doAppendRow"
                                     role="button">
                                 <%= __("SystemCommon").Add %>
                             </button>
@@ -43,7 +46,7 @@
                         <li>
                             <button id="remove-btn" :disabled="saving"
                                     class="btn btn-danger btn-white btn-defaultWidth"
-                                    @click="removeRow();"
+                                    @click="doRemoveRow();"
                                     role="button">
                                 <%= __("SystemCommon").Delete %>
                             </button>
@@ -66,4 +69,5 @@
 <script type="text/javascript">
     var gs_prg_id = '<%= prg_id %>';
 </script>
+<script src="/js/easyUI/DatagridExtPMS0810050Class.js"></script>
 <script src="/js/setup/PMS0810050_setup.js"></script>
