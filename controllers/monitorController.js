@@ -12,17 +12,17 @@ exports.monitor = function (req, res) {
         function (callback) {
             mongoAgent.TemplateRf.count().exec(function (err, count) {
                 callback(err, count);
-            })
+            });
         },
         function (callback) {
             queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
                 callback(err, session);
-            })
+            });
         },
         function (callback) {
             request.get({url: "http://localhost:8888/login", timeout: 20000}, function (err, response, body) {
                 callback(err, body);
-            })
+            });
         }
     ], function (err, results) {
         if (err) {
@@ -35,6 +35,6 @@ exports.monitor = function (req, res) {
         }
 
         res.send("success");
-    })
+    });
 
 };

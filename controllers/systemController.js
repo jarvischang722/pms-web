@@ -36,7 +36,7 @@ exports.systemOption = function (req, res) {
 
     queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
         res.render('system/systemOption', {sysList: sysRows});
-    })
+    });
 
 };
 
@@ -56,7 +56,7 @@ exports.changeHotelCod = function (req, res) {
     req.session.user["athena_id"] = hotelInfo.athena_id;
     roleFuncSvc.updateUserPurview(req, function (err) {
         res.json({success: err == null, errorMsg: err});
-    })
+    });
 
 };
 
@@ -134,7 +134,7 @@ exports.getGroupMdlPros = function (req, res) {
     var la_locales = req.cookies.sys_locales || [];
     roleSvc.handleGroupMdlProcess(req.session.user, mdl_id, la_locales, function (err, ProsList) {
         res.json({success: _.isNull(err), errorMsg: err, prosList: ProsList});
-    })
+    });
 };
 
 /**
@@ -143,5 +143,5 @@ exports.getGroupMdlPros = function (req, res) {
 exports.execSQLProcess = function (req, res) {
     dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
         res.json({success: success, errorMsg: err });
-    })
+    });
 };

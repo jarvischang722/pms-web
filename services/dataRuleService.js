@@ -429,6 +429,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
  * @param session
  * @param callback
  */
+'use strict'
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     var prg_id = postData["prg_id"];
     var deleteData = postData["deleteData"] || [];

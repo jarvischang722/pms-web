@@ -36,7 +36,7 @@ exports.mainSetUp = function (req, res) {
             }
             res.redirect("/" + temp_page + "/" + prg_id);
         } else {
-            res.end("<h1>Invaild program ID</h1>")
+            res.end("<h1>Invaild program ID</h1>");
         }
 
     });
@@ -78,14 +78,14 @@ exports.dbTableLock = function (req, res) {
             template = template.toObject();
             tbSVC.doTableLock(prg_id, template.lock_table, userInfo,
                 template.lock_type == "table" ? "T" : "R", key_cod, "", function (err, success) {
-                    res.json({success: success, errorMsg: err})
-                })
+                    res.json({success: success, errorMsg: err});
+                });
         } else {
-            res.json({success: true, errorMsg: "not found unlock table name"})
+            res.json({success: true, errorMsg: "not found unlock table name"});
         }
 
 
-    })
+    });
 };
 
 /**
@@ -102,12 +102,12 @@ exports.dbTableUnLock = function (req, res) {
             template = template.toObject();
             tbSVC.doTableUnLock(prg_id, template.lock_table, userInfo,
                 template.lock_type == "table" ? "T" : "R", key_cod, "", function (err, success) {
-                    res.json({success: success, errorMsg: err})
-                })
+                    res.json({success: success, errorMsg: err});
+                });
         } else {
-            res.json({success: true, errorMsg: "not found unlock table name"})
+            res.json({success: true, errorMsg: "not found unlock table name"});
         }
 
 
-    })
+    });
 };
