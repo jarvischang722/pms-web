@@ -17,13 +17,18 @@ var mailSvc = require("./mailService");
 var langSvc = require("./langService");
 
 
-exports.handleTrafficData = function (postData, session,callback) {
+/**
+ * 取得交通接駁資料
+ * @param postData
+ * @param session
+ * @param callback
+ */
+exports.handleTrafficData = function (postData, session, callback) {
+
     var params = {
-        // athena_id: session.user.usr_id,
-        // hotel_cod: session.user.func_hotel_cod
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.fun_hotel_cod
     };
-    params.athena_id = 1;
-    params.hotel_cod = "02";
 
     async.parallel({
         arrive_rf: function (callback) {
@@ -32,8 +37,8 @@ exports.handleTrafficData = function (postData, session,callback) {
                     console.error(err);
                     arrive_rf = [];
                 }
-                _.each(arrive_rf,function(data){
-                    var arrive_tim =  data["arrive_tim"];
+                _.each(arrive_rf, function (data) {
+                    var arrive_tim = data["arrive_tim"];
                     if (!_.isEmpty(arrive_tim) && arrive_tim.length == 4) {
                         data["arrive_tim"] = arrive_tim.substring(0, 2) + ":" + arrive_tim.substring(2, 4)
                     }
@@ -47,9 +52,9 @@ exports.handleTrafficData = function (postData, session,callback) {
                     console.error(err);
                     leave_rf = [];
                 }
-                _.each(leave_rf,function(data){
-                    var leave_tim =  data["leave_tim"];
-                    var to_tim =  data["to_tim"];
+                _.each(leave_rf, function (data) {
+                    var leave_tim = data["leave_tim"];
+                    var to_tim = data["to_tim"];
                     if (!_.isEmpty(leave_tim) && leave_tim.length == 4) {
                         data["leave_tim"] = leave_tim.substring(0, 2) + ":" + leave_tim.substring(2, 4)
                     }
@@ -61,7 +66,7 @@ exports.handleTrafficData = function (postData, session,callback) {
             })
         }
     }, function (err, results) {
-        callback(err,results)
+        callback(err, results)
     });
 
 };

@@ -106,7 +106,7 @@ var vueMain = new Vue({
                 vueMain.saving = true;
                 waitingDialog.show('Saving...');
                 // console.log("===== 儲存資料 =====");
-                 console.log(params);
+                //  console.log(params);
                 axios.post('/api/execSQLProcess', params)
                     .then(function (response) {
                         vueMain.saving = false;
