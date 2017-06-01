@@ -63,6 +63,7 @@
     "no-useless-concat": 2, //無意義的string concat
     "no-void": 2, //禁用void
     "no-with": 2, //禁用with
+    "strict": 2,//使用严格模式
     "no-warning-comments": [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }],//標記未寫註釋
     "curly": 2 //if、else、while、for代碼塊用{}包圍
   }
