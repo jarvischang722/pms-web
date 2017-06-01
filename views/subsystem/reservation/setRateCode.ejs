@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include ../common/head %>
-<%- include ../common/importFiles %>
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
 
 
 <body class="no-skin" id="app">
 
 <!-- #section:basics/navbar.layout -->
-<%- include ../common/navbar.ejs %>
+<%- include ../../common/navbar.ejs %>
 <!-- include header.html -->
 <script type="text/javascript">
     var global_using_prg_id = ""; //目前使用中的程式
@@ -39,7 +39,7 @@
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-        <%- include('../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
+        <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
 
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
@@ -51,7 +51,7 @@
 
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
             <div class="page-content">
                 <div class="">
                     <div class="page-header">
@@ -1055,7 +1055,7 @@
             </div><!-- /.page-content -->
         </div><!-- /.main-content-inner -->
     </div><!-- /.main-content -->
-    <%- include ../common/footer %>
+    <%- include ../../common/footer %>
 
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>

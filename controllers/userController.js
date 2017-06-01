@@ -166,15 +166,3 @@ exports.getAuthorityStaff = function (req, res) {
 //     res.render("user/holidayDateSet");
 // };
 
-//依房型訂房
-exports.getReservationRoomType = function (req, res) {
-    res.render("user/reservationRoomType");
-};
-//setUp 房價設定
-exports.getSetRateCode = function (req, res) {
-    res.render("user/setRateCode");
-};
-//交通接駁設定
-exports.getTrafficConnection = function (req, res) {
-    res.render("user/trafficConnection");
-};

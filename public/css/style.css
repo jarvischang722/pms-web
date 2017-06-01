@@ -272,18 +272,22 @@ h3 {
   padding-right: 0;
   white-space: normal;
 }
+/* line 26, ../sass/editDefault/_editBootstrap.sass */
+.btn-defaultWidth.segement {
+  margin-bottom: 10px;
+}
 
-/* line 28, ../sass/editDefault/_editBootstrap.sass */
+/* line 30, ../sass/editDefault/_editBootstrap.sass */
 .intCountLi-height ul li {
   padding: 5px 0;
 }
 
-/* line 32, ../sass/editDefault/_editBootstrap.sass */
+/* line 34, ../sass/editDefault/_editBootstrap.sass */
 select.form-control {
   padding: 4px 2px;
 }
 
-/* line 35, ../sass/editDefault/_editBootstrap.sass */
+/* line 37, ../sass/editDefault/_editBootstrap.sass */
 .top-sec-ul {
   max-width: 100%;
   display: inline-block;
@@ -291,67 +295,67 @@ select.form-control {
   background: #F5F5F5;
 }
 
-/* line 45, ../sass/editDefault/_editBootstrap.sass */
+/* line 47, ../sass/editDefault/_editBootstrap.sass */
 .tabs-left.counter-tabs > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
   min-width: 30px;
   font-weight: bold;
 }
 
-/* line 51, ../sass/editDefault/_editBootstrap.sass */
+/* line 53, ../sass/editDefault/_editBootstrap.sass */
 .form-widget-label select, .form-widget-selectEdit select {
   padding: 0;
   height: auto;
 }
 
-/* line 55, ../sass/editDefault/_editBootstrap.sass */
+/* line 57, ../sass/editDefault/_editBootstrap.sass */
 .input-sm {
   height: 24px;
 }
 
 /*-- sidebar --/ */
-/* line 61, ../sass/editDefault/_editBootstrap.sass */
+/* line 63, ../sass/editDefault/_editBootstrap.sass */
 .nav-list {
   position: relative;
   border-right: 1px solid #438EB9;
 }
-/* line 65, ../sass/editDefault/_editBootstrap.sass */
+/* line 67, ../sass/editDefault/_editBootstrap.sass */
 .nav-list > li:before {
   height: 100%;
   min-height: 41px;
   max-height: 100%;
 }
-/* line 69, ../sass/editDefault/_editBootstrap.sass */
+/* line 71, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 73, ../sass/editDefault/_editBootstrap.sass */
+/* line 75, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: auto;
 }
-/* line 77, ../sass/editDefault/_editBootstrap.sass */
+/* line 79, ../sass/editDefault/_editBootstrap.sass */
 .nav-list .nav-height .menu-text {
   height: inherit !important;
   padding-left: 24px;
 }
 
-/* line 83, ../sass/editDefault/_editBootstrap.sass */
+/* line 85, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
-/* line 87, ../sass/editDefault/_editBootstrap.sass */
+/* line 89, ../sass/editDefault/_editBootstrap.sass */
 .menu-min .nav-list .nav-height a {
   height: auto;
   max-height: 100%;
   overflow-y: visible;
 }
 
-/* line 91, ../sass/editDefault/_editBootstrap.sass */
+/* line 93, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle {
   position: absolute;
   top: 10px;
@@ -359,7 +363,7 @@ select.form-control {
   border: #F79263;
   background: #F79263;
 }
-/* line 97, ../sass/editDefault/_editBootstrap.sass */
+/* line 99, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .sidebar-toggle > .ace-icon {
   background: #F79263;
   color: #fff;
@@ -367,74 +371,74 @@ select.form-control {
   border-radius: 0;
 }
 
-/* line 105, ../sass/editDefault/_editBootstrap.sass */
+/* line 107, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list > li.active:after {
   border: none;
 }
 
-/* line 107, ../sass/editDefault/_editBootstrap.sass */
+/* line 109, ../sass/editDefault/_editBootstrap.sass */
 .no-skin .nav-list li.active > a:after {
   border-right-color: transparent;
 }
 
-/* line 111, ../sass/editDefault/_editBootstrap.sass */
+/* line 113, ../sass/editDefault/_editBootstrap.sass */
 .page-content {
   padding: 8px 10px 24px;
 }
 
-/* line 114, ../sass/editDefault/_editBootstrap.sass */
+/* line 116, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
 }
 
-/* line 118, ../sass/editDefault/_editBootstrap.sass */
+/* line 120, ../sass/editDefault/_editBootstrap.sass */
 .breadcrumbs {
   min-height: 35px;
   line-height: 34px;
 }
 
-/* line 122, ../sass/editDefault/_editBootstrap.sass */
+/* line 124, ../sass/editDefault/_editBootstrap.sass */
 .navbar-fixed-top + .main-container {
   padding-top: 35px;
 }
 
-/* line 125, ../sass/editDefault/_editBootstrap.sass */
+/* line 127, ../sass/editDefault/_editBootstrap.sass */
 .page-header {
   padding-top: 0;
 }
 
-/* line 128, ../sass/editDefault/_editBootstrap.sass */
+/* line 130, ../sass/editDefault/_editBootstrap.sass */
 .ace-nav .nav-user-photo {
   margin-top: 1px;
 }
 
-/* line 132, ../sass/editDefault/_editBootstrap.sass */
+/* line 134, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 {
   padding: 10px 5px;
 }
-/* line 134, ../sass/editDefault/_editBootstrap.sass */
+/* line 136, ../sass/editDefault/_editBootstrap.sass */
 .dataGrid-toolBar01 a {
   padding-right: 5px;
   padding-left: 5px;
 }
 
-/* line 140, ../sass/editDefault/_editBootstrap.sass */
+/* line 142, ../sass/editDefault/_editBootstrap.sass */
 .btn-white.btn-primary[disabled]:hover {
   background-color: transparent !important;
 }
 
-/* line 144, ../sass/editDefault/_editBootstrap.sass */
+/* line 146, ../sass/editDefault/_editBootstrap.sass */
 .input-medium {
   height: 25px;
 }
 
-/* line 148, ../sass/editDefault/_editBootstrap.sass */
+/* line 150, ../sass/editDefault/_editBootstrap.sass */
 label {
   font-size: 13px !important;
 }
 
-/* line 150, ../sass/editDefault/_editBootstrap.sass */
+/* line 152, ../sass/editDefault/_editBootstrap.sass */
 .container_12 .grid_12 {
   width: 100% !important;
   max-width: 100%;
@@ -442,7 +446,7 @@ label {
 }
 
 @media screen and (max-width: 992px) {
-  /* line 157, ../sass/editDefault/_editBootstrap.sass */
+  /* line 159, ../sass/editDefault/_editBootstrap.sass */
   .top-sec-ul {
     z-index: 1024;
     padding-top: 50px;
@@ -2563,7 +2567,19 @@ ul.newVisitOther-btn {
 }
 /* line 743, ../sass/_bacchusMain.sass */
 .easyUi-custom1 .tabs-panels .panel-body.padding-tabs {
-  padding: 16px 12px;
+  padding: 8px 6px;
+}
+
+/* line 750, ../sass/_bacchusMain.sass */
+.reserveShopInfo p.title {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+/* line 753, ../sass/_bacchusMain.sass */
+.singleHallRemark {
+  border: 1px solid #C5D0DC;
+  padding: 5px;
 }
 
 /*------  共用區public ------ */
@@ -2869,162 +2885,186 @@ a {
   /* (186, 242, 234) */
 }
 
-/* line 149, ../sass/modules/_public.sass */
+/* line 150, ../sass/modules/_public.sass */
 .input-medium.medium-c1 {
   width: 165px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 149, ../sass/modules/_public.sass */
+  /* line 150, ../sass/modules/_public.sass */
   .input-medium.medium-c1 {
     width: 120px;
     max-width: 100%;
     height: 25px;
   }
 }
-/* line 153, ../sass/modules/_public.sass */
+/* line 154, ../sass/modules/_public.sass */
 .input-medium.medium-c1-col2 {
   width: 488px;
   max-width: 100%;
   height: 25px;
 }
-/* line 155, ../sass/modules/_public.sass */
+/* line 156, ../sass/modules/_public.sass */
 .input-medium.medium-c2 {
   width: 179px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 155, ../sass/modules/_public.sass */
+  /* line 156, ../sass/modules/_public.sass */
   .input-medium.medium-c2 {
     width: 134px;
     max-width: 100%;
     height: 25px;
   }
 }
-/* line 159, ../sass/modules/_public.sass */
+/* line 160, ../sass/modules/_public.sass */
+.input-medium.medium-c3-sm {
+  width: 105px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 162, ../sass/modules/_public.sass */
 .input-medium.medium-c3 {
-  width: 100px;
+  width: 134px;
   max-width: 100%;
   height: 25px;
 }
-/* line 161, ../sass/modules/_public.sass */
-.input-medium.medium-c3-col1-5 {
-  width: 200px;
-  max-width: 100%;
-  height: 25px;
-}
-/* line 163, ../sass/modules/_public.sass */
-.input-medium.medium-c3-card {
-  width: 145px;
-  max-width: 100%;
-  height: 25px;
-}
-/* line 165, ../sass/modules/_public.sass */
-.input-medium.medium-c3-card-2 {
-  width: 55px;
-  max-width: 100%;
-  height: 25px;
-}
-/* line 167, ../sass/modules/_public.sass */
+/* line 164, ../sass/modules/_public.sass */
 .input-medium.medium-c3-col2 {
-  width: 304px;
+  width: 260px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 166, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col2_2 {
+  width: 233px;
   max-width: 100%;
   height: 25px;
 }
 /* line 169, ../sass/modules/_public.sass */
-.input-medium.medium-c3-col3 {
-  width: 508px;
+.input-medium.medium-search-col2 {
+  width: 304px;
   max-width: 100%;
   height: 25px;
 }
-/* line 171, ../sass/modules/_public.sass */
+/* line 172, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col3 {
+  width: 497px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 174, ../sass/modules/_public.sass */
 .input-medium.medium-c3-col4 {
   width: 634px;
   max-width: 100%;
   height: 25px;
 }
-/* line 173, ../sass/modules/_public.sass */
+/* line 176, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col1-5 {
+  width: 200px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 178, ../sass/modules/_public.sass */
+.input-medium.medium-c3-card {
+  width: 212px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 180, ../sass/modules/_public.sass */
+.input-medium.medium-c3-card-2 {
+  width: 55px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 183, ../sass/modules/_public.sass */
+.input-medium.medium-c3-card-3 {
+  width: 186px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 185, ../sass/modules/_public.sass */
 .input-medium.addedBy {
   width: 74px;
   max-width: 100%;
   height: 25px;
 }
-/* line 175, ../sass/modules/_public.sass */
+/* line 187, ../sass/modules/_public.sass */
 .input-medium.addedDate {
   width: 140px;
   max-width: 100%;
   height: 25px;
 }
-/* line 177, ../sass/modules/_public.sass */
+/* line 189, ../sass/modules/_public.sass */
 .input-medium.bill-input-s1 {
   width: 120px;
   max-width: 100%;
   height: 25px;
 }
-/* line 179, ../sass/modules/_public.sass */
+/* line 191, ../sass/modules/_public.sass */
 .input-medium.bill-input-s2 {
   width: 245px;
   max-width: 100%;
   height: 25px;
 }
-/* line 181, ../sass/modules/_public.sass */
+/* line 193, ../sass/modules/_public.sass */
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
   height: 25px;
 }
-/* line 183, ../sass/modules/_public.sass */
+/* line 195, ../sass/modules/_public.sass */
 .input-medium.rateCode-s1-col2 {
   width: 464px;
   max-width: 100%;
   height: 25px;
 }
-/* line 185, ../sass/modules/_public.sass */
+/* line 197, ../sass/modules/_public.sass */
 .input-medium.rateCode-s2 {
   width: 43px;
   max-width: 100%;
   height: 25px;
 }
-/* line 187, ../sass/modules/_public.sass */
+/* line 199, ../sass/modules/_public.sass */
 .input-medium.rateCode-s3 {
   width: 135px;
   max-width: 100%;
   height: 25px;
 }
-/* line 189, ../sass/modules/_public.sass */
+/* line 201, ../sass/modules/_public.sass */
 .input-medium.rateCode-s4 {
   width: 695px;
   max-width: 100%;
   height: 25px;
 }
-/* line 191, ../sass/modules/_public.sass */
+/* line 203, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1 {
   width: 150px;
   max-width: 100%;
   height: 25px;
 }
-/* line 193, ../sass/modules/_public.sass */
+/* line 205, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1-col2 {
   width: 409px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 195, ../sass/modules/_public.sass */
+/* line 207, ../sass/modules/_public.sass */
 .input-hMedium {
   height: 25px !important;
 }
 
-/* line 197, ../sass/modules/_public.sass */
+/* line 209, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 434px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 197, ../sass/modules/_public.sass */
+  /* line 209, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -3032,14 +3072,14 @@ a {
   }
 }
 
-/* line 201, ../sass/modules/_public.sass */
+/* line 213, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 201, ../sass/modules/_public.sass */
+  /* line 213, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -3047,35 +3087,35 @@ a {
   }
 }
 
-/* line 205, ../sass/modules/_public.sass */
+/* line 217, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 209, ../sass/modules/_public.sass */
+/* line 221, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 214, ../sass/modules/_public.sass */
+/* line 226, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 217, ../sass/modules/_public.sass */
+/* line 229, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 219, ../sass/modules/_public.sass */
+/* line 231, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 223, ../sass/modules/_public.sass */
+/* line 235, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -3083,7 +3123,7 @@ a {
   position: absolute;
 }
 
-/* line 229, ../sass/modules/_public.sass */
+/* line 241, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 16px !important;
@@ -3093,48 +3133,54 @@ a {
   font-weight: bold;
 }
 
-/* line 240, ../sass/modules/_public.sass */
+/* line 252, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 247, ../sass/modules/_public.sass */
+/* line 259, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"] {
   border-radius: 5px !important;
 }
 
-/* line 265, ../sass/modules/_public.sass */
+/* line 277, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
 
-/* line 269, ../sass/modules/_public.sass */
+/* line 281, ../sass/modules/_public.sass */
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
-/* line 271, ../sass/modules/_public.sass */
+/* line 283, ../sass/modules/_public.sass */
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
 }
-/* line 273, ../sass/modules/_public.sass */
+/* line 285, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label {
   width: auto;
 }
-/* line 276, ../sass/modules/_public.sass */
+/* line 288, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
-/* line 281, ../sass/modules/_public.sass */
+/* line 293, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .txt {
   line-height: 22px;
 }
-/* line 284, ../sass/modules/_public.sass */
+/* line 296, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
+}
+
+/* line 299, ../sass/modules/_public.sass */
+.remarkInput {
+  width: 85%;
+  margin-left: 5px;
 }
 
 /*-------------- responsive -------------- */

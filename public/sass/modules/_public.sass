@@ -144,7 +144,8 @@ a
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
-
+$medium-c3-col2: 260px
+$medium-c3-card: 212px
 .input-medium
   &.medium-c1
     +input-s1(165px)
@@ -156,20 +157,31 @@ a
     +input-s1(179px)
     @media screen and (min-width: 768px) and (max-width: 1030px)
       +input-s1(134px)
+  &.medium-c3-sm
+    +input-s1(105px)
   &.medium-c3
-    +input-s1(100px)
+    +input-s1(134px)
+  &.medium-c3-col2
+    +input-s1($medium-c3-col2)
+  &.medium-c3-col2_2
+    // have remark '-27px'
+    +input-s1(($medium-c3-col2)-27)
+  &.medium-search-col2
+    // PMS0620040 || PMS0620050
+    +input-s1(304px)
+  &.medium-c3-col3
+    +input-s1(497px)
+  &.medium-c3-col4
+    +input-s1(634px)
   &.medium-c3-col1-5
     +input-s1(200px)
   &.medium-c3-card
-    +input-s1(145px)
+    +input-s1($medium-c3-card)
   &.medium-c3-card-2
     +input-s1(55px)
-  &.medium-c3-col2
-    +input-s1(304px)
-  &.medium-c3-col3
-    +input-s1(508px)
-  &.medium-c3-col4
-    +input-s1(634px)
+    // have remark '-26px'
+  &.medium-c3-card-3
+    +input-s1(($medium-c3-card)-26)
   &.addedBy
     +input-s1(74px)
   &.addedDate
@@ -283,3 +295,7 @@ input[type="date"]
     .checkbox
       label
         padding-left: 10px
+
+.remarkInput
+  width: 85%
+  margin-left: 5px
