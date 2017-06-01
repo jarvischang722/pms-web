@@ -25,6 +25,7 @@ require("./models/mongoose/TemplateGridSingle");
 require("./models/mongoose/PageFunction");
 require("./models/mongoose/LogsAPI");
 require("./models/mongoose/Sessions");
+require("./models/mongoose/LangUIField");
 
 
 exports.DatagridFunction = mongoose.model("DatagridFunction");
@@ -37,3 +38,4 @@ exports.TemplateGridSingle = mongoose.model("TemplateGridSingle");
 exports.PageFunction = mongoose.model("PageFunction");
 exports.LogsAPI = mongoose.model("LogsAPI");
 exports.Sessions = mongoose.model("Sessions");
+exports.LangUIField = mongoose.model("LangUIField");
