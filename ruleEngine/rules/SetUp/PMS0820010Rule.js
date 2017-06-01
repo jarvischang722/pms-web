@@ -21,13 +21,15 @@ module.exports = {
 
         var lb_isDefault = (postData.rowData.sys_default == "Y") ? false : true;
         if (lb_isDefault == false) {
+
+            // lo_result.success = false;
             lo_error = new ErrorClass();
+            lo_error.errorMsg = "系統預設,不可異動";
+            lo_error.errorCod = "1111";
             if (postData.oldValue != "") {
                 postData.rowData.character_nam = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
-            lo_error.errorCod = "1111";
-            lo_error.errorMsg = "系統預設,不可異動";
         }
         callback(lo_error, lo_result);
     },
