@@ -28,11 +28,12 @@ module.exports = {
                 lo_result.effectValues = postData.rowData;
             }
             lo_error.errorCod = "1111";
-            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+            lo_result.success = false;
+            lo_error.errorMsg = "使用規則不能修改";
         }
         callback(lo_error, lo_result);
     },
-    chkTypenam:function (postData, session, callback) {
+    chkTypenam: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
@@ -41,11 +42,12 @@ module.exports = {
         if (isDeleteRow == false) {
             lo_error = new ErrorClass();
             if (postData.oldValue != "") {
-                postData.rowData.use_typ = postData.oldValue;
+                postData.rowData.type_nam = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
             lo_error.errorCod = "1111";
-            lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+            lo_result.success = false;
+            lo_error.errorMsg = "類別名稱不能修改";
         }
         callback(lo_error, lo_result);
     },

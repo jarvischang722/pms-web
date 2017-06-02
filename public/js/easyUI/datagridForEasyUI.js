@@ -155,6 +155,8 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
+        }else if(dataType == "numberbox"){
+            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
         }
         return tmpFieldObj;
     }
@@ -167,7 +169,7 @@ function onChange_Action(fieldAttrObj, oldValue, newValue) {
         var selectDataRow = $('#prg_dg').datagrid('getSelected');
         var postData = {
             prg_id: fieldAttrObj.prg_id,
-            rule_func_name: fieldAttrObj.rule_func_name,
+            rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: JSON.parse(JSON.stringify(selectDataRow)),
             newValue: newValue,

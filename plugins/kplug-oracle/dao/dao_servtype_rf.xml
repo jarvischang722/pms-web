@@ -20,9 +20,9 @@
         <statement><![CDATA[
 
         select count(*) as service_count from service_rf
-        where athena_id = trim(:athena_id)
-        and hotel_cod = trim(:hotel_cod)
-        and serv_typ = trim(:serv_typ)
+        where trim(athena_id) = trim(:athena_id)
+        and trim(hotel_cod) = trim(:hotel_cod)
+        and trim(serv_typ) = trim(:serv_typ)
 
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
