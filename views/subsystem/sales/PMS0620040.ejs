@@ -223,36 +223,37 @@
                     <!-- 新增拜訪記錄 彈出視窗-->
                     <div id="NewVisitRecord-page" class="hide">
                         <div class="col-sm-12 NewVisitRecord-wrap">
-                            <div class="row">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row">
-                                        <div class="grid">
-                                            <div class="tab-block grid-item">
-                                                <label>拜訪方式</label>
-                                                <select class="input-medium popWindow-s1">
-                                                    <option value="1">電訪</option>
-                                                    <option value="2">親訪</option>
-                                                </select>
-                                            </div>
-                                            <div class="tab-block grid-item">
-                                                <label>拜訪日期</label>
-                                                <input type="date" class="input-medium popWindow-s1"/>
-                                            </div>
-                                            <div class="tab-block grid-item">
-                                                <label>拜訪狀態</label>
-                                                <select class="input-medium popWindow-s1">
-                                                    <option value="1">預定拜訪</option>
-                                                    <option value="2">親訪</option>
-                                                </select>
-                                            </div>
-                                            <div class="tab-block grid-item">
-                                                <label>主旨</label>
-                                                <input type="text" class="input-medium popWindow-s1"/>
+                            <div class="row" >
+                                <div class="borderFrame2">
+                                    <div class="col-sm-11 col-xs-11">
+                                        <div class="row">
+                                            <div class="grid">
+                                                <div class="tab-block grid-item">
+                                                    <label>拜訪方式</label>
+                                                    <select class="input-medium medium-c3-sm">
+                                                        <option value="1">電訪</option>
+                                                        <option value="2">親訪</option>
+                                                    </select>
+                                                </div>
+                                                <div class="tab-block grid-item">
+                                                    <label>拜訪日期</label>
+                                                    <input type="date" class="input-medium medium-c3"/>
+                                                </div>
+                                                <div class="tab-block grid-item">
+                                                    <label>拜訪狀態</label>
+                                                    <select class="input-medium medium-c3-sm">
+                                                        <option value="1">預定拜訪</option>
+                                                        <option value="2">親訪</option>
+                                                    </select>
+                                                </div>
+                                                <div class="tab-block grid-item">
+                                                    <label>主旨</label>
+                                                    <input type="text" class="input-medium medium-c3-sm"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-1 col-xs-1">
+                                    <div class="col-sm-1 col-xs-1">
                                     <div class="row no-margin-right">
                                         <div class="right-menu-co">
                                             <ul>
@@ -261,20 +262,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                    <div class="clearfix"></div>
+                                </div>
                             </div>
+                            <div class="space-6"></div>
                             <div class="clearfix"></div>
                             <div class="row">
                                 <div class="col-sm-11 col-xs-11">
                                     <div class="row">
-                                        <div class="col-sm-6 col-xs-6">
-                                            <div class="row no-margin-right">
-                                                <table id="NewVisitRecord-table"></table>
-                                            </div>
+                                        <div class="col-sm-5 col-xs-5">
+                                            <table id="NewVisitRecord-table"></table>
                                         </div>
-                                        <div class="col-sm-6 col-xs-6">
+                                        <div class="col-sm-7 col-xs-7">
                                             <div class="row">
                                                 <div class="content">
-
                                                     <div class="grid">
                                                         <div class="tab-block grid-item">
                                                             <label>Co. Id</label>
@@ -364,9 +365,11 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-12">
-                                                        <label class="margin-spacing-3">內容</label>
-                                                        <textarea class="form-control" rows="4" placeholder=""></textarea>
+                                                    <div class="textFrame">
+                                                        <div class="grid">
+                                                            <label class="pull-left">內容</label>
+                                                            <textarea class="contentInput pull-left" rows="4" placeholder="談合約其貢獻數字及房價等級定義"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,7 +389,7 @@
                                             <ul class="newVisitOther-btn">
                                                 <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button></li>
                                                 <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Leave</button></li>
+                                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -416,21 +419,6 @@
 <script type="text/javascript">
     $(function (){
 
-        // 彈出SettingNewDialog
-        $(document).on('click', ".changeCreditLimit", function (e) {
-            e.preventDefault();
-            var dialog = $("#changeCreditLimit-message").removeClass('hide').dialog({
-                modal: true,
-                title: "信用額度變更",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
         // 彈出拜訪記錄
         $(document).on('click', ".NewVisit", function (e) {
             e.preventDefault();
@@ -446,21 +434,6 @@
             });
         });
 
-        // 拜訪記錄彈出
-        $(document).on('click', ".changeBusiness", function (e) {
-            e.preventDefault();
-            var dialog = $("#changeBusiness-page").removeClass('hide').dialog({
-                modal: true,
-                title: "業務員修改",
-                title_html: true,
-                width: 800,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
         // 彈出新增拜訪記錄
         $(document).on('click', ".NewVisitRecord", function (e) {
             e.preventDefault();
@@ -468,7 +441,7 @@
                 modal: true,
                 title: "新增拜訪記錄",
                 title_html: true,
-                width: 1200,
+                width: 1000,
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
@@ -476,20 +449,6 @@
             });
         });
 
-        //彈出新增拜訪記錄修改
-        $(document).on('click', ".NewVsitModify", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVsitModify-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 800,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
 
         //  新增拜訪查詢
         $('#NewVisitResult-table').datagrid({
@@ -520,8 +479,8 @@
             url:'/jsonData/bsCompany_newVisitRecord.json',
             method:'get',
             columns:[[
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
+                {field:'VisitNum',title:'Co. Id',width:60},
+                {field:'VisitName',title:'Co. Name',width:170},
                 {field:'VisitStatus',title:'Status',width:50},
                 {field:'VisitContract',title:'Contract',width:60},
                 {field:'visitMethod',title:'Method',width:60},

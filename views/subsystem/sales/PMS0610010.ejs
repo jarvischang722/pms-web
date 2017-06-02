@@ -370,7 +370,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>合約處理狀態</label>
+                                                    <label>合約狀態</label>
                                                     <select class="input-medium medium-c1">
                                                         <option value="1">已簽約</option>
                                                         <option value="2">未簽約</option>
@@ -394,19 +394,18 @@
                                                                         <div class="billInfo grid">
                                                                             <div class="content">
                                                                                 <div class="grid">
-                                                                                    <div class="grid-item">
+                                                                                    <div class="tab-block grid-item">
                                                                                         <label>收取DM</label>
-                                                                                        <select class="input-medium medium-c1">
+                                                                                        <select class="input-medium bill-input-s1">
                                                                                             <option value="yes">Y:是</option>
                                                                                             <option value="no">Ｎ:否</option>
                                                                                         </select>
                                                                                     </div>
-                                                                                    <div class="tab-block grid-item billCheckbox">
+                                                                                    <div class="tab-block grid-item billCheckbox relatedCheck">
                                                                                         <span class="checkbox">
-                                                                                          <label>可簽帳</label>
                                                                                           <label class="checkbox-width">
                                                                                               <input name="form-field-checkbox" type="checkbox" class="ace" disabled="disabled" checked>
-                                                                                              <span class="lbl"></span>
+                                                                                              <span class="lbl">可簽帳</span>
                                                                                           </label>
                                                                                         </span>
                                                                                         <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
@@ -890,15 +889,15 @@
                                                 <ul>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">copy</button>
+                                                                role="button">Copy</button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">save</button>
+                                                                role="button">Save</button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">leave</button>
+                                                                role="button">Exit</button>
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1089,9 +1088,10 @@
                     </div>
                     <!-- /.狀態變更 -->
                     <!-- 顯示月份明細 彈出視窗 -->
-                    <div id="bs-company-displayMonth-message" class="hide">
+                    <!-- 只要彈出視窗裡面有dataGrid就會讓視窗出現在最下面 -->
+                    <div id="bs-company-displayMonth-message" class="hide padding-5" style="top: 20%;">
                         <div class="col-sm-12 col-xs-12">
-                            <div class="margin-5 businessCompanyData">
+                            <div class="businessCompanyData">
                                 <!-- 貢獻度-顯示月份明細 dataGrid -->
                                 <table id="displayMonth-table"></table>
                             </div>
@@ -1675,7 +1675,7 @@
             });
         });
 
-        // 彈出 其他備註 多筆
+        // 彈出 異動紀錄 多筆
         $(document).on('click', ".bs-company-changeRecord", function (e) {
             e.preventDefault();
             var dialog = $("#bs-company-changeRecord-message").removeClass('hide').dialog({
@@ -1882,13 +1882,13 @@
             method:'get',
             columns:[[
                 {field:'consumeDate',title:'消費日期',width:80},
-                {field:'serialNum',title:'序號',width:60},
+                {field:'serialNum',title:'序號',width:40},
                 {field:'consumeHall',title:'消費館別',width:80},
                 {field:'consumePlace',title:'消費地點',width:80},
-                {field:'consumePrice',title:'消費金額',width:80},
-                {field:'subPay',title:'代支',width:80},
+                {field:'consumePrice',title:'消費金額',width:80,align:'right'},
+                {field:'subPay',title:'代支',width:80,align:'right'},
                 {field:'consumeDescription',title:'消費說明',width:80},
-                {field:'consumeTip',title:'小費',width:80},
+                {field:'consumeTip',title:'小費',width:80,align:'right'},
                 {field:'uniformNum',title:'統一編號',width:80},
                 {field:'invoiceNum',title:'發票號碼',width:80}
             ]]

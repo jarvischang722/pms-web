@@ -527,6 +527,11 @@ a
         label
           min-height: initial
           cursor: auto
+    &.relatedCheck
+      margin-left: 75px
+      .checkbox label input[type=checkbox].ace + .lbl
+        &:before
+          margin-right: 3px
   .billInfo
     //border: 1px solid #eee
     .billInfo-head
@@ -750,6 +755,16 @@ ul.newVisitOther-btn
     &.title
       font-size: $font-16
       margin: 5px 0
-.singleHallRemark
+.borderFrame
   border: 1px solid #C5D0DC
   padding: 5px
+.borderFrame2
+  border: 1px solid #C5D0DC
+  padding-top: 5px
+  margin: auto 5px
+//文字匡排版
+.textFrame
+  +bsCompany-content
+  .contentInput
+    width: 78.5%
+    margin-left: 3px
