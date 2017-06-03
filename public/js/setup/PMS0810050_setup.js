@@ -1,9 +1,10 @@
 /**
  * Created by Jun on 2017/5/23.
  */
+waitingDialog.hide();
 var gs_prg_id = gs_prg_id;
 var vueMain = new Vue({
-    el: '#app',
+    el: '#app-PMS0810050',
     mounted: function () {
         waitingDialog.hide();
         this.fetchDgFieldData();
@@ -70,7 +71,7 @@ var vueMain = new Vue({
 
             //接機
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_off_dg', pickupField);
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', pickupField);
 
             //送機
             this.dgInsDropOff = new DatagridBaseClass();

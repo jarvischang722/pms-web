@@ -38,11 +38,11 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
         function (callback) {
             mongoAgent.TemplateDatagrid.findOne({prg_id: prg_id}, function (err, templateRule) {
                 if (err || !templateRule) {
-                    err = "找不到對應的程式編號"
+                    err = "找不到對應的程式編號";
                 }
 
-                callback(err, templateRule.rule_id)
-            })
+                callback(err, templateRule.rule_id);
+            });
         },
         // 2)找尋對照檔需要用到的Table
         function (rule_id, callback) {
@@ -52,16 +52,16 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
                     return callback(err, null);
                 }
 
-                callback(err, ruleData.rule)
+                callback(err, ruleData.rule);
 
-            })
+            });
         },
         // 3)撈取對照檔的資料
         function (sqlTag, callback) {
             queryAgent.queryList(sqlTag, params, 0, 0, function (err, data) {
                 dataGridRows = data;
-                callback(err, dataGridRows)
-            })
+                callback(err, dataGridRows);
+            });
         },
         //找尋field 屬性資料
         function (dataRow, callback) {
@@ -78,13 +78,13 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
                         prg_id: prg_id
                     }).sort({col_seq: 1}).exec(function (err, commonField) {
                         fieldData = commonField;
-                        callback(err, fieldData)
-                    })
+                        callback(err, fieldData);
+                    });
                 } else {
                     fieldData = UserFieldData;
                     callback(err, fieldData);
                 }
-            })
+            });
         },
         function (col, callback) {
             mongoAgent.UIFieldFormat.find({prg_id: prg_id}, function (err, fmtRows) {
@@ -92,12 +92,12 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
                     _.each(fieldData, function (field, fIdx) {
                         fieldData[fIdx] = field.toObject();
                         var tmpFmt = _.findWhere(fmtRows, {prg_id: prg_id, ui_field_name: field.ui_field_name}) || {};
-                        fieldData[fIdx]["format_func_name"] = _.size(tmpFmt) > 0 ? tmpFmt["format_func_name"] : []
-                    })
+                        fieldData[fIdx]["format_func_name"] = _.size(tmpFmt) > 0 ? tmpFmt["format_func_name"] : [];
+                    });
                 }
 
-                callback(err, fieldData)
-            })
+                callback(err, fieldData);
+            });
         }
     ], function (err, result) {
 
@@ -106,9 +106,9 @@ exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
         }
 
 
-        callback(err, dataGridRows, fieldData)
+        callback(err, dataGridRows, fieldData);
 
-    })
+    });
 
 
 };
@@ -139,11 +139,11 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 ui_type: 'grid'
             }, function (err, pageInfo) {
                 if (err || !pageInfo) {
-                    err = "Not found datagrid "
+                    err = "Not found datagrid ";
                 }
 
-                callback(err, pageInfo)
-            })
+                callback(err, pageInfo);
+            });
         },
         // 2)
         function (pageInfo, callback) {
@@ -155,19 +155,19 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                     gridInfo = [];
                 }
 
-                callback(err, gridInfo)
+                callback(err, gridInfo);
 
-            })
+            });
         },
         // 3)
         function (gridInfo, callback) {
             if (!_.isUndefined(gridInfo.rule_func_name) && !_.isEmpty(gridInfo.rule_func_name)) {
                 queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                     dataGridRows = data;
-                    callback(err, dataGridRows)
-                })
+                    callback(err, dataGridRows);
+                });
             } else {
-                callback(null, [])
+                callback(null, []);
             }
 
         },
@@ -187,13 +187,13 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                         page_id: page_id
                     }).sort({col_seq: 1}).select({_id: 0}).exec(function (err, commonFields) {
                         fieldData = tools.mongoDocToObject(commonFields);
-                        callback(err, fieldData)
-                    })
+                        callback(err, fieldData);
+                    });
                 } else {
                     fieldData = tools.mongoDocToObject(UserFieldData);
                     callback(err, fieldData);
                 }
-            })
+            });
         },
         // 5)尋找ui_type有select的話，取得combobox的資料
         function (fields, callback) {
@@ -222,22 +222,22 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
-                            })
+                            });
                         }
-                    )
+                    );
                 }
             });
 
             async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result)
-            })
+                callback(err, result);
+            });
         },
         // 6)內容多語處理
         function (data, callback) {
             langSvc.handleMultiDataLangConv(dataGridRows, prg_id, page_id, session.locale, function (err, Rows) {
                 dataGridRows = Rows;
                 callback(null, dataGridRows);
-            })
+            });
         }
     ], function (err, result) {
 
@@ -245,9 +245,9 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             console.error(err);
         }
 
-        callback(err, dataGridRows, fieldData)
+        callback(err, dataGridRows, fieldData);
 
-    })
+    });
 
 
 };
@@ -311,13 +311,13 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                                     callback(err, null);
                                 }
                                 callback(null, field.ui_field_name);
-                            })
+                            });
                         } else {
                             //新增
                             var UIDgFieldSchema = new mongoAgent.UIDatagridField(field);
                             UIDgFieldSchema.save(function (err) {
                                 callback(err, field.ui_field_name);
-                            })
+                            });
                         }
                     });
 
@@ -332,7 +332,7 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
         } else {
             callback(null, true);
         }
-    })
+    });
 
 };
 
@@ -359,17 +359,17 @@ exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue,
 
                         var regExp = new RegExp(format.reg_exp);
                         if (!regExp.test(verifyValue)) {
-                            callback("資料格式錯誤", false)
+                            callback("資料格式錯誤", false);
                         }
-                    })
+                    });
                 } else {
-                    callback(null, true)
+                    callback(null, true);
                 }
             });
         },
         //驗證資料內容是否正確
         function (checkFormat, callback) {
-            callback(null, true)
+            callback(null, true);
         }
     ], function (err, success) {
 
@@ -378,7 +378,7 @@ exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue,
         } else {
             callback(null, true);
         }
-    })
+    });
 
 
 };
@@ -405,7 +405,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
         doChkSaveRule,//先驗證資料是否規則正確
         doSaveDataByAPI //實作儲存
     ], function (err, result) {
-        callback(err, result)
+        callback(err, result);
     });
 
 
@@ -423,7 +423,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
             } else {
                 callback("not found table name", mainTableName);
             }
-        })
+        });
     }
 
     //取得此程式的欄位
@@ -458,7 +458,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 postData = result.postData;
             }
             callback(err, result);
-        })
+        });
     }
 
     //實作儲存
@@ -468,7 +468,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
         var updateData = postData["updateData"] || [];
         var keyFields = _.pluck(_.where(prgFields, {keyable: 'Y'}), "ui_field_name") || []; //屬於key 的欄位
         var la_multiLangFields = _.filter(prgFields, function (field) {
-            return field.multi_lang_table != ""
+            return field.multi_lang_table != "";
         });  //多語系欄位
         async.parallel([
             //新增 0200
@@ -513,8 +513,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                                     savaExecDatas[exec_seq] = lo_langTmp;
                                     exec_seq++;
                                 }
-                            })
-                        })
+                            });
+                        });
                     }
 
                 });
@@ -539,7 +539,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
-                })
+                });
                 callback(null, '0300');
             },
             //修改 0400
@@ -564,8 +564,8 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                             tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
 
-                            delete  tmpEdit["ins_dat"];
-                            delete  tmpEdit["ins_usr"];
+                            delete tmpEdit["ins_dat"];
+                            delete tmpEdit["ins_usr"];
 
                             tmpEdit.condition = [];
                             var lo_keysData = {};
@@ -644,14 +644,14 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                                                                 callback(null, rows);
 
-                                                            })
+                                                            });
                                                         }
                                                     );
                                                 }
                                             });
                                             async.parallel(chkFuncs, function (err, results) {
                                                 callback(null, results);
-                                            })
+                                            });
                                         }
                                     );
 
@@ -666,7 +666,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                             }
                         }
                     );
-                })
+                });
 
                 async.parallel(updateFuncs, function (err, results) {
                     callback(null, '0400');
@@ -707,7 +707,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         log_id: log_id,
                         exceptionType: "execSQL",
                         errorMsg: errMsg
-                    })
+                    });
                 }
 
                 logSvc.recordLogAPI({
@@ -719,10 +719,10 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     res_content: data
                 });
                 callback(errMsg, chkResult);
-            })
+            });
 
 
-        })
+        });
     }
 
 };
@@ -753,7 +753,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
                 }
 
                 callback(err, true);
-            })
+            });
         },
         //抓取新增資料
         function (data, callback) {
@@ -762,7 +762,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
                 ruleAgent[addRuleFunc.rule_func_name](postData, session, function (err, result) {
                     lo_result.defaultValues = _.extend(lo_result.defaultValues, result.defaultValues);
                     callback(err, lo_result);
-                })
+                });
             } else {
                 callback(null, lo_result);
             }
