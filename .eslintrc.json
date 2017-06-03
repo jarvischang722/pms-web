@@ -19,7 +19,7 @@
     "no-use-before-define": [1, "nofunc"], //使用前未定義
     "complexity": [1, 10], //圈複雜度大於10 警告
     //常見錯誤
-    "no-console": 2,
+    "no-console": 1,
     "comma-dangle": [2, "never"], //定義數組或對象最後多餘的逗號
     "no-debugger": 2, //debugger 調試代碼未刪除
     "no-constant-condition": 2, //常量作為條件

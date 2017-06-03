@@ -662,7 +662,7 @@ vm = new Vue({
     compiled: function () {
 
     },
-    ready: function () {
+    mounted: function () {
 
         this.initTmpCUD();
         this.fetchUserInfo();

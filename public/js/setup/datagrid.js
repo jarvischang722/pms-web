@@ -8,12 +8,12 @@ Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
     data: function () {
-        return {}
+        return {};
     },
     created: function () {
         var self = this;
         vmHub.$on('getRowMultiLangContent', function (data) {
-            self.getRowMultiLangContent(data.rowIdx)
+            self.getRowMultiLangContent(data.rowIdx);
         });
     },
     methods: {
@@ -40,7 +40,7 @@ Vue.component("multi-lang-dialog-tmp", {
 
             $.post("/api/multiLangFieldContentByKey", params, function (result) {
                 self.$emit('update-multi-lang-dg', result);
-            })
+            });
         },
         closeMultiLangDialog: function () {
             $("#multiLangDialog").dialog("close");
@@ -63,11 +63,11 @@ Vue.component("multi-lang-dialog-tmp", {
         }
     }
 
-})
+});
 
 var vm = new Vue({
     el: '#DGApp',
-    ready: function () {
+    mounted: function () {
         this.initTmpCUD();
         this.fetchDataGridData();
     },
@@ -85,8 +85,8 @@ var vm = new Vue({
     watch: {
         prgFieldDataAttr: function (newVal) {
             this.multiLangField = _.filter(this.prgFieldDataAttr, function (field) {
-                return field.multi_lang_table != ""
-            })
+                return field.multi_lang_table != "";
+            });
         }
     },
     methods: {
@@ -96,7 +96,7 @@ var vm = new Vue({
                 createData: [],
                 updateData: [],
                 deleteData: []
-            }
+            };
         },
         //儲存欄位屬性
         doSaveColumnFields: function () {
@@ -106,8 +106,8 @@ var vm = new Vue({
 
             //過濾不用存的欄位
             allField = _.filter(allField, function (field) {
-                return field != 'langAction'
-            })
+                return field != 'langAction';
+            });
 
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
@@ -135,14 +135,14 @@ var vm = new Vue({
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
                 vm.prgFieldDataAttr = result.fieldData;
-                vm.showDataGrid(result.fieldData, result.dataGridRows)
+                vm.showDataGrid(result.fieldData, result.dataGridRows);
             });
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
             var columnsData = EZfieldClass.combineFieldOption(fieldData);
             var hasMultiLangField = _.filter(fieldData, function (field) {
-                return field.multi_lang_table != ""
+                return field.multi_lang_table != "";
             }).length > 0 ? true : false;
             if (hasMultiLangField) {
                 columnsData.push({
@@ -152,7 +152,7 @@ var vm = new Vue({
                     align: "center",
                     width: 100,
                     formatter: function (value, row, index) {
-                        return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>'
+                        return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>';
                     }
 
                 });
@@ -205,15 +205,15 @@ var vm = new Vue({
         endEditing: function () {
 
             if (vm.editIndex == undefined) {
-                return true
+                return true;
             }
             if ($('#prg_dg').datagrid('validateRow', vm.editIndex)) {
                 $('#prg_dg').datagrid('endEdit', vm.editIndex);
                 vm.editIndex = undefined;
                 return true;
-            } else {
+            } 
                 return false;
-            }
+            
         },
         //新增一個Row
         appendRow: function () {
@@ -228,7 +228,7 @@ var vm = new Vue({
                     vm.editIndex = $('#prg_dg').datagrid('getRows').length - 1;
                     $('#prg_dg').datagrid('selectRow', vm.editIndex)
                         .datagrid('beginEdit', vm.editIndex);
-                })
+                });
                 $("#gridEdit").val(vm.tmpCUD);
             }
         },
@@ -254,7 +254,7 @@ var vm = new Vue({
                     alert(result.errorMsg);
                 }
 
-            })
+            });
 
         },
         //儲存
@@ -266,7 +266,7 @@ var vm = new Vue({
                     deleteData: vm.tmpCUD.deleteData,
                     createData: vm.tmpCUD.createData,
                     updateData: vm.tmpCUD.updateData
-                }
+                };
                 vm.saving = true;
                 waitingDialog.show('Saving...');
                 $.post("/api/saveDataRow", params, function (result) {
@@ -280,7 +280,7 @@ var vm = new Vue({
                     } else {
                         alert(result.errorMsg);
                     }
-                })
+                });
 
             }
         },
@@ -336,7 +336,7 @@ var vm = new Vue({
             var widtd = 10;
             _.each(columnsData, function (column) {
                 widtd += Number(column.width);
-            })
+            });
             $('#multiLangDG').datagrid({
                 columns: [columnsData],
                 remoteSort: false,
@@ -358,19 +358,19 @@ var vm = new Vue({
                     }
 
                 }
-            })
+            });
         },
         endMultiLangEditing: function () {
             if (this.multiLangEditIndex == undefined) {
-                return true
+                return true;
             }
             if ($('#multiLangDG').datagrid('validateRow', vm.multiLangEditIndex)) {
                 $('#multiLangDG').datagrid('endEdit', vm.multiLangEditIndex);
                 vm.multiLangEditIndex = undefined;
                 return true;
-            } else {
+            } 
                 return false;
-            }
+            
         },
         //將資料放入暫存
         tempExecData: function (rowData) {
@@ -393,7 +393,7 @@ var vm = new Vue({
 
 
     }
-})
+});
 
 //打開多語視窗
 function editFieldMultiLang(rowIdx) {

@@ -114,7 +114,7 @@
             userInfo:<%- JSON.stringify(session.user || {}) %>,
             prosList: []
         },
-        ready: function () {
+        mounted: function () {
             //偵測離開頁面
             $(window).on('beforeunload', function () {
                 if (!_.isEmpty(vmMain.usingPrgID)) {
