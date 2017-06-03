@@ -7,7 +7,7 @@ var vmHub = new Vue;
 //Dt 多語編輯
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
-    props: ['sys_locales', 'dtMultiLangField', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
+    props: ['sys_locales', 'dtMultiLangField', 'endMultiLangEditing'],
     data: function () {
         return {
             dtMultiLangEditIndex: undefined
@@ -76,9 +76,9 @@ Vue.component("multi-lang-dialog-tmp", {
                 $('#multiLangDG').datagrid('endEdit', this.dtMultiLangEditIndex);
                 this.multiLangEditIndex = undefined;
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
         },
         //更新Dt多語內容
         updateDtMultiLangData: function (gridData) {
@@ -172,7 +172,6 @@ Vue.component("field-multi-lang-dialog-tmp", {
         vmHub.$on('editFieldMultiLang', function (fieldInfo) {
             self.getFieldMultiLangContent(fieldInfo);
         });
-
     },
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
@@ -233,7 +232,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCUD', 'modificableForData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData'],
     data: function () {
         return {
             isFistData: false,
@@ -266,6 +265,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
     },
     created: function () {
+
         var self = this;
         vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
@@ -368,7 +368,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }, function (result) {
                         if (result.success) {
                             self.deleteStatue = true;
-                            self.tmpCUD.deleteData = [self.singleData];
+                            self.tmpCud.deleteData = [self.singleData];
                             self.doSaveGrid();
                             if (result.showAlert) {
                                 alert(result.alertMsg);
@@ -412,11 +412,11 @@ Vue.component('sigle-grid-dialog-tmp', {
                         targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
                     }
                 }
-
+           
                 if (this.createStatus) {
-                    this.tmpCUD.createData = [this.singleData];
+                    this.tmpCud.createData = [this.singleData];
                 } else if (this.editStatus) {
-                    this.tmpCUD.editData = [this.singleData];
+                    this.tmpCud.editData = [this.singleData];
                 }
 
 
@@ -534,9 +534,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 $("#dt_dg").datagrid('endEdit', this.dtEditIndex);
                 this.dtEditIndex = undefined;
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
         },
         //儲存page2 datagrid欄位屬性
         doSaveColumnFields: function () {
@@ -564,10 +564,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                 } else if (editType == "combobox") {
                     var getMulitSelect = currentColumOption.editor.options.multiline;
 
-                    if (getMulitSelect == true)
-                        {ui_type = "multiselect";}
-                    else
-                        {ui_type = "select";}
+                    if (getMulitSelect == true) {
+                        ui_type = "multiselect";
+                    }
+                    else {
+                        ui_type = "select";
+                    }
                 }
 
                 var columnOption = {
@@ -613,16 +615,16 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            vm.tmpCUD.dt_deleteData.push(delRow);
+            vm.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
-                deleteData: vm.tmpCUD.dt_deleteData
+                deleteData: vm.tmpCud.dt_deleteData
             }, function (result) {
                 if (result.success) {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 } else {
-                    vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
+                    vm.tmpCud.deleteData = _.without(vm.tmpCud.deleteData, delRow);  //刪除在裡面的暫存
                     self.endDtEditing();
                     alert(result.errorMsg);
                 }
@@ -643,24 +645,23 @@ Vue.component('sigle-grid-dialog-tmp', {
                 condKey[field_name] = rowData[field_name] || "";
             });
             //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
-            var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
+            var existIdx = _.findIndex(this.tmpCud[dataType], condKey);
             if (existIdx > -1) {
-                this.tmpCUD[dataType].splice(existIdx, 1);
+                this.tmpCud[dataType].splice(existIdx, 1);
             }
 
-            this.tmpCUD[dataType].push(rowData);
+            this.tmpCud[dataType].push(rowData);
         }
     }
 });
 
 
-vm = new Vue({
+var vm = new Vue({
     el: '#GSApp',
     compiled: function () {
 
     },
     mounted: function () {
-
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID(function (success) {
@@ -678,7 +679,7 @@ vm = new Vue({
         pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
         editingRow: {},         //編輯中的資料
         userInfo: {},            //登入的使用者資料
-        tmpCUD: {               //新刪修暫存
+        tmpCud: {               //新刪修暫存
             createData: [],
             editData: [],
             deleteData: [],
@@ -714,7 +715,7 @@ vm = new Vue({
     methods: {
         //init CUD
         initTmpCUD: function () {
-            this.tmpCUD = {
+            this.tmpCud = {
                 createData: [],
                 editData: [],
                 deleteData: [],
@@ -759,8 +760,9 @@ vm = new Vue({
         //取得使用者資料
         fetchUserInfo: function () {
             $.post('/api/getUserInfo', function (result) {
-                if (result.success)
-                    {vm.userInfo = result.userInfo;}
+                if (result.success) {
+                    vm.userInfo = result.userInfo;
+                }
             });
         },
         //Show Checkbox
@@ -827,7 +829,7 @@ vm = new Vue({
         },
         //dg row刪除
         removeRow: function () {
-            vm.tmpCUD.deleteData = [];
+            vm.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
                 $.messager.alert("Warning", 'Check at least one item');
@@ -838,13 +840,13 @@ vm = new Vue({
                     //刪除前檢查
 
                     _.each(checkRows, function (row) {
-                        vm.tmpCUD.deleteData.push(row);
+                        vm.tmpCud.deleteData.push(row);
                     });
 
                     $.post("/api/deleteFuncRule", {
                         page_id: 1,
                         prg_id: prg_id,
-                        deleteData: vm.tmpCUD.deleteData
+                        deleteData: vm.tmpCud.deleteData
                     }, function (result) {
                         if (result.success) {
                             //刪除Row
@@ -866,9 +868,9 @@ vm = new Vue({
         //資料儲存
         doSaveCUD: function (callback) {
             waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: prg_id}, vm.tmpCUD);
-            console.log("===Save params===");
-            console.log(params);
+            var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+            // console.log("===Save params===");
+            // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
@@ -931,7 +933,6 @@ vm = new Vue({
                 //加上 dt 高度
                 height += this.dtData.length * 35 + 130;
             }
-
             var dialog = $("#singleGridDialog").dialog({
                 autoOpen: false,
                 modal: true,

@@ -1,7 +1,5 @@
 <!-- 單檔彈出視窗 -->
 <script type="text/x-template" id="sigleGridDialogTmp">
-    <!--<div>Time:{{testTime}}</div>-->
-    <!--<mz-datepicker :time.sync="testTime"  format="yyyy/MM/dd"></mz-datepicker>-->
     <div id="singleGridDialog" v-show="false">
         <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
@@ -137,30 +135,32 @@
         </div>
         <div class="clearfix"></div>
 
-    </div>
-    <!-- buttons -->
-    <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
-        <div class="singleRelative">
-            <div class="singleBtnBottom">
-                <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
-                        @click="doSaveGrid('addOther')">
-                    <%= __("SystemCommon").Add_after_save %>
-                </button>
-                <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                        class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
-                    <%= __("SystemCommon").Leave_after_save %>
-                </button>
-                <button v-if="editStatus" :disabled="editStatus && !modificableForData "
-                        class="btn btn-primary btn-white"
-                        @click="doSaveGrid('')">
-                    <%= __("SystemCommon").Save %>
-                </button>
-                <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
-                    <%= __("SystemCommon").Leave %>
-                </button>
+        <!-- buttons -->
+        <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
+            <div class="singleRelative">
+                <div class="singleBtnBottom">
+                    <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
+                            @click="doSaveGrid('addOther')">
+                        <%= __("SystemCommon").Add_after_save %>
+                    </button>
+                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
+                        <%= __("SystemCommon").Leave_after_save %>
+                    </button>
+                    <button v-if="editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white"
+                            @click="doSaveGrid('')">
+                        <%= __("SystemCommon").Save %>
+                    </button>
+                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
+                        <%= __("SystemCommon").Leave %>
+                    </button>
+                </div>
             </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="clearfix"></div>
     </div>
+
+
     <!-- /.settingSingleDialog -->
 </script>
