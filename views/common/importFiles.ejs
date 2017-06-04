@@ -65,8 +65,7 @@
 <script type="text/javascript" src="/js/remodal.min.js"></script>
 
 <!-- vue 套件 -->
-<script src="/js/vue/vue-2.min.js"></script>
-
+<script src="/js/vue/vue.min.js"></script>
 
 <!-- Element JS for Vue.js  -->
 <script src="/js/element_ui/element.js"></script>
@@ -114,3 +113,18 @@
 
 <!-- axios ajax Lib -->
 <script src="/js/axios/axios.min.js"></script>
+
+<!-- easyui diolg 預設z-index 9000  會影響到element ui -->
+<style>
+     .panel.window {
+          z-index: 1500 !important;
+     }
+
+     .window-shadow {
+          z-index: 1499 !important;
+     }
+
+     .window-mask {
+          z-index: 1498 !important;
+     }
+</style>

@@ -232,12 +232,29 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData','dialogVisible'],
     data: function () {
         return {
             isFistData: false,
             isLastData: false,
-            dtEditIndex: undefined
+            dtEditIndex: undefined,
+            options: [{
+                value: '选项1',
+                label: '黄金糕'
+            }, {
+                value: '选项2',
+                label: '双皮奶'
+            }, {
+                value: '选项3',
+                label: '蚵仔煎'
+            }, {
+                value: '选项4',
+                label: '龙须面'
+            }, {
+                value: '选项5',
+                label: '北京烤鸭'
+            }],
+            value:'选项1'
         };
     },
     watch: {
@@ -281,7 +298,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             vmHub.$emit('editFieldMultiLang', fieldInfo);
         },
         //檢查欄位規則，在離開欄位時
-        chk_field_rule: function (ui_field_name, rule_func_name) {
+        chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
             if (!_.isEmpty(rule_func_name.trim())) {
                 var postData = {
@@ -691,6 +708,7 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: []  //Dt 多語編輯欄位
+,dialogVisible:false
     },
     watch: {
         editStatus: function (newVal) {
@@ -926,7 +944,7 @@ var vm = new Vue({
         },
         //打開單檔dialog
         showSingleGridDialog: function () {
-
+            this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
             if (this.pageTwoDataGridFieldData.length > 0) {

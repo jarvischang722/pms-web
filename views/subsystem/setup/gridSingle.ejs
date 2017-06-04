@@ -1,9 +1,4 @@
 <link rel="stylesheet" href="/css/setup/gridSingle.css">
-<script>
-    $(document).ready(function () {
-        $.ajaxSetup({cache: false});
-    });
-</script>
 <div id="GSApp">
     <div class="col-xs-12">
         <div class="row">
@@ -69,7 +64,8 @@
             :editing-row="editingRow"
             :page-one-data-grid-rows="pageOneDataGridRows"
             :tmp-cud="tmpCud"
-            :modificable-for-data="modificableForData">
+            :modificable-for-data="modificableForData"
+    :dialog-visible="dialogVisible">
     </sigle-grid-dialog-tmp>
 
     <field-multi-lang-dialog-tmp

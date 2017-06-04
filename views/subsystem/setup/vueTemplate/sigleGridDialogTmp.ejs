@@ -1,6 +1,6 @@
 <!-- 單檔彈出視窗 -->
 <script type="text/x-template" id="sigleGridDialogTmp">
-    <div id="singleGridDialog" v-show="false">
+    <div id="singleGridDialog" v-show="false" >
         <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
@@ -22,14 +22,11 @@
                                           display: inline-block; min-width: 15px;">:</span>
 
                                     <!--  Text & Number -->
-                                    <!--  number no spinner add class="numStyle-none" -->
-                                    <input v-model="singleData[field.ui_field_name]"
-                                           @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
+                                    <el-input v-model="singleData[field.ui_field_name]"
+                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                              size="small"
                                            v-if="field.visiable == 'Y' &&
-                                            (field.ui_type == 'text' ||
-                                              field.ui_type == 'number' ||
-                                             ( (field.ui_type == 'date' || field.ui_type == 'datetime' )
-                                             &&  field.modificable == 'N'))"
+                                            (field.ui_type == 'text' || field.ui_type == 'number'  )"
                                            :type="field.ui_type"
                                            class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
@@ -37,34 +34,65 @@
                                            :required="field.requirable == 'Y'"
                                            :min="0"
                                            :maxlength="field.ui_field_length"
-                                           :readonly="field.modificable == 'N'">
+                                           :readonly="field.modificable == 'N'"></el-input>
 
-                                    <!--  Date & Datetime-->
-                                    <input v-model="singleData[field.ui_field_name]"
-                                           @blur="chk_field_rule(field.ui_field_name,field.rule_func_name)"
-                                           v-if="field.visiable == 'Y' &&
-                                           (field.ui_type == 'date' || field.ui_type == 'datetime' ) &&
-                                           field.modificable == 'Y' "
-                                           format-date="YYYY/MM/DD"
-                                           format-datetime="YYYY/MM/DD HH:mm:ss"
-                                           :type="field.ui_type"
-                                           is="date"
-                                           :class="{'input_sta_required' : field.requirable == 'Y' , 'dateClass': true}"
-                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                           :required="field.requirable == 'Y'"
-                                           :maxlength="field.ui_field_length"
-                                           :readonly="field.modificable == 'N'">
+                                    <!--  Date -->
+                                    <el-date-picker
+                                            size="small"
+                                            v-model="singleData[field.ui_field_name]"
+                                            type="date"
+                                            format="yyyy/MM/dd"
+                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                            v-if="field.visiable == 'Y' &&field.ui_type == 'date'"
+                                            :readonly="field.modificable == 'N'"
+                                            :class="{'input_sta_required' : field.requirable == 'Y' , 'dateClass': true}"
+                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                            :required="field.requirable == 'N'"
+                                            :maxlength="field.ui_field_length" >
+
+                                    </el-date-picker>
+
+
+                                    <!-- Datetime-->
+                                    <el-date-picker
+                                            size="small"
+                                            v-model="singleData[field.ui_field_name]"
+                                            type="datetime"
+                                            format="yyyy/MM/dd HH:mm:ss"
+                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                            v-if="field.visiable == 'Y' &&field.ui_type == 'datetime'"
+                                            :readonly="field.modificable == 'N'"
+                                            :class="{'input_sta_required' : field.requirable == 'Y' , 'dateClass': true}"
+                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                            :required="field.requirable == 'N'"
+                                            :maxlength="field.ui_field_length" >
+
+                                    </el-date-picker>
 
                                     <!-- 下拉選單 -->
-                                    <select v-model="singleData[field.ui_field_name]"
-                                            :disabled="field.modificable == 'N'"
-                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                            v-if="field.visiable == 'Y' && field.ui_type == 'select'">
-                                        <option v-for="opt in field.selectData" :value="opt.value">
-                                            {{opt.display}}
-                                        </option>
-                                    </select>
+                                    <el-select v-model="singleData[field.ui_field_name]"
+                                               :disabled="field.modificable == 'N'"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               size="small"
+                                               :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                               v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                                placeholder="請選擇">
+                                        <el-option
+                                                v-for="opt in field.selectData"
+                                                :key="opt.value"
+                                                :label="opt.display"
+                                                :value="opt.value">
+                                        </el-option>
+                                    </el-select>
+                                    <!--<select v-model="singleData[field.ui_field_name]"-->
+                                            <!--:disabled="field.modificable == 'N'"-->
+                                            <!--:style="{width:field.width + 'px' , height:field.height + 'px'}"-->
+                                            <!--:class="{'input_sta_required' : field.requirable == 'Y' }"-->
+                                            <!--v-if="field.visiable == 'Y' && field.ui_type == 'select'">-->
+                                        <!--<option v-for="opt in field.selectData" :value="opt.value">-->
+                                            <!--{{opt.display}}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
 
                                     <input type="hidden"
                                            v-model="singleData[field.ui_field_name]"
