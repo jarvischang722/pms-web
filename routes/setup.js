@@ -13,9 +13,6 @@ module.exports = function(app  ) {
     /** 飯店前台參數 **/
     app.get('/setup/front_desk_conf', middles, setupCrtl.front_desk_conf);
 
-    /** 訂房對照檔 **/
-    app.get('/setup/reservation_comparison', middles, setupCrtl.reservation_comparison);
-
     /** 訂房確認書 email **/
     app.get('/reservationCheckMail', setupCrtl.getReservationCheckMail);
 
@@ -25,6 +22,7 @@ module.exports = function(app  ) {
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
-
+    /** 交通接駁設定資料 **/
+    app.post('/api/getTrafficData',setupCrtl.getTrafficData);
 
 };

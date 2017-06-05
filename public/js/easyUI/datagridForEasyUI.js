@@ -4,7 +4,7 @@
  * moment套件(必須)
  */
 
-// var gb_onceEffectFlag = true;
+var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData) {
@@ -32,14 +32,14 @@ var EZfieldClass = {
             dataType = 'datebox';
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
-        } else if (fieldAttrObj.ui_type == "select") {
-            dataType = 'combobox';
-        } else if (fieldAttrObj.ui_type == "multiselect") {
+        } else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
             dataType = 'combobox';
         } else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
+        } else if (fieldAttrObj.ui_type == "time") {
+            dataType = 'timespinner';
         }
 
         var tmpFieldObj = {
@@ -68,6 +68,7 @@ var EZfieldClass = {
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData;
+            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -132,9 +133,6 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
-            // tmpFieldObj.editor.options.onClick = function (newValue, oldValue) {
-            //     gb_onceEffectFlag = true;
-            // }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 //TODO 值不可寫死
