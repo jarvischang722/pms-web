@@ -2668,227 +2668,238 @@ ul.newVisitOther-btn {
 }
 
 /* line 22, ../sass/modules/_public.sass */
+.marginLeft-5 {
+  margin-left: 5px;
+}
+
+/* line 24, ../sass/modules/_public.sass */
 .height87 {
   height: 87px;
 }
 
-/* line 25, ../sass/modules/_public.sass */
+/* line 27, ../sass/modules/_public.sass */
 .height60 {
   height: 60px;
 }
 
-/* line 29, ../sass/modules/_public.sass */
+/* line 31, ../sass/modules/_public.sass */
 .width-5 {
   width: 5% !important;
 }
 
-/* line 31, ../sass/modules/_public.sass */
+/* line 33, ../sass/modules/_public.sass */
 .width-10 {
   width: 10% !important;
 }
 
-/* line 33, ../sass/modules/_public.sass */
+/* line 35, ../sass/modules/_public.sass */
 .width-15 {
   width: 15% !important;
 }
 
-/* line 35, ../sass/modules/_public.sass */
+/* line 37, ../sass/modules/_public.sass */
 .width-20 {
   width: 20% !important;
 }
 
-/* line 38, ../sass/modules/_public.sass */
+/* line 40, ../sass/modules/_public.sass */
 .pointer {
   cursor: pointer;
 }
 
-/* line 40, ../sass/modules/_public.sass */
+/* line 42, ../sass/modules/_public.sass */
 .notice {
   color: #ff0000;
   font-weight: bold;
 }
 
-/* line 43, ../sass/modules/_public.sass */
+/* line 45, ../sass/modules/_public.sass */
 .bold {
   font-weight: bold;
 }
 
-/* line 45, ../sass/modules/_public.sass */
+/* line 47, ../sass/modules/_public.sass */
 .markOne {
   color: #478FCA;
   font-weight: bold;
 }
 
-/* line 49, ../sass/modules/_public.sass */
+/* line 51, ../sass/modules/_public.sass */
+.border-double1 {
+  border-bottom: 3px double #b09e9b;
+  margin: auto auto 5px auto;
+}
+
+/* line 54, ../sass/modules/_public.sass */
 .lineHeight14 {
   line-height: 14px;
 }
 
-/* line 51, ../sass/modules/_public.sass */
+/* line 56, ../sass/modules/_public.sass */
 .lineHeight18 {
   line-height: 18px;
 }
 
-/* line 53, ../sass/modules/_public.sass */
+/* line 58, ../sass/modules/_public.sass */
 .lineHeight24 {
   line-height: 24px;
 }
 
-/* line 55, ../sass/modules/_public.sass */
+/* line 60, ../sass/modules/_public.sass */
 .lineHeight27 {
   line-height: 27px;
 }
 
-/* line 57, ../sass/modules/_public.sass */
+/* line 62, ../sass/modules/_public.sass */
 .lineHeight34 {
   line-height: 34px;
 }
 
-/* line 60, ../sass/modules/_public.sass */
+/* line 65, ../sass/modules/_public.sass */
 .font-14 {
   font-size: 14px;
 }
 
-/* line 62, ../sass/modules/_public.sass */
+/* line 67, ../sass/modules/_public.sass */
 .font-15 {
   font-size: 15px;
 }
 
-/* line 64, ../sass/modules/_public.sass */
+/* line 69, ../sass/modules/_public.sass */
 .font-default {
   font-size: 13px;
 }
 
-/* line 66, ../sass/modules/_public.sass */
+/* line 71, ../sass/modules/_public.sass */
 .font-lg {
   font-size: 1.2em;
 }
 
-/* line 68, ../sass/modules/_public.sass */
+/* line 73, ../sass/modules/_public.sass */
 .font-2x {
   font-size: 1.5em;
 }
 
-/* line 70, ../sass/modules/_public.sass */
+/* line 75, ../sass/modules/_public.sass */
 .font-3x {
   font-size: 1.8em;
 }
 
-/* line 72, ../sass/modules/_public.sass */
+/* line 77, ../sass/modules/_public.sass */
 .label-fontLg {
   font-size: 16px !important;
 }
 
-/* line 74, ../sass/modules/_public.sass */
+/* line 79, ../sass/modules/_public.sass */
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 79, ../sass/modules/_public.sass */
+/* line 84, ../sass/modules/_public.sass */
 .dark {
   color: #333 !important;
 }
 
-/* line 81, ../sass/modules/_public.sass */
+/* line 86, ../sass/modules/_public.sass */
 .white {
   color: #fff !important;
 }
 
-/* line 83, ../sass/modules/_public.sass */
+/* line 88, ../sass/modules/_public.sass */
 .red {
   color: #DD5A43 !important;
 }
 
-/* line 85, ../sass/modules/_public.sass */
+/* line 90, ../sass/modules/_public.sass */
 .red2 {
   color: #E08374 !important;
 }
 
-/* line 87, ../sass/modules/_public.sass */
+/* line 92, ../sass/modules/_public.sass */
 .light-red {
   color: #FF7777 !important;
 }
 
-/* line 89, ../sass/modules/_public.sass */
+/* line 94, ../sass/modules/_public.sass */
 .blue {
   color: #478FCA !important;
 }
 
-/* line 91, ../sass/modules/_public.sass */
+/* line 96, ../sass/modules/_public.sass */
 .light-blue {
   color: #93CBF9 !important;
 }
 
-/* line 93, ../sass/modules/_public.sass */
+/* line 98, ../sass/modules/_public.sass */
 .green {
   color: #69AA46 !important;
 }
 
-/* line 95, ../sass/modules/_public.sass */
+/* line 100, ../sass/modules/_public.sass */
 .light-green {
   color: #B0D877 !important;
 }
 
-/* line 97, ../sass/modules/_public.sass */
+/* line 102, ../sass/modules/_public.sass */
 .orange {
   color: #FF892A !important;
 }
 
-/* line 99, ../sass/modules/_public.sass */
+/* line 104, ../sass/modules/_public.sass */
 .orange2 {
   color: #FEB902 !important;
 }
 
-/* line 101, ../sass/modules/_public.sass */
+/* line 106, ../sass/modules/_public.sass */
 .light-orange {
   color: #FCAC6F !important;
 }
 
-/* line 103, ../sass/modules/_public.sass */
+/* line 108, ../sass/modules/_public.sass */
 .purple {
   color: #A069C3 !important;
 }
 
-/* line 105, ../sass/modules/_public.sass */
+/* line 110, ../sass/modules/_public.sass */
 .pink {
   color: #C6699F !important;
 }
 
-/* line 107, ../sass/modules/_public.sass */
+/* line 112, ../sass/modules/_public.sass */
 .pink2 {
   color: #D6487E !important;
 }
 
-/* line 109, ../sass/modules/_public.sass */
+/* line 114, ../sass/modules/_public.sass */
 .brown {
   color: brown !important;
 }
 
-/* line 111, ../sass/modules/_public.sass */
+/* line 116, ../sass/modules/_public.sass */
 .grey {
   color: #777 !important;
 }
 
-/* line 113, ../sass/modules/_public.sass */
+/* line 118, ../sass/modules/_public.sass */
 .light-grey {
   color: #BBB !important;
 }
 
-/* line 117, ../sass/modules/_public.sass */
+/* line 122, ../sass/modules/_public.sass */
 .btn-sm-font {
   padding: 3px 9px;
   font-size: 12px;
   margin-top: -1px;
 }
 
-/* line 121, ../sass/modules/_public.sass */
+/* line 126, ../sass/modules/_public.sass */
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
 }
 
-/* line 126, ../sass/modules/_public.sass */
+/* line 131, ../sass/modules/_public.sass */
 .space-6 {
   max-height: 1px;
   min-height: 1px;
@@ -2896,7 +2907,7 @@ a {
   margin: 6px 0 5px;
 }
 
-/* line 131, ../sass/modules/_public.sass */
+/* line 136, ../sass/modules/_public.sass */
 .space-custom-5 {
   max-height: 1px;
   min-height: 1px;
@@ -2904,7 +2915,7 @@ a {
   margin: 0 0 5px;
 }
 
-/* line 136, ../sass/modules/_public.sass */
+/* line 141, ../sass/modules/_public.sass */
 .space-custom-6 {
   max-height: 1px;
   min-height: 1px;
@@ -2913,192 +2924,233 @@ a {
   border-bottom: 1px solid #d5d5d5;
 }
 
-/* line 144, ../sass/modules/_public.sass */
+/* line 149, ../sass/modules/_public.sass */
 .input_sta_required {
   background-color: #c6f2d9 !important;
   /* (186, 242, 234) */
 }
 
-/* line 150, ../sass/modules/_public.sass */
+/* line 155, ../sass/modules/_public.sass */
 .input-medium.medium-c1 {
   width: 165px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 150, ../sass/modules/_public.sass */
+  /* line 155, ../sass/modules/_public.sass */
   .input-medium.medium-c1 {
     width: 120px;
     max-width: 100%;
     height: 25px;
   }
 }
-/* line 154, ../sass/modules/_public.sass */
+/* line 159, ../sass/modules/_public.sass */
 .input-medium.medium-c1-col2 {
   width: 488px;
   max-width: 100%;
   height: 25px;
 }
-/* line 156, ../sass/modules/_public.sass */
+/* line 161, ../sass/modules/_public.sass */
 .input-medium.medium-c2 {
   width: 179px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 156, ../sass/modules/_public.sass */
+  /* line 161, ../sass/modules/_public.sass */
   .input-medium.medium-c2 {
     width: 134px;
     max-width: 100%;
     height: 25px;
   }
 }
-/* line 160, ../sass/modules/_public.sass */
+/* line 165, ../sass/modules/_public.sass */
 .input-medium.medium-c3-sm {
   width: 105px;
   max-width: 100%;
   height: 25px;
 }
-/* line 162, ../sass/modules/_public.sass */
+/* line 167, ../sass/modules/_public.sass */
 .input-medium.medium-c3 {
   width: 134px;
   max-width: 100%;
   height: 25px;
 }
-/* line 164, ../sass/modules/_public.sass */
-.input-medium.medium-c3-col2 {
-  width: 260px;
-  max-width: 100%;
-  height: 25px;
-}
-/* line 166, ../sass/modules/_public.sass */
-.input-medium.medium-c3-col2_2 {
-  width: 233px;
-  max-width: 100%;
-  height: 25px;
-}
 /* line 169, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col2 {
+  width: 255px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 171, ../sass/modules/_public.sass */
+.input-medium.medium-c3-col2_2 {
+  width: 228px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 174, ../sass/modules/_public.sass */
 .input-medium.medium-search-col2 {
   width: 304px;
   max-width: 100%;
   height: 25px;
 }
-/* line 172, ../sass/modules/_public.sass */
+/* line 177, ../sass/modules/_public.sass */
 .input-medium.medium-c3-col3 {
-  width: 497px;
+  width: 492px;
   max-width: 100%;
   height: 25px;
 }
-/* line 174, ../sass/modules/_public.sass */
+/* line 179, ../sass/modules/_public.sass */
 .input-medium.medium-c3-col4 {
   width: 634px;
   max-width: 100%;
   height: 25px;
 }
-/* line 176, ../sass/modules/_public.sass */
+/* line 181, ../sass/modules/_public.sass */
 .input-medium.medium-c3-col1-5 {
-  width: 200px;
+  width: 372px;
   max-width: 100%;
   height: 25px;
 }
-/* line 178, ../sass/modules/_public.sass */
+/* line 183, ../sass/modules/_public.sass */
 .input-medium.medium-c3-card {
   width: 212px;
   max-width: 100%;
   height: 25px;
 }
-/* line 180, ../sass/modules/_public.sass */
+/* line 185, ../sass/modules/_public.sass */
 .input-medium.medium-c3-card-2 {
   width: 55px;
   max-width: 100%;
   height: 25px;
 }
-/* line 183, ../sass/modules/_public.sass */
+/* line 188, ../sass/modules/_public.sass */
 .input-medium.medium-c3-card-3 {
   width: 186px;
   max-width: 100%;
   height: 25px;
 }
-/* line 185, ../sass/modules/_public.sass */
+/* line 190, ../sass/modules/_public.sass */
 .input-medium.addedBy {
   width: 74px;
   max-width: 100%;
   height: 25px;
 }
-/* line 187, ../sass/modules/_public.sass */
+/* line 192, ../sass/modules/_public.sass */
 .input-medium.addedDate {
   width: 140px;
   max-width: 100%;
   height: 25px;
 }
-/* line 189, ../sass/modules/_public.sass */
+/* line 194, ../sass/modules/_public.sass */
 .input-medium.bill-input-s1 {
   width: 120px;
   max-width: 100%;
   height: 25px;
 }
-/* line 191, ../sass/modules/_public.sass */
+/* line 196, ../sass/modules/_public.sass */
 .input-medium.bill-input-s2 {
   width: 245px;
   max-width: 100%;
   height: 25px;
 }
-/* line 193, ../sass/modules/_public.sass */
+/* line 198, ../sass/modules/_public.sass */
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
   height: 25px;
 }
-/* line 195, ../sass/modules/_public.sass */
+/* line 200, ../sass/modules/_public.sass */
 .input-medium.rateCode-s1-col2 {
   width: 464px;
   max-width: 100%;
   height: 25px;
 }
-/* line 197, ../sass/modules/_public.sass */
+/* line 202, ../sass/modules/_public.sass */
 .input-medium.rateCode-s2 {
   width: 43px;
   max-width: 100%;
   height: 25px;
 }
-/* line 199, ../sass/modules/_public.sass */
+/* line 204, ../sass/modules/_public.sass */
 .input-medium.rateCode-s3 {
   width: 135px;
   max-width: 100%;
   height: 25px;
 }
-/* line 201, ../sass/modules/_public.sass */
+/* line 206, ../sass/modules/_public.sass */
 .input-medium.rateCode-s4 {
   width: 695px;
   max-width: 100%;
   height: 25px;
 }
-/* line 203, ../sass/modules/_public.sass */
+/* line 208, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1 {
   width: 155px;
   max-width: 100%;
   height: 25px;
 }
-/* line 205, ../sass/modules/_public.sass */
+/* line 210, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1-col2 {
   width: 414px;
   max-width: 100%;
   height: 25px;
 }
+/* line 212, ../sass/modules/_public.sass */
+.input-medium.resvCard {
+  width: 109px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 214, ../sass/modules/_public.sass */
+.input-medium.resvCardRemark {
+  width: 82px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 216, ../sass/modules/_public.sass */
+.input-medium.resvCard-col2 {
+  width: 321px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 218, ../sass/modules/_public.sass */
+.input-medium.resvCard-col2Spec1 {
+  width: 264px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 220, ../sass/modules/_public.sass */
+.input-medium.resvCard-col2Remark {
+  width: 294px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 222, ../sass/modules/_public.sass */
+.input-medium.resvCard-fullRemark {
+  width: 720px;
+  max-width: 100%;
+  height: 25px;
+}
 
-/* line 207, ../sass/modules/_public.sass */
+/* line 224, ../sass/modules/_public.sass */
 .input-hMedium {
   height: 25px !important;
 }
 
-/* line 209, ../sass/modules/_public.sass */
+/* line 226, ../sass/modules/_public.sass */
+.input-hCol2 {
+  height: 55px !important;
+}
+
+/* line 228, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 434px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 209, ../sass/modules/_public.sass */
+  /* line 228, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -3106,14 +3158,14 @@ a {
   }
 }
 
-/* line 213, ../sass/modules/_public.sass */
+/* line 232, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 213, ../sass/modules/_public.sass */
+  /* line 232, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -3121,35 +3173,35 @@ a {
   }
 }
 
-/* line 217, ../sass/modules/_public.sass */
+/* line 236, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 221, ../sass/modules/_public.sass */
+/* line 240, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 226, ../sass/modules/_public.sass */
+/* line 245, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 229, ../sass/modules/_public.sass */
+/* line 248, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 231, ../sass/modules/_public.sass */
+/* line 250, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 235, ../sass/modules/_public.sass */
+/* line 254, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -3157,7 +3209,7 @@ a {
   position: absolute;
 }
 
-/* line 241, ../sass/modules/_public.sass */
+/* line 260, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 16px !important;
@@ -3167,51 +3219,51 @@ a {
   font-weight: bold;
 }
 
-/* line 252, ../sass/modules/_public.sass */
+/* line 271, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 259, ../sass/modules/_public.sass */
+/* line 278, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"] {
   border-radius: 5px !important;
 }
 
-/* line 277, ../sass/modules/_public.sass */
+/* line 296, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
 
-/* line 281, ../sass/modules/_public.sass */
+/* line 300, ../sass/modules/_public.sass */
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
-/* line 283, ../sass/modules/_public.sass */
+/* line 302, ../sass/modules/_public.sass */
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
 }
-/* line 285, ../sass/modules/_public.sass */
+/* line 304, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label {
   width: auto;
 }
-/* line 288, ../sass/modules/_public.sass */
+/* line 307, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
-/* line 293, ../sass/modules/_public.sass */
+/* line 312, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .txt {
   line-height: 22px;
 }
-/* line 296, ../sass/modules/_public.sass */
+/* line 315, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
 }
 
-/* line 299, ../sass/modules/_public.sass */
+/* line 318, ../sass/modules/_public.sass */
 .remarkInput {
   width: 85%;
   margin-left: 5px;

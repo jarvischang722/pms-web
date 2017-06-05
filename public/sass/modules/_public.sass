@@ -19,6 +19,8 @@
   margin-top: 87px
 .margin-5
   margin: 5px
+.marginLeft-5
+  margin-left: 5px
 .height87
   height: 87px
 //border: none
@@ -46,6 +48,9 @@
   color: $blue
   font-weight: bold
 
+.border-double1
+  border-bottom: 3px double #b09e9b
+  margin: auto auto 5px auto
 .lineHeight14
   line-height: 14px
 .lineHeight18
@@ -144,7 +149,7 @@ a
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
-$medium-c3-col2: 260px
+$medium-c3-col2: 255px
 $medium-c3-card: 212px
 .input-medium
   &.medium-c1
@@ -170,11 +175,11 @@ $medium-c3-card: 212px
     // PMS0620040 || PMS0620050
     +input-s1(304px)
   &.medium-c3-col3
-    +input-s1(497px)
+    +input-s1(492px)
   &.medium-c3-col4
     +input-s1(634px)
   &.medium-c3-col1-5
-    +input-s1(200px)
+    +input-s1(372px)
   &.medium-c3-card
     +input-s1($medium-c3-card)
   &.medium-c3-card-2
@@ -204,8 +209,22 @@ $medium-c3-card: 212px
     +input-s1(155px)
   &.popWindow-s1-col2
     +input-s1(414px)
+  &.resvCard
+    +input-s1(109px)
+  &.resvCardRemark
+    +input-s1(82px)
+  &.resvCard-col2
+    +input-s1(321px)
+  &.resvCard-col2Spec1
+    +input-s1(264px)
+  &.resvCard-col2Remark
+    +input-s1(294px)
+  &.resvCard-fullRemark
+    +input-s1(720px)
 .input-hMedium
   height: $inputHeight-medium !important
+.input-hCol2
+  height: ($inputHeight-medium*2)+5 !important
 .input-spc-1
   +input-s1
   @media screen and (min-width: 768px) and (max-width: 1030px)
