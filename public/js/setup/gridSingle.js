@@ -176,6 +176,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
             this.editingLangField = fieldInfo.ui_field_name;
+            console.log(  this.editingLangField );
             var self = this;
             var params = {
                 rowData: this.singleData,
@@ -671,7 +672,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
     }
 });
-
 
 var vm = new Vue({
     el: '#GSApp',

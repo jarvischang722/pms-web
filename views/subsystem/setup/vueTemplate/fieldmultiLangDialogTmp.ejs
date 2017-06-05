@@ -33,12 +33,12 @@
             <tbody>
             <tr v-for="locale in sys_locales">
                 <td> {{locale.name}}</td>
-
                 <td>
-                    <input v-model="fieldMultiLang[locale.lang][editingLangField]" data-locale="{{locale.lang}}"
-                           :id="editingLangField"
-                           value="{{multiLangContentList | filterLocaleContent locale.lang editingLangField}}"
-                           class="multi_lang_input">
+
+                    <!--<input v-model="fieldMultiLang[locale.lang][editingLangField]" data-locale="{{locale.lang}}"-->
+                           <!--:id="editingLangField"-->
+                           <!--value="{{multiLangContentList | filterLocaleContent locale.lang editingLangField}}"-->
+                           <!--class="multi_lang_input">-->
                 </td>
             </tr>
             </tbody>

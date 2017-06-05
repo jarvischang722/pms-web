@@ -1,128 +1,117 @@
 <!-- 單檔彈出視窗 -->
 <script type="text/x-template" id="sigleGridDialogTmp">
-    <div id="singleGridDialog" v-show="false" >
+    <div id="singleGridDialog" v-show="false">
         <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
-                    <!-- Start Content -->
-                    <form id="singleDataForm" method="post">
-                        <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
-                            <div class="row" v-for="fields in pageTwoFieldData">
-                                <div class="grid-item " v-for="field in fields">
-                                    <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'">
-                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                            {{field.ui_display_name}}
-                                        </a>
-                                        <span v-else>{{field.ui_display_name}} </span>
-                                    </label>
-                                    <span v-if="field.visiable == 'Y'"
-                                          style="width: 15px; text-align: center;
-                                          display: inline-block; min-width: 15px;">:</span>
+                    <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
+                        <div class="row" v-for="fields in pageTwoFieldData">
+                            <div class="grid-item " v-for="field in fields">
+                                <label :style="{width:field.label_width + 'px'}" v-if="field.visiable == 'Y'">
+                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                    <a @click="editFieldMultiLang(field)"
+                                       v-if="field.multi_lang_table != ''">
+                                        {{field.ui_display_name}}
+                                    </a>
+                                    <span v-else>{{field.ui_display_name}} </span>
+                                </label>
+                                <span v-if="field.visiable == 'Y'" style="width: 15px; text-align: center;
+                                      display: inline-block; min-width: 15px;"> :  </span>
 
-                                    <!--  Text & Number -->
-                                    <el-input v-model="singleData[field.ui_field_name]"
-                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                              size="small"
-                                           v-if="field.visiable == 'Y' &&
+                                <!--  Text & Number -->
+                                <el-input v-model="singleData[field.ui_field_name]"
+                                          v-if="field.visiable == 'Y' &&
                                             (field.ui_type == 'text' || field.ui_type == 'number'  )"
-                                           :type="field.ui_type"
-                                           class="numStyle-none"
-                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          :type="field.ui_type"
+                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                          :required="field.requirable == 'Y'"
+                                          :min="0"
+                                          :maxlength="field.ui_field_length"
+                                          :disabled="field.modificable == 'N'"
+                                          @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                          class="numStyle-none"
+                                          size="small">
+                                </el-input>
+
+                                <!--  Date -->
+                                <el-date-picker
+                                        v-model="singleData[field.ui_field_name]"
+                                        v-if="field.visiable == 'Y' &&field.ui_type == 'date'"
+                                        :disabled="field.modificable == 'N'"
+                                        :class="{'input_sta_required' :
+                                            field.requirable == 'Y' , 'dateClass': true}"
+                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                        :required="field.requirable == 'N'"
+                                        :maxlength="field.ui_field_length"
+                                        type="date"
+                                        format="yyyy/MM/dd"
+                                        clearable=false
+                                        size="small"
+                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                </el-date-picker>
+
+
+                                <!-- Datetime -->
+                                <el-date-picker
+                                        v-model="singleData[field.ui_field_name]"
+                                        v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                        :disabled="field.modificable == 'N'"
+                                        :class="{'input_sta_required' :
+                                            field.requirable == 'Y' , 'dateClass': true}"
+                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                        :required="field.requirable == 'N'"
+                                        :maxlength="field.ui_field_length"
+                                        size="small"
+                                        type="datetime"
+                                        format="yyyy/MM/dd HH:mm:ss"
+                                        clearable=false
+                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                </el-date-picker>
+
+                                <!-- Select -->
+                                <el-select v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                           :disabled="field.modificable == 'N'"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                           :required="field.requirable == 'Y'"
-                                           :min="0"
-                                           :maxlength="field.ui_field_length"
-                                           :readonly="field.modificable == 'N'"></el-input>
+                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                           size="small"
+                                           placeholder="請選擇">
+                                    <el-option
+                                            v-for="opt in field.selectData"
+                                            :key="opt.value"
+                                            :label="opt.display"
+                                            :value="opt.value">
+                                    </el-option>
+                                </el-select>
 
-                                    <!--  Date -->
-                                    <el-date-picker
-                                            size="small"
-                                            v-model="singleData[field.ui_field_name]"
-                                            type="date"
-                                            format="yyyy/MM/dd"
-                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                            v-if="field.visiable == 'Y' &&field.ui_type == 'date'"
-                                            :readonly="field.modificable == 'N'"
-                                            :class="{'input_sta_required' : field.requirable == 'Y' , 'dateClass': true}"
-                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                            :required="field.requirable == 'N'"
-                                            :maxlength="field.ui_field_length" >
-
-                                    </el-date-picker>
-
-
-                                    <!-- Datetime-->
-                                    <el-date-picker
-                                            size="small"
-                                            v-model="singleData[field.ui_field_name]"
-                                            type="datetime"
-                                            format="yyyy/MM/dd HH:mm:ss"
-                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                            v-if="field.visiable == 'Y' &&field.ui_type == 'datetime'"
-                                            :readonly="field.modificable == 'N'"
-                                            :class="{'input_sta_required' : field.requirable == 'Y' , 'dateClass': true}"
-                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                            :required="field.requirable == 'N'"
-                                            :maxlength="field.ui_field_length" >
-
-                                    </el-date-picker>
-
-                                    <!-- 下拉選單 -->
-                                    <el-select v-model="singleData[field.ui_field_name]"
-                                               :disabled="field.modificable == 'N'"
-                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               size="small"
-                                               :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                               v-if="field.visiable == 'Y' && field.ui_type == 'select'"
-                                                placeholder="請選擇">
-                                        <el-option
-                                                v-for="opt in field.selectData"
-                                                :key="opt.value"
-                                                :label="opt.display"
-                                                :value="opt.value">
-                                        </el-option>
-                                    </el-select>
-                                    <!--<select v-model="singleData[field.ui_field_name]"-->
-                                            <!--:disabled="field.modificable == 'N'"-->
-                                            <!--:style="{width:field.width + 'px' , height:field.height + 'px'}"-->
-                                            <!--:class="{'input_sta_required' : field.requirable == 'Y' }"-->
-                                            <!--v-if="field.visiable == 'Y' && field.ui_type == 'select'">-->
-                                        <!--<option v-for="opt in field.selectData" :value="opt.value">-->
-                                            <!--{{opt.display}}-->
-                                        <!--</option>-->
-                                    <!--</select>-->
-
-                                    <input type="hidden"
-                                           v-model="singleData[field.ui_field_name]"
-                                           v-if="field.visiable == 'N'"/>
-                                </div>
-                            </div>
-
-                            <!-- DT 的datagrid -->
-                            <div id="dt_dg_DIV" style="display: none;">
-                                <table class="easyui-datagrid" id="dt_dg"
-                                       style="width:100%;height:auto;">
-                                </table>
-
-                                <div id="tb" style="height:auto" class="dataGrid-toolBar01">
-                                    <a href="javascript:void(0)" class="easyui-linkbutton"
-                                       data-options="iconCls:'icon-add',plain:true"
-                                       @click="appendDtRow">
-                                        <i class="fa fa-plus green"></i>
-                                        <%= __("SystemCommon").Add %>
-                                    </a>
-                                    <a href="javascript:void(0)" class="easyui-linkbutton"
-                                       data-options="iconCls:'icon-remove',plain:true"
-                                       @click="removeDtRow">
-                                        <i class="fa fa-minus red"></i>
-                                        <%= __("SystemCommon").Delete %>
-                                    </a>
-                                </div>
+                                <input type="hidden"
+                                       v-model="singleData[field.ui_field_name]"
+                                       v-if="field.visiable == 'N'"/>
                             </div>
                         </div>
-                    </form>
+
+                        <!-- DT 的datagrid -->
+                        <div id="dt_dg_DIV" style="display: none;">
+                            <table class="easyui-datagrid" id="dt_dg"
+                                   style="width:100%;height:auto;">
+                            </table>
+                            <div id="tb" style="height:auto" class="dataGrid-toolBar01">
+                                <a href="javascript:void(0)" class="easyui-linkbutton"
+                                   data-options="iconCls:'icon-add',plain:true"
+                                   @click="appendDtRow">
+                                    <i class="fa fa-plus green"></i>
+                                    <%= __("SystemCommon").Add %>
+                                </a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton"
+                                   data-options="iconCls:'icon-remove',plain:true"
+                                   @click="removeDtRow">
+                                    <i class="fa fa-minus red"></i>
+                                    <%= __("SystemCommon").Delete %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <!-- End Content -->
 
                     <!-- Control Panel -->
@@ -188,7 +177,4 @@
             <div class="clearfix"></div>
         </div>
     </div>
-
-
-    <!-- /.settingSingleDialog -->
 </script>
