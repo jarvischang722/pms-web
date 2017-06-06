@@ -240,6 +240,25 @@ exports.getIsCanUse = function () {
 };
 
 /**
+ * 取得需收訂金
+ * @returns {Array}
+ */
+exports.getIsNeed = function () {
+    var useList = [
+        {
+            display: '需要',
+            value: 'Y'
+        },
+        {
+            display: '不需要',
+            value: 'N'
+        }
+    ];
+
+    return useList;
+};
+
+/**
  * checkbox是否使用
  * @returns
  */
@@ -461,5 +480,23 @@ exports.qry_address_rf_ghist_use = function(params, callback){
 exports.qryCharacterrfSysdefault = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
+    callback(null,lo_result);
+}
+
+/**
+ * 訂房類別設定(PMS0810150)取得是否使用下拉選項
+ */
+exports.qryGuarenteerfUsesta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null,lo_result);
+}
+
+/**
+ * 訂房類別設定(PMS0810150)取得是否需要訂金
+ */
+exports.qryGuarenteerfDpreq = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsNeed();
     callback(null,lo_result);
 }

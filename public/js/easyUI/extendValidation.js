@@ -99,5 +99,32 @@ $.extend($.fn.validatebox.defaults.rules, {
             return reg.test(value);
         },
         message: '時間格式HH:MM'
+    },
+    //只能0~100
+    ChkKeepday : {
+        validator: function (value) {
+            var reg = /^(([1-9]\d?)|0|100)$/;
+            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["chkKeepday"]  ;
+            return reg.test(value);
+        },
+        message: '只能0~100'
+    },
+    //只能0~100
+    ChkDprat : {
+        validator: function (value) {
+            var reg = /^(([1-9]\d?)|0|100)$/;
+            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["chkKeepday"]  ;
+            return reg.test(value);
+        },
+        message: '只能0~100'
+    },
+    //只能0~99999
+    ChkViewseq : {
+        validator: function (value) {
+            var reg = /^(([1-9]\d?){4})$/;
+            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["chkKeepday"]  ;
+            return reg.test(value);
+        },
+        message: '只能0~99999'
     }
 });
