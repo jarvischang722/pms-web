@@ -1,0 +1,85 @@
+[
+{
+	"id":1,
+	"text":"<input type='radio' name='company' value='company' class='authRadio'>BACCHUS",
+	"children":[
+		{
+		"id":11,
+		"text":"<input type='radio' name='company' value='company' class='authRadio'>PMS",
+		"children":[{
+			"id":111,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>訂房",
+			"state": "closed",
+			"children":[
+				{
+					"id":1111,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>依房型訂房"
+				},
+				{
+					"id":1112,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>依房號訂房"
+				}
+			]
+		},{
+			"id":112,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>接待",
+			"state": "closed",
+			"children":[
+				{
+					"id":1121,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>依房號訂房"
+				},{
+					"id":1122,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>住客查詢"
+				}
+			]
+		},{
+			"id":113,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>出納",
+			"state": "closed",
+			"children":[
+				{
+					"id":1131,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>綜合櫃檯"
+				},{
+					"id":1132,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>住客帳維護"
+				}
+			]
+		},{
+			"id":114,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>房務",
+			"state": "closed",
+			"children":[
+				{
+					"id":1141,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>訂房查詢"
+				},{
+					"id":1142,
+					"text":"<input type='radio' name='company' value='company' class='authRadio'>團體管理"
+				}
+			]
+		}]
+	},
+		{
+		"id":12,
+		"text":"<input type='radio' name='company' value='company' class='authRadio'>Flow",
+		"state":"closed",
+		"children":[{
+			"id":121,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>Flow1"
+		}, {
+			"id":122,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>Flow2"
+		},{
+			"id":123,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>Flow3"
+		},{
+			"id":124,
+			"text":"<input type='radio' name='company' value='company' class='authRadio'>Flow4"
+		}]
+	}
+	]
+}
+]
+

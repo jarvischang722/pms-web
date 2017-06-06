@@ -1,4 +1,4 @@
-<!DOCTY
+<!DOCTYPE html>
 <html lang="en">
 <%- include ../common/head %>
 <%- include ../common/importFiles %>
@@ -82,15 +82,15 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                     <li>
-                                                        <a href="#">角色權限</a>
+                                                        <a href="authorityRole">角色權限</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="#">功能權限</a>
+                                                        <a href="authorityFeature">功能權限</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="#">人員權限</a>
+                                                        <a href="authorityStaff">人員權限</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -118,9 +118,9 @@
                                         </div>
                                      </div>
                                     <div class="col-xs-6">
-                                        <div class="row no-margin-right">
+                                        <div class="row">
                                             <p class="topTitle">功能權限</p>
-                                            <div class="easyui-panel tree-body">
+                                            <div class="easyui-panel tree-body" style="width: 100%;">
                                                 <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
-                                        <div class="row no-margin-right">
+                                        <div class="row">
                                             <p class="topTitle">
                                                 <i class="fa fa-minus red smaller-90"></i>
                                                 排除功能

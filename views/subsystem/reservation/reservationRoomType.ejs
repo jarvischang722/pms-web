@@ -2608,7 +2608,7 @@
                                                 </li>
                                                 <li>
                                                     <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
                                                             role="button">訂房</button>
                                                 </li>
                                                 <li>
@@ -2618,7 +2618,7 @@
                                                 </li>
                                                 <li>
                                                     <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
+                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
                                                             role="button">另存</button>
                                                 </li>
                                                 <li>
@@ -2633,13 +2633,7 @@
                             </div> <!-- /.col-sm-12 -->
                             <div class="clearfix"></div>
 
-                        <!--依房型訂房彈出視窗測試-->
-                            <!--<div class="col-xs-12">-->
 
-                                <!--正文-->
-
-                                <!--正文 end-->
-                            <!--</div>-->
                     </div>
                     <!-- 訂房卡 彈出視窗 -->
                     <div id="reservationDialog-1-message" class="hide padding-5" style="top: 0 !important;">
@@ -2804,11 +2798,11 @@
                                                                         <div class="reserveShopInfo">
                                                                             <p class="title">預約來館資料</p>
                                                                             <!--預約來館資料table-->
-                                                                            <table id="reservation_reserveShopInfo-table" style="height: 200px;"></table>
+                                                                            <!--<table id="reservation_reserveShopInfo-table" style="height: 200px;"></table>-->
 
                                                                             <p class="title">住客歷史來訪</p>
                                                                             <!--住客歷史來訪table-->
-                                                                            <table id="reservation_guestVisitHistory-table" style="height: 200px;"></table>
+                                                                            <!--<table id="reservation_guestVisitHistory-table" style="height: 200px;"></table>-->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2819,10 +2813,42 @@
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
-
                                         </div>
                                         <!-------- /.tabPage -------->
 
+                                        <div class="space-6"></div>
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row">
+                                                <!--content-col-4-->
+                                                <div class="main-content-data">
+                                                    <div style="float:left; min-width: 42px; max-width: 3%;">
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="input-hMedium"><button>新增</button></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="input-hMedium"><button>刪除</button></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="input-hMedium"><button>刪除</button></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="input-hMedium"><button>刪除</button></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="input-hMedium"><button>刪除</button></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div>
+                                                        <!--訂房卡資料table-->
+                                                        <table id="reservation_resvCard-table" style="height: 200px;"></table>
+                                                    </div>
+                                                </div><!--main-content-data-->
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-xs-1 col-sm-1">
                                         <div class="row no-margin-right">
@@ -3307,7 +3333,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <!-------- /.tabPage -------->
 
@@ -3500,9 +3525,39 @@
 
         });
 
+        // 訂房卡 dataGrid
+        $('#reservation_resvCard-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_resvCard.json',
+            method: 'get',
+            columns: [[
+                {field: 'No', title: 'No', width: 60},
+                {field: 'Status', title: 'Status', width: 100},
+                {field: 'CIDate', title: 'CI Date', width: 200},
+                {field: 'Days', title: 'Days', width: 100},
+                {field: 'CODate', title: 'CO Date', width: 100},
+                {field: 'RateCode', title: 'Rate code', width: 100},
+                {field: 'RunTypeForSell', title: 'Run Type For Sell', width: 100},
+                {field: 'TypeForAssign', title: 'Type For Assign', width: 100},
+                {field: 'NoOfRms', title: 'No of Rms', width: 100},
+                {field: 'UnitPrice', title: 'Unit Price', width: 100},
+                {field: 'UnitSevChrg', title: 'Unit Sev. Chrg', width: 100},
+                {field: 'GrdRmChrg', title: 'Grd Rm Chrg', width: 100},
+                {field: 'GrdSvc', title: 'Grd Svc.', width: 100},
+                {field: 'Others', title: 'Others', width: 100},
+                {field: 'Total', title: 'Total', width: 100},
+                {field: 'RelatedNum', title: '關連序號', width: 100},
+                {field: 'Commion', title: 'Commion', width: 100},
+                {field: 'UnitSevChrg', title: 'Unit Sev. Chrg', width: 100}
+            ]]
+
+        });
+
     });
 
-    $(function(){
+    $(function() {
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -3529,7 +3584,7 @@
 
 //        grid_12
         var tableWidth1 = $(".sidebar").width();
-        console.log(tableWidth1);
+
 //        console.log(header2);
         tableWidth=$(window).width()-tableWidth1-10;
         $(".grid_12").css("width", "95%");
@@ -3546,7 +3601,7 @@
 //            $("#resRoomType-table").css("width", tableWidth-80);
 //            $(".fht-table").css("width", tableWidth-80);
 //            $(".fht-fixed-body").css("width", tableWidth-80);
-            console.log(tableWidth);
+
 
 
         });

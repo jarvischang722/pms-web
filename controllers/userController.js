@@ -157,6 +157,10 @@ exports.getAuthorityRole = function (req, res) {
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
+//新增 功能權限
+exports.getAuthorityFeature = function (req, res) {
+    res.render("user/authorityFeature");
+};
 // /** 訂房確認書 email **/
 // exports.getReservationCheckMail = function (req, res) {
 //     res.render("user/reservationCheckMail");

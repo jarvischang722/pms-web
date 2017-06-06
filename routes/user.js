@@ -40,6 +40,12 @@ module.exports = function (app, passport) {
     //新增 人員權限
     app.get('/authorityStaff', userCrtl.getAuthorityStaff);
 
+    //新增 人員權限
+    app.get('/authorityStaff', userCrtl.getAuthorityStaff);
+
+    //新增 功能權限
+    app.get('/authorityFeature', userCrtl.getAuthorityFeature);
+
     // /** 訂房確認書 email **/
     // app.get('/reservationCheckMail', userCrtl.getReservationCheckMail);
     //
