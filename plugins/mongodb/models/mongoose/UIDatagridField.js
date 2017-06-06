@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var  UIDatagridFieldSchema = new Schema({
     user_athena_id: String, //使用者登入驗證athena_id
-    athena_id : Number,    //athena_id
+    athena_id : String,    //athena_id
     user_id :String,       //使用者
     prg_id :String,        //程式編號
     page_id :Number,        //PageID
