@@ -176,6 +176,7 @@
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
+        <orderby >order by subsys_id</orderby>
     </dao>
 
     <!-- 抓取process -->
@@ -185,9 +186,9 @@
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          where pro.SYS_ID = :sys_id
-         order by pro.mdl_id, pro.pro_id, pro.SORT_COD
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
+        <orderby > order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
     </dao>
 </root>
