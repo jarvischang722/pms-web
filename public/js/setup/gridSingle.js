@@ -176,7 +176,6 @@ Vue.component("field-multi-lang-dialog-tmp", {
     methods: {
         getFieldMultiLangContent: function (fieldInfo) {
             this.editingLangField = fieldInfo.ui_field_name;
-            console.log(  this.editingLangField );
             var self = this;
             var params = {
                 rowData: this.singleData,
@@ -233,29 +232,12 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData','dialogVisible'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
     data: function () {
         return {
             isFistData: false,
             isLastData: false,
-            dtEditIndex: undefined,
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            }, {
-                value: '选项3',
-                label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
-            value:'选项1'
+            dtEditIndex: undefined
         };
     },
     watch: {
@@ -292,12 +274,14 @@ Vue.component('sigle-grid-dialog-tmp', {
             self.tempExecData(row);
         });
 
-    },
+    }
+    ,
     methods: {
         //打開單欄多語編輯
         editFieldMultiLang: function (fieldInfo) {
             vmHub.$emit('editFieldMultiLang', fieldInfo);
-        },
+        }
+        ,
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
@@ -344,35 +328,40 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                 });
             }
-        },
+        }
+        ,
         //到第一筆
         toFirstData: function () {
             this.isFistData = true;
             this.isLastData = false;
             this.editingRow = _.first(this.pageOneDataGridRows);
             this.emitFetchSingleData();
-        },
+        }
+        ,
         //上一筆
         toPreData: function () {
             var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
             this.emitFetchSingleData();
 
-        },
+        }
+        ,
         //下一筆
         toNextData: function () {
             var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex + 1];
             this.emitFetchSingleData();
 
-        },
+        }
+        ,
         //最後一筆
         toLastData: function () {
             this.isFistData = false;
             this.isLastData = true;
             this.editingRow = _.last(this.pageOneDataGridRows);
             this.emitFetchSingleData();
-        },
+        }
+        ,
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
@@ -397,21 +386,25 @@ Vue.component('sigle-grid-dialog-tmp', {
                     });
                 }
             });
-        },
+        }
+        ,
         //關閉
         emitCloseGridDialog: function () {
             this.$emit('close-single-grid-dialog');
-        },
+        }
+        ,
         //抓取單筆資料
         emitFetchSingleData: function () {
             var params = this.editingRow;
             this.$emit('fetch-single-data', params, function (success) {
             });
-        },
+        }
+        ,
         //新增模式
         emitSwitchToCreateStatus: function () {
             this.$emit('switch-to-create-status');
-        },
+        }
+        ,
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
 
@@ -430,7 +423,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
                     }
                 }
-           
+
                 if (this.createStatus) {
                     this.tmpCud.createData = [this.singleData];
                 } else if (this.editStatus) {
@@ -474,7 +467,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
 
-        },
+        }
+        ,
         /**  DT Data grid event**/
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
@@ -524,7 +518,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
 
             }).datagrid('columnMoving');
-        },
+        }
+        ,
         onClickDtCell: function (index, field) {
             if (this.dtEditIndex != index) {
                 if (this.endDtEditing()) {
@@ -542,7 +537,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }, 0);
                 }
             }
-        },
+        }
+        ,
         //結束編輯dt
         endDtEditing: function () {
             if (this.dtEditIndex == undefined) {
@@ -555,7 +551,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
             return false;
 
-        },
+        }
+        ,
         //儲存page2 datagrid欄位屬性
         doSaveColumnFields: function () {
 
@@ -606,7 +603,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 page_id: 2,
                 fieldOptions: saveField
             });
-        },
+        }
+        ,
         //新增一個Dt Row
         appendDtRow: function () {
             var self = this;
@@ -623,7 +621,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
 
             }
-        },
+        }
+        ,
         //刪除選定Dt的Row
         removeDtRow: function () {
             var self = this;
@@ -649,7 +648,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             });
 
-        },
+        }
+        ,
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
             rowData["mnRowData"] = this.singleData;
@@ -671,7 +671,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             this.tmpCud[dataType].push(rowData);
         }
     }
-});
+})
+;
 
 var vm = new Vue({
     el: '#GSApp',
@@ -686,6 +687,7 @@ var vm = new Vue({
         this.loadSingleGridPageField();
     },
     data: {
+        isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         createStatus: false,    //新增狀態
         editStatus: false,      //編輯狀態
@@ -708,7 +710,7 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: []  //Dt 多語編輯欄位
-,dialogVisible:false
+        , dialogVisible: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -770,6 +772,8 @@ var vm = new Vue({
                         return field.multi_lang_table != "";
                     });
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
+
+
                 }
 
             });
@@ -942,8 +946,36 @@ var vm = new Vue({
 
             });
         },
+        //init datepicker
+        initDatePicker: function () {
+            if (!this.isDatepickerInit) {
+                this.isDatepickerInit = true;
+                $('.date_picker').datepicker({
+                    autoclose: true,
+                    format: 'yyyy/mm/dd'
+                }).on("changeDate", function (e) {
+                });
+
+                $('.date_timepicker').datetimepicker({
+                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                    icons: {
+                        time: 'fa fa-clock-o',
+                        date: 'fa fa-calendar',
+                        up: 'fa fa-chevron-up',
+                        down: 'fa fa-chevron-down',
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-arrows ',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-times'
+                    }
+
+                });
+            }
+        },
         //打開單檔dialog
         showSingleGridDialog: function () {
+            this.initDatePicker();
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
