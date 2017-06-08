@@ -44,6 +44,10 @@
     padding: 3px 5px 4px 5px
     box-sizing: border-box
     cursor: pointer
+  // textarea margin adjust "float:left" || use:reservationCheckMail.ejs
+  .margin-adjust
+    margin-left: 3px
+    margin-right: 1px
 .grid-item-input
   width: 100px
   height: 50px
@@ -92,16 +96,21 @@
     border-top: 0
   .td-disable
     background: #d6d6d6
-  //.moreClick
-  //  position: absolute
-  //  right: 0
-  //  bottom: 0
-  //  //width: 25px
-  //  height: 20px
-  //  //line-height: $inputHeight-medium
-  //  border: 1px solid #888
-  //  background: $border-color
-  //  border-radius: 5px
-  //  padding: 0 5px 0 5px
-  //  box-sizing: border-box
-  //  cursor: pointer
+  .css_td
+    position: relative
+    .moreClick
+      position: absolute
+      right: 0
+      bottom: 0
+      //width: 25px
+      height: $inputHeight-medium -4
+      //line-height: $inputHeight-medium
+      border: 1px solid #888
+      background: $border-color
+      border-radius: 5px
+      padding: 0 5px 0 5px
+      box-sizing: border-box
+      cursor: pointer
+  .icon-addDel
+    i
+      margin-top: 5px
