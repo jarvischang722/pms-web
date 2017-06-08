@@ -19,10 +19,10 @@ exports.loginPage = function (req, res, next) {
         if (!_.isUndefined(req.session.user.sys_id)) {
             res.redirect("/");
             return;
-        } else {
+        } 
             res.redirect("/systemOption");
-            return
-        }
+            return;
+        
     }
 
     res.render("user/loginPage");
@@ -67,8 +67,8 @@ exports.authLogin = function (req, res) {
 
         }
 
-        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo})
-    })
+        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo});
+    });
 
 };
 
@@ -105,7 +105,7 @@ exports.selectSystem = function (req, res) {
                     res.redirect(subsystem_first_url);  //TODO 導到可選第一個子系統
                 });
 
-            })
+            });
         } else {
             res.send("Not found system!");
         }
@@ -138,7 +138,7 @@ exports.getSubsysQuickMenu = function (req, res) {
         subsys_id: req.body["subsys_id"]
     };
     roleFuncSvc.querySubsysQuickMenu(params, function (err, quickMenu) {
-        res.json({success: _.isNull(err), errorMsg: err, quickMenu: quickMenu})
+        res.json({success: _.isNull(err), errorMsg: err, quickMenu: quickMenu});
     });
 };
 

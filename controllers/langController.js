@@ -21,7 +21,7 @@ exports.fieldAllLocaleContent = function (req, res) {
 
     langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, "gridsingle", ui_field_name, function (multiLangData) {
         res.json({success: true, multiLangContentList: multiLangData});
-    })
+    });
 };
 
 /**
@@ -35,7 +35,7 @@ exports.multiLangFieldContentByKey = function (req, res) {
     var dataType = req.body["dataType"] || "datagrid"; // datagrid | girdsingle
     langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, dataType, "", function (multiLangData) {
         res.json({success: true, multiLangContent: multiLangData});
-    })
+    });
 
 
 };

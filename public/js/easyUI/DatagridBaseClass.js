@@ -35,7 +35,7 @@ function DatagridBaseClass() {
             onClickCell: this.onClickCell,
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
-            onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
+            onResizeColumn: this.doSaveColumnFields  //當欄位時寬度異動時
             // onSortColumn: function () {
             //     $("#dgCheckbox").datagrid('uncheckAll');
             // }
@@ -83,7 +83,7 @@ function DatagridBaseClass() {
      */
     this.loadDgData = function (dataGridRows) {
         var dgData = {total: dataGridRows.length, rows: dataGridRows};
-        $('#' + this.dgName).datagrid("loadData", dgData)
+        $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
     //結束編輯
@@ -115,15 +115,15 @@ function DatagridBaseClass() {
      */
     this.endEditing = function () {
         if (this.editIndex == undefined) {
-            return true
+            return true;
         }
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
             return true;
-        } else {
+        } 
             return false;
-        }
+        
     };
 
     /**
@@ -140,7 +140,7 @@ function DatagridBaseClass() {
                 self.editIndex = $('#' + self.dgName).datagrid('getRows').length - 1;
                 $('#' + self.dgName).datagrid('selectRow', self.editIndex)
                     .datagrid('beginEdit', self.editIndex);
-            })
+            });
             // $("#gridEdit").val(self.tmpCUD);
         }
     };
@@ -168,7 +168,7 @@ function DatagridBaseClass() {
                 alert(result.errorMsg);
             }
 
-        })
+        });
 
     };
 
@@ -183,7 +183,7 @@ function DatagridBaseClass() {
 
         //過濾不用存的欄位
         allField = _.filter(allField, function (field) {
-            return field != 'langAction'
+            return field != 'langAction';
         });
 
         _.each(allField, function (field, fIdx) {
@@ -205,7 +205,7 @@ function DatagridBaseClass() {
             page_id: self.page_id,
             fieldOptions: saveField
         });
-    }
+    };
 
     /**
      * 將資料放入暫存
@@ -226,5 +226,5 @@ function DatagridBaseClass() {
         }
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);
-    }
-};
+    };
+}
