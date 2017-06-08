@@ -22,18 +22,32 @@ exports.mainSetUp = function (req, res) {
 
     var prg_id = req.params.prg_id || "";
     var temp_page = "";
-    mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: 1}, function (err, tmpInfo) {
+    //mongoAgent.TemplateRf.find({prg_id: prg_id}, function (err, tmpInfo) {
+    mongoAgent.TemplateRf.find({prg_id: prg_id}).sort({page_id:1}).exec(function (err, tmpInfo) { //page_id先排序，後判斷規則
         if (tmpInfo) {
-            if (tmpInfo.template_id == "gridsingle") {
-                //單筆
-                temp_page = 'gridSingleSetUp';
-            } else if (tmpInfo.template_id == "datagrid") {
+
+            if(tmpInfo.length == 1 && tmpInfo[0].template_id == "datagrid"){
                 //多筆
                 temp_page = 'dataGridSetUp';
-            }else{
+            }else if(tmpInfo.length > 1 && tmpInfo[0].template_id == "datagrid"){
+                //單筆
+                temp_page = 'gridSingleSetUp';
+            }else {
                 //特殊版型
                 temp_page = 'specialSetUp';
             }
+
+            //Sam20170606: 因為目前不符合規則，修改判斷規則
+            // if (tmpInfo.template_id == "gridsingle") {
+            //     //單筆
+            //     temp_page = 'gridSingleSetUp';
+            // } else if (tmpInfo.template_id == "datagrid") {
+            //     //多筆
+            //     temp_page = 'dataGridSetUp';
+            // }else{
+            //     //特殊版型
+            //     temp_page = 'specialSetUp';
+            // }
             res.redirect("/" + temp_page + "/" + prg_id);
         } else {
             res.end("<h1>Invaild program ID</h1>")
