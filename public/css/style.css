@@ -99,7 +99,7 @@
   height: 360px;
 }
 
-/* line 74, ../sass/vendor/_grid.sass */
+/* line 122, ../sass/vendor/_grid.sass */
 .css_table {
   display: table;
   border-collapse: collapse;
@@ -131,22 +131,29 @@
   padding-top: 5px;
 }
 /* line 93, ../sass/vendor/_grid.sass */
+.css_table .css_th.colspan, .css_table .css_td.colspan {
+  display: none;
+  /* collapse border */
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+/* line 98, ../sass/vendor/_grid.sass */
 .css_table .css_th {
   font-weight: bold;
 }
-/* line 95, ../sass/vendor/_grid.sass */
+/* line 100, ../sass/vendor/_grid.sass */
 .css_table.top_none {
   border-top: 0;
 }
-/* line 97, ../sass/vendor/_grid.sass */
+/* line 102, ../sass/vendor/_grid.sass */
 .css_table .td-disable {
   background: #d6d6d6;
 }
-/* line 99, ../sass/vendor/_grid.sass */
+/* line 104, ../sass/vendor/_grid.sass */
 .css_table .css_td {
   position: relative;
 }
-/* line 101, ../sass/vendor/_grid.sass */
+/* line 106, ../sass/vendor/_grid.sass */
 .css_table .css_td .moreClick {
   position: absolute;
   right: 0;
@@ -159,9 +166,89 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-/* line 115, ../sass/vendor/_grid.sass */
+/* line 120, ../sass/vendor/_grid.sass */
 .css_table .icon-addDel i {
   margin-top: 5px;
+}
+
+/* line 125, ../sass/vendor/_grid.sass */
+.horizTable-outer {
+  overflow: auto;
+}
+/* line 127, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table {
+  display: table;
+  border-collapse: collapse;
+  width: auto;
+  border: 1px solid #cccccc;
+}
+/* line 79, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_thead {
+  display: table-header-group;
+}
+/* line 81, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_tbody {
+  display: table-row-group;
+}
+/* line 83, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_tr {
+  display: table-row;
+  vertical-align: middle;
+}
+/* line 86, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th, .horizTable-outer .css_table .css_td {
+  display: table-cell;
+  border: 1px solid #cccccc;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+/* line 91, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th.padding-top, .horizTable-outer .css_table .css_td.padding-top {
+  padding-top: 5px;
+}
+/* line 93, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th.colspan, .horizTable-outer .css_table .css_td.colspan {
+  display: none;
+  /* collapse border */
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+/* line 98, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th {
+  font-weight: bold;
+}
+/* line 100, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.top_none {
+  border-top: 0;
+}
+/* line 102, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .td-disable {
+  background: #d6d6d6;
+}
+/* line 104, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_td {
+  position: relative;
+}
+/* line 106, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_td .moreClick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 25px -4;
+  border: 1px solid #888;
+  background: #d5d5d5;
+  border-radius: 5px;
+  padding: 0 5px 0 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+/* line 120, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .icon-addDel i {
+  margin-top: 5px;
+}
+/* line 129, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.horizTable {
+  table-layout: fixed;
 }
 
 /* line 2, ../sass/_right-menu.sass */
