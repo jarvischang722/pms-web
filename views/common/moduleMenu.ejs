@@ -6,6 +6,7 @@
         </a>
     </li>
     <% session.user.subsysMenu.forEach(function(subsys){ %>
+
     <% if(subsys.subsys_id == current_subsys_id) { %>
     <% subsys.mdlMenu.forEach(function(mdlItem){ %>
     <li class="nav-height">
@@ -14,15 +15,12 @@
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
                     <!-- 模組名稱 -->
-                <%= mdlItem["mdl_name_" + session.locale] %>
+                <%= mdlItem["mdl_name_" + session.locale] != undefined ?  mdlItem["mdl_name_" + session.locale] : mdlItem.mdl_name %>
             </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
-
         <ul class="submenu">
-            <!-- 飯店前台參數設定 -->
-
             <% mdlItem.processMenu.forEach(function(proItem){ %>
                 <% if(proItem.flag2_sta == "Y"){ %>
                 <li>
@@ -59,10 +57,10 @@
     </div>
 </ul>
 
-<!--<script>-->
-<!--function toFirstSubSyst() {-->
-<!--var firstSubSyst_url = getCookie("subsystem_first_url");-->
-<!--location.href = firstSubSyst_url;-->
-<!--location.reload();-->
-<!--}-->
-<!--</script>-->
+<script>
+function toFirstSubSyst() {
+var firstSubSyst_url = getCookie("subsystem_first_url");
+location.href = firstSubSyst_url;
+location.reload();
+}
+</script>

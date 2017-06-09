@@ -21,7 +21,7 @@ exports.front_desk_conf = function (req, res) {
  */
 exports.setupLayout = function (req, res) {
     var mdl_id = req.params.mdl_id; //模組ID
-    res.render('subsystem/setup/setupLayout', {mdl_id: mdl_id});
+    res.render('subsystem/setup/setupLayout', {mdl_id: mdl_id, current_subsys_id:req.cookies["using_subsys_id"]});
 };
 
 
