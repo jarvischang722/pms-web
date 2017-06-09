@@ -10,16 +10,29 @@ var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/roleFuncService");
 
-
-//依房型訂房
+/**
+ * 依房型訂房(靜態)
+ */
 exports.getReservationRoomType = function (req, res) {
     res.render("subsystem/reservation/reservationRoomType");
 };
-//setUp 房價設定
+/**
+ * setUp 房價設定(靜態)
+ */
 exports.getSetRateCode = function (req, res) {
     res.render("subsystem/reservation//setRateCode");
 };
-//交通接駁設定
+
+/**
+ * 交通接駁設定(靜態)
+ */
 exports.getTrafficConnection = function (req, res) {
     res.render("subsystem/reservation/trafficConnection");
+};
+
+/**
+ * 鎖控設定(靜態)
+ */
+exports.getResv_blockSetting = function (req, res) {
+    res.render("subsystem/reservation/resv_blockSetting");
 };
