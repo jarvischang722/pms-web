@@ -517,18 +517,25 @@ a {
   height: 25px;
 }
 /* line 225, ../sass/modules/_public.sass */
+/* line 223, ../sass/modules/_public.sass */
+.input-medium.resvCard-col3 {
+  width: 719px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 225, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Spec1 {
   width: 250px;
   max-width: 100%;
   height: 25px;
 }
-/* line 227, ../sass/modules/_public.sass */
+/* line 225, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Remark {
   width: 283px;
   max-width: 100%;
   height: 25px;
 }
-/* line 229, ../sass/modules/_public.sass */
+/* line 227, ../sass/modules/_public.sass */
 .input-medium.resvCard-fullRemark {
   width: 698px;
   max-width: 100%;
@@ -685,7 +692,7 @@ input[type="date"] {
   padding-left: 10px;
 }
 
-/* line 334, ../sass/modules/_public.sass */
+/* line 330, ../sass/modules/_public.sass */
 .remarkInput {
   width: 85%;
   margin-left: 5px;

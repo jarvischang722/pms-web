@@ -99,7 +99,7 @@
   height: 360px;
 }
 
-/* line 118, ../sass/vendor/_grid.sass */
+/* line 74, ../sass/vendor/_grid.sass */
 .css_table {
   display: table;
   border-collapse: collapse;
@@ -134,11 +134,11 @@
 .css_table .css_th {
   background: #eee;
 }
-/* line 96, ../sass/vendor/_grid.sass */
+/* line 95, ../sass/vendor/_grid.sass */
 .css_table.top_none {
   border-top: 0;
 }
-/* line 98, ../sass/vendor/_grid.sass */
+/* line 97, ../sass/vendor/_grid.sass */
 .css_table .td-disable {
   background: #d6d6d6;
 }
@@ -3263,6 +3263,13 @@ a {
   height: 25px;
 }
 /* line 225, ../sass/modules/_public.sass */
+/* line 223, ../sass/modules/_public.sass */
+.input-medium.resvCard-col3 {
+  width: 719px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 225, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Spec1 {
   width: 250px;
   max-width: 100%;
@@ -3274,7 +3281,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-/* line 229, ../sass/modules/_public.sass */
+/* line 227, ../sass/modules/_public.sass */
 .input-medium.resvCard-fullRemark {
   width: 698px;
   max-width: 100%;
