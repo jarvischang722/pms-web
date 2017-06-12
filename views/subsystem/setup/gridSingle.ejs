@@ -1,10 +1,5 @@
 <link rel="stylesheet" href="/css/setup/gridSingle.css">
-<script>
-    $(document).ready(function () {
-        $.ajaxSetup({cache: false});
-    });
-</script>
-<div id="app">
+<div id="GSApp">
     <div class="col-xs-12">
         <div class="row">
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -17,23 +12,10 @@
                 <div class="row no-margin-right">
                     <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
                         <div style="float:left; min-width: 30px; max-width: 3%;">
-                            <table id="dgCheckbox">
-                                <thead>
-                                <tr>
-                                    <!--<th data-options="checkbox:true,field:'ck'"></th>-->
-                                    <!-- data grid content-->
-                                </tr>
-                                </thead>
-                            </table>
+                            <table id="dgCheckbox"></table>
                         </div>
                         <div>
-                            <table id="dg" 　>
-                                <thead>
-                                <tr>
-                                    <!-- data grid content-->
-                                </tr>
-                                </thead>
-                            </table>
+                            <table id="dg"></table>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -81,8 +63,9 @@
             :delete-status="deleteStatus"
             :editing-row="editingRow"
             :page-one-data-grid-rows="pageOneDataGridRows"
-            :tmp-cud="tmpCUD"
-            :modificable-for-data="modificableForData">
+            :tmp-cud="tmpCud"
+            :modificable-for-data="modificableForData"
+    :dialog-visible="dialogVisible">
     </sigle-grid-dialog-tmp>
 
     <field-multi-lang-dialog-tmp
@@ -91,8 +74,6 @@
     </field-multi-lang-dialog-tmp>
 
     <multi-lang-dialog-tmp
-            @update-multi-lang-dg="updateMultiLangDG"
-            @temp-exec-data="tempExecData"
             :sys_locales="sys_locales"
             :dt-multi-lang-field="dtMultiLangField">
     </multi-lang-dialog-tmp>
@@ -103,4 +84,4 @@
 <%- include vueTemplate/fieldmultiLangDialogTmp.ejs %>
 <%- include vueTemplate/multiLangDialogTmp.ejs %>
 <script src="/js/setup/gridSingle.js"></script>
-<script src="/js/vue/vue_datepicker.js"></script>
+

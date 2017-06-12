@@ -128,7 +128,8 @@ app.use(function (req, res, next) {
     };
     var localeInfo = [
         {lang: 'en', sort: 1, name: 'English'},
-        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')}
+        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
+        {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
     ];
     res.cookie('sys_locales', localeInfo, options);
     next();

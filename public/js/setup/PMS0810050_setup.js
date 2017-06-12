@@ -1,10 +1,11 @@
 /**
  * Created by Jun on 2017/5/23.
  */
+waitingDialog.hide();
 var gs_prg_id = gs_prg_id;
 var vueMain = new Vue({
-    el: '#app',
-    ready: function () {
+    el: '#app-PMS0810050',
+    mounted: function () {
         waitingDialog.hide();
         this.fetchDgFieldData();
     },
@@ -12,14 +13,13 @@ var vueMain = new Vue({
         gs_active: "pickup",    //正在使用 pickup 接機 | dropoff 送機
         prgFieldDataAttr: [],   //這隻程式的欄位屬性
         multiLangField: [],   //多語系欄位
-        editIndex: undefined,
         tmpCUD: {},
         saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         dgInsPickUp: {}, //接機的dg
         dgInsDropOff: {},  //送機的dg
         dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsDropOff 取得
-        trafficData: {}, //交通接駁資料
+        trafficData: {} //交通接駁資料
     },
     watch: {
         gs_active: function (active) {
@@ -63,7 +63,7 @@ var vueMain = new Vue({
                     field.formatter = function (val, row, index) {
                         var checked = val == 'Y' ? "checked" : "";
                         return "<input type='checkbox' " + checked + ">";
-                    }
+                    };
                 }
             });
             var pickupField = _.where(columns, {"grid_field_name": 'hfd_arrive_rf'});
@@ -71,7 +71,7 @@ var vueMain = new Vue({
 
             //接機
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_off_dg', pickupField);
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', pickupField);
 
             //送機
             this.dgInsDropOff = new DatagridBaseClass();
@@ -87,7 +87,7 @@ var vueMain = new Vue({
         },
         //刪除選定的Row
         doRemoveRow: function removeRow() {
-            this.dgIns.removeRow()
+            this.dgIns.removeRow();
         },
         //儲存
         doSave: function () {
@@ -106,7 +106,7 @@ var vueMain = new Vue({
                 vueMain.saving = true;
                 waitingDialog.show('Saving...');
                 // console.log("===== 儲存資料 =====");
-                //  console.log(params);
+                // console.log(params);
                 axios.post('/api/execSQLProcess', params)
                     .then(function (response) {
                         vueMain.saving = false;
@@ -137,9 +137,9 @@ $(function () {
         border: true,
         onSelect: function (title, index) {
             if (index == 0) {
-                vueMain.gs_active = 'pickup'
+                vueMain.gs_active = 'pickup';
             } else {
-                vueMain.gs_active = 'dropoff'
+                vueMain.gs_active = 'dropoff';
             }
         }
     });

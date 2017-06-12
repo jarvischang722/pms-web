@@ -9,7 +9,7 @@ var async = require("async");
 var roleFuncSvc = require("../services/roleFuncService");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require('i18n');
-
+var langSvc = require("../services/langService");
 
 /**
  * 登入頁面
@@ -19,10 +19,10 @@ exports.loginPage = function (req, res, next) {
         if (!_.isUndefined(req.session.user.sys_id)) {
             res.redirect("/");
             return;
-        } else {
+        } 
             res.redirect("/systemOption");
-            return
-        }
+            return;
+        
     }
 
     res.render("user/loginPage");
@@ -67,8 +67,8 @@ exports.authLogin = function (req, res) {
 
         }
 
-        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo})
-    })
+        res.json({success: !_.isNull(userInfo), errorCode: errorCode, errorMsg: "", user: userInfo});
+    });
 
 };
 
@@ -95,17 +95,20 @@ exports.selectSystem = function (req, res) {
             };
             queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
                 var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
-
                 req.session.user.sys_id = sysObj.sys_id;
-                req.session.user.sys_name_en = sysObj["sys_name_en"];
-                req.session.user.sys_name_zh_tw = sysObj["sys_name_zh_tw"];
-                roleFuncSvc.updateUserPurview(req, function (err) {
-                    var subsystem_first_url = '/setup/PMS0810000';
-                    res.cookie('subsystem_first_url', subsystem_first_url);
-                    res.redirect(subsystem_first_url);  //TODO 導到可選第一個子系統
+                langSvc.handleMultiLangContentByField("lang_s99_system",'sys_name','',function(err,sysLang){
+                    sysLang = _.where(sysLang,{sys_id:req.session.user.sys_id });
+                     _.each(sysLang, function(sys){
+                         req.session.user["sys_name_"+sys.locale] = sys.words;
+                     });
+                    roleFuncSvc.updateUserPurview(req, function (err) {
+                        var subsystem_first_url = getSysFirsrUrl(req.session.user.subsysMenu);
+                        res.cookie('subsystem_first_url', subsystem_first_url);
+                        res.cookie('current_subsys_id', req.session.user.subsysMenu.length>0? req.session.user.subsysMenu[0].subsys_id : "") ;
+                        res.redirect("/");
+                    });
                 });
-
-            })
+            });
         } else {
             res.send("Not found system!");
         }
@@ -138,7 +141,7 @@ exports.getSubsysQuickMenu = function (req, res) {
         subsys_id: req.body["subsys_id"]
     };
     roleFuncSvc.querySubsysQuickMenu(params, function (err, quickMenu) {
-        res.json({success: _.isNull(err), errorMsg: err, quickMenu: quickMenu})
+        res.json({success: _.isNull(err), errorMsg: err, quickMenu: quickMenu});
     });
 };
 
@@ -148,21 +151,44 @@ exports.getSubsysQuickMenu = function (req, res) {
 exports.getUserInfo = function (req, res) {
     res.json({success: !_.isUndefined(req.session.user), errorMsg: 'not login!', userInfo: req.session.user});
 };
-
-//新增 角色權限
+/**
+ * 新增 角色權限(靜態)
+ */
 exports.getAuthorityRole = function (req, res) {
     res.render("user/authorityRole");
 };
-//新增 人員權限
+/**
+ * 新增 人員權限(靜態)
+ */
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
-// /** 訂房確認書 email **/
-// exports.getReservationCheckMail = function (req, res) {
-//     res.render("user/reservationCheckMail");
-// };
-// //假日日期設定
-// exports.getHolidayDateSet = function (req, res) {
-//     res.render("user/holidayDateSet");
-// };
+/**
+ * 新增 功能權限(靜態)
+ */
+exports.getAuthorityFeature = function (req, res) {
+    res.render("user/authorityFeature");
+};
 
+
+
+
+/**
+ * 取得系統第一個作業url
+ * @param subsysMenu
+ * @return {string}
+ */
+function getSysFirsrUrl(subsysMenu){
+    var ls_subsystemFirstUrl = "";
+    if(subsysMenu.length > 0 && subsysMenu[0].mdlMenu.length > 0){
+        if(!_.isNull(subsysMenu[0].mdlMenu[0].mdl_url)){
+            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].mdl_url;
+        }else{
+            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].processMenu[0].pro_url;
+        }
+    }
+    if(_.isNull(ls_subsystemFirstUrl)){
+        ls_subsystemFirstUrl = "";
+    }
+    return ls_subsystemFirstUrl;
+}

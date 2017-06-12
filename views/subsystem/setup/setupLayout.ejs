@@ -10,11 +10,11 @@
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../../common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:'PMS0800000',pro_id:mdl_id}) %>
+        <%- include('../../common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:current_subsys_id,pro_id:mdl_id}) %>
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0800000',pro_id:mdl_id}) %>
+            <%- include('../../common/subsysMenu',{current_subsys_id:current_subsys_id,pro_id:mdl_id}) %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
                 <div class="controlReservation">
@@ -114,7 +114,7 @@
             userInfo:<%- JSON.stringify(session.user || {}) %>,
             prosList: []
         },
-        ready: function () {
+        mounted: function () {
             //偵測離開頁面
             $(window).on('beforeunload', function () {
                 if (!_.isEmpty(vmMain.usingPrgID)) {
@@ -160,7 +160,7 @@
                         }
                     }
                 }
-//               this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
+               this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
                 waitingDialog.show(go_i18nLang.SystemCommon.Loading);
                 $("#prgContentDiv").empty();
                 this.isTableLocked = false;

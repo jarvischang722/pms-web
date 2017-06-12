@@ -10,6 +10,7 @@ var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/roleFuncService");
 var dbSvc = require("../services/dbTableService");
+var langSvc = require("../services/langService");
 /**
  * 首頁
  */
@@ -33,10 +34,26 @@ exports.systemOption = function (req, res) {
         fun_comp_cod: req.session.user.cmp_id.trim(),
         fun_hotel_cod: req.session.user.fun_hotel_cod
     };
-
+    var la_locales = _.pluck(req.cookies.sys_locales, "lang");
     queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
-        res.render('system/systemOption', {sysList: sysRows});
-    })
+        langSvc.handleMultiLangContentByField("lang_s99_system", 'sys_name', '', function (err, sysLang) {
+            _.each(sysRows, function (sys, sIdx) {
+                var allLangForSys = _.where(sysLang, {sys_id: sys.sys_id});
+                _.each(la_locales, function (locale) {
+                    var sys_name = "";
+                    var tmp = _.findWhere(allLangForSys, {locale: locale});
+                    if (!_.isUndefined(tmp)) {
+                        sys_name = tmp.words;
+                    }
+                    sysRows[sIdx]["sys_name_" + locale] = sys_name;
+                });
+
+            });
+
+            res.render('system/systemOption', {sysList: sysRows});
+        });
+
+    });
 
 };
 
@@ -56,7 +73,7 @@ exports.changeHotelCod = function (req, res) {
     req.session.user["athena_id"] = hotelInfo.athena_id;
     roleFuncSvc.updateUserPurview(req, function (err) {
         res.json({success: err == null, errorMsg: err});
-    })
+    });
 
 };
 
@@ -125,6 +142,12 @@ exports.customize_setup = function (req, res) {
     res.render('subsystem/customize_setup');
 };
 
+/**
+ * 共用
+ */
+exports.commom = function (req, res) {
+    res.render('subsystem/commom/index');
+};
 
 /**
  * 取得設定模組裡所有的設定名稱
@@ -134,7 +157,7 @@ exports.getGroupMdlPros = function (req, res) {
     var la_locales = req.cookies.sys_locales || [];
     roleSvc.handleGroupMdlProcess(req.session.user, mdl_id, la_locales, function (err, ProsList) {
         res.json({success: _.isNull(err), errorMsg: err, prosList: ProsList});
-    })
+    });
 };
 
 /**
@@ -142,6 +165,6 @@ exports.getGroupMdlPros = function (req, res) {
  */
 exports.execSQLProcess = function (req, res) {
     dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
-        res.json({success: success, errorMsg: err });
-    })
+        res.json({success: success, errorMsg: err});
+    });
 };

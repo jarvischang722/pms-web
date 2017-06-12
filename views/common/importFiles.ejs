@@ -14,7 +14,9 @@
 <link rel="stylesheet" type="text/css" href="/css/spectrum/docs/docs.css">
 <!-- 全頁日曆 -->
 <link rel="stylesheet" type="text/css" href="/css/bs-calendar/bootstrap-year-calendar.css">
-<link rel="stylesheet" type="text/css" href="/css/bs-calendar/bootstrap-datepicker.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap-datepicker.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap-timepicker.min.css">
 
 <link rel="stylesheet" href="/css/remodal.css">
 <link rel="stylesheet" href="/css/remodal-default-theme.css">
@@ -31,10 +33,11 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/bacchusStyle.css">
 
+<!-- Element CSS for Vue.js  -->
+<link rel="stylesheet" href="/css/element_ui/element.css">
+
 
 <!-- JS Block -->
-
-
 <script src="/js/jquery/jquery.js"></script>
 <script src="/js/jquery/jquery-ui.js"></script>
 
@@ -65,13 +68,18 @@
 
 <!-- vue 套件 -->
 <script src="/js/vue/vue.min.js"></script>
-<!--<script src="/js/vue/vue-validator.min.js"></script>-->
-<script src="/js/vue/vee-validate-1.0.js"></script>
-
-
-<!--  自動編排 div 套件 -->
-<script type="text/javascript" src="/js/masonry.pkgd.js"></script>
-
+<script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+<!-- Element JS for Vue.js  -->
+<script src="/js/element_ui/element.js"></script>
+<script src="/js/element_ui/locales/en.js"></script>
+<script src="/js/element_ui/locales/zh_CN.js"></script>
+<script src="/js/element_ui/locales/zh_TW.js"></script>
+<script src="/js/element_ui/locales/ja.js"></script>
+<script src="/js/element_ui/locales/ko.js"></script>
+<script>
+     var ls_locale = '<%=session.locale%>';
+    ELEMENT.locale(ELEMENT.lang[ls_locale.replace("_","")])
+</script>
 <!-- 驗證easyUI 欄位自訂義規則 -->
 <script  type="text/javascript" src="/js/easyUI/extendValidation.js" ></script>
 
@@ -98,9 +106,13 @@
 <script src="/js/spectrum/docs/docs.js"></script>
 <script src="/js/spectrum/docs/prettify.js"></script>
 
+<!-- Boostrap date 套件 -->
+<script src="/js/bootstrap/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap/bootstrap-datetimepicker.min.js"></script>
+<script src="/js/bootstrap/bootstrap-timepicker.min.js"></script>
 <!-- 全頁日曆 -->
-<script src="/js/bs-calendar/bootstrap-datepicker.js"></script>
 <script src="/js/bs-calendar/bootstrap-year-calendar.min.js"></script>
+
 <!-- 警式視窗彈出 -->
 <script src="/js/gritter/jquery.gritter.min.js"></script>
 <!--fixTable-->
@@ -115,3 +127,18 @@
 
 <!-- axios ajax Lib -->
 <script src="/js/axios/axios.min.js"></script>
+
+<!-- easyui diolg 預設z-index 9000  會影響到element ui -->
+<style>
+     .panel.window {
+          z-index: 1500 !important;
+     }
+
+     .window-shadow {
+          z-index: 1499 !important;
+     }
+
+     .window-mask {
+          z-index: 1498 !important;
+     }
+</style>

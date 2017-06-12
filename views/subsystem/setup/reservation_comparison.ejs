@@ -158,7 +158,7 @@
             tableLockMsg: "",// 上鎖訊息
             userInfo:<%- JSON.stringify(session.user || {}) %>
         },
-        ready: function () {
+        mounted: function () {
             //偵測離開頁面
             $(window).on('beforeunload', function () {
                 if (!_.isEmpty(vmMain.usingPrgID)) {

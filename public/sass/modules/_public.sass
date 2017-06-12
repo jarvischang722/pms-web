@@ -19,6 +19,8 @@
   margin-top: 87px
 .margin-5
   margin: 5px
+.marginLeft-5
+  margin-left: 5px
 .height87
   height: 87px
 //border: none
@@ -46,6 +48,9 @@
   color: $blue
   font-weight: bold
 
+.border-double1
+  border-bottom: 3px double #b09e9b
+  margin: auto auto 5px auto
 .lineHeight14
   line-height: 14px
 .lineHeight18
@@ -112,6 +117,11 @@ a
   color: $grey !important
 .light-grey
   color: $light-grey !important
+.orangeBlock1
+  background-color: #FAD7B6
+  padding: 2px
+  width: 65px
+  text-align: center
 
 // btn
 .btn-sm-font
@@ -144,7 +154,7 @@ a
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
-$medium-c3-col2: 260px
+$medium-c3-col2: 255px
 $medium-c3-card: 212px
 .input-medium
   &.medium-c1
@@ -158,7 +168,7 @@ $medium-c3-card: 212px
     @media screen and (min-width: 768px) and (max-width: 1030px)
       +input-s1(134px)
   &.medium-c3-sm
-    +input-s1(105px)
+    +input-s1(104px)
   &.medium-c3
     +input-s1(134px)
   &.medium-c3-col2
@@ -170,11 +180,11 @@ $medium-c3-card: 212px
     // PMS0620040 || PMS0620050
     +input-s1(304px)
   &.medium-c3-col3
-    +input-s1(497px)
+    +input-s1(492px)
   &.medium-c3-col4
     +input-s1(634px)
   &.medium-c3-col1-5
-    +input-s1(200px)
+    +input-s1(372px)
   &.medium-c3-card
     +input-s1($medium-c3-card)
   &.medium-c3-card-2
@@ -201,11 +211,33 @@ $medium-c3-card: 212px
   &.rateCode-s4
     +input-s1(695px)
   &.popWindow-s1
-    +input-s1(150px)
+    +input-s1(155px)
   &.popWindow-s1-col2
-    +input-s1(409px)
+    +input-s1(414px)
+  &.resvCard
+    +input-s1(103px)
+  &.resvCard-date
+    +input-s1(135px)
+  &.resvCardRemark
+    +input-s1(77px)
+  &.resvCard-col2
+    +input-s1(308px)
+  &.resvCard-col3
+    +input-s1(719px)
+  &.resvCard-col2Spec1
+    +input-s1(250px)
+  &.resvCard-col2Remark
+    +input-s1(283px)
+  &.resvCard-fullRemark
+    +input-s1(698px)
+  &.resvCard-col3-fullRemark
+    +input-s1(490px)
+  &.checkMail
+    +input-s1(530px)
 .input-hMedium
   height: $inputHeight-medium !important
+.input-hCol2
+  height: ($inputHeight-medium*2)+5 !important
 .input-spc-1
   +input-s1
   @media screen and (min-width: 768px) and (max-width: 1030px)
@@ -278,6 +310,11 @@ input[type="date"]
   background-color: rgba(67,142,185,1)
 
 .popCheckbox
+  &.resvCk-1
+    width: 106px
+    .checkbox
+      label
+        padding-left: 14px
   .checkbox
     margin: 1px auto 0 auto
     .ace
@@ -299,3 +336,5 @@ input[type="date"]
 .remarkInput
   width: 85%
   margin-left: 5px
+.border-raduis-5
+  border-radius: 5px

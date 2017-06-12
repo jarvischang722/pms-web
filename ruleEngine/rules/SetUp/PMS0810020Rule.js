@@ -64,7 +64,7 @@ module.exports = {
             }
 
             callback(error, result);
-        })
+        });
 
     },
     /**
@@ -82,6 +82,7 @@ module.exports = {
         var end_dat = singleRowData.end_dat || "";
         var result = new ReturnClass();
         var error = null;
+        return  callback(error, result);  //TODO 暫時先不判斷
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
             queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id}, function (err, data) {
 
@@ -95,26 +96,31 @@ module.exports = {
                             error = new ErrorClass();
                         }
                         result.success = false;
-                        result.showAlert = true;
-                        result.alertMsg = "結束日期不可以早於開始日期";
                         error.errorMsg = "結束日期不可以早於開始日期";
                         error.errorCod = "1111";
                     }
-                    //2,3)
-                    if (begin_dat.diff(belong_dat, "days") < 0 || end_dat.diff(belong_dat, "days") < 0) {
+                    //2)
+                    if (begin_dat.diff(belong_dat, "days") < 0 ) {
                         if (!error) {
                             error = new ErrorClass();
                         }
                         result.success = false;
-                        result.showAlert = true;
-                        result.alertMsg = "此房型的開始日或結束日小於滾房租日";
-                        error.errorMsg = "此房型的開始日或結束日小於滾房租日";
+                        error.errorMsg = "房型的開始日小於滾房租日";
+                        error.errorCod = "1111";
+                    }
+                    //3)
+                    if (end_dat.diff(belong_dat, "days") < 0) {
+                        if (!error) {
+                            error = new ErrorClass();
+                        }
+                        result.success = false;
+                        error.errorMsg = "房型的結束日小於滾房租日";
                         error.errorCod = "1111";
                     }
                 }
 
                 callback(error, result);
-            })
+            });
 
         } else {
             callback(error, result);
@@ -141,7 +147,7 @@ module.exports = {
             }
 
             callback(error, result);
-        })
+        });
 
     },
     /**
@@ -183,11 +189,11 @@ module.exports = {
                             }
 
                             callback(delError, delResult);
-                        })
+                        });
 
 
                     }
-                )
+                );
             });
         } catch (err) {
             delResult.success = false;
@@ -196,7 +202,7 @@ module.exports = {
         } finally {
             async.parallel(delFuncs, function (err, result) {
                 callback(delError, delResult);
-            })
+            });
         }
 
 
@@ -240,7 +246,7 @@ module.exports = {
                                                     thisRuleErr = "相同房型的開始結束日期不可重疊";
                                                 }
                                                 callback(thisRuleErr, []);
-                                            })
+                                            });
                                         },
                                         function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
@@ -265,8 +271,8 @@ module.exports = {
                                             queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", c_data, function (err, data) {
                                                 if (!err && data) {
                                                     var tmpObj = {
-                                                        table_name: 'room_cod_order',
-                                                    }
+                                                        table_name: 'room_cod_order'
+                                                    };
                                                     if (Number(data.room_count) > 0) {
                                                         //更新room_cod_order
                                                         tmpObj["function"] = "2";
@@ -278,7 +284,7 @@ module.exports = {
                                                             key: 'room_cod',
                                                             operation: "=",
                                                             value: c_data.room_cod
-                                                        }]
+                                                        }];
 
                                                     } else {
                                                         //新增room_cod_order
@@ -290,23 +296,23 @@ module.exports = {
                                                 }
 
                                                 callback(err, tmpExtendExecDataArrSet);
-                                            })
+                                            });
                                         }
                                     ], function (errMsg, result) {
                                         if (errMsg) {
                                             callback(errMsg, []);
                                             return;
                                         }
-                                        callback(null, tmpExtendExecDataArrSet)
-                                    })
+                                        callback(null, tmpExtendExecDataArrSet);
+                                    });
 
                                 }
-                            )
+                            );
                         });
 
                         async.parallel(createSubFunc, function (err, result) {
                             callback(err, 'create');
-                        })
+                        });
 
                     } else {
                         callback(null, 'create');
@@ -353,8 +359,8 @@ module.exports = {
                                             queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", e_data, function (err, data) {
                                                 if (!err && data) {
                                                     var tmpObj = {
-                                                        table_name: 'room_cod_order',
-                                                    }
+                                                        table_name: 'room_cod_order'
+                                                    };
                                                     if (Number(data.room_count) > 0) {
                                                         //更新room_cod_order
                                                         tmpObj["function"] = "2";
@@ -366,7 +372,7 @@ module.exports = {
                                                             key: 'room_cod',
                                                             operation: "=",
                                                             value: e_data.room_cod
-                                                        }]
+                                                        }];
 
                                                     } else {
                                                         //新增room_cod_order
@@ -377,23 +383,23 @@ module.exports = {
                                                     tmpExtendExecDataArrSet.push(tmpObj);
                                                 }
                                                 callback(null, tmpExtendExecDataArrSet);
-                                            })
+                                            });
                                         }
                                     ], function (errMsg, result) {
                                         if (errMsg) {
                                             callback(errMsg, []);
                                             return;
                                         }
-                                        callback(null, tmpExtendExecDataArrSet)
-                                    })
+                                        callback(null, tmpExtendExecDataArrSet);
+                                    });
 
                                 }
-                            )
+                            );
                         });
 
                         async.parallel(editSubFunc, function (err, result) {
                             callback(err, 'create');
-                        })
+                        });
 
                     } else {
                         callback(null, 'edit');
@@ -429,8 +435,8 @@ module.exports = {
 
                             async.parallel(deleteSubFunc, function (err, result) {
                                 callback(err, tmpExtendExecDataArrSet);
-                            })
-                        })
+                            });
+                        });
 
                     } else {
                         callback(null, 'delete');
@@ -447,7 +453,7 @@ module.exports = {
                 saveResult.extendExecDataArrSet = tmpExtendExecDataArrSet;
 
                 callback(saveError, saveResult);
-            })
+            });
         } catch (err) {
             saveError = new ErrorClass();
             saveError.errorMsg = err;
@@ -482,7 +488,7 @@ module.exports = {
                             thisRuleErr = "相同房型的開始結束日期不可重疊";
                         }
                         callback(thisRuleErr, chkResult);
-                    })
+                    });
                 },
                 function (result, callback) {
                     chkResult.extendExecDataArrSet.push({
@@ -508,7 +514,7 @@ module.exports = {
                         if (!err && data) {
                             var tmpObj = {
                                 table_name: 'room_cod_order'
-                            }
+                            };
                             if (Number(data.room_count) > 0) {
                                 //更新room_cod_order
                                 tmpObj["function"] = "2";
@@ -520,7 +526,7 @@ module.exports = {
                                     key: 'room_cod',
                                     operation: "=",
                                     value: params.room_cod
-                                }]
+                                }];
 
                             } else {
                                 //新增room_cod_order
@@ -532,7 +538,7 @@ module.exports = {
                         }
 
                         callback(err, chkResult.extendExecDataArrSet);
-                    })
+                    });
                 }
             ], function (err, result) {
                 if (err) {
@@ -541,7 +547,7 @@ module.exports = {
                     chkError.errorCod = "1111";
                 }
                 callback(chkError, chkResult);
-            })
+            });
         } catch (err) {
             chkError = new ErrorClass();
             chkError.errorMsg = err;
@@ -629,7 +635,7 @@ module.exports = {
                     result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的名稱與其他期間設定不同，是否確定修改?』";
                 }
                 callback(error, result);
-            })
+            });
         } else {
             callback(error, result);
         }
@@ -660,7 +666,7 @@ module.exports = {
                     result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的簡稱與其他期間設定不同，是否確定修改?』";
                 }
                 callback(error, result);
-            })
+            });
         } else {
             callback(error, result);
         }
@@ -680,4 +686,4 @@ module.exports = {
         }
         callback(error, result);
     }
-}
+};

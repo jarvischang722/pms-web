@@ -1,7 +1,6 @@
 /**
  * Created by Jun on 2017/3/7.
  */
-var _ = require("underscore");
 var ruleSVC = require("../services/dataRuleService");
 var commonTools = require("../utils/commonTools");
 
@@ -20,7 +19,7 @@ exports.chkFieldRule = function (req, res) {
 
         res.json(commonTools.mergeRtnErrResultJson(err, result));
 
-    })
+    });
 
 };
 
@@ -30,7 +29,7 @@ exports.chkFieldRule = function (req, res) {
 exports.addFuncRule = function (req, res) {
     ruleSVC.handleAddFuncRule(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
-    })
+    });
 };
 
 
@@ -40,7 +39,7 @@ exports.addFuncRule = function (req, res) {
 exports.editFuncRule = function (req, res) {
     ruleSVC.handleEditFuncRule(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
-    })
+    });
 };
 
 /**
@@ -49,6 +48,6 @@ exports.editFuncRule = function (req, res) {
 exports.deleteFuncRule = function (req, res) {
     ruleSVC.handleDeleteFuncRule(req.body, req.session, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
-    })
+    });
 };
 
