@@ -26,7 +26,7 @@ var EZfieldClass = {
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number") {
+        } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
             dataType = 'numberbox';
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
@@ -154,6 +154,22 @@ var EZfieldClass = {
                     if (oldValue == "") return false;
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
+            }
+        }else if(dataType == "numberbox"){
+            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
+
+            if(fieldAttrObj.ui_type == "percent"){
+                tmpFieldObj.formatter = function (val, row, index) {
+                    var fieldName = (parseFloat(val) *100) + "%";
+                    return fieldName;
+                }
+            }
+        }else if( dataType == "timespinner"){
+            tmpFieldObj.formatter = function (val, row, index) {
+                var hour = val.substring(0,2);
+                var min = val.substring(2,4);
+                var fieldName = hour + ":" + min;
+                return fieldName;
             }
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
