@@ -17,12 +17,15 @@ module.exports = function(app  ) {
     app.get('/reservationCheckMail', setupCrtl.getReservationCheckMail);
 
     /** 假日日期設定 **/
-    app.get('/holidayDateSet', setupCrtl.getHolidayDateSet);
+    // app.get('/holidayDateSet', setupCrtl.getHolidayDateSet);
 
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
     /** 交通接駁設定資料 **/
     app.post('/api/getTrafficData',setupCrtl.getTrafficData);
+
+    // 取得假日日期設定資料
+    app.post("/api/getHolidayDateSet", setupCrtl.getHolidayDateSet);
 
 };
