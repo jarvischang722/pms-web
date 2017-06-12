@@ -104,7 +104,7 @@
   display: table;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #cccccc;
+  border: 1px solid #95B8E7;
 }
 /* line 79, ../sass/vendor/_grid.sass */
 .css_table .css_thead {
@@ -132,7 +132,7 @@
 }
 /* line 93, ../sass/vendor/_grid.sass */
 .css_table .css_th {
-  font-weight: bold;
+  background: #eee;
 }
 /* line 95, ../sass/vendor/_grid.sass */
 .css_table.top_none {
@@ -142,11 +142,11 @@
 .css_table .td-disable {
   background: #d6d6d6;
 }
-/* line 99, ../sass/vendor/_grid.sass */
+/* line 100, ../sass/vendor/_grid.sass */
 .css_table .css_td {
   position: relative;
 }
-/* line 101, ../sass/vendor/_grid.sass */
+/* line 102, ../sass/vendor/_grid.sass */
 .css_table .css_td .moreClick {
   position: absolute;
   right: 0;
@@ -159,9 +159,90 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-/* line 115, ../sass/vendor/_grid.sass */
+/* line 116, ../sass/vendor/_grid.sass */
 .css_table .icon-addDel i {
   margin-top: 5px;
+}
+
+/* line 121, ../sass/vendor/_grid.sass */
+.horizTable-outer {
+  overflow: auto;
+}
+/* line 123, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table {
+  display: table;
+  border-collapse: collapse;
+  width: auto;
+  border: 1px solid #95B8E7;
+}
+/* line 79, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_thead {
+  display: table-header-group;
+}
+/* line 81, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_tbody {
+  display: table-row-group;
+}
+/* line 83, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_tr {
+  display: table-row;
+  vertical-align: middle;
+}
+/* line 86, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th, .horizTable-outer .css_table .css_td {
+  display: table-cell;
+  border: 1px solid #cccccc;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+/* line 91, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th.padding-top, .horizTable-outer .css_table .css_td.padding-top {
+  padding-top: 5px;
+}
+/* line 93, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_th {
+  background: #eee;
+}
+/* line 96, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.top_none {
+  border-top: 0;
+}
+/* line 98, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .td-disable {
+  background: #d6d6d6;
+}
+/* line 100, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_td {
+  position: relative;
+}
+/* line 102, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_td .moreClick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 25px -4;
+  border: 1px solid #888;
+  background: #d5d5d5;
+  border-radius: 5px;
+  padding: 0 5px 0 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+/* line 116, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .icon-addDel i {
+  margin-top: 5px;
+}
+/* line 125, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.horizTable {
+  table-layout: fixed;
+}
+/* line 127, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.horizTable th, .horizTable-outer .css_table.horizTable td {
+  height: 25px;
+}
+/* line 129, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table.horizTable th {
+  font-weight: 400;
 }
 
 /* line 2, ../sass/_right-menu.sass */
@@ -3164,24 +3245,37 @@ a {
   height: 25px;
 }
 /* line 219, ../sass/modules/_public.sass */
+.input-medium.resvCard-date {
+  width: 135px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 221, ../sass/modules/_public.sass */
 .input-medium.resvCardRemark {
   width: 77px;
   max-width: 100%;
   height: 25px;
 }
-/* line 221, ../sass/modules/_public.sass */
+/* line 223, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2 {
   width: 308px;
   max-width: 100%;
   height: 25px;
 }
+/* line 225, ../sass/modules/_public.sass */
 /* line 223, ../sass/modules/_public.sass */
+.input-medium.resvCard-col3 {
+  width: 719px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 225, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Spec1 {
   width: 250px;
   max-width: 100%;
   height: 25px;
 }
-/* line 225, ../sass/modules/_public.sass */
+/* line 227, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Remark {
   width: 283px;
   max-width: 100%;
@@ -3193,31 +3287,37 @@ a {
   max-width: 100%;
   height: 25px;
 }
-/* line 229, ../sass/modules/_public.sass */
+/* line 231, ../sass/modules/_public.sass */
+.input-medium.resvCard-col3-fullRemark {
+  width: 490px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 233, ../sass/modules/_public.sass */
 .input-medium.checkMail {
   width: 530px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 231, ../sass/modules/_public.sass */
+/* line 235, ../sass/modules/_public.sass */
 .input-hMedium {
   height: 25px !important;
 }
 
-/* line 233, ../sass/modules/_public.sass */
+/* line 237, ../sass/modules/_public.sass */
 .input-hCol2 {
   height: 55px !important;
 }
 
-/* line 235, ../sass/modules/_public.sass */
+/* line 239, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 434px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 235, ../sass/modules/_public.sass */
+  /* line 239, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -3225,14 +3325,14 @@ a {
   }
 }
 
-/* line 239, ../sass/modules/_public.sass */
+/* line 243, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 239, ../sass/modules/_public.sass */
+  /* line 243, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -3240,35 +3340,35 @@ a {
   }
 }
 
-/* line 243, ../sass/modules/_public.sass */
+/* line 247, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 247, ../sass/modules/_public.sass */
+/* line 251, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 252, ../sass/modules/_public.sass */
+/* line 256, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 255, ../sass/modules/_public.sass */
+/* line 259, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 257, ../sass/modules/_public.sass */
+/* line 261, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 261, ../sass/modules/_public.sass */
+/* line 265, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -3276,7 +3376,7 @@ a {
   position: absolute;
 }
 
-/* line 267, ../sass/modules/_public.sass */
+/* line 271, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 16px !important;
@@ -3286,62 +3386,67 @@ a {
   font-weight: bold;
 }
 
-/* line 278, ../sass/modules/_public.sass */
+/* line 282, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 285, ../sass/modules/_public.sass */
+/* line 289, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"] {
   border-radius: 5px !important;
 }
 
-/* line 303, ../sass/modules/_public.sass */
+/* line 307, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
 
-/* line 307, ../sass/modules/_public.sass */
+/* line 311, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-/* line 310, ../sass/modules/_public.sass */
+/* line 314, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 .checkbox label {
   padding-left: 14px;
 }
-/* line 312, ../sass/modules/_public.sass */
+/* line 316, ../sass/modules/_public.sass */
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
-/* line 314, ../sass/modules/_public.sass */
+/* line 318, ../sass/modules/_public.sass */
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
 }
-/* line 316, ../sass/modules/_public.sass */
+/* line 320, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label {
   width: auto;
 }
-/* line 319, ../sass/modules/_public.sass */
+/* line 323, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
-/* line 324, ../sass/modules/_public.sass */
+/* line 328, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .txt {
   line-height: 22px;
 }
-/* line 327, ../sass/modules/_public.sass */
+/* line 331, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
 }
 
-/* line 330, ../sass/modules/_public.sass */
+/* line 334, ../sass/modules/_public.sass */
 .remarkInput {
   width: 85%;
   margin-left: 5px;
+}
+
+/* line 337, ../sass/modules/_public.sass */
+.border-raduis-5 {
+  border-radius: 5px;
 }
 
 /*-------------- responsive -------------- */
