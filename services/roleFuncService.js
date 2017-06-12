@@ -142,7 +142,7 @@ exports.updateUserPurview = function (req, callback) {
                 });
             });
         },
-        //找出作業的多語系
+        //找出模組作業的多語系
         function (subsysList, callback) {
             async.parallel({
                 proLangList: function (callback) {
@@ -165,7 +165,6 @@ exports.updateUserPurview = function (req, callback) {
 
             queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: ls_sys_id}, 0, 0, function (err, mdlProList) {
                 var mdlList = [];
-                //TODO 多語系
                 la_allMdlProList = mdlProList;
                 var mdlMenu = _.groupBy(mdlProList, "mdl_id");
                 _.each(mdlMenu, function (processMenu, mdl_id) {
@@ -182,7 +181,6 @@ exports.updateUserPurview = function (req, callback) {
                         var lo_mdlLang = _.findWhere(mdlLangList,{mdl_id:lo_mdlInfo.mdl_id, locale: locale.lang});
                         lo_mdl["mdl_name_" + locale.lang] = lo_mdlLang ? lo_mdlLang.words : lo_mdlInfo.mdl_name;
                     });
-
 
                     lo_mdl['mdl_id'] = lo_mdlInfo.mdl_id;
                     lo_mdl['mdl_url'] = lo_mdlInfo.mdl_url;
@@ -277,12 +275,8 @@ exports.updateUserPurview = function (req, callback) {
                                 });
                                 la_allQuickMenu.push(tmpQuickObj);
                             }
-
                         }
-
                     }
-
-
                 });
 
                 if (la_allQuickMenu.length > 0) {
@@ -293,10 +287,7 @@ exports.updateUserPurview = function (req, callback) {
                             : [];
                     });
                 }
-
-
                 callback(null, subsysList);
-
             });
 
         }

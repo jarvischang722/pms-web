@@ -104,7 +104,7 @@ exports.selectSystem = function (req, res) {
                     roleFuncSvc.updateUserPurview(req, function (err) {
                         var subsystem_first_url = getSysFirsrUrl(req.session.user.subsysMenu);
                         res.cookie('subsystem_first_url', subsystem_first_url);
-                        res.cookie('using_subsys_id', req.session.user.subsysMenu.length>0? req.session.user.subsysMenu[0].subsys_id : "") ;
+                        res.cookie('current_subsys_id', req.session.user.subsysMenu.length>0? req.session.user.subsysMenu[0].subsys_id : "") ;
                         res.redirect("/");
                     });
                 });
