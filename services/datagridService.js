@@ -195,6 +195,20 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 }
             });
         },
+        //欄位多語系
+        function(fieldData,callback){
+            mongoAgent.LangUIField.find({
+                prg_id: prg_id,
+                page_id: page_id
+            }).exec(function (err, fieldLang) {
+                fieldLang = tools.mongoDocToObject(fieldLang);
+                _.each(fieldData, function (field, fIdx) {
+                    let tmpLang = _.findWhere(fieldLang,{ui_field_name: field["ui_field_name"].toLowerCase()});
+                    fieldData[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_"+session.locale] : "";
+                });
+                callback(err,fieldData);
+            });
+        },
         // 5)尋找ui_type有select的話，取得combobox的資料
         function (fields, callback) {
 
@@ -787,7 +801,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
                     var columnName = funRow["ui_field_name"];
                     lo_result.defaultValues[columnName] = funRow["defaultVal"];
                 }
-            })
+            });
             callback(null, lo_result);
         }
     ], function (err, result) {

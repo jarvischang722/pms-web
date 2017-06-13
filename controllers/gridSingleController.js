@@ -28,10 +28,7 @@ exports.singleGridPageFieldQuery = function (req, res) {
         return;
     }
 
-    singleGridSVC.fetchPageFieldAttr(req.session.user, page_id, prg_id, function (err, fieldData) {
-        _.each(fieldData, function (field, fIdx) {
-            fieldData[fIdx]["ui_display_name"] = req.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-        });
+    singleGridSVC.fetchPageFieldAttr(req.session, page_id, prg_id, function (err, fieldData) {
         returnData.fieldData = fieldData;
         res.json(returnData);
     });

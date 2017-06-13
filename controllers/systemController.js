@@ -111,7 +111,7 @@ exports.housekeeping = function (req, res) {
  * 夜核
  */
 exports.night_check = function (req, res) {
-    res.render('subsystem/night_check/index');
+    res.render('subsystem/nightAudit/index');
 };
 
 /**

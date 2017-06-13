@@ -11,6 +11,6 @@ module.exports = function (io) {
 
     io.of("/singleGrid").on('connection', function (socket) {
 
-    })
+    });
 
 };

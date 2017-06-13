@@ -30,7 +30,7 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
         fieldData = commonTools.mongoDocToObject(fieldData);
 
         var la_multiLangField = _.filter(fieldData, function (field) {
-            return !_.isEmpty(field.multi_lang_table)
+            return !_.isEmpty(field.multi_lang_table);
         });
 
         var la_keyField = _.filter(fieldData, {keyable: 'Y'});
@@ -49,14 +49,14 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
                                     langRows = [];
                                 }
                                 callback(null, langRows);
-                            })
-                        }
+                            });
+                        };
                     });
 
                     // lo_multiLangContents 存放每個欄位多語內容 key 為ui_field_name
                     async.parallel(langFuncs, function (err, lo_multiLangContents) {
                         callback(err, lo_multiLangContents);
-                    })
+                    });
                 },
                 //將多語系資料塞回顯示資料中
                 function (lo_multiLangContents, callback) {
@@ -78,13 +78,13 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
                 }
             ], function (err, result) {
                 callback(err, dataGridRows);
-            })
+            });
 
         } else {
             callback(null, dataGridRows);
         }
 
-    })
+    });
 
 };
 
@@ -108,7 +108,7 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
         fieldData = commonTools.mongoDocToObject(fieldData);
 
         var la_multiLangField = _.filter(fieldData, function (field) {
-            return !_.isEmpty(field.multi_lang_table)
+            return !_.isEmpty(field.multi_lang_table);
         });
 
         var la_keyField = _.filter(fieldData, {keyable: 'Y'});
@@ -127,14 +127,14 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
                                     langRows = [];
                                 }
                                 callback(null, langRows);
-                            })
-                        }
+                            });
+                        };
                     });
 
                     // lo_multiLangContents 存放每個欄位多語內容 key 為ui_field_name
                     async.parallel(langFuncs, function (err, lo_multiLangContents) {
                         callback(err, lo_multiLangContents);
-                    })
+                    });
                 },
                 //將多語系資料塞回顯示資料中
                 function (lo_multiLangContents, callback) {
@@ -153,13 +153,13 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
                 }
             ], function (err, result) {
                 callback(err, singleData);
-            })
+            });
 
         } else {
             callback(null, singleData);
         }
 
-    })
+    });
 
 };
 
@@ -185,7 +185,7 @@ exports.handleMultiLangContentByKey = function (langTable, locale, keys, field_n
         if (err) {
             rows = [];
         }
-        callback(err, rows)
+        callback(err, rows);
     });
 };
 
@@ -202,7 +202,7 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
 
     if (_.isArray(fields)) {
         fields = _.map(fields, function (field) {
-            return "'" + field + "'"
+            return "'" + field + "'";
         });
         condition = "field_name  IN(" + fields + ")";
     } else {
@@ -220,7 +220,7 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
         if (err) {
             console.error(err);
         }
-        callback(err, rows)
+        callback(err, rows);
     });
 };
 
@@ -245,19 +245,19 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
         var la_keyableFields = _.pluck(_.where(fieldData, {keyable: 'Y'}), "ui_field_name");  //是key值的欄位
         var la_multiLangFields = _.filter(fieldData, function (field) {
             if (!_.isUndefined(field_name) && !_.isEmpty(field_name)) {
-                return field.ui_field_name == field_name
-            } else {
-                return field.multi_lang_table != ""
-            }
+                return field.ui_field_name == field_name;
+            } 
+                return field.multi_lang_table != "";
+            
 
         }); // 有多語系的欄位
 
         var funcs = [];
         var keys = {}; //找尋的key value
         if (_.isUndefined(rowData)) {
-            rowData = {}
+            rowData = {};
         }
-        ;
+        
         _.each(la_keyableFields, function (fieldName) {
             if (!_.isUndefined(rowData[fieldName])) {
                 keys[fieldName] = rowData[fieldName].trim();
@@ -269,7 +269,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
                     _thisSvc.handleMultiLangContentByKey(field.multi_lang_table, "", keys, field.ui_field_name, function (err, langData) {
                         multiLangData = _.union(multiLangData, langData);
                         callback(null, langData);
-                    })
+                    });
                 }
             );
         });
@@ -290,7 +290,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
                 result.push(langRowObj);
             });
             callback(result);
-        })
+        });
     });
 
 
