@@ -111,6 +111,11 @@ $(function () {
     $(document).on('click',".show-search-detail",function (e) {
         $('.rece-search-detail').slideToggle();
     });
+    // resevation toggle 依房型訂房
+    $(document).on('click',".show-extendContent",function (e) {
+        $('.extendContent').slideToggle();
+        $(this).children().toggleClass("active");
+    });
 });
 
 

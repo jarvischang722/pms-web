@@ -33,22 +33,23 @@
                                             </div>
                                             <div class="grid-item">
                                                 <label>Agent</label>
-                                                <select class="input-medium resvCard-col2Remark">
-                                                    <option value="ch_tw">Agoda</option>
-                                                    <option value="en">Expedia</option>
-                                                </select>
+                                                <input type="text" class="input-medium resvCard-col2Remark" placeholder="agoda"/>
                                                 <span class="moreClick">...</span>
                                             </div>
                                         </div>
                                         <!--2-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>Title</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>
+                                                <label>Saluation</label>
+                                                <input type="text" class="input-medium resvCard-sm" placeholder="Manager" disabled/>
+                                                <select class="input-medium resvCard-xs" disabled>
+                                                    <option value="male">M</option>
+                                                    <option value="female">F</option>
+                                                </select>
                                             </div>
                                             <div class="grid-item">
                                                 <label>VIP</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>
+                                                <input type="text" class="input-medium resvCard-sm" placeholder="Normal" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Group No.</label>
@@ -71,12 +72,14 @@
                                             <div class="pull-left">
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label>pay Master</label>
-                                                        <select class="input-medium resvCardRemark" disabled>
-                                                            <option value="ch_tw">Y G01</option>
-                                                            <option value="en">N G02</option>
+                                                        <label class="pull-left">pay Master</label>
+                                                        <select class="input-medium resvCard-xs pull-left marginLeft-5" disabled>
+                                                            <option value="ch_tw">Y</option>
+                                                            <option value="en">N</option>
                                                         </select>
-                                                        <span class="moreClick">...</span>
+                                                        <span class="moreClick pull-left">...</span>
+                                                        <input type="text" class="input-medium resvCard-xs pull-left" placeholder="G01" disabled/>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                     <div class="grid-item">
                                                         <label>sales</label>
@@ -179,15 +182,15 @@
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>職稱</label>
+                                                                <label>Title</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>國籍</label>
+                                                                <label>Nationality</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>車號</label>
+                                                                <label>Vehicle No.</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" />
                                                             </div>
                                                         </div>
@@ -202,11 +205,11 @@
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>航空會員</label>
+                                                                <label>Skymiles</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>航空卡號</label>
+                                                                <label>Sky No.</label>
                                                                 <input type="text" class="input-medium resvCardRemark" placeholder="" disabled/>
                                                                 <span class="moreClick">...</span>
                                                             </div>
@@ -214,15 +217,15 @@
                                                         <!--3-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>最近來訪日</label>
+                                                                <label>Last Visit Date</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>消費總額</label>
+                                                                <label>Total Amt.</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>入住提醒</label>
+                                                                <label>C/I Alert</label>
                                                                 <input type="text" class="input-medium resvCard-col2Remark" placeholder="" />
                                                                 <span class="moreClick">...</span>
                                                             </div>
@@ -230,15 +233,15 @@
                                                         <!--4-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>喜好房號</label>
+                                                                <label>Pre.RM</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>最近入住房號</label>
+                                                                <label>Last RM No.</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>退房提醒</label>
+                                                                <label>C/O Alert</label>
                                                                 <input type="text" class="input-medium resvCard-col2Remark" placeholder=""/>
                                                                 <span class="moreClick">...</span>
                                                             </div>
@@ -248,22 +251,22 @@
                                                         <!--5-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>保留日</label>
+                                                                <label>Keep Date</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>交換機語言</label>
+                                                                <label>PBX Language</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>導遊姓名</label>
+                                                                <label>Tour Guide</label>
                                                                 <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                                             </div>
                                                         </div>
                                                         <!--6-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>保留時間</label>
+                                                                <label>Keep Time</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
@@ -274,34 +277,32 @@
                                                                 </select>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>導遊電話</label>
+                                                                <label>T.G. Tel.</label>
                                                                 <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                                             </div>
                                                         </div>
                                                         <!--7-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>秘書積點</label>
+                                                                <label>Collecter</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder=""/>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label class="pull-left">訂房確認書</label>
+                                                                <label class="pull-left">CFML</label>
                                                                 <div class="popCheckbox pull-left resvCk-1">
-                                                                                        <span class="checkbox">
-                                                                                          <label class="checkbox-width">
-                                                                                              <input name="form-field-checkbox"
-                                                                                                     type="checkbox"
-                                                                                                     class="ace">
-                                                                                              <span class="lbl">
-                                                                                                <span class="txt">已列印</span>
-                                                                                              </span>
-                                                                                          </label>
-                                                                                        </span>
+                                                                    <span class="checkbox">
+                                                                      <label class="checkbox-width">
+                                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                                          <span class="lbl">
+                                                                            <span class="txt">printed</span>
+                                                                          </span>
+                                                                      </label>
+                                                                    </span>
                                                                 </div>
                                                                 <div class="clearfix"></div>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>導遊房號</label>
+                                                                <label>RM No.</label>
                                                                 <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                                             </div>
                                                         </div>
@@ -311,7 +312,7 @@
                                                                 <div style=" width: 196.25px;"></div>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label class="pull-left">旅客登記卡</label>
+                                                                <label class="pull-left">R Card</label>
                                                                 <div class="popCheckbox pull-left resvCk-1">
                                                                                         <span class="checkbox">
                                                                                           <label class="checkbox-width">
@@ -319,7 +320,7 @@
                                                                                                      type="checkbox"
                                                                                                      class="ace">
                                                                                               <span class="lbl">
-                                                                                                <span class="txt">印房租</span>
+                                                                                                <span class="txt">print Rate</span>
                                                                                               </span>
                                                                                           </label>
                                                                                         </span>
@@ -327,7 +328,7 @@
                                                                 <div class="clearfix"></div>
                                                             </div>
                                                             <div class="grid-item">
-                                                                <label>晨呼時間</label>
+                                                                <label>M/C Time</label>
                                                                 <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                                             </div>
                                                         </div>
@@ -372,7 +373,7 @@
                                 </div>
                                 <div>
                                     <!--訂房卡資料table-->
-                                    <table id="reservation_resvCard-table" style="height: 200px;"></table>
+                                    <table id="reservation_resvCard-table" style="height: 130px;"></table>
                                     <div class="resvCard-data">
                                         <span>RM chrg:10,000</span>
                                         <span>Svc:1,000</span>
@@ -392,15 +393,15 @@
                                 <!--1-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Market</label>
+                                        <label>Source</label>
                                         <input type="text" class="input-medium resvCard" placeholder="WEB"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>CO Time</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="15:30"/>
+                                        <label>CI Time</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="15:00"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Rm features</label>
+                                        <label>Assign remarks</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="high floor"/>
                                     </div>
                                 </div>
@@ -438,7 +439,7 @@
                                 <!--4-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Upgraded By/ reason</label>
+                                        <label>Ugded By/ reason</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
@@ -446,64 +447,71 @@
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                 </div>
-                                <!--5-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>Add date</label>
-                                        <input type="date" class="input-medium resvCard" placeholder="2016/11/1"/>
+                                <div class="extendGrid">
+                                    <div class="extendIcon show-extendContent">
+                                        <i class="fa fa-angle-double-down "></i>
                                     </div>
-                                    <div class="grid-item">
-                                        <label>Cfmd status</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="cfmd"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cxl reason</label>
-                                        <input type="text" class="input-medium resvCard-col2" placeholder=""/>
-                                    </div>
-                                </div>
-                                <!--6-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>Add by</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="abby"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cfmd no.</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="F54156"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cxl No.</label>
-                                        <input type="text" class="input-medium resvCard-col2" placeholder=""/>
-                                    </div>
-                                </div>
-                                <!--7-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>Upd date</label>
-                                        <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cfmd date</label>
-                                        <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cxl date</label>
-                                        <input type="text" class="input-medium resvCard-col2" placeholder=""/>
-                                    </div>
-                                </div>
-                                <!--8-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>Upd by</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="john"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cfmd by</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="john"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Cxl No.</label>
-                                        <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                    <div class="extendContent">
+                                        <!--5-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Add date</label>
+                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cfmd status</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="cfmd"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cxl reason</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <!--6-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Add by</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="abby"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cfmd no.</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="F54156"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cxl No.</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <!--7-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Upd date</label>
+                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cfmd date</label>
+                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cxl date</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <!--8-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Upd by</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="john"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cfmd by</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="john"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Cxl No.</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div><!--main-content-data-->
@@ -540,10 +548,6 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">單筆取消</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">Cancel</button>
                                 </li>
                                 <li>
@@ -556,7 +560,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">存檔後新增</button>
+                                            role="button">Add on</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -573,10 +577,6 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">Exit</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">紀念日</button>
                                 </li>
                             </ul>
                         </div>
@@ -610,7 +610,7 @@
                                                 <input type="text" class="input-medium medium-c3-col2" placeholder="23598233"/>
                                             </div>
                                             <div class="grid-item">
-                                                <label>稱謂</label>
+                                                <label>title</label>
                                                 <input type="text" class="input-medium medium-c3" placeholder="正常"/>
                                             </div>
                                             <div class="grid-item">
@@ -627,15 +627,15 @@
                                             <div class="grid-item">
                                                 <label>Gender</label>
                                                 <select class="input-medium medium-c3">
-                                                    <option value="male">男</option>
-                                                    <option value="female">女</option>
+                                                    <option value="male">Ｍ</option>
+                                                    <option value="female">Ｆ</option>
                                                 </select>
                                                 <!--<label style="width:auto;"><input type="radio" name="gender" value="male"/>男</label>-->
                                                 <!--<label style="width:auto;"><input type="radio" name="gender" value="female"/>女</label>-->
                                             </div>
                                             <div class="grid-item">
                                                 <label>Status</label>
-                                                <input type="text" class="input-medium medium-c3" placeholder="正常"/>
+                                                <input type="text" class="input-medium medium-c3" placeholder="正常" disabled/>
                                             </div>
                                         </div>
                                         <!--3-->
@@ -652,7 +652,7 @@
                                                 </select>
                                             </div>
                                             <div class="grid-item">
-                                                <label>Level</label>
+                                                <label>VIP</label>
                                                 <select class="input-medium medium-c3">
                                                     <option value="yes">Y:會員</option>
                                                     <option value="no">N:非會員</option>
@@ -710,10 +710,6 @@
                                                     <option value="2">工程師</option>
                                                 </select>
                                             </div>
-                                            <div class="grid-item">
-                                                <label>Wedding anniversary</label>
-                                                <input type="date" class="input-medium medium-c3" placeholder="1997/01/11"/>
-                                            </div>
                                         </div>
                                         <!--6-->
                                         <div class="grid">
@@ -729,7 +725,6 @@
                                                 </select>
                                             </div>
                                             <div class="grid-item">
-                                                <label>積點編號名稱</label>
                                                 <input type="text" class="input-medium medium-c3" placeholder="" disabled/>
                                             </div>
                                         </div>
@@ -741,10 +736,7 @@
                                             </div>
                                             <div class="grid-item">
                                                 <label>MB Type</label>
-                                                <select class="input-medium medium-c3-col1-5">
-                                                    <option value="1">類別名稱1</option>
-                                                    <option value="2">類別名稱2</option>
-                                                </select>
+                                                <input type="text" class="input-medium medium-c3-col1-5" placeholder="類別名稱1" disabled/>
                                             </div>
                                         </div>
                                         <!--8-->
@@ -762,10 +754,7 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>Agent</label>
-                                                <select class="input-medium medium-c3-col2">
-                                                    <option value="1">A公司</option>
-                                                    <option value="2">B公司</option>
-                                                </select>
+                                                <input type="text" class="input-medium medium-c3-col2" placeholder="agoda"/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>C.C.No.</label>
@@ -790,8 +779,8 @@
                                             <div class="grid-item">
                                                 <label>Skymiles</label>
                                                 <select class="input-medium medium-c3-card-2">
-                                                    <option value="1">是</option>
-                                                    <option value="2">否</option>
+                                                    <option value="1">Y</option>
+                                                    <option value="2">N</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -809,8 +798,8 @@
                                             <div class="grid-item">
                                                 <label>DM</label>
                                                 <select class="input-medium medium-c3">
-                                                    <option value="0">是</option>
-                                                    <option value="1">否</option>
+                                                    <option value="0">Y</option>
+                                                    <option value="1">N</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -819,13 +808,67 @@
                                             <div class="grid-item">
                                                 <label>Remarks</label>
                                                 <input type="text" class="input-medium medium-c3-col3" placeholder=""/>
-                                                <span class="moreClick">備註</span>
+                                                <span class="moreClick">...</span>
                                             </div>
                                         </div>
                                         <!--13-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>Added Dtae</label>
+                                                <label>Pre.RM</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder=""/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Last RM No.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder=""  disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Pre. Rm Features</label>
+                                                <input type="text" class="input-medium medium-c3-col2_2" placeholder=""  disabled="disabled"/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--14-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Visit No.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>First visit Date</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>RM Amt.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Others Amt.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                        </div>
+                                        <!--15-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Visit days</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Last Visit Date</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>F&B Amt.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Total Amt.</label>
+                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
+                                            </div>
+                                        </div>
+                                        <!--16-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Added date</label>
                                                 <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
                                             </div>
                                             <div class="grid-item">
@@ -838,61 +881,6 @@
                                             </div>
                                             <div class="grid-item">
                                                 <label>Upd by</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                        </div>
-                                        <div class="space-12"></div>
-                                        <!--14-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>喜好房號</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>最近入住房號</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder=""  disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房間喜好特色</label>
-                                                <input type="text" class="input-medium medium-c3-col2_2" placeholder=""  disabled="disabled"/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                        </div>
-                                        <!--15-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Visit No.</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>First visit Date</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房租消費金額</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>其他消費金額</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                        </div>
-                                        <!--16-->
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Visit days</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Last Visit Date</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>餐飲消費金額</label>
-                                                <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>消費總額</label>
                                                 <input type="text" class="input-medium medium-c3-sm" placeholder="" disabled="disabled"/>
                                             </div>
                                         </div>
@@ -1026,7 +1014,27 @@
                                         </div>
                                         <div class="css_tbody">
                                             <div class="css_tr">
-                                                <div class="css_td">食物喜好</div>
+                                                <div class="css_td">Food</div>
+                                                <div class="css_td center">
+                                                    <div class="popCheckbox">
+                                                        <span class="checkbox">
+                                                              <label class="checkbox-width">
+                                                                  <input name="form-field-checkbox"
+                                                                         type="checkbox"
+                                                                         class="ace" checked>
+                                                                  <span class="lbl">
+                                                                    <span class="txt"></span>
+                                                                  </span>
+                                                              </label>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="css_td">
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">Drink</div>
                                                 <div class="css_td center">
                                                     <div class="popCheckbox">
                                                                             <span class="checkbox">
@@ -1046,7 +1054,67 @@
                                                 </div>
                                             </div>
                                             <div class="css_tr">
-                                                <div class="css_td">飲料喜好</div>
+                                                <div class="css_td">Hobby</div>
+                                                <div class="css_td center">
+                                                    <div class="popCheckbox">
+                                                                            <span class="checkbox">
+                                                                                  <label class="checkbox-width">
+                                                                                      <input name="form-field-checkbox"
+                                                                                             type="checkbox"
+                                                                                             class="ace">
+                                                                                      <span class="lbl">
+                                                                                        <span class="txt"></span>
+                                                                                      </span>
+                                                                                  </label>
+                                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="css_td">
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">Smoke</div>
+                                                <div class="css_td center">
+                                                    <div class="popCheckbox">
+                                                                            <span class="checkbox">
+                                                                                  <label class="checkbox-width">
+                                                                                      <input name="form-field-checkbox"
+                                                                                             type="checkbox"
+                                                                                             class="ace">
+                                                                                      <span class="lbl">
+                                                                                        <span class="txt"></span>
+                                                                                      </span>
+                                                                                  </label>
+                                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="css_td">
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">SPA</div>
+                                                <div class="css_td center">
+                                                    <div class="popCheckbox">
+                                                                            <span class="checkbox">
+                                                                                  <label class="checkbox-width">
+                                                                                      <input name="form-field-checkbox"
+                                                                                             type="checkbox"
+                                                                                             class="ace">
+                                                                                      <span class="lbl">
+                                                                                        <span class="txt"></span>
+                                                                                      </span>
+                                                                                  </label>
+                                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <div class="css_td">
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+                                            <div class="css_tr">
+                                                <div class="css_td">Newspaper</div>
                                                 <div class="css_td center">
                                                     <div class="popCheckbox">
                                                                             <span class="checkbox">
@@ -1066,7 +1134,7 @@
                                                 </div>
                                             </div>
                                             <div class="css_tr">
-                                                <div class="css_td">興趣</div>
+                                                <div class="css_td">RM Amenities</div>
                                                 <div class="css_td center">
                                                     <div class="popCheckbox">
                                                                             <span class="checkbox">
@@ -1086,7 +1154,7 @@
                                                 </div>
                                             </div>
                                             <div class="css_tr">
-                                                <div class="css_td">抽菸</div>
+                                                <div class="css_td">Medical history</div>
                                                 <div class="css_td center">
                                                     <div class="popCheckbox">
                                                                             <span class="checkbox">
@@ -1106,87 +1174,7 @@
                                                 </div>
                                             </div>
                                             <div class="css_tr">
-                                                <div class="css_td">按摩/SPA</div>
-                                                <div class="css_td center">
-                                                    <div class="popCheckbox">
-                                                                            <span class="checkbox">
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox"
-                                                                                             type="checkbox"
-                                                                                             class="ace">
-                                                                                      <span class="lbl">
-                                                                                        <span class="txt"></span>
-                                                                                      </span>
-                                                                                  </label>
-                                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="css_td">
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">報紙</div>
-                                                <div class="css_td center">
-                                                    <div class="popCheckbox">
-                                                                            <span class="checkbox">
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox"
-                                                                                             type="checkbox"
-                                                                                             class="ace" checked>
-                                                                                      <span class="lbl">
-                                                                                        <span class="txt"></span>
-                                                                                      </span>
-                                                                                  </label>
-                                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="css_td">
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">應備物品</div>
-                                                <div class="css_td center">
-                                                    <div class="popCheckbox">
-                                                                            <span class="checkbox">
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox"
-                                                                                             type="checkbox"
-                                                                                             class="ace">
-                                                                                      <span class="lbl">
-                                                                                        <span class="txt"></span>
-                                                                                      </span>
-                                                                                  </label>
-                                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="css_td">
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">病史過敏</div>
-                                                <div class="css_td center">
-                                                    <div class="popCheckbox">
-                                                                            <span class="checkbox">
-                                                                                  <label class="checkbox-width">
-                                                                                      <input name="form-field-checkbox"
-                                                                                             type="checkbox"
-                                                                                             class="ace">
-                                                                                      <span class="lbl">
-                                                                                        <span class="txt"></span>
-                                                                                      </span>
-                                                                                  </label>
-                                                                            </span>
-                                                    </div>
-                                                </div>
-                                                <div class="css_td">
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-                                            <div class="css_tr">
-                                                <div class="css_td">其他喜好</div>
+                                                <div class="css_td">Others</div>
                                                 <div class="css_td center">
                                                     <div class="popCheckbox">
                                                                             <span class="checkbox">
@@ -1232,7 +1220,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Graduation</button>
+                                            role="button">Classified</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1256,11 +1244,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Questionnaires</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Family</button>
+                                            role="button">Suggestion</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
