@@ -1,13 +1,8 @@
 <script type="text/x-template" id="multiLangDialogTmp">
 
     <div id="multiLangDialog" style="display: none;" align="center">
-        <el-select v-model="value" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-        </el-select>
         <div class="multiLangDGPosition">
-            <table id="multiLangDG">
-            </table>
+            <table id="multiLangDG"></table>
         </div>
         <div class="col-sm-12 col-xs-12 center" id="multiDialogBtns" >
             <div class="singleRelative">

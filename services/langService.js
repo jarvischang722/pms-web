@@ -226,16 +226,18 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
 
 /**
  *
- * @param prg_id {String}
- * @param page_id {Number}
- * @param rowData {Object}
- * @param dataType {String}
+ * @param req {Object}
  * @param field_name {String}
  * @param callback {Function}
  */
-exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, field_name, callback) {
-    var _thisSvc = this;
-    var collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
+exports.handleRowDataMultiLang = function (req, field_name, callback) {
+    let _thisSvc = this;
+    let rowData = req.body["rowData"];
+    let prg_id = req.body["prg_id"];
+    let page_id = req.body["page_id"];
+    let dataType = req.body["dataType"] || "datagrid"; // dat
+    let localeGrp = req.cookies["sys_locales"];
+    let collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
     mongoAgent[collection].find({prg_id: prg_id, page_id: Number(page_id)}, function (err, fieldData) {
         if (err || fieldData.length == 0) {
             return callback({});
@@ -276,13 +278,9 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
 
         async.parallel(funcs, function (err, langResults) {
             var result = [];
-
-            //TODO 之後需要抓取動館別設定語系
-            var localeGrp = [{lang: 'en', sort: 1, name: 'English'},
-                {lang: 'zh_TW', sort: 2, name: '繁體中文'}];
             _.each(localeGrp, function (locale) {
                 var localeData = _.where(multiLangData, {locale: locale.lang});
-                var langRowObj = {locale: locale.lang,display_locale: locale.name};
+                var langRowObj = {locale: locale.lang,display_locale: decodeURIComponent(locale.name)};
                 _.each(localeData, function (data) {
                     langRowObj[data.field_name] = data.words || "";
                 });
