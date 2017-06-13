@@ -25,10 +25,10 @@ var moment = require("moment");
  */
 exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod, socket_id, callback) {
     try {
-        let user_id = userInfo.usr_id;
-        let athena_id = userInfo.athena_id;
-        let hotel_cod = userInfo.fun_hotel_cod;
-        let REVE_CODE = "0200930010";
+        var user_id = userInfo.usr_id;
+        var athena_id = userInfo.athena_id;
+        var hotel_cod = userInfo.fun_hotel_cod;
+        var REVE_CODE = "0200930010";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
             var params = {
                 "REVE-CODE": REVE_CODE,
@@ -77,10 +77,10 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
  */
 exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_cod, socket_id, callback) {
     try {
-        let user_id = userInfo.usr_id;
-        let athena_id = userInfo.athena_id;
-        let hotel_cod = userInfo.fun_hotel_cod;
-        let REVE_CODE = "0200930011";
+        var user_id = userInfo.usr_id;
+        var athena_id = userInfo.athena_id;
+        var hotel_cod = userInfo.fun_hotel_cod;
+        var REVE_CODE = "0200930011";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
             var params = {
@@ -237,7 +237,7 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
         exec_seq++;
     });
 
-    _.each(tmpCUD.deleteData, function (d_data) {
+    _.each(tmpCUD.deleteData , function (d_data) {
         var tmpDel = {"function": "0"}; //0 代表刪除
         tmpDel["table_name"] = mainTableName;
         tmpDel.condition = [];
