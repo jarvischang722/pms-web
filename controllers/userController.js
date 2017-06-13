@@ -9,7 +9,7 @@ var async = require("async");
 var roleFuncSvc = require("../services/roleFuncService");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require('i18n');
-
+var langSvc = require("../services/langService");
 
 /**
  * 登入頁面
@@ -95,17 +95,19 @@ exports.selectSystem = function (req, res) {
             };
             queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
                 var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
-
                 req.session.user.sys_id = sysObj.sys_id;
-                req.session.user.sys_name_en = sysObj["sys_name_en"];
-                req.session.user.sys_name_zh_tw = sysObj["sys_name_zh_tw"];
-                roleFuncSvc.updateUserPurview(req, function (err) {
-                    var subsystem_first_url = getSysFirsrUrl(req.session.user.subsysMenu);
-
-                    res.cookie('subsystem_first_url', subsystem_first_url);
-                    res.redirect(subsystem_first_url);  //TODO 導到可選第一個子系統
+                langSvc.handleMultiLangContentByField("lang_s99_system",'sys_name','',function(err,sysLang){
+                    sysLang = _.where(sysLang,{sys_id:req.session.user.sys_id });
+                     _.each(sysLang, function(sys){
+                         req.session.user["sys_name_"+sys.locale] = sys.words;
+                     });
+                    roleFuncSvc.updateUserPurview(req, function (err) {
+                        var subsystem_first_url = getSysFirsrUrl(req.session.user.subsysMenu);
+                        res.cookie('subsystem_first_url', subsystem_first_url);
+                        res.cookie('current_subsys_id', req.session.user.subsysMenu.length>0? req.session.user.subsysMenu[0].subsys_id : "") ;
+                        res.redirect("/");
+                    });
                 });
-
             });
         } else {
             res.send("Not found system!");

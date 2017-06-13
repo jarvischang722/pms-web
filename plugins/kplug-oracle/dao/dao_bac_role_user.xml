@@ -99,7 +99,7 @@
         <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
         <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
-        <orderby>  order by level_nos,sort_cod,current_id</orderby>
+        <orderby>order by level_nos,sort_cod,current_id</orderby>
     </dao>
 
     <!--找出模組相對應的process-->
@@ -126,7 +126,7 @@
         <parameter type="string" kind="2" condition="pre_id = :pre_id ">pre_id</parameter>
         <parameter type="string" kind="2" condition="current_id = :current_id ">current_id</parameter>
         <parameter type="string" kind="2" condition="id_typ = :id_typ ">id_typ</parameter>
-        <orderby>  order by pro_id</orderby>
+        <orderby>order by pro_id</orderby>
     </dao>
 
 
@@ -152,7 +152,7 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">func_hotel_cod</parameter>
         <parameter type="string" kind="2" condition="a.subsys_id = :subsys_id">subsys_id</parameter>
-        <orderby> order by a.athena_id, a.comp_cod,a.hotel_cod,a.subsys_id,a.sort_cod,a.pro_id</orderby>
+        <orderby>order by a.athena_id, a.comp_cod,a.hotel_cod,a.subsys_id,a.sort_cod,a.pro_id</orderby>
 
     </dao>
 
@@ -176,19 +176,19 @@
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
-        <orderby >order by subsys_id</orderby>
+        <orderby>order by subsys_id</orderby>
     </dao>
 
     <!-- 抓取process -->
     <dao name="QRY_S99_PROCESS_BY_SYS_MODULE">
         <statement><![CDATA[
-         select pro.* ,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url
+         select pro.* ,mdl.mdl_name,mdl.mdl_name as mdl_name_zh_TW , mdl_ename as mdl_name_en , mdl.group_sta, mdl.mdl_url
          from s99_process pro
          inner join s99_model mdl on mdl.SYS_ID = pro.SYS_ID and mdl.mdl_id = pro.mdl_id
          where pro.SYS_ID = :sys_id
         ]]>
         </statement>
         <parameter type="string" kind="3">sys_id</parameter>
-        <orderby > order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
+        <orderby>order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
     </dao>
 </root>

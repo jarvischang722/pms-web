@@ -71,11 +71,11 @@
   height: 360px
 
 // css_table
-.css_table
+@mixin css_table($tableWidth: auto)
   display: table
   border-collapse: collapse
-  width: 100%
-  border: 1px solid $borderStyle
+  width: $tableWidth
+  border: 1px solid #95B8E7
   .css_thead
     display: table-header-group
   .css_tbody
@@ -91,7 +91,8 @@
     &.padding-top
       padding-top: 5px
   .css_th
-    font-weight: bold
+    background: #eee
+    //font-weight: bold
   &.top_none
     border-top: 0
   .td-disable
@@ -114,3 +115,16 @@
   .icon-addDel
     i
       margin-top: 5px
+.css_table
+  +css_table($tableWidth: 100%)
+
+.horizTable-outer
+  overflow: auto
+  .css_table
+    +css_table($tableWidth: auto)
+    &.horizTable
+      table-layout: fixed
+      th,td
+        height: 25px
+      th
+        font-weight: 400
