@@ -33,14 +33,16 @@ function DatagridBaseClass() {
             checkOnSelect: true,
             width: "100%",
             onClickCell: this.onClickCell,
+            onClickRow: this.onClickRow,
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
-            onResizeColumn: this.doSaveColumnFields  //當欄位時寬度異動時
-            // onSortColumn: function () {
-            //     $("#dgCheckbox").datagrid('uncheckAll');
-            // }
+            onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
+            onSortColumn: this.doSortColumn
         }).datagrid('columnMoving');
     };
+
+
+
 
     /**
      * 新刪修暫存容器 初始化
@@ -86,7 +88,7 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
-    //結束編輯
+//結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         row = self.filterRowData(row);
@@ -121,10 +123,24 @@ function DatagridBaseClass() {
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
             return true;
-        } 
-            return false;
-        
+        }
+        return false;
+
     };
+
+    /**
+     * 排序觸發事件
+     */
+    this.doSortColumn = function () {
+    };
+
+    /**
+     * 按下Row 事件
+     * @param index {Number}
+     * @param row  {Object}
+     */
+    this.onClickRow = function (index, row) {};
+
 
     /**
      * 新增一個Row

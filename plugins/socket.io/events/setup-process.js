@@ -34,7 +34,7 @@ module.exports = function (io) {
 
                         dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
                             socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
-                        })
+                        });
                     }else {
                         socket.emit('checkTableLock', {success: true, errorMsg: "", prg_id: prg_id});
                     }
@@ -42,7 +42,7 @@ module.exports = function (io) {
                     socket.emit('checkTableLock', {success: false, errorMsg: "Not found Program.", prg_id: prg_id});
                 }
 
-            })
+            });
 
         });
 
@@ -68,12 +68,12 @@ module.exports = function (io) {
 
                     dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
                         //table lock done
-                    })
+                    });
                 }
 
-            })
+            });
 
-        })
-    })
+        });
+    });
 
 };

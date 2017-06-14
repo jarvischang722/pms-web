@@ -1,8 +1,8 @@
 $(function () {
 
 //訂房第一層帶入
-    $("#manageReservation-load").load("roomTypePlan.html");
-    $(".secondMenuClick li:first-child").addClass("activeThis");
+//     $("#manageReservation-load").load("roomTypePlan.html");
+//     $(".secondMenuClick li:first-child").addClass("activeThis");
 
     //第一層架構
     $(document).on('click',".secondMenuClick li",function (e) {

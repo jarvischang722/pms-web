@@ -37,7 +37,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     console.log(deUrl);
 
-    // console.log(url);
+    console.log(url);
 
     request({url: url, encoding: "utf8", timeout: 30000, json: true}, function (err, response, data) {
         var errorMsg = null;

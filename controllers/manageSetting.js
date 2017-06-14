@@ -23,7 +23,7 @@ exports.mainSetUp = function (req, res) {
     var prg_id = req.params.prg_id || "";
     var temp_page = "";
     //mongoAgent.TemplateRf.find({prg_id: prg_id}, function (err, tmpInfo) {
-    mongoAgent.TemplateRf.find({prg_id: prg_id}).sort({page_id:1}).exec(function (err, tmpInfo) { //page_id先排序，後判斷規則
+    mongoAgent.TemplateRf.find({prg_id: prg_id}).sort({page_id: 1}).exec(function (err, tmpInfo) { //page_id先排序，後判斷規則
         if (tmpInfo) {
 
             if(tmpInfo.length == 1 && tmpInfo[0].template_id == "datagrid"){

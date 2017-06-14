@@ -178,7 +178,7 @@ exports.updateUserPurview = function (req, callback) {
                     });
 
                     _.each(la_locales, function (locale) {
-                        var lo_mdlLang = _.findWhere(mdlLangList,{mdl_id:lo_mdlInfo.mdl_id, locale: locale.lang});
+                        var lo_mdlLang = _.findWhere(mdlLangList,{mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
                         lo_mdl["mdl_name_" + locale.lang] = lo_mdlLang ? lo_mdlLang.words : lo_mdlInfo.mdl_name;
                     });
 

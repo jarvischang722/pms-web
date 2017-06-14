@@ -40,11 +40,11 @@ exports.handleTrafficData = function (postData, session, callback) {
                 _.each(arrive_rf, function (data) {
                     var arrive_tim = data["arrive_tim"];
                     if (!_.isEmpty(arrive_tim) && arrive_tim.length == 4) {
-                        data["arrive_tim"] = arrive_tim.substring(0, 2) + ":" + arrive_tim.substring(2, 4)
+                        data["arrive_tim"] = arrive_tim.substring(0, 2) + ":" + arrive_tim.substring(2, 4);
                     }
                 });
                 callback(null, arrive_rf);
-            })
+            });
         },
         leave_rf: function (callback) {
             queryAgent.queryList("QRY_HFD_LEAVE_RF", params, 0, 0, function (err, leave_rf) {
@@ -56,17 +56,17 @@ exports.handleTrafficData = function (postData, session, callback) {
                     var leave_tim = data["leave_tim"];
                     var to_tim = data["to_tim"];
                     if (!_.isEmpty(leave_tim) && leave_tim.length == 4) {
-                        data["leave_tim"] = leave_tim.substring(0, 2) + ":" + leave_tim.substring(2, 4)
+                        data["leave_tim"] = leave_tim.substring(0, 2) + ":" + leave_tim.substring(2, 4);
                     }
                     if (!_.isEmpty(leave_tim) && leave_tim.length == 4) {
-                        data["to_tim"] = to_tim.substring(0, 2) + ":" + to_tim.substring(2, 4)
+                        data["to_tim"] = to_tim.substring(0, 2) + ":" + to_tim.substring(2, 4);
                     }
-                })
+                });
                 callback(null, leave_rf);
-            })
+            });
         }
     }, function (err, results) {
-        callback(err, results)
+        callback(err, results);
     });
 
 };

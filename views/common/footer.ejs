@@ -39,8 +39,11 @@
         $("#setupMainContent").load("/setup/"+url_hash);
     }
 
-    function loadProgram(prgram_url){
+    function loadProgram(prgram_url,prg_id){
+        doCookieSetup("usingPrgID",prg_id);
         location.href = prgram_url;
 //        location.reload();
     }
+
+
 </script>

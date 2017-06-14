@@ -72,7 +72,7 @@ exports.GET_SESSION_SYSTEM_DATE = function () {
 exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
     queryAgent.queryList(sql_tag, userInfo, 0, 0, function (selData) {
         callback(selData);
-    })
+    });
 };
 
 /**
@@ -102,7 +102,7 @@ exports.getSelectOptions = function (params, selRow, callback) {
             //方法訂義都需傳入一個Object參數集合
             ruleAgent[selRow.rule_func_name](params, function (err,result) {
                 callback(result.selectOptions);
-            })
+            });
         }else{
             callback([]);
         }
@@ -122,7 +122,7 @@ exports.handleBlurUiField = function (postData, session, callback) {
 
         ruleAgent[postData.rule_func_name](postData, session, function (err, result) {
             callback(err, result);
-        })
+        });
 
     } else {
         var errorObj = new ErrorClass();
@@ -152,7 +152,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
 
                 ruleAgent[func.rule_func_name](postData, session, function (err, result) {
                     callback(err, result);
-                })
+                });
 
             } else {
                 // var errorObj = new ReturnClass();
@@ -166,7 +166,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
         }
 
 
-    })
+    });
 };
 
 /**
@@ -180,7 +180,7 @@ exports.handleEditFuncRule = function (postData, session, callback) {
 
         ruleAgent[postData.rule_func_name](postData, session, function (err, result) {
             callback(err, result);
-        })
+        });
 
     } else {
         var errorObj = new ReturnClass();
@@ -223,10 +223,10 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                         function (callback) {
                             ruleAgent[func.rule_func_name](postData, session, function (err, result) {
                                 callback(err, result);
-                            })
+                            });
                         }
                     );
-                })
+                });
 
                 async.parallel(funcs, function (err, result) {
                     if (err) {
@@ -234,7 +234,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                     }
 
                     callback(err, lo_result);
-                })
+                });
 
             } else {
                 callback(null, new ReturnClass());
@@ -242,7 +242,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
         } else {
             callback(null, new ReturnClass());
         }
-    })
+    });
 };
 
 
@@ -258,7 +258,7 @@ exports.handleSaveFuncRule = function (postData, session, callback) {
 
         ruleAgent[postData.rule_func_name](postData, session, function (err, result) {
             callback(err, result);
-        })
+        });
 
     } else {
         var errorObj = new ReturnClass();
@@ -282,7 +282,7 @@ exports.chkIsModificableRowData = function (rule_func_name, rowData, session, ca
         };
         ruleAgent[rule_func_name](postData, session, function (err, result) {
             callback(err, result);
-        })
+        });
 
     } else {
         // var errorObj = new ReturnClass();
@@ -306,8 +306,8 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
     var la_before_save_create_sql_action = [];      //儲存前需要新增插入資料庫的動作
     var la_before_save_delete_sql_action = [];      //儲存前需要刪除資料庫的動作
     var la_before_save_update_sql_action = [];      //儲存前需要修改資料庫的動作
-    var lo_beforeSaveCreateCheckResult  = [];       //檢查update 結果
-    var lo_beforeSaveUpdateCheckResult  = [];       //檢查
+    var lo_beforeSaveCreateCheckResult = [];       //檢查update 結果
+    var lo_beforeSaveUpdateCheckResult = [];       //檢查
 
     mongoAgent.DatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
         if (ruleFuncs.length > 0) {
@@ -334,17 +334,17 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                                 if(_.isUndefined(result.modifiedRowData) && _.size(result.modifiedRowData) > 0){
                                      postData["createData"][cIdx] = result.modifiedRowData;
                                 }
-                                callback(err ? err.errorMsg : null, result.success)
-                            })
+                                callback(err ? err.errorMsg : null, result.success);
+                            });
                         }
-                    )
+                    );
 
                 }
             });
 
             async.parallel(createChkFuncs, function (err, result) {
-                callback(err, 'chkCreateData')
-            })
+                callback(err, 'chkCreateData');
+            });
         }
 
         //檢查修改資料
@@ -365,16 +365,16 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                                 if (result.extendExecDataArrSet.length > 0) {
                                     la_before_save_delete_sql_action = _.union(la_before_save_delete_sql_action, result.extendExecDataArrSet);
                                 }
-                                callback(err ? err.errorMsg : null, result.success)
-                            })
+                                callback(err ? err.errorMsg : null, result.success);
+                            });
                         }
-                    )
+                    );
                 }
             });
 
             async.parallel(editChkFuncs, function (err, result) {
-                callback(err, 'chkEditData')
-            })
+                callback(err, 'chkEditData');
+            });
         }
 
         //檢查刪除資料
@@ -396,17 +396,17 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                                 if (result.extendExecDataArrSet.length > 0) {
                                     la_before_save_delete_sql_action = _.union(la_before_save_delete_sql_action, result.extendExecDataArrSet);
                                 }
-                                callback(err, result.success)
-                            })
+                                callback(err, result.success);
+                            });
                         }
-                    )
+                    );
 
                 }
             });
 
             async.parallel(delChkFuncs, function (err, result) {
-                callback(err, 'chkDeleteData')
-            })
+                callback(err, 'chkDeleteData');
+            });
         }
 
         async.parallel([chkCreateData, chkEditData, chkDeleteData], function (err, result) {
@@ -419,7 +419,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             callback(err, result);
         });
 
-    })
+    });
 };
 
 
@@ -429,7 +429,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
  * @param session
  * @param callback
  */
-'use strict'
+'use strict';
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     var prg_id = postData["prg_id"];
     var deleteData = postData["deleteData"] || [];
@@ -446,10 +446,10 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                 delChkFuncs.push(
                     function (callback) {
                         ruleAgent[beforeDeleteFuncRule](deletePostData, session, function (err, result) {
-                            callback(err, result)
-                        })
+                            callback(err, result);
+                        });
                     }
-                )
+                );
 
 
             });
@@ -458,13 +458,13 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                 if (err) {
                     lo_result.success = false;
                 }
-                callback(err, lo_result)
-            })
+                callback(err, lo_result);
+            });
         } else {
             callback(null, new ReturnClass());
         }
 
-    })
+    });
 };
 
 
@@ -504,16 +504,16 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
                                             }
-                                            callback(err, 'create')
-                                        })
+                                            callback(err, 'create');
+                                        });
 
                                     }
-                                )
+                                );
                             });
 
                             async.parallel(createSubFunc, function (err, result) {
                                 callback(err, 'create');
-                            })
+                            });
 
                         } else {
                             callback(null, 'create');
@@ -540,16 +540,16 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
                                             }
-                                            callback(err, 'update')
-                                        })
+                                            callback(err, 'update');
+                                        });
 
                                     }
-                                )
+                                );
                             });
 
                             async.parallel(updateSubFunc, function (err, result) {
                                 callback(err, 'update');
-                            })
+                            });
 
                         } else {
                             callback(null, 'update');
@@ -574,16 +574,16 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
                                             }
-                                            callback(err, 'delete')
-                                        })
+                                            callback(err, 'delete');
+                                        });
 
                                     }
-                                )
+                                );
                             });
 
                             async.parallel(deleteSubFunc, function (err, result) {
                                 callback(err, 'delete');
-                            })
+                            });
 
                         } else {
                             callback(null, 'delete');
@@ -600,12 +600,12 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                     lo_chkResult.extendExecDataArrSet = tmpExtendExecDataArrSet;
 
                     callback(lo_chkError, lo_chkResult);
-                })
+                });
             } else {
                 // 無任何規則不用檢查
                 callback(null, lo_chkResult);
             }
-        })
+        });
     } catch (err) {
         lo_chkError = new ErrorClass();
         lo_chkError.errorMsg = err;

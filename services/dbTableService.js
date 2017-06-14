@@ -58,7 +58,7 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
                 }
 
                 callback(errorMsg, success);
-            })
+            });
         });
     } catch (err) {
         callback(err, false);
@@ -103,18 +103,18 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
                     success = false;
                     errorMsg = err;
                 } else {
-                    if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                    if (typeof data === 'object' && data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
                         success = false;
                         errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
                     }
                 }
 
                 callback(errorMsg, success);
-            })
+            });
 
         });
     } catch (err) {
-        callback(err, false);
+        callback(err, true);
     }
 };
 
@@ -139,7 +139,7 @@ exports.doTableAllUnLock = function (callback) {
             }
 
             callback(errorMsg, success);
-        })
+        });
     } catch (err) {
         callback(err, false);
     }
@@ -187,7 +187,7 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
                     log_id: log_id,
                     exceptionType: "execSQL",
                     errorMsg: errMsg
-                })
+                });
             }
 
             logSvc.recordLogAPI({
@@ -199,8 +199,8 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
                 res_content: data
             });
 
-            callback(errMsg, success)
-        })
+            callback(errMsg, success);
+        });
     } else {
         callback(null, true);
     }
@@ -219,8 +219,8 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
 exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
     var savaExecDatas = {};
     var exec_seq = 1;
-    var userInfo  = session.user;
-    var las_keyFields = _.pluck(_.where(fieldData,{keyable:'Y'}),"ui_field_name");
+    var userInfo = session.user;
+    var las_keyFields = _.pluck(_.where(fieldData,{keyable: 'Y'}),"ui_field_name");
     _.each(tmpCUD.createData,function(c_data){
         var tmpIns = {"function": "1"}; //1  新增
         tmpIns["table_name"] = mainTableName;
@@ -254,7 +254,7 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
 
         savaExecDatas[exec_seq] = tmpDel;
         exec_seq++;
-    })
+    });
 
     _.each(tmpCUD.updateData, function (u_data) {
         var tmpEdit = {"function": "2"}; //2  編輯
@@ -268,8 +268,8 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
 
         tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
 
-        delete  tmpEdit["ins_dat"];
-        delete  tmpEdit["ins_usr"];
+        delete tmpEdit["ins_dat"];
+        delete tmpEdit["ins_usr"];
 
         tmpEdit.condition = [];
         var lo_keysData = {};

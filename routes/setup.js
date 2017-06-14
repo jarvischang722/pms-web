@@ -16,9 +16,6 @@ module.exports = function(app  ) {
     /** 訂房確認書 email **/
     app.get('/reservationCheckMail', setupCrtl.getReservationCheckMail);
 
-    /** 假日日期設定 **/
-    app.get('/holidayDateSet', setupCrtl.getHolidayDateSet);
-
     /** 設定Layout **/
     app.get('/setup/:mdl_id', middles, setupCrtl.setupLayout);
 
