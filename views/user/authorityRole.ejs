@@ -37,11 +37,9 @@
 <!-- /section:basics/navbar.layout -->
 <div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
 
-
-        <%- include('../common/moduleMenu',{}) %>
-
+        <%- include('../common/moduleMenu',{current_subsys_id:'',pro_id:''}) %>
         <div class="companyInfo">
             <img src="/images/athena_log.png"/>
         </div>
@@ -52,8 +50,7 @@
 
     <div class="main-content">
         <div class="main-content-inner">
-
-            <%- include('../common/subsysMenu',{}) %>
+            <%- include('../common/subsysMenu',{current_subsys_id:'',pro_id:''}) %>
 
             <div class="page-content">
             <div class="controlReservation">
@@ -86,15 +83,15 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                     <li>
-                                                        <a href="#">角色權限</a>
+                                                        <a href="authorityRole">角色權限</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="#">功能權限</a>
+                                                        <a href="authorityFeature">功能權限</a>
                                                     </li>
 
                                                     <li>
-                                                        <a href="#">人員權限</a>
+                                                        <a href="authorityStaff">人員權限</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -113,23 +110,24 @@
                                     <div class="col-xs-6">
                                         <div class="row no-margin-right">
                                             <!--跳頁-->
-                                            <a href="/manageSetting">
+                                            <!--<a href="/manageSetting">-->
                                             <p class="topTitle">功能權限</p>
-                                            </a>
+                                            <!--</a>-->
                                             <div class="easyui-panel tree-body">
-                                                    <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
-                                                </div>
+                                                <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
-                                        <div class="row no-margin-right">
+                                        <div class="row">
                                             <p class="topTitle">人員權限</p>
-                                            <div class="easyui-panel tree-body">
-                                                <ul id="tt" class="easyui-tree" data-options="url:'/jsonData/authorStaff_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
+                                            <div class="easyui-panel tree-body" style="width: 100%;">
+                                                <ul id="tt1" class="easyui-tree" data-options="url:'/jsonData/authorStaff_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
                             <div class="clearfix"></div>
                             <div class="space-12"></div>

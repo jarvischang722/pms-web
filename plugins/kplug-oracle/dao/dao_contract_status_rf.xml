@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0860070'] 查詢資料-->
+    <dao name="QRY_CONTRACT_STATUS_RF">
+        <statement><![CDATA[
+                select athena_id, status_cod, status_desc, default_sta, ins_usr, ins_dat, upd_usr, upd_dat
+                from contract_status_rf
+                where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

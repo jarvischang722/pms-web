@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830020'] 取得使用規則 -->
+    <dao name="QRY_SERV_TYPE_RF_USE_TYP">
+        <statement><![CDATA[
+
+        select code as value, code_nam as display
+        from ais_external_dw
+        where dw_nam = 'd_hfd_servtype_use_typ' and lang_cod = pg_ais.sf_lang_cod(pg_ais.sf_language(0)) and athena_id = trim(:athena_id) order by sort_cod
+
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+</root>

@@ -14,6 +14,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_grp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_guest_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_source_grp_rf.xml"/>
@@ -27,5 +28,34 @@
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_todo_list_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_servtype_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hc_adjrmk_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ps_visit_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ps_visit_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_transport_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_pickup_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="holiday_kind_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_daily_event.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cntry_nam.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_livecod_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_contract_status_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_address_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_contact_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_contact_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cntry_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_eis_cntry_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_character_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_arrive_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_leave_rf.xml"/>
     </sql-sources>
 </struts-config>

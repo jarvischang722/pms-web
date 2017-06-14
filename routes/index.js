@@ -16,9 +16,7 @@ module.exports = function(app, passport ) {
     //館別切換
     app.post('/changeHotelCod', sysCrtl.changeHotelCod);
 
-    //
-    app.get('/manageReservation', middles, sysCrtl.manageReservation);
-
-
+    //前端插入資料資料庫api
+    app.post('/api/execSQLProcess',sysCrtl.execSQLProcess);
 };
 

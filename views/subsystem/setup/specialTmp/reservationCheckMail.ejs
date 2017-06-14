@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ../../../common/head %>
+<%- include ../../../common/importFiles %>
+
+
+<body class="no-skin" id="app">
+
+
+<!-- #section:basics/navbar.layout -->
+<%- include ../../../common/navbar.ejs %>
+<!-- include header.html -->
+<script type="text/javascript">
+    var global_using_prg_id = ""; //目前使用中的程式
+
+
+    $(function () {
+        //選第一個對照檔
+        $("#settingUl li").first().find("a").click();
+
+    })
+
+    //網頁讀取
+    function loadSettingPage(prg_id) {
+
+//        $("#controlReservationTab01").load('/mainSetUp/' + prg_id);
+        //TODO 需改成用load的方式
+        var iframe = document.getElementById('proIframe');
+        iframe.src = '/mainSetUp/' + prg_id;
+    }
+
+    // 判斷iframe 大小
+    function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+    }
+
+</script>
+<!-- /section:basics/navbar.layout -->
+<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+
+        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+
+
+        <%- include('../../../common/moduleMenu',{current_subsys_id:'PMS0800000',pro_id:''}) %>
+
+        <div class="companyInfo">
+            <img src="/images/athena_log.png"/>
+        </div>
+        <!-- /section:basics/sidebar.layout.minimize -->
+    </div>
+
+    <!-- /section:basics/sidebar -->
+
+    <div class="main-content">
+        <div class="main-content-inner">
+
+            <%- include('../../../common/subsysMenu',{current_subsys_id:'PMS0800000',pro_id:''}) %>
+
+            <div class="page-content">
+            <div class="controlReservation">
+                <div class="page-header">
+                </div><!-- /.page-header -->
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs" id="myTab3">
+                                <li>
+                                    <a data-toggle="tab" href="#reserveCheckMailTab01">
+                                        訂房確認書Email
+                                    </a>
+                                </li>
+
+                                <li class="active">
+                                    <a data-toggle="tab" href="#holidayCateSetTab02">
+                                        假日類別設定
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="reserveCheckMailTab01" class="tab-pane">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-11 col-xs-11">
+                                            <div class="row">
+                                                <div class="reserveCheckMail">
+                                                    <div class="grid">
+                                                        <div class="grid-item tab-block">
+                                                            <label>格式名稱</label>
+                                                            <input class="input-medium checkMail" placeholder="訂房確認書-訂房公司" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid">
+                                                        <div class="grid-item tab-block">
+                                                            <label>主旨</label>
+                                                            <input class="input-medium checkMail" placeholder="[ 訂房公司 ]訂房確認書" />
+                                                            <button type="button" class="btn btn-danger btn-white btn-sm btn-height">檢查</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid">
+                                                        <div class="grid-item tab-block">
+                                                            <div class="block-item-content">
+                                                                <label class="pull-left">內容</label>
+                                                                <div class="relative pull-left">
+                                                                    <textarea class="input-xxlarge margin-adjust" rows="5"></textarea>
+                                                                    <p class="tip">請用ctrl+Enter換行</p>
+                                                                </div>
+                                                                <button type="button" class="btn btn-danger btn-white btn-sm btn-height btnCheck margin-adjust">檢查</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+
+                                                    <div class="space-12"></div>
+                                                    <div class="col-xs-12">
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">新增者</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="cio" disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">新增日</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="2012/04/19" disabled />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="col-xs-12">
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">最後異動者</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="cio" disabled/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="row">
+                                                                    <div class="block-item clearfix">
+                                                                        <label style="width: 75px;">最後異動日</label>
+                                                                        <span class="spaceColon">：</span>
+                                                                        <input class="input-large" placeholder="2012/04/19" disabled />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+
+                                                    <div class="space-24"></div>
+                                                    <div class="tipWall">
+                                                        <p>代換字設定說明：</p>
+                                                        <ul>
+                                                            <li>1.將游標移至設定主旨或內容中需指定代換字位置，點選下方換字按鈕指定代換欄位資料</li>
+                                                            <li>2.代換字中不可在設定代換字</li>
+                                                            <li>3.點選檢查按鈕，可檢查設定之主旨或內容是否錯誤</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="changeChoice">
+                                                        <ul>
+                                                            <li>訂房卡號</li>
+                                                            <li>聯絡人</li>
+                                                            <li>Full Name</li>
+                                                            <li>公司名稱</li>
+                                                            <li>訂房公司</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-1 col-sm-1">
+                                            <div class="row">
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.col-sm-12 -->
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div id="holidayCateSetTab02" class="tab-pane in active">
+
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-11 col-xs-11">
+                                            <div class="row">
+                                                <div class="tab-content-subSet">
+                                                    <div class="search-content">
+                                                    <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                                    <div class="search-co">
+                                                        <div class="search-co-h">
+                                                            <i class="ace-icon fa fa-search search-icon"></i>
+                                                            <span>搜尋</span>
+                                                            <div class="row search-right-btn">
+                                                                <div class="right-btn-menu-co">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <i class="fa fa-chevron-down show-search-detail"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="search-co-content col-xs-12">
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                                <div class="col-sm-4">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="search-co-content col-xs-12 rece-search-detail " style="display: none;">
+                                                                <div class="row search-footer-btn">
+                                                                    <div class="footer-btn-menu-co">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                                     title="查詢"
+                                                                                     style="padding: 0 0 5px 0;">
+                                                                                    <div class="icon-reStyle icon-co-14"></div>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="" data-rel="tooltip" data-placement="bottom"
+                                                                                     title="清除" style="padding: 0 0 5px 0;">
+                                                                                    <div class="icon-reStyle icon-co-11"></div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>  <!-- /.footer-btn-menu-co -->
+                                                                </div> <!-- /.search-footer-btn -->
+                                                                <div class="grid width-95">
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>大類</label>
+                                                                            <input type="text" class="input-n"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>小類</label>
+                                                                            <input type="text" class="input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>mange response with </label>
+                                                                            <input type="text" class="input-n"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid-item">
+                                                                        <div class="block-table">
+                                                                            <label>假日房別</label>
+                                                                            <input type="text" class="input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div> <!-- row-->
+                                                    </div> <!-- /.search-co -->
+
+                                                </div> <!-- /.row  search-content-->
+                                                <!-- 假日類別對照檔 -->
+                                                <table id="dg_color" class="easyui-datagrid" title="假日類別對照檔"  style="height: 250px;"
+                                                       data-options="singleSelect:true,collapsible:true,url:'/jsonData/holidayGateSet_data1.json',method:'get'">
+                                                    <thead>
+                                                    <tr>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-1 col-sm-1">
+                                            <div class="row">
+                                                <div class="right-menu-co">
+                                                    <ul>
+                                                        <li>
+                                                            <button id="ins-btn" @click="switchToCreateStatus"
+                                                                    class="btn btn-primary btn-white btn-defaultWidth"  onclick="getDgRow();"
+                                                                    role="button"><%= __("program")["PMS0810010"]["btn_insert"] %> </button>
+                                                        </li>
+
+                                                        <li>
+                                                            <button id="remove-btn" @click="removeRow"
+                                                                    class="btn btn-danger btn-white btn-defaultWidth"
+                                                                    role="button"><%= __("program")["PMS0810010"]["btn_delete"] %></button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.col-sm-12 -->
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- /.roomNumPlanPage -->
+            </div>
+        </div>
+    </div><!-- /.main-content -->
+    <%- include ../../../common/footer %>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+
+</body>
+</html>
+<script>
+
+    $(function(){
+
+        $(document).on("change",".dg_colorPicker_class",function(){
+            var dataGridName = "dg_color";
+            var dataIdx = $(this).data("index");
+            var color_cod = $(this).val();
+            var field_name = $(this).data("field_name");
+            var updateRow = {};
+            updateRow[field_name] = color_cod;
+            $('#'+dataGridName).datagrid('updateRow',{
+                index: dataIdx,
+                row: updateRow
+            });
+        })
+    })
+
+    $('#dg_color').datagrid({
+        columns:[[
+            {field:'itemid',title:'Item ID',width:80},
+            {field:'listprice',title:'Attribute',width:200},
+            {field:'unitcost',title:'unitcost',width:80},
+            {field:'displayColor',title:'displayColor',width:80,editor:{
+                options:{
+//                    formatter : function (val, row, index) {
+//
+//                        return 12345;
+//                     }
+                }
+            },
+                formatter: function (color_cod,row,index) {
+                    console.log(this);
+                    return "<input type='color' class='dg_colorPicker_class spectrumColor' data-index="+index+" data-field_name='displayColor' value='"+color_cod+"'  />";
+                }
+            },
+            {field:'status',title:'Status',width:80},
+            {field:'enterDate',title:'enterDate',width:80},
+            {field:'lastEditPerson',title:'lastEditPerson',width:80},
+            {field:'lastEditDate',title:'lastEditDate',width:80}
+        ]]
+    });
+
+    $.extend($.fn.datagrid.defaults.editors, {
+        colorpicker: {//colorpicker就是你要自定义editor的名称
+            init: function (container, options) {
+                // var input = $('<input class="easyuidatetimebox">').appendTo(container);
+                var input = $('<input>').appendTo(container);
+
+                input.ColorPicker({
+                    color: '#0000ff',
+                    onShow: function (colpkr) {
+                        $(colpkr).fadeIn(500);
+                        return false;
+                    },
+                    onHide: function (colpkr) {
+                        $(colpkr).fadeOut(500);
+                        return false;
+                    },
+                    onChange: function (hsb, hex, rgb) {
+                        //                    $('#colorSelector div').css('backgroundColor', '#' + hex);
+                        input.css('backgroundColor', '#' + hex);
+                        input.val('#' + hex);
+                    }
+                });
+                return input;
+            },
+            getValue: function (target) {
+                return $(target).val();
+            },
+            setValue: function (target, value) {
+                $(target).val(value);
+                $(target).css('backgroundColor', value);
+                $(target).ColorPickerSetColor(value);
+            },
+            resize: function (target, width) {
+                var input = $(target);
+                if ($.boxModel == true) {
+                    input.width(width - (input.outerWidth() - input.width()));
+                } else {
+                    input.width(width);
+                }
+            }
+        }
+    });
+
+    function getDgRow(){
+        console.log($("#dg_color").datagrid("getRows"));
+    }
+
+</script>

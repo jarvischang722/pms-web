@@ -2,21 +2,21 @@
 /* Styles for the demo page only.  See spectrum.css for the actual colorpicker styles */
 html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 body { margin: 0; font-size: 14px; line-height: 1.5; background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAG0lEQVQIW2OMqXogyYADMIIkl7QpPMcmP+gkAYLGGdeobP2EAAAAAElFTkSuQmCC); }
-body, button, input, select, textarea { font-family: Droid Sans, Tahoma, sans-serif; color: #222; }
-body p { font-family: Verdana; font-size: 12px; color: #333; line-height: 1.8; }
-h1 { font-family: Lucida Sans, Droid Sans, Verdana; font-size: 30px; line-height: inherit;  margin: 0; padding:0; font-weight: lighter; position:fixed; top: 3px; left: 10px; }
+body, button, input, select, textarea {  color: #222; }
+body p {  font-size: 12px; color: #333; line-height: 1.8; }
+h1 { font-size: 30px; line-height: inherit;  margin: 0; padding:0; font-weight: lighter; position:fixed; top: 3px; left: 10px; }
 h1 a { text-decoration: none; color: #334 !important; }
 h1 a:hover { text-decoration: underline; color: #336 !important; }
 #header { background: #eee; background: #eee; height: 60px; line-height: 60px; padding: 3px 10px;}
 
 #goals { margin:0 auto; padding:0; width: 98%; }
-.goal { float: left; width: 29%; margin:1%; padding:1%; color: #335; min-height: 300px; background: #eee; border-radius: 10px; font-family: Verdana; }
-#docs .goal h4 { text-align: center; margin: .5em 0; font-weight: lighter; text-decoration: underline; font-family: Verdana; }
+.goal { float: left; width: 29%; margin:1%; padding:1%; color: #335; min-height: 300px; background: #eee; border-radius: 10px;  }
+#docs .goal h4 { text-align: center; margin: .5em 0; font-weight: lighter; text-decoration: underline;  }
 a { color: #00e; }
 a:visited { color: #009; }
 a:hover { color: #06e; }
 a:focus { outline: thin dotted; }
-#header h2 { float:left; margin:0; padding:0; margin-left: 180px; font-size: 14px; line-height: inherit; font-weight: normal; font-family: Georgia;}
+#header h2 { float:left; margin:0; padding:0; margin-left: 180px; font-size: 14px; line-height: inherit; font-weight: normal; }
 #header h2 em {background: #444; color: #fff; font-style: normal; padding: 5px; border-radius: 5px; border: solid 1px #999; box-shadow: 0 0 4px #333;}
 #links { float:right; text-align: right; }
 #pick2-details { font: monospace; }
@@ -60,7 +60,7 @@ box-shadow: 0 0 10px #ccc; border-radius: 0 0 5px 5px;
 .clearfix:after { clear: both; }
 .clearfix { *zoom: 1; }
 
-input[type="text"] { height: auto; }
+/*input[type="text"] { height: auto; }*/
 .label {
   padding: 1px 4px 2px;
   font-size: 10.998px;
@@ -211,7 +211,6 @@ input[type="text"] { height: auto; }
     width: 180px;
     color: #222;
     overflow-y: auto;
-    font-family: Georgia;
 }
 #toc-slider {
     position:fixed;

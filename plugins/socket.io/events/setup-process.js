@@ -9,14 +9,14 @@ var dbSVC = require("../../../services/dbTableService");
 module.exports = function (io) {
 
     io.of("/setup").on('connection', function (socket) {
-
-        // table lock
+        var go_session = socket.request.session;
         socket.on('handleTableLock', function (data) {
             var prg_id = data.prg_id || "";
             var page_id = data.page_id || 1;
             var table_name = "";
-            var user_id = data.user.usr_id;
-            var athena_id = data.user.athena_id;
+            var user_id = go_session.user.usr_id;
+            var athena_id = go_session.user.athena_id;
+            var hotel_cod = go_session.user.fun_hotel_cod;
             var lock_type = "";
             var key_cod = "";
             var socket_id = socket.id;
@@ -25,16 +25,21 @@ module.exports = function (io) {
             mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
                 if (!err && template) {
-                    template = template.toObject();
-                    table_name = template.lock_table;
-                    lock_type = template.lock_type == "table" ? "T" : "R";
 
-                    dbSVC.doTableLock(prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, function (errorMsg, success) {
+                    if(!_.isEmpty(template.lock_table))
+                    {
+                        template = template.toObject();
+                        table_name = template.lock_table;
+                        lock_type = template.lock_type == "table" ? "T" : "R";
 
-                        socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
-                    })
+                        dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
+                            socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
+                        })
+                    }else {
+                        socket.emit('checkTableLock', {success: true, errorMsg: "", prg_id: prg_id});
+                    }
                 } else {
-                    socket.emit('checkTableLock', {success: false, errorMsg: "error", prg_id: prg_id});
+                    socket.emit('checkTableLock', {success: false, errorMsg: "Not found Program.", prg_id: prg_id});
                 }
 
             })
@@ -46,8 +51,9 @@ module.exports = function (io) {
             var prg_id = data.prg_id || "";
             var page_id = data.page_id || 1;
             var table_name = "";
-            var user_id = data.user.usr_id;
-            var athena_id = data.user.athena_id;
+            var user_id = go_session.user.usr_id;
+            var athena_id = go_session.user.athena_id;
+            var hotel_cod = go_session.user.fun_hotel_cod;
             var lock_type = "";
             var key_cod = "";
             var socket_id = socket.id;
@@ -55,12 +61,12 @@ module.exports = function (io) {
 
             mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
-                if (!err && template) {
+                if (!err && template && !_.isEmpty(template.lock_table)) {
                     template = template.toObject();
                     table_name = template.lock_table;
                     lock_type = template.lock_type == "table" ? "T" : "R";
 
-                    dbSVC.doTableUnLock(prg_id, table_name, user_id, lock_type, key_cod, athena_id, socket_id, function (errorMsg, success) {
+                    dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
                         //table lock done
                     })
                 }

@@ -1,0 +1,76 @@
+<div id="DGApp">
+
+    <div class="col-xs-12">
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
+    </div>
+    <div class="col-xs-12" v-show="!isTableLock">
+        <div class="col-sm-11 col-xs-11">
+            <div class="row no-margin-right">
+                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
+
+                    <table id="prg_dg">
+                        <thead>
+                        <tr>
+
+                            <!-- data grid content-->
+
+                        </tr>
+                        </thead>
+                    </table>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-1 col-sm-1">
+            <div class="row">
+                <div class="right-menu-co">
+                    <ul>
+                        <li>
+                            <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
+                                    @click="appendRow"
+                                    role="button">
+                                <%= __("SystemCommon").Add %>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="remove-btn" :disabled="saving"
+                                    class="btn btn-danger btn-white btn-defaultWidth"
+                                    @click="removeRow();"
+                                    role="button">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
+                                    @click="doSave();"
+                                    role="button">
+                                <%= __("SystemCommon").Save %>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.col-sm-12 -->
+
+    <multi-lang-dialog-tmp
+            @update-multi-lang-dg="updateMultiLangDG"
+            @end-multi-lang-editing="endMultiLangEditing"
+            @temp-exec-data="tempExecData"
+            :sys_locales="sys_locales"
+            :prg-field-data-attr="prgFieldDataAttr">
+    </multi-lang-dialog-tmp>
+
+
+</div>
+<div type="hidden" id="gridEdit" name="gridEdit"></div>
+<div class="clearfix"></div>
+<script type="text/javascript">
+    var gs_prg_id = '<%= prg_id %>';
+</script>
+<%- include vueTemplate/multiLangDialogTmp.ejs %>
+<script src="/js/setup/datagrid.js"></script>

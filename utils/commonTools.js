@@ -25,7 +25,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     params = JSON.stringify(params);
 
-    deUrl = apiUrl + '?lang=' + lang + '&' + '&TxnData=' + params;
+    deUrl = apiUrl + '?lang=' + lang + '&' + 'testLog=Y&TxnData=' + params;
 
     var paramsbytes = utf8.encode(params);
 
@@ -37,7 +37,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     console.log(deUrl);
 
-    console.log(url);
+    // console.log(url);
 
     request({url: url, encoding: "utf8", timeout: 30000, json: true}, function (err, response, data) {
         var errorMsg = null;
@@ -61,18 +61,18 @@ exports.requestApi = function (apiUrl, params, callback) {
 
 /**
  * mongodb _doc 轉成物件
- * @param dataRows
+ * @param mongoDataRows{Array}: 從mongo 撈出來的多筆資料
  */
-exports.mongoDocToObject = function (dataRows) {
+exports.mongoDocToObject = function (mongoDataRows) {
     try {
-        _.each(dataRows, function (row, idx) {
-            dataRows[idx] = row.toObject();
+        _.each(mongoDataRows, function (row, idx) {
+            mongoDataRows[idx] = row.toObject();
         })
-    } catch (err) {
-
+    } catch (ex) {
+        console.error(ex);
     }
 
-    return dataRows;
+    return mongoDataRows;
 };
 
 /**

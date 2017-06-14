@@ -14,7 +14,7 @@ var middles = [i18nMW,authMW,hotelMW];
 module.exports = function(app  ) {
 
     //設定
-    app.get('/manageSetting', middles, setCrtl.manageSetting);
+    //app.get('/manageSetting', middles, setCrtl.manageSetting);
 
     //設定檔
     app.get('/dataSetting/:prg_id', middles, setCrtl.dataSetting);
@@ -25,6 +25,8 @@ module.exports = function(app  ) {
     app.get('/dataGridSetUp/:prg_id', middles, setCrtl.dataGridSetUp);
 
     app.get('/gridSingleSetUp/:prg_id', middles, setCrtl.gridSingleSetUp);
+
+    app.get('/specialSetUp/:prg_id', middles, setCrtl.specialSetUp);
 
     app.post('/api/dbTableLock',  setCrtl.dbTableLock);
 

@@ -15,21 +15,26 @@ h3
 //.btn-primary
 //  background: #438EB9 !important
 //  border-color: #438EB9
+.btn-height
+  padding: 3px 9px
 .btn-defaultWidth
   //height: 100%
   width: 100%
-  font-size: 12px
+  padding: 3px 9px
+  font-size: $font-btn
   padding-left: 0
   padding-right: 0
   white-space: normal //文字斷行
+  &.segement
+    margin-bottom: 10px
 .intCountLi-height
   ul
     li
       padding: 5px 0
 
-@media (min-width: 992px) and (max-width: 1240px)
-  //.navbar-fixed-top + .main-container
-//padding-top: 90px //edit 1024解析
+
+select.form-control
+  padding: 4px 2px
 
 .top-sec-ul
   max-width: 100%
@@ -38,17 +43,7 @@ h3
   background: #F5F5F5
 //z-index: 1030
 
-/* header css */
 
-/* jqGrid html */
-.jqGridEdit-table
-  .ui-jqgrid .ui-jqgrid-labels
-    background: #c0d6ee
-    background-image: none
-  &.margin-5
-    margin: 0 0 10px 0
-.rateCode03-table
-  margin: 20px 0 0 0
 
 //int_Counter.html 綜合櫃台 左邊的表格
 .tabs-left.counter-tabs > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a
@@ -64,11 +59,7 @@ h3
 .input-sm
   height: 24px
 
-// /.hsuan bug edit
-@media screen and (max-width: 992px)
-  .top-sec-ul
-    z-index: 1024
-    padding-top: 50px
+
 
 /*-- sidebar --/
 .nav-list
@@ -114,7 +105,6 @@ h3
     border-radius: 0
   //padding: 7px 10px
   //font-size: 22px
-  &:before
 //top: 18px
 .no-skin .nav-list > li.active:after
   border: none
@@ -125,8 +115,6 @@ h3
 .page-content
   padding: 8px 10px 24px
 
-.nav-header
-//max-height: 35px
 .ace-nav > li
   line-height: 35px
   height: 35px
@@ -156,6 +144,20 @@ h3
   &:hover
     background-color: transparent !important
 
-//
+// 調整所有input 高
+.input-medium
+  height: $inputHeight-medium
 
+// label 文字大小
+label
+  font-size: $font-default !important
+.container_12 .grid_12
+  width: 100% !important
+  max-width: 100%
+  overflow-x: auto
 
+// /.hsuan bug edit
+@media screen and (max-width: 992px)
+  .top-sec-ul
+    z-index: 1024
+    padding-top: 50px

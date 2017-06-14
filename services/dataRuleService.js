@@ -82,7 +82,7 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * @param callback
  * @constructor
  */
-exports.GET_SELECT_OPTIONS = function (params, selRow, callback) {
+exports.getSelectOptions = function (params, selRow, callback) {
 
     if (selRow.referiable == "Y") {
         callback([]);
@@ -98,219 +98,17 @@ exports.GET_SELECT_OPTIONS = function (params, selRow, callback) {
             callback(selData);
         });
     } else {
-        if (!_.isUndefined(this[selRow.rule_func_name])) {
+        if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            this[selRow.rule_func_name](params, function (selData) {
-                callback(selData);
+            ruleAgent[selRow.rule_func_name](params, function (err,result) {
+                callback(result.selectOptions);
             })
+        }else{
+            callback([]);
         }
     }
 };
 
-/**
- * 取得房型全部上傳狀態
- * @param params
- * @param callback
- */
-exports.getRvrmUploadStaList = function (params, callback) {
-    var uploadOptions = [
-        {
-            display: '已上傳',
-            value: 'Y'
-        },
-        {
-            display: '上傳失敗',
-            value: 'F'
-        },
-        {
-            display: '未上傳',
-            value: 'N'
-        }
-    ];
-    callback(uploadOptions);
-};
-
-/**
- * 取得住客類別群組對照檔使用與未使用
- */
-exports.getGuestgrprfUseStaList = function (params,callback) {
-    var userSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(userSta);
-};
-
-/**
- * 取得訂房卡來員群組設定對照檔使用與未使用(與住客類別群組對照檔一樣)
- */
-exports.getSourcegrprfUseStaList = function (params,callback) {
-    var userSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(userSta);
-};
-
-/**
- * 取得住客類別設定是否留下客戶歷史資料
- */
-exports.qry_guest_rf_history_sta = function (params,callback) {
-    var historySta = [
-        {
-            display: '留歷史資料，可印旅客登記卡',
-            value: 'Y'
-        },
-        {
-            display: '不留 不印',
-            value: 'N'
-        }
-    ];
-    callback(historySta);
-};
-
-/**
-* 取得住客類別設定有哪些客群
-*/
-exports.qry_guest_rf_guest_way = function (params,callback) {
-    var guestWay = [
-        {
-             display: '散客',
-            value: 'F'
-        },
-        {
-            display: '商務',
-            value: 'C'
-        },
-        {
-            display: '團體',
-            value: 'G'
-        }
-    ];
-    callback(guestWay);
-};
-
-/**
- * 取得住客類別設定使用還未使用
- */
-exports.qry_guest_rf_use_sta = function (params,callback) {
-    var useSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(useSta);
-};
-
-/**
- * 取得住客類別設定列印或不列印
- */
-exports.qry_guest_rf_rcard_prtrent = function (params,callback) {
-    var useSta = [
-        {
-            display: '列印RCARD',
-            value: 'Y'
-        },
-        {
-            display: '不印',
-            value: 'N'
-        }
-    ];
-    callback(useSta);
-};
-
-/**
- * PMS0810110取得是否使用
- */
-exports.qry_source_rf_use_sta = function (params,callback) {
-    var useSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(useSta);
-};
-/**
- * FOC設定(PMS0810140)取得下拉選項
- */
-exports.qry_foc_rf_role_sta_list = function (params,callback) {
-
-    var roleStaList = [
-        {
-            display: '房價最低',
-            value: '1'
-        },
-        {
-            display: '房間數最多的房種',
-            value: '2'
-        },
-        {
-            display: '指定房號',
-            value: '3'
-        },
-        {
-            display: '指定金額',
-            value: '4'
-        }
-    ];
-    callback(roleStaList);
-};
-/**
- * 交辦事項設定(PMS0810200)取得下拉選項
- */
-exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
-
-    var useSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(useSta);
-};
-
-/**
- * 訂房取消設定
- */
-exports.getGuestgrprfUseStaList = function(params, callback){
-    var useSta = [
-        {
-            display: '使用中',
-            value: 'Y'
-        },
-        {
-            display: '未使用',
-            value: 'N'
-        }
-    ];
-    callback(useSta);
-};
 
 /**
  * 使用者離開欄位時檢查
@@ -508,6 +306,8 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
     var la_before_save_create_sql_action = [];      //儲存前需要新增插入資料庫的動作
     var la_before_save_delete_sql_action = [];      //儲存前需要刪除資料庫的動作
     var la_before_save_update_sql_action = [];      //儲存前需要修改資料庫的動作
+    var lo_beforeSaveCreateCheckResult  = [];       //檢查update 結果
+    var lo_beforeSaveUpdateCheckResult  = [];       //檢查
 
     mongoAgent.DatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
         if (ruleFuncs.length > 0) {
@@ -519,7 +319,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             var beforeCreateFuncRule = _.findIndex(ruleFuncs, {func_id: '0521'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0521'}).rule_func_name
                 : "";
-            _.each(createData, function (c_data) {
+            _.each(createData, function (c_data,cIdx) {
                 if (!_.isEmpty(beforeCreateFuncRule) && !_.isUndefined(ruleAgent[beforeCreateFuncRule])) {
                     var createPostData = {
                         singleRowData: c_data
@@ -530,6 +330,9 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                             ruleAgent[beforeCreateFuncRule](createPostData, session, function (err, result) {
                                 if (result.extendExecDataArrSet.length > 0) {
                                     la_before_save_create_sql_action = _.union(la_before_save_create_sql_action, result.extendExecDataArrSet);
+                                }
+                                if(_.isUndefined(result.modifiedRowData) && _.size(result.modifiedRowData) > 0){
+                                     postData["createData"][cIdx] = result.modifiedRowData;
                                 }
                                 callback(err ? err.errorMsg : null, result.success)
                             })
@@ -612,7 +415,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             result.la_before_save_create_sql_action = la_before_save_create_sql_action;
             result.la_before_save_delete_sql_action = la_before_save_delete_sql_action;
             result.la_before_save_update_sql_action = la_before_save_update_sql_action;
-
+            result.postData = postData;
             callback(err, result);
         });
 
@@ -626,6 +429,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
  * @param session
  * @param callback
  */
+'use strict'
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     var prg_id = postData["prg_id"];
     var deleteData = postData["deleteData"] || [];
@@ -633,7 +437,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     mongoAgent.DatagridFunction.findOne({prg_id: prg_id, func_id: '0300'}, function (err, deleteRule) {
 
         var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
-        if (!_.isEmpty(beforeDeleteFuncRule)) {
+        if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {
             _.each(deleteData, function (d_data) {
                 var deletePostData = {
                     singleRowData: d_data

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810030'] 取得HQ的國籍分類-->
+    <dao name="QRY_CNTRY_RF_HQ_COD">
+        <statement><![CDATA[
+                select contry_hq as value, contry_nam display
+                 from eis_cntry_rf
+                  where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

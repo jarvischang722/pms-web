@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810060'] 取得筆數 -->
+    <dao name="QRY_HFD_LIVE_COD_RF">
+        <statement><![CDATA[
+            select athena_id, live_cod, live_nam, live_sna, contry_cod, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
+            from hfd_livecod_rf
+            where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+    </dao>
+</root>
