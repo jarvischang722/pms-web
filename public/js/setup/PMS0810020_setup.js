@@ -1,5 +1,7 @@
 /**
  * Created by Jun on 2017/2/23.
+ * 程式編號: PMS0810020
+ * 程式名稱: 房型設定檔
  */
 waitingDialog.hide();
 var prg_id = $("#prg_id").val();
@@ -94,8 +96,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
 });
 
 /** 編輯新增Dialog Component **/
-Vue.component('sigle-grid-dialog-tmp', {
-    template: '#sigleGridDialogTmp',
+Vue.component('single-grid-pms0810020-tmp', {
+    template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
         'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
     data: function () {
@@ -110,14 +112,14 @@ Vue.component('sigle-grid-dialog-tmp', {
         editingRow: function (newRow, oldRow) {
 
             this.$parent.editingRow = newRow;
-            var nowDatagridRowIndex = $("#dg").datagrid('getRowIndex', newRow);
-            $("#dg").datagrid('selectRow', nowDatagridRowIndex);
+            var nowDatagridRowIndex = $("#PMS0810020_dg").datagrid('getRowIndex', newRow);
+            $("#PMS0810020_dg").datagrid('selectRow', nowDatagridRowIndex);
 
-            if ($("#dg").datagrid('getRowIndex', newRow) == 0) {
+            if ($("#PMS0810020_dg").datagrid('getRowIndex', newRow) == 0) {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
-            } else if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
+            } else if ($("#PMS0810020_dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
                 this.isLastData = true;
@@ -202,7 +204,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //上一筆
         toPreData: function () {
-            var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
+            var nowRowIndex = $("#PMS0810020_dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
             this.emitFetchSingleData();
 
@@ -210,7 +212,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //下一筆
         toNextData: function () {
-            var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
+            var nowRowIndex = $("#PMS0810020_dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex + 1];
             this.emitFetchSingleData();
 
@@ -258,19 +260,18 @@ Vue.component('sigle-grid-dialog-tmp', {
             this.$emit('fetch-single-data', params, function (success) {
             });
         },
-        //新增模式
+        //新增
         emitAppendRow: function () {
             this.$emit('append-row');
         },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
 
-
             var self = this;
             var targetRowAfterDelete = {}; //刪除後要指向的資料
             if (this.deleteStatue) {
-                var rowsNum = $("#dg").datagrid('getRows').length;
-                var currentRowIdx = $("#dg").datagrid('getRowIndex', self.editingRow); //目前索引
+                var rowsNum = $("#PMS0810020_dg").datagrid('getRows').length;
+                var currentRowIdx = $("#PMS0810020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                 if (currentRowIdx == rowsNum - 1) {
                     //刪除的資料已經是最後一筆 就取datagrid最末筆
                     targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
@@ -309,7 +310,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                          * 2.無下一筆時取datagrid 最後一筆
                          * 3.連一筆都沒有關掉dialog 回多筆
                          **/
-                        if ($("#dg").datagrid('getRows').length > 0) {
+                        if ($("#PMS0810020_dg").datagrid('getRows').length > 0) {
                             self.editingRow = targetRowAfterDelete;
                             self.emitFetchSingleData();
                         } else {
@@ -324,8 +325,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             });
 
 
-        }
-        ,appendDtRow() {
+        },
+        appendDtRow(){
         },
         removeDtRow(){
         }
@@ -395,7 +396,6 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
@@ -408,20 +408,9 @@ var vm = new Vue({
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
-
                 var fieldData = result.fieldData;
-
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
-
-                //page2  datagrid 欄位屬性
-                if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
-
-                    vm.pageTwoDataGridFieldData = fieldData[_.findIndex(fieldData, {ui_type: 'grid'})].datagridFields || [];
-
-                }
-
             });
-
         },
         //取得使用者資料
         fetchUserInfo: function () {
@@ -451,7 +440,7 @@ var vm = new Vue({
         showDataGrid: function () {
 
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'dg', EZfieldClass.combineFieldOption(this.pageOneFieldData));
+            this.dgIns.init(prg_id, 'PMS0810020_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -479,10 +468,10 @@ var vm = new Vue({
                         if (result.success) {
                             //刪除Row
                             _.each(checkRows, function (row) {
-                                var DelIndex = $('#dg').datagrid('getRowIndex', row);
-                                $('#dg').datagrid('deleteRow', DelIndex);
+                                var DelIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
+                                $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
                             });
-                            vm.showCheckboxDG($("#dg").datagrid("getRows"));
+                            vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
                             vm.doSaveCUD();
                         } else {
                             alert(result.errorMsg);
@@ -582,7 +571,7 @@ var vm = new Vue({
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
-            var dialog = $("#singleGridDialog").dialog({
+            var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
@@ -601,7 +590,7 @@ var vm = new Vue({
             vm.editingRow = {};
             vm.singleData = {};
             vm.initTmpCUD();
-            $("#singleGridDialog").dialog('close');
+            $("#singleGridPMS0810020").dialog('close');
         }
 
 
