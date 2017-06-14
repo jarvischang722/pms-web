@@ -9,7 +9,7 @@ var moment = require("moment");
 var i18n = require("i18n");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 
-exports.getHolidayDateSet = function(postData, session, callback) {
+exports.getHolidayKindSet = function(postData, session, callback) {
     var params = {
         athena_id: session.user.athena_id,
         hotel_cod: session.user.fun_hotel_cod
@@ -25,4 +25,11 @@ exports.getHolidayDateSet = function(postData, session, callback) {
         }
 
     })
+};
+
+exports.getHolidayDateSet = function(postData, session, callback){
+    var params = {
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.fun_hotel_cod
+    }
 }

@@ -6,7 +6,7 @@ var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var tbSVC = require("../services/dbTableService");
 var mongoAgent = require("../plugins/mongodb");
 var trafficSvc = require("../services/trafficService");
-var hoteldayDateSvc = require("../services/holidayDateService");
+var holidayDateSvc = require("../services/holidayDateService");
 
 
 /**
@@ -35,9 +35,16 @@ exports.getReservationCheckMail = function (req, res) {
 //     res.render("subsystem/setup/specialTmp/holidayDateSet");
 // };
 
-// 取假日日期設定檔
+// 取假日種類設定檔
+exports.getHolidayKindSet = function(req, res){
+    holidayDateSvc.getHolidayKindSet(req.body, req.session, function(err, dateKindSetData){
+        res.json({success: _.isNull(err), dateKindSetData: dateKindSetData})
+    })
+};
+
+// 取假日日期設定
 exports.getHolidayDateSet = function(req, res){
-    hoteldayDateSvc.getHolidayDateSet(req.body, req.session, function(err, dateSetData){
+    holidayDateSvc.getHolidayDateSet(req.body, req.session, function(err, dateSetData){
         res.json({success: _.isNull(err), dateSetData: dateSetData})
     })
 }

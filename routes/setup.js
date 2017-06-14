@@ -25,7 +25,10 @@ module.exports = function(app  ) {
     /** 交通接駁設定資料 **/
     app.post('/api/getTrafficData',setupCrtl.getTrafficData);
 
-    // 取得假日日期設定資料
+    // 取得假日種類設定資料
+    app.post("/api/getHolidayKindSet", setupCrtl.getHolidayKindSet);
+
+    // 取假日日期設定
     app.post("/api/getHolidayDateSet", setupCrtl.getHolidayDateSet);
 
 };
