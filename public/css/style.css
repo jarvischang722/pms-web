@@ -2817,6 +2817,21 @@ ul.newVisitOther-btn {
   height: 25px;
 }
 
+/* line 798, ../sass/_bacchusMain.sass */
+.blockSetting .block-table label {
+  width: 120px !important;
+}
+
+/* line 800, ../sass/_bacchusMain.sass */
+.bloch-btn-single {
+  margin-bottom: 137px;
+}
+
+/* line 802, ../sass/_bacchusMain.sass */
+.blockSetting-heading {
+  font-size: 16px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
