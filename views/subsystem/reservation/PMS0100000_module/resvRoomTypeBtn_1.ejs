@@ -9,15 +9,17 @@
                     <div style="position: relative;">
                         <div class="resvTabs-topTxt">
                             <div class="resvTabs-content">
-                                <span>Web RV No.</span>
+                                <span class="subT">Web RV No.:</span>
+                                <span class="subCon">RMHTD17000121</span>
+                                <span class="subT">RV No.:</span>
+                                <span class="subCon">06587201</span>
+                                <span class="subT">RV Type:</span>
+                                <span class="subCon">6PM</span>
 
-                                <span>RV No.</span>
-
-                                <span>RV Type</span>
                             </div>
                         </div>
                     </div>
-                    <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto;">
+                    <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto; width: 100%;">
 
                         <div title="Reservation" class="padding-tabs">
                             <div class="col-xs-12 col-sm-12">
@@ -42,10 +44,11 @@
                                             <div class="grid-item">
                                                 <label>Saluation</label>
                                                 <input type="text" class="input-medium resvCard-sm" placeholder="Manager" disabled/>
-                                                <select class="input-medium resvCard-xs" disabled>
-                                                    <option value="male">M</option>
-                                                    <option value="female">F</option>
-                                                </select>
+                                                <!--<select class="input-medium resvCard-xs" disabled>-->
+                                                    <!--<option value="male">M</option>-->
+                                                    <!--<option value="female">F</option>-->
+                                                <!--</select>-->
+                                                <input type="text" class="input-medium resvCard-xs " placeholder="" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>VIP</label>
@@ -72,17 +75,17 @@
                                             <div class="pull-left">
                                                 <div class="grid">
                                                     <div class="grid-item">
-                                                        <label class="pull-left">pay Master</label>
+                                                        <label class="pull-left">Pay Master</label>
                                                         <select class="input-medium resvCard-xs pull-left marginLeft-5" disabled>
                                                             <option value="ch_tw">Y</option>
                                                             <option value="en">N</option>
                                                         </select>
-                                                        <span class="moreClick pull-left">...</span>
                                                         <input type="text" class="input-medium resvCard-xs pull-left" placeholder="G01" disabled/>
+                                                        <span class="moreClick pull-left">...</span>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label>sales</label>
+                                                        <label>Sales</label>
                                                         <select class="input-medium resvCard">
                                                             <option value="1">Rick Chen</option>
                                                             <option value="2">Jing Chen</option>
@@ -111,7 +114,7 @@
                                                 <input type="text" class="input-medium resvCard" placeholder="Ms."/>
                                             </div>
                                             <div class="grid-item">
-                                                <label>form</label>
+                                                <label>Form</label>
                                                 <input type="text" class="input-medium resvCard" placeholder="Company Contact"/>
                                             </div>
                                         </div>
@@ -284,8 +287,8 @@
                                                         <!--7-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>Collecter</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                                <label>Collector</label>
+                                                                <input type="text" class="input-medium resvCard" placeholder="林志玲"/>
                                                             </div>
                                                             <div class="grid-item">
                                                                 <label class="pull-left">CFML</label>
@@ -401,7 +404,7 @@
                                         <input type="text" class="input-medium resvCard" placeholder="15:00"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Assign remarks</label>
+                                        <label>Assign Remarks</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="high floor"/>
                                     </div>
                                 </div>
@@ -416,7 +419,7 @@
                                         <input type="text" class="input-medium resvCard" placeholder="8:00"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Rm features</label>
+                                        <label>Rm Features</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="non smoking"/>
                                     </div>
                                 </div>
@@ -427,7 +430,7 @@
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>No. of pax</label>
+                                        <label>Pax</label>
                                         <input type="text" class="input-medium resvCard" placeholder="1/ / "/>
                                     </div>
                                     <div class="grid-item">
@@ -439,11 +442,11 @@
                                 <!--4-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Ugded By/ reason</label>
+                                        <label>Ugded By/ Reason</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Dics. By / reason</label>
+                                        <label>Dics. By / Reason</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                 </div>
@@ -596,7 +599,7 @@
             <div class="row">
                 <div class="col-xs-11 col-sm-11">
                     <!-------- tabPage -------->
-                    <div class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto;">
+                    <div id="easyUi-custom1" class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto;">
                         <!--基本資料-->
                         <div title="Profile" class="padding-tabs">
                             <div class="col-xs-12 col-sm-12">
@@ -718,14 +721,14 @@
                                                 <input type="text" class="input-medium medium-c3-col2" placeholder="(02)98765432"/>
                                             </div>
                                             <div class="grid-item">
-                                                <label>Collecter</label>
+                                                <label>Collector</label>
                                                 <select class="input-medium medium-c3">
                                                     <option value="1">01</option>
                                                     <option value="2">02</option>
                                                 </select>
                                             </div>
                                             <div class="grid-item">
-                                                <input type="text" class="input-medium medium-c3" placeholder="" disabled/>
+                                                <input type="text" class="input-medium medium-c3" placeholder="林志玲" disabled/>
                                             </div>
                                         </div>
                                         <!--7-->
@@ -736,7 +739,7 @@
                                             </div>
                                             <div class="grid-item">
                                                 <label>MB Type</label>
-                                                <input type="text" class="input-medium medium-c3-col1-5" placeholder="類別名稱1" disabled/>
+                                                <input type="text" class="input-medium medium-c3-col1-5" placeholder="積點會員" disabled/>
                                             </div>
                                         </div>
                                         <!--8-->
@@ -793,11 +796,11 @@
                                             </div>
                                             <div class="grid-item">
                                                 <label>G.U.I NO.</label>
-                                                <input type="text" class="input-medium medium-c3" placeholder=""/>
+                                                <input type="text" class="input-medium medium-c3-card" placeholder=""/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>DM</label>
-                                                <select class="input-medium medium-c3">
+                                                <select class="input-medium medium-c3-card-2">
                                                     <option value="0">Y</option>
                                                     <option value="1">N</option>
                                                 </select>
@@ -822,7 +825,7 @@
                                                 <input type="text" class="input-medium medium-c3-sm" placeholder=""  disabled="disabled"/>
                                             </div>
                                             <div class="grid-item">
-                                                <label>Pre. Rm Features</label>
+                                                <label>Pre. Features</label>
                                                 <input type="text" class="input-medium medium-c3-col2_2" placeholder=""  disabled="disabled"/>
                                                 <span class="moreClick">...</span>
                                             </div>
@@ -892,27 +895,28 @@
                             <div class="clearfix"></div>
                         </div>
                         <!--來館資料-->
-                        <div title=History class="padding-tabs">
+                        <div title="History" class="padding-tabs">
                             <div class="col-xs-12 col-sm-12">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12">
-                                                <div class="row">
-                                                    <div class="reserveShopInfo">
-                                                        <p class="title">預約來館資料</p>
-                                                        <!--預約來館資料table-->
-                                                        <table id="reservation_reserveShopInfo-table" style="height: 200px;"></table>
+                                    <div class="reserveShopInfo">
+                                        <p class="title">預約來館資料</p>
+                                        <!--預約來館資料table-->
+                                        <table id="reservation_reserveShopInfo-table" style="height: 200px; width: 100%;"></table>
 
-                                                        <p class="title">住客歷史來訪</p>
-                                                        <!--住客歷史來訪table-->
-                                                        <table id="reservation_guestVisitHistory-table" style="height: 200px;"></table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
+                                        <p class="title">住客歷史來訪</p>
+                                        <!--住客歷史來訪table-->
+                                        <table id="reservation_guestVisitHistory-table" style="height: 200px; width: 100%;""></table>
+                                    </div>                                        <div class="reserveShopInfo">
+                                        <p class="title">預約來館資料</p>
+                                        <!--預約來館資料table-->
+                                        <table id="reservation_reserveShopInfo-table" style="height: 200px; width: 100%;"></table>
+
+                                        <p class="title">住客歷史來訪</p>
+                                        <!--住客歷史來訪table-->
+                                        <table id="reservation_guestVisitHistory-table" style="height: 200px; width: 100%;""></table>
                                     </div>
+                                    <div class="clearfix"></div>
+
                                 </div>
                             </div>
                             <div class="clearfix"></div>

@@ -23,4 +23,10 @@ module.exports = function(app  ) {
     //鎖控設定(靜態)
     app.get('/resv_blockSetting', reservationCrtl.getResv_blockSetting);
 
+    //超訂設定(靜態)
+    app.get('/PMS0130010', reservationCrtl.getPMS0130010);
+
+    //住客歷史(靜態 quickMenu)
+    app.get('/resv_gProfile', reservationCrtl.getResv_gProfile);
+
 };
