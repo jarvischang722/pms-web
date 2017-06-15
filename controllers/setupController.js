@@ -47,7 +47,14 @@ exports.getHolidayDateSet = function(req, res){
     holidayDateSvc.getHolidayDateSet(req.body, req.session, function(err, dateSetData){
         res.json({success: _.isNull(err), dateSetData: dateSetData})
     })
-}
+};
+
+// 取年度總天數
+exports.getHolidayDateCount = function(req, res){
+    holidayDateSvc.getHolidayDateCount(req.body, req.session, function(err, getResult){
+        res.json({success: _.isNull(err), dateCount: getResult});
+    })
+};
 
 
 /**

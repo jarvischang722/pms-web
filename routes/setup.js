@@ -8,7 +8,7 @@ var i18nMW = require("../middlewares/i18nMiddleware");
 var middles = [i18nMW,authMW,hotelMW];
 
 /* GET  page. */
-module.exports = function(app  ) {
+module.exports = function(app) {
 
     /** 飯店前台參數 **/
     app.get('/setup/front_desk_conf', middles, setupCrtl.front_desk_conf);
@@ -31,4 +31,6 @@ module.exports = function(app  ) {
     // 取假日日期設定
     app.post("/api/getHolidayDateSet", setupCrtl.getHolidayDateSet);
 
+    // 取年度總天數
+    app.post("/api/getHolidayDateCount", setupCrtl.getHolidayDateCount);
 };

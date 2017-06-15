@@ -3,6 +3,7 @@
  * 程式編號: PMS0810070
  * 程式名稱: 假日日期設定檔
  */
+"use strict";
 
 waitingDialog.hide();
 var gs_prg_id = gs_prg_id;
@@ -10,12 +11,32 @@ var go_holidayKind;
 var go_holidayDate;
 
 $(function () {
+
+    initCalendar();
+    chkIsAllDateOfYear();
     getHolidaySet();
     getHolidayDateSet();
     getHolidayKindSet();
-    initCalendar();
     bindEvent();
 });
+
+// 判斷oracle是否有整年度日期
+function chkIsAllDateOfYear(){
+    var ls_year = $(".calendar-list").data("calendarYear").getYear();
+
+    axios.post("/api/getHolidayDateCount", {year: ls_year}).then(
+        function(getResult){
+            var li_dateCount = getResult.data.dateCount;
+            console.log(li_dateCount);
+            if(li_dateCount != 0){
+                getHolidaySet();
+            }
+            else{
+                insertDateIntoDB();
+            }
+        }
+    )
+}
 
 function getHolidaySet() {
     axios.all([getHolidayKindSet(), getHolidayDateSet()])
@@ -30,12 +51,19 @@ function getHolidaySet() {
 
 }
 
+// 取假日種類設定
 function getHolidayKindSet() {
     axios.post("/api/getHolidayKindSet");
 }
 
+// 取假日日期設定
 function getHolidayDateSet() {
     axios.post("/api/getHolidayDateSet");
+}
+
+// 補足日期
+function insertDateIntoDB(){
+    console.log("Insert");
 }
 
 // 產生日期別下拉選單
@@ -144,7 +172,7 @@ function bindDayClickEvent() {
 function bindBTN_SaveEvent() {
     $("#BTN_Save").click(function () {
         setCalendarDataSource();
-        save_into_oracle();
+        // save_into_oracle_holiday_rf();
     })
 }
 
@@ -213,15 +241,15 @@ function rgb2hex(rgb) {
             return rgb;
         } else {
             rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-            function hex(x) {
-                return ("0" + parseInt(x).toString(16)).slice(-2);
-            }
-
             return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
         }
     }
     catch (err) {
 
+    }
+
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
     }
 }
 

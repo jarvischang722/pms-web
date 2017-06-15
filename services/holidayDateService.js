@@ -32,4 +32,25 @@ exports.getHolidayDateSet = function(postData, session, callback){
         athena_id: session.user.athena_id,
         hotel_cod: session.user.fun_hotel_cod
     }
+};
+
+// 取年度總日期天數
+exports.getHolidayDateCount = function(postData, session, callback){
+    var params = {
+        athena_id: session.user.athena_id,
+        hotel_cod: session.user.fun_hotel_cod,
+        // remark: "test"
+        startDate: "2017/01/01",
+        endDate: "2017/12/31"
+    }
+
+    queryAgent.query("QRY_HOLIDAY_RF_COUNT", params, function(err, result){
+        if(err){
+            console.log(err);
+            callback(err, callback);
+        }
+        else{
+            callback(null, result.datecount);
+        }
+    })
 }
