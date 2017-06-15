@@ -336,13 +336,11 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                             if (userField > -1) {
                                 //更新
                                 mongoAgent.UIDatagridField.update(lo_cond, field, function (err) {
-                                    console.log("update:", field.ui_field_name);
                                     callback(err, field.ui_field_name);
                                 });
                             } else {
                                 //新增
                                 new mongoAgent.UIDatagridField(field).save(function (err) {
-                                    console.log("create:", field.ui_field_name);
                                     callback(err, field.ui_field_name);
                                 });
                             }
