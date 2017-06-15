@@ -110,7 +110,6 @@
 
 
 </body>
-
 <script type="text/javascript">
     $(function (){
 //        $(".resvRoomTypeTable-load").load("./PMS0100000_module/resvRoomTypeTable_1.ejs");
@@ -253,6 +252,38 @@
             });
         });
 
+        // 彈出 接送機
+        $(document).on('click', ".resvPickUp-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+                modal: true,
+                title: "接送機資料輸入",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 批次修改
+        $(document).on('click', ".resvBatch-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-batch").removeClass('hide').dialog({
+                modal: true,
+                title: "批次修改",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         <!-- ********* dataGrid ********* -->
 
@@ -386,6 +417,83 @@
 
         });
 
+        // 訂房卡-接機 dataGrid
+        $('#resvPickUp-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resvPickUp.json',
+            method: 'get',
+            columns: [[
+                {field: 'resvNo', title: '序號', width: 50},
+                {field: 'resvCo', title: '連絡人', width: 100},
+                {field: 'resvP1', title: '電話一', width: 150},
+                {field: 'resvP2', title: '電話二', width: 150},
+                {field: 'resvDate', title: '日期', width: 100},
+                {field: 'resvNum', title: '班次', width: 100},
+                {field: 'resvTime', title: '時間', width: 100},
+                {field: 'resvAdult', title: '大人數', width: 50},
+                {field: 'resvChild', title: '小孩數', width: 50},
+                {field: 'resvBaby', title: '嬰兒數', width: 50},
+                {field: 'resvPoint', title: '指定住客', width: 100},
+                {field: 'resvMark', title: '備註', width: 150}
+            ]]
+
+        });
+
+        // 訂房卡-送機 dataGrid
+        $('#resvDropOff-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resvDropOff.json',
+            method: 'get',
+            columns: [[
+                {field: 'resvNo', title: '序號', width: 50},
+                {field: 'resvCo', title: '連絡人', width: 100},
+                {field: 'resvP1', title: '電話一', width: 150},
+                {field: 'resvP2', title: '電話二', width: 150},
+                {field: 'resvDate', title: '日期', width: 100},
+                {field: 'resvNum', title: '班次', width: 100},
+                {field: 'resvTime', title: '時間', width: 100},
+                {field: 'resvAdult', title: '大人數', width: 50},
+                {field: 'resvChild', title: '小孩數', width: 50},
+                {field: 'resvBaby', title: '嬰兒數', width: 50},
+                {field: 'resvPoint', title: '指定住客', width: 100},
+                {field: 'resvMark', title: '備註', width: 150}
+            ]]
+
+        });
+
+        // 批次修改 dataGrid
+        $('#resvBatch-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resvBatch.json',
+            method: 'get',
+            columns: [[
+                {field: 'batchChoose', title: '選擇', width: 50},
+                {field: 'batchNo', title: '序號', width: 50},
+                {field: 'batchState', title: '狀態', width: 50},
+                {field: 'batchDate1', title: 'C/I日期', width: 100},
+                {field: 'batchDate2', title: 'C/O日期', width: 100},
+                {field: 'batchCode', title: '房價代號', width: 200},
+                {field: 'batchTotal', title: '計價房種', width: 200},
+                {field: 'batchUse', title: '使用房種', width: 200},
+                {field: 'batchNum', title: '間數', width: 50},
+                {field: 'batchPrice', title: '房價', width: 100},
+                {field: 'batchSerice', title: '服務費', width: 100},
+                {field: 'batchMargin', title: '房價差額', width: 100},
+                {field: 'batchBrokerage', title: '備註', width: 100}
+            ]]
+
+        });
+
+
+    });
+
+    $(function() {
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
