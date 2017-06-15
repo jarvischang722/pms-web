@@ -164,7 +164,10 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             if (!_.isUndefined(gridInfo.rule_func_name) && !_.isEmpty(gridInfo.rule_func_name)) {
                 queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                     dataGridRows = data;
-                    callback(err, dataGridRows);
+                    if(err){
+                        console.error(err);
+                    }
+                    callback(null, dataGridRows);
                 });
             } else {
                 callback(null, []);
@@ -196,17 +199,17 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             });
         },
         //欄位多語系
-        function(fieldData,callback){
+        function (fieldData, callback) {
             mongoAgent.LangUIField.find({
                 prg_id: prg_id,
                 page_id: page_id
             }).exec(function (err, fieldLang) {
                 fieldLang = tools.mongoDocToObject(fieldLang);
                 _.each(fieldData, function (field, fIdx) {
-                    let tmpLang = _.findWhere(fieldLang,{ui_field_name: field["ui_field_name"].toLowerCase()});
-                    fieldData[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_"+session.locale] : "";
+                    let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
+                    fieldData[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
                 });
-                callback(err,fieldData);
+                callback(err, fieldData);
             });
         },
         // 5)尋找ui_type有select的話，取得combobox的資料
@@ -275,77 +278,91 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
  * @param callback
  */
 exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, callback) {
-    var saveFuncs = [];
+
     var lo_fieldGrp = _.groupBy(fieldOptions, "grid_field_name");
-
-    _.each(lo_fieldGrp, function (fields, grid_field_name) {
-        _.each(fields, function (field) {
-            field.user_id = userInfo.usr_id.trim();
-            field.athena_id = Number(userInfo.athena_id);
-            field.prg_id = prg_id.trim();
-
-            saveFuncs.push(
-                //檢查有無相同資訊 (user_id,hotel_cod,ui_field_name,prg_id) 為一個key
-                //有則更新 , 沒有就新增
-
-                function (callback) {
-                    var lo_key = {
-                        ui_field_name: field.ui_field_name.trim(),
-                        prg_id: prg_id,
-                        page_id: Number(page_id),
-                        grid_field_name: grid_field_name
-                    };
-                    mongoAgent.UIDatagridField.find(lo_key).select({_id: 0}).exec(function (err, commonField) {
-
-                        if (err) {
-                            callback(err, null);
-                            return;
-                        }
-
-                        commonField = tools.mongoDocToObject(commonField);
-
-                        var userField = _.findWhere(commonField, {
-                                user_id: userInfo.usr_id.trim(),
-                                athena_id: Number(userInfo.athena_id),
-                                prg_id: prg_id.trim()
-                            })
-                        ;
-
-
-                        if (userField) {
-                            field = _.extend(userField, field);
-                            lo_key["user_id"] = userInfo.usr_id.trim();
-                            lo_key["athena_id"] = Number(userInfo.athena_id);
-                            lo_key["prg_id"] = prg_id.trim();
-
-                            //更新
-                            mongoAgent.UIDatagridField.update(lo_key, field, function (err) {
-                                if (err) {
-                                    return;
-                                    callback(err, null);
-                                }
-                                callback(null, field.ui_field_name);
-                            });
-                        } else {
-                            //新增
-                            var UIDgFieldSchema = new mongoAgent.UIDatagridField(field);
-                            UIDgFieldSchema.save(function (err) {
-                                callback(err, field.ui_field_name);
-                            });
-                        }
-                    });
-
+    var la_oriFieldData = [];  //程式原始欄位資料
+    var la_userFieldData = [];  //For 使用者程式原始欄位資料
+    async.waterfall([
+        function (cb) {
+            var lo_key = {
+                prg_id: prg_id,
+                page_id: Number(page_id),
+                user_id: {$in: ['', userInfo.usr_id.trim()]},
+                athena_id: {$in: ['', userInfo.athena_id]}
+            };
+            mongoAgent.UIDatagridField.find(lo_key).select({_id: 0}).exec(function (err, allFieldData) {
+                if (err || !allFieldData) {
+                    allFieldData = [];
                 }
-            );
-        });
-    });
+                tools.mongoDocToObject(allFieldData);
+                la_oriFieldData = _.filter(allFieldData, function (field) {
+                    return field.user_id == "" || field.user_id == "";
+                });
+                la_userFieldData = _.filter(allFieldData, function (field) {
+                    return field.user_id != "" || field.user_id != "";
+                });
+                cb(err, allFieldData);
+            });
+        },
+        function (allFieldData, cb) {
+            var laf_saveFuncs = []; //要執行的function
+            _.each(lo_fieldGrp, function (fields, grid_field_name) {
+                // 與原始欄位資料比較 ，補上user 沒有存到的欄位
+                _.each(_.where(la_oriFieldData, {grid_field_name: grid_field_name}), function (field) {
+                    if (_.findIndex(fields, {ui_field_name: field.ui_field_name}) == -1) {
+                        fields.push(field);
+                    }
+                });
+                _.each(fields, function (field) {
+                    laf_saveFuncs.push(
+                        function (callback) {
+                            let lo_cond = {
+                                "user_id": userInfo.usr_id.trim(),
+                                "athena_id": userInfo.athena_id,
+                                "prg_id": prg_id.trim(),
+                                "ui_field_name": field.ui_field_name,
+                                "grid_field_name": field.grid_field_name
+                            };
+                            let oriSingleField = _.findWhere(la_oriFieldData, {ui_field_name: field.ui_field_name}) || {};
+                            let userField = _.findIndex(la_userFieldData, {
+                                "ui_field_name": field.ui_field_name,
+                                "grid_field_name": field.grid_field_name
+                            });
 
-    async.parallel(saveFuncs, function (err, result) {
-        if (err) {
-            callback(err, false);
-        } else {
-            callback(null, true);
+                            field.user_id = userInfo.usr_id.trim();
+                            field.athena_id = Number(userInfo.athena_id);
+                            field.prg_id = prg_id.trim();
+                            field = _.extend(oriSingleField, field);
+                            if (userField > -1) {
+                                //更新
+                                mongoAgent.UIDatagridField.update(lo_cond, field, function (err) {
+                                    console.log("update:", field.ui_field_name);
+                                    callback(err, field.ui_field_name);
+                                });
+                            } else {
+                                //新增
+                                new mongoAgent.UIDatagridField(field).save(function (err) {
+                                    console.log("create:", field.ui_field_name);
+                                    callback(err, field.ui_field_name);
+                                });
+                            }
+                        }
+                    );
+
+                });
+            });
+
+            cb(null, laf_saveFuncs);
         }
+
+    ], function (err, laf_saveFuncs) {
+        async.parallel(laf_saveFuncs, function (err) {
+            if (err) {
+                callback(err, false);
+            } else {
+                callback(null, true);
+            }
+        });
     });
 
 };
