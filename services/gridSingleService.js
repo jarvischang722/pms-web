@@ -238,6 +238,14 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                 })
 
 
+            }, function (result, callback) {
+                mongoAgent.UI_PageField.find({
+                    prg_id: prg_id,
+                    page_id: 2
+                }, function (err, pageField) {
+                    dataValueChange(pageField, lo_rowData);
+                    callback(err, result);
+                })
             }
         ],
         function (err, result) {
@@ -275,6 +283,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     var dtTableName = "";      // DT Table name
     var la_keyFields = [];        // 主檔資料表pk
     var la_dtkeyFields = [];      // 明細資料表pk
+    var la_dtFields = [];           //明細的資料欄位
 
     /** main process **/
     async.waterfall([
@@ -363,6 +372,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                         fields = tools.mongoDocToObject(fields);
                     }
                     prgFields = fields;
+                    la_dtFields = prgFields;
                     la_keyFields = _.where(fields, {keyable: 'Y'}) || [];
                     callback(null, la_keyFields);
                 });
@@ -479,6 +489,14 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     _.each(Object.keys(data), function (objKey) {
                         if (!_.isUndefined(data[objKey])) {
                             var value = data[objKey];
+
+                            _.each(la_dtFields, function (row) {
+                                if(row.ui_field_name == objKey){
+                                    var finalValue = changeValueFormat4Save(value, row.ui_type);
+                                    value = finalValue ? finalValue : value;
+                                }
+                            })
+
                             if (typeof data[objKey] === 'string') {
                                 data[objKey] = data[objKey].trim();
                             }
@@ -552,6 +570,18 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     _.each(Object.keys(data), function (objKey) {
                         if (!_.isUndefined(data[objKey])) {
                             tmpEdit[objKey] = data[objKey];
+
+                            _.each(la_dtFields, function (row) {
+                                // if (row.ui_field_name == objKey && row.ui_type == "time") {
+                                //     tmpEdit[objKey] = tmpEdit[objKey].replace(":", "");
+                                // } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
+                                //     tmpEdit[objKey] = parseFloat(tmpEdit[objKey]) / 100;
+                                // }
+                                if(row.ui_field_name == objKey) {
+                                    var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
+                                    tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
+                                }
+                            })
                         }
                     });
                     var lo_keysData = {};
@@ -927,3 +957,61 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     }
 
 };
+
+//將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
+function dataValueChange(fields, data) {
+    fields = tools.mongoDocToObject(fields);
+
+    _.each(Object.keys(data), function (objKey) {
+        if (!_.isUndefined(data[objKey])) {
+            var value = data[objKey];
+
+            // _.each(fields, function (row) {
+            //     if (row.ui_field_name == objKey && row.ui_type == "time") {
+            //         var hour = value.substring(0,2);
+            //         var min = value.substring(2,4);
+            //         var fieldName = hour + ":" + min;
+            //
+            //         data[objKey] = fieldName;
+            //     } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
+            //         data[objKey] = (parseFloat(value) * 100);
+            //     }
+            // })
+
+            _.each(fields, function (row) {
+                if (row.ui_field_name == objKey) {
+                    var finalValue = changeValueFormat(value, row.ui_type);
+                    data[objKey] = finalValue ? finalValue : value;
+                }
+            })
+        }
+    })
+}
+
+//將要顯示在頁面上的欄位格式做轉換
+function changeValueFormat(value, ui_type) {
+    var valueTemp;
+    if (ui_type == "time") {
+        var hour = value.substring(0, 2);
+        var min = value.substring(2, 4);
+        var fieldName = hour + ":" + min;
+
+        valueTemp = fieldName;
+    } else if (ui_type == "percent") {
+        valueTemp = (parseFloat(value) * 100);
+    }
+
+    return valueTemp;
+}
+
+//將儲存或修改的欄位格式做轉換
+function changeValueFormat4Save(value, ui_type) {
+    var valueTemp;
+    if (ui_type == "time") {
+        valueTemp = value.replace(":", "");
+    } else if (ui_type == "percent") {
+        valueTemp = parseFloat(value) / 100;
+    }
+
+    return valueTemp;
+}
