@@ -1,3 +1,4 @@
+<!--接送機介面-->
 <div id="reservationDialog-pickUp" class="hide padding-5" style="top: 0 !important;">
     <div class="businessCompanyData">
         <div class="col-xs-12 col-sm-12 reservation-pickUp-wrap">
@@ -167,3 +168,104 @@
     </div>
     </div>
 </div>
+
+<!--批次修改介面-->
+<div id="reservationDialog-batch" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-10 col-sm-10">
+
+                    <div class="main-content-data">
+
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>修改欄位</label>
+                                <select class="input-medium medium-c5">
+                                    <option value="">C/I 日期</option>
+                                    <option value="">C/O 日期</option>
+                                    <option value="">房價代號</option>
+                                    <option value="">計價房種</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>備註</label>
+                                <input type="date" class="input-medium medium-c5" placeholder=""/>
+                            </div>
+                        </div>
+
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row">
+                            <!--content-col-4-->
+                            <div class="main-content-data">
+                                <div>
+                                    <!--批次修改table-->
+                                    <table id="resvBatch-table" style="height: 200px;"></table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                </div>
+                <div class="col-xs-2 col-sm-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">修改
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">離開
+                                    </button>
+                                </li>
+                                <div class="resvBtn-group">
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">反向選取
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下取消選取
+                                        </button>
+                                    </li>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+F

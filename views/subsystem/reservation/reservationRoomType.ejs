@@ -252,7 +252,7 @@
             });
         });
 
-        // 彈出 指定房組 AssignHouse
+        // 彈出 接送機
         $(document).on('click', ".resvPickUp-btn", function (e) {
             e.preventDefault();
             var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
@@ -267,6 +267,23 @@
                 resizable: true
             });
         });
+
+        // 彈出 批次修改
+        $(document).on('click', ".resvBatch-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-batch").removeClass('hide').dialog({
+                modal: true,
+                title: "批次修改",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         <!-- ********* dataGrid ********* -->
 
@@ -445,6 +462,31 @@
                 {field: 'resvBaby', title: '嬰兒數', width: 50},
                 {field: 'resvPoint', title: '指定住客', width: 100},
                 {field: 'resvMark', title: '備註', width: 150}
+            ]]
+
+        });
+
+        // 批次修改 dataGrid
+        $('#resvBatch-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resvBatch.json',
+            method: 'get',
+            columns: [[
+                {field: 'batchChoose', title: '選擇', width: 50},
+                {field: 'batchNo', title: '序號', width: 50},
+                {field: 'batchState', title: '狀態', width: 50},
+                {field: 'batchDate1', title: 'C/I日期', width: 100},
+                {field: 'batchDate2', title: 'C/O日期', width: 100},
+                {field: 'batchCode', title: '房價代號', width: 200},
+                {field: 'batchTotal', title: '計價房種', width: 200},
+                {field: 'batchUse', title: '使用房種', width: 200},
+                {field: 'batchNum', title: '間數', width: 50},
+                {field: 'batchPrice', title: '房價', width: 100},
+                {field: 'batchSerice', title: '服務費', width: 100},
+                {field: 'batchMargin', title: '房價差額', width: 100},
+                {field: 'batchBrokerage', title: '備註', width: 100}
             ]]
 
         });
