@@ -100,15 +100,13 @@ Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
         'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
-    data: function () {
+    data () {
         return {
             isFistData: false,
             isLastData: false,
         };
     },
-
     watch: {
-
         editingRow: function (newRow, oldRow) {
 
             this.$parent.editingRow = newRow;
@@ -131,7 +129,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         }
     },
-    created: function () {
+    created () {
 
         var self = this;
         vmHub.$on('tempExecData', function (row) {
