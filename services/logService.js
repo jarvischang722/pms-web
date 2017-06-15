@@ -31,5 +31,5 @@ exports.recordLogAPI = function (LogData) {
             });
             console.error(err);
         }
-    })
+    });
 };
