@@ -6,9 +6,11 @@
 "use strict";
 
 waitingDialog.hide();
-var gs_prg_id = gs_prg_id;
 var go_holidayKind;
 var go_holidayDate;
+var gs_dataSource = [];
+var gs_calendar_year;
+
 
 $(function () {
 
@@ -21,26 +23,26 @@ $(function () {
 });
 
 // 判斷oracle是否有整年度日期
-function chkIsAllDateOfYear(){
+function chkIsAllDateOfYear() {
     var ls_year = $(".calendar-list").data("calendarYear").getYear();
 
-    axios.post("/api/getHolidayDateCount", {year: ls_year}).then(
-        function(getResult){
-            var li_dateCount = getResult.data.dateCount;
-            console.log(li_dateCount);
-            if(li_dateCount != 0){
-                getHolidaySet();
+    axios.post("/api/getHolidayDateCount", {year: ls_year})
+        .then(function (getResult) {
+                var li_dateCount = getResult.data.dateCount;
+                if (li_dateCount != 0) {  //TODO: 暫時有日期就可以了，之後要小於一整年365天
+                    getHolidaySet();
+                }
+                else {
+                    insertDateIntoDB();
+                }
             }
-            else{
-                insertDateIntoDB();
-            }
-        }
-    )
+        )
 }
 
 function getHolidaySet() {
     axios.all([getHolidayKindSet(), getHolidayDateSet()])
         .then(axios.spread(function (kindSetResult, dateSetResult) {
+            console.log(kindSetResult);
             go_holidayKind = kindSetResult.data.dateKindSetData;
             go_holidayDate = dateSetResult.data.dateSetData;
             create_dateKind_select_option();
@@ -58,12 +60,59 @@ function getHolidayKindSet() {
 
 // 取假日日期設定
 function getHolidayDateSet() {
-    axios.post("/api/getHolidayDateSet");
+    var params = {
+        year: $(".calendar-list").data("calendarYear").getYear();
+    }
+    axios.post("/api/getHolidayDateSet", params);
 }
 
 // 補足日期
-function insertDateIntoDB(){
-    console.log("Insert");
+function insertDateIntoDB() {
+    var fieldData = [
+        {ui_field_name: 'batch_dat', keyable: 'Y'},
+        {ui_field_name: 'athena_id', keyable: 'Y'},
+        {ui_field_name: 'hotel_cod', keyable: 'Y'}
+    ];
+
+    var tmpCUD = {
+        createData: [],
+        updateData: [],
+        deleteData: []
+    };
+
+    var ls_begin_dat = moment(gs_calendar_year + "/1/1");
+    var ls_end_dat = moment(gs_calendar_year + "/12/31");
+    var li_days = ls_end_dat.diff(ls_begin_dat, 'days');
+
+    for (var i = 0; i <= 10; i++) {
+        tmpCUD.createData.push({
+            "day_sta": "N",
+            "batch_dat": moment(ls_begin_dat, "YYYY-MM-DD").add(i, "days").format("YYYY/MM/DD")
+        })
+    }
+
+    console.log(gs_prg_id);
+    var params = {
+        prg_id: gs_prg_id,
+        tmpCUD: tmpCUD,
+        fieldData: fieldData,
+        mainTableName: "holiday_rf"
+    };
+
+    waitingDialog.show('Saving...');
+    axios.post("/api/execSQLProcess", params)
+        .then(function (response) {
+            waitingDialog.hide();
+            if (response.data.success) {
+                alert('save success!');
+            } else {
+                alert(response.data.errorMsg);
+            }
+        })
+        .catch(function (error) {
+            waitingDialog.hide();
+            console.log(error);
+        });
 }
 
 // 產生日期別下拉選單
@@ -88,49 +137,53 @@ function initCalendar() {
     // 日期列表
     $('.calendar-list').calendarYear({
         style: 'Border',
-        clickDay: calendarClickDay
+        clickDay: clickDay,
+        renderEnd: renderEnd
     });
     // 選擇日期區間 or change it into a date range picker
     $('.input-daterange').datepicker({autoclose: true});
 
-}
+    // 日曆日期點擊事件
+    function clickDay(e) {
+        var lo_clickDate = e.element;
+        var ls_select_color = $("#color_scheme option:selected").val();
+        var ls_clickDate_color = rgb2hex($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1')).toUpperCase();
+        var ls_clickDateStr = e.date.toLocaleDateString();
 
-// 日曆日期點擊事件
-var gs_dataSource = [];
-function calendarClickDay(e) {
-    var lo_clickDate = e.element;
-    var ls_select_color = $("#color_scheme option:selected").val();
-    var ls_clickDate_color = rgb2hex($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1')).toUpperCase();
-    var ls_clickDateStr = e.date.toLocaleDateString();
+        // 顏色不一樣直接設定
+        if (ls_select_color != ls_clickDate_color) {
+            ls_select_color = ls_select_color + " 0px -4px 0px 0px inset";
+            $(lo_clickDate).css('box-shadow', ls_select_color);
 
-    // 顏色不一樣直接設定
-    if (ls_select_color != ls_clickDate_color) {
-        ls_select_color = ls_select_color + " 0px -4px 0px 0px inset";
-        $(lo_clickDate).css('box-shadow', ls_select_color);
-
-        var gs_dataSource_index = _.findIndex(gs_dataSource, function (dataSource) {
-            return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
-        });
-
-        if (gs_dataSource_index != -1) {
-            gs_dataSource[gs_dataSource_index].color = $("#color_scheme option:selected").val();
-        }
-        else {
-            gs_dataSource.push({
-                id: $("#color_scheme option:selected").data("day_sta"),
-                startDate: moment(ls_clickDateStr),
-                endDate: moment(ls_clickDateStr),
-                color: $("#color_scheme option:selected").val()
+            var gs_dataSource_index = _.findIndex(gs_dataSource, function (dataSource) {
+                return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
             });
+
+            if (gs_dataSource_index != -1) {
+                gs_dataSource[gs_dataSource_index].color = $("#color_scheme option:selected").val();
+            }
+            else {
+                gs_dataSource.push({
+                    id: $("#color_scheme option:selected").data("day_sta"),
+                    startDate: moment(ls_clickDateStr),
+                    endDate: moment(ls_clickDateStr),
+                    color: $("#color_scheme option:selected").val()
+                });
+            }
+        }
+        // 顏色一樣，重複選取，就取消
+        else {
+            $(lo_clickDate).css('box-shadow', "");
+            var lo_dateSource = _.find(gs_dataSource, function (dataSource) {
+                return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
+            });
+            lo_dateSource.color = "#fff";
         }
     }
-    // 顏色一樣，重複選取，就取消
-    else {
-        $(lo_clickDate).css('box-shadow', "");
-        var lo_dateSource = _.find(gs_dataSource, function (dataSource) {
-            return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
-        });
-        lo_dateSource.color = "#fff";
+
+    // 取得日曆年分
+    function renderEnd(e) {
+        gs_calendar_year = e.currentYear;
     }
 }
 

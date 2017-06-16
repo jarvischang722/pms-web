@@ -225,7 +225,12 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
         var tmpIns = {"function": "1"}; //1  新增
         tmpIns["table_name"] = mainTableName;
 
-        c_data = handleDateFormat(fieldData, c_data);
+        // try {
+        //     c_data = handleDateFormat(fieldData, c_data);
+        // }
+        // catch(err){
+        //     console.log(err);
+        // }
 
         _.each(Object.keys(c_data), function (objKey) {
             tmpIns[objKey] = c_data[objKey];

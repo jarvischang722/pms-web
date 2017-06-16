@@ -30,10 +30,6 @@ exports.setupLayout = function (req, res) {
 exports.getReservationCheckMail = function (req, res) {
     res.render("subsystem/setup/specialTmp/reservationCheckMail");
 };
-//假日日期設定
-// exports.getHolidayDateSet = function (req, res) {
-//     res.render("subsystem/setup/specialTmp/holidayDateSet");
-// };
 
 // 取假日種類設定檔
 exports.getHolidayKindSet = function(req, res){

@@ -7,13 +7,28 @@
             select COUNT(*) as dateCount
             from holiday_rf
             where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod)
-            and batch_dat BETWEEN TO_DATE( ? , 'YYYY/MM/DD') AND TO_DATE( ? , 'YYYY/MM/DD')
+            and batch_dat BETWEEN TO_DATE(:begin_dat , 'YYYY/MM/DD') AND TO_DATE(:end_dat , 'YYYY/MM/DD')
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="string" kind="1">startDate</parameter>
-        <parameter type="string" kind="1">endDate</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
+    </dao>
+
+    <!-- 當年度所有日期設定 -->
+    <dao name="QRY_HOLIDAY_RF">
+        <statement><![CDATA[
+            select h.batch_dat,h.day_sta,k.color_num
+            from holiday_rf h,holiday_kind_rf k
+            where h.athena_id = k.athena_id and h.hotel_cod = k.hotel_cod and h.day_sta = k.day_sta and h.batch_dat
+            between TO_DATE(:begin_dat , 'YYYY/MM/DD') AND TO_DATE(:end_dat , 'YYYY/MM/DD')
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+        <parameter type="string" kind="3">end_dat</parameter>
     </dao>
 
 
