@@ -1,13 +1,29 @@
+<link rel="stylesheet" href="/css/setup/gridSingle.css">
 <div id="PMS0810190App">
     <div class="col-xs-12">
+
         <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
     </div>
-    <single-grid-pms0810190-tmp></single-grid-pms0810190-tmp>
-    <div class="col-xs-12" v-show="true">
+    <single-grid-pms0810190-tmp
+            :is-edit-status="isEditStatus"
+            :is-create-status="isCreateStatus"
+            :single-data="singleData"
+            :use-cod-list="useCodList"
+            :tmp-c-u-d="tmpCUD"
+            :editing-row="editingRow"
+    :page-one-data-grid-rows="pageOneDataGridRows">
+
+    </single-grid-pms0810190-tmp>
+    <div class="col-xs-12" >
         <div class="col-sm-11 col-xs-11">
             <div class="row no-margin-right">
                 <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                    <table id="PMS0810190_dg"></table>
+                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                        <table id="dgCheckbox"></table>
+                    </div>
+                    <div>
+                        <table id="PMS0810190_dg"></table>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -26,17 +42,9 @@
                         <li>
                             <button id="remove-btn" :disabled="isSaving"
                                     class="btn btn-danger btn-white btn-defaultWidth"
-                                    @click="removeData();"
+                                    @click="removeMultiData();"
                                     role="button">
                                 <%= __("SystemCommon").Delete %>
-                            </button>
-                        </li>
-                        <li>
-                            <button id="save-btn" :disabled="isSaving"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="doSave();"
-                                    role="button">
-                                <%= __("SystemCommon").Save %>
                             </button>
                         </li>
                     </ul>
@@ -53,4 +61,5 @@
     var gs_prg_id = '<%= prg_id %>';
 </script>
 <%- include ../vueTemplate/PMS0810190Tmp.ejs %>
+<script src="/js/CursorInsertText.js"></script>
 <script src="/js/setup/PMS0810190_setup.js"></script>

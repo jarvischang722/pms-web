@@ -132,7 +132,7 @@ exports.doTableAllUnLock = function (callback) {
                 success = false;
                 errorMsg = err;
             } else {
-                if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                if (data && data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
                     success = false;
                     errorMsg = data["RETN-CODE-DESC"] || "";
                 }

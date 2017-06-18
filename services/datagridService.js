@@ -149,10 +149,10 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         function (pageInfo, callback) {
             mongoAgent.UI_Type_Grid.findOne({
                 prg_id: prg_id,
-                ui_field_name: pageInfo.ui_field_name
+                page_id:1
             }, function (err, gridInfo) {
                 if (err || !gridInfo) {
-                    gridInfo = [];
+                    gridInfo = {};
                 }
 
                 callback(err, gridInfo);
