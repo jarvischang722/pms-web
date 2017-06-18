@@ -2,25 +2,21 @@
 <html lang="en">
 
 <%- include ./common/head %>
-<%- include ./common/importFiles %>
-<script>
-    if(!_.isEmpty(getCookie("subsystem_first_url"))){
-        location.href = getCookie("subsystem_first_url");
-    }
-</script>
 
-<body class="no-skin" id="app">
+<%- include ./common/importFiles %>
+
+<body class="no-skin">
 
 <%- include ./common/navbar.ejs %>
 
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+<div id="MainApp" class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('./common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:'',pro_id:''}) %>
+        <%- include ./common/moduleMenu.ejs %>
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('./common/subsysMenu',{current_subsys_id:'',pro_id:''}) %>
+            <%- include ./common/subsysMenu.ejs %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
             </div>
@@ -32,7 +28,76 @@
     </a>
 </div>
 
+
 </body>
 
+<script>
+
+    var mainVue = new Vue({
+        el: '#MainApp',
+        data: {
+            current_subsys_id: '',
+            current_pro_id: '',
+            locale: '<%= session.locale %>',
+            moduleMenu: [],
+            quickMenu: [],
+            subsysMenu: []
+        },
+        mounted(){
+
+            this.getUserSubsys();
+        },
+        watch: {
+            current_subsys_id(subsys_id){
+                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.current_subsys_id}).quickMenu;
+                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.current_subsys_id}).mdlMenu;
+
+                this.current_pro_id = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
+
+                this.loadMainProcess(this.current_pro_id)
+            }
+        },
+        methods: {
+            getUserSubsys(){
+                axios.post("/api/getUserSubsys").then(function (res) {
+                    mainVue.subsysMenu = res.data.subsysMenu;
+                    mainVue.current_subsys_id = getCookie('current_subsys_id');
+                })
+            },
+//切換子系統
+            toSubsys(subsys_id){
+                doCookieSetup("usingPrgID", "");
+                doCookieSetup('current_subsys_id', subsys_id)
+                this.current_subsys_id = subsys_id;
+
+            },
+
+            //讀入主程式
+            loadMainProcess(pro_id){
+                $("#MainContentDiv").html("");
+                var ls_pro_url = "";
+                _.each(this.moduleMenu, function (mdl) {
+                    if (mdl.group_sta == 'N') {
+                        var lo_pro = _.findWhere(mdl.processMenu, {pro_id: pro_id}) || {};
+                        if (_.size(lo_pro) > 0) {
+                            ls_pro_url = lo_pro.pro_url;
+                        }
+                    } else {
+                        if (mdl.mdl_id == pro_id) {
+                            ls_pro_url = mdl.mdl_url;
+                        }
+                    }
+                })
+                this.current_pro_id = pro_id;
+
+                if (!_.isEmpty(ls_pro_url)) {
+                    $("#MainContentDiv").load(ls_pro_url);
+                }
+
+            }
+        },
+
+    })
+</script>
 </html>
 

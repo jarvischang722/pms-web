@@ -1,128 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ../../common/head %>
-<%- include ../../common/importFiles %>
+<div class="page-content">
+    <div class="">
+        <div class="page-header"></div><!-- /.page-header -->
 
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
 
-<body class="no-skin" id="app">
-
-<!-- #section:basics/navbar.layout -->
-<%- include ../../common/navbar.ejs %>
-<!-- include header.html -->
-
-<!-- /section:basics/navbar.layout -->
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
-
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-
-            <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
-
-
-        <div class="companyInfo">
-            <img src="/images/athena_log.png"/>
-        </div>
-        <!-- /section:basics/sidebar.layout.minimize -->
-    </div>
-
-    <!-- /section:basics/sidebar -->
-
-    <div class="main-content">
-        <div class="main-content-inner">
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
-            <div class="page-content">
-                <div class="">
-                    <div class="page-header"></div><!-- /.page-header -->
-
-                    <div class="row">
-                            <div class="col-xs-12">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row no-margin-right">
-
-                                        <!--  依房型訂房 -->
-                                        <%- include PMS0100000_module/resvRoomTypeTable_1 %>
-                                        <!--  /.End 依房型訂房 -->
-
-                                    </div>
-                                </div>
-                                <div class="col-xs-1 col-sm-1">
-                                    <div class="row">
-                                        <div class="right-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">上一頁</button>
-                                                </li>
-                                                <li>
-                                                    <button id="remove-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">下一頁</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                                            role="button">訂房</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">列印</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">另存</button>
-                                                </li>
-                                                <li>
-                                                    <button id="ins-btn"
-                                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">專案訂房</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- /.col-sm-12 -->
-                            <div class="clearfix"></div>
+                        <!--  依房型訂房 -->
+                        <%- include PMS0100000_module/resvRoomTypeTable_1 %>
+                        <!--  /.End 依房型訂房 -->
 
                     </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button id="ins-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">上一頁</button>
+                                </li>
+                                <li>
+                                    <button id="remove-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">下一頁</button>
+                                </li>
+                                <li>
+                                    <button id="ins-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                            role="button">訂房</button>
+                                </li>
+                                <li>
+                                    <button id="ins-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">列印</button>
+                                </li>
+                                <li>
+                                    <button id="ins-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">另存</button>
+                                </li>
+                                <li>
+                                    <button id="ins-btn"
+                                            class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">專案訂房</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
 
-                    <!--  依房型訂房 彈出視窗內容-->
-                    <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
-                    <!--  /.End 彈出視窗內容 -->
-
-                    <!--  依房型訂房 彈出視窗內容(ho 新增)-->
-                    <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
-                    <!--  /.End 彈出視窗內容(ho 新增) -->
-
-                </div><!-- /.roomNumPlanPage -->
-            </div>
         </div>
-    </div><!-- /.main-content -->
-    <%- include ../../common/footer %>
 
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
+        <!--  依房型訂房 彈出視窗內容-->
+        <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
+        <!--  /.End 彈出視窗內容 -->
 
-<!-- basic scripts -->
+        <!--  依房型訂房 彈出視窗內容(ho 新增)-->
+        <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
+        <!--  /.End 彈出視窗內容(ho 新增) -->
 
+    </div><!-- /.roomNumPlanPage -->
+</div>
 
-</body>
 <script type="text/javascript">
     $(function (){
-//        $(".resvRoomTypeTable-load").load("./PMS0100000_module/resvRoomTypeTable_1.ejs");
-
-//        datepicker test
-//        $('.date-picker').datepicker({
-//            autoclose: true,
-//            todayHighlight: true,
-//            language: 'ko'
-//        })
-
-        // 陣列regional內的字串填寫你要的語言, 如繁體中文
-//        $.datepicker.setDefaults( $.datepicker.regional[ "zh-TW" ] );
 
         // 彈出 訂房卡
         $(document).on('click', ".reservationDialog-1", function (e) {
@@ -556,4 +502,3 @@
 </script>
 
 
-</html>

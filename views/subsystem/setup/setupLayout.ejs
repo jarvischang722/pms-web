@@ -1,99 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ../../common/head %>
-<%- include ../../common/importFiles %>
-
-<body class="no-skin" id="app">
-
-<%- include ../../common/navbar.ejs %>
-
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
-
-    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <%- include('../../common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:current_subsys_id,pro_id:mdl_id}) %>
-    </div>
-    <div class="main-content">
-        <div class="main-content-inner">
-            <%- include('../../common/subsysMenu',{current_subsys_id:current_subsys_id,pro_id:mdl_id}) %>
-            <div id="MainContentDiv" class="page-content">
-                <!-- 主內容 -->
-                <div class="controlReservation">
-                    <div class="page-header">
-                    </div><!-- /.page-header -->
+<div id="main-container" class="controlReservation">
+    <div class="page-header">
+    </div><!-- /.page-header -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <!-- #section:elements.tab.position -->
-                                                    <div class="tabbable tabs-left">
-                                                        <ul class="nav nav-tabs" id="settingUl">
-                                                            <!--<li  :class="{active: usingPrgID == 'PMS0810050'}">-->
-                                                            <!--<a-->
-                                                            <!--@click="loadSetUpPage('PMS0810050')"-->
-                                                            <!--href="javascript:void(0)">-->
-                                                            <!--交通接駁設定-->
-                                                            <!--</a>-->
-                                                            <!--</li>-->
-                                                            <li v-for="proc in prosList"
-                                                                :class="{active: usingPrgID == proc.pro_id}">
-                                                                <a
-                                                                        @click="loadSetUpPage(proc.pro_id)"
-                                                                        href="javascript:void(0)">
-                                                                    {{proc['pro_name_<%= session.locale %>']}}
-                                                                </a>
-                                                            </li>
+                                <div class="col-sm-12">
+                                    <!-- #section:elements.tab.position -->
+                                    <div class="tabbable tabs-left">
+                                        <ul class="nav nav-tabs" id="settingUl">
+                                            <!--<li  :class="{active: usingPrgID == 'PMS0810050'}">-->
+                                            <!--<a-->
+                                            <!--@click="loadSetUpPage('PMS0810050')"-->
+                                            <!--href="javascript:void(0)">-->
+                                            <!--交通接駁設定-->
+                                            <!--</a>-->
+                                            <!--</li>-->
+                                            <li v-for="proc in prosList"
+                                                :class="{active: usingPrgID == proc.pro_id}">
+                                                <a
+                                                        @click="loadSetUpPage(proc.pro_id)"
+                                                        href="javascript:void(0)">
+                                                    {{proc['pro_name_<%= session.locale %>']}}
+                                                </a>
+                                            </li>
 
-                                                        </ul>
-                                                        <div class="tab-content">
-                                                            <!-- 對照檔內容 -->
-                                                            <div id="prgContentDiv" v-show="!isTableLocked"
-                                                                 style="overflow-x: hidden;display: none;"
-                                                                 class="tab-pane in active">
-                                                            </div>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <!-- 對照檔內容 -->
+                                            <div id="prgContentDiv" v-show="!isTableLocked"
+                                                 style="overflow-x: hidden;display: none;"
+                                                 class="tab-pane in active">
+                                            </div>
 
-                                                            <!-- table lock 訊息 -->
-                                                            <div align="center" v-show="isTableLocked"
-                                                                 style="display: none;">
-                                                                <p>
-                                                                    <image width="64" src="/images/lock.png"/>
-                                                                </p>
-                                                                <p>
-                                                                    <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
-                                                                </p>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
+                                            <!-- table lock 訊息 -->
+                                            <div align="center" v-show="isTableLocked"
+                                                 style="display: none;">
+                                                <p>
+                                                    <image width="64" src="/images/lock.png"/>
+                                                </p>
+                                                <p>
+                                                    <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
+                                                </p>
 
                                             </div>
+
                                         </div>
                                     </div>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div><!-- /.main-content -->
-    <%- include ../../common/footer %>
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
+    </div>
 
-</body>
-
-</html>
-
+</div>
 <script>
     var url_hash = window.location.hash.replace("#", "");
     if (!_.isEmpty(url_hash)) {

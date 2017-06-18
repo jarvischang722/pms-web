@@ -25,7 +25,7 @@ exports.loginPage = function (req, res, next) {
         
     }
 
-    res.render("user/loginPage");
+    res.render('user/loginPage');
 };
 
 
@@ -123,9 +123,9 @@ exports.selectSystem = function (req, res) {
  */
 exports.getUserSubsys = function (req, res) {
     if (req.session.user) {
-        res.json({success: true, subsysGrp: req.session.user.subsysGrp || []});
+        res.json({success: true, subsysMenu: req.session.user.subsysMenu || []});
     } else {
-        res.json({success: true, errorMsg: '未登入', subsysGrp: []});
+        res.json({success: true, errorMsg: '未登入', subsysMenu: []});
     }
 };
 
@@ -180,11 +180,9 @@ exports.getAuthorityFeature = function (req, res) {
  */
 function getSysFirsrUrl(subsysMenu){
     var ls_subsystemFirstUrl = "";
-    if(subsysMenu.length > 0 && subsysMenu[0].mdlMenu.length > 0){
-        if(!_.isNull(subsysMenu[0].mdlMenu[0].mdl_url)){
-            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].mdl_url;
-        }else{
-            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].processMenu[0].pro_url;
+    if(subsysMenu.length > 0 && subsysMenu[0].quickMenu.length > 0){
+        if(!_.isNull(subsysMenu[0].quickMenu[0].pro_url)){
+            ls_subsystemFirstUrl = subsysMenu[0].quickMenu[0].pro_url;
         }
     }
     if(_.isNull(ls_subsystemFirstUrl)){

@@ -49,8 +49,7 @@ exports.systemOption = function (req, res) {
                 });
 
             });
-
-            res.render('system/systemOption', {sysList: sysRows});
+            res.render('system/systemOption',{sysList: sysRows });
         });
 
     });

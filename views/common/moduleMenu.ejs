@@ -5,51 +5,40 @@
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
     </li>
-    <% session.user.subsysMenu.forEach(function(subsys){ %>
-
-    <% if(subsys.subsys_id == current_subsys_id) { %>
-    <% subsys.mdlMenu.forEach(function(mdlItem){ %>
-    <li class="nav-height">
-        <% if(mdlItem.group_sta == "N"){ %>
+    <li class="nav-height" v-for="mdlItem in moduleMenu" >
+        <template v-if="mdlItem.group_sta == 'N'">
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon fa fa-desktop"></i>
             <span class="menu-text">
                     <!-- 模組名稱 -->
-                <%= mdlItem["mdl_name_" + session.locale] != undefined ?  mdlItem["mdl_name_" + session.locale] : mdlItem.mdl_name %>
+                {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
             </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
 
         <ul class="submenu">
-            <% mdlItem.processMenu.forEach(function(proItem){ %>
-                <% if(proItem.flag2_sta == "Y"){ %>
-                <li>
-                    <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
+                <li v-for="proItem in mdlItem.processMenu" v-if="proItem.flag2_sta == 'Y'">
+                    <a onclick="javascript:window.open('{{ proItem.pro_url }}')"
                        target="_blank">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <!-- 作業名稱 -->
-                        <%= proItem["pro_name_" + session.locale] %>
+                        {{proItem["pro_name_" + locale]}}
                     </a>
                 </li>
-                <% } %>
-            <% }) %>
-
         </ul>
+        </template>
 
-        <% } else{ %>
-        <a onclick="javascript:window.open('<%= mdlItem.mdl_url %>')" class="dropdown-toggle">
-            <i class="menu-icon fa fa-desktop"></i>
-            <span class="menu-text">
-                    <!-- 模組名稱 -->
-                <%= mdlItem["mdl_name_" + session.locale] %>
-            </span>
-        </a>
+        <template v-else>
+            <a @click="window.open(mdlItem.mdl_url)"  class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
+                        <!-- 模組名稱 -->
+                    {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
+                </span>
+            </a>
+        </template>
 
-        <% } %>
     </li>
-    <% }) %>
-    <% } %>
-    <% }) %>
 
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
         <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"

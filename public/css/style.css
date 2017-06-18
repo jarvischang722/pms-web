@@ -1838,7 +1838,7 @@ a {
   background: #ffc666;
 }
 /* line 132, ../sass/_bacchusMain.sass */
-.top-sec-ul .top-ul ul li.active-01 {
+.top-sec-ul .top-ul ul li.active_01 {
   background: #D15B47;
 }
 /* line 135, ../sass/_bacchusMain.sass */
@@ -1887,7 +1887,7 @@ a {
   color: #fff;
 }
 /* line 172, ../sass/_bacchusMain.sass */
-.top-sec-ul .secondMenu-ul ul a.active-01 {
+.top-sec-ul .secondMenu-ul ul a.active_01 {
   background: #888;
   color: #fff;
 }
