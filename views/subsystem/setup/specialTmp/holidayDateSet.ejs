@@ -171,7 +171,10 @@
         // 日期列表
         $('.calendar-list').calendarYear();
         // 選擇日期區間 or change it into a date range picker
-        $('.input-daterange').datepicker({autoclose:true});
+        $('.input-daterange').datepicker({
+            autoclose:true,
+            dateFormat: 'yy-mm-dd'
+        });
 //        // 選擇顏色
 //        $("#preferredHex3").spectrum({
 //            preferredFormat: "hex3",

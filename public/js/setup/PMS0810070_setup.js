@@ -26,6 +26,7 @@ function getHolidaySet() {
         .then(axios.spread(function (kindSetResult, dateSetResult) {
                 go_holidayKind = kindSetResult.data.dateKindSetData;
                 go_holidayDate = dateSetResult.data.dateSetData;
+                console.log(go_holidayDate);
                 create_dateKind_select_option();
                 genCalendarDataSource();
                 setCalendarDataSource();
@@ -40,12 +41,12 @@ function getHolidaySet() {
 }
 
 // 單獨取日期設定
-function getOnlyHolidayDate(){
+function getOnlyHolidayDate() {
     var holidayDateReq = getHolidayDateSet();
-    holidayDateReq.then(function(getResult){
+    holidayDateReq.then(function (getResult) {
         go_holidayDate = getResult.data.dateSetData;
     })
-        .catch(function(err){
+        .catch(function (err) {
             console.log(err);
             waitingDialog.hide();
         })
@@ -72,7 +73,7 @@ function getHolidayKindSet() {
 // 取假日日期設定
 function getHolidayDateSet() {
     var params = {
-        year: $(".calendar-list").data("calendarYear").getYear()
+        year: gs_calendar_year
     }
     return axios.post("/api/getHolidayDateSet", params);
 }
@@ -103,7 +104,9 @@ function initCalendar() {
         renderEnd: renderEnd
     });
     // 選擇日期區間 or change it into a date range picker
-    $('.input-daterange').datepicker({autoclose: true});
+    $('.input-daterange').datepicker({
+        autoclose: true
+    });
 
     // 日曆日期點擊事件
     function clickDay(e) {
@@ -141,6 +144,7 @@ function initCalendar() {
                 return moment(dataSource.startDate).format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
             });
             lo_dateSource.color = "#fff";
+            lo_dateSource.id = "N";
         }
     }
 
@@ -173,14 +177,32 @@ function bindDayClickEvent() {
         var ls_rtnDate = getDaysBetweenDates(ls_start_date, ls_end_date, ls_date);
 
         _.each(ls_rtnDate, function (date) {
-            ga_dataSource.push({
-                id: $("#color_scheme option:selected").data("day_sta"),
-                startDate: date.toDate(),
-                endDate: date.toDate(),
-                // startDate: new Date(date.year(), date.month(), date.date()),
-                // endDate: new Date(date.year(), date.month(), date.date()),
-                color: $("#color_scheme option:selected").val()
-            });
+
+            var isExist = _.findIndex(ga_dataSource, function(dataSource){
+                return moment(dataSource.startDate).format("YYYY/MM/DD") == date.format("YYYY/MM/DD");
+            })
+
+            if(isExist == -1){
+                ga_dataSource.push({
+                    id: $("#color_scheme option:selected").data("day_sta"),
+                    startDate: date.toDate(),
+                    endDate: date.toDate(),
+                    color: $("#color_scheme option:selected").val()
+                });
+            }
+            else{
+
+                if(ga_dataSource[isExist].color == "#fff"){
+                    ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
+                    ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
+                }
+                else{
+                    ga_dataSource[isExist].id = "N";
+                    ga_dataSource[isExist].color = "#fff";
+                }
+
+            }
+
         });
         setCalendarDataSource();
     })
@@ -287,18 +309,23 @@ function rgb2hex(rgb) {
 // 取日期區間的星期
 function getDaysBetweenDates(start, end, dayName) {
 
+    var li_days_counter = 0;
     var days = {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6};
     var start = moment(start);
     var end = moment(end);
     var day = days[dayName.toLowerCase().substr(0, 3)];
 
     var result = [];
-    var current = start.clone();
 
-    while (current.day(7 + day).isBefore(end)) {
-        result.push(current.clone());
+    var li_diffDay = end.diff(start, "days")+1;
+
+    while (li_days_counter != li_diffDay) {
+        var lo_date = start.clone().add("days", li_days_counter);
+        var li_day = lo_date.format("d");
+        if (li_day == day)
+            result.push(lo_date);
+        li_days_counter++;
     }
-
     return result;
 
 }
