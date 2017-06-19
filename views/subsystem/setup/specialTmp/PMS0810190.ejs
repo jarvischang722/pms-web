@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="/css/setup/gridSingle.css">
 <div id="PMS0810190App">
     <div class="col-xs-12">
-
-        <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
     </div>
     <single-grid-pms0810190-tmp
             :is-edit-status="isEditStatus"
@@ -14,14 +15,14 @@
     :page-one-data-grid-rows="pageOneDataGridRows">
 
     </single-grid-pms0810190-tmp>
-    <div class="col-xs-12" >
-        <div class="col-sm-11 col-xs-11">
+    <div class="col-xs-12">
+        <div class="col-xs-11">
             <div class="row no-margin-right">
                 <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                    <div style="float: left; min-width: 30px; max-width: 3%;">
                         <table id="dgCheckbox"></table>
                     </div>
-                    <div>
+                    <div style="float: left; max-width: 96%; width: 94%;">
                         <table id="PMS0810190_dg"></table>
                     </div>
                     <div class="clearfix"></div>
@@ -52,7 +53,7 @@
             </div>
         </div>
     </div> <!-- /.col-sm-12 -->
-
+    <div class="clearfix"></div>
 </div>
 
 <div type="hidden" id="gridEdit" name="gridEdit"></div>
