@@ -137,6 +137,18 @@
       "ins_usr": "Added by",
       "upd_dat": "Modified  Date",
       "upd_usr": "Modified By"
+    },"PMS0810180": {
+      "agent_no": "Channel",
+      "ashow_cod": "Agent",
+      "acust_nam": "Agent",
+      "cshow_cod": "Company",
+      "ccust_nam": "Company Name",
+      "default_source_typ": "D. Source",
+      "default_guest_typ": "D. Guest Type",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added by",
+      "upd_dat": "Modified  Date",
+      "upd_usr": "Modified By"
     },
     "PMS0810160": {
       "cancel_cod": "Cancellation Reason",

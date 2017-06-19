@@ -2,6 +2,7 @@
  * Created by Jun on 2017/2/10.
  */
 var datagridSVC = require("../services/datagridService");
+var dataRuleSVC = require("../services/dataRuleService");
 var _ = require("underscore");
 var commonTools = require("../utils/commonTools");
 

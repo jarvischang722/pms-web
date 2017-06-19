@@ -4,8 +4,30 @@
 waitingDialog.hide();
 var prg_id = $("#prg_id").val();
 var vmHub = new Vue;
+//Dt 欄位查詢資料視窗
+Vue.component("choose-data-dialog-tmp", {
+    template: '#chooseDataDialogTmp',
+    props: [],
+    data : function() {
+        return {
+
+        };
+    },
+    methods: {
+
+    },
+    created : function () {
+        var self = this;
+        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
+            self.showDtDataGrid(dtDataGridRows);
+        });
+    }
+
+});
+
+
 //Dt 多語編輯
-Vue.component("multi-lang-dialog-tmp", {
+Vue.component("multiLang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'dtMultiLangField', 'endMultiLangEditing'],
     data: function () {
@@ -267,7 +289,7 @@ Vue.component('sigle-grid-dialog-tmp', {
     created: function () {
 
         var self = this;
-        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
+        vmHub.$on('showSearchDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
         vmHub.$on('tempExecData', function (row) {
@@ -391,6 +413,12 @@ Vue.component('sigle-grid-dialog-tmp', {
         //關閉
         emitCloseGridDialog: function () {
             this.$emit('close-single-grid-dialog');
+        }
+
+        ,
+        //開啟
+        openGridDialog: function () {
+            this.$emit('open-single-grid-dialog');
         }
         ,
         //抓取單筆資料
@@ -1003,6 +1031,20 @@ var vm = new Vue({
             vm.singleData = {};
             vm.initTmpCUD();
             $("#singleGridDialog").dialog('close');
+        },
+        openSearchGridDialog : function () {
+            var dialog = $("#dataSearchDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height: 500,
+                title: "AAA",
+                minWidth: 750,
+                maxHeight: 500,
+                resizable: true
+                //buttons: "#dialogBtns"
+            });
+            dialog.dialog("open");
+            //$("#chooseDataDialogTmp").dialog("open");
         },
         //儲存page1 datagrid欄位屬性
         doSaveColumnFields: function () {

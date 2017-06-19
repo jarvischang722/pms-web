@@ -138,11 +138,15 @@
                     </button>
                     <button v-if="editStatus" :disabled="editStatus && !modificableForData "
                             class="btn btn-primary btn-white"
-                            @click="doSaveGrid('')">
+                            @click="doSaveGrid('')">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ('')">
                         <%= __("SystemCommon").Save %>
                     </button>
                     <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
                         <%= __("SystemCommon").Leave %>
+                    </button>
+
+                    <button class="btn btn-primary btn-white" @click="openGridDialog">
+                        SHOW
                     </button>
                 </div>
             </div>
