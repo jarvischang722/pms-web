@@ -2,8 +2,8 @@
     <div class="top-ul">
         <ul id="subsysUl">
             <li v-for="subsysItem in subsysMenu"
-                :class="{active_01: current_subsys_id == subsysItem.subsys_id}"
-                @click.prevent="toSubsys(subsysItem.subsys_id)">
+                :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
+                @click.prevent="location.href= '/bacchus4web/'+subsysItem.subsys_id">
 
                 <a href="#" style="color:#FFFFFF;">
                     {{
@@ -24,7 +24,7 @@
         <ul id="quickMenuUl">
             <li v-for="quick in quickMenu"
                 @click="loadMainProcess(quick.pro_id)"
-                :class="{activeThis:quick.pro_id == current_pro_id}" >
+                :class="{activeThis:quick.pro_id == usingPrgID}" >
                 {{ quick["pro_name_" + locale] }} 
             </li>
         </ul>

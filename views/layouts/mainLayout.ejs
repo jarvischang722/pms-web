@@ -16,7 +16,7 @@
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../common/subsysMenu',{current_subsys_id:'',pro_id:''}) %>
+            <%- include('../common/subsysMenu',{usingSubsysID:'',pro_id:''}) %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
 
@@ -37,7 +37,7 @@
     var mainVue = new Vue({
         el: '#MainApp',
         data: {
-            current_subsys_id: '',
+            usingSubsysID: '',
             current_pro_id: '',
             locale: '<%= session.locale %>',
             moduleMenu: [],
@@ -49,9 +49,9 @@
             this.getUserSubsys();
         },
         watch: {
-            current_subsys_id(newVal){
-                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.current_subsys_id}).quickMenu;
-                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.current_subsys_id}).mdlMenu;
+            usingSubsysID(newVal){
+                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
+                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
 
                 this.current_pro_id = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : ""
             }
@@ -60,14 +60,14 @@
             getUserSubsys(){
                 axios.post("/api/getUserSubsys").then(function (res) {
                     mainVue.subsysMenu = res.data.subsysMenu;
-                    mainVue.current_subsys_id = getCookie('current_subsys_id');
+                    mainVue.usingSubsysID = getCookie('usingSubsysID');
                 })
             },
 //切換子系統
             toSubsys(subsys_id){
                 doCookieSetup("usingPrgID", "");
-                doCookieSetup('current_subsys_id', subsys_id)
-                this.current_subsys_id = subsys_id;
+                doCookieSetup('usingSubsysID', subsys_id)
+                this.usingSubsysID = subsys_id;
 
             },
 
