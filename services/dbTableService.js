@@ -220,7 +220,7 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
     var savaExecDatas = {};
     var exec_seq = 1;
     var userInfo  = session.user;
-    var las_keyFields = _.pluck(_.where(fieldData,{keyable:'Y'}),"ui_field_name");
+    var las_keyFields = _.pluck(_.where(fieldData,{keyable:'Y'}),"ui_field_name");  //['key1','key2'...]
     _.each(tmpCUD.createData,function(c_data){
         var tmpIns = {"function": "1"}; //1  新增
         tmpIns["table_name"] = mainTableName;
@@ -289,7 +289,6 @@ exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
                 lo_keysData[keyField] = u_data[keyField];
             }
         });
-
         savaExecDatas[exec_seq] = tmpEdit;
         exec_seq++;
     });

@@ -35,7 +35,15 @@ exports.getHolidayDateSet = function(postData, session, callback){
         end_dat: postData.year + "/12/31"
     }
 
-    queryAgent.queryList("")
+    queryAgent.queryList("QRY_HOLIDAY_RF", params, 0, 0, function(err, result){
+        if(err){
+            console.error(err);
+            callback(err, null);
+        }
+        else{
+            callback(null, result);
+        }
+    })
 };
 
 // 取年度總日期天數

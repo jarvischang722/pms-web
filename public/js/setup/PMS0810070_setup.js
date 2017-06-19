@@ -5,114 +5,76 @@
  */
 "use strict";
 
-waitingDialog.hide();
+// waitingDialog.hide();
 var go_holidayKind;
 var go_holidayDate;
-var gs_dataSource = [];
+var ga_dataSource = [];
 var gs_calendar_year;
 
 
 $(function () {
-
     initCalendar();
-    chkIsAllDateOfYear();
     getHolidaySet();
     getHolidayDateSet();
     getHolidayKindSet();
     bindEvent();
 });
 
-// 判斷oracle是否有整年度日期
-function chkIsAllDateOfYear() {
-    var ls_year = $(".calendar-list").data("calendarYear").getYear();
-
-    axios.post("/api/getHolidayDateCount", {year: ls_year})
-        .then(function (getResult) {
-                var li_dateCount = getResult.data.dateCount;
-                if (li_dateCount != 0) {  //TODO: 暫時有日期就可以了，之後要小於一整年365天
-                    getHolidaySet();
-                }
-                else {
-                    insertDateIntoDB();
-                }
-            }
-        )
-}
-
+// 取假日日期設定資料
 function getHolidaySet() {
     axios.all([getHolidayKindSet(), getHolidayDateSet()])
         .then(axios.spread(function (kindSetResult, dateSetResult) {
-            console.log(kindSetResult);
-            go_holidayKind = kindSetResult.data.dateKindSetData;
-            go_holidayDate = dateSetResult.data.dateSetData;
-            create_dateKind_select_option();
-        }))
+                go_holidayKind = kindSetResult.data.dateKindSetData;
+                go_holidayDate = dateSetResult.data.dateSetData;
+                create_dateKind_select_option();
+                genCalendarDataSource();
+                setCalendarDataSource();
+                waitingDialog.hide();
+            })
+        )
         .catch(function (error) {
             console.log(error);
+            waitingDialog.hide();
         })
+
+}
+
+// 單獨取日期設定
+function getOnlyHolidayDate(){
+    var holidayDateReq = getHolidayDateSet();
+    holidayDateReq.then(function(getResult){
+        go_holidayDate = getResult.data.dateSetData;
+    })
+        .catch(function(err){
+            console.log(err);
+            waitingDialog.hide();
+        })
+}
+
+// 產生日曆顯示資料(dataSource)
+function genCalendarDataSource() {
+    _.each(go_holidayDate, function (eachDate) {
+        ga_dataSource.push({
+            id: eachDate.day_sta,
+            startDate: moment(eachDate.batch_dat).toDate(),
+            endDate: moment(eachDate.batch_dat).toDate(),
+            color: "#" + colorTool.colorCodToHex(eachDate.color_num)
+        });
+    })
 
 }
 
 // 取假日種類設定
 function getHolidayKindSet() {
-    axios.post("/api/getHolidayKindSet");
+    return axios.post("/api/getHolidayKindSet");
 }
 
 // 取假日日期設定
 function getHolidayDateSet() {
     var params = {
-        year: $(".calendar-list").data("calendarYear").getYear();
+        year: $(".calendar-list").data("calendarYear").getYear()
     }
-    axios.post("/api/getHolidayDateSet", params);
-}
-
-// 補足日期
-function insertDateIntoDB() {
-    var fieldData = [
-        {ui_field_name: 'batch_dat', keyable: 'Y'},
-        {ui_field_name: 'athena_id', keyable: 'Y'},
-        {ui_field_name: 'hotel_cod', keyable: 'Y'}
-    ];
-
-    var tmpCUD = {
-        createData: [],
-        updateData: [],
-        deleteData: []
-    };
-
-    var ls_begin_dat = moment(gs_calendar_year + "/1/1");
-    var ls_end_dat = moment(gs_calendar_year + "/12/31");
-    var li_days = ls_end_dat.diff(ls_begin_dat, 'days');
-
-    for (var i = 0; i <= 10; i++) {
-        tmpCUD.createData.push({
-            "day_sta": "N",
-            "batch_dat": moment(ls_begin_dat, "YYYY-MM-DD").add(i, "days").format("YYYY/MM/DD")
-        })
-    }
-
-    console.log(gs_prg_id);
-    var params = {
-        prg_id: gs_prg_id,
-        tmpCUD: tmpCUD,
-        fieldData: fieldData,
-        mainTableName: "holiday_rf"
-    };
-
-    waitingDialog.show('Saving...');
-    axios.post("/api/execSQLProcess", params)
-        .then(function (response) {
-            waitingDialog.hide();
-            if (response.data.success) {
-                alert('save success!');
-            } else {
-                alert(response.data.errorMsg);
-            }
-        })
-        .catch(function (error) {
-            waitingDialog.hide();
-            console.log(error);
-        });
+    return axios.post("/api/getHolidayDateSet", params);
 }
 
 // 產生日期別下拉選單
@@ -155,18 +117,19 @@ function initCalendar() {
             ls_select_color = ls_select_color + " 0px -4px 0px 0px inset";
             $(lo_clickDate).css('box-shadow', ls_select_color);
 
-            var gs_dataSource_index = _.findIndex(gs_dataSource, function (dataSource) {
-                return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
+            var ga_dataSource_index = _.findIndex(ga_dataSource, function (dataSource) {
+                return moment(dataSource.startDate).format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
             });
 
-            if (gs_dataSource_index != -1) {
-                gs_dataSource[gs_dataSource_index].color = $("#color_scheme option:selected").val();
+            if (ga_dataSource_index != -1) {
+                ga_dataSource[ga_dataSource_index].color = $("#color_scheme option:selected").val();
+                ga_dataSource[ga_dataSource_index].id = $("#color_scheme option:selected").data("day_sta");
             }
             else {
-                gs_dataSource.push({
+                ga_dataSource.push({
                     id: $("#color_scheme option:selected").data("day_sta"),
-                    startDate: moment(ls_clickDateStr),
-                    endDate: moment(ls_clickDateStr),
+                    startDate: moment(ls_clickDateStr).toDate(),
+                    endDate: moment(ls_clickDateStr).toDate(),
                     color: $("#color_scheme option:selected").val()
                 });
             }
@@ -174,8 +137,8 @@ function initCalendar() {
         // 顏色一樣，重複選取，就取消
         else {
             $(lo_clickDate).css('box-shadow', "");
-            var lo_dateSource = _.find(gs_dataSource, function (dataSource) {
-                return dataSource.startDate.format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
+            var lo_dateSource = _.find(ga_dataSource, function (dataSource) {
+                return moment(dataSource.startDate).format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
             });
             lo_dateSource.color = "#fff";
         }
@@ -210,10 +173,12 @@ function bindDayClickEvent() {
         var ls_rtnDate = getDaysBetweenDates(ls_start_date, ls_end_date, ls_date);
 
         _.each(ls_rtnDate, function (date) {
-            gs_dataSource.push({
+            ga_dataSource.push({
                 id: $("#color_scheme option:selected").data("day_sta"),
-                startDate: new Date(date.year(), date.month(), date.date()),
-                endDate: new Date(date.year(), date.month(), date.date()),
+                startDate: date.toDate(),
+                endDate: date.toDate(),
+                // startDate: new Date(date.year(), date.month(), date.date()),
+                // endDate: new Date(date.year(), date.month(), date.date()),
                 color: $("#color_scheme option:selected").val()
             });
         });
@@ -225,7 +190,7 @@ function bindDayClickEvent() {
 function bindBTN_SaveEvent() {
     $("#BTN_Save").click(function () {
         setCalendarDataSource();
-        // save_into_oracle_holiday_rf();
+        save_into_oracle_holiday_rf();
     })
 }
 
@@ -234,23 +199,17 @@ function setCalendarDataSource() {
     var la_dataSource = [];
     var ls_original_dataSource = $(".calendar-list").data("calendarYear").getDataSource();
     if (!_.isUndefined(ls_original_dataSource)) {
-        la_dataSource = _.union(ls_original_dataSource, gs_dataSource);
+        la_dataSource = _.union(ls_original_dataSource, ga_dataSource);
     }
     else {
-        la_dataSource = gs_dataSource;
+        la_dataSource = ga_dataSource;
     }
-
     $(".calendar-list").data("calendarYear").setDataSource(la_dataSource);
-    gs_dataSource = la_dataSource;
+    ga_dataSource = la_dataSource;
 }
 
+// 儲存進oracle holiday_rf
 function save_into_oracle_holiday_rf() {
-
-    var fieldData = [
-        {ui_field_name: 'batch_dat', keyable: 'Y'},
-        {ui_field_name: 'athena_id', keyable: 'Y'},
-        {ui_field_name: 'hotel_cod', keyable: 'Y'}
-    ]
 
     var tmpCUD = {
         createData: [],
@@ -258,11 +217,29 @@ function save_into_oracle_holiday_rf() {
         deleteData: []
     };
 
-    _.each(gs_dataSource, function (dataSource) {
-        tmpCUD.updateData.push({
-            "DAY_STA": dataSource.id
-        })
-    })
+    var fieldData = [
+        {ui_field_name: 'batch_dat', keyable: 'Y'},
+        {ui_field_name: 'athena_id', keyable: 'Y'},
+        {ui_field_name: 'hotel_cod', keyable: 'Y'}
+    ]
+
+    _.each(ga_dataSource, function (dataSource) {
+        var ls_isDateExist = _.find(go_holidayDate, function (eachDate) {
+            return moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")
+        });
+        if (_.isUndefined(ls_isDateExist)) {
+            tmpCUD.createData.push({
+                "day_sta": dataSource.id,
+                "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
+            });
+        }
+        else {
+            tmpCUD.updateData.push({
+                "day_sta": dataSource.id,
+                "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
+            });
+        }
+    });
 
     var params = {
         prg_id: gs_prg_id,
@@ -277,6 +254,7 @@ function save_into_oracle_holiday_rf() {
             waitingDialog.hide();
             if (response.data.success) {
                 alert('save success!');
+                getOnlyHolidayDate();
             } else {
                 alert(response.data.errorMsg);
             }
@@ -287,7 +265,7 @@ function save_into_oracle_holiday_rf() {
         });
 }
 
-//Function to convert rgb color to hex format
+// rgb2hex
 function rgb2hex(rgb) {
     try {
         if (rgb.search("rgb") == -1) {
@@ -306,6 +284,7 @@ function rgb2hex(rgb) {
     }
 }
 
+// 取日期區間的星期
 function getDaysBetweenDates(start, end, dayName) {
 
     var days = {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6};
