@@ -116,30 +116,32 @@ a
       margin-bottom: 5px !important
       width: 100%
       li
-        font-size: $font-16
+        font-size: $font-14
         background: #ffbb22
         color: #fff
         //padding: 5px 20px //edit 符合1024
-        padding: 3px 10px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
         text-align: center
         display: inline-block
         box-sizing: border-box
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #ffc666
-      li.active-01
-        background: #D15B47
+        &.active-01
+          background: #D15B47
 
   .secondMenu-ul
     margin: 5px 0 5px 10px
     ul
       margin-left: 0 !important
       li
-        //margin: 0 0 10px 0
         //padding: 3px 20px  //edit 符合1024
-        padding: 5px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
@@ -148,6 +150,9 @@ a
         box-sizing: border-box
         color: #555
         cursor: pointer
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #c6c6c6
           color: #fff

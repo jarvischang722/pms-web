@@ -64,6 +64,7 @@
         <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
         <!--  /.End 彈出視窗內容(ho 新增) -->
 
+
     </div><!-- /.roomNumPlanPage -->
 </div>
 
@@ -440,6 +441,14 @@
     });
 
     $(function() {
+
+        // tabs setting
+        $('.easyUi-custom1').tabs({
+            // 可以resize 左右，但height 會變大
+//            fit: true,
+//            height: auto
+        });
+
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
