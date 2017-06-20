@@ -148,10 +148,9 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     var lo_dtData = [];
     async.waterfall([
             function (callback) {
-                //func_id  0400  編輯
-                mongoAgent.DatagridFunction.findOne({
+                mongoAgent.TemplateRf.findOne({
                     prg_id: prg_id,
-                    func_id: '0400'
+                    page_id:2
                 }, function (err, singleData) {
 
                     if (err || !singleData) {
@@ -159,23 +158,22 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                         return;
                     }
                     singleData = singleData.toObject();
-                    var sql_tag = singleData.rule_func_name.toUpperCase();
 
                     //將統一的參數先放進去
                     postData["prg_id"] = prg_id;
                     postData["athena_id"] = userInfo.athena_id;
+                    postData["hotel_cod"] = userInfo.fun_hotel_cod;
                     postData["user_id"] = userInfo.usr_id;
 
                     postData = tools.convUtcToDate(postData);
 
-                    queryAgent.query(sql_tag, postData, function (err, rowData) {
+                    queryAgent.query(singleData.rule_func_name.toUpperCase(), postData, function (err, rowData) {
 
                         if (err || !rowData) {
                             return callback("no data", {});
                         }
 
                         langSvc.handleSingleDataLangConv(rowData, prg_id, 2, session.locale, function (err, rowData) {
-                            lo_rowData = rowData;
                             lo_rowData = tools.convUtcToDate(rowData);
                             callback(null, rowData);
                         });
@@ -325,7 +323,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         mongoAgent.TemplateRf.findOne({
             page_id: page_id,
             prg_id: prg_id,
-            template_id: "gridsingle"
+            // template_id: "gridsingle"
         }, function (err, sg_tmp) {
             if (err || !sg_tmp) {
                 callback("not found table name", mainTableName);

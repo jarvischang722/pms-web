@@ -891,8 +891,6 @@ var vm = new Vue({
         doSaveCUD: function (callback) {
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
-            // console.log("===Save params===");
-            // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
