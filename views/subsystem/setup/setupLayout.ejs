@@ -31,22 +31,13 @@
                                                     <!-- #section:elements.tab.position -->
                                                     <div class="tabbable tabs-left">
                                                         <ul class="nav nav-tabs" id="settingUl">
-                                                            <li :class="{active: usingPrgID == 'PMS0810070'}">
-                                                            <a
-                                                            @click="loadSetUpPage('PMS0810070')"
-                                                            href="javascript:void(0)">
-                                                                假日日期設定
-                                                            </a>
-                                                            </li>
                                                             <li v-for="proc in prosList"
                                                                 :class="{active: usingPrgID == proc.pro_id}">
-                                                                <a
-                                                                        @click="loadSetUpPage(proc.pro_id)"
-                                                                        href="javascript:void(0)">
+                                                                <a @click="loadSetUpPage(proc.pro_id)"
+                                                                   href="javascript:void(0)">
                                                                     {{proc['pro_name_<%= session.locale %>']}}
                                                                 </a>
                                                             </li>
-
                                                         </ul>
                                                         <div class="tab-content">
                                                             <!-- 對照檔內容 -->
@@ -160,7 +151,7 @@
                         }
                     }
                 }
-               this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
+                this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
                 waitingDialog.show(go_i18nLang.SystemCommon.Loading);
                 $("#prgContentDiv").empty();
                 this.isTableLocked = false;
