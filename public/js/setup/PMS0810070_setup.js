@@ -5,7 +5,6 @@
  */
 "use strict";
 
-// waitingDialog.hide();
 var go_holidayKind;
 var go_holidayDate;
 var ga_dataSource = [];
@@ -26,7 +25,6 @@ function getHolidaySet() {
         .then(axios.spread(function (kindSetResult, dateSetResult) {
                 go_holidayKind = kindSetResult.data.dateKindSetData;
                 go_holidayDate = dateSetResult.data.dateSetData;
-                console.log(go_holidayDate);
                 create_dateKind_select_option();
                 genCalendarDataSource();
                 setCalendarDataSource();
@@ -45,6 +43,9 @@ function getOnlyHolidayDate() {
     var holidayDateReq = getHolidayDateSet();
     holidayDateReq.then(function (getResult) {
         go_holidayDate = getResult.data.dateSetData;
+        genCalendarDataSource();
+        setCalendarDataSource();
+
     })
         .catch(function (err) {
             console.log(err);
@@ -55,12 +56,22 @@ function getOnlyHolidayDate() {
 // 產生日曆顯示資料(dataSource)
 function genCalendarDataSource() {
     _.each(go_holidayDate, function (eachDate) {
-        ga_dataSource.push({
-            id: eachDate.day_sta,
-            startDate: moment(eachDate.batch_dat).toDate(),
-            endDate: moment(eachDate.batch_dat).toDate(),
-            color: "#" + colorTool.colorCodToHex(eachDate.color_num)
+
+        var findDate = _.find(ga_dataSource, function (dataSource) {
+            if(moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")){
+                console.log(eachDate.batch_dat);
+                return dataSource;
+            }
         });
+
+        if (_.isUndefined(findDate)) {
+            ga_dataSource.push({
+                id: eachDate.day_sta,
+                startDate: moment(eachDate.batch_dat).toDate(),
+                endDate: moment(eachDate.batch_dat).toDate(),
+                color: "#" + colorTool.colorCodToHex(eachDate.color_num)
+            });
+        }
     })
 
 }
@@ -101,7 +112,10 @@ function initCalendar() {
     $('.calendar-list').calendarYear({
         style: 'Border',
         clickDay: clickDay,
-        renderEnd: renderEnd
+        yearChanged: function (e) {
+            gs_calendar_year = e.currentYear;
+            getOnlyHolidayDate();
+        }
     });
     // 選擇日期區間 or change it into a date range picker
     $('.input-daterange').datepicker({
@@ -147,11 +161,6 @@ function initCalendar() {
             lo_dateSource.id = "N";
         }
     }
-
-    // 取得日曆年分
-    function renderEnd(e) {
-        gs_calendar_year = e.currentYear;
-    }
 }
 
 // 綁定事件
@@ -178,11 +187,11 @@ function bindDayClickEvent() {
 
         _.each(ls_rtnDate, function (date) {
 
-            var isExist = _.findIndex(ga_dataSource, function(dataSource){
+            var isExist = _.findIndex(ga_dataSource, function (dataSource) {
                 return moment(dataSource.startDate).format("YYYY/MM/DD") == date.format("YYYY/MM/DD");
             })
 
-            if(isExist == -1){
+            if (isExist == -1) {
                 ga_dataSource.push({
                     id: $("#color_scheme option:selected").data("day_sta"),
                     startDate: date.toDate(),
@@ -190,13 +199,13 @@ function bindDayClickEvent() {
                     color: $("#color_scheme option:selected").val()
                 });
             }
-            else{
+            else {
 
-                if(ga_dataSource[isExist].color == "#fff"){
+                if (ga_dataSource[isExist].color == "#fff") {
                     ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
                     ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
                 }
-                else{
+                else {
                     ga_dataSource[isExist].id = "N";
                     ga_dataSource[isExist].color = "#fff";
                 }
@@ -247,19 +256,24 @@ function save_into_oracle_holiday_rf() {
 
     _.each(ga_dataSource, function (dataSource) {
         var ls_isDateExist = _.find(go_holidayDate, function (eachDate) {
-            return moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")
+            if(moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")){
+                return dataSource;
+            }
         });
-        if (_.isUndefined(ls_isDateExist)) {
-            tmpCUD.createData.push({
-                "day_sta": dataSource.id,
-                "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
-            });
-        }
-        else {
-            tmpCUD.updateData.push({
-                "day_sta": dataSource.id,
-                "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
-            });
+        // 只存當年度設定資料
+        if(moment(dataSource.startDate).format("YYYY") == gs_calendar_year) {
+            if (_.isUndefined(ls_isDateExist)) {
+                tmpCUD.createData.push({
+                    "day_sta": dataSource.id,
+                    "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
+                });
+            }
+            else {
+                tmpCUD.updateData.push({
+                    "day_sta": dataSource.id,
+                    "batch_dat": moment(dataSource.startDate).format("YYYY/MM/DD")
+                });
+            }
         }
     });
 
@@ -269,7 +283,6 @@ function save_into_oracle_holiday_rf() {
         fieldData: fieldData,
         mainTableName: "holiday_rf"
     };
-
     waitingDialog.show('Saving...');
     axios.post("/api/execSQLProcess", params)
         .then(function (response) {
@@ -317,7 +330,7 @@ function getDaysBetweenDates(start, end, dayName) {
 
     var result = [];
 
-    var li_diffDay = end.diff(start, "days")+1;
+    var li_diffDay = end.diff(start, "days") + 1;
 
     while (li_days_counter != li_diffDay) {
         var lo_date = start.clone().add("days", li_days_counter);
