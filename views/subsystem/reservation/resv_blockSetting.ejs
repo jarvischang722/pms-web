@@ -280,13 +280,13 @@
                                                     </li>
                                                     <li>
                                                         <button class="btn btn-primary btn-white btn-defaultWidth "
-                                                                role="button">Save
-                                                            <!--<a href="#modal"> Save</a>-->
+                                                                role="button">
+                                                            <a href="#modal"> Save</a>
                                                         </button>
                                                     </li>
                                                     <!--blockSettingDetails 彈出視窗-->
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth blockSettingDetails"
                                                                 role="button">Details
                                                         </button>
                                                     </li>
@@ -310,8 +310,9 @@
                                         <div class="main-content-data">
 
                                             <!--  鎖控明細表格 -->
-
-                                            <!--<iframe src="PMS0100000_module/resvBlockSettingTable_1"></iframe>-->
+                                            <div style="width: 100%; height: 100%;">
+                                                <%- include PMS0100000_module/resvBlockSettingTable_1 %>
+                                            </div>
 
                                             <!--  /.End 鎖控明細表格 -->
 
@@ -364,7 +365,6 @@
                     <div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1title" aria-describedby="modal1Desc">
                         <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
 
-                        <%- include PMS0100000_module/resvBlockSettingTable_1 %>
 
                     </div>
                 </div>
@@ -507,6 +507,17 @@
             $(".height600").css("height", height);
             $(".fht-tbody").css("height", height-80);
         });
+
+
+        // test
+        var windowHeight = $(window).height() - 50;
+        $('#resvBlockSetting-table').css({ 'height': windowHeight+'px'});
+        $(window).resize(function() {
+            var windowHeight = $(window).height() - 50;
+            $('#resvBlockSetting-table').css({'height': windowHeight+'px'});
+        });
+        $('#resvBlockSetting-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+        console.log(windowHeight);
     });
 </script>
 </html>
