@@ -774,6 +774,9 @@ ul.newVisitOther-btn
   .contentInput
     width: 78.5%
     margin-left: 3px
+  .textArea-w1
+    width: 414px
+    margin-left: 3px
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
@@ -797,6 +800,116 @@ ul.newVisitOther-btn
   margin-left: 25px
   span
     padding-right: 20px
+
+// 訂房卡 changeLog
+.resv-changeRecord
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item
+      width: 23%
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+// 訂房卡 Memo
+.resv-memo
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item-1
+      width: 30%
+      height: auto
+    .grid-item-2
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+//int_Counter．html
+.rulesOfSeparation
+  //position: relative
+  max-height: 600px
+  overflow: auto
+  .counterRow
+    //margin: 0 auto
+    .counterBlock
+      float: left
+      margin: 0 1px 1px 0
+      border: 2px solid #fff
+      position: relative
+      padding: 5px
+      //min-width: 100%
+      //min-height: 100%
+      width: 129px
+      height: 55px
+      line-height: 23px
+      box-sizing: border-box
+      background: #c0d6ee
+      color: #000
+      cursor: pointer
+      @include color-bk
+      &:hover
+        opacity: 0.6
+      .head
+        .left
+          position: absolute
+          top: 5px
+          left: 5px
+        .right
+          position: absolute
+          top: 5px
+          right: 5px
+        .txt-lg
+          font-weight: bold
+          font-size: 18px
+          line-height: 18px
+      .content
+        position: absolute
+        top: 25px
+        left: 5px
+      .content-sub
+        .left
+          position: absolute
+          top: 45px
+          left: 5px
+      .foot
+        position: absolute
+        bottom: 5px
+        left: 5px
+        .red-tip
+          span
+            color: #ff0000
+      //font-weight: bold
+      //font-size: 14px
+      .foot-right
+        position: absolute
+        bottom: 5px
+        right: 5px
+        span
+          color: #D15B47
+
 
 //Ho-鎖控
 .blockSetting

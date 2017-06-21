@@ -29,4 +29,7 @@ module.exports = function(app  ) {
     //住客歷史(靜態 quickMenu)
     app.get('/resv_gProfile', reservationCrtl.getResv_gProfile);
 
+    //訂房卡多筆(靜態 quickMenu)
+    app.get('/resv_bookings', reservationCrtl.getResv_bookings);
+
 };

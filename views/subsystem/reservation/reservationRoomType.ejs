@@ -10,7 +10,6 @@
                         <!--  依房型訂房 -->
                         <%- include PMS0100000_module/resvRoomTypeTable_1 %>
                         <!--  /.End 依房型訂房 -->
-
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1">
@@ -63,6 +62,11 @@
         <!--  依房型訂房 彈出視窗內容(ho 新增)-->
         <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
         <!--  /.End 彈出視窗內容(ho 新增) -->
+
+
+        <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
+        <%- include PMS0100000_module/resvRoomTypeBtn_3 %>
+        <!--  /.End 彈出視窗內容 -->
 
 
     </div><!-- /.roomNumPlanPage -->
@@ -231,6 +235,158 @@
             });
         });
 
+        // 彈出 FOC
+        $(document).on('click', ".resv_FOC", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_FOC-message").removeClass('hide').dialog({
+                modal: true,
+                title: "FOC",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 分類別 resv_BtnPage05
+        $(document).on('click', ".resv_BtnPage05", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage05-message").removeClass('hide').dialog({
+                modal: true,
+                title: "分類別",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+                height: 300,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 保證方式 resv_BtnPage06
+        $(document).on('click', ".resv_BtnPage06", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage06-message").removeClass('hide').dialog({
+                modal: true,
+                title: "保證方式",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+                height: 300,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡確認書(Email) resv_BtnPage12
+        $(document).on('click', ".resv_BtnPage12", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage12-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房卡確認書(Email)",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房確認書(傳真) resv_BtnPage13
+        $(document).on('click', ".resv_BtnPage13", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage13-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房確認書(傳真)",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房確認書(傳真)-傳真號碼 resv_BtnPage13-1
+        $(document).on('click', ".resv_BtnPage13-1", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage13-1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "傳真號碼",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 異動紀錄 resv_BtnPage08
+        $(document).on('click', ".resv_BtnPage08", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage08-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Change log",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 Memo resv_BtnPage09
+        $(document).on('click', ".resv_BtnPage09", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage09-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Memo",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 訂房確認書log resv_BtnPage14
+        $(document).on('click', ".resv_BtnPage14", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage14-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房確認書執行動作紀錄",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 分帳規則 resv_BtnPage03
+        $(document).on('click', ".resv_BtnPage03", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage03-message").removeClass('hide').dialog({
+                modal: true,
+                title: "分帳規則",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         <!-- ********* dataGrid ********* -->
 
@@ -373,16 +529,16 @@
             method: 'get',
             columns: [[
                 {field: 'resvNo', title: '序號', width: 50},
-                {field: 'resvCo', title: '連絡人', width: 100},
-                {field: 'resvP1', title: '電話一', width: 150},
-                {field: 'resvP2', title: '電話二', width: 150},
-                {field: 'resvDate', title: '日期', width: 100},
-                {field: 'resvNum', title: '班次', width: 100},
-                {field: 'resvTime', title: '時間', width: 100},
+                {field: 'resvCo', title: '連絡人', width: 80},
+                {field: 'resvP1', title: '電話一', width: 100},
+                {field: 'resvP2', title: '電話二', width: 100},
+                {field: 'resvDate', title: '日期', width: 80},
+                {field: 'resvNum', title: '班次', width: 80},
+                {field: 'resvTime', title: '時間', width: 80},
                 {field: 'resvAdult', title: '大人數', width: 50},
                 {field: 'resvChild', title: '小孩數', width: 50},
                 {field: 'resvBaby', title: '嬰兒數', width: 50},
-                {field: 'resvPoint', title: '指定住客', width: 100},
+                {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
 
@@ -397,16 +553,16 @@
             method: 'get',
             columns: [[
                 {field: 'resvNo', title: '序號', width: 50},
-                {field: 'resvCo', title: '連絡人', width: 100},
-                {field: 'resvP1', title: '電話一', width: 150},
-                {field: 'resvP2', title: '電話二', width: 150},
-                {field: 'resvDate', title: '日期', width: 100},
-                {field: 'resvNum', title: '班次', width: 100},
-                {field: 'resvTime', title: '時間', width: 100},
+                {field: 'resvCo', title: '連絡人', width: 80},
+                {field: 'resvP1', title: '電話一', width: 100},
+                {field: 'resvP2', title: '電話二', width: 100},
+                {field: 'resvDate', title: '日期', width: 80},
+                {field: 'resvNum', title: '班次', width: 80},
+                {field: 'resvTime', title: '時間', width: 80},
                 {field: 'resvAdult', title: '大人數', width: 50},
                 {field: 'resvChild', title: '小孩數', width: 50},
                 {field: 'resvBaby', title: '嬰兒數', width: 50},
-                {field: 'resvPoint', title: '指定住客', width: 100},
+                {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
 
@@ -420,18 +576,18 @@
             url: '/jsonData/resvBatch.json',
             method: 'get',
             columns: [[
-                {field: 'batchChoose', title: '選擇', width: 50},
-                {field: 'batchNo', title: '序號', width: 50},
+                {field: 'batchChoose', title: '選擇', width: 40},
+                {field: 'batchNo', title: '序號', width: 40},
                 {field: 'batchState', title: '狀態', width: 50},
-                {field: 'batchDate1', title: 'C/I日期', width: 100},
-                {field: 'batchDate2', title: 'C/O日期', width: 100},
-                {field: 'batchCode', title: '房價代號', width: 200},
-                {field: 'batchTotal', title: '計價房種', width: 200},
-                {field: 'batchUse', title: '使用房種', width: 200},
+                {field: 'batchDate1', title: 'C/I日期', width: 80},
+                {field: 'batchDate2', title: 'C/O日期', width: 80},
+                {field: 'batchCode', title: '房價代號', width: 150},
+                {field: 'batchTotal', title: '計價房種', width: 100},
+                {field: 'batchUse', title: '使用房種', width: 100},
                 {field: 'batchNum', title: '間數', width: 50},
-                {field: 'batchPrice', title: '房價', width: 100},
-                {field: 'batchSerice', title: '服務費', width: 100},
-                {field: 'batchMargin', title: '房價差額', width: 100},
+                {field: 'batchPrice', title: '房價', width: 60,align:'right'},
+                {field: 'batchSerice', title: '服務費', width: 60,align:'right'},
+                {field: 'batchMargin', title: '房價差額', width: 60,align:'right'},
                 {field: 'batchBrokerage', title: '備註', width: 100}
             ]]
 
@@ -506,6 +662,42 @@
             var guestHoliday = $(window).height()-10;
             $(".guestHoliday").css("height","guestHoliday");
         });
+
+        // chosen initial
+        // chosen set dialog width
+        $(".chosenDialog-w1").chosen({
+            width: "414px"
+        });
+        if(!ace.vars['touch']) {
+            $('.chosen-select').chosen({allow_single_deselect:true});
+            //resize the chosen on window resize
+
+            $(window)
+                .off('resize.chosen')
+                .on('resize.chosen', function() {
+                    $('.chosen-select').each(function() {
+                        var $this = $(this);
+//                        $this.next().css({'width': $this.parent().width()});
+                    })
+                }).trigger('resize.chosen');
+            //resize chosen on sidebar collapse/expand
+            $(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+                if(event_name != 'sidebar_collapsed') return;
+                $('.chosen-select').each(function() {
+                    var $this = $(this);
+                    $this.next().css({'width': $this.parent().width()});
+                })
+            });
+
+
+            $('#chosen-multiple-style .btn').on('click', function(e){
+                var target = $(this).find('input[type=radio]');
+                var which = parseInt(target.val());
+                if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+                else $('#form-field-select-4').removeClass('tag-input-style');
+            });
+        }
+
     });
 
 </script>
