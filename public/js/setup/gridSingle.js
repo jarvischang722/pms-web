@@ -4,29 +4,6 @@
 waitingDialog.hide();
 var prg_id = $("#prg_id").val();
 var vmHub = new Vue;
-//Dt 欄位查詢資料視窗
-Vue.component("choose-data-dialog-tmp", {
-    template: '#chooseDataDialogTmp',
-    props: [],
-    data : function() {
-        return {
-
-        };
-    },
-    methods: {
-
-    },
-    created : function () {
-        console.log(this) ;
-        var self = this;
-
-        // vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
-        //     self.showDtDataGrid(dtDataGridRows);
-        // });
-    }
-
-});
-
 
 //Dt 多語編輯
 Vue.component("multiLang-dialog-tmp", {
@@ -418,11 +395,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             this.$emit('close-single-grid-dialog');
         }
 
-        ,
-        //開啟
-        openGridDialog: function () {
-            this.$emit('open-single-grid-dialog');
-        }
         ,
         //抓取單筆資料
         emitFetchSingleData: function () {
@@ -1031,20 +1003,6 @@ var vm = new Vue({
             vm.singleData = {};
             vm.initTmpCUD();
             $("#singleGridDialog").dialog('close');
-        },
-        openSearchGridDialog : function () {
-            var dialog = $("#dataSearchDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                height: 500,
-                title: "AAA",
-                minWidth: 750,
-                maxHeight: 500,
-                resizable: true
-                //buttons: "#dialogBtns"
-            });
-            dialog.dialog("open");
-            //$("#chooseDataDialogTmp").dialog("open");
         },
         //儲存page1 datagrid欄位屬性
         doSaveColumnFields: function () {
