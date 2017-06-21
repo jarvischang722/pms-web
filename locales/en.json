@@ -415,6 +415,18 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0830110": {
+      "areapnt_cod": "區域",
+      "areapnt_nam": "名稱",
+      "areapnt_sta": "啟用",
+      "client_nam": "列印連接電腦名稱",
+      "bill_printer": "帳單印表機",
+      "uniinv_printer": "發票印表機",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
     }
   },
   "table_in_use": "Table in use (%s)",
