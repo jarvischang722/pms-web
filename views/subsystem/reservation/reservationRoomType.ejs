@@ -230,7 +230,70 @@
             });
         });
 
+        // 彈出 訂房卡列印print-preview
+        $(document).on('click', ".reservePrint-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-print").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房卡列印",
+                title_html: true,
+                width: 600,
+                height: 135,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
+        // 彈出 列印預覽
+        $(document).on('click', ".print-preview-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-print-preview").removeClass('hide').dialog({
+                modal: true,
+                title: "列印預覽",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房確認書(列印)
+        $(document).on('click', ".confirm-print-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-confirm-print").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房確認書格式",
+                title_html: true,
+                width: 600,
+                height: 135,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房確認書列印預覽
+        $(document).on('click', ".confirm-print-preview-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-confirm-preview").removeClass('hide').dialog({
+                modal: true,
+                title: "列印預覽",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
