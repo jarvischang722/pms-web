@@ -51,7 +51,7 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
                     errorMsg = err;
 
                 } else {
-                    if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                    if (data["RETN-CODE"] != '0000') {
                         success = false;
                         errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
                     }
@@ -103,7 +103,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
                     success = false;
                     errorMsg = err;
                 } else {
-                    if (typeof data === 'object' && data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                    if (typeof data === 'object' && data["RETN-CODE"] != '0000') {
                         success = false;
                         errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
                     }
@@ -132,7 +132,7 @@ exports.doTableAllUnLock = function (callback) {
                 success = false;
                 errorMsg = err;
             } else {
-                if (data["SYSMSG"]["MSG-ID"] == "0000" && data["RETN-CODE"] != '0000') {
+                if (data["RETN-CODE"] != '0000') {
                     success = false;
                     errorMsg = data["RETN-CODE-DESC"] || "";
                 }
