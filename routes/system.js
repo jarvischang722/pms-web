@@ -15,7 +15,7 @@ module.exports = function(app  ) {
     app.get('/subsystem/reception', middles, systCrtl.reception);
     app.get('/subsystem/cashier', middles, systCrtl.cashier);
     app.get('/subsystem/housekeeping', middles, systCrtl.housekeeping);
-    app.get('/subsystem/night_check', middles, systCrtl.night_check);
+    app.get('/subsystem/nightAudit', middles, systCrtl.night_check);
     app.get('/subsystem/sales', middles, systCrtl.sales);
     app.get('/subsystem/report', middles, systCrtl.report);
     app.get('/subsystem/setup', middles, systCrtl.setup);

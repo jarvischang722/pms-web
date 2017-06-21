@@ -28,11 +28,11 @@ exports.sendExceptionMail = function (mailInfo) {
     var memberList = exceptionMailConfig.memberList;
     var exHtml = fs.readFileSync(__dirname + '/../views/mailHtml/exception.ejs', 'utf8');
     var mailContent = ejs.render(exHtml, {
-        "log_id":log_id,
+        "log_id": log_id,
         "exceptionType": exceptionType,
-        "errorMsg" : mailInfo.errorMsg,
-        "server_ip":ip.address(),
-        "eventTime" : moment().format("YYYY/MM/DD HH:mm:ss")
+        "errorMsg": mailInfo.errorMsg,
+        "server_ip": ip.address(),
+        "eventTime": moment().format("YYYY/MM/DD HH:mm:ss")
     });
 
     //取得要收到Exception Mail的人

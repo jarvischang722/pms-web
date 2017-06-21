@@ -13,7 +13,7 @@
                                            v-if="field.visiable == 'Y'">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                            {{field.ui_display_name}}
+                                            {{field.ui_field_name}}
                                         </a>
                                         <span v-else>{{field.ui_display_name}} </span>
                                     </label>
@@ -29,7 +29,9 @@
                                             (field.ui_type == 'text' ||
                                               field.ui_type == 'number' ||
                                                field.ui_type == 'date' ||
-                                                 field.ui_type == 'datetime'    )"
+                                                 field.ui_type == 'datetime' ||
+                                             field.ui_type == 'percent'  ||
+                                             field.ui_type == 'time' )"
                                            type="text"
                                            class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
@@ -41,11 +43,9 @@
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                         >
 
-
-
-
                                     <!-- 下拉選單 -->
                                     <select v-model="singleData[field.ui_field_name]"
+                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                             :disabled="field.modificable == 'N'"
                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                             :class="{'input_sta_required' : field.requirable == 'Y' }"

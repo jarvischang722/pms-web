@@ -1,5 +1,14 @@
 <script>
+    $(function(){
+        if(getCookie("usingPrgID") == ""){
+            $("#quickMenuUl").find("li:first-child").click();
+        }else{
+            $("#quickMenuUl").find("li[data-pro_id='"+getCookie("usingPrgID")+"']").addClass("activeThis");
+        }
+
+    })
     function toSubsys(subsys_id){
+        doCookieSetup("usingPrgID","")
         doCookieSetup('current_subsys_id',subsys_id)
     }
 </script>
@@ -30,7 +39,7 @@
                         subsys_url = '/subsystem/housekeeping'
                         break;
                     case 'PMS0500000':
-                        subsys_url = '/subsystem/night_check'
+                        subsys_url = '/subsystem/nightAudit'
                         break;
                     case 'PMS0600000':
                         subsys_url = '/subsystem/sales'
@@ -59,7 +68,7 @@
         <ul id="quickMenuUl">
             <% la_quickMenu.forEach(function(quick){ %>
             <% var active = quick.pro_id == pro_id ? 'activeThis' : "" %>
-            <li onclick="loadProgram('<%= quick.pro_url %>')" class="<%= active %>">
+            <li data-pro_id = "<%=quick.pro_id%>" onclick="loadProgram('<%= quick.pro_url %>','<%=quick.pro_id%>')" class="<%= active %>">
                 <%= quick["pro_name_" + session.locale] %>
             </li>
             <% }) %>
@@ -68,3 +77,4 @@
 
 
 </div>
+

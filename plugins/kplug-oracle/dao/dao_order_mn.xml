@@ -64,4 +64,17 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">source_typ</parameter>
     </dao>
+
+    <!-- [prg_id: PMS0810150] -->
+    <dao name="GET_ORDER_MN.GUARENTEE_TYP_COUNT">
+        <statement><![CDATA[
+       select count(*)  as guarentee_typ_count
+       from order_mn
+        where athena_id = ? and trim(hotel_cod) = ? and trim(guarentee_typ) = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">guarentee_typ</parameter>
+    </dao>
 </root>

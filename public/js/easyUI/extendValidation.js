@@ -113,7 +113,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     ChkDprat : {
         validator: function (value) {
             var reg = /^(([1-9]\d?)|0|100)$/;
-            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["chkKeepday"]  ;
+            $.fn.validatebox.defaults.rules.FmtHHMM.message = go_i18nLang.Validation.Formatter["ChkDprat"]  ;
             return reg.test(value);
         },
         message: '只能0~100'

@@ -36,3 +36,17 @@ exports.getTrafficConnection = function (req, res) {
 exports.getResv_blockSetting = function (req, res) {
     res.render("subsystem/reservation/resv_blockSetting");
 };
+
+/**
+ * 超訂設定(靜態)
+ */
+exports.getPMS0130010 = function (req, res) {
+    res.render("subsystem/reservation/PMS0130010");
+};
+
+/**
+ * 住客歷史(靜態 quickMenu)
+ */
+exports.getResv_gProfile = function (req, res) {
+    res.render("subsystem/reservation/resv_gProfile");
+};

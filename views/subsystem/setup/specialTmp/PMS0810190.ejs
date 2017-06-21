@@ -1,0 +1,56 @@
+<div id="PMS0810190App">
+    <div class="col-xs-12">
+        <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+    </div>
+    <single-grid-pms0810190-tmp></single-grid-pms0810190-tmp>
+    <div class="col-xs-12" v-show="true">
+        <div class="col-sm-11 col-xs-11">
+            <div class="row no-margin-right">
+                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
+                    <table id="PMS0810190_dg"></table>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-1 col-sm-1">
+            <div class="row">
+                <div class="right-menu-co">
+                    <ul>
+                        <li>
+                            <button id="ins-btn" :disabled="isSaving" class="btn btn-primary btn-white btn-defaultWidth"
+                                    @click="addData"
+                                    role="button">
+                                <%= __("SystemCommon").Add %>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="remove-btn" :disabled="isSaving"
+                                    class="btn btn-danger btn-white btn-defaultWidth"
+                                    @click="removeData();"
+                                    role="button">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="save-btn" :disabled="isSaving"
+                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                    @click="doSave();"
+                                    role="button">
+                                <%= __("SystemCommon").Save %>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.col-sm-12 -->
+
+</div>
+
+<div type="hidden" id="gridEdit" name="gridEdit"></div>
+<div class="clearfix"></div>
+<script type="text/javascript">
+    var gs_prg_id = '<%= prg_id %>';
+</script>
+<%- include ../vueTemplate/PMS0810190Tmp.ejs %>
+<script src="/js/setup/PMS0810190_setup.js"></script>

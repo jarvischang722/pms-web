@@ -30,7 +30,7 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
         fieldData = commonTools.mongoDocToObject(fieldData);
 
         var la_multiLangField = _.filter(fieldData, function (field) {
-            return !_.isEmpty(field.multi_lang_table)
+            return !_.isEmpty(field.multi_lang_table);
         });
 
         var la_keyField = _.filter(fieldData, {keyable: 'Y'});
@@ -49,14 +49,14 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
                                     langRows = [];
                                 }
                                 callback(null, langRows);
-                            })
-                        }
+                            });
+                        };
                     });
 
                     // lo_multiLangContents 存放每個欄位多語內容 key 為ui_field_name
                     async.parallel(langFuncs, function (err, lo_multiLangContents) {
                         callback(err, lo_multiLangContents);
-                    })
+                    });
                 },
                 //將多語系資料塞回顯示資料中
                 function (lo_multiLangContents, callback) {
@@ -78,13 +78,13 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
                 }
             ], function (err, result) {
                 callback(err, dataGridRows);
-            })
+            });
 
         } else {
             callback(null, dataGridRows);
         }
 
-    })
+    });
 
 };
 
@@ -108,7 +108,7 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
         fieldData = commonTools.mongoDocToObject(fieldData);
 
         var la_multiLangField = _.filter(fieldData, function (field) {
-            return !_.isEmpty(field.multi_lang_table)
+            return !_.isEmpty(field.multi_lang_table);
         });
 
         var la_keyField = _.filter(fieldData, {keyable: 'Y'});
@@ -127,14 +127,14 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
                                     langRows = [];
                                 }
                                 callback(null, langRows);
-                            })
-                        }
+                            });
+                        };
                     });
 
                     // lo_multiLangContents 存放每個欄位多語內容 key 為ui_field_name
                     async.parallel(langFuncs, function (err, lo_multiLangContents) {
                         callback(err, lo_multiLangContents);
-                    })
+                    });
                 },
                 //將多語系資料塞回顯示資料中
                 function (lo_multiLangContents, callback) {
@@ -153,13 +153,13 @@ exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale
                 }
             ], function (err, result) {
                 callback(err, singleData);
-            })
+            });
 
         } else {
             callback(null, singleData);
         }
 
-    })
+    });
 
 };
 
@@ -185,7 +185,7 @@ exports.handleMultiLangContentByKey = function (langTable, locale, keys, field_n
         if (err) {
             rows = [];
         }
-        callback(err, rows)
+        callback(err, rows);
     });
 };
 
@@ -202,7 +202,7 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
 
     if (_.isArray(fields)) {
         fields = _.map(fields, function (field) {
-            return "'" + field + "'"
+            return "'" + field + "'";
         });
         condition = "field_name  IN(" + fields + ")";
     } else {
@@ -220,22 +220,24 @@ exports.handleMultiLangContentByField = function (langTable, fields, locale, cal
         if (err) {
             console.error(err);
         }
-        callback(err, rows)
+        callback(err, rows);
     });
 };
 
 /**
  *
- * @param prg_id {String}
- * @param page_id {Number}
- * @param rowData {Object}
- * @param dataType {String}
+ * @param req {Object}
  * @param field_name {String}
  * @param callback {Function}
  */
-exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, field_name, callback) {
-    var _thisSvc = this;
-    var collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
+exports.handleRowDataMultiLang = function (req, field_name, callback) {
+    let _thisSvc = this;
+    let rowData = req.body["rowData"];
+    let prg_id = req.body["prg_id"];
+    let page_id = req.body["page_id"];
+    let dataType = req.body["dataType"] || "datagrid"; // dat
+    let localeGrp = req.cookies["sys_locales"];
+    let collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
     mongoAgent[collection].find({prg_id: prg_id, page_id: Number(page_id)}, function (err, fieldData) {
         if (err || fieldData.length == 0) {
             return callback({});
@@ -245,19 +247,19 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
         var la_keyableFields = _.pluck(_.where(fieldData, {keyable: 'Y'}), "ui_field_name");  //是key值的欄位
         var la_multiLangFields = _.filter(fieldData, function (field) {
             if (!_.isUndefined(field_name) && !_.isEmpty(field_name)) {
-                return field.ui_field_name == field_name
-            } else {
-                return field.multi_lang_table != ""
-            }
+                return field.ui_field_name == field_name;
+            } 
+                return field.multi_lang_table != "";
+            
 
         }); // 有多語系的欄位
 
         var funcs = [];
         var keys = {}; //找尋的key value
         if (_.isUndefined(rowData)) {
-            rowData = {}
+            rowData = {};
         }
-        ;
+        
         _.each(la_keyableFields, function (fieldName) {
             if (!_.isUndefined(rowData[fieldName])) {
                 keys[fieldName] = rowData[fieldName].trim();
@@ -269,20 +271,16 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
                     _thisSvc.handleMultiLangContentByKey(field.multi_lang_table, "", keys, field.ui_field_name, function (err, langData) {
                         multiLangData = _.union(multiLangData, langData);
                         callback(null, langData);
-                    })
+                    });
                 }
             );
         });
 
         async.parallel(funcs, function (err, langResults) {
             var result = [];
-
-            //TODO 之後需要抓取動館別設定語系
-            var localeGrp = [{lang: 'en', sort: 1, name: 'English'},
-                {lang: 'zh_TW', sort: 2, name: '繁體中文'}];
             _.each(localeGrp, function (locale) {
                 var localeData = _.where(multiLangData, {locale: locale.lang});
-                var langRowObj = {locale: locale.lang,display_locale: locale.name};
+                var langRowObj = {locale: locale.lang,display_locale: decodeURIComponent(locale.name)};
                 _.each(localeData, function (data) {
                     langRowObj[data.field_name] = data.words || "";
                 });
@@ -290,7 +288,7 @@ exports.handleRowDataMultiLang = function (prg_id, page_id, rowData, dataType, f
                 result.push(langRowObj);
             });
             callback(result);
-        })
+        });
     });
 
 

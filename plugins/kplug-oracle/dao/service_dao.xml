@@ -42,7 +42,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_transport_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_pickup_dt.xml"/>
-        <sql-source base="true" comment="test" key="test" path="holiday_kind_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_holiday_kind_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_daily_event.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cntry_nam.xml"/>
@@ -58,5 +58,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_arrive_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_leave_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_order_confirm_rf.xml"/>
     </sql-sources>
 </struts-config>

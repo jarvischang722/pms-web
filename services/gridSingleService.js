@@ -18,13 +18,14 @@ var mailSvc = require("./mailService");
 var langSvc = require("./langService");
 /**
  * 抓取singlePage 欄位資料
- * @param userInfo {Object}: 使用者登入資料
+ * @param session {Object}: session
  * @param page_id {Number} : 頁面編號
  * @param prg_id {String}  : 程式編號
  * @param callback
  */
-exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
+exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
     var la_fields = []; //欄位屬性陣列
+    var userInfo = session.user;
     async.waterfall([
         //1) 撈出全部的欄位屬性
         function (callback) {
@@ -33,8 +34,8 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                 col_seq: 1
             }).exec(function (err, fields) {
                 la_fields = tools.mongoDocToObject(fields);
-                callback(err, fields)
-            })
+                callback(err, fields);
+            });
         },
         //2) 撈取屬性陣列裡有select的來源
         function (fields, callback) {
@@ -59,15 +60,15 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
 
-                            })
+                            });
                         }
-                    )
+                    );
                 }
             });
 
             async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result)
-            })
+                callback(err, result);
+            });
         },
         //3) 撈取page2 如果有grid的資料跟欄位
         function (result, callback) {
@@ -94,8 +95,8 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                             _.each(lo_grid_field.datagridFields, function (field, fIdx) {
                                 lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
                             });
-                            callback(err, commonFields)
-                        })
+                            callback(err, commonFields);
+                        });
                     } else {
                         lo_grid_field.datagridFields = tools.mongoDocToObject(fields);
                         _.each(lo_grid_field.datagridFields, function (field, fIdx) {
@@ -104,11 +105,24 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                         callback(err, fields);
                     }
 
-                })
+                });
             } else {
                 callback(null, 'grid');
             }
 
+        },
+        //3 處理欄位多語系
+        function (fields, callback) {
+            mongoAgent.LangUIField.find({
+                prg_id: prg_id,
+                page_id: page_id
+            }).exec(function (err, fieldLang) {
+                _.each(la_fields, function (field, fIdx) {
+                    let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
+                    la_fields[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
+                });
+                callback(err,la_fields);
+            });
         }
     ], function (err, result) {
         if (err) {
@@ -166,7 +180,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             callback(null, rowData);
                         });
 
-                    })
+                    });
                 });
             },
             //抓取dt datagrid 資料
@@ -179,7 +193,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             page_id: 2
                         }, function (err, pageField) {
                             callback(err, pageField);
-                        })
+                        });
                     },
                     function (pageField, callback) {
                         if (pageField) {
@@ -188,7 +202,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 ui_field_name: pageField.ui_field_name
                             }, function (err, grid) {
                                 callback(err, grid);
-                            })
+                            });
                         } else {
                             callback(null, {});
                         }
@@ -205,18 +219,18 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 if (dtDataList.length > 0) {
                                     _.each(dtDataList, function (row, idx) {
                                         dtDataList[idx] = tools.convUtcToDate(row);
-                                    })
+                                    });
                                     lo_dtData = dtDataList;
                                 }
                                 callback(err, dtDataList);
-                            })
+                            });
                         } else {
                             callback(null, []);
                         }
                     }
                 ], function (err, result) {
                     callback(err, lo_dtData);
-                })
+                });
 
 
             },
@@ -234,10 +248,18 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
                     dataRuleSvc.chkIsModificableRowData(func, lo_rowData, session, function (err, result) {
                         callback(err, result);
-                    })
+                    });
+                });
+
+
+            }, function (result, callback) {
+                mongoAgent.UI_PageField.find({
+                    prg_id: prg_id,
+                    page_id: 2
+                }, function (err, pageField) {
+                    dataValueChange(pageField, lo_rowData);
+                    callback(err, result);
                 })
-
-
             }
         ],
         function (err, result) {
@@ -245,7 +267,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             result["dtData"] = lo_dtData;
             callback(err, result);
         }
-    )
+    );
 
 
 };
@@ -275,6 +297,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     var dtTableName = "";      // DT Table name
     var la_keyFields = [];        // 主檔資料表pk
     var la_dtkeyFields = [];      // 明細資料表pk
+    var la_dtFields = [];           //明細的資料欄位
 
     /** main process **/
     async.waterfall([
@@ -293,7 +316,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         if (err) {
             err = err.errorMsg;
         }
-        callback(err, result)
+        callback(err, result);
     });
 
     //撈取要異動的table name
@@ -311,7 +334,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
             mainTableName = sg_tmp.toObject().table_name || "";
             callback(null, mainTableName);
-        })
+        });
     }
 
     //取得要異動dt 的Table name
@@ -339,11 +362,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     } else {
                         callback(null, dtTableName);
                     }
-                })
+                });
             } else {
                 callback(null, dtTableName);
             }
-        })
+        });
     }
 
     //取得此程式的欄位
@@ -363,6 +386,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                         fields = tools.mongoDocToObject(fields);
                     }
                     prgFields = fields;
+                    la_dtFields = prgFields;
                     la_keyFields = _.where(fields, {keyable: 'Y'}) || [];
                     callback(null, la_keyFields);
                 });
@@ -392,8 +416,8 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 }
             }
         ], function (err, result) {
-            callback(err, result)
-        })
+            callback(err, result);
+        });
 
     }
 
@@ -406,13 +430,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             postData["isDtData"] = true;
             dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
                 if (err || !result.success) {
-                    callback(err.errorMsg, result)
+                    callback(err.errorMsg, result);
                 } else {
-                    callback(null, result)
+                    callback(null, result);
                 }
-            })
+            });
         } else {
-            callback(null, true)
+            callback(null, true);
         }
 
     }
@@ -430,7 +454,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             key: keyField.ui_field_name,
                             operation: "=",
                             value: data[keyField.ui_field_name]
-                        })
+                        });
                     }
 
                 });
@@ -467,7 +491,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     //組合此筆要新增刪除修改的資料
     function combineMainData(chkReuslt, callback) {
         var la_multiLangFields = _.filter(prgFields, function (field) {
-            return field.multi_lang_table != ""
+            return field.multi_lang_table != "";
         });  //多語系欄位
         async.parallel([
             //新增 0200
@@ -479,6 +503,14 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     _.each(Object.keys(data), function (objKey) {
                         if (!_.isUndefined(data[objKey])) {
                             var value = data[objKey];
+
+                            _.each(la_dtFields, function (row) {
+                                if(row.ui_field_name == objKey){
+                                    var finalValue = changeValueFormat4Save(value, row.ui_type);
+                                    value = finalValue ? finalValue : value;
+                                }
+                            })
+
                             if (typeof data[objKey] === 'string') {
                                 data[objKey] = data[objKey].trim();
                             }
@@ -512,8 +544,8 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                     savaExecDatas[exec_seq] = lo_langTmp;
                                     exec_seq++;
                                 }
-                            })
-                        })
+                            });
+                        });
                     }
 
                 });
@@ -532,13 +564,13 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 key: keyField.ui_field_name,
                                 operation: "=",
                                 value: data[keyField.ui_field_name]
-                            })
+                            });
                         }
 
                     });
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
-                })
+                });
                 callback(null, '0300');
             },
             //修改 0400
@@ -552,6 +584,18 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     _.each(Object.keys(data), function (objKey) {
                         if (!_.isUndefined(data[objKey])) {
                             tmpEdit[objKey] = data[objKey];
+
+                            _.each(la_dtFields, function (row) {
+                                // if (row.ui_field_name == objKey && row.ui_type == "time") {
+                                //     tmpEdit[objKey] = tmpEdit[objKey].replace(":", "");
+                                // } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
+                                //     tmpEdit[objKey] = parseFloat(tmpEdit[objKey]) / 100;
+                                // }
+                                if(row.ui_field_name == objKey) {
+                                    var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
+                                    tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
+                                }
+                            })
                         }
                     });
                     var lo_keysData = {};
@@ -564,7 +608,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 key: keyField.ui_field_name,
                                 operation: "=",
                                 value: data[keyField.ui_field_name]
-                            })
+                            });
                             lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
                         }
 
@@ -630,16 +674,16 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
                                                         callback(null, rows);
 
-                                                    })
+                                                    });
                                                 }
                                             );
                                         }
 
 
-                                    })
+                                    });
                                     async.parallel(chkFuncs, function (err, results) {
                                         callback(null, results);
-                                    })
+                                    });
                                 }
                             );
 
@@ -649,7 +693,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             savaExecDatas[exec_seq] = tmpEdit;
                             exec_seq++;
                             callback(null, '0400');
-                        })
+                        });
                     } else {
                         savaExecDatas[exec_seq] = tmpEdit;
                         exec_seq++;
@@ -661,18 +705,18 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             }
         ], function (err, result) {
             callback(err, result);
-        })
+        });
     }
 
     //DT 新增修改規則檢查
     function chkDtCreateEditRule(result, callback) {
-        callback(null, result)
+        callback(null, result);
     }
 
     //組合DT 新增修改執行資料
     function combineDtCreateEditExecData(chkResult, callback) {
         var la_dtMultiLangFields = _.filter(la_dtPrgDatagridFields, function (field) {
-            return field.multi_lang_table != ""
+            return field.multi_lang_table != "";
         });  //多語系欄位
 
         try {
@@ -724,8 +768,8 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 savaExecDatas[exec_seq] = lo_langTmp;
                                 exec_seq++;
                             }
-                        })
-                    })
+                        });
+                    });
                 }
             });
 
@@ -761,7 +805,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             key: keyField.ui_field_name,
                             operation: "=",
                             value: data[keyField.ui_field_name]
-                        })
+                        });
                     }
 
                 });
@@ -829,14 +873,14 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
                                                     callback(null, rows);
 
-                                                })
+                                                });
                                             }
                                         );
                                     }
                                 });
                                 async.parallel(chkFuncs, function (err, results) {
                                     callback(null, results);
-                                })
+                                });
                             }
                         );
 
@@ -893,16 +937,6 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
-            } else if (data["SYSMSG"]["MSG-ID"] == "0000") {
-                if (data["RETN-CODE"] != "0000") {
-                    chk_result.success = false;
-                    err = {};
-                    err.errorMsg = data["RETN-CODE-DESC"];
-                }
-            } else if (data["SYSMSG"]["MSG-ID"] != "0000") {
-                chk_result.success = false;
-                err = {};
-                err.errorMsg = data["SYSMSG"]["MSG-DESC"];
             }
 
             //寄出exceptionMail
@@ -911,7 +945,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     log_id: log_id,
                     exceptionType: "execSQL",
                     errorMsg: err.errorMsg
-                })
+                });
             }
             //log 紀錄
             logSvc.recordLogAPI({
@@ -923,7 +957,65 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 res_content: data
             });
             callback(err, chk_result);
-        })
+        });
     }
 
 };
+
+//將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
+function dataValueChange(fields, data) {
+    fields = tools.mongoDocToObject(fields);
+
+    _.each(Object.keys(data), function (objKey) {
+        if (!_.isUndefined(data[objKey])) {
+            var value = data[objKey];
+
+            // _.each(fields, function (row) {
+            //     if (row.ui_field_name == objKey && row.ui_type == "time") {
+            //         var hour = value.substring(0,2);
+            //         var min = value.substring(2,4);
+            //         var fieldName = hour + ":" + min;
+            //
+            //         data[objKey] = fieldName;
+            //     } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
+            //         data[objKey] = (parseFloat(value) * 100);
+            //     }
+            // })
+
+            _.each(fields, function (row) {
+                if (row.ui_field_name == objKey) {
+                    var finalValue = changeValueFormat(value, row.ui_type);
+                    data[objKey] = finalValue ? finalValue : value;
+                }
+            })
+        }
+    })
+}
+
+//將要顯示在頁面上的欄位格式做轉換
+function changeValueFormat(value, ui_type) {
+    var valueTemp;
+    if (ui_type == "time") {
+        var hour = value.substring(0, 2);
+        var min = value.substring(2, 4);
+        var fieldName = hour + ":" + min;
+
+        valueTemp = fieldName;
+    } else if (ui_type == "percent") {
+        valueTemp = (parseFloat(value) * 100);
+    }
+
+    return valueTemp;
+}
+
+//將儲存或修改的欄位格式做轉換
+function changeValueFormat4Save(value, ui_type) {
+    var valueTemp;
+    if (ui_type == "time") {
+        valueTemp = value.replace(":", "");
+    } else if (ui_type == "percent") {
+        valueTemp = parseFloat(value) / 100;
+    }
+
+    return valueTemp;
+}

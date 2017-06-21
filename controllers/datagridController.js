@@ -2,6 +2,7 @@
  * Created by Jun on 2017/2/10.
  */
 var datagridSVC = require("../services/datagridService");
+var dataRuleSVC = require("../services/dataRuleService");
 var _ = require("underscore");
 var commonTools = require("../utils/commonTools");
 
@@ -26,11 +27,6 @@ exports.prgDataGridDataQuery = function (req, res) {
     }
 
     datagridSVC.fetchPrgDataGrid(req.session, prg_id, function (err, dataGridRows, fieldData) {
-
-        _.each(fieldData, function (field, fIdx) {
-            fieldData[fIdx]["ui_display_name"] = req.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-        });
-
         returnData.dataGridRows = dataGridRows;
         returnData.fieldData = fieldData;
         res.json(returnData);

@@ -776,8 +776,15 @@ ul.newVisitOther-btn
   z-index: 2
   .resvTabs-content
     span
-      padding-left: 15px
-      padding-right: 15px
+      padding-left: 5px
+      padding-right: 5px
+      &.subCon
+        font-weight: bold
+      &.subCon
+        color: #8A8A8A
+        min-width: 40px
+        max-width: 100%
+
 // reservationRoomType.ejs 訂房卡table資料
 // margin-left: 25px 看html-->min-width
 .resvCard-data
@@ -786,11 +793,28 @@ ul.newVisitOther-btn
     padding-right: 20px
 
 //Ho-鎖控
-.blcokSetting
+.blockSetting
   .block-table
     label
       width: 120px !important
 .bloch-btn-single
   margin-bottom: 137px
-.blcokSetting-heading
+.blockSetting-heading
   font-size: 16px
+
+//ho改holidayDateSet
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:active
+  background-color: #438EB9
+  color: #fff
+
+//ho 接送機
+.resvBtn-group
+  margin-top: 30px
+.reservation-pickUp-wrap .right-menu-co
+  margin-top: 30px
+
+  //ho批次修改
+.input-medium.medium-c5
+  width: 300px
+  max-width: 100%
+  height: 25px

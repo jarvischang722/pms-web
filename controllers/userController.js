@@ -97,7 +97,7 @@ exports.selectSystem = function (req, res) {
                 var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
                 req.session.user.sys_id = sysObj.sys_id;
                 langSvc.handleMultiLangContentByField("lang_s99_system",'sys_name','',function(err,sysLang){
-                    sysLang = _.where(sysLang,{sys_id:req.session.user.sys_id });
+                    sysLang = _.where(sysLang,{sys_id: req.session.user.sys_id });
                      _.each(sysLang, function(sys){
                          req.session.user["sys_name_"+sys.locale] = sys.words;
                      });
