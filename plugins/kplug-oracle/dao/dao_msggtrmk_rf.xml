@@ -3,9 +3,9 @@
     <!-- ['PMS0820060'] 取得多筆留言紀錄 -->
     <dao name="QRY_MSGGTRMK_RF">
         <statement><![CDATA[
-              select athena_id, hotel_cod, middle_typ, small_typ, product_nos, product_nam, unit_typ, unit_amt, cost_amt, amodify_sta, inv_sta, service_sta, opencode_sta, serv_rat, view_seq, use_sta, goods_cod, item_nos, serv_nos, ins_dat, ins_usr, upd_dat, upd_usr
-              from msggtrmk_rf
-              where athena_id = ? and trim(hotel_cod) = ?
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod
+            from msggtrmk_rf
+             where athena_id = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
@@ -15,13 +15,13 @@
     <!-- ['PMS0820060'] 取得單筆留言紀錄 -->
     <dao name="QRY_SINGLE_MSGGTRMK_RF">
         <statement><![CDATA[
-              select athena_id, hotel_cod, middle_typ, small_typ, product_nos, product_nam, unit_typ, unit_amt, cost_amt, amodify_sta, inv_sta, service_sta, opencode_sta, serv_rat, view_seq, use_sta, goods_cod, item_nos, serv_nos, ins_dat, ins_usr, upd_dat, upd_usr
-              from msggtrmk_rf
-              where athena_id = ? and trim(hotel_cod) = ? and trim(product_nos) = ?
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod
+            from msggtrmk_rf
+             where athena_id = ? and hotel_cod = ? and rmk_cod = ?
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">product_nos</parameter>
+        <parameter type="string" kind="1">rmk_cod</parameter>
     </dao>
 </root>

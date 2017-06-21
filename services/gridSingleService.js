@@ -16,6 +16,7 @@ var commonRule = require("../ruleEngine/rules/CommonRule");
 var logSvc = require("./logService");
 var mailSvc = require("./mailService");
 var langSvc = require("./langService");
+var ruleAgent = require("../ruleEngine/ruleAgent");
 /**
  * 抓取singlePage 欄位資料
  * @param userInfo {Object}: 使用者登入資料
@@ -25,6 +26,12 @@ var langSvc = require("./langService");
  */
 exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
     var la_fields = []; //欄位屬性陣列
+    var params = {
+        user_id: userInfo.usr_id,
+        athena_id: userInfo.athena_id,
+        hotel_cod: userInfo.fun_hotel_cod
+    };
+
     async.waterfall([
         //1) 撈出全部的欄位屬性
         function (callback) {
@@ -58,8 +65,56 @@ exports.fetchPageFieldAttr = function (userInfo, page_id, prg_id, callback) {
                                     la_fields[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
-
                             })
+                        }
+                    )
+                }
+
+                //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
+                var attrName = field.attr_func_name;
+                if(!_.isEmpty(attrName)) {
+                    selectDSFunc.push(
+                        function (callback) {
+                            if (field.visiable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.modificable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.requirable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            }
                         }
                     )
                 }
@@ -491,7 +546,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             var value = data[objKey];
 
                             _.each(la_dtFields, function (row) {
-                                if(row.ui_field_name == objKey){
+                                if (row.ui_field_name == objKey) {
                                     var finalValue = changeValueFormat4Save(value, row.ui_type);
                                     value = finalValue ? finalValue : value;
                                 }
@@ -577,7 +632,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 // } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
                                 //     tmpEdit[objKey] = parseFloat(tmpEdit[objKey]) / 100;
                                 // }
-                                if(row.ui_field_name == objKey) {
+                                if (row.ui_field_name == objKey) {
                                     var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
                                     tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
                                 }
@@ -923,13 +978,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
-            } else if (data["SYSMSG"]["MSG-ID"] == "0000") {
-                if (data["RETN-CODE"] != "0000") {
-                    chk_result.success = false;
-                    err = {};
-                    err.errorMsg = data["RETN-CODE-DESC"];
-                }
-            } else if (data["SYSMSG"]["MSG-ID"] != "0000") {
+            }  else if (data["SYSMSG"]["MSG-ID"] != "0000") {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = data["SYSMSG"]["MSG-DESC"];

@@ -17,10 +17,12 @@ Vue.component("choose-data-dialog-tmp", {
 
     },
     created : function () {
+        console.log(this) ;
         var self = this;
-        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
-            self.showDtDataGrid(dtDataGridRows);
-        });
+
+        // vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
+        //     self.showDtDataGrid(dtDataGridRows);
+        // });
     }
 
 });
@@ -321,6 +323,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                             var effectValues = result.effectValues;
                             _.each(Object.keys(effectValues), function (key) {
                                 self.singleData[key] = effectValues[key] || "";
+                                console.log(self.singleData);
                             });
                         }
 
@@ -800,10 +803,7 @@ var vm = new Vue({
                         return field.multi_lang_table != "";
                     });
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
-
-
                 }
-
             });
 
         },

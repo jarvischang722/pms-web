@@ -218,13 +218,61 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                                         fieldData[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
-
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
                             });
                         }
                     );
+                }
+
+                //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
+                var attrName = field.attr_func_name;
+                if(!_.isEmpty(attrName)) {
+                    selectDSFunc.push(
+                        function (callback) {
+                            if (field.visiable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.modificable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.requirable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            }
+                        }
+                    )
                 }
             });
 
@@ -295,7 +343,7 @@ exports.doSaveFieldOption = function (prg_id, page_id, userInfo, fieldOptions, c
                                 athena_id: Number(userInfo.athena_id),
                                 prg_id: prg_id.trim()
                             })
-                        ;
+                            ;
 
 
                         if (userField) {
