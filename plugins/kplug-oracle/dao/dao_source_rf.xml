@@ -10,4 +10,15 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!-- PMS0810180取得預設訂房來源-->
+    <dao name="QRY_GW_CUST_RF_DEFAULT_SOURCE_TYP">
+        <statement><![CDATA[
+              select source_typ as value, source_nam as display
+              from source_rf
+              where use_sta = 'Y' and athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 </root>

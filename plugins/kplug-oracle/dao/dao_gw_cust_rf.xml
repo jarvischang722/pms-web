@@ -29,12 +29,12 @@
         <statement><![CDATA[
            select agent_no, acust_cod, ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccsut_nam
            from gw_cust_rf a
-           left join cust_mn b on b.status_cod = 'N' and b.cust_typ= 'N' and b.athena_id = ? and b.cust_cod = a.acust_cod
-           left join cust_mn c on c.status_cod = 'N' and c.cust_typ= 'N' and c.athena_id = ? and c.cust_cod = a.ccust_cod
-           where a.athena_id =?
+           left join cust_mn b on b.status_cod = 'N' and b.cust_typ= 'N' and b.athena_id = :athena_id and b.cust_cod = a.acust_cod
+           left join cust_mn c on c.status_cod = 'N' and c.cust_typ= 'N' and c.athena_id = :athena_id and c.cust_cod = a.ccust_cod
+           where a.athena_id = :athena_id
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="int" kind="3">athena_id</parameter>
     </dao>
 
     <!-- [PMS0810180] 單筆項目-->

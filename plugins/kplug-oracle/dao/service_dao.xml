@@ -58,6 +58,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_arrive_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_leave_rf.xml"/>
-        <sql-source base="true" comment="test" key="test" path="dao_hfd_order_confirm_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_guarentee_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_pa_ais2.sf_get_hotel_sval.xml"/>
     </sql-sources>
 </struts-config>

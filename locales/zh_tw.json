@@ -189,6 +189,18 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },"PMS0810180": {
+      "agent_no": "通路代號",
+      "ashow_cod": "訂房公司代號",
+      "acust_nam": "訂房公司名稱",
+      "cshow_cod": "公司客戶代號",
+      "ccust_nam": "公司客戶名稱",
+      "default_source_typ": "預設訂房來源",
+      "default_guest_typ": "預設住客類別",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
     },
     "PMS0810200": {
       "view_seq": "顯示順序",
@@ -375,6 +387,24 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0820060": {
+      "rmk_cod": "代號",
+      "msg_tax1": "留言內容1",
+      "msg_tax2": "留言內容2",
+      "msg_tax3": "留言內容3",
+      "msg_tax4": "留言內容4",
+      "product_nos": "項目代號",
+      "product_nam": "名稱",
+      "unit_typ": "單位",
+      "unit_amt": "單價",
+      "use_sta": "使用狀態",
+      "goods_cod": "貨品代號",
+      "inv_sta": "是否扣庫存",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "Modified By"
     },
     "PMS0810070": {
       "session_nam": "日期別",

@@ -137,6 +137,18 @@
       "ins_usr": "Added by",
       "upd_dat": "Modified  Date",
       "upd_usr": "Modified By"
+    },"PMS0810180": {
+      "agent_no": "Channel",
+      "ashow_cod": "Agent",
+      "acust_nam": "Agent",
+      "cshow_cod": "Company",
+      "ccust_nam": "Company Name",
+      "default_source_typ": "D. Source",
+      "default_guest_typ": "D. Guest Type",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added by",
+      "upd_dat": "Modified  Date",
+      "upd_usr": "Modified By"
     },
     "PMS0810160": {
       "cancel_cod": "Cancellation Reason",
@@ -381,6 +393,24 @@
       "character_cod": "Feature Code",
       "character_nam": "Feature",
       "sys_default": "Default",
+      "ins_dat": "Added Date",
+      "ins_usr": "Added By",
+      "upd_dat": "Modified Date",
+      "upd_usr": "Modified By"
+    },
+    "PMS0820060": {
+      "rmk_cod": "代號",
+      "msg_tax1": "留言內容1",
+      "msg_tax2": "留言內容2",
+      "msg_tax3": "留言內容3",
+      "msg_tax4": "留言內容4",
+      "product_nos": "項目代號",
+      "product_nam": "名稱",
+      "unit_typ": "單位",
+      "unit_amt": "單價",
+      "use_sta": "使用狀態",
+      "goods_cod": "貨品代號",
+      "inv_sta": "是否扣庫存",
       "ins_dat": "Added Date",
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",

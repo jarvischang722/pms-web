@@ -24,14 +24,13 @@
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
-
                                            v-if="field.visiable == 'Y' &&
-                                            (field.ui_type == 'text' ||
-                                              field.ui_type == 'number' ||
-                                               field.ui_type == 'date' ||
-                                                 field.ui_type == 'datetime' ||
-                                             field.ui_type == 'percent'  ||
-                                             field.ui_type == 'time' )"
+                                                                                    (field.ui_type == 'text' ||
+                                                                                      field.ui_type == 'number' ||
+                                                                                      field.ui_type == 'date' ||
+                                                                                       field.ui_type == 'datetime' ||
+                                                                                       field.ui_type == 'percent'  ||
+                                                                                     field.ui_type == 'time' )"
                                            type="text"
                                            class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
@@ -138,7 +137,7 @@
                     </button>
                     <button v-if="editStatus" :disabled="editStatus && !modificableForData "
                             class="btn btn-primary btn-white"
-                            @click="doSaveGrid('')">
+                            @click="doSaveGrid('')">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ('')">
                         <%= __("SystemCommon").Save %>
                     </button>
                     <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
