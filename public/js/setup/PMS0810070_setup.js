@@ -49,22 +49,7 @@ function initCalendar() {
             ls_select_color = ls_select_color + " 0px -4px 0px 0px inset";
             $(lo_clickDate).css('box-shadow', ls_select_color);
 
-            var ga_dataSource_index = _.findIndex(ga_dataSource, function (dataSource) {
-                return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_clickDateStr).format("YYYY/MM/DD");
-            });
-
-            if (ga_dataSource_index != -1) {
-                ga_dataSource[ga_dataSource_index].color = $("#color_scheme option:selected").val();
-                ga_dataSource[ga_dataSource_index].id = $("#color_scheme option:selected").data("day_sta");
-            }
-            else {
-                ga_dataSource.push({
-                    id: $("#color_scheme option:selected").data("day_sta"),
-                    startDate: moment(ls_clickDateStr).toDate(),
-                    endDate: moment(ls_clickDateStr).toDate(),
-                    color: $("#color_scheme option:selected").val()
-                });
-            }
+            chkDataSourceAndEdit(ls_clickDateStr);
 
             var la_dateDT = [
                 {
@@ -181,10 +166,6 @@ function insertTmpCUD(la_dateDT){
 
 }
 
-
-
-
-
 // 產生日曆顯示資料(dataSource)
 function genCalendarDataSource() {
     _.each(go_holidayDate, function (eachDate) {
@@ -223,8 +204,6 @@ function createDateKindSelectOption() {
     $('div.datePin01').css("background", ls_color);
 }
 
-
-
 // 綁定事件
 function bindEvent() {
     bindSelectChangeEvent();
@@ -247,37 +226,66 @@ function bindDayClickEvent() {
         var ls_end_date = $("input[name='end']").val();
         var ls_rtnDate = getDaysBetweenDates(ls_start_date, ls_end_date, ls_date);
 
-        _.each(ls_rtnDate, function (date) {
+        _.each(ls_rtnDate, function (eachDate) {
 
-            var isExist = _.findIndex(ga_dataSource, function (dataSource) {
-                return moment(dataSource.startDate).format("YYYY/MM/DD") == date.format("YYYY/MM/DD");
-            })
-
-            if (isExist == -1) {
-                ga_dataSource.push({
-                    id: $("#color_scheme option:selected").data("day_sta"),
-                    startDate: date.toDate(),
-                    endDate: date.toDate(),
-                    color: $("#color_scheme option:selected").val()
-                });
-            }
-            else {
-
-                if (ga_dataSource[isExist].color == "#fff") {
-                    ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
-                    ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
-                }
-                else {
-                    ga_dataSource[isExist].id = "N";
-                    ga_dataSource[isExist].color = "#fff";
-                }
-
-            }
+            // var isExist = _.findIndex(ga_dataSource, function (dataSource) {
+            //     return moment(dataSource.startDate).format("YYYY/MM/DD") == eachDate.date.format("YYYY/MM/DD");
+            // })
+            //
+            // if (isExist == -1) {
+            //     ga_dataSource.push({
+            //         id: $("#color_scheme option:selected").data("day_sta"),
+            //         startDate: eachDate.date.toDate(),
+            //         endDate: eachDate.date.toDate(),
+            //         color: $("#color_scheme option:selected").val()
+            //     });
+            // }
+            // else {
+            //
+            //     if (ga_dataSource[isExist].color == "#fff") {
+            //         ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
+            //         ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
+            //     }
+            //     else {
+            //         ga_dataSource[isExist].id = "N";
+            //         ga_dataSource[isExist].color = "#fff";
+            //     }
+            //
+            // }
+            chkDataSourceAndEdit(eachDate.date);
 
         });
         insertTmpCUD(ls_rtnDate);
         setCalendarDataSource();
     })
+}
+
+// 檢查dataSource
+function chkDataSourceAndEdit(ls_date){
+    var isExist = _.findIndex(ga_dataSource, function (dataSource) {
+        return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_date).format("YYYY/MM/DD");
+    })
+
+    if (isExist == -1) {
+        ga_dataSource.push({
+            id: $("#color_scheme option:selected").data("day_sta"),
+            startDate: ls_date.toDate(),
+            endDate: ls_date.toDate(),
+            color: $("#color_scheme option:selected").val()
+        });
+    }
+    else {
+
+        if (ga_dataSource[isExist].color == "#fff") {
+            ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
+            ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
+        }
+        else {
+            ga_dataSource[isExist].id = "N";
+            ga_dataSource[isExist].color = "#fff";
+        }
+
+    }
 }
 
 // 綁定儲存事件
@@ -317,6 +325,7 @@ function saveIntoOracleHolidayRf() {
         mainTableName: "holiday_rf"
     };
 
+    console.log(ga_tmpCUD);
     waitingDialog.show('Saving...');
     axios.post("/api/execSQLProcess", params)
         .then(function (response) {
@@ -366,7 +375,10 @@ function getDaysBetweenDates(start, end, dayName) {
         var lo_date = start.clone().add("days", li_days_counter);
         var li_day = lo_date.format("d");
         if (li_day == day)
-            result.push(lo_date);
+            result.push({
+                date: lo_date,
+                day_sta: $("#color_scheme option:selected").data("day_sta")
+            });
         li_days_counter++;
     }
     return result;
