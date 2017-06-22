@@ -58,7 +58,6 @@
                     if (this.getQueryString("prg_id") != null) {
                         this.usingPrgID = this.getQueryString("prg_id");
                     } else if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
-                        console.log(getCookie('usingPrgID'));
                         this.usingPrgID = getCookie('usingPrgID');
                     } else {
                         this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
