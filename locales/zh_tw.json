@@ -375,6 +375,17 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0810070": {
+      "session_nam": "日期別",
+      "date": "日期起",
+      "sun_nam": "Sun",
+      "mon_nam": "Mon",
+      "tue_nam": "Tue",
+      "wed_nam": "Wed",
+      "thu_nam": "Thu",
+      "fri_nam": "Fri",
+      "sat_nam": "Sat"
     }
   },
   "table_in_use": "%s 使用中",

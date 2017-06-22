@@ -39,7 +39,8 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     console.log(url);
 
-    request({url: url, encoding: "utf8", timeout: 30000, json: true}, function (err, response, data) {
+    request.post({url: apiUrl, encoding: "utf8", timeout: 30000, json: true, form: {lang: lang, TxnData: params}},
+    function (err, response, data) {
         var errorMsg = null;
         if (err) {
             if (err.code == 'ESOCKETTIMEDOUT') {
@@ -54,8 +55,6 @@ exports.requestApi = function (apiUrl, params, callback) {
         }
         callback(errorMsg, response, data);
     })
-
-
 };
 
 

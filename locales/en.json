@@ -385,6 +385,17 @@
       "ins_usr": "Added By",
       "upd_dat": "Modified Date",
       "upd_usr": "Modified By"
+    },
+    "PMS0810070": {
+      "session_nam": "日期別",
+      "date": "日期起",
+      "sun_nam": "Sun",
+      "mon_nam": "Mon",
+      "tue_nam": "Tue",
+      "wed_nam": "Wed",
+      "thu_nam": "Thu",
+      "fri_nam": "Fri",
+      "sat_nam": "Sat"
     }
   },
   "table_in_use": "Table in use (%s)",
