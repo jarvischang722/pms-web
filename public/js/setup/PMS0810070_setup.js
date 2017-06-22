@@ -109,8 +109,8 @@ function initCalendar() {
     function clickDay(e) {
         var lo_clickDate = e.element;
         var ls_select_color = $("#color_scheme option:selected").val();
-        var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1').toUpperCase());
-        var ls_clickDate_color = "#" + colorTool.rgbToHex(rgb[1], rgb[2], rgb[3]);
+        var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
+        var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
         var ls_clickDateStr = e.date.toLocaleDateString();
 
         // 顏色不一樣直接設定
@@ -204,7 +204,7 @@ function bindDayClickEvent() {
 // 綁定儲存事件
 function bindBTN_SaveEvent() {
     $("#BTN_Save").click(function () {
-        setCalendarDataSource();
+        // setCalendarDataSource();
         saveIntoOracleHolidayRf();
     })
 }
@@ -269,21 +269,21 @@ function saveIntoOracleHolidayRf() {
         fieldData: fieldData,
         mainTableName: "holiday_rf"
     };
-    waitingDialog.show('Saving...');
-    axios.post("/api/execSQLProcess", params)
-        .then(function (response) {
-            waitingDialog.hide();
-            if (response.data.success) {
-                alert('save success!');
-                // getHolidayDateSet();
-            } else {
-                alert(response.data.errorMsg);
-            }
-        })
-        .catch(function (error) {
-            waitingDialog.hide();
-            console.log(error);
-        });
+    // waitingDialog.show('Saving...');
+    // axios.post("/api/execSQLProcess", params)
+    //     .then(function (response) {
+    //         waitingDialog.hide();
+    //         if (response.data.success) {
+    //             alert('save success!');
+    //             // getHolidayDateSet();
+    //         } else {
+    //             alert(response.data.errorMsg);
+    //         }
+    //     })
+    //     .catch(function (error) {
+    //         waitingDialog.hide();
+    //         console.log(error);
+    //     });
 }
 
 // splitRgb
