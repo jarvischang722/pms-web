@@ -18,6 +18,7 @@ exports.index = function (req, res) {
     res.render("mainIndex");
 };
 
+
 /**
  * 系統別選擇
  */
@@ -49,8 +50,7 @@ exports.systemOption = function (req, res) {
                 });
 
             });
-
-            res.render('system/systemOption', {sysList: sysRows});
+            res.render('system/systemOption',{sysList: sysRows });
         });
 
     });
