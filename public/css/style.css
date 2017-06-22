@@ -3164,6 +3164,60 @@ ul.newVisitOther-btn {
   margin: auto 10px 0 auto;
 }
 
+/* line 891, ../sass/_bacchusMain.sass */
+.rvType-top {
+  width: 360px;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+/* line 895, ../sass/_bacchusMain.sass */
+.rvType-top .right-menu-co {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 20px;
+}
+/* line 899, ../sass/_bacchusMain.sass */
+.rvType-top .right-menu-co li {
+  margin-left: 2px;
+  display: inline-block;
+  padding: 0;
+}
+/* line 903, ../sass/_bacchusMain.sass */
+.rvType-top .right-menu-co li button {
+  padding: 3px 11px;
+}
+/* line 905, ../sass/_bacchusMain.sass */
+.rvType-top .right-menu-co li:first-child {
+  padding: 0;
+}
+
+/* line 907, ../sass/_bacchusMain.sass */
+.rvType-grid {
+  display: inline-block;
+}
+/* line 909, ../sass/_bacchusMain.sass */
+.rvType-grid select {
+  border-radius: 5px;
+}
+
+/* line 911, ../sass/_bacchusMain.sass */
+.rvType-w1 {
+  width: 170px;
+  max-width: 100%;
+  height: 25px;
+}
+
+/* line 915, ../sass/_bacchusMain.sass */
+.rvType-code {
+  background-color: #82b9ae;
+  color: #fff;
+}
+
+/* line 918, ../sass/_bacchusMain.sass */
+.rvType-table-container {
+  margin-top: 10px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
