@@ -4,10 +4,10 @@
  */
 var setCrtl = require("../controllers/manageSetting");
 var authMW = require("../middlewares/authMiddleware");
-var hotelMW = require("../middlewares/hotelMiddleware");
+var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
 
-var middles = [i18nMW,authMW,hotelMW];
+var middles = [i18nMW,authMW,sysMW];
 
 
 /* GET  page. */

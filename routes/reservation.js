@@ -3,9 +3,9 @@
  */
 var reservationCrtl = require("../controllers/reservationController");
 var authMW = require("../middlewares/authMiddleware");
-var hotelMW = require("../middlewares/hotelMiddleware");
+var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW,authMW,hotelMW];
+var middles = [i18nMW,authMW,sysMW];
 
 /* GET  page. */
 module.exports = function(app  ) {
@@ -28,5 +28,8 @@ module.exports = function(app  ) {
 
     //住客歷史(靜態 quickMenu)
     app.get('/resv_gProfile', reservationCrtl.getResv_gProfile);
+
+    //訂房卡多筆(靜態 quickMenu)
+    app.get('/resv_bookings', reservationCrtl.getResv_bookings);
 
 };

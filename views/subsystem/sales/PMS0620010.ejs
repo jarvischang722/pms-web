@@ -1,989 +1,1033 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ../../common/head %>
-<%- include ../../common/importFiles %>
+<div class="main-content-inner">
 
-
-<body class="no-skin" id="app">
-
-<!-- #section:basics/navbar.layout -->
-<%- include ../../common/navbar.ejs %>
-<!-- include header.html -->
-<script type="text/javascript">
-    var global_using_prg_id = ""; //目前使用中的程式
-
-
-    $(function () {
-        //選第一個對照檔
-        $("#settingUl li").first().find("a").click();
-
-    })
-
-    //網頁讀取
-    function loadSettingPage(prg_id) {
-
-//        $("#controlReservationTab01").load('/mainSetUp/' + prg_id);
-        //TODO 需改成用load的方式
-        var iframe = document.getElementById('proIframe');
-        iframe.src = '/mainSetUp/' + prg_id;
-    }
-
-    // 判斷iframe 大小
-    function resizeIframe(obj) {
-        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-    }
-
-</script>
-<!-- /section:basics/navbar.layout -->
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
-
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-
-            <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0600000',pro_id:''}) %>
-
-        <div class="companyInfo">
-            <img src="/images/athena_log.png"/>
-        </div>
-        <!-- /section:basics/sidebar.layout.minimize -->
-    </div>
-
-    <!-- /section:basics/sidebar -->
-
-    <div class="main-content">
-        <div class="main-content-inner">
-
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0600000',pro_id:''}) %>
-            <div class="page-content">
-            <div class="">
-                <div class="page-header">
-                </div><!-- /.page-header -->
-                <div class="col-xs-12">
-                    <div class="row">
-                        <label id="prg_Id" class="prg_idLbH3">PMS0620010</label>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
+    <div class="page-content">
+        <div class="">
+            <div class="page-header">
+            </div><!-- /.page-header -->
+            <div class="col-xs-12">
                 <div class="row">
-                        <div class="col-xs-12">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row no-margin-right">
-                                    <div class="search-content">
-                                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                        <div class="search-co">
-                                            <div class="search-co-h">
-                                                <i class="ace-icon fa fa-search search-icon"></i>
-                                                <span>搜尋</span>
-                                                <div class="row search-right-btn">
-                                                    <div class="right-btn-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <i class="fa fa-chevron-down show-search-detail"></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                    <label id="prg_Id" class="prg_idLbH3">PMS0620010</label>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="row no-margin-right">
+                            <div class="search-content">
+                                <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                                <div class="search-co">
+                                    <div class="search-co-h">
+                                        <i class="ace-icon fa fa-search search-icon"></i>
+                                        <span>搜尋</span>
+                                        <div class="row search-right-btn">
+                                            <div class="right-btn-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <i class="fa fa-chevron-down show-search-detail"></i>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="search-co-content col-xs-12">
+                                            <div class="col-sm-4">
+
+                                            </div>
+                                            <div class="col-sm-4">
+
+                                            </div>
+                                            <div class="col-sm-4">
+
+                                            </div>
+                                        </div>
+                                        <div class="search-co-content col-xs-12 rece-search-detail"
+                                             style="display: none;">
+                                            <div class="row search-footer-btn">
+                                                <div class="footer-btn-menu-co">
+                                                    <ul>
+                                                        <li>
+                                                            <div class="" data-rel="tooltip"
+                                                                 data-placement="bottom"
+                                                                 title="查詢"
+                                                                 style="padding: 0 0 5px 0;">
+                                                                <div class="icon-reStyle icon-co-14"></div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="" data-rel="tooltip"
+                                                                 data-placement="bottom"
+                                                                 title="清除" style="padding: 0 0 5px 0;">
+                                                                <div class="icon-reStyle icon-co-11"></div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>  <!-- /.footer-btn-menu-co -->
+                                            </div> <!-- /.search-footer-btn -->
+                                            <div class="grid width-95">
+                                                <div class="grid-item block-table">
+                                                    <label>Sales Id</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Name</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Employee</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Status</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Stop Date</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Stop Date</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Team</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Hotel</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>F&B</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
+                                                </div>
+                                                <div class="grid-item block-table">
+                                                    <label>Membership</label>
+                                                    <input type="text" class="input-medium medium-c1"/>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="search-co-content col-xs-12">
-                                                    <div class="col-sm-4">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div> <!-- row-->
+                                </div> <!-- /.search-co -->
+                            </div> <!-- /.row  search-content-->
+                        </div>
+                    </div>
+                </div> <!-- /.col-sm-12 -->
+                <div class="clearfix"></div>
+                <div class="col-xs-12">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="row no-margin-right">
+                            <!-- 歷史消費 dataGrid -->
+                            <table id="clerkDataGridResult-table"></table>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button id="ins-btn"
+                                                class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
+                                                role="button">新增
+                                        </button>
+                                    </li>
 
-                                                    </div>
-                                                    <div class="col-sm-4">
-
-                                                    </div>
-                                                    <div class="col-sm-4">
-
-                                                    </div>
-                                                </div>
-                                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                                    <div class="row search-footer-btn">
-                                                        <div class="footer-btn-menu-co">
-                                                            <ul>
-                                                                <li>
-                                                                    <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                         title="查詢"
-                                                                         style="padding: 0 0 5px 0;">
-                                                                        <div class="icon-reStyle icon-co-14"></div>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                         title="清除" style="padding: 0 0 5px 0;">
-                                                                        <div class="icon-reStyle icon-co-11"></div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>  <!-- /.footer-btn-menu-co -->
-                                                    </div> <!-- /.search-footer-btn -->
-                                                    <div class="grid width-95">
-                                                        <div class="grid-item block-table">
-                                                            <label>Sales Id</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Name</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Employee</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Status</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Stop Date</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Stop Date</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Team</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Hotel</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>F&B</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                        <div class="grid-item block-table">
-                                                            <label>Membership</label>
-                                                            <input type="text" class="input-medium medium-c1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                            </div> <!-- row-->
-                                        </div> <!-- /.search-co -->
-                                    </div> <!-- /.row  search-content-->
-                                </div>
+                                    <li>
+                                        <button id="remove-btn"
+                                                class="btn btn-danger btn-white btn-defaultWidth"
+                                                role="button">刪除
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="ins-btn"
+                                                class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
+                                                role="button">修改
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="ins-btn"
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">業務員指派
+                                        </button>
+                                    </li>
+                                </ul>
                             </div>
-                        </div> <!-- /.col-sm-12 -->
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row no-margin-right">
-                                    <!-- 歷史消費 dataGrid -->
-                                    <table id="clerkDataGridResult-table"></table>
-                                </div>
-                            </div>
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button id="ins-btn"
-                                                        class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
-                                                        role="button">新增</button>
-                                            </li>
+                        </div>
+                    </div>
+                </div> <!-- /.col-sm-12 -->
+                <div class="clearfix"></div>
 
-                                            <li>
-                                                <button id="remove-btn"
-                                                        class="btn btn-danger btn-white btn-defaultWidth"
-                                                        role="button">刪除</button>
-                                            </li>
-                                            <li>
-                                                <button id="ins-btn"
-                                                        class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
-                                                        role="button">修改</button>
-                                            </li>
-                                            <li>
-                                                <button id="ins-btn"
-                                                        class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">業務員指派</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+            </div>
+            <!-- 業務員修改 彈出視窗 -->
+            <div id="changeBusiness-page" class="hide">
+                <div class="col-sm-10 col-xs-10 businessModify-Left">
+                    <div class="col-xs-12 col-sm-12">
+                        <!--<div class="row businessModify-head">-->
+                        <!--<p class="businessModify-title">修改業務員</p>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="ChangeBusiness-wrap">
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Sales Id</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">A0001</option>
+                                    <option value="2">A0002</option>
+                                    <option value="3">A0003</option>
+                                </select>
                             </div>
-                        </div> <!-- /.col-sm-12 -->
-                        <div class="clearfix"></div>
-
-                </div>
-                <!-- 業務員修改 彈出視窗 -->
-                <div id="changeBusiness-page" class="hide">
-                        <div class="col-sm-10 col-xs-10 businessModify-Left">
-                            <div class="col-xs-12 col-sm-12">
-                                <!--<div class="row businessModify-head">-->
-                                    <!--<p class="businessModify-title">修改業務員</p>-->
-                                <!--</div>-->
+                            <div class="grid-item tab-block">
+                                <label>Employee</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
                             </div>
-                            <div class="ChangeBusiness-wrap">
-                                <div class="grid">
-                                    <div class="tab-block grid-item">
-                                        <label>Sales Id</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">A0001</option>
-                                            <option value="2">A0002</option>
-                                            <option value="3">A0003</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item tab-block">
-                                        <label>Employee</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item tab-block single">
-                                        <label>Name</label>
-                                        <select id="" class="input-medium medium-c1-col2">
-                                            <option value="1">Markelle Fultz</option>
-                                            <option value="2">Josh Jackson</option>
-                                            <option value="3">Lonzo Ball</option>
-                                            <option value="4">De'Aaron Fox</option>
-                                            <option value="5">Jayson Tatum</option>
-                                            <option value="6">Sindarius Thornwell</option>
-                                            <option value="7">Alpha Kaba</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Status</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">Normal</option>
-                                            <option value="2">Disable</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Stop Date</label>
-                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass" type="date" required="">
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Team</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">001</option>
-                                            <option value="2">002</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>User Id</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">B0001</option>
-                                            <option value="2">B0002</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="checkboxGroup">
-                                        <div class="tab-block grid-item checkboxGrid">
-                                            <div class="popCheckbox">
+                            <div class="grid-item tab-block single">
+                                <label>Name</label>
+                                <select id="" class="input-medium medium-c1-col2">
+                                    <option value="1">Markelle Fultz</option>
+                                    <option value="2">Josh Jackson</option>
+                                    <option value="3">Lonzo Ball</option>
+                                    <option value="4">De'Aaron Fox</option>
+                                    <option value="5">Jayson Tatum</option>
+                                    <option value="6">Sindarius Thornwell</option>
+                                    <option value="7">Alpha Kaba</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">Normal</option>
+                                    <option value="2">Disable</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Stop Date</label>
+                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                                       class="input-medium medium-c1 dateClass" type="date" required="">
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Team</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">001</option>
+                                    <option value="2">002</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>User Id</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">B0001</option>
+                                    <option value="2">B0002</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="checkboxGroup">
+                                <div class="tab-block grid-item checkboxGrid">
+                                    <div class="popCheckbox">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
                                                           <span class="lbl">Hotel</span>
                                                       </label>
                                                   </span>
-                                            </div>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid">
-                                            <div class="popCheckbox">
+                                    </div>
+                                </div>
+                                <div class="tab-block grid-item checkboxGrid">
+                                    <div class="popCheckbox">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
                                                           <span class="lbl">F&B</span>
                                                       </label>
                                                   </span>
-                                            </div>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid">
-                                            <div class="popCheckbox">
+                                    </div>
+                                </div>
+                                <div class="tab-block grid-item checkboxGrid">
+                                    <div class="popCheckbox">
                                                     <span class="checkbox">
                                                       <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
                                                           <span class="lbl">Membership</span>
                                                       </label>
                                                   </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Add Date</label>
+                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                                       class="input-medium medium-c1 dateClass SelectDisable" type="date"
+                                       value="2017-05-05" required="" disabled>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Add Staff</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">admin</option>
+                                    <option value="2">test</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Last Revise Date</label>
+                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                                       class="input-medium medium-c1 dateClass SelectDisable" type="date"
+                                       value="2017-05-05" required="" disabled>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Last Revise Staff</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">admin</option>
+                                    <option value="2">test</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="BusinessProperty-wrap">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="row businessModify-head">
+                                <span class="businessModify-title">Property</span>
+                            </div>
+                            <div class="BusinessProperty">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-xs-9 col-sm-9">
+                                            <div class="row">
+                                                <select id="" class="input-medium medium-c1">
+                                                    <option value="1">01:德安大酒店</option>
+                                                    <option value="2">02:顆顆大酒店</option>
+                                                    <option value="3">03:呵呵大飯店</option>
+                                                    <option value="4">04:維多利亞大飯店</option>
+                                                    <option value="5">05:海棉寶寶城市商旅</option>
+                                                    <option value="6">06:測試大飯店</option>
+                                                    <option value="7">07:321大飯店</option>
+                                                </select>
+                                                <select id="" class="input-medium medium-c1">
+                                                    <option value="1">01:德安大酒店</option>
+                                                    <option value="2">02:顆顆大酒店</option>
+                                                    <option value="3">03:呵呵大飯店</option>
+                                                    <option value="4">04:維多利亞大飯店</option>
+                                                    <option value="5">05:海棉寶寶城市商旅</option>
+                                                    <option value="6">06:測試大飯店</option>
+                                                    <option value="7">07:321大飯店</option>
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="tab-block grid-item">
-                                        <label>Add Date</label>
-                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass SelectDisable" type="date" value="2017-05-05" required="" disabled>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Add Staff</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">admin</option>
-                                            <option value="2">test</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Last Revise Date</label>
-                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass SelectDisable" type="date" value="2017-05-05" required="" disabled>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Last Revise Staff</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">admin</option>
-                                            <option value="2">test</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                </div>
-                            <div class="BusinessProperty-wrap">
-                             <div class="col-xs-12 col-sm-12">
-                                 <div class="row businessModify-head">
-                                     <span class="businessModify-title">Property</span>
-                                  </div>
-                                 <div class="BusinessProperty">
-                                     <div class="col-xs-12 col-sm-12">
-                                         <div class="row">
-                                             <div class="col-xs-9 col-sm-9">
-                                                 <div class="row">
-                                                     <select id="" class="input-medium medium-c1">
-                                                         <option value="1">01:德安大酒店</option>
-                                                         <option value="2">02:顆顆大酒店</option>
-                                                         <option value="3">03:呵呵大飯店</option>
-                                                         <option value="4">04:維多利亞大飯店</option>
-                                                         <option value="5">05:海棉寶寶城市商旅</option>
-                                                         <option value="6">06:測試大飯店</option>
-                                                         <option value="7">07:321大飯店</option>
-                                                     </select>
-                                                     <select id="" class="input-medium medium-c1">
-                                                         <option value="1">01:德安大酒店</option>
-                                                         <option value="2">02:顆顆大酒店</option>
-                                                         <option value="3">03:呵呵大飯店</option>
-                                                         <option value="4">04:維多利亞大飯店</option>
-                                                         <option value="5">05:海棉寶寶城市商旅</option>
-                                                         <option value="6">06:測試大飯店</option>
-                                                         <option value="7">07:321大飯店</option>
-                                                     </select>
-                                                 </div>
-                                             </div>
-                                             <div class="col-sm-3 col-xs-3 right-menu-co">
-                                                 <ul>
-                                                     <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">New</button></li>
-                                                     <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button></li>
-                                                 </ul>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                            </div>
-
-                            </div>
-                        <div class="col-sm-2 col-xs-2 right-menu-co BusinessModify-Right">
-                            <ul>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                                <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
-                                <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth NewChangeLog" role="button">Change Log</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit</button></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                    <div class="clearfix"></div>
-                </div>
-                <!-- /.業務員修改 彈出視窗-->
-                <!-- 新增拜訪 彈出視窗-->
-                <div id="NewVisit-page" class="hide">
-                    <div class="col-sm-12 NewVisit-Iquire">
-                        <div class="col-xs-10 col-sm-10 Large-input">
-                            <div class="row NewVisit-head">
-                                <p class="NewVisit-title">查詢條件</p>
-                            </div>
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="content">
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Id</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">A1231</option>
-                                                <option value="2">a2322</option>
-                                                <option value="3">A0003</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Status</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">Normal</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Name</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">人人公司</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid pull-left">
-                                            <input class="form-check-input" type="checkbox" value="" checked>
-                                            <label class="checkLabel">Keyword</label>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Type</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">簽約公司</option>
-                                                <option value="2">非簽約公司</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Contract</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">已簽約</option>
-                                                <option value="2">洽談中</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Region</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">北區</option>
-                                                <option value="2">中區</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Sales Rap</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">陳瑞克</option>
-                                                <option value="2">黃大企</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Industry</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">資訊業</option>
-                                                <option value="2">製造業</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2 col-xs-2 right-menu-co">
-                            <ul>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Inquiry</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Clear</button></li>
-                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">exit</button></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="row NewVisit-head">
-                                <p class="NewVisit-title">查詢結果</p>
-                            </div>
-                            <div class="result-panels">
-                                    <div class="col-sm-10 col-xs-10 result-panel-body">
-                                        <div class="row no-margin-right">
-                                            <!-- 新增拜訪記錄 dataGrid -->
-                                            <table id="NewVisitResult-table"></table>
+                                        <div class="col-sm-3 col-xs-3 right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">New
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                            role="button">Delete
+                                                    </button>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="col-sm-2 col-xs-2 right-menu-co">
-                                        <ul>
-                                            <li><button class="btn btn-primary btn-white btn-defaultWidth NewVisitRecord" role="button">New Visit Record</button></li>
-                                        </ul>
-                                    </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.新增拜訪 彈出視窗-->
-                <!-- 新增拜訪記錄 彈出視窗-->
-                <div id="NewVisitRecord-page" class="hide">
-                    <div class="col-sm-12 NewVisitRecord-wrap">
-                        <div class="col-sm-10 col-xs-10">
-                            <div class="row no-margin-right">
-                                <table id="NewVisitRecord-table"></table>
-                            </div>
-                        </div>
-                        <div class="col-sm-2 col-xs-2 right-menu-co">
-                            <ul>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth NewVsitModify" role="button">Modify</button></li>
-                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.新增拜訪記錄 彈出視窗-->
-                <!-- 新增拜訪記錄修改 彈出視窗-->
-                <div id="NewVsitModify-page" class="hide">
-                    <div class="col-sm-12 NewVisit-Iquire">
-                        <div class="col-xs-10 col-sm-10">
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="content">
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Method</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">電訪</option>
-                                                <option value="2">親訪</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Planned</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">2017/4/26</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Visit Status</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">N:預定拜訪</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Feedback</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">非常好</option>
-                                                <option value="2">非簽約公司</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Actual</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">已簽約</option>
-                                                <option value="2">洽談中</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Expense</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">777</option>
-                                                <option value="2">10000</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item single-input">
-                                            <label>Purpose</label>
-                                            <select id="" class="input-medium medium-c1 newVisit-single">
-                                                <option value="1">12345678910</option>
-                                                <option value="2">qq231</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Documents</label>
-                                            <select id="" class="input-medium medium-c1 newVisit-single">
-                                                <option value="1">test</option>
-                                                <option value="2">test</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Remarks</label>
-                                            <textarea class="form-control newVisit-textarea" cols="30" rows="5">Have a nice day</textarea>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2 col-xs-2 right-menu-co">
-                            <ul>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">First</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last</button></li>
-                            </ul>
-                            <ul class="newVisitOther-btn">
-                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- /.新增拜訪記錄修改 彈出視窗-->
-
-                <!-- 修改拜訪記錄修改 彈出視窗-->
-                <div id="NewDetail-page" class="hide">
-                    <div class="col-sm-12 NewVisit-Iquire NewDetail-wrap">
-                        <div class="col-xs-10 col-sm-10">
-                            <div class="row NewVisit-head">
-                                <p class="NewVisit-title">查詢條件</p>
-                            </div>
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="content">
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Id</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">A1231</option>
-                                                <option value="2">a2322</option>
-                                                <option value="3">A0003</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Status</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">Normal</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Name</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">人人公司</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid pull-left">
-                                            <input class="form-check-input" type="checkbox" value="" checked>
-                                            <label class="checkLabel">Keyword</label>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Type</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">簽約公司</option>
-                                                <option value="2">非簽約公司</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Contract</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">已簽約</option>
-                                                <option value="2">洽談中</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Region</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">北區</option>
-                                                <option value="2">中區</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Sales Rep</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">陳瑞克</option>
-                                                <option value="2">黃大企</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item single-input">
-                                            <label>Industry</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">資訊業</option>
-                                                <option value="2">製造業</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Planned Visit</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">2017/05/10</option>
-                                                <option value="2">q</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Visit Status</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">N:預定拜訪</option>
-                                                <option value="2">q</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Actual Visit</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">2017/05/09</option>
-                                                <option value="2">q</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Method</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">電訪</option>
-                                                <option value="2">q</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Purpose</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">網訂系統洽談</option>
-                                                <option value="2">q</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid pull-left">
-                                            <input class="form-check-input" type="checkbox" value="" checked>
-                                            <label class="checkLabel">Keyword</label>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="tab-block grid-item">
-                                            <label>Remarks</label>
-                                            <select id="" class="input-medium medium-c1">
-                                                <option value="1">1234567</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item checkboxGrid pull-left">
-                                            <input class="form-check-input" type="checkbox" value="" checked>
-                                            <label class="checkLabel">Keyword</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2 col-xs-2 right-menu-co">
-                            <ul>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Inquiry</button></li>
-                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Clear</button></li>
-                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
-                            </ul>
-                        </div>
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="row NewVisit-head">
-                                <p class="NewVisit-title">查詢結果</p>
-                            </div>
-                            <div class="result-panels">
-                                <div class="col-sm-11 col-xs-11 result-panel-body">
-                                    <div class="row no-margin-right">
-                                        <!-- 新增拜訪記錄 dataGrid -->
-                                        <table id="ModifyVisitResult-table"></table>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1 col-xs-1 right-menu-co">
-                                    <ul>
-                                        <li><button class="btn btn-primary btn-white btn-defaultWidth NewVisitModify" role="button">Modify</button></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.新增拜訪記錄修改 彈出視窗-->
 
-            <!-- 修改 彈出視窗-->
-            <div id="NewVisitModify-page" class="hide">
-                <div class="col-sm-12 NewVisitRecord-wrap">
-                    <div class="col-sm-10 col-xs-10">
+                </div>
+                <div class="col-sm-2 col-xs-2 right-menu-co BusinessModify-Right">
+                    <ul>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save
+                            </button>
+                        </li>
+                        <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
+                        <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth NewChangeLog"
+                                    role="button">Change Log
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.業務員修改 彈出視窗-->
+    <!-- 新增拜訪 彈出視窗-->
+    <div id="NewVisit-page" class="hide">
+        <div class="col-sm-12 NewVisit-Iquire">
+            <div class="col-xs-10 col-sm-10 Large-input">
+                <div class="row NewVisit-head">
+                    <p class="NewVisit-title">查詢條件</p>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="content">
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Co. Id</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">A1231</option>
+                                    <option value="2">a2322</option>
+                                    <option value="3">A0003</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">Normal</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Co. Name</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">人人公司</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item checkboxGrid pull-left">
+                                <input class="form-check-input" type="checkbox" value="" checked>
+                                <label class="checkLabel">Keyword</label>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-block grid-item">
+                                <label>Co. Type</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">簽約公司</option>
+                                    <option value="2">非簽約公司</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Contract</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">已簽約</option>
+                                    <option value="2">洽談中</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Region</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">北區</option>
+                                    <option value="2">中區</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Sales Rap</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">陳瑞克</option>
+                                    <option value="2">黃大企</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Industry</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">資訊業</option>
+                                    <option value="2">製造業</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Inquiry
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Clear</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">exit</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="row NewVisit-head">
+                    <p class="NewVisit-title">查詢結果</p>
+                </div>
+                <div class="result-panels">
+                    <div class="col-sm-10 col-xs-10 result-panel-body">
                         <div class="row no-margin-right">
-                            <table id="ModifyVisitRecord-table"></table>
+                            <!-- 新增拜訪記錄 dataGrid -->
+                            <table id="NewVisitResult-table"></table>
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-2 right-menu-co">
                         <ul>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth VsitModifyBtn" role="button">Modify</button></li>
-                            <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth NewVisitRecord"
+                                        role="button">New Visit Record
+                                </button>
+                            </li>
                         </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.新增拜訪 彈出視窗-->
+    <!-- 新增拜訪記錄 彈出視窗-->
+    <div id="NewVisitRecord-page" class="hide">
+        <div class="col-sm-12 NewVisitRecord-wrap">
+            <div class="col-sm-10 col-xs-10">
+                <div class="row no-margin-right">
+                    <table id="NewVisitRecord-table"></table>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth NewVsitModify" role="button">
+                            Modify
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.新增拜訪記錄 彈出視窗-->
+    <!-- 新增拜訪記錄修改 彈出視窗-->
+    <div id="NewVsitModify-page" class="hide">
+        <div class="col-sm-12 NewVisit-Iquire">
+            <div class="col-xs-10 col-sm-10">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="content">
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Method</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">電訪</option>
+                                    <option value="2">親訪</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Planned</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">2017/4/26</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Visit Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">N:預定拜訪</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Feedback</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">非常好</option>
+                                    <option value="2">非簽約公司</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Actual</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">已簽約</option>
+                                    <option value="2">洽談中</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Expense</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">777</option>
+                                    <option value="2">10000</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item single-input">
+                                <label>Purpose</label>
+                                <select id="" class="input-medium medium-c1 newVisit-single">
+                                    <option value="1">12345678910</option>
+                                    <option value="2">qq231</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Documents</label>
+                                <select id="" class="input-medium medium-c1 newVisit-single">
+                                    <option value="1">test</option>
+                                    <option value="2">test</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Remarks</label>
+                                <textarea class="form-control newVisit-textarea" cols="30" rows="5">Have a nice day</textarea>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- /.修改 彈出視窗-->
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">First</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last</button>
+                    </li>
+                </ul>
+                <ul class="newVisitOther-btn">
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-            <!-- 修改 彈出視窗-->
-            <div id="VsitModifyBtn-page" class="hide">
-                <div class="col-sm-12 NewVisit-Iquire">
-                    <div class="col-xs-10 col-sm-10">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="content">
-                                <div class="grid">
-                                    <div class="tab-block grid-item">
-                                        <label>Method</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">電訪</option>
-                                            <option value="2">親訪</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Planned</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">2017/4/26</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Visit Status</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">N:預定拜訪</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Feedback</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">非常好</option>
-                                            <option value="2">非簽約公司</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Actual</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">已簽約</option>
-                                            <option value="2">洽談中</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Expense</label>
-                                        <select id="" class="input-medium medium-c1">
-                                            <option value="1">777</option>
-                                            <option value="2">10000</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item single-input">
-                                        <label>Purpose</label>
-                                        <select id="" class="input-medium medium-c1 newVisit-single">
-                                            <option value="1">已簽約電訪</option>
-                                            <option value="2">qq231</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Documents</label>
-                                        <select id="" class="input-medium medium-c1 newVisit-single">
-                                            <option value="1">合約影本</option>
-                                            <option value="2">test</option>
-                                        </select>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Remarks</label>
-                                        <textarea class="form-control newVisit-textarea" cols="30" rows="5">談合約其貢獻度數字以及房價等級定義</textarea>
-                                    </div>
-                                    <div class="tab-block grid-item">
-                                        <label>Add Date</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">2017/4/26</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div><div class="tab-block grid-item">
-                                        <label>Add Staff</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">admin</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div><div class="tab-block grid-item">
-                                        <label>Last Revise Date</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">2017/4/26</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div><div class="tab-block grid-item">
-                                        <label>Last Revise Staff</label>
-                                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                            <option value="1">2017/4/26</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                </div>
+    <!-- /.新增拜訪記錄修改 彈出視窗-->
+
+    <!-- 修改拜訪記錄修改 彈出視窗-->
+    <div id="NewDetail-page" class="hide">
+        <div class="col-sm-12 NewVisit-Iquire NewDetail-wrap">
+            <div class="col-xs-10 col-sm-10">
+                <div class="row NewVisit-head">
+                    <p class="NewVisit-title">查詢條件</p>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="content">
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Co. Id</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">A1231</option>
+                                    <option value="2">a2322</option>
+                                    <option value="3">A0003</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">Normal</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Co. Name</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">人人公司</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item checkboxGrid pull-left">
+                                <input class="form-check-input" type="checkbox" value="" checked>
+                                <label class="checkLabel">Keyword</label>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-block grid-item">
+                                <label>Co. Type</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">簽約公司</option>
+                                    <option value="2">非簽約公司</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Contract</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">已簽約</option>
+                                    <option value="2">洽談中</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Region</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">北區</option>
+                                    <option value="2">中區</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Sales Rep</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">陳瑞克</option>
+                                    <option value="2">黃大企</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item single-input">
+                                <label>Industry</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">資訊業</option>
+                                    <option value="2">製造業</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Planned Visit</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">2017/05/10</option>
+                                    <option value="2">q</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Visit Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">N:預定拜訪</option>
+                                    <option value="2">q</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Actual Visit</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">2017/05/09</option>
+                                    <option value="2">q</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Method</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">電訪</option>
+                                    <option value="2">q</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Purpose</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">網訂系統洽談</option>
+                                    <option value="2">q</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item checkboxGrid pull-left">
+                                <input class="form-check-input" type="checkbox" value="" checked>
+                                <label class="checkLabel">Keyword</label>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-block grid-item">
+                                <label>Remarks</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">1234567</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item checkboxGrid pull-left">
+                                <input class="form-check-input" type="checkbox" value="" checked>
+                                <label class="checkLabel">Keyword</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2 col-xs-2 right-menu-co">
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Inquiry
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Clear</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="row NewVisit-head">
+                    <p class="NewVisit-title">查詢結果</p>
+                </div>
+                <div class="result-panels">
+                    <div class="col-sm-11 col-xs-11 result-panel-body">
+                        <div class="row no-margin-right">
+                            <!-- 新增拜訪記錄 dataGrid -->
+                            <table id="ModifyVisitResult-table"></table>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-xs-1 right-menu-co">
                         <ul>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">First</button></li>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous</button></li>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next</button></li>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last</button></li>
-                        </ul>
-                        <ul class="newVisitOther-btn">
-                            <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button></li>
-                            <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                            <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth NewVisitModify"
+                                        role="button">Modify
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <!-- /.修改 彈出視窗-->
+        </div>
+    </div>
+    <!-- /.新增拜訪記錄修改 彈出視窗-->
 
-            <!-- Change Log 彈出視窗-->
-             <div id="NewChangeLog-page" class="hide">
-                 <div title="Chanage Log" class="padding-tabs BusinessChangeLog">
-                     <div class="bs-changeRecord col-sm-12">
-                         <div class="grid">
-                             <div class="grid-item">
-                                 <label>異動日期</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">2017/4/01</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>異動時間</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">14:30:15</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>異動者</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">cio</span>
-                             </div>
-                         </div>
-                         <div class="grid">
-                             <div class="grid-item">
-                                 <label>業務員代號</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">A001</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>業務員姓名</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">張三</span>
-                             </div>
-                         </div>
-                         <div class="grid">
-                             <label>動作</label>
-                             <span>：</span>
-                             <span class="changeRecord-txt2">業務資料修改</span>
-                         </div>
-                         <div class="grid">
-                             <label>說明</label>
-                             <span>：</span>
-                             <span class="changeRecord-txt2">業務員姓名:由(張山)改成(張三)</span>
-                         </div>
-                     </div>
-                     <div class="bs-changeRecord col-sm-12">
-                         <div class="grid">
-                             <div class="grid-item">
-                                 <label>異動日期</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">2017/04/26</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>異動時間</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">11:35:27</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>異動者</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">cio</span>
-                             </div>
-                         </div>
-                         <div class="grid">
-                             <div class="grid-item">
-                                 <label>業務員代號</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">A001</span>
-                             </div>
-                             <div class="grid-item">
-                                 <label>業務員姓名</label>
-                                 <span>：</span>
-                                 <span class="changeRecord-txt">張三</span>
-                             </div>
-                         </div>
-                         <div class="grid">
-                             <label>動作</label>
-                             <span>：</span>
-                             <span class="changeRecord-txt2">業務資料修改</span>
-                         </div>
-                         <div class="grid">
-                             <label>說明</label>
-                             <span>：</span>
-                             <span class="changeRecord-txt2">業務員組別:由(002)改成(001)</span>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-            <!-- Change Log 彈出視窗-->
+    <!-- 修改 彈出視窗-->
+    <div id="NewVisitModify-page" class="hide">
+        <div class="col-sm-12 NewVisitRecord-wrap">
+            <div class="col-sm-10 col-xs-10">
+                <div class="row no-margin-right">
+                    <table id="ModifyVisitRecord-table"></table>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth VsitModifyBtn" role="button">
+                            Modify
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.修改 彈出視窗-->
 
-            <!-- 信用額度變更 彈出視窗 -->
-                <div id="changeCreditLimit-message" class="hide">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="businessCompanyData">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row billInfo">
-                                    <div class="content">
-                                        <div class="clearfix"></div>
-                                        <div class="space-custom-5"></div>
-                                        <div class="tab-block">
+    <!-- 修改 彈出視窗-->
+    <div id="VsitModifyBtn-page" class="hide">
+        <div class="col-sm-12 NewVisit-Iquire">
+            <div class="col-xs-10 col-sm-10">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="content">
+                        <div class="grid">
+                            <div class="tab-block grid-item">
+                                <label>Method</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">電訪</option>
+                                    <option value="2">親訪</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Planned</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">2017/4/26</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Visit Status</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">N:預定拜訪</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Feedback</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">非常好</option>
+                                    <option value="2">非簽約公司</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Actual</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">已簽約</option>
+                                    <option value="2">洽談中</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Expense</label>
+                                <select id="" class="input-medium medium-c1">
+                                    <option value="1">777</option>
+                                    <option value="2">10000</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item single-input">
+                                <label>Purpose</label>
+                                <select id="" class="input-medium medium-c1 newVisit-single">
+                                    <option value="1">已簽約電訪</option>
+                                    <option value="2">qq231</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Documents</label>
+                                <select id="" class="input-medium medium-c1 newVisit-single">
+                                    <option value="1">合約影本</option>
+                                    <option value="2">test</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Remarks</label>
+                                <textarea class="form-control newVisit-textarea" cols="30" rows="5">談合約其貢獻度數字以及房價等級定義</textarea>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Add Date</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">2017/4/26</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Add Staff</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">admin</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Last Revise Date</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">2017/4/26</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="tab-block grid-item">
+                                <label>Last Revise Staff</label>
+                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                                    <option value="1">2017/4/26</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-xs-2 right-menu-co">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">First</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous
+                        </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last</button>
+                    </li>
+                </ul>
+                <ul class="newVisitOther-btn">
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.修改 彈出視窗-->
+
+    <!-- Change Log 彈出視窗-->
+    <div id="NewChangeLog-page" class="hide">
+        <div title="Chanage Log" class="padding-tabs BusinessChangeLog">
+            <div class="bs-changeRecord col-sm-12">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label>異動日期</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">2017/4/01</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>異動時間</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">14:30:15</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>異動者</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">cio</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="grid-item">
+                        <label>業務員代號</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">A001</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>業務員姓名</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">張三</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <label>動作</label>
+                    <span>：</span>
+                    <span class="changeRecord-txt2">業務資料修改</span>
+                </div>
+                <div class="grid">
+                    <label>說明</label>
+                    <span>：</span>
+                    <span class="changeRecord-txt2">業務員姓名:由(張山)改成(張三)</span>
+                </div>
+            </div>
+            <div class="bs-changeRecord col-sm-12">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label>異動日期</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">2017/04/26</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>異動時間</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">11:35:27</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>異動者</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">cio</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="grid-item">
+                        <label>業務員代號</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">A001</span>
+                    </div>
+                    <div class="grid-item">
+                        <label>業務員姓名</label>
+                        <span>：</span>
+                        <span class="changeRecord-txt">張三</span>
+                    </div>
+                </div>
+                <div class="grid">
+                    <label>動作</label>
+                    <span>：</span>
+                    <span class="changeRecord-txt2">業務資料修改</span>
+                </div>
+                <div class="grid">
+                    <label>說明</label>
+                    <span>：</span>
+                    <span class="changeRecord-txt2">業務員組別:由(002)改成(001)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Log 彈出視窗-->
+
+    <!-- 信用額度變更 彈出視窗 -->
+    <div id="changeCreditLimit-message" class="hide">
+        <div class="col-sm-12 col-xs-12">
+            <div class="businessCompanyData">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row billInfo">
+                        <div class="content">
+                            <div class="clearfix"></div>
+                            <div class="space-custom-5"></div>
+                            <div class="tab-block">
                                           <span class="checkbox">
                                               <label>可簽帳</label>
                                               <label class="checkbox-width">
@@ -991,176 +1035,167 @@
                                                   <span class="lbl"></span>
                                               </label>
                                           </span>
-                                            <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
-                                            <!--<input type="checkbox" disabled="disabled"/>-->
-                                        </div>
-
-                                        <div class="grid-item tab-block">
-                                            <label>信用額度</label>
-                                            <input type="number" class="input-medium medium-c1 input_sta_required text-right" />
-                                        </div>
-                                        <div class="grid-item tab-block">
-                                            <label>收款方式</label>
-                                            <select class="input-medium medium-c1">
-                                                <option value="-1">代號-名稱</option>
-                                                <option value="1">01-月結30天</option>
-                                                <option value="2">02-月結45天</option>
-                                                <option value="3">03-月結60天</option>
-                                                <option value="4">04-月結75天</option>
-                                            </select>
-                                        </div>
-                                        <div class="grid-item tab-block">
-                                            <label>目前簽帳金額</label>
-                                            <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="0"/>
-                                        </div>
-                                        <div class="grid-item tab-block">
-                                            <label>信用額度餘額</label>
-                                            <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="123"/>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
+                                <!--<input type="checkbox" disabled="disabled"/>-->
                             </div>
-                            <div class="col-sm-1 col-xs-1">
-                                <div class="row">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                            role="button">離開</button>
-                                </div>
+
+                            <div class="grid-item tab-block">
+                                <label>信用額度</label>
+                                <input type="number"
+                                       class="input-medium medium-c1 input_sta_required text-right"/>
+                            </div>
+                            <div class="grid-item tab-block">
+                                <label>收款方式</label>
+                                <select class="input-medium medium-c1">
+                                    <option value="-1">代號-名稱</option>
+                                    <option value="1">01-月結30天</option>
+                                    <option value="2">02-月結45天</option>
+                                    <option value="3">03-月結60天</option>
+                                    <option value="4">04-月結75天</option>
+                                </select>
+                            </div>
+                            <div class="grid-item tab-block">
+                                <label>目前簽帳金額</label>
+                                <input type="number" class="input-medium medium-c1 text-right"
+                                       disabled="disabled" placeholder="0"/>
+                            </div>
+                            <div class="grid-item tab-block">
+                                <label>信用額度餘額</label>
+                                <input type="number" class="input-medium medium-c1 text-right"
+                                       disabled="disabled" placeholder="123"/>
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
                 </div>
-                <!-- /.信用額度變更 -->
-                <!-- 狀態變更 彈出視窗 -->
-                <div id="bs-company-stateChange-message" class="hide">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="businessCompanyData">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row billInfo no-margin-right">
-                                    <div class="content">
-
-                                        <div class="space-6"></div>
-
-                                        <div class="grid-item">
-                                            <label>狀態</label>
-                                            <select class="input-medium medium-c1">
-                                                <option value="-1">代碼-狀態說明</option>
-                                                <option value="1">01-確認中</option>
-                                                <option value="2">02-已下單</option>
-                                                <option value="3">03-待簽回</option>
-                                                <option value="4">04-已收訂金</option>
-                                                <option value="5">05-取消</option>
-                                            </select>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <!-- 狀態變更  -->
-                                        <table class="easyui-datagrid" title=""  style="height: 200px;"
-                                               data-options="singleSelect:true,collapsible:true,url:'/jsonData/bsCompany_data1.json',method:'get'">
-                                            <thead>
-                                            <tr>
-                                                <th data-options="field:'sort',width:50">序</th>
-                                                <th data-options="field:'num',width:50">代碼</th>
-                                                <th data-options="field:'status',width:80">狀態</th>
-                                                <th data-options="field:'editPerson',width:80">異動者</th>
-                                                <th data-options="field:'editDate',width:150">異動日期</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-1 col-xs-1">
-                                <div class="row">
-                                    <ul>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                                    role="button">確定</button>
-                                        </li>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                                    role="button">取消</button>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </div>
+                <div class="col-sm-1 col-xs-1">
+                    <div class="row">
+                        <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                role="button">離開
+                        </button>
                     </div>
-                    <div class="clearfix"></div>
                 </div>
-                <!-- /.狀態變更 -->
-                <!-- 顯示月份明細 彈出視窗 -->
-                <div id="bs-company-displayMonth-message" class="hide">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="margin-5">
-                            <!-- 貢獻度-顯示月份明細 dataGrid -->
-                            <table id="displayMonth-table"></table>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <!-- /.顯示月份明細 -->
-                <!-- 修改業務員 彈出視窗 -->
-                <div id="bs-company-editClerk-message" class="hide">
-                    <div class="col-sm-12 col-xs-12">
-                        <div class="businessCompanyData">
-                            <div class="col-sm-10 col-xs-10">
-                                <div class="row billInfo">
-                                    <div class="content">
-                                        <div class="space-custom-5"></div>
-                                        <div class="grid-item tab-block">
-                                            <label>指定業務員</label>
-                                            <select class="input-medium medium-c1">
-                                                <option value="1">陳瑞克</option>
-                                                <option value="2">王大園</option>
-                                            </select>
-                                        </div>
-                                        <div class="clearfix"></div>
-
-                                          <div class="checkbox clerkCheckbox">
-                                              <!---->
-                                              <label class="">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl"><span class="txt">更新未來訂房卡</span></span>
-                                              </label>
-                                              <label></label>
-                                          </div>
-
-                                        <div class="space-6"></div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-xs-2">
-                                <div class="row no-margin-right">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                            role="button">修改業務員</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                </div>
-                <!-- /.顯示月份明細 -->
-            </div><!-- /.roomNumPlanPage -->
             </div>
         </div>
-    </div><!-- /.main-content -->
-    <%- include ../../common/footer %>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.信用額度變更 -->
+    <!-- 狀態變更 彈出視窗 -->
+    <div id="bs-company-stateChange-message" class="hide">
+        <div class="col-sm-12 col-xs-12">
+            <div class="businessCompanyData">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row billInfo no-margin-right">
+                        <div class="content">
 
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
+                            <div class="space-6"></div>
 
-<!-- basic scripts -->
+                            <div class="grid-item">
+                                <label>狀態</label>
+                                <select class="input-medium medium-c1">
+                                    <option value="-1">代碼-狀態說明</option>
+                                    <option value="1">01-確認中</option>
+                                    <option value="2">02-已下單</option>
+                                    <option value="3">03-待簽回</option>
+                                    <option value="4">04-已收訂金</option>
+                                    <option value="5">05-取消</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <!-- 狀態變更  -->
+                            <table class="easyui-datagrid" title="" style="height: 200px;"
+                                   data-options="singleSelect:true,collapsible:true,url:'/jsonData/bsCompany_data1.json',method:'get'">
+                                <thead>
+                                <tr>
+                                    <th data-options="field:'sort',width:50">序</th>
+                                    <th data-options="field:'num',width:50">代碼</th>
+                                    <th data-options="field:'status',width:80">狀態</th>
+                                    <th data-options="field:'editPerson',width:80">異動者</th>
+                                    <th data-options="field:'editDate',width:150">異動日期</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-xs-1">
+                    <div class="row">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                        role="button">確定
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                        role="button">取消
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.狀態變更 -->
+    <!-- 顯示月份明細 彈出視窗 -->
+    <div id="bs-company-displayMonth-message" class="hide">
+        <div class="col-sm-12 col-xs-12">
+            <div class="margin-5">
+                <!-- 貢獻度-顯示月份明細 dataGrid -->
+                <table id="displayMonth-table"></table>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.顯示月份明細 -->
+    <!-- 修改業務員 彈出視窗 -->
+    <div id="bs-company-editClerk-message" class="hide">
+        <div class="col-sm-12 col-xs-12">
+            <div class="businessCompanyData">
+                <div class="col-sm-10 col-xs-10">
+                    <div class="row billInfo">
+                        <div class="content">
+                            <div class="space-custom-5"></div>
+                            <div class="grid-item tab-block">
+                                <label>指定業務員</label>
+                                <select class="input-medium medium-c1">
+                                    <option value="1">陳瑞克</option>
+                                    <option value="2">王大園</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
 
-</body>
+                            <div class="checkbox clerkCheckbox">
+                                <!---->
+                                <label class="">
+                                    <input name="form-field-checkbox" type="checkbox" class="ace">
+                                    <span class="lbl"><span class="txt">更新未來訂房卡</span></span>
+                                </label>
+                                <label></label>
+                            </div>
+
+                            <div class="space-6"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="row no-margin-right">
+                        <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
+                                role="button">修改業務員
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
 
 <script type="text/javascript">
-    $(function (){
+    $(function () {
 
         // 彈出SettingNewDialog
         $(document).on('click', ".changeCreditLimit", function (e) {
@@ -1299,125 +1334,125 @@
 
         // 業務員資料維護-查詢結果 dataGrid
         $('#clerkDataGridResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_clerkDataGridResult.json',
-            method:'get',
-            columns:[[
-                {field:'clerkNum',title:'Sales Id',width:100},
-                {field:'clerkName',title:'Name',width:100},
-                {field:'ifStaff',title:'Employee',width:100},
-                {field:'status',title:'Status',width:100},
-                {field:'disabledYear',title:'Stop Date',width:100},
-                {field:'clerkTeam',title:'Team',width:100},
-                {field:'hotelBusiness',title:'Hotel',width:100},
-                {field:'foodBusiness',title:'F&B',width:100},
-                {field:'memberBusiness',title:'Membership',width:100}
+            url: '/jsonData/bsCompany_clerkDataGridResult.json',
+            method: 'get',
+            columns: [[
+                {field: 'clerkNum', title: 'Sales Id', width: 100},
+                {field: 'clerkName', title: 'Name', width: 100},
+                {field: 'ifStaff', title: 'Employee', width: 100},
+                {field: 'status', title: 'Status', width: 100},
+                {field: 'disabledYear', title: 'Stop Date', width: 100},
+                {field: 'clerkTeam', title: 'Team', width: 100},
+                {field: 'hotelBusiness', title: 'Hotel', width: 100},
+                {field: 'foodBusiness', title: 'F&B', width: 100},
+                {field: 'memberBusiness', title: 'Membership', width: 100}
             ]]
 
         });
 
         //  新增拜訪查詢
         $('#NewVisitResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_newVisit.json',
-            method:'get',
-            columns:[[
-                {field:'clerkNum',title:'Choose',width:60},
-                {field:'clerkName',title:'Co. Id',width:80},
-                {field:'ifStaff',title:'Co. Name',width:180},
-                {field:'status',title:'Status',width:50},
-                {field:'subject',title:'Contract',width:70},
-                {field:'disabledYear',title:'Co. Type',width:60},
-                {field:'clerkTeam',title:'Category',width:70},
-                {field:'hotelBusiness',title:'Region',width:70},
-                {field:'memberBusiness',title:'Industry',width:60}
+            url: '/jsonData/bsCompany_newVisit.json',
+            method: 'get',
+            columns: [[
+                {field: 'clerkNum', title: 'Choose', width: 60},
+                {field: 'clerkName', title: 'Co. Id', width: 80},
+                {field: 'ifStaff', title: 'Co. Name', width: 180},
+                {field: 'status', title: 'Status', width: 50},
+                {field: 'subject', title: 'Contract', width: 70},
+                {field: 'disabledYear', title: 'Co. Type', width: 60},
+                {field: 'clerkTeam', title: 'Category', width: 70},
+                {field: 'hotelBusiness', title: 'Region', width: 70},
+                {field: 'memberBusiness', title: 'Industry', width: 60}
             ]]
 
         });
 
         //  新增拜訪編輯
         $('#NewVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_newVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60}
+            url: '/jsonData/bsCompany_newVisitRecord.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60}
             ]]
 
         });
 
         //修改拜訪記錄
         $('#ModifyVisitResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_modifyVisit.json',
-            method:'get',
-            columns:[[
-                {field:'VisitCheck',title:'Choose',width:60},
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60},
-                {field:'visitAdd',title:'Add Date',width:60},
-                {field:'visitAddUser',title:'Add Staff',width:60},
-                {field:'visitLD',title:'Last Revise Date',width:60},
-                {field:'visitLS',title:'Last Revise Staff',width:60}
+            url: '/jsonData/bsCompany_modifyVisit.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitCheck', title: 'Choose', width: 60},
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60},
+                {field: 'visitAdd', title: 'Add Date', width: 60},
+                {field: 'visitAddUser', title: 'Add Staff', width: 60},
+                {field: 'visitLD', title: 'Last Revise Date', width: 60},
+                {field: 'visitLS', title: 'Last Revise Staff', width: 60}
             ]]
 
         });
 
         $('#ModifyVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
+            singleSelect: true,
+            collapsible: true,
             // 從json 撈
-            url:'/jsonData/bsCompany_modifyVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'VisitNum',title:'Co. Id',width:80},
-                {field:'VisitName',title:'Co. Name',width:100},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60},
-                {field:'visitAdd',title:'Add Date',width:60},
-                {field:'visitAddUser',title:'Add Staff',width:60},
-                {field:'visitLD',title:'Last Revise Date',width:60},
-                {field:'visitLS',title:'Last Revise Staff',width:60}
+            url: '/jsonData/bsCompany_modifyVisitRecord.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60},
+                {field: 'visitAdd', title: 'Add Date', width: 60},
+                {field: 'visitAddUser', title: 'Add Staff', width: 60},
+                {field: 'visitLD', title: 'Last Revise Date', width: 60},
+                {field: 'visitLS', title: 'Last Revise Staff', width: 60}
             ]]
 
         });

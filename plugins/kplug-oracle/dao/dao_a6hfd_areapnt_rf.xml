@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830110'] 查詢多筆資料-->
+    <dao name="QRY_A6HFD_AREAPNT_RF">
+        <statement><![CDATA[
+                 select athena_id, hotel_cod, areapnt_cod, areapnt_nam, areapnt_sta, client_nam, bill_printer, uniinv_printer, ins_dat, ins_usr, upd_dat, upd_usr
+                  from a6hfd_areapnt_rf
+                  where athena_id = ? and trim(hotel_cod) = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0830110'] 查詢單筆資料-->
+    <dao name="QRY_SINGLE_A6HFD_AREAPNT_RF">
+        <statement><![CDATA[
+                select athena_id, hotel_cod, areapnt_cod, areapnt_nam, areapnt_sta, client_nam, bill_printer, uniinv_printer, ins_dat, ins_usr, upd_dat, upd_usr
+                from a6hfd_areapnt_rf
+                where athena_id = ? and hotel_cod = ? and areapnt_cod = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">areapnt_cod</parameter>
+    </dao>
+</root>

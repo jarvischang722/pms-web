@@ -376,7 +376,7 @@
 								boxShadow += ",";
 							}
 
-							boxShadow += 'inset 0 -' + (parseInt(i) + 1) * weight + 'px 0 0 ' + events[i].color;
+							boxShadow = 'inset 0 -' + (parseInt(i) + 1) * weight + 'px 0 0 ' + events[i].color;
 						}
 
 						elt.parent().css('box-shadow', boxShadow);

@@ -1,273 +1,208 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ../../common/head %>
-<%- include ../../common/importFiles %>
+<div class="page-content">
+    <div class="">
+        <div class="page-header">
+        </div><!-- /.page-header -->
 
-
-<body class="no-skin" id="app">
-
-<!-- #section:basics/navbar.layout -->
-<%- include ../../common/navbar.ejs %>
-<!-- include header.html -->
-<script type="text/javascript">
-    var global_using_prg_id = ""; //目前使用中的程式
-
-
-    $(function () {
-        //選第一個對照檔
-        $("#settingUl li").first().find("a").click();
-
-    })
-
-    //網頁讀取
-    function loadSettingPage(prg_id) {
-
-//        $("#controlReservationTab01").load('/mainSetUp/' + prg_id);
-        //TODO 需改成用load的方式
-        var iframe = document.getElementById('proIframe');
-        iframe.src = '/mainSetUp/' + prg_id;
-    }
-
-    // 判斷iframe 大小
-    function resizeIframe(obj) {
-        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-    }
-
-</script>
-<!-- /section:basics/navbar.layout -->
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
-
-    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-
-        <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
-
-        <div class="companyInfo">
-            <img src="/images/athena_log.png"/>
-        </div>
-        <!-- /section:basics/sidebar.layout.minimize -->
-    </div>
-
-    <!-- /section:basics/sidebar -->
-
-    <div class="main-content">
-        <div class="main-content-inner">
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0100000',pro_id:''}) %>
-            <div class="page-content">
-                <div class="">
-                    <div class="page-header">
-                    </div><!-- /.page-header -->
-
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row no-margin-right">
-                                    <div class="search-content">
-                                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                        <div class="search-co blockSetting">
-                                            <div class="search-co-h">
-                                                <i class="ace-icon fa fa-search search-icon"></i>
-                                                <span>搜尋</span>
-                                                <div class="row search-right-btn">
-                                                    <div class="right-btn-menu-co">
-                                                        <ul>
-                                                            <li>
-                                                                <i class="fa fa-chevron-down show-search-detail"></i>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="search-co-content col-xs-12">
-                                                    <div class="col-sm-4">
-
-                                                    </div>
-                                                    <div class="col-sm-4">
-
-                                                    </div>
-                                                    <div class="col-sm-4">
-
-                                                    </div>
-                                                </div>
-                                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                                    <div class="row search-footer-btn">
-                                                        <div class="footer-btn-menu-co">
-                                                            <ul>
-                                                                <li>
-                                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢" style="padding: 0 0 5px 0;">
-                                                                        <div class="icon-reStyle icon-co-14"></div>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="" data-rel="tooltip"
-                                                                         data-placement="bottom"
-                                                                         title="清除" style="padding: 0 0 5px 0;">
-                                                                        <div class="icon-reStyle icon-co-11"></div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>  <!-- /.footer-btn-menu-co -->
-                                                    </div> <!-- /.search-footer-btn -->
-
-                                                    <div class="grid width-95">
-                                                        <div class="grid-item block-table pull-left">
-                                                            <label>Start Date</label>
-                                                            <input type="date" class="input-medium input-spc-key" placeholder="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="grid width-95">
-                                                        <div class="grid-item block-table pull-left">
-                                                            <label>End Date</label>
-                                                            <input type="date" class="input-medium input-spc-key" placeholder="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="grid width-95">
-                                                        <div class="grid-item block-table pull-left">
-                                                            <label>Room Type</label>
-                                                            <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
-                                                            <span class="moreClick">...</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                            </div> <!-- row-->
-                                        </div> <!-- /.search-co -->
-                                    </div> <!-- /.row  search-content-->
-                                </div>
-                            </div>
-                        </div> <!-- /.col-sm-12 -->
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12">
-                            <!--<div class="blockSetting-heading">查詢結果</div>-->
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row no-margin-right">
-                                    <!--  鎖控明細表格 -->
-                                    <%- include PMS0100000_module/PMS0130010Table_1 %>
-
-                                    <!--  /.End 鎖控明細表格 -->
-                                </div>
-                            </div>
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li class="openDetails openDetailsTxt">
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">Show Details</button>
-                                            </li>
-                                            <li class="openDetails closeDetailsTxt" style="display: none; margin-top: -5px;">
-                                                <button class="btn btn-primary btn-white btn-defaultWidth "
-                                                        role="button">Hide Details</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth PMS0130010Btn"
-                                                        role="button">Setting</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">Save</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">Exit</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- /.col-sm-12 -->
-                        <div class="clearfix"></div>
-
-                    </div>
-                    <!-- PMS0130010 超訂-設定 彈出視窗 -->
-                    <div id="PMS0130010Btn-page" class="hide padding-5" style="">
-                        <div class="businessCompanyData">
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="row">
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="main-content-data">
-                                            <div class="grid">
-                                                <div class="grid-item block-table pull-left">
-                                                    <label>Start Date</label>
-                                                    <input type="date" class="input-medium input-spc-key" placeholder="">
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item block-table pull-left">
-                                                    <label>End Date</label>
-                                                    <input type="date" class="input-medium input-spc-key" placeholder="">
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item block-table pull-left">
-                                                    <label>Room Type</label>
-                                                    <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item block-table pull-left">
-                                                    <label>Qnt.</label>
-                                                    <input type="text" class="input-medium input-spc-key" placeholder="">
-                                                </div>
-                                            </div>
-
-                                        </div><!--main-content-data-->
-
-                                        <div class="clearfix"></div>
-
-                                    </div>
-                                    <div class="col-xs-1 col-sm-1">
-                                        <div class="row">
-                                            <div class="right-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Setting
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button">Clear
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth blockSettingDetails"
-                                                                role="button">Exit
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <div class="search-content">
+                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                            <div class="search-co blockSetting">
+                                <div class="search-co-h">
+                                    <i class="ace-icon fa fa-search search-icon"></i>
+                                    <span>搜尋</span>
+                                    <div class="row search-right-btn">
+                                        <div class="right-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa fa-chevron-down show-search-detail"></i>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
+                                <div class="row">
+                                    <div class="search-co-content col-xs-12">
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                    </div>
+                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                        <div class="row search-footer-btn">
+                                            <div class="footer-btn-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="查詢" style="padding: 0 0 5px 0;">
+                                                            <div class="icon-reStyle icon-co-14"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="" data-rel="tooltip"
+                                                             data-placement="bottom"
+                                                             title="清除" style="padding: 0 0 5px 0;">
+                                                            <div class="icon-reStyle icon-co-11"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>  <!-- /.footer-btn-menu-co -->
+                                        </div> <!-- /.search-footer-btn -->
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>Start Date</label>
+                                                <input type="date" class="input-medium input-spc-key" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>End Date</label>
+                                                <input type="date" class="input-medium input-spc-key" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>Room Type</label>
+                                                <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div> <!-- row-->
+                            </div> <!-- /.search-co -->
+                        </div> <!-- /.row  search-content-->
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+            <div class="col-xs-12">
+                <!--<div class="blockSetting-heading">查詢結果</div>-->
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <!--  鎖控明細表格 -->
+                        <%- include PMS0100000_module/PMS0130010Table_1 %>
+
+                        <!--  /.End 鎖控明細表格 -->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li class="openDetails openDetailsTxt">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Show Details</button>
+                                </li>
+                                <li class="openDetails closeDetailsTxt" style="display: none; margin-top: -5px;">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth "
+                                            role="button">Hide Details</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth PMS0130010Btn"
+                                            role="button">Setting</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- /.PMS0130010 超訂-設定 彈出視窗 -->
-
                 </div>
-            </div><!-- /.page-content -->
-        </div><!-- /.main-content-inner -->
-    </div><!-- /.main-content -->
-    <%- include ../../common/footer %>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
 
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
+        </div>
+        <!-- PMS0130010 超訂-設定 彈出視窗 -->
+        <div id="PMS0130010Btn-page" class="hide padding-5" style="">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="main-content-data">
+                                <div class="grid">
+                                    <div class="grid-item block-table pull-left">
+                                        <label>Start Date</label>
+                                        <input type="date" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
 
-<!-- basic scripts -->
+                                <div class="grid">
+                                    <div class="grid-item block-table pull-left">
+                                        <label>End Date</label>
+                                        <input type="date" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item block-table pull-left">
+                                        <label>Room Type</label>
+                                        <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
+                                        <span class="moreClick">...</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item block-table pull-left">
+                                        <label>Qnt.</label>
+                                        <input type="text" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div><!--main-content-data-->
+
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Setting
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Clear
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth blockSettingDetails"
+                                                    role="button">Exit
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- /.PMS0130010 超訂-設定 彈出視窗 -->
+
+    </div>
+</div><!-- /.page-content -->
 
 
-</body>
 <script type="text/javascript">
     var treeTdId = new Set();
     $(function () {
