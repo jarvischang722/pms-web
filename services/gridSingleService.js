@@ -16,6 +16,7 @@ var commonRule = require("../ruleEngine/rules/CommonRule");
 var logSvc = require("./logService");
 var mailSvc = require("./mailService");
 var langSvc = require("./langService");
+var ruleAgent = require("../ruleEngine/ruleAgent");
 /**
  * 抓取singlePage 欄位資料
  * @param session {Object}: session
@@ -59,16 +60,64 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                     la_fields[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
-
-                            });
+                            })
                         }
-                    );
+                    )
+                }
+
+                //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
+                var attrName = field.attr_func_name;
+                if(!_.isEmpty(attrName)) {
+                    selectDSFunc.push(
+                        function (callback) {
+                            if (field.visiable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.modificable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.requirable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            la_fields[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            }
+                        }
+                    )
                 }
             });
 
             async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result);
-            });
+                callback(err, result)
+            })
         },
         //3) 撈取page2 如果有grid的資料跟欄位
         function (result, callback) {
@@ -111,7 +160,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
             }
 
         },
-        //3 處理欄位多語系
+        //4 處理欄位多語系
         function (fields, callback) {
             mongoAgent.LangUIField.find({
                 prg_id: prg_id,
@@ -503,7 +552,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             var value = data[objKey];
 
                             _.each(la_dtFields, function (row) {
-                                if(row.ui_field_name == objKey){
+                                if (row.ui_field_name == objKey) {
                                     var finalValue = changeValueFormat4Save(value, row.ui_type);
                                     value = finalValue ? finalValue : value;
                                 }
@@ -589,7 +638,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                 // } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
                                 //     tmpEdit[objKey] = parseFloat(tmpEdit[objKey]) / 100;
                                 // }
-                                if(row.ui_field_name == objKey) {
+                                if (row.ui_field_name == objKey) {
                                     var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
                                     tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
                                 }
@@ -983,7 +1032,12 @@ function dataValueChange(fields, data) {
             _.each(fields, function (row) {
                 if (row.ui_field_name == objKey) {
                     var finalValue = changeValueFormat(value, row.ui_type);
-                    data[objKey] = finalValue ? finalValue : value;
+                    if(row.ui_type != "checkbox"){
+                        data[objKey] = finalValue ? finalValue : value;
+                    }else {
+                        data[objKey] = finalValue;
+                    }
+
                 }
             })
         }
@@ -1001,6 +1055,12 @@ function changeValueFormat(value, ui_type) {
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
         valueTemp = (parseFloat(value) * 100);
+    } else if(ui_type == "checkbox"){
+        if(value == "Y"){
+            valueTemp = true;
+        }else {
+            valueTemp = false;
+        }
     }
 
     return valueTemp;
@@ -1013,6 +1073,12 @@ function changeValueFormat4Save(value, ui_type) {
         valueTemp = value.replace(":", "");
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) / 100;
+    }else if(ui_type == "checkbox"){
+        if(value.toUpperCase() == "TRUE"){
+            valueTemp = "Y";
+        }else {
+            valueTemp = "N";
+        }
     }
 
     return valueTemp;

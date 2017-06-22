@@ -5,6 +5,8 @@
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
         </div>
     </div>
+
+
     <div class="col-xs-12" v-show="!isTableLock">
         <div class="col-sm-11 col-xs-11">
             <div class="row no-margin-right">
@@ -73,4 +75,5 @@
     var gs_prg_id = '<%= prg_id %>';
 </script>
 <%- include vueTemplate/multiLangDialogTmp.ejs %>
+
 <script src="/js/setup/datagrid.js"></script>

@@ -27,12 +27,14 @@
                                         <input v-model="singleData.subject"
                                                class="input-medium checkMail"
                                                maxlength="4000"
+                                               :class="{errorTextArea:lo_formatError.subject}"
                                                placeholder="[[%%訂房公司%%]]訂房確認書"
                                                @keyup="keyUpContent('subject',$event)"
-                                               @mouseup="mouseUpContent('subject',$event)"/>
+                                               @mouseup="mouseUpContent('subject',$event)"
+                                               @change="checkContentFormat"/>
 
 
-                                        <p v-show="lo_formatError.subject" style="color: red;">格式錯誤！</p>
+                                        <p v-show="lo_formatError.subject" style="color: red;margin-left: 95px;">格式錯誤！</p>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -46,7 +48,7 @@
                                                             @change="checkContentFormat"
                                                             v-model="singleData.content"
                                                             maxlength="4000"
-                                                            :class="{errorTextArea:isContentFormatError}"
+                                                            :class="{errorTextArea:lo_formatError.content}"
                                                             class="input-xxlarge margin-adjust"
                                                             rows="5">
                                                     </textarea>

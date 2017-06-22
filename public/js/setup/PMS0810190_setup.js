@@ -1,7 +1,7 @@
 /**
  * Created by Jun on 2017/6/14.
  */
-
+Vue.use(VeeValidate);
 var gs_dgName = "PMS0810190_dg";
 /** DatagridRmSingleGridClass ***/
 function DatagridSingleGridClass() {
@@ -21,7 +21,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 Vue.component('single-grid-pms0810190-tmp', {
     template: '#singleGridPMS0810190Tmp',
-    props: ['isEditStatus', 'isCreateStatus', 'singleData', 'useCodList', 'pageOneDataGridRows', 'editingRow'],
+    props: ['isEditStatus', 'isCreateStatus', 'singleData', 'useCodList', 'pageOneDataGridRows', 'editingRow','lo_formatError'],
     watch: {
         editingRow: function (newRow) {
 
@@ -48,10 +48,7 @@ Vue.component('single-grid-pms0810190-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-            lo_formatError: {
-                subject: false,
-                content: false
-            },
+
             isSubjectFormatError: false,
             isContentFormatError: false,
             lo_curForTextArea: {},  //textArea 游標Object
@@ -86,35 +83,16 @@ Vue.component('single-grid-pms0810190-tmp', {
             this.$parent.editingRow = _.last(this.pageOneDataGridRows);
             this.$parent.fetchSingleData();
         },
-        //檢查內容格式是否有[[%%xxxx%%]] 對稱
-        checkContentFormat () {
-            var _this = this;
-            _.each(this.lo_formatError, function (errStatus, currentType) {
-                let valContent = _this.singleData[currentType] || "";
-                let openReg = new RegExp(/\[\[\%\%/, "g");
-                let closeReg = new RegExp(/\%\%\]\]/, "g");
-                let openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
-                let closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
-                let reg = new RegExp(/\[\[\%\%(訂房卡號|聯絡人|Full Name|公司名稱|訂房公司)\%\%\]\]/, "g");
-                let regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
-
-                if (openMatchNum == closeMatchNum && regNum == openMatchNum) {
-                    _this.lo_formatError[currentType] = false;
-                } else {
-                    _this.lo_formatError[currentType] = true;
-                }
-            });
-
+        checkContentFormat(){
+             this.$parent.doCheckContentFormat();
         },
         keyUpContent: function (type, e) {
             this.currentType = type;
             this.lo_curForTextArea = new cursor(e);
-            this.checkContentFormat();
         },
         mouseUpContent: function (type, e) {
             this.currentType = type;
             this.lo_curForTextArea = new cursor(e)
-            this.checkContentFormat();
         },
         insertFormatCont: function (content) {
             this.lo_curForTextArea.insertTextInCursor(content);
@@ -145,6 +123,11 @@ let vm = new Vue({
         isDeleteStatus: true,     //刪除狀態
         isAddAfterSave: false,   //新增後繼續修增
         isLeaveAfterSave: false, //儲存後關閉視窗
+        isContentFormatOK : true,// 內容格式是否正確
+        lo_formatError: {
+            subject: false,
+            content: false
+        },
         tmpCUD: {
             createData: [],
             editData: [],
@@ -166,7 +149,8 @@ let vm = new Vue({
         }
 
     },
-    computed: {},
+    computed: {
+    },
     methods: {
         initSingleData(){
             this.singleData = {
@@ -198,6 +182,7 @@ let vm = new Vue({
         getOrderConfirm(){
             axios.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .then(function (response) {
+                    console.log(response.data);
                     let result = response.data;
                     vm.pageOneDataGridRows = result.dataGridRows;
                     vm.pageOneFieldData = result.fieldData;
@@ -281,9 +266,49 @@ let vm = new Vue({
             this.isLeaveAfterSave = true;
             this.doSave();
         },
+        //檢查內容格式是否有[[%%xxxx%%]] 對稱
+        doCheckContentFormat () {
+            var _this = this;
+            _.each(this.lo_formatError, function (errStatus, currentType) {
+                let valContent = _this.singleData[currentType] || "";
+                let openReg = new RegExp(/\[\[\%\%/, "g");
+                let closeReg = new RegExp(/\%\%\]\]/, "g");
+                let openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
+                let closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
+                let reg = new RegExp(/\[\[\%\%(訂房卡號|聯絡人|Full Name|公司名稱|訂房公司)\%\%\]\]/, "g");
+                let regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
+
+                if (openMatchNum == closeMatchNum && regNum == openMatchNum) {
+                    _this.lo_formatError[currentType] = false;
+                } else {
+                    _this.lo_formatError[currentType] = true;
+                }
+            });
+            this.isContentFormatOK = !this.lo_formatError.subject &&  !this.lo_formatError.content;
+        },
+        doVerify(){
+            var isContFmtOK = true;
+            let checkField = [    "confirm_cod","subject","content","use_cod" ];
+            _.each(checkField,function(fieldName){
+                if(isContFmtOK && (_.isUndefined(vm.singleData[fieldName]) || _.isEmpty(vm.singleData[fieldName].trim()))){
+                    var field = _.findWhere(vm.pageTwoFieldData , {ui_field_name: fieldName});
+                    alert("[ "+ field.ui_display_name +  " ] is requirable !");
+                    isContFmtOK = false;
+                }
+            })
+
+            //格式檢查
+            if(!this.isContentFormatOK  ){
+                alert("格式錯誤，請重新檢查");
+                isContFmtOK = false;
+            }
+            return isContFmtOK;
+        },
         doSave: function () {
 
-
+            if(!this.doVerify()){
+                return;
+            }
             if (this.isCreateStatus) {
                 this.tmpCUD.createData = [this.singleData];
             } else if (this.isEditStatus) {
@@ -337,7 +362,7 @@ let vm = new Vue({
             this.isLeaveAfterSave = false;
             this.dialogVisible = true;
             let maxHeight = document.documentElement.clientHeight - 30; //browser 高度 - 70功能列
-            let height = 750; // 預設一個row 高度
+            let height = 550; // 預設一個row 高度
             let dialog = $("#singleGridPMS0810190").dialog({
                 autoOpen: false,
                 modal: true,

@@ -243,6 +243,55 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                         }
                     );
                 }
+
+                //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
+                var attrName = field.attr_func_name;
+                if(!_.isEmpty(attrName)) {
+                    selectDSFunc.push(
+                        function (callback) {
+                            if (field.visiable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.modificable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            } else if (field.requirable == "C") {
+                                if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                        if (result) {
+                                            fieldData[fIdx] = result[0];
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        } else {
+                                            callback(err, {ui_field_idx: fIdx, field: result});
+                                        }
+                                    });
+                                } else {
+                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                }
+                            }
+                        }
+                    )
+                }
             });
 
             async.parallel(selectDSFunc, function (err, result) {
@@ -816,7 +865,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
                     var columnName = funRow["ui_field_name"];
                     lo_result.defaultValues[columnName] = funRow["defaultVal"];
                 }
-            });
+            })
             callback(null, lo_result);
         }
     ], function (err, result) {

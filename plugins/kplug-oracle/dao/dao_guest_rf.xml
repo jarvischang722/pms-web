@@ -19,6 +19,16 @@
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 
+    <!-- ["PMS0810180"]取得預設住客類別-->
+    <dao name="QRY_GW_CUST_RF_DEFAULT_GUEST_TYP">
+        <statement><![CDATA[
+              select guest_typ as value, guest_nam as display
+              from guest_rf
+              where use_sta = 'Y' and athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
     </dao>
 </root>
