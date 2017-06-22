@@ -13,21 +13,11 @@
                                     <!-- #section:elements.tab.position -->
                                     <div class="tabbable tabs-left">
                                         <ul class="nav nav-tabs" id="settingUl">
-                                            <!--<li  :class="{active: usingPrgID == 'PMS0810050'}">-->
-                                            <!--<a-->
-                                            <!--@click="loadSetUpPage('PMS0810050')"-->
-                                            <!--href="javascript:void(0)">-->
-                                            <!--交通接駁設定-->
-                                            <!--</a>-->
-                                            <!--</li>-->
                                             <li v-for="proc in prosList"
                                                 :class="{active: usingPrgID == proc.pro_id}">
-                                                <a
-                                                        @click="loadSetUpPage(proc.pro_id)"
-                                                        href="javascript:void(0)">
+                                                <a  @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
                                                     {{ proc['pro_name_<%= session.locale %>'] != undefined
                                                     ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
-
                                                 </a>
                                             </li>
 
