@@ -4,16 +4,11 @@
             <li v-for="subsysItem in subsysMenu"
                 :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
                 @click.prevent="location.href= '/bacchus4web/'+subsysItem.subsys_id">
-
-                <!--<a href="#" style="color:#FFFFFF;">-->
                     {{
                         subsysItem["subsys_nam_" + locale] != ""
                         ? subsysItem["subsys_nam_" + locale]
                         :subsysItem.subsys_nam
                     }}
-
-                <!--</a>-->
-
             </li>
 
         </ul>
