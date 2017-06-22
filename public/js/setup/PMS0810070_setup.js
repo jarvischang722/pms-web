@@ -36,7 +36,6 @@ function getOnlyHolidayDate() {
     var params = {
         year: gs_calendar_year
     };
-    var start = new Date().getTime();
     axios.post("/api/getHolidayDateSet", params)
         .then(function (getResult) {
             go_holidayDate = getResult.data.dateSetData;
@@ -292,7 +291,6 @@ function splitRgb(rgb) {
             return rgb;
         } else {
             rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-            // return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
             return rgb;
         }
     }
