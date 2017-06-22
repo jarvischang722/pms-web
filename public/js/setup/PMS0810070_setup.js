@@ -269,21 +269,21 @@ function saveIntoOracleHolidayRf() {
         fieldData: fieldData,
         mainTableName: "holiday_rf"
     };
-    // waitingDialog.show('Saving...');
-    // axios.post("/api/execSQLProcess", params)
-    //     .then(function (response) {
-    //         waitingDialog.hide();
-    //         if (response.data.success) {
-    //             alert('save success!');
-    //             // getHolidayDateSet();
-    //         } else {
-    //             alert(response.data.errorMsg);
-    //         }
-    //     })
-    //     .catch(function (error) {
-    //         waitingDialog.hide();
-    //         console.log(error);
-    //     });
+    waitingDialog.show('Saving...');
+    axios.post("/api/execSQLProcess", params)
+        .then(function (response) {
+            waitingDialog.hide();
+            if (response.data.success) {
+                alert('save success!');
+                // getHolidayDateSet();
+            } else {
+                alert(response.data.errorMsg);
+            }
+        })
+        .catch(function (error) {
+            waitingDialog.hide();
+            console.log(error);
+        });
 }
 
 // splitRgb
