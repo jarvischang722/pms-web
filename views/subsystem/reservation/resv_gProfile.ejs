@@ -94,32 +94,38 @@
                                         <div class="grid width-95">
                                             <div class="grid-item block-table pull-left">
                                                 <label>身分證字號</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                                <input type="text" class="input-medium popWindow-s2" placeholder="">
+                                            </div>
+                                            <div class="grid-item block-table pull-left">
+                                                <label>國籍</label>
+                                                <input type="text" class="input-medium popWindow-s2" placeholder="">
                                             </div>
                                         </div>
 
                                         <div class="grid width-95">
                                             <div class="grid-item block-table pull-left">
                                                 <label>出生日期</label>
-                                                <input type="date" class="input-medium popWindow-s1" placeholder="" style="width: 138px;">
+                                                <input type="date" class="input-medium popWindow-s2" placeholder="">
                                             </div>
                                             <div class="grid-item block-table pull-left">
                                                 <label>C/I 日期</label>
-                                                <input type="date" class="input-medium popWindow-s1" placeholder="" style="width: 138px;">
+                                                <input type="date" class="input-medium popWindow-s2" placeholder="">
                                             </div>
                                         </div>
 
-                                        <div class="grid width-95">
-                                            <div class="grid-item block-table pull-left">
-                                                <label>國籍</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="2017/6/6">
-                                            </div>
-                                        </div>
 
                                         <div class="grid width-95">
                                             <div class="grid-item block-table pull-left">
                                                 <label>消費總額</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2 text-right" placeholder="">
+                                                <input type="text" class="input-medium popWindow-s2 text-right" placeholder="">
+                                            </div>
+
+                                            <div class="grid-item block-table pull-left">
+                                                <label>是否收取DM</label>
+                                                <select class="input-medium popWindow-s2">
+                                                    <option value="y">Y</option>
+                                                    <option value="n">N</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -142,13 +148,6 @@
                                         <div class="grid width-95">
                                             <div class="grid-item block-table pull-left">
                                                 <label>公司名稱</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
-                                            </div>
-                                        </div>
-
-                                        <div class="grid width-95">
-                                            <div class="grid-item block-table pull-left">
-                                                <label>是否收取DM</label>
                                                 <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
                                             </div>
                                         </div>
@@ -175,15 +174,15 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                            role="button">add</button>
+                                            role="button">Add</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
-                                            role="button">edit</button>
+                                            role="button">Edit</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            role="button">delete</button>
+                                            role="button">Delete</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -216,48 +215,6 @@
 <!--fixTable-->
 <script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
 
-<script type="text/javascript">
-    $(function () {
-
-        // 彈出 住客歷史
-        $(document).on('click', ".reservationDialog-2", function (e) {
-            e.preventDefault();
-            var dialog = $("#reservationDialog-2-message").removeClass('hide').dialog({
-                modal: true,
-                title: "住客歷史",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 住客歷史多筆資料
-        $('#resv_gProfile-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/resv_gProfile.json',
-            method: 'get',
-            columns: [[
-                {field: 'option', title: '選擇', width: 80},
-                {field: 'historyNO', title: '歷史編號', width: 80},
-                {field: 'personID', title: '身份證字號', width: 100},
-                {field: 'fullName', title: 'Full Nmae', width: 80},
-                {field: 'sex', title: '性別', width: 60},
-                {field: 'birthDate', title: '出生日期', width: 100},
-                {field: 'status', title: '狀態', width: 60},
-                {field: 'creditNum', title: '信用卡號', width: 140},
-                {field: 'country', title: '國籍', width: 100},
-                {field: 'language', title: '語言', width: 100},
-                {field: 'getDM', title: '收取DM', width: 60},
-            ]]
-
-        });
-
-    });
-</script>
-</html>
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

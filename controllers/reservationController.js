@@ -50,3 +50,10 @@ exports.getPMS0130010 = function (req, res) {
 exports.getResv_gProfile = function (req, res) {
     res.render("subsystem/reservation/resv_gProfile");
 };
+
+/**
+ * 訂房卡多筆(靜態 quickMenu)
+ */
+exports.getResv_bookings = function (req, res) {
+    res.render("subsystem/reservation/resv_bookings");
+};

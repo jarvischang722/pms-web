@@ -116,30 +116,32 @@ a
       margin-bottom: 5px !important
       width: 100%
       li
-        font-size: $font-16
+        font-size: $font-14
         background: #ffbb22
         color: #fff
         //padding: 5px 20px //edit 符合1024
-        padding: 3px 10px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
         text-align: center
         display: inline-block
         box-sizing: border-box
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #ffc666
-      li.active-01
-        background: #D15B47
+        &.active-01
+          background: #D15B47
 
   .secondMenu-ul
     margin: 5px 0 5px 10px
     ul
       margin-left: 0 !important
       li
-        //margin: 0 0 10px 0
         //padding: 3px 20px  //edit 符合1024
-        padding: 5px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
@@ -148,6 +150,9 @@ a
         box-sizing: border-box
         color: #555
         cursor: pointer
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #c6c6c6
           color: #fff
@@ -769,6 +774,9 @@ ul.newVisitOther-btn
   .contentInput
     width: 78.5%
     margin-left: 3px
+  .textArea-w1
+    width: 414px
+    margin-left: 3px
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
@@ -793,11 +801,117 @@ ul.newVisitOther-btn
   span
     padding-right: 20px
 
+// 訂房卡 changeLog
+.resv-changeRecord
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item
+      width: 23%
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+// 訂房卡 Memo
+.resv-memo
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item-1
+      width: 30%
+      height: auto
+    .grid-item-2
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+//int_Counter．html
+.rulesOfSeparation
+  //position: relative
+  max-height: 600px
+  overflow: auto
+  .counterRow
+    //margin: 0 auto
+    .counterBlock
+      float: left
+      margin: 0 1px 1px 0
+      border: 2px solid #fff
+      position: relative
+      padding: 5px
+      //min-width: 100%
+      //min-height: 100%
+      width: 129px
+      height: 55px
+      line-height: 23px
+      box-sizing: border-box
+      background: #c0d6ee
+      color: #000
+      cursor: pointer
+      @include color-bk
+      &:hover
+        opacity: 0.6
+      .head
+        .left
+          position: absolute
+          top: 5px
+          left: 5px
+        .right
+          position: absolute
+          top: 5px
+          right: 5px
+        .txt-lg
+          font-weight: bold
+          font-size: 18px
+          line-height: 18px
+      .content
+        position: absolute
+        top: 25px
+        left: 5px
+      .content-sub
+        .left
+          position: absolute
+          top: 45px
+          left: 5px
+      .foot
+        position: absolute
+        bottom: 5px
+        left: 5px
+        .red-tip
+          span
+            color: #ff0000
+      //font-weight: bold
+      //font-size: 14px
+      .foot-right
+        position: absolute
+        bottom: 5px
+        right: 5px
+        span
+          color: #D15B47
+
+
 //Ho-鎖控
-.blockSetting
-  .block-table
-    label
-      width: 120px !important
 .bloch-btn-single
   margin-bottom: 137px
 .blockSetting-heading
@@ -819,3 +933,72 @@ ul.newVisitOther-btn
   width: 300px
   max-width: 100%
   height: 25px
+
+//ho訂房卡列印、列印預覽
+.print-preview-content
+  .main-content-data
+    width: 650px
+    margin: 20px auto 0 auto
+.print-preview-content
+  border: 1px solid blue
+  margin: 15px
+  display: inline-block
+  padding: 0 15px
+  padding-bottom: 20px
+  h4
+    text-align: center
+  .grid-item
+    width: 48%
+    text-align: center
+    label
+      width: 90px
+    span
+      display: inline-block
+      width: 160px
+      text-align: left
+      margin-top: 5px
+.grid-border
+  border: 1px solid #000
+  width: 100%
+  display: inline-block
+.grid-item.grid-item3
+  width: auto
+  text-align: left
+  span
+    display: inline
+.print-preview-container
+  .horizTable-outer
+    overflow-x: hidden
+    border-top: 1px solid #000
+    padding: 10px 0
+    border-bottom: 1px solid #000
+    margin-bottom: 20px
+.preview-textBox
+  width: 80%
+  margin: 0px auto
+.signal-select
+  width: 95%
+  margin: 31px auto 0 auto
+#reservationDialog-confirm-print,
+#reservationDialog-print
+  overflow-y: hidden
+.preview-textBox
+  p
+    font-size: 14px
+.en-text
+  line-height: 1.4
+.printTableSec
+  margin-top: 20px
+.confirm-preview-content
+  .main-content-data
+    width: 80%
+    margin: 20px auto 0 auto
+.confirm-preview-content
+  border: 1px solid blue
+  margin: 15px
+  display: inline-block
+  padding: 0 15px
+  padding-bottom: 20px
+.preview-textBox
+  .grid-item
+    margin: auto 10px 0 auto

@@ -1,15 +1,15 @@
 {"total":28,
   "rows":[
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"yes","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","creditNum":"1111222233334444","country":"Taiwan","language":"th_zw","getDM":"Y"},
-    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","creditNum":"","country":"","language":"","getDM":""},
-    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","creditNum":"","country":"","language":"","getDM":""},
-    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","creditNum":"","country":"","language":"","getDM":""},
-    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","creditNum":"","country":"","language":"","getDM":""},
-    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","creditNum":"","country":"","language":"","getDM":""}
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"<input type='checkbox'/>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
+    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
+    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
+    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
+    {"option":"","historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""}
     ]}
 

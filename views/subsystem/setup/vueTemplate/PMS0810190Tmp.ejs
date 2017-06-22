@@ -32,9 +32,7 @@
                                                @mouseup="mouseUpContent('subject',$event)"
                                                @change="checkContentFormat"/>
 
-                                        <button type="button" @change="checkContentFormat" class="btn btn-danger btn-white btn-sm btn-height">
-                                        檢查
-                                        </button>
+
                                         <p v-show="lo_formatError.subject" style="color: red;">格式錯誤！</p>
                                     </div>
                                 </div>
@@ -61,6 +59,9 @@
                                             <!--class="btn btn-danger btn-white btn-sm btn-height btnCheck margin-adjust">-->
                                             <!--檢查-->
                                             <!--</button>-->
+                                            <button type="button" class="btn btn-danger btn-white btn-sm btn-height">
+                                                檢查
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
