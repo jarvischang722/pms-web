@@ -32,4 +32,7 @@ module.exports = function(app  ) {
     //訂房卡多筆(靜態 quickMenu)
     app.get('/resv_bookings', reservationCrtl.getResv_bookings);
 
+    //異動紀錄(靜態 quickMenu)
+    app.get('/resv_changeRecords', reservationCrtl.getResv_changeRecords);
+
 };

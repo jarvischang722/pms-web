@@ -57,3 +57,9 @@ exports.getResv_gProfile = function (req, res) {
 exports.getResv_bookings = function (req, res) {
     res.render("subsystem/reservation/resv_bookings");
 };
+/**
+ * 異動紀錄(靜態 quickMenu)
+ */
+exports.getResv_changeRecords = function (req, res) {
+    res.render("subsystem/reservation/resv_changeRecords");
+};
