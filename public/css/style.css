@@ -3018,38 +3018,33 @@ ul.newVisitOther-btn {
   color: #D15B47;
 }
 
-/* line 917, ../sass/_bacchusMain.sass */
-.blockSetting .block-table label {
-  width: 120px !important;
-}
-
-/* line 919, ../sass/_bacchusMain.sass */
+/* line 915, ../sass/_bacchusMain.sass */
 .bloch-btn-single {
   margin-bottom: 137px;
 }
 
-/* line 921, ../sass/_bacchusMain.sass */
+/* line 917, ../sass/_bacchusMain.sass */
 .blockSetting-heading {
   font-size: 16px;
 }
 
-/* line 925, ../sass/_bacchusMain.sass */
+/* line 921, ../sass/_bacchusMain.sass */
 .holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:active {
   background-color: #438EB9;
   color: #fff;
 }
 
-/* line 930, ../sass/_bacchusMain.sass */
+/* line 926, ../sass/_bacchusMain.sass */
 .resvBtn-group {
   margin-top: 30px;
 }
 
-/* line 932, ../sass/_bacchusMain.sass */
+/* line 928, ../sass/_bacchusMain.sass */
 .reservation-pickUp-wrap .right-menu-co {
   margin-top: 30px;
 }
 
-/* line 936, ../sass/_bacchusMain.sass */
+/* line 932, ../sass/_bacchusMain.sass */
 .input-medium.medium-c5 {
   width: 300px;
   max-width: 100%;
@@ -3538,115 +3533,145 @@ a {
   max-width: 100%;
   height: 25px;
 }
-/* line 216, ../sass/modules/_public.sass */
+/* line 215, ../sass/modules/_public.sass */
+.input-medium.popWindow-s1Remark {
+  width: 128px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 218, ../sass/modules/_public.sass */
 .input-medium.popWindow-s2 {
   width: 138px;
   max-width: 100%;
   height: 25px;
 }
-/* line 218, ../sass/modules/_public.sass */
+/* line 220, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1-col2 {
   width: 414px;
   max-width: 100%;
   height: 25px;
 }
-/* line 220, ../sass/modules/_public.sass */
+/* line 222, ../sass/modules/_public.sass */
+.input-medium.popWindow-s1v2-col2 {
+  width: 227px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 224, ../sass/modules/_public.sass */
+.input-medium.popWindow-s1v2-col2RM {
+  width: 200px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 226, ../sass/modules/_public.sass */
+.input-medium.popWindow-s1v2-keyword {
+  width: 460px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 228, ../sass/modules/_public.sass */
+.input-medium.popWindow-s1v2-col3 {
+  width: 562px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 230, ../sass/modules/_public.sass */
 .input-medium.resvCard {
   width: 103px;
   max-width: 100%;
   height: 25px;
 }
-/* line 222, ../sass/modules/_public.sass */
+/* line 232, ../sass/modules/_public.sass */
 .input-medium.resvCard-date {
   width: 135px;
   max-width: 100%;
   height: 25px;
 }
-/* line 224, ../sass/modules/_public.sass */
+/* line 234, ../sass/modules/_public.sass */
 .input-medium.resvCardRemark {
   width: 77px;
   max-width: 100%;
   height: 25px;
 }
-/* line 226, ../sass/modules/_public.sass */
+/* line 236, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2 {
   width: 308px;
   max-width: 100%;
   height: 25px;
 }
-/* line 228, ../sass/modules/_public.sass */
+/* line 238, ../sass/modules/_public.sass */
 .input-medium.resvCard-col3 {
   width: 719px;
   max-width: 100%;
   height: 25px;
 }
-/* line 230, ../sass/modules/_public.sass */
+/* line 240, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Spec1 {
   width: 250px;
   max-width: 100%;
   height: 25px;
 }
-/* line 232, ../sass/modules/_public.sass */
+/* line 242, ../sass/modules/_public.sass */
 .input-medium.resvCard-col2Remark {
   width: 283px;
   max-width: 100%;
   height: 25px;
 }
-/* line 234, ../sass/modules/_public.sass */
+/* line 244, ../sass/modules/_public.sass */
 .input-medium.resvCard-fullRemark {
   width: 698px;
   max-width: 100%;
   height: 25px;
 }
-/* line 236, ../sass/modules/_public.sass */
+/* line 246, ../sass/modules/_public.sass */
 .input-medium.resvCard-col3-fullRemark {
   width: 490px;
   max-width: 100%;
   height: 25px;
 }
-/* line 238, ../sass/modules/_public.sass */
+/* line 248, ../sass/modules/_public.sass */
 .input-medium.resvCard-xs {
   width: 40px;
   max-width: 100%;
   height: 25px;
 }
-/* line 240, ../sass/modules/_public.sass */
+/* line 250, ../sass/modules/_public.sass */
 .input-medium.resvCard-sm {
   width: 81px;
   max-width: 100%;
   height: 25px;
 }
-/* line 242, ../sass/modules/_public.sass */
+/* line 252, ../sass/modules/_public.sass */
 .input-medium.checkMail {
   width: 530px;
   max-width: 100%;
   height: 25px;
 }
-/* line 244, ../sass/modules/_public.sass */
+/* line 254, ../sass/modules/_public.sass */
 .input-medium.large-c1 {
   width: 210px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 246, ../sass/modules/_public.sass */
+/* line 256, ../sass/modules/_public.sass */
 .input-hMedium {
   height: 25px !important;
 }
 
-/* line 248, ../sass/modules/_public.sass */
+/* line 258, ../sass/modules/_public.sass */
 .input-hCol2 {
   height: 55px !important;
 }
 
-/* line 250, ../sass/modules/_public.sass */
+/* line 260, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 434px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 250, ../sass/modules/_public.sass */
+  /* line 260, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -3654,14 +3679,14 @@ a {
   }
 }
 
-/* line 254, ../sass/modules/_public.sass */
+/* line 264, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 254, ../sass/modules/_public.sass */
+  /* line 264, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -3669,35 +3694,35 @@ a {
   }
 }
 
-/* line 258, ../sass/modules/_public.sass */
+/* line 268, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 262, ../sass/modules/_public.sass */
+/* line 272, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 267, ../sass/modules/_public.sass */
+/* line 277, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 270, ../sass/modules/_public.sass */
+/* line 280, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 272, ../sass/modules/_public.sass */
+/* line 282, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 276, ../sass/modules/_public.sass */
+/* line 286, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -3705,7 +3730,7 @@ a {
   position: absolute;
 }
 
-/* line 282, ../sass/modules/_public.sass */
+/* line 292, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 16px !important;
@@ -3715,74 +3740,74 @@ a {
   font-weight: bold;
 }
 
-/* line 293, ../sass/modules/_public.sass */
+/* line 303, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 300, ../sass/modules/_public.sass */
+/* line 310, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"] {
   border-radius: 5px !important;
 }
 
-/* line 318, ../sass/modules/_public.sass */
+/* line 328, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
 
-/* line 322, ../sass/modules/_public.sass */
+/* line 332, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-/* line 325, ../sass/modules/_public.sass */
+/* line 335, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 .checkbox label {
   padding-left: 14px;
 }
-/* line 327, ../sass/modules/_public.sass */
+/* line 337, ../sass/modules/_public.sass */
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
-/* line 329, ../sass/modules/_public.sass */
+/* line 339, ../sass/modules/_public.sass */
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
 }
-/* line 331, ../sass/modules/_public.sass */
+/* line 341, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label {
   width: auto;
 }
-/* line 334, ../sass/modules/_public.sass */
+/* line 344, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
-/* line 339, ../sass/modules/_public.sass */
+/* line 349, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .txt {
   line-height: 22px;
 }
-/* line 342, ../sass/modules/_public.sass */
+/* line 352, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
 }
 
-/* line 345, ../sass/modules/_public.sass */
+/* line 355, ../sass/modules/_public.sass */
 .remarkInput {
   width: 85%;
   margin-left: 5px;
 }
 
-/* line 348, ../sass/modules/_public.sass */
+/* line 358, ../sass/modules/_public.sass */
 .border-raduis-5 {
   border-radius: 5px;
 }
 
-/* line 350, ../sass/modules/_public.sass */
+/* line 360, ../sass/modules/_public.sass */
 .extendGrid {
   position: relative;
 }
-/* line 352, ../sass/modules/_public.sass */
+/* line 362, ../sass/modules/_public.sass */
 .extendGrid .extendIcon {
   position: absolute;
   padding: 0 5px;
@@ -3792,22 +3817,22 @@ input[type="date"] {
   top: -37px;
   cursor: pointer;
 }
-/* line 360, ../sass/modules/_public.sass */
+/* line 370, ../sass/modules/_public.sass */
 .extendGrid .extendIcon:hover {
   background: #69AA46;
 }
-/* line 362, ../sass/modules/_public.sass */
+/* line 372, ../sass/modules/_public.sass */
 .extendGrid .extendIcon.activeBg {
   background: #69AA46;
 }
-/* line 364, ../sass/modules/_public.sass */
+/* line 374, ../sass/modules/_public.sass */
 .extendGrid .extendIcon i {
   color: #fff;
   font-weight: bold;
   -webkit-transform: rotate(0deg);
   -webkit-animation: outAnimation 1s;
 }
-/* line 369, ../sass/modules/_public.sass */
+/* line 379, ../sass/modules/_public.sass */
 .extendGrid .extendIcon i.active {
   -webkit-animation: inAnimation 1s;
   -webkit-transform: rotate(180deg);
@@ -3828,12 +3853,12 @@ input[type="date"] {
     -webkit-transform: rotate(360deg);
   }
 }
-/* line 383, ../sass/modules/_public.sass */
+/* line 393, ../sass/modules/_public.sass */
 .extendGrid .extendContent {
   display: none;
 }
 
-/* line 386, ../sass/modules/_public.sass */
+/* line 396, ../sass/modules/_public.sass */
 .totalMiddle {
   display: inline-block;
   vertical-align: middle;
