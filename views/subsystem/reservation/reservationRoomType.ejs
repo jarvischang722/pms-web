@@ -294,6 +294,23 @@
                 resizable: true
             });
         });
+
+        // 彈出 rvType-btn
+        $(document).on('click', ".rvType-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-rvType").removeClass('hide').dialog({
+                modal: true,
+                title: "狀態變更",
+                title_html: true,
+                width: 500,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -499,6 +516,22 @@
 
         });
 
+        // 批次修改 dataGrid
+        $('#rvTpye-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/rvType.json',
+            method: 'get',
+            columns: [[
+                {field: 'rvTpyeNo', title: '序', width: 50},
+                {field: 'rvTpyeCode', title: '代碼', width: 82},
+                {field: 'rvTpyeState', title: '狀態', width: 150},
+                {field: 'rvTpyeMan', title: '異動者', width: 100},
+                {field: 'rvTpyeDate', title: '異動日期', width: 100}
+            ]]
+
+        });
 
     });
 
