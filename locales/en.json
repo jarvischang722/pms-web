@@ -417,8 +417,8 @@
       "upd_usr": "Modified By"
     },
     "PMS0810070": {
-      "session_nam": "日期別",
-      "date": "日期起",
+      "session_nam": "日期別(英文)",
+      "date": "日期起(英文)",
       "sun_nam": "Sun",
       "mon_nam": "Mon",
       "tue_nam": "Tue",

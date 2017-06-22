@@ -409,13 +409,13 @@
     "PMS0810070": {
       "session_nam": "日期別",
       "date": "日期起",
-      "sun_nam": "Sun",
-      "mon_nam": "Mon",
-      "tue_nam": "Tue",
-      "wed_nam": "Wed",
-      "thu_nam": "Thu",
-      "fri_nam": "Fri",
-      "sat_nam": "Sat"
+      "sun_nam": "日",
+      "mon_nam": "一",
+      "tue_nam": "二",
+      "wed_nam": "三",
+      "thu_nam": "四",
+      "fri_nam": "五",
+      "sat_nam": "六"
     }
   },
   "table_in_use": "%s 使用中",

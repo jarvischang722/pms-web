@@ -13,40 +13,37 @@ var gs_calendar_year;
 
 $(function () {
     initCalendar();
-    getHolidaySet();
-    getHolidayDateSet();
     getHolidayKindSet();
     bindEvent();
 });
 
-// 取假日日期設定資料
-function getHolidaySet() {
-    axios.all([getHolidayKindSet(), getHolidayDateSet()])
-        .then(axios.spread(function (kindSetResult, dateSetResult) {
-                go_holidayKind = kindSetResult.data.dateKindSetData;
-                go_holidayDate = dateSetResult.data.dateSetData;
-                create_dateKind_select_option();
-                genCalendarDataSource();
-                setCalendarDataSource();
-                waitingDialog.hide();
-            })
-        )
+// 取假日種類設定
+function getHolidayKindSet() {
+    axios.post("/api/getHolidayKindSet")
+        .then(function (kindSetResult) {
+            go_holidayKind = kindSetResult.data.dateKindSetData;
+            createDateKindSelectOption();
+        })
         .catch(function (error) {
             console.log(error);
             waitingDialog.hide();
         })
-
 }
 
 // 單獨取日期設定
-function getOnlyHolidayDate() {
-    var holidayDateReq = getHolidayDateSet();
-    holidayDateReq.then(function (getResult) {
-        go_holidayDate = getResult.data.dateSetData;
-        genCalendarDataSource();
-        setCalendarDataSource();
+function getHolidayDateSet() {
 
-    })
+    var params = {
+        year: gs_calendar_year
+    };
+    axios.post("/api/getHolidayDateSet", params)
+        .then(function (getResult) {
+            go_holidayDate = getResult.data.dateSetData;
+            genCalendarDataSource();
+            setCalendarDataSource();
+
+            waitingDialog.hide();
+        })
         .catch(function (err) {
             console.log(err);
             waitingDialog.hide();
@@ -58,8 +55,7 @@ function genCalendarDataSource() {
     _.each(go_holidayDate, function (eachDate) {
 
         var findDate = _.find(ga_dataSource, function (dataSource) {
-            if(moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")){
-                console.log(eachDate.batch_dat);
+            if (moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")) {
                 return dataSource;
             }
         });
@@ -76,21 +72,8 @@ function genCalendarDataSource() {
 
 }
 
-// 取假日種類設定
-function getHolidayKindSet() {
-    return axios.post("/api/getHolidayKindSet");
-}
-
-// 取假日日期設定
-function getHolidayDateSet() {
-    var params = {
-        year: gs_calendar_year
-    }
-    return axios.post("/api/getHolidayDateSet", params);
-}
-
 // 產生日期別下拉選單
-function create_dateKind_select_option() {
+function createDateKindSelectOption() {
     $("#color_scheme").html("");
 
     _.each(go_holidayKind, function (eachOption, index) {
@@ -114,7 +97,7 @@ function initCalendar() {
         clickDay: clickDay,
         yearChanged: function (e) {
             gs_calendar_year = e.currentYear;
-            getOnlyHolidayDate();
+            getHolidayDateSet();
         }
     });
     // 選擇日期區間 or change it into a date range picker
@@ -126,7 +109,8 @@ function initCalendar() {
     function clickDay(e) {
         var lo_clickDate = e.element;
         var ls_select_color = $("#color_scheme option:selected").val();
-        var ls_clickDate_color = rgb2hex($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1')).toUpperCase();
+        var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
+        var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
         var ls_clickDateStr = e.date.toLocaleDateString();
 
         // 顏色不一樣直接設定
@@ -135,7 +119,7 @@ function initCalendar() {
             $(lo_clickDate).css('box-shadow', ls_select_color);
 
             var ga_dataSource_index = _.findIndex(ga_dataSource, function (dataSource) {
-                return moment(dataSource.startDate).format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
+                return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_clickDateStr).format("YYYY/MM/DD");
             });
 
             if (ga_dataSource_index != -1) {
@@ -155,7 +139,7 @@ function initCalendar() {
         else {
             $(lo_clickDate).css('box-shadow', "");
             var lo_dateSource = _.find(ga_dataSource, function (dataSource) {
-                return moment(dataSource.startDate).format("YYYY-MM-DD") == moment(ls_clickDateStr).format("YYYY-MM-DD");
+                return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_clickDateStr).format("YYYY/MM/DD");
             });
             lo_dateSource.color = "#fff";
             lo_dateSource.id = "N";
@@ -220,8 +204,8 @@ function bindDayClickEvent() {
 // 綁定儲存事件
 function bindBTN_SaveEvent() {
     $("#BTN_Save").click(function () {
-        setCalendarDataSource();
-        save_into_oracle_holiday_rf();
+        // setCalendarDataSource();
+        saveIntoOracleHolidayRf();
     })
 }
 
@@ -240,7 +224,7 @@ function setCalendarDataSource() {
 }
 
 // 儲存進oracle holiday_rf
-function save_into_oracle_holiday_rf() {
+function saveIntoOracleHolidayRf() {
 
     var tmpCUD = {
         createData: [],
@@ -256,12 +240,14 @@ function save_into_oracle_holiday_rf() {
 
     _.each(ga_dataSource, function (dataSource) {
         var ls_isDateExist = _.find(go_holidayDate, function (eachDate) {
-            if(moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")){
+            if (moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")) {
                 return dataSource;
             }
         });
+
+        if(dataSource.id == ls_isDateExist.day_sta) return true;
         // 只存當年度設定資料
-        if(moment(dataSource.startDate).format("YYYY") == gs_calendar_year) {
+        if (moment(dataSource.startDate).format("YYYY") == gs_calendar_year) {
             if (_.isUndefined(ls_isDateExist)) {
                 tmpCUD.createData.push({
                     "day_sta": dataSource.id,
@@ -289,7 +275,7 @@ function save_into_oracle_holiday_rf() {
             waitingDialog.hide();
             if (response.data.success) {
                 alert('save success!');
-                getOnlyHolidayDate();
+                // getHolidayDateSet();
             } else {
                 alert(response.data.errorMsg);
             }
@@ -300,22 +286,18 @@ function save_into_oracle_holiday_rf() {
         });
 }
 
-// rgb2hex
-function rgb2hex(rgb) {
+// splitRgb
+function splitRgb(rgb) {
     try {
         if (rgb.search("rgb") == -1) {
             return rgb;
         } else {
             rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-            return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+            return rgb;
         }
     }
     catch (err) {
 
-    }
-
-    function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
     }
 }
 
