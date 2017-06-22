@@ -21,7 +21,7 @@
         <statement><![CDATA[
             select h.batch_dat,h.day_sta,k.color_num
             from holiday_rf h,holiday_kind_rf k
-            where h.athena_id = k.athena_id and h.hotel_cod = k.hotel_cod and h.day_sta = k.day_sta and h.batch_dat
+            where h.athena_id = :athena_id and trim(h.hotel_cod) = trim(:hotel_cod) and h.day_sta = k.day_sta and h.batch_dat
             between TO_DATE(:begin_dat , 'YYYY/MM/DD') AND TO_DATE(:end_dat , 'YYYY/MM/DD')
         ]]></statement>
 
