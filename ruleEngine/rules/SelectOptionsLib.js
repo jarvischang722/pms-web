@@ -421,6 +421,15 @@ exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
 };
 
 /**
+ * PMS0830110平展作業區設定是否啟用
+ */
+exports.qry_a6hfd_areapnt_rf_areapnt_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
+
+/**
  * 聯絡設定取得聯絡類別
  */
 exports.qry_contact_rf_contact_typ = function(params, callback){
