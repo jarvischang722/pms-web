@@ -15,6 +15,7 @@ var ga_tmpCUD = [];
 $(function () {
     initTmpCUD();
     initCalendar();
+    initDatePicker();
     getHolidayKindSet();
     bindEvent();
 });
@@ -77,6 +78,12 @@ function initCalendar() {
     }
 }
 
+// 日期區間選擇 預設為當天日期
+function initDatePicker(){
+    $("input[name='start']").val(moment().format("YYYY/MM/DD"));
+    $("input[name='end']").val(moment().format("YYYY/MM/DD"));
+}
+
 // 取假日種類設定
 function getHolidayKindSet() {
     axios.post("/api/getHolidayKindSet")
@@ -90,27 +97,36 @@ function getHolidayKindSet() {
         })
 }
 
-// 單獨取日期設定
+// 取假日日期設定
 function getHolidayDateSet() {
 
     var params = {
         year: gs_calendar_year
     };
-    var start = new Date().getTime();
     axios.post("/api/getHolidayDateSet", params)
         .then(function (getResult) {
             go_holidayDate = getResult.data.dateSetData;
-            var end = new Date().getTime();
-            console.log((end-start)/1000);
+            initDataSource();
             setCalendarDataSource();
-            end = new Date().getTime();
-            console.log((end-start)/1000);
             waitingDialog.hide();
         })
         .catch(function (err) {
             console.log(err);
             waitingDialog.hide();
-        })
+        });
+}
+
+// 初始化dataSource
+function initDataSource(){
+    ga_dataSource = [];
+    _.each(go_holidayDate, function(eachDate){
+        ga_dataSource.push({
+            id: eachDate.day_sta,
+            startDate: moment(eachDate.batch_dat).toDate(),
+            endDate: moment(eachDate.batch_dat).toDate(),
+            color: "#" + colorTool.colorCodToHex(eachDate.color_num)
+        });
+    });
 }
 
 // 初始化 tmpCUD
@@ -165,39 +181,8 @@ function insertTmpCUD(la_dateDT){
 
 }
 
-// 產生日曆顯示資料(dataSource)
-// function genCalendarDataSource() {
-//     _.each(go_holidayDate, function (eachDate) {
-//
-//         var findDate = _.find(ga_dataSource, function (dataSource) {
-//             if (moment(eachDate.batch_dat).format("YYYY/MM/DD") == moment(dataSource.startDate).format("YYYY/MM/DD")) {
-//                 return dataSource;
-//             }
-//         });
-//
-//         if (_.isUndefined(findDate)) {
-//             ga_dataSource.push({
-//                 id: eachDate.day_sta,
-//                 startDate: moment(eachDate.batch_dat).toDate(),
-//                 endDate: moment(eachDate.batch_dat).toDate(),
-//                 color: "#" + colorTool.colorCodToHex(eachDate.color_num)
-//             });
-//         }
-//     })
-//
-// }
-
 // 設定日期顏色
 function setCalendarDataSource() {
-    ga_dataSource = [];
-    _.each(go_holidayDate, function (eachDate) {
-        ga_dataSource.push({
-            id: eachDate.day_sta,
-            startDate: moment(eachDate.batch_dat).toDate(),
-            endDate: moment(eachDate.batch_dat).toDate(),
-            color: "#" + colorTool.colorCodToHex(eachDate.color_num)
-        });
-    });
     $(".calendar-list").data("calendarYear").setDataSource(ga_dataSource);
 }
 
@@ -244,8 +229,9 @@ function bindDayClickEvent() {
         });
         insertTmpCUD(ls_rtnDate);
 
+
         setCalendarDataSource();
-    })
+    });
 }
 
 // 檢查dataSource
@@ -280,7 +266,7 @@ function chkDataSourceAndEdit(ls_date){
 function bindBTN_SaveEvent() {
     $("#BTN_Save").click(function () {
         saveIntoOracleHolidayRf();
-    })
+    });
 }
 
 // 儲存進oracle holiday_rf
@@ -317,7 +303,7 @@ function saveIntoOracleHolidayRf() {
         });
 }
 
-// splitRgb
+// 切割RGB顏色
 function splitRgb(rgb) {
     try {
         if (rgb.search("rgb") == -1) {
@@ -328,17 +314,17 @@ function splitRgb(rgb) {
         }
     }
     catch (err) {
-
+        return "";
     }
 }
 
 // 取日期區間的星期
-function getDaysBetweenDates(start, end, dayName) {
+function getDaysBetweenDates(ls_start, ls_end, dayName) {
 
     var li_days_counter = 0;
     var days = {sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6};
-    var start = moment(start);
-    var end = moment(end);
+    var start = moment(ls_start);
+    var end = moment(ls_end);
     var day = days[dayName.toLowerCase().substr(0, 3)];
 
     var result = [];
@@ -348,11 +334,12 @@ function getDaysBetweenDates(start, end, dayName) {
     while (li_days_counter != li_diffDay) {
         var lo_date = start.clone().add("days", li_days_counter);
         var li_day = lo_date.format("d");
-        if (li_day == day)
+        if (li_day == day) {
             result.push({
                 date: lo_date.format("YYYY/MM/DD"),
                 day_sta: $("#color_scheme option:selected").data("day_sta")
             });
+        }
         li_days_counter++;
     }
     return result;
