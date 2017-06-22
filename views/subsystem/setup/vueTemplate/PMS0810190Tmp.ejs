@@ -29,9 +29,10 @@
                                                maxlength="4000"
                                                placeholder="[[%%訂房公司%%]]訂房確認書"
                                                @keyup="keyUpContent('subject',$event)"
-                                               @mouseup="mouseUpContent('subject',$event)"/>
+                                               @mouseup="mouseUpContent('subject',$event)"
+                                               @change="checkContentFormat"/>
 
-                                        <button type="button" class="btn btn-danger btn-white btn-sm btn-height">
+                                        <button type="button" @change="checkContentFormat" class="btn btn-danger btn-white btn-sm btn-height">
                                         檢查
                                         </button>
                                         <p v-show="lo_formatError.subject" style="color: red;">格式錯誤！</p>
