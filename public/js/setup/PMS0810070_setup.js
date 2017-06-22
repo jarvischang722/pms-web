@@ -31,7 +31,7 @@ function getHolidayKindSet() {
 }
 
 // 單獨取日期設定
-function getOnlyHolidayDate() {
+function getHolidayDateSet() {
 
     var params = {
         year: gs_calendar_year
@@ -97,7 +97,7 @@ function initCalendar() {
         clickDay: clickDay,
         yearChanged: function (e) {
             gs_calendar_year = e.currentYear;
-            getOnlyHolidayDate();
+            getHolidayDateSet();
         }
     });
     // 選擇日期區間 or change it into a date range picker
@@ -109,7 +109,7 @@ function initCalendar() {
     function clickDay(e) {
         var lo_clickDate = e.element;
         var ls_select_color = $("#color_scheme option:selected").val();
-        var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1')).toUpperCase();
+        var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1').toUpperCase());
         var ls_clickDate_color = "#" + colorTool.rgbToHex(rgb[1], rgb[2], rgb[3]);
         var ls_clickDateStr = e.date.toLocaleDateString();
 
@@ -244,6 +244,8 @@ function saveIntoOracleHolidayRf() {
                 return dataSource;
             }
         });
+
+        if(dataSource.id == ls_isDateExist.day_sta) return true;
         // 只存當年度設定資料
         if (moment(dataSource.startDate).format("YYYY") == gs_calendar_year) {
             if (_.isUndefined(ls_isDateExist)) {
@@ -273,7 +275,7 @@ function saveIntoOracleHolidayRf() {
             waitingDialog.hide();
             if (response.data.success) {
                 alert('save success!');
-                getOnlyHolidayDate();
+                // getHolidayDateSet();
             } else {
                 alert(response.data.errorMsg);
             }
