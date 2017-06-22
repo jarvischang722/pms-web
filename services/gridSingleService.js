@@ -935,16 +935,6 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
-            } else if (data["SYSMSG"]["MSG-ID"] == "0000") {
-                if (data["RETN-CODE"] != "0000") {
-                    chk_result.success = false;
-                    err = {};
-                    err.errorMsg = data["RETN-CODE-DESC"];
-                }
-            } else if (data["SYSMSG"]["MSG-ID"] != "0000") {
-                chk_result.success = false;
-                err = {};
-                err.errorMsg = data["SYSMSG"]["MSG-DESC"];
             }
 
             //寄出exceptionMail
