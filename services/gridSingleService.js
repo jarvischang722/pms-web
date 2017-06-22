@@ -978,10 +978,6 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
-            }  else if (data["SYSMSG"]["MSG-ID"] != "0000") {
-                chk_result.success = false;
-                err = {};
-                err.errorMsg = data["SYSMSG"]["MSG-DESC"];
             }
 
             //寄出exceptionMail
@@ -1030,7 +1026,12 @@ function dataValueChange(fields, data) {
             _.each(fields, function (row) {
                 if (row.ui_field_name == objKey) {
                     var finalValue = changeValueFormat(value, row.ui_type);
-                    data[objKey] = finalValue ? finalValue : value;
+                    if(row.ui_type != "checkbox"){
+                        data[objKey] = finalValue ? finalValue : value;
+                    }else {
+                        data[objKey] = finalValue;
+                    }
+
                 }
             })
         }
@@ -1048,6 +1049,12 @@ function changeValueFormat(value, ui_type) {
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
         valueTemp = (parseFloat(value) * 100);
+    } else if(ui_type == "checkbox"){
+        if(value == "Y"){
+            valueTemp = true;
+        }else {
+            valueTemp = false;
+        }
     }
 
     return valueTemp;
@@ -1060,6 +1067,12 @@ function changeValueFormat4Save(value, ui_type) {
         valueTemp = value.replace(":", "");
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) / 100;
+    }else if(ui_type == "checkbox"){
+        if(value.toUpperCase() == "TRUE"){
+            valueTemp = "Y";
+        }else {
+            valueTemp = "N";
+        }
     }
 
     return valueTemp;
