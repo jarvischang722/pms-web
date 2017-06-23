@@ -79,7 +79,7 @@ function initCalendar() {
 }
 
 // 日期區間選擇 預設為當天日期
-function initDatePicker(){
+function initDatePicker() {
     $("input[name='start']").val(moment().format("YYYY/MM/DD"));
     $("input[name='end']").val(moment().format("YYYY/MM/DD"));
 }
@@ -117,9 +117,9 @@ function getHolidayDateSet() {
 }
 
 // 初始化dataSource
-function initDataSource(){
+function initDataSource() {
     ga_dataSource = [];
-    _.each(go_holidayDate, function(eachDate){
+    _.each(go_holidayDate, function (eachDate) {
         ga_dataSource.push({
             id: eachDate.day_sta,
             startDate: moment(eachDate.batch_dat).toDate(),
@@ -130,7 +130,7 @@ function initDataSource(){
 }
 
 // 初始化 tmpCUD
-function initTmpCUD(){
+function initTmpCUD() {
     ga_tmpCUD = {
         createData: [],
         updateData: [],
@@ -139,20 +139,20 @@ function initTmpCUD(){
 }
 
 // 新增資料進tmpCUD
-function insertTmpCUD(la_dateDT){
-    _.each(la_dateDT, function(tmpDate){
-        var dateIsExist = _.find(go_holidayDate, function(Date){
+function insertTmpCUD(la_dateDT) {
+    _.each(la_dateDT, function (tmpDate) {
+        var dateIsExist = _.find(go_holidayDate, function (Date) {
             return moment(Date.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
 
 
-        if(_.isUndefined(dateIsExist)){
+        if (_.isUndefined(dateIsExist)) {
 
-            var createIndex = _.findIndex(ga_tmpCUD.createData, function(createDT){
+            var createIndex = _.findIndex(ga_tmpCUD.createData, function (createDT) {
                 return moment(createDT.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
             });
 
-            if(createIndex != -1)
+            if (createIndex != -1)
                 ga_tmpCUD.createData[createIndex].day_sta = tmpDate.day_sta;
             else {
                 ga_tmpCUD.createData.push({
@@ -161,16 +161,16 @@ function insertTmpCUD(la_dateDT){
                 })
             }
         }
-        else{
+        else {
 
-            var updateIndex = _.findIndex(ga_tmpCUD.updateData, function(updateDT){
+            var updateIndex = _.findIndex(ga_tmpCUD.updateData, function (updateDT) {
                 return moment(updateDT.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
             });
 
-            if(updateIndex != -1){
+            if (updateIndex != -1) {
                 ga_tmpCUD.updateData[updateIndex].day_sta = tmpDate.day_sta;
             }
-            else{
+            else {
                 ga_tmpCUD.updateData.push({
                     "day_sta": tmpDate.day_sta,
                     "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
@@ -202,6 +202,7 @@ function createDateKindSelectOption() {
     $('div.datePin01').css("background", ls_color);
 }
 
+
 // 綁定事件
 function bindEvent() {
     bindSelectChangeEvent();
@@ -227,15 +228,14 @@ function bindDayClickEvent() {
         _.each(ls_rtnDate, function (eachDate) {
             chkDataSourceAndEdit(eachDate.date);
         });
+
         insertTmpCUD(ls_rtnDate);
-
-
         setCalendarDataSource();
     });
 }
 
 // 檢查dataSource
-function chkDataSourceAndEdit(ls_date){
+function chkDataSourceAndEdit(ls_date) {
     var isExist = _.findIndex(ga_dataSource, function (dataSource) {
         return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_date).format("YYYY/MM/DD");
     })
@@ -249,11 +249,12 @@ function chkDataSourceAndEdit(ls_date){
         });
     }
     else {
-
-        if (ga_dataSource[isExist].color == "#fff") {
+        // 設定顏色不一樣，直接更新
+        if (ga_dataSource[isExist].id != $("#color_scheme option:selected").data("day_sta")) {
             ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
             ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
         }
+        // 設定顏色相同，等於取消
         else {
             ga_dataSource[isExist].id = "N";
             ga_dataSource[isExist].color = "#fff";
@@ -337,7 +338,8 @@ function getDaysBetweenDates(ls_start, ls_end, dayName) {
         if (li_day == day) {
             result.push({
                 date: lo_date.format("YYYY/MM/DD"),
-                day_sta: $("#color_scheme option:selected").data("day_sta")
+                day_sta: $("#color_scheme option:selected").data("day_sta"),
+                color: $("#color_scheme option:selected").val()
             });
         }
         li_days_counter++;
