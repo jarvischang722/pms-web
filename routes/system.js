@@ -19,7 +19,7 @@ module.exports = function(app  ) {
     app.get('/subsystem/sales', middles, systCrtl.sales);
     app.get('/subsystem/report', middles, systCrtl.report);
     app.get('/subsystem/setup', middles, systCrtl.setup);
-    app.get('/subsystem/customize_setup', middles, systCrtl.customize_setup);
+    app.get('/subsystem/ownMenu', middles, systCrtl.ownMenu);
     app.get('/subsystem/common', middles, systCrtl.commom);
 
     /** **/
