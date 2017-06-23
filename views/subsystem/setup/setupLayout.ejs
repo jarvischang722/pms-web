@@ -109,6 +109,13 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (this_prg_id) {
+
+                // 讓捲軸用動畫的方式移動到 0 的位置
+                var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                $body.animate({
+                    scrollTop: 0
+                }, 600);
+
                 var oldPrgId = this.usingPrgID;
                 var datagridEdit = $("#gridEdit").val();
                 if (!_.isEmpty(datagridEdit)) {
