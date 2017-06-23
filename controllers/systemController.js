@@ -138,8 +138,8 @@ exports.setup = function (req, res) {
 /**
  * 自訂
  */
-exports.customize_setup = function (req, res) {
-    res.render('subsystem/customize_setup');
+exports.ownMenu = function (req, res) {
+    res.render('subsystem/ownMenu');
 };
 
 /**

@@ -88,37 +88,38 @@
                 <div class="col-sm-1 col-xs-1 singleRelative">
                     <div class="row" v-if="editStatus">
                         <div class="singleEditStatus right-menu-co">
-                            <li>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
-                                        style=""
-                                        @click="handleDeleteSingleData">
-                                    <%= __("SystemCommon").Delete %>
-                                </button>
-                            </li>
+                            <ul>
+                                <li>
+                                    <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                            :disabled="isFistData"
+                                            style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                            :disabled="isFistData"
+                                            style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                            :disabled="isLastData"
+                                            style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                            :disabled="isLastData"
+                                            style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                            @click="handleDeleteSingleData">
+                                        <%= __("SystemCommon").Delete %>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="clearfix"></div>
