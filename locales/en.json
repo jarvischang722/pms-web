@@ -459,10 +459,12 @@
     "Leave": "Leave",
     "Login": "Login",
     "Logout": "Logout",
-    "Loading": "Loading"
+    "Loading": "Loading",
+    "ProgramID": "Program ID"
   },
   "SystemWarn": {
-    "Idle_auto_logout": "You idle too long , Please  login again. "
+    "Idle_auto_logout": "You idle too long , Please  login again. ",
+    "Not_found_program": "Not found program."
   },
   "Validation": {
     "Formatter": {

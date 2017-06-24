@@ -6,8 +6,6 @@ var moment = require('moment');
 var _ = require('underscore');
 var async = require('async');
 var mailSvc = require("../services/mailService");
-var Base64 = require('base-64');
-var utf8 = require('utf8');
 
 
 /**
@@ -27,11 +25,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     deUrl = apiUrl + '?lang=' + lang + '&' + 'testLog=Y&TxnData=' + params;
 
-    var paramsbytes = utf8.encode(params);
-
-    params = Base64.encode(paramsbytes);    //加密
-
-    params = encodeURIComponent(params);
+    params = new Buffer(params).toString('base64');    //編碼
 
     url = apiUrl + '?lang=' + lang + '&TxnData=' + params;
 
@@ -39,22 +33,30 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     console.log(url);
 
-    request.post({url: apiUrl, encoding: "utf8", timeout: 30000, json: true, form: {lang: lang, TxnData: params}},
-    function (err, response, data) {
-        var errorMsg = null;
-        if (err) {
-            if (err.code == 'ESOCKETTIMEDOUT') {
-                var mailInfo = {
-                    exceptionType: "API Timeout",
-                    errorMsg: err.code
-                };
-                mailSvc.sendExceptionMail(mailInfo);
-                errorMsg = 'Request Timeout'
-            }
+    request({
+            method: 'post',
+            url: apiUrl,
+            encoding: "utf8",
+            timeout: 30000,
+            json: true,
+            form: {lang: lang, TxnData: params}
+        },
+        function (err, response, data) {
+            var errorMsg = null;
+            if (err) {
+                // Timeout 事件發生
+                if (err.code == 'ESOCKETTIMEDOUT') {
+                    var mailInfo = {
+                        exceptionType: "API Timeout",
+                        errorMsg: err.code
+                    };
+                    mailSvc.sendExceptionMail(mailInfo);
+                    errorMsg = 'Request Timeout';
+                }
 
-        }
-        callback(errorMsg, response, data);
-    })
+            }
+            callback(errorMsg, response, data);
+        });
 };
 
 
@@ -66,7 +68,7 @@ exports.mongoDocToObject = function (mongoDataRows) {
     try {
         _.each(mongoDataRows, function (row, idx) {
             mongoDataRows[idx] = row.toObject();
-        })
+        });
     } catch (ex) {
         console.error(ex);
     }
