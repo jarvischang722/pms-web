@@ -63,3 +63,9 @@ exports.getResv_bookings = function (req, res) {
 exports.getResv_changeRecords = function (req, res) {
     res.render("subsystem/reservation/resv_changeRecords");
 };
+/**
+ * 異動紀錄(靜態 quickMenu)
+ */
+exports.getResv_blockSettingTable = function (req, res) {
+    res.render("subsystem/reservation/PMS0100000_module/resvBlockSettingTable_1");
+};

@@ -35,4 +35,7 @@ module.exports = function(app  ) {
     //異動紀錄(靜態 quickMenu)
     app.get('/resv_changeRecords', reservationCrtl.getResv_changeRecords);
 
+    //鎖控iframe(靜態 quickMenu)
+    app.get('/resvBlockSettingTable_1', reservationCrtl.getResv_blockSettingTable);
+
 };
