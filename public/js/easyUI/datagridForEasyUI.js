@@ -99,7 +99,7 @@ var EZfieldClass = {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
             tmpFieldObj.formatter = datetimeFunc;
-            //tmpFieldObj.editor.options.formatter = datetimeFunc;
+            // tmpFieldObj.editor.options.formatter = datetimeFunc;
         } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
@@ -165,12 +165,21 @@ var EZfieldClass = {
                 };
             }
         }else if( dataType == "timespinner"){
-            tmpFieldObj.formatter = function (val, row, index) {
-                var hour = val.substring(0,2);
-                var min = val.substring(2,4);
-                var fieldName = hour + ":" + min;
-                return fieldName;
-            };
+            // tmpFieldObj.formatter = function (val, row, index) {
+            //     console.log(val);
+            //     var hour = val.substring(0,2);
+            //     var min = val.substring(2,4);
+            //     var fieldName = hour + ":" + min;
+            //     return fieldName;
+            // };
+            // tmpFieldObj.editor.options.formatter = function (val, row, index) {
+            //     console.log(val);
+            //     // var hour = val.substring(0,2);
+            //     // var min = val.substring(2,4);
+            //     // var fieldName = hour + ":" + min;
+            //     // return fieldName;
+            //     return val;
+            // };
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
         }
