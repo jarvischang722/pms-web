@@ -463,7 +463,6 @@
                 {field: 'firstName', title: 'First Name', width: 100},
                 {field: 'lastName', title: 'Last Name', width: 100}
             ]]
-
         });
 
         // 住客來訪歷史 dataGrid
@@ -488,7 +487,6 @@
                 {field: 'hall', title: '館別', width: 100},
                 {field: 'remark', title: '備註', width: 100}
             ]]
-
         });
 
         // 管別備註 dataGrid
@@ -507,7 +505,6 @@
                 {field: 'lastInputPerson', title: '最後異動者', width: 100},
                 {field: 'lastInputDate', title: '最後異動日', width: 100}
             ]]
-
         });
 
         // 訂房卡 dataGrid
@@ -536,7 +533,6 @@
                 {field: 'RelatedNum', title: '關連序號', width: 40},
                 {field: 'Commion', title: 'Commion',align:'right', width: 40}
             ]]
-
         });
 
         // 費用列表 dataGrid
@@ -563,7 +559,6 @@
                 {field: 'updBy', title: '最後異動者', width: 100},
                 {field: 'updDate', title: '最後異動日', width: 100}
             ]]
-
         });
 
         // 訂房卡-接機 dataGrid
@@ -587,7 +582,6 @@
                 {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
-
         });
 
         // 訂房卡-送機 dataGrid
@@ -611,7 +605,6 @@
                 {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
-
         });
 
         // 批次修改 dataGrid
@@ -681,7 +674,6 @@
                 {field: 'hall', title: '館別', width: 60},
                 {field: 'proxyCompany', title: '代訂公司名稱', width: 100}
             ]]
-
         });
 
         // 狀態變更
@@ -698,8 +690,32 @@
                 {field: 'rvTpyeMan', title: '異動者', width: 100},
                 {field: 'rvTpyeDate', title: '異動日期', width: 100}
             ]]
-
         });
+
+        // 專案訂房 dataGrid
+        $('#PMS0110030-dg').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_PMS0110030-dg.json',
+            method: 'get',
+            columns: [[
+                {field: 'resv', title: '訂房', width: 40},
+                {field: 'roomCode', title: '房間代號', width: 40},
+                {field: 'housing', title: '房種', width: 70},
+                {field: 'ciDate', title: 'C/I日期', width: 80},
+                {field: 'coDate', title: 'C/O日期', width: 80},
+                {field: 'dateNum', title: '天數', width: 150},
+                {field: 'housingNum', title: '間數', width: 100},
+                {field: 'roomPrice', title: '房價', width: 100,align:'right'},
+                {field: 'serviceCharge', title: '服務費', width: 50,align:'right'},
+                {field: 'total', title: '合計', width: 60,align:'right'},
+                {field: 'adult', title: '大人', width: 40},
+                {field: 'child', title: '小孩', width: 40,align:'right'},
+                {field: 'baby', title: '嬰兒', width: 40}
+            ]]
+        });
+
     });
 
     $(function() {
@@ -711,6 +727,11 @@
 //            height: auto
         });
 
+
+//      專案訂房 PMS0110030
+        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 40, everyColumnsAddWith: 0 });
+
+//      依房型訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -735,7 +756,12 @@
             $(".fht-tbody").css("height", height-80);
         });
 
-//        grid_12
+        //#PMS0110030-table
+        var PMS0110030Height = $("#PMS0110030-table").height();
+        console.log(PMS0110030Height);
+        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height);
+
+
         var tableWidth1 = $(".sidebar").width();
 
 //        console.log(header2);
@@ -743,25 +769,13 @@
         $(".grid_12").css("width", "95%");
 //        $(".grid_12").find(".fht-fixed-body").css("width", "95%");
         $(".fht-body").css("width", "95% !important");
-//        $("#resRoomType-table").css("width", tableWidth-80);
-//        $(".fht-table").css("width", tableWidth-80);
-//        $(".fancyTable").css("width", tableWidth-80);
         $(window).resize(function() {
             tableWidth=$(window).width()-tableWidth1-10;
             $(".grid_12").css("width", "100%");
             $(".fht-body").css("width", "100%");
-//            $(".grid_12").find(".fht-fixed-body").css("width", tableWidth-80)
-//            $("#resRoomType-table").css("width", tableWidth-80);
-//            $(".fht-table").css("width", tableWidth-80);
-//            $(".fht-fixed-body").css("width", tableWidth-80);
-
-
-
         });
 
-        //$(document).on('click',".controlSub",function(e){
-        //$('.sub-content').toggle();
-        //});
+
 
         // 住客歷史 height
         $(window).resize(function() {
