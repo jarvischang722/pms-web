@@ -24,12 +24,15 @@ var EZfieldClass = {
     fieldConvEzAttr: function (fieldAttrObj) {
 
         var dataType = "";
+        //if (fieldAttrObj.ui_type == "text" || ((fieldAttrObj.ui_type == "date" && fieldAttrObj.modificable == "N") || (fieldAttrObj.ui_type == "datetime" && fieldAttrObj.modificable == "N") || (fieldAttrObj.ui_type == "time" && fieldAttrObj.modificable == "N"))) {
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
         } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
             dataType = 'numberbox';
+        //} else if (fieldAttrObj.ui_type == "date" && fieldAttrObj.modificable != "N") {
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
+        //} else if (fieldAttrObj.ui_type == "datetime" && fieldAttrObj.modificable != "N") {
         } else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
         } else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
@@ -38,6 +41,7 @@ var EZfieldClass = {
             dataType = 'checkbox';
         } else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
+        //} else if (fieldAttrObj.ui_type == "time" && fieldAttrObj.modificable != "N") {
         } else if (fieldAttrObj.ui_type == "time") {
             dataType = 'timespinner';
         }
@@ -67,7 +71,7 @@ var EZfieldClass = {
         }
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
-            tmpFieldObj.editor.options = fieldAttrObj.selectData;
+            tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
             // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
         }
 
@@ -90,14 +94,17 @@ var EZfieldClass = {
         };
 
         // Formatter 顯示資料
+        //if ((dataType == "datebox") || (fieldAttrObj.ui_type == "date" && fieldAttrObj.modificable == "N")) {
         if (dataType == "datebox") {
             tmpFieldObj.formatter = function (date, row, index) {
                 return moment(date).format("YYYY/MM/DD");
             };
+        //} else if ((dataType == "datetimebox") || (fieldAttrObj.ui_type == "datetime" && fieldAttrObj.modificable == "N")) {
         } else if (dataType == "datetimebox") {
             var datetimeFunc = function (date) {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
+
             tmpFieldObj.formatter = datetimeFunc;
             //tmpFieldObj.editor.options.formatter = datetimeFunc;
         } else if (dataType == "combobox") {
@@ -136,7 +143,9 @@ var EZfieldClass = {
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 //TODO 值不可寫死
-                var fieldName = val == 'Y' ? "使用" : "不使用";
+
+                var displayName = fieldAttrObj.selectData[1];
+                var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
         } else if (fieldAttrObj.ui_type == "color") {
@@ -155,6 +164,10 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 };
             }
+            // if(fieldAttrObj.ui_field_length != ""){
+            //     tmpFieldObj.editor[data-Type] = "length[0,4]";
+            // }
+            //console.log(fieldAttrObj);
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
@@ -164,6 +177,7 @@ var EZfieldClass = {
                     return fieldName;
                 };
             }
+        //}else if( (dataType == "timespinner") || (fieldAttrObj.ui_type == "time" && fieldAttrObj.modificable == "N")){
         }else if( dataType == "timespinner"){
             tmpFieldObj.formatter = function (val, row, index) {
                 var hour = val.substring(0,2);
