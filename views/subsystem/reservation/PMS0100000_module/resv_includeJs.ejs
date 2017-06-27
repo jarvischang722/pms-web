@@ -695,10 +695,12 @@
 //            height: auto
         });
 
+        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 10 });
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
         //everyColumnsAddWith      : 每一個欄位的-寬
+
 
         // tree
         $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
@@ -790,4 +792,17 @@
 
     });
 
+    //changeRecords中的dropdown select
+    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+
+        var $target = $( event.currentTarget );
+
+        $target.closest( '.btn-group' )
+            .find( '[data-bind="label"]' ).text( $target.text() )
+            .end()
+            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+        return false;
+
+    });
 </script>

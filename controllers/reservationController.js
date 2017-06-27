@@ -63,3 +63,9 @@ exports.getResv_bookings = function (req, res) {
 exports.getResv_changeRecords = function (req, res) {
     res.render("subsystem/reservation/resv_changeRecords");
 };
+/**
+ * 依房號訂房
+ */
+exports.getResv_roomPlan = function (req, res) {
+    res.render("subsystem/reservation/resv_roomPlan");
+};

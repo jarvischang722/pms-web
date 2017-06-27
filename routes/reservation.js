@@ -35,4 +35,7 @@ module.exports = function(app  ) {
     //異動紀錄(靜態 quickMenu)
     app.get('/resv_changeRecords', reservationCrtl.getResv_changeRecords);
 
+    //異動紀錄(靜態 quickMenu)
+    app.get('/resv_roomPlan', reservationCrtl.getResv_roomPlan);
+
 };
