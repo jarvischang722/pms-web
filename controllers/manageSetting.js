@@ -3,7 +3,7 @@
  */
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var tbSVC = require("../services/dbTableService");
+var tbSVC = require("../services/DbTableService");
 var mongoAgent = require("../plugins/mongodb");
 var ejs = require("ejs");
 var fs = require("fs");

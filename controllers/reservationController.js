@@ -4,11 +4,11 @@
 
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/roleFuncService");
+var roleFuncSvc = require("../services/RoleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/roleFuncService");
+var roleSvc = require("../services/RoleFuncService");
 
 /**
  * 依房型訂房(靜態)

@@ -5,7 +5,7 @@ var request = require("request");
 var mongoAgent = require("../plugins/mongodb");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var async = require("async");
-var mailSvc = require("../services/mailService");
+var mailSvc = require("../services/MailService");
 
 exports.monitor = function (req, res) {
     async.parallel([

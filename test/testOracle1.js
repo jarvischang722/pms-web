@@ -3,7 +3,7 @@ _.str = require('underscore.string');
 var config = require("../configs/database");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var  funcSvc = require("../services/roleFuncService");
+var  funcSvc = require("../services/RoleFuncService");
 var _ = require("underscore");
 var moment = require("moment");
 var async = require("async");
@@ -23,8 +23,26 @@ var params = {
     begin_dat1:'2017/03/06',
     contact1_cod:'04'
 }
+var co = require("co");
+var await = require("await");
 
-test3();
+
+
+
+var fn = co.wrap(function* () {
+    return yield Promise.resolve(val);
+});
+
+
+co(function* () {
+    var result = yield Promise.resolve(true);
+    return result;
+}).then(function (value) {
+    console.log(value);
+}, function (err) {
+    console.error(err.stack);
+});
+
 
 function test1(params) {
     queryAgent.query("CHK_ORDER_MN_RV_TYP_IS_EXIST", params, function (err, data) {
@@ -45,23 +63,6 @@ function test2(params) {
         }
         console.log(row);
 
-    });
-}
-
-function  test3(){
-    var params = {
-        user_athena_id : 1,
-        user_comp_cod : 'MIRACHU',
-        user_id : 'a14017',
-        athena_id : 1,
-        func_hotel_cod : '02',
-        subsys_id : 'PMS080000',
-        pre_id : 'PMS0810000',
-        id_typ:'PROCESS'
-    };
-    queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", params, 0,0,function (err, data) {
-        console.error(err);
-        console.log(data);
     });
 }
 // funcSvc.querySubsyMdulBySys(params,function(err,grp){

@@ -2,7 +2,7 @@
  * Created by Jun on 2017/4/25.
  */
 var config = require("../configs/database");
-var langSvc = require("../services/langService");
+var langSvc = require("../services/LangService");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
 var _ = require("underscore");
 var moment = require("moment");

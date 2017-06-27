@@ -104,6 +104,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         return {
             isFistData: false,
             isLastData: false,
+            fileList2: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
         };
     },
     watch: {
@@ -327,6 +328,13 @@ Vue.component('single-grid-pms0810020-tmp', {
         appendDtRow(){
         },
         removeDtRow(){
+        },
+        showDropdownDisplayName: function (val, selectData) {
+            if (_.findIndex(selectData, {value: val}) > -1) {
+                return _.findWhere(selectData, {value: val}).display;
+            }else{
+                return val
+            }
         }
 
     }
@@ -567,8 +575,8 @@ var vm = new Vue({
         showSingleGridDialog: function () {
             this.initDatePicker();
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var height = 19 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,
@@ -607,4 +615,9 @@ Vue.filter("filterLocaleContent", function (langContent, locale, field_name) {
 
     return m_lang_val;
 });
+
+Vue.filter("showDropdownDisplayName", function (val) {
+    console.log(val);
+    console.log(selectData);
+})
 

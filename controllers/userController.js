@@ -3,13 +3,13 @@
  * 會員驗證相關作業
  */
 
-var authSvc = require("../services/authService");
+var authSvc = require("../services/AuthService");
 var _ = require("underscore");
 var async = require("async");
-var roleFuncSvc = require("../services/roleFuncService");
+var roleFuncSvc = require("../services/RoleFuncService");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require('i18n');
-var langSvc = require("../services/langService");
+var langSvc = require("../services/LangService");
 
 /**
  * 登入頁面

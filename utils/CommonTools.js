@@ -5,7 +5,7 @@ var request = require("request");
 var moment = require('moment');
 var _ = require('underscore');
 var async = require('async');
-var mailSvc = require("../services/mailService");
+var mailSvc = require("../services/MailService");
 
 
 /**
