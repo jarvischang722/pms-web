@@ -26,7 +26,7 @@ var EZfieldClass = {
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
+        } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
@@ -129,7 +129,9 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {return false;}
+                    if (oldValue == "") {
+                        return false;
+                    }
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 };
             }
@@ -148,39 +150,39 @@ var EZfieldClass = {
             tmpFieldObj.formatter = lf_colorFormatter;
         }
         else if (fieldAttrObj.ui_type == "text") {
-            if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.type = dataType;
-                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {return false;}
+            tmpFieldObj.editor.type = dataType;
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+
+                if (!_.isUndefined(newValue)) {
+                    if (fieldAttrObj.modificable == "I") {
+                        var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                        var lo_editor = $('#prg_dg').datagrid('getEditor', {
+                            index: li_rowIndex,
+                            field: fieldAttrObj.ui_field_name
+                        });
+
+                        $(lo_editor.target).textbox("readonly", true);
+                    }
+                }
+
+                if (fieldAttrObj.rule_func_name != "") {
+                    if (oldValue == "") {
+                        return false;
+                    }
                     onChange_Action(fieldAttrObj, oldValue, newValue);
-                };
+                }
             }
-        }else if(dataType == "numberbox"){
+
+        } else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
-            if(fieldAttrObj.ui_type == "percent"){
+            if (fieldAttrObj.ui_type == "percent") {
                 tmpFieldObj.formatter = function (val, row, index) {
-                    var fieldName = parseFloat(val) *100 + "%";
+                    var fieldName = parseFloat(val) * 100 + "%";
                     return fieldName;
                 };
             }
-        }else if( dataType == "timespinner"){
-            // tmpFieldObj.formatter = function (val, row, index) {
-            //     console.log(val);
-            //     var hour = val.substring(0,2);
-            //     var min = val.substring(2,4);
-            //     var fieldName = hour + ":" + min;
-            //     return fieldName;
-            // };
-            // tmpFieldObj.editor.options.formatter = function (val, row, index) {
-            //     console.log(val);
-            //     // var hour = val.substring(0,2);
-            //     // var min = val.substring(2,4);
-            //     // var fieldName = hour + ":" + min;
-            //     // return fieldName;
-            //     return val;
-            // };
-        }else if(dataType == "numberbox"){
+        } else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
         }
         return tmpFieldObj;
@@ -258,26 +260,5 @@ var ColorFunc = {
         });
     }
 };
-
-
-$(function () {
-
-    // $(document).on("input", ".dg_colorPicker_class", function () {
-    //     var dataGridName = "prg_dg";
-    //     var dataIdx = $(this).data("index");
-    //     var color_cod = $(this).val();
-    //     var field_name = $(this).data("field_name");
-    //     var updateRow = {};
-    //     console.log("===color_cod===");
-    //     console.log(color_cod);
-    //     updateRow[field_name] = color_cod;
-    //     $('#' + dataGridName).datagrid('updateRow', {
-    //         index: dataIdx,
-    //         row: updateRow
-    //     });
-    //
-    //
-    // })
-});
 
 
