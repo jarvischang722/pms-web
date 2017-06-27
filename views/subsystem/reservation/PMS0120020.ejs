@@ -1,0 +1,282 @@
+<div class="page-content">
+    <div class="">
+        <div class="page-header">
+        </div><!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <div class="search-content">
+                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                            <div class="search-co blockSetting">
+                                <div class="search-co-h">
+                                    <i class="ace-icon fa fa-search search-icon"></i>
+                                    <span>搜尋</span>
+                                    <div class="row search-right-btn">
+                                        <div class="right-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa fa-chevron-down show-search-detail"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="search-co-content col-xs-12">
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                        <div class="col-sm-4">
+
+                                        </div>
+                                    </div>
+                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                        <div class="row search-footer-btn">
+                                            <div class="footer-btn-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="查詢" style="padding: 0 0 5px 0;">
+                                                            <div class="icon-reStyle icon-co-14"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="" data-rel="tooltip"
+                                                             data-placement="bottom"
+                                                             title="清除" style="padding: 0 0 5px 0;">
+                                                            <div class="icon-reStyle icon-co-11"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>  <!-- /.footer-btn-menu-co -->
+                                        </div> <!-- /.search-footer-btn -->
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>Start Date</label>
+                                                <input type="date" class="input-medium input-spc-key" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>End Date</label>
+                                                <input type="date" class="input-medium input-spc-key" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid width-95">
+                                            <div class="grid-item block-table pull-left">
+                                                <label>Room Type</label>
+                                                <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div> <!-- row-->
+                            </div> <!-- /.search-co -->
+                        </div> <!-- /.row  search-content-->
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+            <div class="col-xs-12">
+                <!--<div class="blockSetting-heading">查詢結果</div>-->
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <!--  鎖控明細表格 -->
+                        <%- include PMS0100000_module/PMS0120020Table_1 %>
+
+                        <!--  /.End 鎖控明細表格 -->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li class="openDetails openDetailsTxt">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Show Details</button>
+                                </li>
+                                <li class="openDetails closeDetailsTxt" style="display: none; margin-top: -3px;">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Hide Details</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth PMS0120020Btn"
+                                            role="button">Setting</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+        </div>
+        <!-- PMS0120020 超訂-設定 彈出視窗 -->
+        <div id="PMS0120020Btn-page" class="hide padding-5" style="">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="main-content-data">
+                                <div class="grid">
+                                    <div class="grid-item block-table">
+                                        <label>Start Date</label>
+                                        <input type="date" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item block-table">
+                                        <label>End Date</label>
+                                        <input type="date" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item block-table">
+                                        <label>Room Type</label>
+                                        <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
+                                        <span class="moreClick">...</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item block-table">
+                                        <label>Qnt.</label>
+                                        <input type="text" class="input-medium input-spc-key" placeholder="">
+                                    </div>
+                                </div>
+
+                            </div><!--main-content-data-->
+
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Setting
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Clear
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Exit
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- /.PMS0120020 超訂-設定 彈出視窗 -->
+
+    </div>
+</div><!-- /.page-content -->
+
+
+<script type="text/javascript">
+    var treeTdId = new Set();
+    $(function () {
+
+        // 彈出blockSettingSingle
+        $(document).on('click', ".PMS0120020Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#PMS0120020Btn-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Setting",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+    });
+    $(function () {
+        $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
+//        $('#PMS0120020-table').children('tr').find('.indenter').css('display','none');
+
+        //fixedColumns             : 固定左側列行數
+        //addPxForFixedColumnsWidth: 固定左側列行數-寬
+        //everyColumnsAddWith      : 每一個欄位的-寬
+//        alert('test123');
+        // tree
+        $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+
+        // resize table
+        // divider margin 40px && fht-body -85px
+        var header1 = $(".navbar-container").height();
+        var header2 = $(".top-sec-ul").height()+5; //padding-top: 5px
+//
+        height=$(window).height()-header1-header2-10;
+        $(".height600").css("height", height);
+        //		$(".height600").removeClass("height600");
+        $(".fht-tbody").css("height", height-80);
+        $(window).resize(function() {
+            height=$(window).height()-header1-header2-10;
+            $(".height600").css("height", height);
+            $(".fht-tbody").css("height", height-80);
+        });
+        // 按鈕控制tree 開合
+        //collapsed
+        //expanded
+
+        $('tr[data-tt-parent-id]').each(function(){
+            treeTdId.add($(this).attr('data-tt-parent-id'));
+        });
+        var openStatus = false;
+        $(document).on('click', ".openDetails", function () {
+            openStatus=!openStatus;
+//            if(iterateTreeToogle =='display: table-row;')
+            if(openStatus){
+                for(var tdId of treeTdId){
+//                    var obj =$(".fht-tbody > .treetable").find("tr[data-tt-id='" + tdId + "']").children().find('a').parent().html();
+//                    console.log(obj);
+//                    treeToggle(obj);
+                    iterateTreeToogle(tdId,"display: table-row;",false);
+                    $('.openDetailsTxt').css('display','none');
+                    $('.closeDetailsTxt').css('display','block');
+                }
+            }else{
+                for(var tdId of treeTdId){
+                    iterateTreeToogle(tdId,"display: none;",true);
+                    $('.closeDetailsTxt').css('display','none');
+                    $('.openDetailsTxt').css('display','block');
+                }
+            }
+
+        });
+
+    });
+</script>
+</html>

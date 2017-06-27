@@ -13,8 +13,11 @@
                                 <span class="subCon">RMHTD17000121</span>
                                 <span class="subT">RV No.:</span>
                                 <span class="subCon">06587201</span>
-                                <span class="subT">RV Type:</span>
-                                <span class="subCon">6PM</span>
+                                <span class="subT">Cfm status:</span>
+                                <select class="input-medium resvCard-xs">
+                                    <option value="y">Y</option>
+                                    <option value="n">N</option>
+                                </select>
 
                             </div>
                         </div>
@@ -137,7 +140,7 @@
                                         <!--5-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>Fixed Order</label>
+                                                <label>Rv. Type</label>
                                                 <select class="input-medium resvCard">
                                                     <option value="y">Yes</option>
                                                     <option value="n">No</option>
@@ -159,8 +162,15 @@
                                         <!--6-->
                                         <div class="grid">
                                             <div class="grid-item">
+                                                <label>Fixed Order</label>
+                                                <select class="input-medium resvCard">
+                                                    <option value="y">Yes</option>
+                                                    <option value="n">No</option>
+                                                </select>
+                                            </div>
+                                            <div class="grid-item">
                                                 <label>Remarks</label>
-                                                <input type="text" class="input-medium resvCard-fullRemark" placeholder="All=Company"/>
+                                                <input type="text" class="input-medium resvCard-col3-fullRemark" placeholder="All=Company"/>
                                                 <span class="moreClick">...</span>
                                             </div>
                                         </div>
@@ -181,15 +191,7 @@
                                                         <!--1-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>Gender</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>Title</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>Nationality</label>
+                                                                <label>Pre.RM</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
                                                             </div>
                                                             <div class="grid-item">
@@ -199,14 +201,6 @@
                                                         </div>
                                                         <!--2-->
                                                         <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>Visit No.</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>Visit days</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
                                                             <div class="grid-item">
                                                                 <label>Skymiles</label>
                                                                 <input type="text" class="input-medium resvCard" placeholder="" disabled/>
@@ -219,33 +213,18 @@
                                                         </div>
                                                         <!--3-->
                                                         <div class="grid">
-                                                            <div class="grid-item">
-                                                                <label>Last Visit Date</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>Total Amt.</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                            </div>
+
                                                             <div class="grid-item">
                                                                 <label>C/I Alert</label>
-                                                                <input type="text" class="input-medium resvCard-col2Remark" placeholder="" />
+                                                                <input type="text" class="input-medium resvCard-fullRemark" placeholder="" />
                                                                 <span class="moreClick">...</span>
                                                             </div>
                                                         </div>
                                                         <!--4-->
                                                         <div class="grid">
                                                             <div class="grid-item">
-                                                                <label>Pre.RM</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                                            </div>
-                                                            <div class="grid-item">
-                                                                <label>Last RM No.</label>
-                                                                <input type="text" class="input-medium resvCard" placeholder=""/>
-                                                            </div>
-                                                            <div class="grid-item">
                                                                 <label>C/O Alert</label>
-                                                                <input type="text" class="input-medium resvCard-col2Remark" placeholder=""/>
+                                                                <input type="text" class="input-medium resvCard-fullRemark" placeholder=""/>
                                                                 <span class="moreClick">...</span>
                                                             </div>
                                                         </div>
@@ -459,60 +438,60 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>Add date</label>
-                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/1"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="2016/11/1" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cfmd status</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="cfmd"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="cfmd" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cxl reason</label>
-                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                             </div>
                                         </div>
                                         <!--6-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>Add by</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="abby"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="abby" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cfmd no.</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="F54156"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="F54156" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cxl No.</label>
-                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                             </div>
                                         </div>
                                         <!--7-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>Upd date</label>
-                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="2016/11/25" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cfmd date</label>
-                                                <input type="date" class="input-medium resvCard" placeholder="2016/11/25"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="2016/11/25" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cxl date</label>
-                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                             </div>
                                         </div>
                                         <!--8-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>Upd by</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="john"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="john" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cfmd by</label>
-                                                <input type="text" class="input-medium resvCard" placeholder="john"/>
+                                                <input type="text" class="input-medium resvCard" placeholder="john" disabled/>
                                             </div>
                                             <div class="grid-item">
                                                 <label>Cxl No.</label>
-                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                             </div>
                                         </div>
                                     </div>
@@ -541,10 +520,6 @@
                     <div class="row">
                         <div class="right-menu-co">
                             <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth rvType-btn"
-                                            role="button">RV Type</button>
-                                </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">Waiting</button>
@@ -576,6 +551,11 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth resv_rateDetail"
                                             role="button">Rate Details</button>
+                                </li>
+
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">RM. Assign</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1528,27 +1508,28 @@
                                         role="button">分類別</button>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage06"
-                                        role="button">保證方式</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage04"
+                                        role="button">訂房確認書</button>
                             </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="space-6"></div>
 
+
                     <div class="col-xs-12 col-sm-12">
                         <div class="row">
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth confirm-print-btn"
-                                        role="button">訂房確認書[列印]</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">旅客登記卡列印</button>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage12"
-                                        role="button">訂房確認書[E-Mail]</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage08"
+                                        role="button">Change Log</button>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage13"
-                                        role="button">訂房確認書[傳真]</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage14"
+                                        role="button">訂房確認書 Log</button>
                             </div>
                         </div>
                     </div>
@@ -1559,34 +1540,17 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">旅客登記卡列印</button>
+                                        role="button">R.S. Booking</button>
                             </div>
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservePrint-btn"
-                                        role="button">訂房卡列印</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Bauquet</button>
                             </div>
                             <div class="col-xs-4"></div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="space-6"></div>
 
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage08"
-                                        role="button">Change Log</button>
-                            </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage09"
-                                        role="button">Memo</button>
-                            </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage14"
-                                        role="button">訂房確認書 Log</button>
-                            </div>
-                        </div>
-                    </div>
                 </div><!--main-content-data-->
 
             </div>
@@ -1707,35 +1671,35 @@
                                                 </div>
                                             </div>
                                             <!--2-->
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>Title</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>Gend</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>喜好房號</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                </div>
-                                            </div>
+                                            <!--<div class="grid">-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>Title</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>-->
+                                                <!--</div>-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>Gend</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>-->
+                                                <!--</div>-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>喜好房號</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="" disabled/>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
                                             <!--3-->
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>職稱</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>國籍</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>最近入住房號</label>
-                                                    <input type="text" class="input-medium resvCard" placeholder="" disabled/>
-                                                </div>
-                                            </div>
+                                            <!--<div class="grid">-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>職稱</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Manager" disabled/>-->
+                                                <!--</div>-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>國籍</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="Normal" disabled/>-->
+                                                <!--</div>-->
+                                                <!--<div class="grid-item">-->
+                                                    <!--<label>最近入住房號</label>-->
+                                                    <!--<input type="text" class="input-medium resvCard" placeholder="" disabled/>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
                                             <div class="border-double1"></div>
                                             <!--4-->
                                             <div class="grid">
@@ -1828,6 +1792,10 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth resv_assignHouse"
                                             role="button">指定房組</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">imports</button>
                                 </li>
                             </ul>
                         </div>

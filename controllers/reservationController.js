@@ -40,8 +40,8 @@ exports.getResv_blockSetting = function (req, res) {
 /**
  * 超訂設定(靜態)
  */
-exports.getPMS0130010 = function (req, res) {
-    res.render("subsystem/reservation/PMS0130010");
+exports.getPMS0120020 = function (req, res) {
+    res.render("subsystem/reservation/PMS0120020");
 };
 
 /**
@@ -64,8 +64,14 @@ exports.getResv_changeRecords = function (req, res) {
     res.render("subsystem/reservation/resv_changeRecords");
 };
 /**
- * 異動紀錄(靜態 quickMenu)
+ * 鎖控iframe(靜態 quickMenu)
  */
 exports.getResv_blockSettingTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/resvBlockSettingTable_1");
+};
+/**
+ * 專案訂房(靜態 quickMenu)
+ */
+exports.getPMS0110030 = function (req, res) {
+    res.render("subsystem/reservation/PMS0110030");
 };

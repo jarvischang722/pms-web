@@ -89,6 +89,22 @@
             });
         });
 
+        // 彈出 選項 option
+        $(document).on('click', ".resv_BtnPage04", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage04-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房確認書",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 住客明細 Guest Details
         $(document).on('click', ".resv_guestDetail", function (e) {
             e.preventDefault();

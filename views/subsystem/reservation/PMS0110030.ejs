@@ -91,7 +91,7 @@
                 <div class="col-sm-11 col-xs-11">
                     <div class="row no-margin-right">
                         <!--  鎖控明細表格 -->
-                        <%- include PMS0100000_module/PMS0130010Table_1 %>
+                        <%- include PMS0100000_module/PMS0120020Table_1 %>
 
                         <!--  /.End 鎖控明細表格 -->
                     </div>
@@ -109,7 +109,7 @@
                                             role="button">Hide Details</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth PMS0130010Btn"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth PMS0120020Btn"
                                             role="button">Setting</button>
                                 </li>
                                 <li>
@@ -127,8 +127,8 @@
             </div> <!-- /.col-sm-12 -->
             <div class="clearfix"></div>
         </div>
-        <!-- PMS0130010 超訂-設定 彈出視窗 -->
-        <div id="PMS0130010Btn-page" class="hide padding-5" style="">
+        <!-- PMS0120020 超訂-設定 彈出視窗 -->
+        <div id="PMS0120020Btn-page" class="hide padding-5" style="">
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
@@ -196,7 +196,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <!-- /.PMS0130010 超訂-設定 彈出視窗 -->
+        <!-- /.PMS0120020 超訂-設定 彈出視窗 -->
 
     </div>
 </div><!-- /.page-content -->
@@ -207,9 +207,9 @@
     $(function () {
 
         // 彈出blockSettingSingle
-        $(document).on('click', ".PMS0130010Btn", function (e) {
+        $(document).on('click', ".PMS0120020Btn", function (e) {
             e.preventDefault();
-            var dialog = $("#PMS0130010Btn-page").removeClass('hide').dialog({
+            var dialog = $("#PMS0120020Btn-page").removeClass('hide').dialog({
                 modal: true,
                 title: "Setting",
                 title_html: true,
@@ -223,8 +223,8 @@
 
     });
     $(function () {
-        $('#PMS0130010-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
-//        $('#PMS0130010-table').children('tr').find('.indenter').css('display','none');
+        $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
+//        $('#PMS0120020-table').children('tr').find('.indenter').css('display','none');
 
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
