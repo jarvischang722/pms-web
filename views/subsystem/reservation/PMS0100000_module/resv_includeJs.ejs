@@ -89,7 +89,7 @@
             });
         });
 
-        // 彈出 選項 option
+        // 彈出 訂房確認書 option
         $(document).on('click', ".resv_BtnPage04", function (e) {
             e.preventDefault();
             var dialog = $("#resv_BtnPage04-message").removeClass('hide').dialog({
@@ -731,7 +731,6 @@
                 {field: 'baby', title: '嬰兒', width: 40}
             ]]
         });
-
     });
 
     $(function() {
@@ -750,6 +749,7 @@
         $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 40, everyColumnsAddWith: 0 });
 
 //      依房型訂房
+        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 10 });
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -866,4 +866,17 @@
 
     });
 
+    //changeRecords中的dropdown select
+    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+
+        var $target = $( event.currentTarget );
+
+        $target.closest( '.btn-group' )
+            .find( '[data-bind="label"]' ).text( $target.text() )
+            .end()
+            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+        return false;
+
+    });
 </script>

@@ -75,3 +75,10 @@ exports.getResv_blockSettingTable = function (req, res) {
 exports.getPMS0110030 = function (req, res) {
     res.render("subsystem/reservation/PMS0110030");
 };
+
+/**
+ * 依房號訂房
+ */
+exports.getResv_roomPlan = function (req, res) {
+    res.render("subsystem/reservation/resv_roomPlan");
+};

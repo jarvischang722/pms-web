@@ -820,7 +820,7 @@ label {
   border: 1px solid #778899;
   /* size */
 }
-/* line 61, ../sass/partials/_fixTableTheme.sass */
+/* line 60, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr td {
   /* appearance */
   background-color: #fff;
@@ -3256,6 +3256,154 @@ ul.newVisitOther-btn {
 /* line 1028, ../sass/_bacchusMain.sass */
 .rvType-table-container {
   margin-top: 10px;
+}
+
+/* line 1036, ../sass/_bacchusMain.sass */
+.dropdown-select {
+  margin-bottom: 15px;
+}
+/* line 1040, ../sass/_bacchusMain.sass */
+.dropdown-select .btn-group .btn .caret {
+  margin-top: 0;
+}
+
+/* line 1042, ../sass/_bacchusMain.sass */
+.table-temporarily {
+  width: 500px;
+  margin-bottom: 15px;
+}
+/* line 1045, ../sass/_bacchusMain.sass */
+.table-temporarily .horizTable-outer .css_table.horizTable td,
+.table-temporarily .horizTable-outer .css_table.horizTable th {
+  padding: 6px;
+}
+/* line 1048, ../sass/_bacchusMain.sass */
+.table-temporarily .horizTable-outer .css_table .css_th {
+  background: linear-gradient(#eeeeee, #c4c4c4);
+}
+
+/* line 1052, ../sass/_bacchusMain.sass */
+.plan-btn-group {
+  text-align: center;
+  width: 300px;
+  margin: 0 0 4px 4px;
+}
+/* line 1056, ../sass/_bacchusMain.sass */
+.plan-btn-group ul {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+/* line 1059, ../sass/_bacchusMain.sass */
+.plan-btn-group ul li {
+  list-style: none;
+  display: inline;
+}
+/* line 1062, ../sass/_bacchusMain.sass */
+.plan-btn-group ul li button {
+  border: 0;
+}
+/* line 1064, ../sass/_bacchusMain.sass */
+.plan-btn-group ul li span {
+  font-weight: bold;
+}
+
+/* line 1066, ../sass/_bacchusMain.sass */
+.btn-inlineWidth {
+  width: 19%;
+  padding: 3px 9px;
+  font-size: 12px;
+  padding-left: 0;
+  padding-right: 0;
+  white-space: normal;
+}
+
+/* line 1073, ../sass/_bacchusMain.sass */
+.roomPlan-btn {
+  margin-top: 42px;
+}
+
+/* line 1077, ../sass/_bacchusMain.sass */
+.empty-color {
+  background: #e3efdb !important;
+}
+
+/* line 1079, ../sass/_bacchusMain.sass */
+.room-color {
+  background: #ffe5d5 !important;
+}
+
+/* line 1081, ../sass/_bacchusMain.sass */
+.name-color {
+  background: #f7ccac !important;
+  text-align: center;
+}
+
+/* line 1084, ../sass/_bacchusMain.sass */
+.datecolor {
+  background: #DAEAFC !important;
+}
+
+/* line 1090, ../sass/_bacchusMain.sass */
+.room-table-container {
+  overflow: hidden;
+  display: block;
+}
+/* line 1095, ../sass/_bacchusMain.sass */
+.room-table-container .roomPlan-table .ca-center i {
+  margin-top: 7px;
+  margin-left: 5px;
+}
+/* line 1099, ../sass/_bacchusMain.sass */
+.room-table-container .roomPlan-table .room-color i {
+  margin-left: 4px;
+  padding: 0;
+}
+
+/* line 1102, ../sass/_bacchusMain.sass */
+.roomPlan-Num {
+  position: absolute;
+  right: 4%;
+  border-left: 1px solid #888;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 1px;
+}
+
+/* line 1109, ../sass/_bacchusMain.sass */
+.roomPlan-Num2 {
+  position: absolute;
+  right: 19%;
+  border-left: 1px solid #888;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 1px;
+}
+
+/* line 1116, ../sass/_bacchusMain.sass */
+th.dateColor {
+  text-align: center;
+}
+
+/* line 1118, ../sass/_bacchusMain.sass */
+.roomPlanTable.fancyTable tbody tr td .datecolor {
+  background-color: #DAEAFC !important;
+}
+
+/* line 1120, ../sass/_bacchusMain.sass */
+.roomPlanTable td {
+  min-width: 60px;
+  white-space: nowrap;
+}
+
+/* line 1123, ../sass/_bacchusMain.sass */
+.roomPlanTable thead:first-child {
+  min-width: 200px;
+}
+
+/* line 1125, ../sass/_bacchusMain.sass */
+.fancyTable.roomPlanTable tbody tr td {
+  background-color: #DAEAFC;
+  color: #262c31;
 }
 
 /*------  共用區public ------ */
