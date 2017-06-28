@@ -815,29 +815,30 @@ label {
 }
 /* line 51, ../sass/partials/_fixTableTheme.sass */
 .fancyTable td, .fancyTable th {
-  /* appearance */
+  /* appearance
+   * background-color: #fff */
   border: 1px solid #778899;
   /* size */
 }
-/* line 60, ../sass/partials/_fixTableTheme.sass */
+/* line 61, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr td {
   /* appearance */
   background-color: #fff;
   /* text */
   color: #262c31;
 }
-/* line 68, ../sass/partials/_fixTableTheme.sass */
+/* line 69, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr td.middle {
   vertical-align: middle;
 }
-/* line 70, ../sass/partials/_fixTableTheme.sass */
+/* line 71, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr.odd td {
   /* appearance */
   background-color: #eee;
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0) 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(50%, rgba(255, 255, 255, 0.2)), color-stop(51%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(255, 255, 255, 0)));
 }
-/* line 76, ../sass/partials/_fixTableTheme.sass */
+/* line 77, ../sass/partials/_fixTableTheme.sass */
 .fancyTable thead tr th, .fancyTable thead tr td {
   /* appearance */
   background-color: #fff;
@@ -846,7 +847,7 @@ label {
   font-weight: bold;
   text-shadow: 0 1px 1px #e8ebee;
 }
-/* line 85, ../sass/partials/_fixTableTheme.sass */
+/* line 86, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tfoot tr th, .fancyTable tfoot tr td {
   /* appearance */
   background-color: #fff;
@@ -858,27 +859,27 @@ label {
 }
 
 /* Fancy Dark Table */
-/* line 96, ../sass/partials/_fixTableTheme.sass */
+/* line 97, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable {
   /*border-collapse: separate; */
   /* text */
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 97, ../sass/partials/_fixTableTheme.sass */
+/* line 98, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable .numeric {
   /* text */
   text-align: right;
 }
-/* line 100, ../sass/partials/_fixTableTheme.sass */
+/* line 101, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable td, .fancyDarkTable th {
   border: 1px solid #000000;
   padding: 5px;
 }
-/* line 103, ../sass/partials/_fixTableTheme.sass */
+/* line 104, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable thead tr th {
   padding: 4px 3px 4px 3px;
 }
-/* line 109, ../sass/partials/_fixTableTheme.sass */
+/* line 110, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable tbody tr td {
   /* appearance */
   background-color: #48535e;
@@ -896,7 +897,7 @@ label {
   font-weight: bold;
   text-shadow: 0 -1px 1px #000000;
 }
-/* line 125, ../sass/partials/_fixTableTheme.sass */
+/* line 126, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable tbody tr.odd td {
   /* appearance */
   background-color: #3c454f;
@@ -904,7 +905,7 @@ label {
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.02)));
   border-right-color: #000;
 }
-/* line 131, ../sass/partials/_fixTableTheme.sass */
+/* line 132, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable thead tr th, .fancyDarkTable tfoot tr td {
   /* appearance */
   background-color: #0b0d10;
@@ -916,7 +917,7 @@ label {
   font-weight: bold;
   text-shadow: 0 -1px 1px #000;
 }
-/* line 141, ../sass/partials/_fixTableTheme.sass */
+/* line 142, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable .fht-head {
   -webkit-box-shadow: 0 5px 10px #000;
   z-index: 1;
