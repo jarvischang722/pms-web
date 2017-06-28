@@ -5,7 +5,7 @@
         <statement><![CDATA[
                 select athena_id, hotel_cod, guarentee_typ, guarentee_nam, guarentee_rmk, trim(dp_req) as dp_req, dp_rat, trim(cc_req) as cc_req, keep_day, keep_tim, trim(use_sta) as use_sta, view_seq
                 from hfd_guarentee_rf
-                where athena_id = ? and trim(hotel_cod) = ?
+                where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

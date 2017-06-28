@@ -20,10 +20,9 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
-            source_grp: postData.singleRowData.source_grp
+            status_cod: postData.singleRowData.status_cod
         };
 
-        var createSubFunc = [];
         var isDeleteRow = false;
 
         isDeleteRow = postData.singleRowData.default_sta.trim() == "Y" ? false : true;

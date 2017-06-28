@@ -142,12 +142,17 @@ var EZfieldClass = {
             }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
-                //TODO 值不可寫死
-
                 var displayName = fieldAttrObj.selectData[1];
                 var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
+
+            // if(fieldAttrObj.rule_func_name != ""){
+            //     tmpFieldObj.editor.options.onCheck = function (newValue) {
+            //         if (oldValue == "") {return false;}
+            //         onChange_Action(fieldAttrObj, oldValue, newValue);
+            //     };
+            // }
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
