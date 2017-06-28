@@ -57,5 +57,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_room_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_arrive_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_leave_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
     </sql-sources>
 </struts-config>
