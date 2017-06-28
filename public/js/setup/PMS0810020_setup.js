@@ -100,11 +100,17 @@ Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
         'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
-    data () {
+    data: function () {
         return {
             isFistData: false,
             isLastData: false,
-            fileList2: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+            fileList2: [{
+                name: 'food.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+            }, {
+                name: 'food2.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+            }]
         };
     },
     watch: {
@@ -130,7 +136,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         }
     },
-    created () {
+    create: function () {
 
         var self = this;
         vmHub.$on('tempExecData', function (row) {
@@ -247,8 +253,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     });
                 }
             });
-        }
-        ,
+        },
         //關閉
         emitCloseGridDialog: function () {
             this.$emit('close-single-grid-dialog');
@@ -325,16 +330,26 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
-        appendDtRow(){
+        appendDtRow: function () {
         },
-        removeDtRow(){
+        removeDtRow: function () {
         },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
-            }else{
+            } else {
                 return val
             }
+        },
+        //上傳官網
+        uploadWebSite: function () {
+            console.log("uploadWebSite");
+        },
+        genRoomTypeStock: function () {
+            this.$parent.dialogFormVisible = true;
+        },
+        showRoomTypeSort: function () {
+            console.log("showRoomTypeSort");
         }
 
     }
@@ -369,7 +384,19 @@ var vm = new Vue({
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
-        dgIns: {}
+        dgIns: {},
+        dialogFormVisible: false,
+        form: {
+            name: '',
+            region: '',
+            date1: '',
+            date2: '',
+            delivery: false,
+            type: [],
+            resource: '',
+            desc: ''
+        },
+        formLabelWidth: '120px'
     },
     watch: {
         editStatus: function (newVal) {

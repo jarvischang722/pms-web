@@ -49,7 +49,8 @@
                                           v-if="field.visiable == 'Y' && field.ui_type == 'select'">
                                         <button :disabled="field.modificable == 'N'"
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                class="btn btn-default btn-white dropdown-toggle btn-height" type="button"
+                                                class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                type="button"
                                                 data-toggle="dropdown">
                                                 {{ showDropdownDisplayName(singleData[field.ui_field_name] , field.selectData) }}
                                             <span class="caret"></span>
@@ -69,7 +70,9 @@
                                 </div>
                             </div>
 
-                            <el-upload  v-if="editStatus" drag class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :file-list="fileList2" list-type="picture">
+                            <el-upload v-if="editStatus" drag class="upload-demo"
+                                       action="https://jsonplaceholder.typicode.com/posts/" :file-list="fileList2"
+                                       list-type="picture">
                                 <el-button size="small" type="primary">載入顯示圖檔</el-button>
                                 <div class="el-upload__text">將文字拖曳至此，或<em>點擊上傳</em></div>
                                 <div slot="tip" class="el-upload__tip">只能上傳jpg/png文件，且不超過500kb</div>
@@ -114,17 +117,20 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth">
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                @click="uploadWebSite">
                                             上傳官網
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth">
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                @click="genRoomTypeStock">
                                             產生庫存
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth">
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                @click="showRoomTypeSort">
                                             房型顯示排序
                                         </button>
                                     </li>
