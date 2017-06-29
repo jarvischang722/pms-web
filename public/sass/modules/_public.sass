@@ -212,8 +212,23 @@ $medium-c3-card: 212px
     +input-s1(695px)
   &.popWindow-s1
     +input-s1(155px)
+  &.popWindow-s1Remark
+    +input-s1(128px)
+    // resv_gProfile
+  &.popWindow-s2
+    +input-s1(138px)
   &.popWindow-s1-col2
     +input-s1(414px)
+  &.popWindow-s1v2
+    +input-s1(115px)
+  &.popWindow-s1v2-col2
+    +input-s1(227px)
+  &.popWindow-s1v2-col2RM
+    +input-s1(200px)
+  &.popWindow-s1v2-keyword
+    +input-s1(460px)
+  &.popWindow-s1v2-col3
+    +input-s1(562px)
   &.resvCard
     +input-s1(103px)
   &.resvCard-date
@@ -232,8 +247,14 @@ $medium-c3-card: 212px
     +input-s1(698px)
   &.resvCard-col3-fullRemark
     +input-s1(490px)
+  &.resvCard-xs
+    +input-s1(40px)
+  &.resvCard-sm
+    +input-s1(81px)
   &.checkMail
     +input-s1(530px)
+  &.large-c1
+    +input-s1(210px)
 .input-hMedium
   height: $inputHeight-medium !important
 .input-hCol2
@@ -338,3 +359,42 @@ input[type="date"]
   margin-left: 5px
 .border-raduis-5
   border-radius: 5px
+.extendGrid
+  position: relative
+  .extendIcon
+    position: absolute
+    padding: 0 5px
+    border-radius: 10px
+    background: $light-green
+    right: 8px
+    top: -37px
+    cursor: pointer
+    &:hover
+      background: $green
+    &.activeBg
+      background: $green
+    i
+      color: #fff
+      font-weight: bold
+      -webkit-transform: rotate(0deg)
+      -webkit-animation: outAnimation 1s
+      &.active
+        -webkit-animation: inAnimation 1s
+        -webkit-transform: rotate(180deg)
+      @-webkit-keyframes inAnimation
+        0%
+          -webkit-transform: rotate(-135deg)
+        100%
+          -webkit-transform: rotate(180deg)
+      @-webkit-keyframes outAnimation
+        0%
+          -webkit-transform: rotate(45deg)
+        100%
+          -webkit-transform: rotate(360deg)
+
+  .extendContent
+    display: none
+
+.totalMiddle
+  display: inline-block
+  vertical-align: middle

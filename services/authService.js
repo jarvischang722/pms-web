@@ -14,20 +14,20 @@ exports.doAuthAccount = function (authData, callback) {
 
             cmp_id: authData.comp_id || "",
             user_id: authData.username || "",
-            usr_pwd: authData.passwd || "",
+            usr_pwd: authData.passwd || ""
 
         };
         async.waterfall([
             function(cb){
                 queryAgent.query("QRY_TRAN_S99_USER_PWD", params, function (err, data) {
                     cb(err, data.usr_pwd);
-                })
+                });
             },
             function (usr_pwd,cb) {
                 params["usr_pwd"] = usr_pwd;
                 queryAgent.query("QRY_BAC_GET_USER_BY_ONE", params, function (err, user) {
                     cb(err, user);
-                })
+                });
             }
         ], function (err, user) {
             if (err || !user) {
@@ -57,12 +57,12 @@ exports.doAuthAccount = function (authData, callback) {
  * @param  callback {Function} (hotels)
  */
 exports.getUserHotels = function (user, callback) {
-    queryAgent.queryList("QUY_ROLE_USER_USE_HOTELS", {user_id: user.usr_id.trim(),user_athena_id:user.user_athena_id}, 0, 0, function (err, hotels) {
+    queryAgent.queryList("QUY_ROLE_USER_USE_HOTELS", {user_id: user.usr_id.trim(),user_athena_id: user.user_athena_id}, 0, 0, function (err, hotels) {
 
         if (err) {
             hotels = [];
         }
 
         callback(err, hotels);
-    })
+    });
 };

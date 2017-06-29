@@ -14,12 +14,7 @@ const fs = require("fs");
  */
 exports.fieldAllLocaleContent = function (req, res) {
 
-    var rowData = req.body["rowData"];
-    var prg_id = req.body["prg_id"];
-    var page_id = req.body["page_id"];
-    var ui_field_name = req.body["ui_field_name"];
-
-    langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, "gridsingle", ui_field_name, function (multiLangData) {
+    langSVC.handleRowDataMultiLang(req, ui_field_name, function (multiLangData) {
         res.json({success: true, multiLangContentList: multiLangData});
     });
 };
@@ -29,11 +24,7 @@ exports.fieldAllLocaleContent = function (req, res) {
  */
 exports.multiLangFieldContentByKey = function (req, res) {
 
-    var rowData = req.body["rowData"];
-    var prg_id = req.body["prg_id"];
-    var page_id = req.body["page_id"];
-    var dataType = req.body["dataType"] || "datagrid"; // datagrid | girdsingle
-    langSVC.handleRowDataMultiLang(prg_id, page_id, rowData, dataType, "", function (multiLangData) {
+    langSVC.handleRowDataMultiLang(req, "", function (multiLangData) {
         res.json({success: true, multiLangContent: multiLangData});
     });
 

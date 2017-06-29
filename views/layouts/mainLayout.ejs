@@ -1,32 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <%- include ../common/head %>
+
 <%- include ../common/importFiles %>
 
-<body class="no-skin" id="app">
+<body class="no-skin">
 
-<% include('../common/navbar.ejs') %>
+<%- include ../common/navbar.ejs %>
 
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+<div id="MainApp" class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-        <% include('../common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:'PMS0800000',pro_id:''}) %>
+        <%- include ../common/moduleMenu.ejs %>
     </div>
     <div class="main-content">
         <div class="main-content-inner">
-            <%- include('../common/subsysMenu',{current_subsys_id:'PMS0800000',pro_id:''}) %>
+            <%- include('../common/subsysMenu',{usingSubsysID:'',pro_id:''}) %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
+
             </div>
         </div>
-    </div><!-- /.main-content -->
+    </div>
     <%- include ../common/footer %>
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
-</div><!-- /.main-container -->
+</div>
 
+<%- script %>
 </body>
 
+<script>
+
+    var mainVue = new Vue({
+        el: '#MainApp',
+        data: {
+            usingSubsysID: '',
+            current_pro_id: '',
+            locale: '<%= session.locale %>',
+            moduleMenu: [],
+            quickMenu: [],
+            subsysMenu: []
+        },
+        mounted(){
+
+            this.getUserSubsys();
+        },
+        watch: {
+            usingSubsysID(newVal){
+                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
+                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
+
+                this.current_pro_id = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : ""
+            }
+        },
+        methods: {
+            getUserSubsys(){
+                axios.post("/api/getUserSubsys").then(function (res) {
+                    mainVue.subsysMenu = res.data.subsysMenu;
+                    mainVue.usingSubsysID = getCookie('usingSubsysID');
+                })
+            },
+//切換子系統
+            toSubsys(subsys_id){
+                doCookieSetup("usingPrgID", "");
+                doCookieSetup('usingSubsysID', subsys_id)
+                this.usingSubsysID = subsys_id;
+
+            },
+
+            //讀入主程式
+            loadMainProcess(pro_id,pro_url){
+                this.current_pro_id = pro_id;
+                 $("#MainContentDiv").load(pro_url);
+            }
+        },
+
+    })
+</script>
 </html>
 

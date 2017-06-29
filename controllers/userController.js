@@ -19,13 +19,13 @@ exports.loginPage = function (req, res, next) {
         if (!_.isUndefined(req.session.user.sys_id)) {
             res.redirect("/");
             return;
-        } 
-            res.redirect("/systemOption");
-            return;
-        
+        }
+        res.redirect("/systemOption");
+        return;
+
     }
 
-    res.render("user/loginPage");
+    res.render('user/loginPage');
 };
 
 
@@ -85,6 +85,11 @@ exports.logout = function (req, res) {
  */
 exports.selectSystem = function (req, res) {
     var sys_id = req.body["sys_id"] || "";
+    if(!_.isUndefined(req.session.user.sys_id ) && !_.isEqual(sys_id,req.session.user.sys_id ) ){
+        delete  req.cookies.usingSubsysID;
+        res.clearCookie("usingSubsysID");
+        res.clearCookie("usingPrgID");
+    }
     try {
         if (!_.isEmpty(sys_id)) {
             var params = {
@@ -96,16 +101,18 @@ exports.selectSystem = function (req, res) {
             queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
                 var sysObj = _.findWhere(sysRows, {sys_id: sys_id}) || {};
                 req.session.user.sys_id = sysObj.sys_id;
-                langSvc.handleMultiLangContentByField("lang_s99_system",'sys_name','',function(err,sysLang){
-                    sysLang = _.where(sysLang,{sys_id:req.session.user.sys_id });
-                     _.each(sysLang, function(sys){
-                         req.session.user["sys_name_"+sys.locale] = sys.words;
-                     });
+                langSvc.handleMultiLangContentByField("lang_s99_system", 'sys_name', '', function (err, sysLang) {
+                    sysLang = _.where(sysLang, {sys_id: req.session.user.sys_id});
+                    _.each(sysLang, function (sys) {
+                        req.session.user["sys_name_" + sys.locale] = sys.words;
+                    });
                     roleFuncSvc.updateUserPurview(req, function (err) {
-                        var subsystem_first_url = getSysFirsrUrl(req.session.user.subsysMenu);
-                        res.cookie('subsystem_first_url', subsystem_first_url);
-                        res.cookie('current_subsys_id', req.session.user.subsysMenu.length>0? req.session.user.subsysMenu[0].subsys_id : "") ;
-                        res.redirect("/");
+                        var usingSubsysID = req.session.user.subsysMenu.length > 0 ? req.session.user.subsysMenu[0].subsys_id : "";
+                        if (!_.isUndefined(req.cookies.usingSubsysID)) {
+                            usingSubsysID = req.cookies.usingSubsysID;
+                        }
+                        res.cookie('usingSubsysID', usingSubsysID);
+                        res.redirect("/bacchus4web/" + usingSubsysID);
                     });
                 });
             });
@@ -123,9 +130,9 @@ exports.selectSystem = function (req, res) {
  */
 exports.getUserSubsys = function (req, res) {
     if (req.session.user) {
-        res.json({success: true, subsysGrp: req.session.user.subsysGrp || []});
+        res.json({success: true, subsysMenu: req.session.user.subsysMenu || []});
     } else {
-        res.json({success: true, errorMsg: '未登入', subsysGrp: []});
+        res.json({success: true, errorMsg: '未登入', subsysMenu: []});
     }
 };
 
@@ -171,23 +178,19 @@ exports.getAuthorityFeature = function (req, res) {
 };
 
 
-
-
 /**
  * 取得系統第一個作業url
  * @param subsysMenu
  * @return {string}
  */
-function getSysFirsrUrl(subsysMenu){
+function getSysFirsrUrl(subsysMenu) {
     var ls_subsystemFirstUrl = "";
-    if(subsysMenu.length > 0 && subsysMenu[0].mdlMenu.length > 0){
-        if(!_.isNull(subsysMenu[0].mdlMenu[0].mdl_url)){
-            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].mdl_url;
-        }else{
-            ls_subsystemFirstUrl = subsysMenu[0].mdlMenu[0].processMenu[0].pro_url;
+    if (subsysMenu.length > 0 && subsysMenu[0].quickMenu.length > 0) {
+        if (!_.isNull(subsysMenu[0].quickMenu[0].pro_url)) {
+            ls_subsystemFirstUrl = subsysMenu[0].quickMenu[0].pro_url;
         }
     }
-    if(_.isNull(ls_subsystemFirstUrl)){
+    if (_.isNull(ls_subsystemFirstUrl)) {
         ls_subsystemFirstUrl = "";
     }
     return ls_subsystemFirstUrl;

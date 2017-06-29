@@ -117,6 +117,7 @@
                                                             <span class="choiceDay">Thu</span>
                                                             <span class="choiceDay">Fri</span>
                                                             <span class="choiceDay">Sat</span>
+                                                            <span class="choiceDay">All</span>
                                                         </div>
                                                     </div>
                                                     <div class="space-6"></div>
@@ -171,21 +172,24 @@
         // 日期列表
         $('.calendar-list').calendarYear();
         // 選擇日期區間 or change it into a date range picker
-        $('.input-daterange').datepicker({autoclose:true});
-        // 選擇顏色
-        $("#preferredHex3").spectrum({
-            preferredFormat: "hex3",
-            showInput: true,
-            showPalette: true,
-            palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]
+        $('.input-daterange').datepicker({
+            autoclose:true,
+            dateFormat: 'yy-mm-dd'
         });
-        // 平日假日旺日選擇
-        var selectedScheme = 'datePin01';
-
-        $('#color_scheme').change(function(){
-            $('div').removeClass(selectedScheme).addClass($(this).val());
-            selectedScheme = $(this).val();
-        });
+//        // 選擇顏色
+//        $("#preferredHex3").spectrum({
+//            preferredFormat: "hex3",
+//            showInput: true,
+//            showPalette: true,
+//            palette: [["red", "rgba(0, 255, 0, .5)", "rgb(0, 0, 255)"]]
+//        });
+//        // 平日假日旺日選擇
+//        var selectedScheme = 'datePin01';
+//
+//        $('#color_scheme').change(function(){
+//            $('div').removeClass(selectedScheme).addClass($(this).val());
+//            selectedScheme = $(this).val();
+//        });
     });
 </script>
 </html>

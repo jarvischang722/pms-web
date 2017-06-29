@@ -9,11 +9,13 @@ $close-color: #dc5034
 $open-close-color: #f2af00
 $open-text-color: #fff
 $holiday-color: #FECAE4
+$disable-color: #c1c1c1
 $date-color: #DAEAFC
 $orangeTag: #FDDDCC
 $orange2Tag: #E7B296
 $greenTag: #E2EFDC
 $yellowTag: #FEFC38
+$subTreeColor: #3334A6
 $subTreeColor: #3334A6
 // height
 $lineHeight18: 18px
@@ -340,6 +342,8 @@ $translate-distance: $switch-width
   background-color: $greenTag !important
 .yellowTag
   background-color: $yellowTag !important
+.disable-color
+  background-color: $disable-color !important
 
 
 
@@ -387,6 +391,12 @@ $ca-height: 30px
   padding-left: 5px
   padding-right: 5px
   padding-bottom: 1px
+.roomNumTip2
+  position: absolute
+  right: 0
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
 
 // tree child style
 .subTree-s
@@ -398,3 +408,8 @@ $ca-height: 30px
   color: #3a67df !important
 table.treetable span.indenter
   width: auto
+
+// tree icon display:none
+
+.treeIconDisplay table.treetable tr.collapsed span.indenter a
+  display: none !important

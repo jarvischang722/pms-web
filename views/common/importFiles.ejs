@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="/css/easyUI/easyui.css">
 <link rel="stylesheet" type="text/css" href="/css/easyUI/icon.css">
 <link rel="stylesheet" type="text/css" href="/css/easyUI/demo.css">
+<!-- 多選chosen -->
+<link rel="stylesheet" href="/css/chosen/chosen.css" />
+
 <!-- color picker 套件 -->
 <link rel="stylesheet" type="text/css" href="/css/spectrum/spectrum.css">
 <link rel="stylesheet" type="text/css" href="/css/spectrum/docs/docs.css">
@@ -44,7 +47,6 @@
 <script src="/js/bootstrap/bootstrap.js"></script>
 <script src="/js/ace.js"></script>
 <script src="/js/ace.sidebar.js"></script>
-
 <!-- socket.io -->
 <script src="/js/socket.io.js"></script>
 
@@ -66,8 +68,11 @@
 
 <script type="text/javascript" src="/js/remodal.min.js"></script>
 
+<!-- 多選chosen -->
+<script src="/js/chosen/chosen.jquery.js"></script>
 <!-- vue 套件 -->
 <script src="/js/vue/vue.min.js"></script>
+<script src="/js/vue/vee-validate.min.js"></script>
 <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
 <!-- Element JS for Vue.js  -->
 <script src="/js/element_ui/element.js"></script>
@@ -76,6 +81,8 @@
 <script src="/js/element_ui/locales/zh_TW.js"></script>
 <script src="/js/element_ui/locales/ja.js"></script>
 <script src="/js/element_ui/locales/ko.js"></script>
+
+
 <script>
      var ls_locale = '<%=session.locale%>';
     ELEMENT.locale(ELEMENT.lang[ls_locale.replace("_","")])
@@ -113,15 +120,18 @@
 <!-- 全頁日曆 -->
 <script src="/js/bs-calendar/bootstrap-year-calendar.min.js"></script>
 
-<!-- 警式視窗彈出 -->
-<script src="/js/gritter/jquery.gritter.min.js"></script>
-<!--fixTable-->
-<script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
+<!--treeTable-->
 <script type="text/javascript" src="/js/tree/jquery.treetable-ajax-persist.js"></script>
 <script type="text/javascript" src="/js/tree/jquery.treetable-3.0.0.js"></script>
 <script type="text/javascript" src="/js/tree/persist-min.js"></script>
+<!--fixTable-->
+<script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
 
+<!-- 警式視窗彈出 -->
+<script src="/js/gritter/jquery.gritter.min.js"></script>
 
+<!-- 多選chosen -->
+<script src="/js/chosen/chosen.jquery.js"></script>
 <!-- datagrid 類別 -->
 <script type="text/javascript" src="/js/easyUI/DatagridBaseClass.js"></script>
 

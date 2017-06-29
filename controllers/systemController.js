@@ -18,6 +18,7 @@ exports.index = function (req, res) {
     res.render("mainIndex");
 };
 
+
 /**
  * 系統別選擇
  */
@@ -49,8 +50,7 @@ exports.systemOption = function (req, res) {
                 });
 
             });
-
-            res.render('system/systemOption', {sysList: sysRows});
+            res.render('system/systemOption',{sysList: sysRows });
         });
 
     });
@@ -111,7 +111,7 @@ exports.housekeeping = function (req, res) {
  * 夜核
  */
 exports.night_check = function (req, res) {
-    res.render('subsystem/night_check/index');
+    res.render('subsystem/nightAudit/index');
 };
 
 /**
@@ -138,8 +138,8 @@ exports.setup = function (req, res) {
 /**
  * 自訂
  */
-exports.customize_setup = function (req, res) {
-    res.render('subsystem/customize_setup');
+exports.ownMenu = function (req, res) {
+    res.render('subsystem/ownMenu');
 };
 
 /**

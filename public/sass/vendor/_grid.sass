@@ -48,6 +48,16 @@
   .margin-adjust
     margin-left: 3px
     margin-right: 1px
+  .relative
+    position: relative
+    display: inline-block
+    .redTip
+      position: absolute
+      right: 0
+      bottom: -30px
+      font-size: 0.85em
+      color: #ff625f
+
 .grid-item-input
   width: 100px
   height: 50px
@@ -76,6 +86,10 @@
   border-collapse: collapse
   width: $tableWidth
   border: 1px solid #95B8E7
+  &.table-lg
+    .css_th, .css_td
+      padding-top: 10px
+      padding-bottom: 10px
   .css_thead
     display: table-header-group
   .css_tbody
@@ -112,6 +126,9 @@
       padding: 0 5px 0 5px
       box-sizing: border-box
       cursor: pointer
+    &.active
+      background: #7f7f7f
+      color: #fff
   .icon-addDel
     i
       margin-top: 5px

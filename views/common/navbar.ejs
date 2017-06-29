@@ -48,8 +48,9 @@
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
         <ul class="nav ace-nav">
             <li class="info">
-                <span id="datetimeSpan">2016/08/12 </span>
-                <span> | <%= session.user.usr_cname %>  </span>
+                <span id="datetimeSpan"></span>
+                | <span>  <%= session.user.usr_cname %>  </span>
+                <!--| 登出時間 : <span id="timeLeft">  00 : 00   </span>-->
             </li>
 
             <li class="purple dropdown-modal">
@@ -198,7 +199,13 @@
             }
         })
     }
-
+    //接收session 剩餘時間
+    socket.on("sessionTimeLeft", function (data) {
+        var timeLeft = data.timeLeft;
+        var mm = String(Math.floor(timeLeft / 60));
+        var ss = String(timeLeft % 60);
+        $("#timeLeft").text(mm + ":" + ss);
+    })
 
     //接收socket 回傳
     socket.on("sessionStatus", function (session) {

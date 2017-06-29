@@ -3,7 +3,7 @@
  * 下拉選單內容
  */
 var i18n = require("i18n");
-var optionsLib =  this;
+var optionsLib = this;
 var ReturnClass = require("../returnClass");
 
 /**
@@ -264,8 +264,8 @@ exports.getIsNeed = function () {
  */
 exports.checkStaList = function () {
     var checkList = {
-        on:'Y',
-        off:'N'
+        on: 'Y',
+        off: 'N'
     };
 
     return checkList;
@@ -285,9 +285,9 @@ exports.getCharacterrfSysdefaultList = function(){
             display: "否",
             value: "N"
         }
-    ]
+    ];
     return lo_SysdefaultList;
-}
+};
 
 
 //TODO 將搬到 [程式編碼]Rule裡
@@ -421,6 +421,15 @@ exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
 };
 
 /**
+ * PMS0830110平展作業區設定是否啟用
+ */
+exports.qry_a6hfd_areapnt_rf_areapnt_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaList();
+    callback(null,lo_result);
+};
+
+/**
  * 聯絡設定取得聯絡類別
  */
 exports.qry_contact_rf_contact_typ = function(params, callback){
@@ -481,7 +490,7 @@ exports.qryCharacterrfSysdefault = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
     callback(null,lo_result);
-}
+};
 
 /**
  * 訂房類別設定(PMS0810150)取得是否使用下拉選項
@@ -490,7 +499,7 @@ exports.qryGuarenteerfUsesta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
     callback(null,lo_result);
-}
+};
 
 /**
  * 訂房類別設定(PMS0810150)取得是否需要訂金
@@ -499,4 +508,14 @@ exports.qryGuarenteerfDpreq = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsNeed();
     callback(null,lo_result);
-}
+};
+
+/**
+ * PMS0810190
+ * @param params
+ */
+exports.chkHfdorderconfirmrfContent = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getOrderConfirmRf();
+    callback(null,lo_result);
+};

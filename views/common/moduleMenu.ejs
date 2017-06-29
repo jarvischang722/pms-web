@@ -1,55 +1,46 @@
 <ul class="nav nav-list" id="moduleUl">
     <li class="active nav-height">
-        <a href="javascript:void(0)" onclick="toFirstSubSyst()">
+        <a href="javascript:void(0)">
             <i class="menu-icon fa fa-tachometer"></i>
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
     </li>
-    <% session.user.subsysMenu.forEach(function(subsys){ %>
-
-    <% if(subsys.subsys_id == current_subsys_id) { %>
-    <% subsys.mdlMenu.forEach(function(mdlItem){ %>
-    <li class="nav-height">
-        <% if(mdlItem.group_sta == "N"){ %>
-        <a href="#" class="dropdown-toggle">
-            <i class="menu-icon fa fa-desktop"></i>
-            <span class="menu-text">
+    <li class="nav-height" v-for="mdlItem in moduleMenu"  :class="{open : isOpenModule == mdlItem.mdl_id}" >
+        <template v-if="mdlItem.group_sta == 'N'">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
                     <!-- 模組名稱 -->
-                <%= mdlItem["mdl_name_" + session.locale] != undefined ?  mdlItem["mdl_name_" + session.locale] : mdlItem.mdl_name %>
+                {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
             </span>
-            <b class="arrow fa fa-angle-down"></b>
-        </a>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
 
-        <ul class="submenu">
-            <% mdlItem.processMenu.forEach(function(proItem){ %>
-                <% if(proItem.flag2_sta == "Y"){ %>
-                <li>
-                    <a onclick="javascript:window.open('<%= proItem.pro_url %>')"
+            <ul class="submenu">
+                <li v-for="proItem in mdlItem.processMenu"
+                    v-if="proItem.flag2_sta == 'Y'"
+                    >
+                    <a @click="window.open('?prg_id='+proItem.pro_id)"
                        target="_blank">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <!-- 作業名稱 -->
-                        <%= proItem["pro_name_" + session.locale] %>
+                        {{proItem["pro_name_" + locale]}}
                     </a>
                 </li>
-                <% } %>
-            <% }) %>
+            </ul>
+        </template>
 
-        </ul>
+        <template v-else>
+            <a @click="window.open('?prg_id='+mdlItem.mdl_id)" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
+                        <!-- 模組名稱 -->
+                    {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
+                </span>
+            </a>
+        </template>
 
-        <% } else{ %>
-        <a onclick="javascript:window.open('<%= mdlItem.mdl_url %>')" class="dropdown-toggle">
-            <i class="menu-icon fa fa-desktop"></i>
-            <span class="menu-text">
-                    <!-- 模組名稱 -->
-                <%= mdlItem["mdl_name_" + session.locale] %>
-            </span>
-        </a>
-
-        <% } %>
     </li>
-    <% }) %>
-    <% } %>
-    <% }) %>
 
     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
         <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
@@ -58,9 +49,10 @@
 </ul>
 
 <script>
-function toFirstSubSyst() {
-var firstSubSyst_url = getCookie("subsystem_first_url");
-location.href = firstSubSyst_url;
-location.reload();
-}
+    $(function () {
+        $("#sidebar-toggle-icon").click();
+        $("#sidebar-toggle-icon").click();
+    })
+
+
 </script>

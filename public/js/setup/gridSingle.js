@@ -4,8 +4,9 @@
 waitingDialog.hide();
 var prg_id = $("#prg_id").val();
 var vmHub = new Vue;
+
 //Dt 多語編輯
-Vue.component("multi-lang-dialog-tmp", {
+Vue.component("multiLang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'dtMultiLangField', 'endMultiLangEditing'],
     data: function () {
@@ -267,7 +268,7 @@ Vue.component('sigle-grid-dialog-tmp', {
     created: function () {
 
         var self = this;
-        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
+        vmHub.$on('showSearchDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
         vmHub.$on('tempExecData', function (row) {
@@ -299,6 +300,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                             var effectValues = result.effectValues;
                             _.each(Object.keys(effectValues), function (key) {
                                 self.singleData[key] = effectValues[key] || "";
+                                console.log(self.singleData);
                             });
                         }
 
@@ -392,6 +394,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         emitCloseGridDialog: function () {
             this.$emit('close-single-grid-dialog');
         }
+
         ,
         //抓取單筆資料
         emitFetchSingleData: function () {
@@ -772,10 +775,7 @@ var vm = new Vue({
                         return field.multi_lang_table != "";
                     });
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
-
-
                 }
-
             });
 
         },
@@ -891,8 +891,6 @@ var vm = new Vue({
         doSaveCUD: function (callback) {
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
-            // console.log("===Save params===");
-            // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {

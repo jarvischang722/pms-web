@@ -26,7 +26,7 @@ var EZfieldClass = {
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number") {
+        } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
             dataType = 'numberbox';
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
@@ -56,7 +56,7 @@ var EZfieldClass = {
                 required: fieldAttrObj.requirable == "Y",
                 readonly: fieldAttrObj.modificable == "N",
                 validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
-            },
+            }
         };
 
         //長度
@@ -93,7 +93,7 @@ var EZfieldClass = {
         if (dataType == "datebox") {
             tmpFieldObj.formatter = function (date, row, index) {
                 return moment(date).format("YYYY/MM/DD");
-            }
+            };
         } else if (dataType == "datetimebox") {
             var datetimeFunc = function (date) {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
@@ -129,16 +129,16 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") return false;
+                    if (oldValue == "") {return false;}
                     onChange_Action(fieldAttrObj, oldValue, newValue);
-                }
+                };
             }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 //TODO 值不可寫死
                 var fieldName = val == 'Y' ? "使用" : "不使用";
                 return fieldName;
-            }
+            };
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
@@ -151,10 +151,26 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.type = dataType;
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") return false;
+                    if (oldValue == "") {return false;}
                     onChange_Action(fieldAttrObj, oldValue, newValue);
-                }
+                };
             }
+        }else if(dataType == "numberbox"){
+            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
+
+            if(fieldAttrObj.ui_type == "percent"){
+                tmpFieldObj.formatter = function (val, row, index) {
+                    var fieldName = parseFloat(val) *100 + "%";
+                    return fieldName;
+                };
+            }
+        }else if( dataType == "timespinner"){
+            tmpFieldObj.formatter = function (val, row, index) {
+                var hour = val.substring(0,2);
+                var min = val.substring(2,4);
+                var fieldName = hour + ":" + min;
+                return fieldName;
+            };
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
         }
@@ -192,7 +208,7 @@ function onChange_Action(fieldAttrObj, oldValue, newValue) {
                                 if (!ajaxResult.success) {
                                     alert(ajaxResult.errorMsg);
                                 }
-                            })
+                            });
                         }
                     }
                 }
@@ -253,6 +269,6 @@ $(function () {
     //
     //
     // })
-})
+});
 
 
