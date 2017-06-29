@@ -183,7 +183,7 @@ a
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
 
-/*-- top-sec-menu --*/
+/*-- standard-table --*/
 .standard-table
   width: 100%
   border-collapse: collapse
@@ -239,6 +239,7 @@ a
     max-height: 100%
     overflow: auto
     width: 100%
+
 /*-- singleGridDialogTmp 新增權限 --*/
 #singleGridDialog
   position: relative
@@ -274,6 +275,7 @@ a
   .singleBtnBottom
     position: fixed
     bottom: 50px
+
 
 /*-- 訂房確認書 email --*/
 .reserveCheckMail
@@ -334,6 +336,7 @@ a
 .search-content
   position: relative
   padding: 0 0 15px 0
+  margin-left: 5px
   .search-co
     position: relative
     height: auto
@@ -369,11 +372,10 @@ a
                 border-radius: 32px
                 margin: 0 auto 4px auto
                 box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
-
     .search-co-content
       text-align: left
       border-collapse: collapse
-      .block-table
+      .grid-item
         label
           margin: 0 5px 0 0
           text-align: right
@@ -421,7 +423,7 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: -5px
+          top: -10px
       .searchCheckbox
         .checkbox
           margin: 3px auto 0 auto
@@ -431,13 +433,6 @@ a
               &:before
                 margin-right: 3px
 
-    .search-co-btn
-      background: #555
-      border: none
-      color: #fff
-      padding: 5px 20px
-      &:hover
-        background: #9b9b9b
 
 /*-- colorPicker 修改(假日類別設定) --*/
 .spectrumColor
@@ -448,6 +443,7 @@ a
   padding: 0 10px 0 5px
   box-sizing: border-box
   margin-left: -15px
+
 /*-- 訂房特殊版型 日期 --*/
 @mixin datePin($bk: #5367ff)
   background: $bk //#5367ff
@@ -780,8 +776,8 @@ ul.newVisitOther-btn
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
-  right: 15px
-  top: 10px
+  right: 10px
+  //top: 10px
   z-index: 2
   .resvTabs-content
     span
@@ -1031,3 +1027,161 @@ ul.newVisitOther-btn
   color: #fff
 .rvType-table-container
   margin-top: 10px
+
+//ho changeRecords表格
+.dropdown-select
+  margin-bottom: 15px
+  .btn-group
+    .btn
+      .caret
+        margin-top: 0
+.table-temporarily
+  width: 500px
+  margin-bottom: 15px
+  .horizTable-outer .css_table.horizTable td,
+  .horizTable-outer .css_table.horizTable th
+    padding: 6px
+  .horizTable-outer .css_table .css_th
+    background: linear-gradient(#eee, #c4c4c4 )
+
+//ho 房號訂房首頁
+.plan-btn-group
+  text-align: center
+  width: 300px
+  margin: 0 0 4px 4px
+  ul
+    margin-left: 0
+    margin-bottom: 0
+    li
+      list-style: none
+      display: inline
+      button
+        border: 0
+      span
+        font-weight: bold
+.btn-inlineWidth
+  width: 19%
+  padding: 3px 9px
+  font-size: 12px
+  padding-left: 0
+  padding-right: 0
+  white-space: normal
+.roomPlan-btn
+  margin-top: 42px
+.roomPlan-table
+  //min-width: 100%
+.empty-color
+  background: #e3efdb !important
+.room-color
+  background: #ffe5d5 !important
+.name-color
+  background: #f7ccac !important
+  text-align: center
+.datecolor
+  background: #DAEAFC !important
+.roomPlanTable tbody td
+  //min-width: 50px
+  //padding: 0 1px
+  //white-space: nowrap
+.room-table-container
+  overflow: hidden
+  display: block
+  .roomPlan-table
+    .ca-center
+      i
+        margin-top: 7px
+        margin-left: 5px
+    .room-color
+      i
+        margin-left: 4px
+        padding: 0
+.roomPlan-Num
+  position: absolute
+  right: 4%
+  border-left: 1px solid #888
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
+.roomPlan-Num2
+  position: absolute
+  right: 19%
+  border-left: 1px solid #888
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
+th.dateColor
+  text-align: center
+.roomPlanTable.fancyTable tbody tr td .datecolor
+  background-color: #DAEAFC !important
+.roomPlanTable td
+  min-width: 60px
+  white-space: nowrap
+.roomPlanTable thead:first-child
+  min-width: 200px
+.fancyTable.roomPlanTable tbody tr td
+  background-color: #DAEAFC
+  color: #262c31
+
+//ho 其他聯絡人彈出視窗
+.otherContact-box
+  margin-top: 20px
+  font-size: 14px
+.otherContact-insideBtn
+  margin-top: 70px
+
+//進入頁
+.system-box-Wrap
+  width: 150px
+  height: 150px
+  display: inline-block
+
+.system-box-Wrap .background
+  width: 150px
+  height: 150px
+  border-radius: 50%
+  background: #438EB9
+
+//.message-lbl
+//  position: relative
+//  display: inline-block
+//  margin: 0
+//  line-height: 20px
+//  min-height: 18px
+//  width: 100px
+//  font-weight: normal
+//  cursor: pointer
+
+.message-wrap .checkbox
+  display: inline-block
+.message-wrap .checkbox label input[type=checkbox].ace + .lbl
+  width: 100px
+.marginLeft-57
+  margin-left: 57px
+.marginLeft-93
+  margin-left: 93px
+.marginLeft-30
+  margin-left: 30px
+.marginBottom-10
+  margin-bottom: 10px
+.input-medium.input-fourlb
+  width: 419px
+.input-medium.input-fourlb2
+  width: 395px
+.text-top
+  vertical-align: top !important
+.input-h70
+  height: 70px !important
+.input-medium.medium-157
+  width: 157px
+  max-width: 100%
+  height: 25px
+.suggestion-wrap-mid label
+  width: 55px
+  text-align: right
+  margin-right: 0
+.input-medium.resvCard-xxs
+  width: 23px
+  max-width: 100%
+  height: 25px
+.sug-btn
+  margin-bottom: 10px

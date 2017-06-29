@@ -224,14 +224,13 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth "
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">Save
-                                            <!--<a href="#modal"> Save</a>-->
                                         </button>
                                     </li>
                                     <!--blockSettingDetails 彈出視窗-->
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth blockSettingDetails"
                                                 role="button">Details
                                         </button>
                                     </li>
@@ -248,70 +247,12 @@
 
     <!-- blockSettingDetails 鎖控明細 彈出視窗 -->
     <div id="blockSettingDetails-page" class="hide padding-5" style="">
-        <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
 
-                            <!--  鎖控明細表格 -->
+        <iframe src="../resvBlockSettingTable_1" style="width: 100%; min-height: 300px;" frameborder="0" scrolling="0"></iframe>
 
-                            <!--<iframe src="PMS0100000_module/resvBlockSettingTable_1"></iframe>-->
-
-                            <!--  /.End 鎖控明細表格 -->
-
-                        </div><!--main-content-data-->
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row">
-                            <div class="right-menu-co">
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth bloch-btn-single"
-                                                role="button">Exit
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="right-menu-co">
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Add
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Delete
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Save
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Details
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
     </div>
     <!-- /.blockSettingDetails 鎖控明細 彈出視窗 -->
 
-    <div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1title" aria-describedby="modal1Desc">
-        <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
-
-        <%- include PMS0100000_module/resvBlockSettingTable_1 %>
-
-    </div>
 </div>
 
 <!--treeTable-->
@@ -414,30 +355,5 @@
 //
 //
 //
-    });
-    $(function () {
-        $('#resvBlockSetting-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
-
-        //fixedColumns             : 固定左側列行數
-        //addPxForFixedColumnsWidth: 固定左側列行數-寬
-        //everyColumnsAddWith      : 每一個欄位的-寬
-//        alert('test123');
-        // tree
-        $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
-
-        // resize table
-        // divider margin 40px && fht-body -85px
-        var header1 = $(".navbar-container").height();
-        var header2 = $(".top-sec-ul").height()+5; //padding-top: 5px
-//
-        height=$(window).height()-header1-header2-10;
-        $(".height600").css("height", height);
-        //		$(".height600").removeClass("height600");
-        $(".fht-tbody").css("height", height-80);
-        $(window).resize(function() {
-            height=$(window).height()-header1-header2-10;
-            $(".height600").css("height", height);
-            $(".fht-tbody").css("height", height-80);
-        });
     });
 </script>
