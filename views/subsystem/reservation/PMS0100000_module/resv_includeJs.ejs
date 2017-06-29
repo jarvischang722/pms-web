@@ -153,6 +153,22 @@
             });
         });
 
+        // 彈出 住客明細 Guest Details btn1 交辦事項
+        $(document).on('click', ".resv_guestDetail-btn1", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvGuestDetail-btn1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "交辦事項",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 住客明細 Guest Details -- 新增交辦
         $(document).on('click', ".resv_guestDetailBtn1", function (e) {
             e.preventDefault();

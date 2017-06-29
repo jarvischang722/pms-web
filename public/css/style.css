@@ -112,7 +112,7 @@
   height: 360px;
 }
 
-/* line 135, ../sass/vendor/_grid.sass */
+/* line 138, ../sass/vendor/_grid.sass */
 .css_table {
   display: table;
   border-collapse: collapse;
@@ -137,34 +137,38 @@
   display: table-row;
   vertical-align: middle;
 }
-/* line 100, ../sass/vendor/_grid.sass */
+/* line 101, ../sass/vendor/_grid.sass */
+.css_table .css_tr.text-center th {
+  text-align: center;
+}
+/* line 103, ../sass/vendor/_grid.sass */
 .css_table .css_th, .css_table .css_td {
   display: table-cell;
   border: 1px solid #cccccc;
   padding-right: 5px;
   padding-left: 5px;
 }
-/* line 105, ../sass/vendor/_grid.sass */
+/* line 108, ../sass/vendor/_grid.sass */
 .css_table .css_th.padding-top, .css_table .css_td.padding-top {
   padding-top: 5px;
 }
-/* line 107, ../sass/vendor/_grid.sass */
+/* line 110, ../sass/vendor/_grid.sass */
 .css_table .css_th {
   background: #eee;
 }
-/* line 110, ../sass/vendor/_grid.sass */
+/* line 113, ../sass/vendor/_grid.sass */
 .css_table.top_none {
   border-top: 0;
 }
-/* line 112, ../sass/vendor/_grid.sass */
+/* line 115, ../sass/vendor/_grid.sass */
 .css_table .td-disable {
   background: #d6d6d6;
 }
-/* line 114, ../sass/vendor/_grid.sass */
+/* line 117, ../sass/vendor/_grid.sass */
 .css_table .css_td {
   position: relative;
 }
-/* line 116, ../sass/vendor/_grid.sass */
+/* line 119, ../sass/vendor/_grid.sass */
 .css_table .css_td .moreClick {
   position: absolute;
   right: 0;
@@ -177,21 +181,21 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-/* line 129, ../sass/vendor/_grid.sass */
+/* line 132, ../sass/vendor/_grid.sass */
 .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
 }
-/* line 133, ../sass/vendor/_grid.sass */
+/* line 136, ../sass/vendor/_grid.sass */
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
 
-/* line 138, ../sass/vendor/_grid.sass */
+/* line 141, ../sass/vendor/_grid.sass */
 .horizTable-outer {
   overflow: auto;
 }
-/* line 140, ../sass/vendor/_grid.sass */
+/* line 143, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table {
   display: table;
   border-collapse: collapse;
@@ -216,34 +220,38 @@
   display: table-row;
   vertical-align: middle;
 }
-/* line 100, ../sass/vendor/_grid.sass */
+/* line 101, ../sass/vendor/_grid.sass */
+.horizTable-outer .css_table .css_tr.text-center th {
+  text-align: center;
+}
+/* line 103, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_th, .horizTable-outer .css_table .css_td {
   display: table-cell;
   border: 1px solid #cccccc;
   padding-right: 5px;
   padding-left: 5px;
 }
-/* line 105, ../sass/vendor/_grid.sass */
+/* line 108, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_th.padding-top, .horizTable-outer .css_table .css_td.padding-top {
   padding-top: 5px;
 }
-/* line 107, ../sass/vendor/_grid.sass */
+/* line 110, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_th {
   background: #eee;
 }
-/* line 110, ../sass/vendor/_grid.sass */
+/* line 113, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.top_none {
   border-top: 0;
 }
-/* line 112, ../sass/vendor/_grid.sass */
+/* line 115, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .td-disable {
   background: #d6d6d6;
 }
-/* line 114, ../sass/vendor/_grid.sass */
+/* line 117, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_td {
   position: relative;
 }
-/* line 116, ../sass/vendor/_grid.sass */
+/* line 119, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_td .moreClick {
   position: absolute;
   right: 0;
@@ -256,24 +264,24 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-/* line 129, ../sass/vendor/_grid.sass */
+/* line 132, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
 }
-/* line 133, ../sass/vendor/_grid.sass */
+/* line 136, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
 }
-/* line 142, ../sass/vendor/_grid.sass */
+/* line 145, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.horizTable {
   table-layout: fixed;
 }
-/* line 144, ../sass/vendor/_grid.sass */
+/* line 147, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.horizTable th, .horizTable-outer .css_table.horizTable td {
   height: 25px;
 }
-/* line 146, ../sass/vendor/_grid.sass */
+/* line 149, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.horizTable th {
   font-weight: 400;
 }
