@@ -37,8 +37,8 @@ module.exports = {
 
         async.waterfall([
             function (callback) {
-                //取得假日日期設定
-                queryAgent.query("QRY_HOLIDAY_RF_COUNT", params, function (err, holidayData) {
+                //取得假日類別設定數量
+                queryAgent.query("QRY_HOLIDAY_RF_NUM", params, function (err, holidayData) {
                     if (!err) {
                         if (holidayData.count > 0) {
                             isDeleteRow = false;
