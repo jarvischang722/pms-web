@@ -3377,6 +3377,108 @@ th.dateColor {
   color: #262c31;
 }
 
+/* line 1130, ../sass/_bacchusMain.sass */
+.otherContact-box {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* line 1133, ../sass/_bacchusMain.sass */
+.otherContact-insideBtn {
+  margin-top: 70px;
+}
+
+/* line 1137, ../sass/_bacchusMain.sass */
+.system-box-Wrap {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+}
+
+/* line 1142, ../sass/_bacchusMain.sass */
+.system-box-Wrap .background {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #438EB9;
+}
+
+/* line 1158, ../sass/_bacchusMain.sass */
+.message-wrap .checkbox {
+  display: inline-block;
+}
+
+/* line 1160, ../sass/_bacchusMain.sass */
+.message-wrap .checkbox label input[type=checkbox].ace + .lbl {
+  width: 100px;
+}
+
+/* line 1162, ../sass/_bacchusMain.sass */
+.marginLeft-57 {
+  margin-left: 57px;
+}
+
+/* line 1164, ../sass/_bacchusMain.sass */
+.marginLeft-93 {
+  margin-left: 93px;
+}
+
+/* line 1166, ../sass/_bacchusMain.sass */
+.marginLeft-30 {
+  margin-left: 30px;
+}
+
+/* line 1168, ../sass/_bacchusMain.sass */
+.marginBottom-10 {
+  margin-bottom: 10px;
+}
+
+/* line 1170, ../sass/_bacchusMain.sass */
+.input-medium.input-fourlb {
+  width: 419px;
+}
+
+/* line 1172, ../sass/_bacchusMain.sass */
+.input-medium.input-fourlb2 {
+  width: 395px;
+}
+
+/* line 1174, ../sass/_bacchusMain.sass */
+.text-top {
+  vertical-align: top !important;
+}
+
+/* line 1176, ../sass/_bacchusMain.sass */
+.input-h70 {
+  height: 70px !important;
+}
+
+/* line 1178, ../sass/_bacchusMain.sass */
+.input-medium.medium-157 {
+  width: 157px;
+  max-width: 100%;
+  height: 25px;
+}
+
+/* line 1182, ../sass/_bacchusMain.sass */
+.suggestion-wrap-mid label {
+  width: 55px;
+  text-align: right;
+  margin-right: 0;
+}
+
+/* line 1186, ../sass/_bacchusMain.sass */
+.input-medium.resvCard-xxs {
+  width: 23px;
+  max-width: 100%;
+  height: 25px;
+}
+
+/* line 1190, ../sass/_bacchusMain.sass */
+.sug-btn {
+  margin-bottom: 10px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
