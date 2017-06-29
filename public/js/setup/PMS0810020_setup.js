@@ -346,10 +346,10 @@ Vue.component('single-grid-pms0810020-tmp', {
             console.log("uploadWebSite");
         },
         genRoomTypeStock: function () {
-            this.$parent.dialogFormVisible = true;
+            this.$parent.dialogRmTypeStockVisible = true;
         },
         showRoomTypeSort: function () {
-            console.log("showRoomTypeSort");
+            this.$parent.dialogShowRoomSortVisible = true;
         }
 
     }
@@ -385,18 +385,35 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
         dgIns: {},
-        dialogFormVisible: false,
-        form: {
-            name: '',
-            region: '',
-            date1: '',
-            date2: '',
-            delivery: false,
-            type: [],
-            resource: '',
-            desc: ''
+        labelPosition: 'right',
+        dialogRmTypeStockVisible: false,
+        dialogShowRoomSortVisible: false,
+        pickerOptions0: {
+            disabledDate: function (time) {
+                return time.getTime() < Date.now() - 8.64e7;
+            }
         },
-        formLabelWidth: '120px'
+        value1: '',
+        value2: '',
+        checked: false,
+        activeName2: 'first',
+        tableData: [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+        }]
     },
     watch: {
         editStatus: function (newVal) {
@@ -624,9 +641,10 @@ var vm = new Vue({
             vm.singleData = {};
             vm.initTmpCUD();
             $("#singleGridPMS0810020").dialog('close');
+        },
+        handleClick: function (tab, event) {
+            console.log(tab, event);
         }
-
-
     }
 
 });

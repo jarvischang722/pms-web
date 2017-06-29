@@ -73,22 +73,123 @@
             :single-data="singleData">
     </field-multi-lang-dialog-tmp>
 
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-            <el-form-item label="活动名称" :label-width="formLabelWidth">
-                <el-input v-model="form.name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="活动区域" :label-width="formLabelWidth">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-        </el-form>
+    <el-dialog title="產生庫存" :visible.sync="dialogRmTypeStockVisible" size="tiny">
+        <el-row>
+            <el-col :span="12" :offset="6">
+                <el-form>
+                    <el-form-item label="開始日期">
+                        <el-date-picker
+                                v-model="value1"
+                                type="date"
+                                placeholder="选择日期"
+                                :picker-options="pickerOptions0">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+
+        <el-row>
+            <el-col :span="12" :offset="6">
+                <el-form>
+                    <el-form-item label="開始日期">
+                        <el-date-picker
+                                v-model="value1"
+                                type="date"
+                                placeholder="选择日期"
+                                :picker-options="pickerOptions0">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="12" :offset="6">
+                <el-checkbox v-model="checked">一併重整庫存</el-checkbox>
+            </el-col>
+        </el-row>
+
+
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            <el-row>
+                <el-col :span="12" :offset="3">
+                    <el-button @click="dialogRmTypeStockVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogRmTypeStockVisible = false">确 定</el-button>
+                </el-col>
+            </el-row>
         </div>
+
+    </el-dialog>
+
+    <el-dialog title="房型顯示排序" :visible.sync="dialogShowRoomSortVisible" size="tiny">
+        <template>
+            <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+                <el-tab-pane label="ERP 順序" name="first">
+                    <el-table
+                            :data="tableData"
+                            border
+                            style="width: 100%">
+                        <el-table-column
+                                prop="date"
+                                label="房型代號">
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="房型名稱">
+                        </el-table-column>
+                        <el-table-column>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-triangle-top"></span> Search
+                            </button>
+                            <template scope="scope">
+                                <el-button type="button" size="small">
+                                    Up
+                                </el-button>
+                                <el-button type="button" size="small">
+                                    Down
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+                <el-tab-pane label="官網顯示順序" name="官網顯示順序">
+                    <el-table
+                            :data="tableData"
+                            border
+                            style="width: 100%">
+                        <el-table-column
+                                prop="date"
+                                label="房型代號">
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="房型名稱">
+                        </el-table-column>
+                        <el-table-column>
+                            <!--<button type="button" class="btn btn-default">-->
+                                <!--<span class="glyphicon glyphicon-triangle-top"></span> Search-->
+                            <!--</button>-->
+                            <template scope="scope">
+                                <el-button type="button" size="small">
+                                    Up
+                                </el-button>
+                                <el-button type="button" size="small">
+                                    Down
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
+            <div slot="footer" class="dialog-footer">
+                <el-row>
+                    <el-col :span="12" :offset="3">
+                        <el-button @click="dialogShowRoomSortVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="dialogShowRoomSortVisible = false">确 定</el-button>
+                    </el-col>
+                </el-row>
+            </div>
+        </template>
     </el-dialog>
 
 </div>
