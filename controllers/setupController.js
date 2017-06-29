@@ -7,7 +7,7 @@ var tbSVC = require("../services/DbTableService");
 var mongoAgent = require("../plugins/mongodb");
 var trafficSvc = require("../services/TrafficService");
 var holidayDateSvc = require("../services/HolidayDateService");
-
+let roomSvc = require("../services/RoomService");
 
 /**
  * 前台參數設定 Module
@@ -32,24 +32,24 @@ exports.getReservationCheckMail = function (req, res) {
 };
 
 // 取假日種類設定檔
-exports.getHolidayKindSet = function(req, res){
-    holidayDateSvc.getHolidayKindSet(req.body, req.session, function(err, dateKindSetData){
-        res.json({success: _.isNull(err), dateKindSetData: dateKindSetData})
-    })
+exports.getHolidayKindSet = function (req, res) {
+    holidayDateSvc.getHolidayKindSet(req.body, req.session, function (err, dateKindSetData) {
+        res.json({success: _.isNull(err), dateKindSetData: dateKindSetData});
+    });
 };
 
 // 取假日日期設定
-exports.getHolidayDateSet = function(req, res){
-    holidayDateSvc.getHolidayDateSet(req.body, req.session, function(err, dateSetData){
-        res.json({success: _.isNull(err), dateSetData: dateSetData})
-    })
+exports.getHolidayDateSet = function (req, res) {
+    holidayDateSvc.getHolidayDateSet(req.body, req.session, function (err, dateSetData) {
+        res.json({success: _.isNull(err), dateSetData: dateSetData});
+    });
 };
 
 // 取年度總天數
-exports.getHolidayDateCount = function(req, res){
-    holidayDateSvc.getHolidayDateCount(req.body, req.session, function(err, getResult){
+exports.getHolidayDateCount = function (req, res) {
+    holidayDateSvc.getHolidayDateCount(req.body, req.session, function (err, getResult) {
         res.json({success: _.isNull(err), dateCount: getResult});
-    })
+    });
 };
 
 
@@ -59,5 +59,14 @@ exports.getHolidayDateCount = function(req, res){
 exports.getTrafficData = function (req, res) {
     trafficSvc.handleTrafficData(req.body, req.session, function (err, trafficData) {
         res.json({success: _.isNull(err), trafficData: trafficData});
+    });
+};
+
+/**
+ * 房型排序
+ */
+exports.roomCodOrder = function (req, res) {
+    roomSvc.getRoomCodOrder(req.session, function (err, roomCodOrderData) {
+        res.json({success: _.isNull(err), errorMsg: err, roomCodOrderData: roomCodOrderData});
     });
 };

@@ -363,6 +363,10 @@ var vm = new Vue({
         this.loadDataGridByPrgID(function (success) {
         });
         this.loadSingleGridPageField();
+        axios.post('/api/PMS0810020/roomCodOrder') .then(function (response) {
+          console.log(response);
+        });
+
     },
     data: {
         isDatepickerInit: false,

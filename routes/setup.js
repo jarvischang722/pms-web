@@ -30,4 +30,7 @@ module.exports = function(app) {
 
     // 取年度總天數
     app.post("/api/getHolidayDateCount", setupCrtl.getHolidayDateCount);
+
+    // 取房型排序設定 (程式編號 : PMS0810020)
+    app.post("/api/PMS0810020/roomCodOrder", setupCrtl.roomCodOrder);
 };

@@ -8,17 +8,21 @@ const mongoAgent = require("../plugins/mongodb");
 const _ = require("underscore");
 const async = require("async");
 const CommonTools = require("../utils/CommonTools");
-var sysConfig = require("../configs/SystemConfig");
+const sysConfig = require("../configs/SystemConfig");
 
 
 /**
  * 產生房型庫存
  * 交易代碼 : PMS08100201004
- * @param session
- * @param params
+ * @param session {Object}
+ * @param params  {Object}
  * @param cb
  */
 exports.genRoomTypeStock = function (session, params, cb) {
+    let checkResult = CommonTools.checkRequireParams(params, ['start_dat', 'end_dat', 'reset_qnt']);
+    if (!checkResult.success) {
+        return cb(checkResult["errorMsg"], checkResult.success);
+    }
     params["REVE-CODE"] = "PMS08100201004";
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
@@ -41,9 +45,14 @@ exports.genRoomTypeStock = function (session, params, cb) {
  * @param cb
  */
 exports.uploadRoomTypePic = function (session, params, cb) {
+    let checkResult = CommonTools.checkRequireParams(params, ['room_cod', 'begin_dat']);
+    if (!checkResult.success) {
+        return cb(checkResult["errorMsg"], checkResult.success);
+    }
     params["REVE-CODE"] = "PMS08100201003";
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
+    params["sys_cod"] = "HFD";
     CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
         if (err) {
             return cb(err, false);
@@ -63,6 +72,10 @@ exports.uploadRoomTypePic = function (session, params, cb) {
  * @param cb
  */
 exports.uploadRoomType = function (session, params, cb) {
+    let checkResult = CommonTools.checkRequireParams(params, ['room_cod', 'begin_dat']);
+    if (!checkResult.success) {
+        return cb(checkResult["errorMsg"], checkResult.success);
+    }
     params["REVE-CODE"] = "PMS08100201002";
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
