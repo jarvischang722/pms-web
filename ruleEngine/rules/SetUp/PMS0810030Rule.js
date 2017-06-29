@@ -41,6 +41,54 @@ module.exports = {
             })
         }
 
+    },
+    r_cntry_rf_show_hq_cod: function (field, userInfo, callback) {
+        var params = {
+            athena_id: userInfo.athena_id
+        };
+        var createSubFunc = [];
+        createSubFunc.push(
+            function (callback) {
+                async.waterfall([
+                    function (callback) {
+                        queryAgent.query("CHK_PG_HAVE_EIS_SYS", params, function (err, dataInfo) {
+                            if (!err) {
+                                if (dataInfo.displayFiled != null) {
+                                    if (displayFiled == "Y") {
+                                        field.visiable = "Y";
+                                        callback(null, field);
+                                    } else {
+                                        field.visiable = "N";
+                                        callback(null, field);
+                                    }
+                                } else {
+                                    field.visiable = "N";
+                                    callback(null, field);
+                                }
+                            } else {
+                                field.visiable = "N";
+                                callback(err, field);
+                            }
+                        })
+                    }
+                ],function (errMsg, result) {
+                    callback(null, result);
+                })
+            });
+
+        async.parallel(createSubFunc, function (err, result) {
+            callback(err, result);
+        })
+    },
+    chk_cntry_rf_contry_cod: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        var params={
+            athena_id : session.user.athena_id,
+        };
+        callback(lo_error,lo_result);
+
+
     }
 
 }

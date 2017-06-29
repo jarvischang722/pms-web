@@ -171,6 +171,7 @@ var vm = new Vue({
                 onEndEdit: vm.onEndEdit,
                 onDropColumn: vm.doSaveColumnFields, //當移動順序欄位時
                 onResizeColumn: vm.doSaveColumnFields,  //當欄位時寬度異動時
+                //nCheck: vm.onUncheckAll,
                 onSortColumn: function () {
                     $("#dgCheckbox").datagrid('uncheckAll');
                 }
@@ -396,6 +397,20 @@ var vm = new Vue({
             this.tmpCUD[dataType].push(rowData);
             $("#gridEdit").val(this.tmpCUD);
         }
+        // ,
+        // onUncheckAll:function (index,row) {
+        //
+        //     var eds = $('#prg_dg').datagrid('getEditors', index);
+        //     if (!_.isEmpty(eds)) {
+        //         $(eds[0].target).bind('click', function () {
+        //             alert("YO");
+        //         })
+        //     }
+        //
+        //     // $(eds[0].target).bind('click',function () {
+        //     //     alert("YO");
+        //     // })
+        // }
 
 
     }

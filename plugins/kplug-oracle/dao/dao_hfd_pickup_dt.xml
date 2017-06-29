@@ -5,7 +5,7 @@
         <statement><![CDATA[
                 select count(*) pickupcount
                from hfd_pickup_dt
-               where athena_id =?  and  trim(hotel_cod) = ? and  schedule_way = ? and rownum = 1
+               where athena_id =?  and  trim(hotel_cod) = trim(?) and  schedule_way = ? and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>

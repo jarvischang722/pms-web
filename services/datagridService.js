@@ -288,6 +288,8 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, field: result});
                                 }
+                            }else {
+                                callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
                             }
                         }
                     )

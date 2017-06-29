@@ -26,7 +26,7 @@ var EZfieldClass = {
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
+        } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
             dataType = 'numberbox';
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
@@ -67,8 +67,7 @@ var EZfieldClass = {
         }
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
-            tmpFieldObj.editor.options = fieldAttrObj.selectData;
-            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
+            tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -99,7 +98,7 @@ var EZfieldClass = {
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
             tmpFieldObj.formatter = datetimeFunc;
-            // tmpFieldObj.editor.options.formatter = datetimeFunc;
+            //tmpFieldObj.editor.options.formatter = datetimeFunc;
         } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
@@ -129,16 +128,14 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {
-                        return false;
-                    }
+                    if (oldValue == "") {return false;}
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 };
             }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
-                //TODO 值不可寫死
-                var fieldName = val == 'Y' ? "使用" : "不使用";
+                var displayName = fieldAttrObj.selectData[1];
+                var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
         } else if (fieldAttrObj.ui_type == "color") {
@@ -172,8 +169,7 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
-
-        } else if (dataType == "numberbox") {
+        }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
             if (fieldAttrObj.ui_type == "percent") {
@@ -260,5 +256,26 @@ var ColorFunc = {
         });
     }
 };
+
+
+$(function () {
+
+    // $(document).on("input", ".dg_colorPicker_class", function () {
+    //     var dataGridName = "prg_dg";
+    //     var dataIdx = $(this).data("index");
+    //     var color_cod = $(this).val();
+    //     var field_name = $(this).data("field_name");
+    //     var updateRow = {};
+    //     console.log("===color_cod===");
+    //     console.log(color_cod);
+    //     updateRow[field_name] = color_cod;
+    //     $('#' + dataGridName).datagrid('updateRow', {
+    //         index: dataIdx,
+    //         row: updateRow
+    //     });
+    //
+    //
+    // })
+});
 
 
