@@ -4,7 +4,7 @@
 var mongoAgent = require("../plugins/mongodb");
 var _ = require("underscore");
 var moment = require("moment");
-var mailSvc = require("../services/mailService");
+var mailSvc = require("./MailService");
 
 /**
  * 紀錄API Log

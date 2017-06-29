@@ -67,8 +67,7 @@ var EZfieldClass = {
         }
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
-            tmpFieldObj.editor.options = fieldAttrObj.selectData;
-            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
+            tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -135,8 +134,8 @@ var EZfieldClass = {
             }
         } else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
-                //TODO 值不可寫死
-                var fieldName = val == 'Y' ? "使用" : "不使用";
+                var displayName = fieldAttrObj.selectData[1];
+                var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
         } else if (fieldAttrObj.ui_type == "color") {
@@ -148,30 +147,38 @@ var EZfieldClass = {
             tmpFieldObj.formatter = lf_colorFormatter;
         }
         else if (fieldAttrObj.ui_type == "text") {
-            if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.type = dataType;
-                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {return false;}
+            tmpFieldObj.editor.type = dataType;
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+
+                if (!_.isUndefined(newValue)) {
+                    if (fieldAttrObj.modificable == "I") {
+                        var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                        var lo_editor = $('#prg_dg').datagrid('getEditor', {
+                            index: li_rowIndex,
+                            field: fieldAttrObj.ui_field_name
+                        });
+
+                        $(lo_editor.target).textbox("readonly", true);
+                    }
+                }
+
+                if (fieldAttrObj.rule_func_name != "") {
+                    if (oldValue == "") {
+                        return false;
+                    }
                     onChange_Action(fieldAttrObj, oldValue, newValue);
-                };
+                }
             }
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
-            if(fieldAttrObj.ui_type == "percent"){
+            if (fieldAttrObj.ui_type == "percent") {
                 tmpFieldObj.formatter = function (val, row, index) {
-                    var fieldName = parseFloat(val) *100 + "%";
+                    var fieldName = parseFloat(val) * 100 + "%";
                     return fieldName;
                 };
             }
-        }else if( dataType == "timespinner"){
-            tmpFieldObj.formatter = function (val, row, index) {
-                var hour = val.substring(0,2);
-                var min = val.substring(2,4);
-                var fieldName = hour + ":" + min;
-                return fieldName;
-            };
-        }else if(dataType == "numberbox"){
+        } else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
         }
         return tmpFieldObj;

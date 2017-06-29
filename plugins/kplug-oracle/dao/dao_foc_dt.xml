@@ -5,7 +5,7 @@
         <statement><![CDATA[
                     select count(*) as source_count
                     from foc_dt
-                    where  athena_id =? and trim(hotel_cod) = ? and  free_typ = ?
+                    where  athena_id =? and trim(hotel_cod) = trim(?) and  free_typ = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

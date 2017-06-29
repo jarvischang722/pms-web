@@ -44,6 +44,6 @@
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">contract_sta</parameter>
+        <parameter type="string" kind="1">status_cod</parameter>
     </dao>
 </root>

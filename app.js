@@ -20,10 +20,10 @@ var app = express();// initail express
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var ios = require('socket.io-express-session');
-var dbSvc = require("./services/dbTableService");
+var dbSvc = require("./services/DbTableService");
 var dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 var mongoAgent = require("./plugins/mongodb");
-var tbSVC = require("./services/dbTableService");
+var tbSVC = require("./services/DbTableService");
 var _ = require("underscore");
 
 

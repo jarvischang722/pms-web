@@ -263,10 +263,29 @@ exports.getIsNeed = function () {
  * @returns
  */
 exports.checkStaList = function () {
-    var checkList = {
+    var checkList = [{
         on: 'Y',
         off: 'N'
-    };
+    },{
+        Y: '使用',
+        N: '非使用'
+    }];
+
+    return checkList;
+};
+
+/**
+ * checkbox是否使用(PMS0860070)
+ * @returns
+ */
+exports.checkStaIsDefaultList = function () {
+    var checkList = [{
+        on: 'Y',
+        off: 'N'
+    }, {
+        Y: '預設',
+        N: '非預設'
+    }];
 
     return checkList;
 };
@@ -407,7 +426,7 @@ exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
  */
 exports.qry_contract_status_rf_default_sta = function(params, callback){
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.checkStaList();
+    lo_result.selectOptions = optionsLib.checkStaIsDefaultList();
     callback(null,lo_result);
 };
 
