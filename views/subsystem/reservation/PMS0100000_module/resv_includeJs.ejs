@@ -57,6 +57,38 @@
 
         });
 
+        // 彈出 住客歷史 Lost&Found
+        $(document).on('click', ".resvLostFound", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvLostFound-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Lost&Found",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 住客歷史 Anniversary
+        $(document).on('click', ".resvAnniversary", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvAnniversary-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Anniversary",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 費用列表 Rate Details
         $(document).on('click', ".resv_rateDetail", function (e) {
             e.preventDefault();
@@ -505,6 +537,25 @@
             ]]
         });
 
+
+        // 住客歷史 anniversary dataGrid
+        $('#resv_anniversary-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_anniversary.json',
+            method: 'get',
+            columns: [[
+                {field: 'anniv', title: '紀念日期', width: 100},
+                {field: 'annivSort', title: '紀念日分類', width: 60},
+                {field: 'objectSort', title: '對象分類', width: 60},
+                {field: 'details', title: '說明', width: 100},
+                {field: 'addDate', title: '新增日', width: 75},
+                {field: 'addBy', title: '新增者', width: 75},
+                {field: 'updDate', title: '異動日', width: 75},
+                {field: 'updBy', title: '異動者',width: 75}
+            ]]
+        });
         // 管別備註 dataGrid
         $('#reservation_hallRemark-table').datagrid({
             singleSelect: true,
@@ -750,6 +801,8 @@
 
 //      依房型訂房
         $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 10 });
+
+//      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -776,7 +829,6 @@
 
         //#PMS0110030-table
         var PMS0110030Height = $("#PMS0110030-table").height();
-        console.log(PMS0110030Height);
         $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height);
 
 

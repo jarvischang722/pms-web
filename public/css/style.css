@@ -820,25 +820,26 @@ label {
   border: 1px solid #778899;
   /* size */
 }
-/* line 60, ../sass/partials/_fixTableTheme.sass */
+/* line 61, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr td {
   /* appearance */
+  border: 1px solid #778899;
   background-color: #fff;
   /* text */
   color: #262c31;
 }
-/* line 69, ../sass/partials/_fixTableTheme.sass */
+/* line 70, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr td.middle {
   vertical-align: middle;
 }
-/* line 71, ../sass/partials/_fixTableTheme.sass */
+/* line 72, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tbody tr.odd td {
   /* appearance */
   background-color: #eee;
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 51%, rgba(255, 255, 255, 0) 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.4)), color-stop(50%, rgba(255, 255, 255, 0.2)), color-stop(51%, rgba(255, 255, 255, 0.1)), color-stop(100%, rgba(255, 255, 255, 0)));
 }
-/* line 77, ../sass/partials/_fixTableTheme.sass */
+/* line 78, ../sass/partials/_fixTableTheme.sass */
 .fancyTable thead tr th, .fancyTable thead tr td {
   /* appearance */
   background-color: #fff;
@@ -847,7 +848,7 @@ label {
   font-weight: bold;
   text-shadow: 0 1px 1px #e8ebee;
 }
-/* line 86, ../sass/partials/_fixTableTheme.sass */
+/* line 87, ../sass/partials/_fixTableTheme.sass */
 .fancyTable tfoot tr th, .fancyTable tfoot tr td {
   /* appearance */
   background-color: #fff;
@@ -859,27 +860,27 @@ label {
 }
 
 /* Fancy Dark Table */
-/* line 97, ../sass/partials/_fixTableTheme.sass */
+/* line 98, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable {
   /*border-collapse: separate; */
   /* text */
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-/* line 98, ../sass/partials/_fixTableTheme.sass */
+/* line 99, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable .numeric {
   /* text */
   text-align: right;
 }
-/* line 101, ../sass/partials/_fixTableTheme.sass */
+/* line 102, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable td, .fancyDarkTable th {
   border: 1px solid #000000;
   padding: 5px;
 }
-/* line 104, ../sass/partials/_fixTableTheme.sass */
+/* line 105, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable thead tr th {
   padding: 4px 3px 4px 3px;
 }
-/* line 110, ../sass/partials/_fixTableTheme.sass */
+/* line 111, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable tbody tr td {
   /* appearance */
   background-color: #48535e;
@@ -897,7 +898,7 @@ label {
   font-weight: bold;
   text-shadow: 0 -1px 1px #000000;
 }
-/* line 126, ../sass/partials/_fixTableTheme.sass */
+/* line 127, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable tbody tr.odd td {
   /* appearance */
   background-color: #3c454f;
@@ -905,7 +906,7 @@ label {
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.02)));
   border-right-color: #000;
 }
-/* line 132, ../sass/partials/_fixTableTheme.sass */
+/* line 133, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable thead tr th, .fancyDarkTable tfoot tr td {
   /* appearance */
   background-color: #0b0d10;
@@ -917,7 +918,7 @@ label {
   font-weight: bold;
   text-shadow: 0 -1px 1px #000;
 }
-/* line 142, ../sass/partials/_fixTableTheme.sass */
+/* line 143, ../sass/partials/_fixTableTheme.sass */
 .fancyDarkTable .fht-head {
   -webkit-box-shadow: 0 5px 10px #000;
   z-index: 1;
@@ -3258,56 +3259,56 @@ ul.newVisitOther-btn {
   margin-top: 10px;
 }
 
-/* line 1036, ../sass/_bacchusMain.sass */
+/* line 1032, ../sass/_bacchusMain.sass */
 .dropdown-select {
   margin-bottom: 15px;
 }
-/* line 1040, ../sass/_bacchusMain.sass */
+/* line 1036, ../sass/_bacchusMain.sass */
 .dropdown-select .btn-group .btn .caret {
   margin-top: 0;
 }
 
-/* line 1042, ../sass/_bacchusMain.sass */
+/* line 1038, ../sass/_bacchusMain.sass */
 .table-temporarily {
   width: 500px;
   margin-bottom: 15px;
 }
-/* line 1045, ../sass/_bacchusMain.sass */
+/* line 1041, ../sass/_bacchusMain.sass */
 .table-temporarily .horizTable-outer .css_table.horizTable td,
 .table-temporarily .horizTable-outer .css_table.horizTable th {
   padding: 6px;
 }
-/* line 1048, ../sass/_bacchusMain.sass */
+/* line 1044, ../sass/_bacchusMain.sass */
 .table-temporarily .horizTable-outer .css_table .css_th {
   background: linear-gradient(#eeeeee, #c4c4c4);
 }
 
-/* line 1052, ../sass/_bacchusMain.sass */
+/* line 1048, ../sass/_bacchusMain.sass */
 .plan-btn-group {
   text-align: center;
   width: 300px;
   margin: 0 0 4px 4px;
 }
-/* line 1056, ../sass/_bacchusMain.sass */
+/* line 1052, ../sass/_bacchusMain.sass */
 .plan-btn-group ul {
   margin-left: 0;
   margin-bottom: 0;
 }
-/* line 1059, ../sass/_bacchusMain.sass */
+/* line 1055, ../sass/_bacchusMain.sass */
 .plan-btn-group ul li {
   list-style: none;
   display: inline;
 }
-/* line 1062, ../sass/_bacchusMain.sass */
+/* line 1058, ../sass/_bacchusMain.sass */
 .plan-btn-group ul li button {
   border: 0;
 }
-/* line 1064, ../sass/_bacchusMain.sass */
+/* line 1060, ../sass/_bacchusMain.sass */
 .plan-btn-group ul li span {
   font-weight: bold;
 }
 
-/* line 1066, ../sass/_bacchusMain.sass */
+/* line 1062, ../sass/_bacchusMain.sass */
 .btn-inlineWidth {
   width: 19%;
   padding: 3px 9px;
@@ -3317,49 +3318,49 @@ ul.newVisitOther-btn {
   white-space: normal;
 }
 
-/* line 1073, ../sass/_bacchusMain.sass */
+/* line 1069, ../sass/_bacchusMain.sass */
 .roomPlan-btn {
   margin-top: 42px;
 }
 
-/* line 1077, ../sass/_bacchusMain.sass */
+/* line 1073, ../sass/_bacchusMain.sass */
 .empty-color {
   background: #e3efdb !important;
 }
 
-/* line 1079, ../sass/_bacchusMain.sass */
+/* line 1075, ../sass/_bacchusMain.sass */
 .room-color {
   background: #ffe5d5 !important;
 }
 
-/* line 1081, ../sass/_bacchusMain.sass */
+/* line 1077, ../sass/_bacchusMain.sass */
 .name-color {
   background: #f7ccac !important;
   text-align: center;
 }
 
-/* line 1084, ../sass/_bacchusMain.sass */
+/* line 1080, ../sass/_bacchusMain.sass */
 .datecolor {
   background: #DAEAFC !important;
 }
 
-/* line 1090, ../sass/_bacchusMain.sass */
+/* line 1086, ../sass/_bacchusMain.sass */
 .room-table-container {
   overflow: hidden;
   display: block;
 }
-/* line 1095, ../sass/_bacchusMain.sass */
+/* line 1091, ../sass/_bacchusMain.sass */
 .room-table-container .roomPlan-table .ca-center i {
   margin-top: 7px;
   margin-left: 5px;
 }
-/* line 1099, ../sass/_bacchusMain.sass */
+/* line 1095, ../sass/_bacchusMain.sass */
 .room-table-container .roomPlan-table .room-color i {
   margin-left: 4px;
   padding: 0;
 }
 
-/* line 1102, ../sass/_bacchusMain.sass */
+/* line 1098, ../sass/_bacchusMain.sass */
 .roomPlan-Num {
   position: absolute;
   right: 4%;
@@ -3369,7 +3370,7 @@ ul.newVisitOther-btn {
   padding-bottom: 1px;
 }
 
-/* line 1109, ../sass/_bacchusMain.sass */
+/* line 1105, ../sass/_bacchusMain.sass */
 .roomPlan-Num2 {
   position: absolute;
   right: 19%;
@@ -3379,28 +3380,28 @@ ul.newVisitOther-btn {
   padding-bottom: 1px;
 }
 
-/* line 1116, ../sass/_bacchusMain.sass */
+/* line 1112, ../sass/_bacchusMain.sass */
 th.dateColor {
   text-align: center;
 }
 
-/* line 1118, ../sass/_bacchusMain.sass */
+/* line 1114, ../sass/_bacchusMain.sass */
 .roomPlanTable.fancyTable tbody tr td .datecolor {
   background-color: #DAEAFC !important;
 }
 
-/* line 1120, ../sass/_bacchusMain.sass */
+/* line 1116, ../sass/_bacchusMain.sass */
 .roomPlanTable td {
   min-width: 60px;
   white-space: nowrap;
 }
 
-/* line 1123, ../sass/_bacchusMain.sass */
+/* line 1119, ../sass/_bacchusMain.sass */
 .roomPlanTable thead:first-child {
   min-width: 200px;
 }
 
-/* line 1125, ../sass/_bacchusMain.sass */
+/* line 1121, ../sass/_bacchusMain.sass */
 .fancyTable.roomPlanTable tbody tr td {
   background-color: #DAEAFC;
   color: #262c31;
