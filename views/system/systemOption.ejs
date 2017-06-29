@@ -30,17 +30,20 @@
                                 </div><!-- /.page-header -->
                             </div>
 
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-6 system-block-all">
+                            <!--<div class="col-sm-1"></div>-->
+                            <div class="col-sm-12 system-block-all">
                                 <div class="system-block">
                                     <% sysList.forEach(function(sys){ %>
-                                    <div class="imgWrap">
-                                        <a href="#" onclick="selectSys('<%= sys.sys_id %>')">
-                                            <img src="/images/flow.png"/>
-                                            <span class="text-content">
-                                                    <span><%= sys["sys_name_" + session.locale] %></span>
-                                                </span>
+                                    <div class="system-box-Wrap">
+                                        <a class="system-circle" href="#" onclick="selectSys('<%= sys.sys_id %>')">
+                                            <div class="circle-background" title="PMS">PMS</div>
                                         </a>
+                                        <!--<a href="#" onclick="selectSys('<%= sys.sys_id %>')">-->
+                                            <!--<img src="/images/flow.png"/>-->
+                                            <!--<span class="text-content">-->
+                                                    <!--<span><%= sys["sys_name_" + session.locale] %></span>-->
+                                                <!--</span>-->
+                                        <!--</a>-->
                                     </div>
                                     <% }) %>
 

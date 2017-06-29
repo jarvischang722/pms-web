@@ -3431,88 +3431,105 @@ th.dateColor {
   width: 150px;
   height: 150px;
   display: inline-block;
+  margin-left: 20px;
 }
 
 /* line 1142, ../sass/_bacchusMain.sass */
-.system-box-Wrap .background {
+.system-box-Wrap .circle-background {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   background: #438EB9;
+  font-size: 36px;
+  color: #fff;
+  display: block;
+  float: left;
+  padding: 49px 10px 0px 10px;
+  text-align: center;
+  vertical-align: top;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-/* line 1158, ../sass/_bacchusMain.sass */
+/* line 1157, ../sass/_bacchusMain.sass */
+.system-block-all {
+  display: inline-block;
+  text-align: center;
+}
+
+/* line 1171, ../sass/_bacchusMain.sass */
 .message-wrap .checkbox {
   display: inline-block;
 }
 
-/* line 1160, ../sass/_bacchusMain.sass */
+/* line 1173, ../sass/_bacchusMain.sass */
 .message-wrap .checkbox label input[type=checkbox].ace + .lbl {
   width: 100px;
 }
 
-/* line 1162, ../sass/_bacchusMain.sass */
+/* line 1175, ../sass/_bacchusMain.sass */
 .marginLeft-57 {
   margin-left: 57px;
 }
 
-/* line 1164, ../sass/_bacchusMain.sass */
+/* line 1177, ../sass/_bacchusMain.sass */
 .marginLeft-93 {
   margin-left: 93px;
 }
 
-/* line 1166, ../sass/_bacchusMain.sass */
+/* line 1179, ../sass/_bacchusMain.sass */
 .marginLeft-30 {
   margin-left: 30px;
 }
 
-/* line 1168, ../sass/_bacchusMain.sass */
+/* line 1181, ../sass/_bacchusMain.sass */
 .marginBottom-10 {
   margin-bottom: 10px;
 }
 
-/* line 1170, ../sass/_bacchusMain.sass */
+/* line 1183, ../sass/_bacchusMain.sass */
 .input-medium.input-fourlb {
   width: 419px;
 }
 
-/* line 1172, ../sass/_bacchusMain.sass */
+/* line 1185, ../sass/_bacchusMain.sass */
 .input-medium.input-fourlb2 {
   width: 395px;
 }
 
-/* line 1174, ../sass/_bacchusMain.sass */
+/* line 1187, ../sass/_bacchusMain.sass */
 .text-top {
   vertical-align: top !important;
 }
 
-/* line 1176, ../sass/_bacchusMain.sass */
+/* line 1189, ../sass/_bacchusMain.sass */
 .input-h70 {
   height: 70px !important;
 }
 
-/* line 1178, ../sass/_bacchusMain.sass */
+/* line 1191, ../sass/_bacchusMain.sass */
 .input-medium.medium-157 {
   width: 157px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 1182, ../sass/_bacchusMain.sass */
+/* line 1195, ../sass/_bacchusMain.sass */
 .suggestion-wrap-mid label {
   width: 55px;
   text-align: right;
   margin-right: 0;
 }
 
-/* line 1186, ../sass/_bacchusMain.sass */
+/* line 1199, ../sass/_bacchusMain.sass */
 .input-medium.resvCard-xxs {
   width: 23px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 1190, ../sass/_bacchusMain.sass */
+/* line 1203, ../sass/_bacchusMain.sass */
 .sug-btn {
   margin-bottom: 10px;
 }
