@@ -44,6 +44,16 @@ module.exports = {
             character_cod: postData.singleRowData.character_cod
         };
 
+        var lb_isDefault = postData.singleRowData.sys_default == "Y" ? false:true;
+
+        if (lb_isDefault == false) {
+
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = "系統預設,不可異動";
+            lo_error.errorCod = "1111";
+        }
+
         async.waterfall([
             function (callback) {
                 //房間設定
