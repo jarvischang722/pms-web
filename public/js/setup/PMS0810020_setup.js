@@ -110,7 +110,36 @@ Vue.component('single-grid-pms0810020-tmp', {
             }, {
                 name: 'food2.jpeg',
                 url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            }]
+            }],
+            dialogShowRoomSortVisible: false,
+            dialogRmTypeStockVisible: false,
+            paneName: 'first',
+            value1: '',
+            checked: false,
+            pickerOptions0: {
+                disabledDate: function (time) {
+                    return time.getTime() < Date.now() - 8.64e7;
+                }
+            },
+            ERPSortData: [{
+                date: '2016-05-02',
+                name: '1',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-04',
+                name: '2',
+                address: '上海市普陀区金沙江路 1517 弄'
+            }, {
+                date: '2016-05-01',
+                name: '3',
+                address: '上海市普陀区金沙江路 1519 弄'
+            }, {
+                date: '2016-05-03',
+                name: '4',
+                address: '上海市普陀区金沙江路 1516 弄'
+            }],
+            webSiteSortData: []
+
         };
     },
     watch: {
@@ -346,10 +375,17 @@ Vue.component('single-grid-pms0810020-tmp', {
             console.log("uploadWebSite");
         },
         genRoomTypeStock: function () {
-            this.$parent.dialogRmTypeStockVisible = true;
+            this.dialogRmTypeStockVisible = true;
         },
         showRoomTypeSort: function () {
-            this.$parent.dialogShowRoomSortVisible = true;
+            this.dialogShowRoomSortVisible = true;
+        },
+        itemMove: function (li_oldIndex, li_newIndex) {
+            console.log(this.ERPSortData[li_oldIndex].name, this.ERPSortData[li_newIndex].name);
+            var temp = this.ERPSortData[li_oldIndex];
+            this.ERPSortData[li_oldIndex] = this.ERPSortData[li_newIndex];
+            this.ERPSortData[li_newIndex] = temp;
+            console.log(this.ERPSortData[li_oldIndex].name, this.ERPSortData[li_newIndex].name);
         }
 
     }
@@ -385,35 +421,7 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
         dgIns: {},
-        labelPosition: 'right',
-        dialogRmTypeStockVisible: false,
-        dialogShowRoomSortVisible: false,
-        pickerOptions0: {
-            disabledDate: function (time) {
-                return time.getTime() < Date.now() - 8.64e7;
-            }
-        },
-        value1: '',
-        value2: '',
-        checked: false,
-        activeName2: 'first',
-        tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        labelPosition: 'right'
     },
     watch: {
         editStatus: function (newVal) {
@@ -641,9 +649,6 @@ var vm = new Vue({
             vm.singleData = {};
             vm.initTmpCUD();
             $("#singleGridPMS0810020").dialog('close');
-        },
-        handleClick: function (tab, event) {
-            console.log(tab, event);
         }
     }
 
