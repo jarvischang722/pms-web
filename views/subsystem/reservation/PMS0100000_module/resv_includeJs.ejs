@@ -498,6 +498,87 @@
             });
         });
 
+
+        // 彈出 住客歷史分類
+        $(document).on('click', ".classified-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#classifiedDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "住客歷史分類",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                height: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 其他聯絡方式
+        $(document).on('click', ".otherContact-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#otherContactDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "其他聯絡方式",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+                height: 500,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 圖片上傳頁
+        $(document).on('click', ".ghist-sign-pic-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#ghist-sign-pic").removeClass('hide').dialog({
+                modal: true,
+                title: "住客照片",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                height: 320,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 留言明細
+        $(document).on('click', ".message-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#message-dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "留言明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 suggestion
+        $(document).on('click', ".suggestion-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#suggestion-dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "Suggestion",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -947,4 +1028,16 @@
         return false;
 
     });
+
+    //dropzone 圖片上傳套件選項
+    var myDropzone = new Dropzone("#myDropzone",
+        {
+            maxFilesize: 0.08,
+            uploadMultiple: false,
+            addRemoveLinks: true,
+            method: 'post'
+        });
+
+
+
 </script>
