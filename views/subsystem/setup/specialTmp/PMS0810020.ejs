@@ -73,7 +73,7 @@
             :single-data="singleData">
     </field-multi-lang-dialog-tmp>
 
-    <el-dialog title="產生庫存" :visible.sync="dialogRmTypeStockVisible" size="tiny">
+    <el-dialog title="產生庫存" :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false">
         <el-row>
             <el-col :span="12" :offset="6">
                 <el-form>
@@ -121,7 +121,7 @@
 
     </el-dialog>
 
-    <el-dialog title="房型顯示排序" :visible.sync="dialogShowRoomSortVisible" size="tiny">
+    <el-dialog title="房型顯示排序" :visible.sync="dialogShowRoomSortVisible" size="tiny" :show-close="false">
         <template>
             <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
                 <el-tab-pane label="ERP 順序" name="first">
@@ -142,11 +142,9 @@
                                 <span class="glyphicon glyphicon-triangle-top"></span> Search
                             </button>
                             <template scope="scope">
-                                <el-button type="button" size="small">
-                                    Up
+                                <el-button type="button" size="small" class="el-icon-caret-top">
                                 </el-button>
-                                <el-button type="button" size="small">
-                                    Down
+                                <el-button type="button" size="small" class="el-icon-caret-bottom">
                                 </el-button>
                             </template>
                         </el-table-column>
@@ -166,15 +164,10 @@
                                 label="房型名稱">
                         </el-table-column>
                         <el-table-column>
-                            <!--<button type="button" class="btn btn-default">-->
-                                <!--<span class="glyphicon glyphicon-triangle-top"></span> Search-->
-                            <!--</button>-->
                             <template scope="scope">
-                                <el-button type="button" size="small">
-                                    Up
+                                <el-button type="button" size="small" class="el-icon-caret-top">
                                 </el-button>
-                                <el-button type="button" size="small">
-                                    Down
+                                <el-button type="button" size="small" class="el-icon-caret-bottom">
                                 </el-button>
                             </template>
                         </el-table-column>
