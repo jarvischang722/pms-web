@@ -1,11 +1,11 @@
 /**
  * Created by Jun on 2017/4/26.
  */
-const datagridSVC = require("../services/datagridService");
-const dataRuleSVC = require("../services/dataRuleService");
-const langSVC = require("../services/langService");
+const datagridSVC = require("../services/DatagridService");
+const dataRuleSVC = require("../services/DataRuleService");
+const langSVC = require("../services/LangService");
 const _ = require("underscore");
-const commonTools = require("../utils/commonTools");
+const commonTools = require("../utils/CommonTools");
 const mongoAgent = require("../plugins/mongodb");
 const fs = require("fs");
 

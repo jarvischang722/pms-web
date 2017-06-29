@@ -7,7 +7,7 @@ var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var _ = require("underscore");
 var async = require("async");
 var alasql = require("alasql");
-var langSvc = require("./langService");
+var langSvc = require("./LangService");
 
 /**
  * 根據系統找出所有對應的子系統和模組

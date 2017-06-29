@@ -10,12 +10,12 @@ var _ = require("underscore");
 var async = require("async");
 var i18n = require("i18n");
 var moment = require("moment");
-var tools = require("../utils/commonTools");
-var dataRuleSvc = require("../services/dataRuleService");
+var tools = require("../utils/CommonTools");
+var dataRuleSvc = require("./DataRuleService");
 var commonRule = require("../ruleEngine/rules/CommonRule");
-var logSvc = require("./logService");
-var mailSvc = require("./mailService");
-var langSvc = require("./langService");
+var logSvc = require("./LogService");
+var mailSvc = require("./MailService");
+var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 /**
  * 抓取singlePage 欄位資料

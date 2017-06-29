@@ -67,7 +67,14 @@
 <script src="/js/jquery/jquery.js"></script>
 <script type="text/javascript" src="/js/easyUI/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/js/easyUI/columns-ext.js"></script>
-
+<script>
+    //remodal 套件全域變數設定, 需放在remodal.js套件前
+    window.REMODAL_GLOBALS = {
+        DEFAULTS: {
+            hashTracking: false  //打開modal 時網址不出現 hash #
+        }
+    };
+</script>
 <script type="text/javascript" src="/js/remodal.min.js"></script>
 
 <!-- 多選chosen -->

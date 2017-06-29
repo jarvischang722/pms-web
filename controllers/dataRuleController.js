@@ -1,8 +1,8 @@
 /**
  * Created by Jun on 2017/3/7.
  */
-var ruleSVC = require("../services/dataRuleService");
-var commonTools = require("../utils/commonTools");
+var ruleSVC = require("../services/DataRuleService");
+var commonTools = require("../utils/CommonTools");
 
 /**
  * 欄位規則檢查

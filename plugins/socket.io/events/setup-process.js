@@ -3,7 +3,7 @@
  */
 var _ = require("underscore");
 var mongoAgent = require("../../mongodb");
-var dbSVC = require("../../../services/dbTableService");
+var dbSVC = require("../../../services/DbTableService");
 
 
 module.exports = function (io) {
