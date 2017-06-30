@@ -15,4 +15,19 @@
         <parameter type="string" kind="3">athena_id</parameter>
 
     </dao>
+
+    <!-- 撈取房型排序 -->
+    <dao name="QRY_ROOM_COD_ORDER">
+        <statement><![CDATA[
+            select *
+            from room_cod_order
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and wrs_sort_cod <> -1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+
+    </dao>
 </root>

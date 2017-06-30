@@ -116,3 +116,20 @@ exports.mergeRtnErrResultJson = function (err, result) {
 
     return returnJson;
 };
+
+/**
+ * 檢查需必填的參數名稱
+ * @param params
+ * @param checkKeys
+ * @return {{success: boolean, errorMsg: string}}
+ */
+exports.checkRequireParams = function (params, checkKeys) {
+    let result = {success: true, errorMsg: ''};
+    _.each(checkKeys, function (key) {
+        if (_.isUndefined(params[key])) {
+            result.success = false;
+            result.errorMsg = "[" + key + "] is required";
+        }
+    })
+    return result;
+};
