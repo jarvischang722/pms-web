@@ -3,10 +3,10 @@
  */
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var tbSVC = require("../services/dbTableService");
+var tbSVC = require("../services/DbTableService");
 var mongoAgent = require("../plugins/mongodb");
-var trafficSvc = require("../services/trafficService");
-var holidayDateSvc = require("../services/holidayDateService");
+var trafficSvc = require("../services/TrafficService");
+var holidayDateSvc = require("../services/HolidayDateService");
 
 
 /**

@@ -100,10 +100,17 @@ Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
         'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
-    data () {
+    data: function () {
         return {
             isFistData: false,
             isLastData: false,
+            fileList2: [{
+                name: 'food.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+            }, {
+                name: 'food2.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+            }]
         };
     },
     watch: {
@@ -129,7 +136,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         }
     },
-    created () {
+    create: function () {
 
         var self = this;
         vmHub.$on('tempExecData', function (row) {
@@ -246,8 +253,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     });
                 }
             });
-        }
-        ,
+        },
         //關閉
         emitCloseGridDialog: function () {
             this.$emit('close-single-grid-dialog');
@@ -324,9 +330,26 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
-        appendDtRow(){
+        appendDtRow: function () {
         },
-        removeDtRow(){
+        removeDtRow: function () {
+        },
+        showDropdownDisplayName: function (val, selectData) {
+            if (_.findIndex(selectData, {value: val}) > -1) {
+                return _.findWhere(selectData, {value: val}).display;
+            } else {
+                return val
+            }
+        },
+        //上傳官網
+        uploadWebSite: function () {
+            console.log("uploadWebSite");
+        },
+        genRoomTypeStock: function () {
+            this.$parent.dialogRmTypeStockVisible = true;
+        },
+        showRoomTypeSort: function () {
+            this.$parent.dialogShowRoomSortVisible = true;
         }
 
     }
@@ -361,7 +384,36 @@ var vm = new Vue({
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
-        dgIns: {}
+        dgIns: {},
+        labelPosition: 'right',
+        dialogRmTypeStockVisible: false,
+        dialogShowRoomSortVisible: false,
+        pickerOptions0: {
+            disabledDate: function (time) {
+                return time.getTime() < Date.now() - 8.64e7;
+            }
+        },
+        value1: '',
+        value2: '',
+        checked: false,
+        activeName2: 'first',
+        tableData: [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+        }]
     },
     watch: {
         editStatus: function (newVal) {
@@ -567,8 +619,8 @@ var vm = new Vue({
         showSingleGridDialog: function () {
             this.initDatePicker();
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
+            var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+            var height = 19 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,
@@ -589,9 +641,10 @@ var vm = new Vue({
             vm.singleData = {};
             vm.initTmpCUD();
             $("#singleGridPMS0810020").dialog('close');
+        },
+        handleClick: function (tab, event) {
+            console.log(tab, event);
         }
-
-
     }
 
 });
@@ -607,4 +660,9 @@ Vue.filter("filterLocaleContent", function (langContent, locale, field_name) {
 
     return m_lang_val;
 });
+
+Vue.filter("showDropdownDisplayName", function (val) {
+    console.log(val);
+    console.log(selectData);
+})
 

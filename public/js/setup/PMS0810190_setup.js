@@ -21,7 +21,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 Vue.component('single-grid-pms0810190-tmp', {
     template: '#singleGridPMS0810190Tmp',
-    props: ['isEditStatus', 'isCreateStatus', 'singleData', 'useCodList', 'pageOneDataGridRows', 'editingRow','lo_formatError'],
+    props: ['isEditStatus', 'isCreateStatus', 'singleData', 'useCodList', 'pageOneDataGridRows', 'editingRow', 'lo_formatError'],
     watch: {
         editingRow: function (newRow) {
 
@@ -44,7 +44,7 @@ Vue.component('single-grid-pms0810190-tmp', {
 
         }
     },
-    data () {
+    data: function () {
         return {
             isFistData: false,
             isLastData: false,
@@ -57,34 +57,34 @@ Vue.component('single-grid-pms0810190-tmp', {
     },
     methods: {
         //到第一筆
-        toFirstData () {
+        toFirstData: function () {
             this.isFistData = true;
             this.isLastData = false;
             this.$parent.editingRow = _.first(this.pageOneDataGridRows);
             this.$parent.fetchSingleData();
         },
         //上一筆
-        toPreData () {
+        toPreData: function () {
             var nowRowIndex = $("#" + gs_dgName).datagrid('getRowIndex', this.editingRow);
             this.$parent.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
             this.$parent.fetchSingleData();
         },
 
         //下一筆
-        toNextData () {
+        toNextData: function () {
             var nowRowIndex = $("#" + gs_dgName).datagrid('getRowIndex', this.editingRow);
             this.$parent.editingRow = this.pageOneDataGridRows[nowRowIndex + 1];
             this.$parent.fetchSingleData();
         },
         //最後一筆
-        toLastData () {
+        toLastData: function () {
             this.isFistData = false;
             this.isLastData = true;
             this.$parent.editingRow = _.last(this.pageOneDataGridRows);
             this.$parent.fetchSingleData();
         },
-        checkContentFormat(){
-             this.$parent.doCheckContentFormat();
+        checkContentFormat: function () {
+            this.$parent.doCheckContentFormat();
         },
         keyUpContent: function (type, e) {
             this.currentType = type;
@@ -98,7 +98,7 @@ Vue.component('single-grid-pms0810190-tmp', {
             this.lo_curForTextArea.insertTextInCursor(content);
             this.singleData[this.currentType] = this.lo_curForTextArea.e.value;
         },
-        showSelectDisplay(_use_cod){
+        showSelectDisplay: function (_use_cod) {
             var useCodIdx = _.findIndex(this.useCodList, {value: _use_cod});
             return useCodIdx > -1 ? this.useCodList[useCodIdx].display : "";
         }
@@ -123,7 +123,7 @@ let vm = new Vue({
         isDeleteStatus: true,     //刪除狀態
         isAddAfterSave: false,   //新增後繼續修增
         isLeaveAfterSave: false, //儲存後關閉視窗
-        isContentFormatOK : true,// 內容格式是否正確
+        isContentFormatOK: true,// 內容格式是否正確
         lo_formatError: {
             subject: false,
             content: false
@@ -136,23 +136,22 @@ let vm = new Vue({
         editingRow: {} //編輯中的那筆RowData
 
     },
-    mounted  () {
+    mounted: function () {
         waitingDialog.hide();
         this.initSingleData();
         this.getOrderConfirm();
         this.getSingleGridPageField();
     },
     watch: {
-        pageOneFieldData(){
+        pageOneFieldData: function () {
             this.initDataGrid();
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         }
 
     },
-    computed: {
-    },
+    computed: {},
     methods: {
-        initSingleData(){
+        initSingleData: function () {
             this.singleData = {
                 confirm_cod: "",
                 subject: "",
@@ -164,11 +163,11 @@ let vm = new Vue({
                 upd_usr: ""
             };
         },
-        initDataGrid(){
+        initDataGrid: function () {
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData));
         },
-        getSingleGridPageField(){
+        getSingleGridPageField: function () {
             axios.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
                 .then(function (response) {
                     let result = response.data;
@@ -179,7 +178,7 @@ let vm = new Vue({
                     console.log(error);
                 });
         },
-        getOrderConfirm(){
+        getOrderConfirm: function () {
             axios.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .then(function (response) {
                     console.log(response.data);
@@ -240,7 +239,7 @@ let vm = new Vue({
             this.tmpCUD.deleteData = [this.singleData];
             this.doSave();
         },
-        removeMultiData (){
+        removeMultiData: function () {
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
                 $.messager.alert("Warning", 'Check at least one item');
@@ -250,24 +249,24 @@ let vm = new Vue({
                 if (q) {
                     //刪除前檢查
                     _.each(checkRows, function (row) {
-                        var DelIndex = $('#'+gs_dgName).datagrid('getRowIndex', row);
-                        $('#'+gs_dgName).datagrid('deleteRow', DelIndex);
+                        var DelIndex = $('#' + gs_dgName).datagrid('getRowIndex', row);
+                        $('#' + gs_dgName).datagrid('deleteRow', DelIndex);
                         vm.tmpCUD.deleteData.push(row);
                     });
                     vm.doSave();
                 }
             });
         },
-        toAddAfterSave(){
+        toAddAfterSave: function () {
             this.isAddAfterSave = true;
             this.doSave();
         },
-        toLeaveAfterSave(){
+        toLeaveAfterSave: function () {
             this.isLeaveAfterSave = true;
             this.doSave();
         },
         //檢查內容格式是否有[[%%xxxx%%]] 對稱
-        doCheckContentFormat () {
+        doCheckContentFormat: function () {
             var _this = this;
             _.each(this.lo_formatError, function (errStatus, currentType) {
                 let valContent = _this.singleData[currentType] || "";
@@ -284,21 +283,21 @@ let vm = new Vue({
                     _this.lo_formatError[currentType] = true;
                 }
             });
-            this.isContentFormatOK = !this.lo_formatError.subject &&  !this.lo_formatError.content;
+            this.isContentFormatOK = !this.lo_formatError.subject && !this.lo_formatError.content;
         },
-        doVerify(){
+        doVerify: function () {
             var isContFmtOK = true;
-            let checkField = [    "confirm_cod","subject","content","use_cod" ];
-            _.each(checkField,function(fieldName){
-                if(isContFmtOK && (_.isUndefined(vm.singleData[fieldName]) || _.isEmpty(vm.singleData[fieldName].trim()))){
-                    var field = _.findWhere(vm.pageTwoFieldData , {ui_field_name: fieldName});
-                    alert("[ "+ field.ui_display_name +  " ] is requirable !");
+            let checkField = ["confirm_cod", "subject", "content", "use_cod"];
+            _.each(checkField, function (fieldName) {
+                if (isContFmtOK && (_.isUndefined(vm.singleData[fieldName]) || _.isEmpty(vm.singleData[fieldName].trim()))) {
+                    var field = _.findWhere(vm.pageTwoFieldData, {ui_field_name: fieldName});
+                    alert("[ " + field.ui_display_name + " ] is requirable !");
                     isContFmtOK = false;
                 }
             })
 
             //格式檢查
-            if(!this.isContentFormatOK  ){
+            if (!this.isContentFormatOK) {
                 alert("格式錯誤，請重新檢查");
                 isContFmtOK = false;
             }
@@ -306,7 +305,7 @@ let vm = new Vue({
         },
         doSave: function () {
 
-            if(!this.doVerify()){
+            if (!this.doVerify()) {
                 return;
             }
             if (this.isCreateStatus) {
@@ -318,30 +317,30 @@ let vm = new Vue({
             axios.post('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD))
                 .then(function (response) {
                     if (response.data.success) {
-                        if(vm.isCreateStatus){
-                            if(vm.isAddAfterSave) {
+                        if (vm.isCreateStatus) {
+                            if (vm.isAddAfterSave) {
                                 vm.addData();
-                            }else{
+                            } else {
                                 vm.isCreateStatus = false;
                                 vm.isEditStatus = true;
                                 vm.editingRow = vm.singleData;
                                 vm.fetchSingleData();
                             }
-                        }else if(vm.isLeaveAfterSave){
+                        } else if (vm.isLeaveAfterSave) {
                             vm.closeSingleGridDialog();
                         }
                         //判斷刪除完下一筆要抓哪一筆顯示
-                        if(vm.isDeleteStatus){
+                        if (vm.isDeleteStatus) {
 
                             var nowRowIndex = $("#" + gs_dgName).datagrid('getRowIndex', vm.editingRow);
-                            vm.pageOneDataGridRows.splice(nowRowIndex,1); //刪除暫存
-                            if(vm.pageOneDataGridRows.length == 0){
+                            vm.pageOneDataGridRows.splice(nowRowIndex, 1); //刪除暫存
+                            if (vm.pageOneDataGridRows.length == 0) {
                                 vm.closeSingleGridDialog();
-                            }else{
+                            } else {
 
-                                var nextIndex = vm.pageOneDataGridRows.length -1  == nowRowIndex
-                                    ?vm.pageOneDataGridRows.length -1
-                                    : nowRowIndex ;
+                                var nextIndex = vm.pageOneDataGridRows.length - 1 == nowRowIndex
+                                    ? vm.pageOneDataGridRows.length - 1
+                                    : nowRowIndex;
                                 vm.editingRow = vm.pageOneDataGridRows[nextIndex];
                                 vm.fetchSingleData();
                             }
@@ -378,7 +377,7 @@ let vm = new Vue({
             $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
         //關閉單檔dialog
-        closeSingleGridDialog () {
+        closeSingleGridDialog: function () {
             vm.editingRow = {};
             vm.isCreateStatus = false;
             vm.isEditStatus = false;
@@ -387,7 +386,7 @@ let vm = new Vue({
             vm.initTmpCUD();
             $("#singleGridPMS0810190").dialog('close');
         },
-        initTmpCUD () {
+        initTmpCUD: function () {
             this.tmpCUD = {
                 createData: [],
                 editData: [],
