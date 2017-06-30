@@ -14,8 +14,8 @@
                                     <div class="tabbable tabs-left">
                                         <ul class="nav nav-tabs" id="settingUl">
                                             <li v-for="proc in prosList"
-                                                :class="{active: usingPrgID == proc.pro_id}">
-                                                <a  @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
+                                                :class="{active: activePrgID == proc.pro_id}">
+                                                <a @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
                                                     {{ proc['pro_name_<%= session.locale %>'] != undefined
                                                     ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
                                                 </a>
@@ -70,6 +70,7 @@
             setupMenu: [],  //此模組的設定檔
             isTableLockProcessing: true,  //打API 上鎖程序是否正在執行
             usingPrgID: "",  //使用中的prg_id
+            activePrgID: "",  //頁面的prg_id
             isTableLocked: false,// 是否被上鎖中
             tableLockMsg: "",// 上鎖訊息
             userInfo:<%- JSON.stringify(session.user || {}) %>,
@@ -108,50 +109,39 @@
                 });
             },
             //讀取網頁程式頁面
-            loadSetUpPage: function (this_prg_id) {
-                var oldPrgId = this.usingPrgID;
-                var datagridEdit = $("#gridEdit").val();
-                if (!_.isEmpty(datagridEdit)) {
-                    if (datagridEdit.createData.length > 0 || datagridEdit.deleteData.length > 0 || datagridEdit.updateData.length > 0) {
-                        if (!confirm("有異動過資料，請問是否離開?")) {
-                            //event.preventDefault();
-                            $("#" + oldPrgId).addClass('active');
-                            $('#' + this_prg_id).removeClass('active');
-                            return;
-                        }
-                    }
-                }
-                this.usingPrgID = this_prg_id;  //TODO 方便開發不lock 2017/04/25
-                waitingDialog.show(go_i18nLang.SystemCommon.Loading);
-                $("#prgContentDiv").empty();
+            loadSetUpPage: function (doingPrgID) {
+                this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
+//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
+                this.handleClearHtml();
+                this.goTopForPage();
+                this.checkTmpNotEmpty(doingPrgID);
+                this.checkDoUnlock(doingPrgID);
 
-                //判斷是否要Unlock
-                if (!_.isEmpty(this.usingPrgID) && !_.isEqual(this_prg_id, this.usingPrgID)) {
+                if (!_.isEmpty(this.usingPrgID) && _.isEqual(doingPrgID, this.usingPrgID)) {
+                    $("#prgContentDiv").load('/mainSetUp/' + doingPrgID + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
+                } else {
+                    this.isTableLockProcessing = true;
+                    this.doTableLock(doingPrgID);
+                }
+
+            },
+            //判斷是否要Unlock
+            checkDoUnlock(doingPrgID){
+                if (!_.isEmpty(this.usingPrgID) && !_.isEqual(doingPrgID, this.usingPrgID)) {
                     this.isTableLockProcessing = true;
                     this.doTableUnLock(function (errorMsg, success) {
                         this.isTableLockProcessing = false;
-//                        console.log("解開lock:" + vmMain.usingPrgID);
                         vmMain.isTableLocked = false;
                     })
                 }
-
-
-                /** 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog **/
-                $(".panel.window").remove();
-                $(".window-shadow").remove();
-                $(".window-mask").remove();
-
-                $("#multiLangDialogTmp").remove();
-
-                if (!_.isEmpty(this.usingPrgID) && _.isEqual(this_prg_id, this.usingPrgID)) {
-                    $("#prgContentDiv").load('/mainSetUp/' + this_prg_id + "?_r=" + (new Date()).getTime());
-
-                } else {
-                    this.isTableLockProcessing = true;
-                    this.doTableLock(this_prg_id);
-                }
-
+            },
+            // 讓捲軸用動畫的方式移動到 0 的位置
+            goTopForPage(){
+                var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                $body.animate({
+                    scrollTop: 0
+                }, 600);
             },
             //資料表上鎖
             doTableLock: function (prg_id) {
@@ -167,6 +157,30 @@
                     'user': userInfo
                 })
                 callback(null, true);
+            },
+            //判斷是否有正在編輯的程式
+            checkTmpNotEmpty(doingPrgID){
+                var oldPrgId = this.usingPrgID;
+                var datagridEdit = $("#gridEdit").val();
+                if (!_.isEmpty(datagridEdit)) {
+                    if (datagridEdit.createData.length > 0 || datagridEdit.deleteData.length > 0 || datagridEdit.updateData.length > 0) {
+                        if (!confirm("有異動過資料，請問是否離開?")) {
+                            //event.preventDefault();
+                            $("#" + oldPrgId).addClass('active');
+                            $('#' + doingPrgID).removeClass('active');
+                            return;
+                        }
+                    }
+                }
+            },
+            //用jquery load 讀取html 有時會有些殘留的沒清掉，故須處理
+            handleClearHtml(){
+                /** 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog **/
+                $("#prgContentDiv").empty();
+                $(".panel.window").remove();
+                $(".window-shadow").remove();
+                $(".window-mask").remove();
+                $("#multiLangDialogTmp").remove();
             }
         }
     })
@@ -179,7 +193,7 @@
         vmMain.isTableLockProcessing = false;
         if (!vmMain.isTableLocked) {
             vmMain.usingPrgID = result.prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-            $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id);
+            $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
             waitingDialog.hide();
         } else {
             vmMain.usingPrgID = "";

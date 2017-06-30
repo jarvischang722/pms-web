@@ -24,12 +24,24 @@ module.exports = function(app  ) {
     app.get('/resv_blockSetting', reservationCrtl.getResv_blockSetting);
 
     //超訂設定(靜態)
-    app.get('/PMS0130010', reservationCrtl.getPMS0130010);
+    app.get('/PMS0120020', reservationCrtl.getPMS0120020);
 
     //住客歷史(靜態 quickMenu)
     app.get('/resv_gProfile', reservationCrtl.getResv_gProfile);
 
     //訂房卡多筆(靜態 quickMenu)
     app.get('/resv_bookings', reservationCrtl.getResv_bookings);
+
+    //異動紀錄(靜態 quickMenu)
+    app.get('/resv_changeRecords', reservationCrtl.getResv_changeRecords);
+
+    //鎖控iframe(靜態 quickMenu)
+    app.get('/resvBlockSettingTable_1', reservationCrtl.getResv_blockSettingTable);
+
+    //專案訂房(靜態 quickMenu)
+    app.get('/PMS0110030', reservationCrtl.getPMS0110030);
+
+    //依房號訂房(靜態 quickMenu)
+    app.get('/resv_roomPlan', reservationCrtl.getResv_roomPlan);
 
 };

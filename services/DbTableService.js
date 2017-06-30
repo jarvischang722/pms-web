@@ -2,14 +2,14 @@
  * Created by Jun Chang on 2017/2/10.
  */
 
-var tools = require("../utils/commonTools");
+var tools = require("../utils/CommonTools");
 var _ = require("underscore");
 var sysConfig = require("../configs/SystemConfig");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require("i18n");
-var logSvc = require("./logService");
-var mailSvc = require("./mailService");
-var langSvc = require("./langService");
+var logSvc = require("./LogService");
+var mailSvc = require("./MailService");
+var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var moment = require("moment");
 

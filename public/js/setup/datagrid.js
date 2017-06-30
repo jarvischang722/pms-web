@@ -8,7 +8,7 @@ Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
     data: function () {
-        return {   };
+        return {};
 
     },
     created: function () {
@@ -171,7 +171,6 @@ var vm = new Vue({
                 onEndEdit: vm.onEndEdit,
                 onDropColumn: vm.doSaveColumnFields, //當移動順序欄位時
                 onResizeColumn: vm.doSaveColumnFields,  //當欄位時寬度異動時
-                //nCheck: vm.onUncheckAll,
                 onSortColumn: function () {
                     $("#dgCheckbox").datagrid('uncheckAll');
                 }
@@ -211,19 +210,23 @@ var vm = new Vue({
                 $('#prg_dg').datagrid('endEdit', vm.editIndex);
                 vm.editIndex = undefined;
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
         },
         //新增一個Row
         appendRow: function () {
             var girdDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
             if (this.endEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id,girdDataInfo:girdDataInfo}, function (result) {
+                $.post("/api/handleDataGridAddEventRule", {
+                    prg_id: prg_id,
+                    girdDataInfo: girdDataInfo
+                }, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
                     }
+
                     $('#prg_dg').datagrid('appendRow', prgDefaultObj);
                     vm.editIndex = $('#prg_dg').datagrid('getRows').length - 1;
                     $('#prg_dg').datagrid('selectRow', vm.editIndex)
@@ -311,7 +314,7 @@ var vm = new Vue({
                 maxWidth: _.min([width, maxWidth]),
                 resizable: true,
                 buttons: "#multiDialogBtns",
-                zIndex:1000
+                zIndex: 1000
 
             });
 
@@ -369,9 +372,9 @@ var vm = new Vue({
                 $('#multiLangDG').datagrid('endEdit', vm.multiLangEditIndex);
                 vm.multiLangEditIndex = undefined;
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
         },
         //將資料放入暫存
         tempExecData: function (rowData) {
@@ -391,20 +394,6 @@ var vm = new Vue({
             this.tmpCUD[dataType].push(rowData);
             $("#gridEdit").val(this.tmpCUD);
         }
-        // ,
-        // onUncheckAll:function (index,row) {
-        //
-        //     var eds = $('#prg_dg').datagrid('getEditors', index);
-        //     if (!_.isEmpty(eds)) {
-        //         $(eds[0].target).bind('click', function () {
-        //             alert("YO");
-        //         })
-        //     }
-        //
-        //     // $(eds[0].target).bind('click',function () {
-        //     //     alert("YO");
-        //     // })
-        // }
 
 
     }

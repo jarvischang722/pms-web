@@ -4,11 +4,11 @@
 
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/roleFuncService");
+var roleFuncSvc = require("../services/RoleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/roleFuncService");
+var roleSvc = require("../services/RoleFuncService");
 
 /**
  * 依房型訂房(靜態)
@@ -40,8 +40,8 @@ exports.getResv_blockSetting = function (req, res) {
 /**
  * 超訂設定(靜態)
  */
-exports.getPMS0130010 = function (req, res) {
-    res.render("subsystem/reservation/PMS0130010");
+exports.getPMS0120020 = function (req, res) {
+    res.render("subsystem/reservation/PMS0120020");
 };
 
 /**
@@ -56,4 +56,29 @@ exports.getResv_gProfile = function (req, res) {
  */
 exports.getResv_bookings = function (req, res) {
     res.render("subsystem/reservation/resv_bookings");
+};
+/**
+ * 異動紀錄(靜態 quickMenu)
+ */
+exports.getResv_changeRecords = function (req, res) {
+    res.render("subsystem/reservation/resv_changeRecords");
+};
+/**
+ * 鎖控iframe(靜態 quickMenu)
+ */
+exports.getResv_blockSettingTable = function (req, res) {
+    res.render("subsystem/reservation/PMS0100000_module/resvBlockSettingTable_1");
+};
+/**
+ * 專案訂房(靜態 quickMenu)
+ */
+exports.getPMS0110030 = function (req, res) {
+    res.render("subsystem/reservation/PMS0110030");
+};
+
+/**
+ * 依房號訂房
+ */
+exports.getResv_roomPlan = function (req, res) {
+    res.render("subsystem/reservation/resv_roomPlan");
 };

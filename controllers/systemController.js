@@ -4,13 +4,13 @@
 
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/roleFuncService");
+var roleFuncSvc = require("../services/RoleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/roleFuncService");
-var dbSvc = require("../services/dbTableService");
-var langSvc = require("../services/langService");
+var roleSvc = require("../services/RoleFuncService");
+var dbSvc = require("../services/DbTableService");
+var langSvc = require("../services/LangService");
 /**
  * 首頁
  */
@@ -138,8 +138,8 @@ exports.setup = function (req, res) {
 /**
  * 自訂
  */
-exports.customize_setup = function (req, res) {
-    res.render('subsystem/customize_setup');
+exports.ownMenu = function (req, res) {
+    res.render('subsystem/ownMenu');
 };
 
 /**

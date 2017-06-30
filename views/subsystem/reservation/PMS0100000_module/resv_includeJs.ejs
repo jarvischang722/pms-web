@@ -57,6 +57,38 @@
 
         });
 
+        // 彈出 住客歷史 Lost&Found
+        $(document).on('click', ".resvLostFound", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvLostFound-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Lost&Found",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 住客歷史 Anniversary
+        $(document).on('click', ".resvAnniversary", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvAnniversary-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Anniversary",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 費用列表 Rate Details
         $(document).on('click', ".resv_rateDetail", function (e) {
             e.preventDefault();
@@ -89,12 +121,44 @@
             });
         });
 
+        // 彈出 訂房確認書 option
+        $(document).on('click', ".resv_BtnPage04", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_BtnPage04-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂房確認書",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 住客明細 Guest Details
         $(document).on('click', ".resv_guestDetail", function (e) {
             e.preventDefault();
             var dialog = $("#resvGuestDetail-message").removeClass('hide').dialog({
                 modal: true,
                 title: "住客明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 住客明細 Guest Details btn1 交辦事項
+        $(document).on('click', ".resv_guestDetail-btn1", function (e) {
+            e.preventDefault();
+            var dialog = $("#resvGuestDetail-btn1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "交辦事項",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -176,7 +240,7 @@
                 modal: true,
                 title: "批次修改",
                 title_html: true,
-                width: 600,
+                width: 1000,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -308,6 +372,7 @@
                 title_html: true,
                 width: 700,
                 maxwidth: 1920,
+                height: 400,
 //                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
@@ -403,6 +468,117 @@
             });
         });
 
+        // 彈出 狀態變更
+        $(document).on('click', ".rvType-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-rvType").removeClass('hide').dialog({
+                modal: true,
+                title: "狀態變更",
+                title_html: true,
+                width: 500,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 blockSettingSingle(超訂 PMS0120020)
+        $(document).on('click', ".PMS0120020Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#PMS0120020Btn-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Setting",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 住客歷史分類
+        $(document).on('click', ".classified-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#classifiedDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "住客歷史分類",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                height: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 其他聯絡方式
+        $(document).on('click', ".otherContact-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#otherContactDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "其他聯絡方式",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+                height: 500,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 圖片上傳頁
+        $(document).on('click', ".ghist-sign-pic-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#ghist-sign-pic").removeClass('hide').dialog({
+                modal: true,
+                title: "住客照片",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                height: 320,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 留言明細
+        $(document).on('click', ".message-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#message-dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "留言明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 suggestion
+        $(document).on('click', ".suggestion-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#suggestion-dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "Suggestion",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -432,7 +608,6 @@
                 {field: 'firstName', title: 'First Name', width: 100},
                 {field: 'lastName', title: 'Last Name', width: 100}
             ]]
-
         });
 
         // 住客來訪歷史 dataGrid
@@ -457,9 +632,27 @@
                 {field: 'hall', title: '館別', width: 100},
                 {field: 'remark', title: '備註', width: 100}
             ]]
-
         });
 
+
+        // 住客歷史 anniversary dataGrid
+        $('#resv_anniversary-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_anniversary.json',
+            method: 'get',
+            columns: [[
+                {field: 'anniv', title: '紀念日期', width: 100},
+                {field: 'annivSort', title: '紀念日分類', width: 60},
+                {field: 'objectSort', title: '對象分類', width: 60},
+                {field: 'details', title: '說明', width: 100},
+                {field: 'addDate', title: '新增日', width: 75},
+                {field: 'addBy', title: '新增者', width: 75},
+                {field: 'updDate', title: '異動日', width: 75},
+                {field: 'updBy', title: '異動者',width: 75}
+            ]]
+        });
         // 管別備註 dataGrid
         $('#reservation_hallRemark-table').datagrid({
             singleSelect: true,
@@ -476,7 +669,6 @@
                 {field: 'lastInputPerson', title: '最後異動者', width: 100},
                 {field: 'lastInputDate', title: '最後異動日', width: 100}
             ]]
-
         });
 
         // 訂房卡 dataGrid
@@ -505,7 +697,6 @@
                 {field: 'RelatedNum', title: '關連序號', width: 40},
                 {field: 'Commion', title: 'Commion',align:'right', width: 40}
             ]]
-
         });
 
         // 費用列表 dataGrid
@@ -532,7 +723,6 @@
                 {field: 'updBy', title: '最後異動者', width: 100},
                 {field: 'updDate', title: '最後異動日', width: 100}
             ]]
-
         });
 
         // 訂房卡-接機 dataGrid
@@ -556,7 +746,6 @@
                 {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
-
         });
 
         // 訂房卡-送機 dataGrid
@@ -580,7 +769,6 @@
                 {field: 'resvPoint', title: '指定住客', width: 80},
                 {field: 'resvMark', title: '備註', width: 150}
             ]]
-
         });
 
         // 批次修改 dataGrid
@@ -650,10 +838,47 @@
                 {field: 'hall', title: '館別', width: 60},
                 {field: 'proxyCompany', title: '代訂公司名稱', width: 100}
             ]]
-
         });
 
+        // 狀態變更
+        $('#rvTpye-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/rvType.json',
+            method: 'get',
+            columns: [[
+                {field: 'rvTpyeNo', title: '序', width: 50},
+                {field: 'rvTpyeCode', title: '代碼', width: 82},
+                {field: 'rvTpyeState', title: '狀態', width: 150},
+                {field: 'rvTpyeMan', title: '異動者', width: 100},
+                {field: 'rvTpyeDate', title: '異動日期', width: 100}
+            ]]
+        });
 
+        // 專案訂房 dataGrid
+        $('#PMS0110030-dg').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_PMS0110030-dg.json',
+            method: 'get',
+            columns: [[
+                {field: 'resv', title: '訂房', width: 40},
+                {field: 'roomCode', title: '房間代號', width: 40},
+                {field: 'housing', title: '房種', width: 70},
+                {field: 'ciDate', title: 'C/I日期', width: 80},
+                {field: 'coDate', title: 'C/O日期', width: 80},
+                {field: 'dateNum', title: '天數', width: 150},
+                {field: 'housingNum', title: '間數', width: 100},
+                {field: 'roomPrice', title: '房價', width: 100,align:'right'},
+                {field: 'serviceCharge', title: '服務費', width: 50,align:'right'},
+                {field: 'total', title: '合計', width: 60,align:'right'},
+                {field: 'adult', title: '大人', width: 40},
+                {field: 'child', title: '小孩', width: 40,align:'right'},
+                {field: 'baby', title: '嬰兒', width: 40}
+            ]]
+        });
     });
 
     $(function() {
@@ -665,6 +890,16 @@
 //            height: auto
         });
 
+//      超訂overBooking PMS0120020
+        $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
+
+//      專案訂房 PMS0110030
+        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 40, everyColumnsAddWith: 0 });
+
+//      依房型訂房
+        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 5 });
+
+//      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
@@ -689,33 +924,53 @@
             $(".fht-tbody").css("height", height-80);
         });
 
-//        grid_12
+        //#PMS0110030-table
+        var PMS0110030Height = $("#PMS0110030-table").height();
+        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height);
+
+
         var tableWidth1 = $(".sidebar").width();
 
-//        console.log(header2);
         tableWidth=$(window).width()-tableWidth1-10;
         $(".grid_12").css("width", "95%");
 //        $(".grid_12").find(".fht-fixed-body").css("width", "95%");
         $(".fht-body").css("width", "95% !important");
-//        $("#resRoomType-table").css("width", tableWidth-80);
-//        $(".fht-table").css("width", tableWidth-80);
-//        $(".fancyTable").css("width", tableWidth-80);
         $(window).resize(function() {
             tableWidth=$(window).width()-tableWidth1-10;
             $(".grid_12").css("width", "100%");
             $(".fht-body").css("width", "100%");
-//            $(".grid_12").find(".fht-fixed-body").css("width", tableWidth-80)
-//            $("#resRoomType-table").css("width", tableWidth-80);
-//            $(".fht-table").css("width", tableWidth-80);
-//            $(".fht-fixed-body").css("width", tableWidth-80);
+        });
 
-
+        // 按鈕控制tree 開合
+        //collapsed
+        //expanded
+        var treeTdId = new Set();
+        $('tr[data-tt-parent-id]').each(function(){
+            treeTdId.add($(this).attr('data-tt-parent-id'));
+        });
+        var openStatus = false;
+        $(document).on('click', ".openDetails", function () {
+            openStatus=!openStatus;
+//            if(iterateTreeToogle =='display: table-row;')
+            if(openStatus){
+                for(var tdId of treeTdId){
+//                    var obj =$(".fht-tbody > .treetable").find("tr[data-tt-id='" + tdId + "']").children().find('a').parent().html();
+//                    console.log(obj);
+//                    treeToggle(obj);
+                    iterateTreeToogle(tdId,"display: table-row;",false);
+                    $('.openDetailsTxt').css('display','none');
+                    $('.closeDetailsTxt').css('display','block');
+                }
+            }else{
+                for(var tdId of treeTdId){
+                    iterateTreeToogle(tdId,"display: none;",true);
+                    $('.closeDetailsTxt').css('display','none');
+                    $('.openDetailsTxt').css('display','block');
+                }
+            }
 
         });
 
-        //$(document).on('click',".controlSub",function(e){
-        //$('.sub-content').toggle();
-        //});
 
         // 住客歷史 height
         $(window).resize(function() {
@@ -759,5 +1014,30 @@
         }
 
     });
+
+    //changeRecords中的dropdown select
+    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+
+        var $target = $( event.currentTarget );
+
+        $target.closest( '.btn-group' )
+            .find( '[data-bind="label"]' ).text( $target.text() )
+            .end()
+            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+        return false;
+
+    });
+
+    //dropzone 圖片上傳套件選項
+    var myDropzone = new Dropzone("#myDropzone",
+        {
+            maxFilesize: 0.08,
+            uploadMultiple: false,
+            addRemoveLinks: true,
+            method: 'post'
+        });
+
+
 
 </script>

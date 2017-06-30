@@ -2,11 +2,11 @@
  * Created by Jun Chang on 2017/2/24.
  * 單檔對照
  */
-var singleGridSVC = require("../services/gridSingleService");
+var singleGridSVC = require("../services/GridSingleService");
 var _ = require("underscore");
 var i18n = require("i18n");
-var ruleSVC = require("../services/dataRuleService");
-var commonTools = require("../utils/commonTools");
+var ruleSVC = require("../services/DataRuleService");
+var commonTools = require("../utils/CommonTools");
 /**
  * 取得singleGrid 欄位資料
  */
