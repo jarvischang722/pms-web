@@ -22,8 +22,8 @@
             select rmod.* , rm.room_nam
             from room_cod_order rmod
             inner join rvrmcod_rf rm on rm.room_cod = rmod.room_cod
-            where athena_id = :athena_id
-            and trim(hotel_cod) = trim(:hotel_cod)
+            where rmod.athena_id = :athena_id
+            and trim(rmod.hotel_cod) = trim(:hotel_cod)
             and wrs_sort_cod <> -1 ;
         ]]>
         </statement>
