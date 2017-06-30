@@ -65,7 +65,7 @@ exports.uploadRoomTypePic = function (session, params, cb) {
 };
 
 /**
- * 上傳房型(房型設定/房型排序設定)
+ * 上傳房型(房型設定)
  * 交易代碼 : PMS08100201002
  * @param session
  * @param params
@@ -79,6 +79,7 @@ exports.uploadRoomType = function (session, params, cb) {
     params["REVE-CODE"] = "PMS08100201002";
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
+    params["sys_cod"] = "HFD";
     CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
         if (err) {
             return cb(err, false);

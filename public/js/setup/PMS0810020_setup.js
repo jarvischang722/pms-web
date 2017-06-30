@@ -102,6 +102,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
     data: function () {
         return {
+            tmpCUD: {},
             isFistData: false,
             isLastData: false,
             fileList2: [{
@@ -113,34 +114,32 @@ Vue.component('single-grid-pms0810020-tmp', {
             }],
             dialogShowRoomSortVisible: false,
             dialogRmTypeStockVisible: false,
-            paneName: 'first',
-            value1: '',
-            checked: false,
+            tabName: 'ERP',
+            reset_qnt: false,
             pickerOptions0: {
                 disabledDate: function (time) {
                     return time.getTime() < Date.now() - 8.64e7;
                 }
             },
-            ERPSortData: [{
-                date: '2016-05-02',
-                name: '1',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '2',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '3',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '4',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
-            webSiteSortData: []
+            testData: '',   //TODO: 房型顯示排序，需有資料異動才會更新，暫時用此參數當作異動值
+            erpSortData: [],
+            webSiteSortData: [],
+            originSortData: [],
+            maxRmStock: '2017/06/30',
+            begin_dat: '',
+            end_dat: ''
 
         };
+    },
+    create: function () {
+        var self = this;
+        vmHub.$on('tempExecData', function (row) {
+            self.tempExecData(row);
+        });
+    },
+    mounted: function () {
+        this.fetchRoomCodOrder();
+        this.fetchMaxRmStock();
     },
     watch: {
         editingRow: function (newRow, oldRow) {
@@ -163,23 +162,28 @@ Vue.component('single-grid-pms0810020-tmp', {
                 this.isLastData = false;
             }
 
+        },
+
+        tabName: function (newName) {
+            if (newName == "ERP") {
+                this.erpSortData = _.sortBy(this.erpSortData, function (item) {
+                    return item.view_seq;
+                });
+            }
+            else {
+                this.webSiteSortData = _.sortBy(this.webSiteSortData, function (item) {
+                    return item.wrs_sort_cod;
+                });
+            }
+
         }
     },
-    create: function () {
-
-        var self = this;
-        vmHub.$on('tempExecData', function (row) {
-            self.tempExecData(row);
-        });
-
-    },
     methods: {
-
         //打開單欄多語編輯
         editFieldMultiLang: function (fieldInfo) {
             vmHub.$emit('editFieldMultiLang', fieldInfo);
-        }
-        ,
+        },
+
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
@@ -226,6 +230,24 @@ Vue.component('single-grid-pms0810020-tmp', {
 
                 });
             }
+        },
+
+        // 取得房型排序設定資料
+        fetchRoomCodOrder: function () {
+            var self = this;
+            axios.post('/api/PMS0810020/roomCodOrder').then(function (response) {
+                self.originSortData = response.data.roomCodOrderData;
+                self.erpSortData = _.sortBy(self.originSortData, function (item) {
+                    return item.view_seq;
+                });
+                self.webSiteSortData = _.sortBy(self.originSortData, function (item) {
+                    return item.wrs_sort_cod;
+                })
+            })
+        },
+
+        // 取得庫存
+        fetchMaxRmStock: function () {
         },
 
         //到第一筆
@@ -370,39 +392,156 @@ Vue.component('single-grid-pms0810020-tmp', {
                 return val
             }
         },
+
+        tabChange: function (tab) {
+            this.tabName = tab.name;
+        },
+
+        //驗證是否存檔
+        chkIsSaveData: function () {
+        },
+
         //上傳官網
         uploadWebSite: function () {
-            console.log("uploadWebSite");
-        },
-        genRoomTypeStock: function () {
-            this.dialogRmTypeStockVisible = true;
-        },
-        showRoomTypeSort: function () {
-            this.dialogShowRoomSortVisible = true;
-        },
-        itemMove: function (li_oldIndex, li_newIndex) {
-            console.log(this.ERPSortData[li_oldIndex].name, this.ERPSortData[li_newIndex].name);
-            var temp = this.ERPSortData[li_oldIndex];
-            this.ERPSortData[li_oldIndex] = this.ERPSortData[li_newIndex];
-            this.ERPSortData[li_newIndex] = temp;
-            console.log(this.ERPSortData[li_oldIndex].name, this.ERPSortData[li_newIndex].name);
-        }
+            var lo_params = {
+                room_cod: this.$parent.singleData.room_cod,
+                begin_dat: this.$parent.singleData.begin_dat
+            }
 
+            waitingDialog.show('Saving...');
+            var params = _.extend({prg_id: prg_id}, lo_params);
+            $.post("/api/gateway/uploadRoomType", params, function (result) {
+                waitingDialog.hide();
+                if (result.success) {
+                    alert('save success!');
+                } else {
+                    alert(result.errorMsg);
+                }
+            });
+        },
+
+        // 顯示庫存dialog
+        showRoomTypeStock: function () {
+            this.chkIsSaveData();
+            this.dialogRmTypeStockVisible = true;
+            this.reset_qnt = false;
+            this.begin_dat = this.$parent.singleData.begin_dat;
+            this.end_dat = this.$parent.singleData.end_dat;
+        },
+
+        // 顯示房型排序dialog
+        showRoomTypeSort: function () {
+            this.chkIsSaveData();
+            this.dialogShowRoomSortVisible = true;
+
+        },
+        // 移動排序
+        itemMove: function (li_oldIndex, li_newIndex, data) {
+            this.testData = li_oldIndex;
+            this.testData = "";
+
+            var temp = data[li_oldIndex];
+            data[li_oldIndex] = data[li_newIndex];
+            data[li_newIndex] = temp;
+        },
+
+        rmCodSortSave: function () {
+            var self = this;
+            
+            var fieldData = [
+                {ui_field_name: 'room_cod', keyable: 'Y'},
+                {ui_field_name: 'athena_id', keyable: 'Y'},
+                {ui_field_name: 'hotel_cod', keyable: 'Y'}
+            ];
+            
+            this.initTmpCud();
+
+            _.each(this.originSortData, function (item, index) {
+
+                var li_view_seq = _.findIndex(self.erpSortData, function (eachErp) {
+                    return eachErp.room_cod == item.room_cod;
+                });
+
+                var li_wrs_sort_order = _.findIndex(self.webSiteSortData, function (eachWebSite) {
+                    return eachWebSite.room_cod == item.room_cod;
+                });
+                self.tmpCUD.updateData.push({
+                    room_cod: item.room_cod,
+                    view_seq: li_view_seq,
+                    wrs_sort_order: li_wrs_sort_order
+                })
+            });
+
+            // console.log(ga_tmpCUD.updateData);
+            var params = {
+                prg_id: prg_id,
+                tmpCUD: this.tmpCUD,
+                fieldData: fieldData,
+                mainTableName: "room_cod_order"
+            };
+            this.execSQLProcessAction(params);
+        },
+
+        initTmpCud: function(){
+            this.tmpCUD = {
+                createData: [],
+                updateData: [],
+                deleteData: []
+            };
+        },
+
+        execSQLProcessAction: function (params) {
+            waitingDialog.show('Saving...');
+            axios.post("/api/execSQLProcess", params)
+                .then(function (response) {
+                    waitingDialog.hide();
+                    if (response.data.success) {
+                        alert('save success!');
+                    } else {
+                        alert(response.data.errorMsg);
+                    }
+                })
+                .catch(function (error) {
+                    waitingDialog.hide();
+                    console.log(error);
+                });
+        },
+
+        genRmStockSave: function () {
+            var self = this;
+            var lo_params = {
+                start_dat: this.begin_dat,
+                end_dat: this.end_dat,
+                reset_qnt: (this.reset_qnt) ? "Y" : "N"
+            }
+
+            waitingDialog.show('Saving...');
+            var params = _.extend({prg_id: prg_id}, lo_params);
+            $.post("/api/gateway/genRoomTypeStock", params, function (result) {
+                waitingDialog.hide();
+                if (result.success) {
+                    self.dialogRmTypeStockVisible = false;
+                    alert('save success!');
+                } else {
+                    alert(result.errorMsg);
+                }
+            });
+
+
+        }
     }
-});
+})
+;
 
 var vm = new Vue({
     el: '#GSApp',
     mounted: function () {
+        var self = this;
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID(function (success) {
         });
         this.loadSingleGridPageField();
-        axios.post('/api/PMS0810020/roomCodOrder') .then(function (response) {
-          console.log(response);
-        });
-
     },
     data: {
         isDatepickerInit: false,
@@ -425,7 +564,8 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
         dgIns: {},
-        labelPosition: 'right'
+        labelPosition: 'right',
+        erpSortData: []
     },
     watch: {
         editStatus: function (newVal) {
