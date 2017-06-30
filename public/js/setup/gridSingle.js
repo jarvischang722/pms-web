@@ -300,10 +300,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                             var effectValues = result.effectValues;
                             _.each(Object.keys(effectValues), function (key) {
                                 self.singleData[key] = effectValues[key] || "";
-                                console.log(self.singleData);
+
                             });
                         }
-
                         //是否要show出訊息
                         if (result.showAlert) {
                             alert(result.alertMsg);

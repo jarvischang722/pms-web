@@ -72,7 +72,6 @@ var EZfieldClass = {
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
-            // tmpFieldObj.editor.options =  {off:'N',on:'Y'};
         }
 
         tmpFieldObj.ui_type = fieldAttrObj.ui_type;
@@ -146,13 +145,6 @@ var EZfieldClass = {
                 var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
-
-            // if(fieldAttrObj.rule_func_name != ""){
-            //     tmpFieldObj.editor.options.onCheck = function (newValue) {
-            //         if (oldValue == "") {return false;}
-            //         onChange_Action(fieldAttrObj, oldValue, newValue);
-            //     };
-            // }
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
@@ -169,10 +161,6 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 };
             }
-            // if(fieldAttrObj.ui_field_length != ""){
-            //     tmpFieldObj.editor[data-Type] = "length[0,4]";
-            // }
-            //console.log(fieldAttrObj);
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 

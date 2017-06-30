@@ -197,8 +197,6 @@ var vm = new Vue({
                     }, 0);
                 }
             }
-
-
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
