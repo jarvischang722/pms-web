@@ -70,3 +70,4 @@ exports.roomCodOrder = function (req, res) {
         res.json({success: _.isNull(err), errorMsg: err, roomCodOrderData: roomCodOrderData});
     });
 };
+

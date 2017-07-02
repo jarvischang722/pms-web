@@ -105,13 +105,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             tmpCUD: {},
             isFistData: false,
             isLastData: false,
-            fileList2: [{
-                name: 'food.jpeg',
-                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            }, {
-                name: 'food2.jpeg',
-                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            }],
+            displayFileList: [],
             dialogShowRoomSortVisible: false,
             dialogRmTypeStockVisible: false,
             tabName: 'ERP',
@@ -127,7 +121,9 @@ Vue.component('single-grid-pms0810020-tmp', {
             originSortData: [],
             maxRmStock: '2017/06/30',
             begin_dat: '',
-            end_dat: ''
+            end_dat: '',
+            isUpdate: false,
+            isSort: false
 
         };
     },
@@ -187,6 +183,15 @@ Vue.component('single-grid-pms0810020-tmp', {
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
+            var la_originData = [this.$parent.originData];
+            var la_singleData = [this.singleData];
+
+            var la_diff = _.difference(la_originData, la_singleData);
+
+            if(la_diff.length != 0){
+                this.isUpdate = true;
+            }
+
             if (!_.isEmpty(rule_func_name.trim())) {
                 var postData = {
                     prg_id: prg_id,
@@ -242,8 +247,8 @@ Vue.component('single-grid-pms0810020-tmp', {
                 });
                 self.webSiteSortData = _.sortBy(self.originSortData, function (item) {
                     return item.wrs_sort_cod;
-                })
-            })
+                });
+            });
         },
 
         // 取得庫存
@@ -381,6 +386,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
+
         appendDtRow: function () {
         },
         removeDtRow: function () {
@@ -389,7 +395,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
             } else {
-                return val
+                return val;
             }
         },
 
@@ -397,44 +403,97 @@ Vue.component('single-grid-pms0810020-tmp', {
             this.tabName = tab.name;
         },
 
-        //驗證是否存檔
-        chkIsSaveData: function () {
-        },
-
         //上傳官網
         uploadWebSite: function () {
-            var lo_params = {
-                room_cod: this.$parent.singleData.room_cod,
-                begin_dat: this.$parent.singleData.begin_dat
+            var self = this;
+            var lb_flag = false;
+            if(this.isUpdate){
+                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
+                    if(result){
+                        self.doSaveGrid("");
+                        lb_flag = true;
+                    }
+                    else{
+                        lb_flag = false;
+                    }
+                });
+            }
+            else{
+                lb_flag = true;
             }
 
-            waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: prg_id}, lo_params);
-            $.post("/api/gateway/uploadRoomType", params, function (result) {
-                waitingDialog.hide();
-                if (result.success) {
-                    alert('save success!');
-                } else {
-                    alert(result.errorMsg);
+            if(lb_flag) {
+                var lo_params = {
+                    room_cod: this.$parent.singleData.room_cod,
+                    begin_dat: this.$parent.singleData.begin_dat
                 }
-            });
+
+                waitingDialog.show('Saving...');
+                var params = _.extend({prg_id: prg_id}, lo_params);
+                $.post("/api/gateway/uploadRoomType", params, function (result) {
+                    waitingDialog.hide();
+                    if (result.success) {
+                        alert('save success!');
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+
+
         },
 
         // 顯示庫存dialog
         showRoomTypeStock: function () {
-            this.chkIsSaveData();
-            this.dialogRmTypeStockVisible = true;
-            this.reset_qnt = false;
-            this.begin_dat = this.$parent.singleData.begin_dat;
-            this.end_dat = this.$parent.singleData.end_dat;
+            var self = this;
+            var lb_flag = false;
+            if(this.isUpdate){
+                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
+                    if(result){
+                        self.doSaveGrid("");
+                        lb_flag = true;
+                    }
+                    else{
+                        lb_flag = false;
+                    }
+                });
+            }
+            else{
+                lb_flag = true;
+            }
+
+            if(lb_flag){
+                self.dialogRmTypeStockVisible = true;
+                self.reset_qnt = false;
+                self.begin_dat = self.$parent.singleData.begin_dat;
+                self.end_dat = self.$parent.singleData.end_dat;
+            }
         },
 
         // 顯示房型排序dialog
         showRoomTypeSort: function () {
-            this.chkIsSaveData();
-            this.dialogShowRoomSortVisible = true;
+            var self = this;
+            var lb_flag = false;
+            if(this.isUpdate){
+                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
+                    if (result) {
+                        self.doSaveGrid("");
+                        lb_flag = true;
+                    }
+                    else{
+                        lb_flag = false;
+                    }
+                });
+            }
+            else{
+                lb_flag = true;
+            }
 
+            if(lb_flag){
+                self.dialogShowRoomSortVisible = true;
+            }
         },
+
         // 移動排序
         itemMove: function (li_oldIndex, li_newIndex, data) {
             this.testData = li_oldIndex;
@@ -445,15 +504,16 @@ Vue.component('single-grid-pms0810020-tmp', {
             data[li_newIndex] = temp;
         },
 
+        // 儲存房型排序
         rmCodSortSave: function () {
             var self = this;
-            
+
             var fieldData = [
                 {ui_field_name: 'room_cod', keyable: 'Y'},
                 {ui_field_name: 'athena_id', keyable: 'Y'},
                 {ui_field_name: 'hotel_cod', keyable: 'Y'}
             ];
-            
+
             this.initTmpCud();
 
             _.each(this.originSortData, function (item, index) {
@@ -465,11 +525,12 @@ Vue.component('single-grid-pms0810020-tmp', {
                 var li_wrs_sort_order = _.findIndex(self.webSiteSortData, function (eachWebSite) {
                     return eachWebSite.room_cod == item.room_cod;
                 });
+
                 self.tmpCUD.updateData.push({
                     room_cod: item.room_cod,
                     view_seq: li_view_seq,
                     wrs_sort_order: li_wrs_sort_order
-                })
+                });
             });
 
             // console.log(ga_tmpCUD.updateData);
@@ -482,7 +543,8 @@ Vue.component('single-grid-pms0810020-tmp', {
             this.execSQLProcessAction(params);
         },
 
-        initTmpCud: function(){
+        // 初始化tmpCUD
+        initTmpCud: function () {
             this.tmpCUD = {
                 createData: [],
                 updateData: [],
@@ -490,6 +552,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             };
         },
 
+        // 執行SQLProcess
         execSQLProcessAction: function (params) {
             waitingDialog.show('Saving...');
             axios.post("/api/execSQLProcess", params)
@@ -507,6 +570,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 });
         },
 
+        // 儲存房型庫存
         genRmStockSave: function () {
             var self = this;
             var lo_params = {
@@ -528,6 +592,14 @@ Vue.component('single-grid-pms0810020-tmp', {
             });
 
 
+        },
+
+        fileChange: function (file, fileList) {
+            this.$parent.uploadFileList.push(file);
+        },
+        fileRemove: function (file, fileList) {
+            var ls_uploadFileList = this.$parent.uploadFileList;
+            this.$parent.uploadFileList = _.without(ls_uploadFileList, file);
         }
     }
 })
@@ -560,12 +632,13 @@ var vm = new Vue({
             editData: [],
             deleteData: []
         },
+        originData: {},         //原始資料
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dialogVisible: false,
         dgIns: {},
         labelPosition: 'right',
-        erpSortData: []
+        uploadFileList: []
     },
     watch: {
         editStatus: function (newVal) {
@@ -686,6 +759,7 @@ var vm = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
+            var self = this;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             // console.log("===Save params===");
@@ -693,17 +767,77 @@ var vm = new Vue({
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
-                    vm.initTmpCUD();
-                    vm.loadDataGridByPrgID(function (success) {
-                        callback(success);
-                    });
-                    alert('save success!');
+
+                    if (self.uploadFileList.length != 0) {
+                        self.uploadAction();
+                    }
+                    else {
+                        vm.initTmpCUD();
+                        vm.loadDataGridByPrgID(function (success) {
+                            callback(success);
+                        });
+                        alert('save success!');
+                    }
+                    isEditStatus = false;
+
                 } else {
                     alert(result.errorMsg);
                 }
 
             });
 
+        },
+
+        // 上船圖檔
+        uploadAction: function(){
+            var self = this;
+            var li_file_counter = 0;
+            var fd = new FormData();
+            _.each(self.uploadFileList, function (file) {
+                var blobUrl = file.url;
+
+                var xhr = new XMLHttpRequest;
+                xhr.responseType = 'blob';
+
+                xhr.onload = function () {
+                    var recoveredBlob = xhr.response;
+                    var reader = new FileReader;
+                    reader.onload = function () {
+                        li_file_counter++;
+
+                        var blobAsDataUrl = reader.result;
+                        fd.append('dataURL', blobAsDataUrl);
+                        fd.append('fileName', file.name);
+
+                        if (li_file_counter == self.uploadFileList.length) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api/gateway/uploadRoomTypePic',
+                                data: fd,
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                            }).done(function (uploadResult) {
+                                if (uploadResult.success) {
+                                    vm.initTmpCUD();
+                                    vm.loadDataGridByPrgID(function (success) {
+                                        callback(success);
+                                    });
+                                    alert('save success!');
+                                }
+                                else {
+                                    alert(uploadResult.errorMsg);
+                                }
+                            });
+                        }
+                    };
+
+                    reader.readAsDataURL(recoveredBlob);
+                };
+
+                xhr.open('GET', blobUrl);
+                xhr.send();
+            });
         },
         //新增按鈕Event
         appendRow: function () {
@@ -731,6 +865,7 @@ var vm = new Vue({
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     vm.singleData = result.rowData;
+                    vm.originData = _.clone(result.rowData);
                     vm.modificableForData = result.modificable || true;
                     callback(true);
                 } else {

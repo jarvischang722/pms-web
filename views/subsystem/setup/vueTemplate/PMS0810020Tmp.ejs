@@ -75,9 +75,9 @@
                                 </div>
                             </div>
 
-                            <el-upload v-if="editStatus" drag class="upload-demo"
-                                       action="https://jsonplaceholder.typicode.com/posts/" :file-list="fileList2"
-                                       list-type="picture">
+                            <el-upload v-if="editStatus" drag class="upload-demo" :file-list="displayFileList"
+                                       list-type="picture" :auto-upload="false" :on-change="fileChange"
+                                       :on-remove="fileRemove">
                                 <el-button size="small" type="primary">載入顯示圖檔</el-button>
                                 <div class="el-upload__text">將文字拖曳至此，或<em>點擊上傳</em></div>
                                 <div slot="tip" class="el-upload__tip">只能上傳jpg/png文件，且不超過500kb</div>
@@ -187,7 +187,7 @@
                             <el-date-picker
                                     v-model="begin_dat"
                                     type="date"
-                                    placeholder="选择日期"
+                                    placeholder="選擇日期"
                                     format="yyyy/MM/dd"
                                     :picker-options="pickerOptions0">
                             </el-date-picker>
@@ -203,7 +203,7 @@
                             <el-date-picker
                                     v-model="end_dat"
                                     type="date"
-                                    placeholder="选择日期"
+                                    placeholder="選擇日期"
                                     format="yyyy/MM/dd"
                                     :picker-options="pickerOptions0">
                             </el-date-picker>
@@ -257,7 +257,8 @@
                                                @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
                                     </el-button>
                                     <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                               @click="itemMove(index, index+1, erpSortData)" v-if="index != erpSortData.length-1">
+                                               @click="itemMove(index, index+1, erpSortData)"
+                                               v-if="index != erpSortData.length-1">
                                     </el-button>
                                 </td>
                             </tr>
@@ -271,6 +272,7 @@
                                 <th>房型代號</th>
                                 <th>房型名稱</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -282,8 +284,15 @@
                                                @click="itemMove(index, index-1, webSiteSortData)" v-if="index != 0">
                                     </el-button>
                                     <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                               @click="itemMove(index, index+1, webSiteSortData)" v-if="index != webSiteSortData.length-1">
+                                               @click="itemMove(index, index+1, webSiteSortData)"
+                                               v-if="index != webSiteSortData.length-1">
                                     </el-button>
+                                </td>
+                                <td>
+                                    <input type="checkbox" v-if="item.wrs_sort_cod != -1" name="{{item.room_cod}}">
+                                    <input type="checkbox" v-else name="{{item.room_cod}}" checked>
+                                    <!--<el-checkbox :key="item.wrs_sort_cod" v-if="item.wrs_sort_cod != -1" :name="" :checked="false" :true-label="-1"></el-checkbox>-->
+                                    <!--<el-checkbox :key="item.wrs_sort_cod" v-else :checked="true"></el-checkbox>-->
                                 </td>
                             </tr>
                             </tbody>
