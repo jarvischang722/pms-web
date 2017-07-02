@@ -20,9 +20,11 @@
             from rvrmcod_rf
             where athena_id = :athena_id
             and room_typ = :room_typ
+            and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_typ</parameter>
     </dao>
 
@@ -32,10 +34,11 @@
                 select DISTINCT rvrm.room_typ value, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) display
                 from room_rf rm
                 INNER JOIN RVRMCOD_RF rvrm on rvrm.ROOM_TYP = RM.ROOM_TYP
-                where rvrm.athena_id = trim(:athena_id)
+                where rvrm.athena_id = trim(:athena_id)  and trim(rvrm.hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
 
     </dao>
@@ -45,10 +48,11 @@
         <statement><![CDATA[
             select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
             from service_rf
-            where athena_id = :athena_id
+            where athena_id = :athena_id  and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
 
     </dao>
 
@@ -57,10 +61,13 @@
         <statement><![CDATA[
              select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
              from service_rf
-             where athena_id = :athena_id and serv_typ = '99'
+             where athena_id = :athena_id
+             and serv_typ = '99'
+             and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
 
     </dao>
 

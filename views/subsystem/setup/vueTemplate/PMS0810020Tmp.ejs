@@ -29,22 +29,41 @@
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
-
-                                           v-if="field.visiable == 'Y' &&
-                                            (field.ui_type == 'text' ||
-                                              field.ui_type == 'number' ||
-                                               field.ui_type == 'date' ||
-                                                 field.ui_type == 'datetime'    )"
-                                           type="text"
+                                           v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number')"
+                                           :type="field.ui_type"
                                            class="numStyle-none"
-                                           :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
+                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :required="field.requirable == 'Y'"
-                                           :min="0"
+                                           min="0"
                                            :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N'"
-                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                    >
+                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+
+                                    <!-- 日期選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="date"
+                                                        placeholder=""
+                                                        size="small"
+                                                        :disabled="field.modificable == 'N'"
+                                                        format="yyyy/MM/dd"
+                                                        :style="{width:field.width + 'px' , height:'30px'}"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                        </el-date-picker>
+                                    </template>
+
+                                    <!-- 日期時間選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="datetime"
+                                                        placeholder=""
+                                                        :disabled="field.modificable == 'N'"
+                                                        size="small"
+                                                        format="yyyy/MM/dd HH:mm:ss"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                        </el-date-picker>
+                                    </template>
 
 
                                     <!-- 下拉選單 -->

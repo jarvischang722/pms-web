@@ -68,8 +68,9 @@ exports.changeHotelCod = function (req, res) {
             hotelInfo = hotel;
         }
     });
-    req.session.user["fun_hotel_cod"] = hotelInfo.hotel_cod;
-    req.session.user["fun_hotel_name"] = hotelInfo.hotel_nam;
+    req.session.user["hotel_cod"] = hotelInfo.hotel_cod.trim();
+    req.session.user["fun_hotel_cod"] = hotelInfo.hotel_cod.trim();
+    req.session.user["fun_hotel_name"] = hotelInfo.hotel_nam.trim();
     req.session.user["athena_id"] = hotelInfo.athena_id;
     roleFuncSvc.updateUserPurview(req, function (err) {
         res.json({success: err == null, errorMsg: err});

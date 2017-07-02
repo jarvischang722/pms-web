@@ -77,30 +77,6 @@ exports.mongoDocToObject = function (mongoDataRows) {
 };
 
 /**
- * 查詢資料庫前將欄位是日期的UTC 轉為 YYYY/MM/DD
- * @param fieldObject
- * @return {*}
- */
-exports.convUtcToDate = function (fieldObject) {
-    var patternDat = /_dat$/i; //找尋欄位是dat或date結尾
-
-    _.each(Object.keys(fieldObject), function (field, idx) {
-        if (patternDat.test(field)) {
-            fieldObject[field] = moment(new Date(fieldObject[field])).format("YYYY/MM/DD");
-        }
-
-        if (field == 'ins_dat' || field == 'upd_dat') {
-            fieldObject[field] = moment(new Date(fieldObject[field])).format("YYYY/MM/DD HH:mm:ss");
-        }
-    });
-
-
-    return fieldObject;
-
-};
-
-
-/**
  * request 回傳前合併err
  * @param err {null | Object}
  * @param result {Object}
@@ -130,6 +106,59 @@ exports.checkRequireParams = function (params, checkKeys) {
             result.success = false;
             result.errorMsg = "[" + key + "] is required";
         }
-    })
+    });
     return result;
 };
+
+
+/**
+ * 資料預處理
+ * @param lao_data {Array|Object} : 資料
+ * @param fieldAttrs {Array[Object]}  所有欄位屬性
+ * @return {*}
+ */
+exports.handlePreprocessData = function (lao_data, fieldAttrs) {
+    if (_.isArray(lao_data)) {
+        _.each(lao_data, function (lo_data) {
+            convUtcToDate(lo_data, fieldAttrs);
+        });
+    } else if (_.isObject(lao_data)) {
+        convUtcToDate(lao_data, fieldAttrs);
+    }
+
+    return lao_data;
+
+};
+
+/**
+ * 查詢資料庫前將欄位是日期的UTC 轉為 YYYY/MM/DD or YYYY/MM/DD HH:mm:ss
+ * @param lo_data {Array|Object} : 資料
+ * @param fieldAttrs {Array[Object]}  所有欄位屬性
+ * @return {*}
+ */
+function convUtcToDate(lo_data, fieldAttrs) {
+
+    _.each(lo_data, function (val, fieldName) {
+        if (!_.isUndefined(fieldAttrs)) {
+            let lo_field = _.findWhere(fieldAttrs, {ui_field_name: fieldName});
+            if (lo_field) {
+                if (lo_field.ui_type == 'date') {
+                    lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
+                } else if (lo_field.ui_type == 'datetime') {
+                    lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
+                }
+            }
+        } else {
+            var patternDat = /_dat$/i; //找尋欄位是dat或date結尾
+            if (patternDat.test(fieldName)) {
+                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
+            }
+
+            if (fieldName == 'ins_dat' || fieldName == 'upd_dat') {
+                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
+            }
+        }
+    });
+
+    return lo_data;
+}

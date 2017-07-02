@@ -100,10 +100,10 @@ exports.getSelectOptions = function (params, selRow, callback) {
     } else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (err,result) {
+            ruleAgent[selRow.rule_func_name](params, function (err, result) {
                 callback(result.selectOptions);
             });
-        }else{
+        } else {
             callback([]);
         }
     }
@@ -140,33 +140,43 @@ exports.handleBlurUiField = function (postData, session, callback) {
  * @return callback
  */
 exports.handleAddFuncRule = function (postData, session, callback) {
-    mongoAgent.DatagridFunction.findOne({
-        prg_id: postData.prg_id,
-        func_id: '0200',
-        page_id: postData.page_id || 1
-    }, function (err, func) {
-
-        if (!err && func) {
-            func = func.toObject();
-            if (!_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
+    let prg_id = postData.prg_id;
+    let page_id = postData.page_id || 1;
+    async.waterfall([
+        function (cb) {
+            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
+                cb(err, _.pluck(fieldNameList, "ui_field_name"));
+            });
+        }
+    ], function (err, fieldNameList) {
+        let lo_initField = {};
+        _.each(fieldNameList, function (name) {
+            lo_initField[name] = "";
+        });
+        mongoAgent.DatagridFunction.findOne({
+            prg_id: prg_id,
+            func_id: '0200',
+            page_id: page_id
+        }, function (err, func) {
+            if (func) {
+                func = func.toObject();
+            }
+            if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
 
                 ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+                    result.defaultValues = _.extend(lo_initField, result.defaultValues);
                     callback(err, result);
                 });
 
             } else {
-                // var errorObj = new ReturnClass();
-                // errorObj.errorMsg = "Not found rule function.";
-                callback(null, new ReturnClass());
 
+                callback(null, {success: true, defaultValues: lo_initField});
             }
-        } else {
 
-            callback(null, new ReturnClass());
-        }
-
-
+        });
     });
+
+
 };
 
 /**
@@ -199,7 +209,7 @@ exports.handleEditFuncRule = function (postData, session, callback) {
 exports.handleDeleteFuncRule = function (postData, session, callback) {
     var isDtData = postData["isDtData"] || false;
     var prg_id = postData.prg_id;
-    var page_id = Number(postData.page_id || 1 ) ;
+    var page_id = Number(postData.page_id || 1);
     mongoAgent.DatagridFunction.findOne({
         prg_id: prg_id,
         func_id: '0300',
@@ -319,7 +329,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
             var beforeCreateFuncRule = _.findIndex(ruleFuncs, {func_id: '0521'}) > -1
                 ? _.findWhere(ruleFuncs, {func_id: '0521'}).rule_func_name
                 : "";
-            _.each(createData, function (c_data,cIdx) {
+            _.each(createData, function (c_data, cIdx) {
                 if (!_.isEmpty(beforeCreateFuncRule) && !_.isUndefined(ruleAgent[beforeCreateFuncRule])) {
                     var createPostData = {
                         singleRowData: c_data
@@ -331,8 +341,8 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
                                 if (result.extendExecDataArrSet.length > 0) {
                                     la_before_save_create_sql_action = _.union(la_before_save_create_sql_action, result.extendExecDataArrSet);
                                 }
-                                if(_.isUndefined(result.modifiedRowData) && _.size(result.modifiedRowData) > 0){
-                                     postData["createData"][cIdx] = result.modifiedRowData;
+                                if (_.isUndefined(result.modifiedRowData) && _.size(result.modifiedRowData) > 0) {
+                                    postData["createData"][cIdx] = result.modifiedRowData;
                                 }
                                 callback(err ? err.errorMsg : null, result.success);
                             });

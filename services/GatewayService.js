@@ -28,6 +28,7 @@ exports.genRoomTypeStock = function (session, params, cb) {
     params["REVE-CODE"] = "PMS08100201004";
     params["athena_id"] = session.user.athena_id;
     params["hotel_cod"] = session.user.fun_hotel_cod;
+    params["sys_cod"] = "HFD";
     CommonTools.requestApi(sysConfig.api_url, params, function (err, res, data) {
         if (err) {
             return cb(err, false);

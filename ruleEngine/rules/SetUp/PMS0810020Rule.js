@@ -7,11 +7,11 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 
 module.exports = {
@@ -82,7 +82,7 @@ module.exports = {
         var end_dat = singleRowData.end_dat || "";
         var result = new ReturnClass();
         var error = null;
-        return  callback(error, result);  //TODO 暫時先不判斷
+        return callback(error, result);  //TODO 暫時先不判斷
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
             queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id}, function (err, data) {
 
@@ -100,7 +100,7 @@ module.exports = {
                         error.errorCod = "1111";
                     }
                     //2)
-                    if (begin_dat.diff(belong_dat, "days") < 0 ) {
+                    if (begin_dat.diff(belong_dat, "days") < 0) {
                         if (!error) {
                             error = new ErrorClass();
                         }
@@ -236,6 +236,7 @@ module.exports = {
                     if (createData.length > 0) {
                         var createSubFunc = [];
                         _.each(createData, function (c_data) {
+                            c_data = _.extend(c_data, commandRules.getCreateCommonDefaultDataRule(session));
                             createSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
@@ -273,25 +274,15 @@ module.exports = {
                                                     var tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
-                                                    if (Number(data.room_count) > 0) {
-                                                        //更新room_cod_order
-                                                        tmpObj["function"] = "2";
-                                                        tmpObj["condition"] = [{
-                                                            key: 'athena_id',
-                                                            operation: "=",
-                                                            value: userInfo.athena_id
-                                                        }, {
-                                                            key: 'room_cod',
-                                                            operation: "=",
-                                                            value: c_data.room_cod
-                                                        }];
-
-                                                    } else {
+                                                    if (Number(data.room_count) == 0) {
                                                         //新增room_cod_order
                                                         tmpObj["function"] = "1";
-
+                                                        tmpObj["view_seq"] = 0;
+                                                        tmpObj["wrs_sort_cod"] = 0;
                                                     }
+
                                                     tmpObj = _.extend(tmpObj, c_data);
+
                                                     tmpExtendExecDataArrSet.push(tmpObj);
                                                 }
 
@@ -326,6 +317,7 @@ module.exports = {
                         var editSubFunc = [];
 
                         _.each(editData, function (e_data) {
+                            e_data = _.extend(e_data, commandRules.getCreateCommonDefaultDataRule(session));
                             editSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
@@ -361,24 +353,13 @@ module.exports = {
                                                     var tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
-                                                    if (Number(data.room_count) > 0) {
-                                                        //更新room_cod_order
-                                                        tmpObj["function"] = "2";
-                                                        tmpObj["condition"] = [{
-                                                            key: 'athena_id',
-                                                            operation: "=",
-                                                            value: userInfo.athena_id
-                                                        }, {
-                                                            key: 'room_cod',
-                                                            operation: "=",
-                                                            value: e_data.room_cod
-                                                        }];
-
-                                                    } else {
+                                                    if (Number(data.room_count) == 0) {
                                                         //新增room_cod_order
                                                         tmpObj["function"] = "1";
-
+                                                        tmpObj["view_seq"] = 0;
+                                                        tmpObj["wrs_sort_cod"] = 0;
                                                     }
+
                                                     tmpObj = _.extend(tmpObj, e_data);
                                                     tmpExtendExecDataArrSet.push(tmpObj);
                                                 }
@@ -494,15 +475,22 @@ module.exports = {
                     chkResult.extendExecDataArrSet.push({
                         function: '2',
                         table_name: 'rvrmcod_rf',
-                        condition: [{
-                            key: 'athena_id',
-                            operation: "=",
-                            value: userInfo.athena_id
-                        }, {
-                            key: 'room_cod',
-                            operation: "=",
-                            value: params.room_cod
-                        }],
+                        condition: [
+                            {
+                                key: 'athena_id',
+                                operation: "=",
+                                value: userInfo.athena_id
+                            },
+                            {
+                                key: 'hotel_cod',
+                                operation: "=",
+                                value: userInfo.fun_hotel_cod
+                            },
+                            {
+                                key: 'room_cod',
+                                operation: "=",
+                                value: params.room_cod
+                            }],
                         room_nam: params.room_name || "",
                         room_sna: params.room_sna || ""
                     });
