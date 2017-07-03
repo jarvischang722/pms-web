@@ -1,99 +1,178 @@
-<div class="page-content">
-    <div class="">
-        <div class="page-header"></div><!-- /.page-header -->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="col-sm-11 col-xs-11">
-                    <div class="row no-margin-right">
-                        <div class="plan-btn-group">
-                            <ul>
-                                <li>
-                                    <button id=""
-                                            class="btn btn-success btn-inlineWidth"
-                                            role="button">V</button>
-                                </li>
-                                <li>
-                                    <button id=""
-                                            class="btn btn-danger btn-inlineWidth"
-                                            role="button">O</button>
-                                </li>
-                                <li>
-                                    <button id=""
-                                            class="btn btn-warning btn-inlineWidth"
-                                            role="button">S</button>
-                                </li>
-                                <li>
-                                    <button id=""
-                                            class="btn btn-default btn-inlineWidth"
-                                            role="button">000</button>
-                                </li>
-                                <li>
-                                    <button id=""
-                                            class="btn btn-info btn-inlineWidth"
-                                            role="button">Assign</button>
-                                </li>
-                            </ul>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>日期</label>
+                                                <input type="date" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>房號</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房種</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div> <!-- row-->
+                            </div> <!-- /.search-co -->
                         </div>
-                        <!--  依房型訂房 -->
-                        <%- include PMS0100000_module/resvRoomPlanTable_1 %>
-                        <!--  /.End 依房型訂房 -->
+                    </div> <!-- /.row  search-content-->
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="plan-btn-group">
+                        <ul>
+                            <li>
+                                <button class="btn btn-success btn-inlineWidth" role="button">V</button>
+                            </li>
+                            <li>
+                                <button
+                                        class="btn btn-danger btn-inlineWidth"
+                                        role="button">O
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                        class="btn btn-warning btn-inlineWidth"
+                                        role="button">S
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                        class="btn btn-default btn-inlineWidth"
+                                        role="button">000
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                        class="btn btn-info btn-inlineWidth"
+                                        role="button">Assign
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--  依房型訂房 -->
+                    <%- include PMS0100000_module/resvRoomPlanTable_1 %>
+                    <!--  /.End 依房型訂房 -->
 
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co"> <!--roomPlan-btn 控制離上層高度-->
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">訂房
+                                </button>
+                            </li>
+                            <li>
+                                <button id="remove-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">明細
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">房種
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">上一頁
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">下一頁
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co roomPlan-btn">
-                            <ul>
-                                <li>
-                                    <button id="ins-btn"
-                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">訂房</button>
-                                </li>
-                                <li>
-                                    <button id="remove-btn"
-                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">明細</button>
-                                </li>
-                                <li>
-                                    <button id="ins-btn"
-                                            class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                            role="button">房種</button>
-                                </li>
-                                <li>
-                                    <button id="ins-btn"
-                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">上一頁</button>
-                                </li>
-                                <li>
-                                    <button id="ins-btn"
-                                            class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">下一頁</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
 
-        </div>
+    </div>
 
-        <!--  依房型訂房 彈出視窗內容-->
-        <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
-        <!--  /.End 彈出視窗內容 -->
+    <!--  依房型訂房 彈出視窗內容-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
+    <!--  /.End 彈出視窗內容 -->
 
-        <!--  依房型訂房 彈出視窗內容(ho 新增)-->
-        <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
-        <!--  /.End 彈出視窗內容(ho 新增) -->
+    <!--  依房型訂房 彈出視窗內容(ho 新增)-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
+    <!--  /.End 彈出視窗內容(ho 新增) -->
 
 
-        <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
-        <%- include PMS0100000_module/resvRoomTypeBtn_3 %>
-        <!--  /.End 彈出視窗內容 -->
-
-
-    </div><!-- /.roomNumPlanPage -->
+    <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_3 %>
+    <!--  /.End 彈出視窗內容 -->
 </div>
 
 
