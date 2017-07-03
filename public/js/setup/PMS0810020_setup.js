@@ -119,6 +119,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             erpSortData: [],
             webSiteSortData: [],
             originSortData: [],
+            checkList: ["DRK"],
             maxRmStock: '2017/06/30',
             begin_dat: '',
             end_dat: '',
@@ -182,12 +183,13 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
+
             var self = this;
             var la_originData = [this.$parent.originData];
             var la_singleData = [this.singleData];
 
             var la_diff = _.difference(la_originData, la_singleData);
-
+            // 判斷資料是否有異動
             if(la_diff.length != 0){
                 this.isUpdate = true;
             }
@@ -540,7 +542,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 fieldData: fieldData,
                 mainTableName: "room_cod_order"
             };
-            this.execSQLProcessAction(params);
+            // this.execSQLProcessAction(params);
         },
 
         // 初始化tmpCUD
@@ -812,7 +814,7 @@ var vm = new Vue({
                         if (li_file_counter == self.uploadFileList.length) {
                             $.ajax({
                                 type: 'POST',
-                                url: '/api/gateway/uploadRoomTypePic',
+                                url: '/api/uploadFile',
                                 data: fd,
                                 cache: false,
                                 contentType: false,

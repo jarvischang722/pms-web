@@ -308,10 +308,7 @@
                                     </el-button>
                                 </td>
                                 <td>
-                                    <input type="checkbox" v-if="item.wrs_sort_cod != -1" name="{{item.room_cod}}">
-                                    <input type="checkbox" v-else name="{{item.room_cod}}" checked>
-                                    <!--<el-checkbox :key="item.wrs_sort_cod" v-if="item.wrs_sort_cod != -1" :name="" :checked="false" :true-label="-1"></el-checkbox>-->
-                                    <!--<el-checkbox :key="item.wrs_sort_cod" v-else :checked="true"></el-checkbox>-->
+                                    <input type="checkbox" v-model="checkList" :value="item.room_cod" :true-value="item.room_cod">
                                 </td>
                             </tr>
                             </tbody>
