@@ -23,11 +23,13 @@ var vueMain = new Vue({
     },
     watch: {
         gs_active: function (active) {
+
             if (active == 'pickup') {
                 this.dgIns = this.dgInsPickUp;
             } else {
                 this.dgIns = this.dgInsDropOff;
             }
+            waitingDialog.hide();
         },
         trafficData: function (newObj) {
             this.dgInsPickUp.loadDgData(newObj.arrive_rf);
@@ -42,6 +44,7 @@ var vueMain = new Vue({
                 vueMain.prgFieldDataAttr = result.fieldData;
                 vueMain.createDatagrid(result.fieldData);
                 vueMain.fetchTrafficData();
+                waitingDialog.hide();
             });
         },
         //抓取資料
@@ -53,10 +56,14 @@ var vueMain = new Vue({
         //顯示資料
         createDatagrid: function (fieldData) {
 
-            var columns = EZfieldClass.combineFieldOption(fieldData);
-            _.each(columns, function (field, fIdx) {
+
+            var pickupField = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}),'pick_up_dg');
+            var dropoffField = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}),'drop_off_dg');
+
+
+            _.each(pickupField, function (field, fIdx) {
                 if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(columns[fIdx].editor)) {
+                    if (_.isUndefined(pickupField[fIdx].editor)) {
                         field.editor = {};
                     }
                     field.editor.options = {off: 'N', on: 'Y'};
@@ -66,9 +73,18 @@ var vueMain = new Vue({
                     };
                 }
             });
-            var pickupField = _.where(columns, {"grid_field_name": 'hfd_arrive_rf'});
-            var dropoffField = _.where(columns, {"grid_field_name": 'hfd_leave_rf'});
-
+            _.each(dropoffField, function (field, fIdx) {
+                if (field.ui_type == 'checkbox') {
+                    if (_.isUndefined(dropoffField[fIdx].editor)) {
+                        field.editor = {};
+                    }
+                    field.editor.options = {off: 'N', on: 'Y'};
+                    field.formatter = function (val, row, index) {
+                        var checked = val == 'Y' ? "checked" : "";
+                        return "<input type='checkbox' " + checked + ">";
+                    };
+                }
+            });
             //接機
             this.dgInsPickUp = new DatagridBaseClass();
             this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', pickupField);
@@ -136,6 +152,7 @@ $(function () {
     $('#traffic_tab').tabs({
         border: true,
         onSelect: function (title, index) {
+            waitingDialog.show();
             if (index == 0) {
                 vueMain.gs_active = 'pickup';
             } else {

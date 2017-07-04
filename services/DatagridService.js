@@ -772,7 +772,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 var success = true;
                 var errMsg = null;
                 var log_id = moment().format("YYYYMMDDHHmmss");
-                if (apiErr) {
+                if (apiErr || !data) {
                     chkResult.success = false;
                     errMsg = apiErr;
                 }
