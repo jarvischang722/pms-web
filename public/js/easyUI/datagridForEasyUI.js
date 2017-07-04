@@ -9,14 +9,12 @@ var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
         var columnsData = [];
-        console.log(dgName);
         _.each(fieldData, function (field) {
             //決定欄位是否顯示
             if (field.visiable == "Y") {
                 columnsData.push(EZfieldClass.fieldConvEzAttr(field, dgName));
             }
         });
-
 
         return columnsData;
     },

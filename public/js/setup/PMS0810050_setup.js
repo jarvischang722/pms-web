@@ -19,7 +19,9 @@ var vueMain = new Vue({
         dgInsPickUp: {}, //接機的dg
         dgInsDropOff: {},  //送機的dg
         dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsDropOff 取得
-        trafficData: {} //交通接駁資料
+        trafficData: {}, //交通接駁資料
+        pickUpFields: [],
+        dropOffFields: []
     },
     watch: {
         gs_active: function (active) {
@@ -42,7 +44,8 @@ var vueMain = new Vue({
         fetchDgFieldData: function () {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 vueMain.prgFieldDataAttr = result.fieldData;
-                vueMain.createDatagrid(result.fieldData);
+                vueMain.combineFieldAttr(result.fieldData);
+                vueMain.createDatagrid();
                 vueMain.fetchTrafficData();
                 waitingDialog.hide();
             });
@@ -53,47 +56,42 @@ var vueMain = new Vue({
                 vueMain.trafficData = result.trafficData;
             });
         },
+        combineFieldAttr: function (fieldData) {
+            var _this = this;
+            this.pickUpFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
+            this.dropOffFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
+
+            _.each(_this.pickUpFields, function (field, fIdx) {
+                if (field.ui_type == 'checkbox') {
+                    if (_.isUndefined(_this.pickUpFields [fIdx].editor)) {
+                        field.editor = {};
+                    }
+                    field.editor.options = {off: 'N', on: 'Y'};
+                    field.formatter = function (val, row, index) {
+                        var checked = val == 'Y' ? "checked" : "";
+                        return "<input type='checkbox' " + checked + ">";
+                    };
+                }
+            });
+            _.each(_this.dropOffFields, function (field, fIdx) {
+                if (field.ui_type == 'checkbox') {
+                    if (_.isUndefined(_this.dropOffFields[fIdx].editor)) {
+                        field.editor = {};
+                    }
+                    field.editor.options = {off: 'N', on: 'Y'};
+                    field.formatter = function (val, row, index) {
+                        var checked = val == 'Y' ? "checked" : "";
+                        return "<input type='checkbox' " + checked + ">";
+                    };
+                }
+            });
+        },
         //顯示資料
-        createDatagrid: function (fieldData) {
-
-
-            var pickupField = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}),'pick_up_dg');
-            var dropoffField = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}),'drop_off_dg');
-
-
-            _.each(pickupField, function (field, fIdx) {
-                if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(pickupField[fIdx].editor)) {
-                        field.editor = {};
-                    }
-                    field.editor.options = {off: 'N', on: 'Y'};
-                    field.formatter = function (val, row, index) {
-                        var checked = val == 'Y' ? "checked" : "";
-                        return "<input type='checkbox' " + checked + ">";
-                    };
-                }
-            });
-            _.each(dropoffField, function (field, fIdx) {
-                if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(dropoffField[fIdx].editor)) {
-                        field.editor = {};
-                    }
-                    field.editor.options = {off: 'N', on: 'Y'};
-                    field.formatter = function (val, row, index) {
-                        var checked = val == 'Y' ? "checked" : "";
-                        return "<input type='checkbox' " + checked + ">";
-                    };
-                }
-            });
-            //接機
+        createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', pickupField);
-
-            //送機
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields);
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', dropoffField);
-
-            //將接機instance 指向dgIns
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields);
             this.dgIns = this.dgInsPickUp;
 
         },
@@ -152,11 +150,11 @@ $(function () {
     $('#traffic_tab').tabs({
         border: true,
         onSelect: function (title, index) {
-            waitingDialog.show();
             if (index == 0) {
                 vueMain.gs_active = 'pickup';
             } else {
                 vueMain.gs_active = 'dropoff';
+
             }
         }
     });
