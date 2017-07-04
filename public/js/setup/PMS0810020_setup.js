@@ -190,7 +190,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             var la_diff = _.difference(la_originData, la_singleData);
             // 判斷資料是否有異動
-            if(la_diff.length != 0){
+            if (la_diff.length != 0) {
                 this.isUpdate = true;
             }
 
@@ -409,22 +409,22 @@ Vue.component('single-grid-pms0810020-tmp', {
         uploadWebSite: function () {
             var self = this;
             var lb_flag = false;
-            if(this.isUpdate){
+            if (this.isUpdate) {
                 $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if(result){
+                    if (result) {
                         self.doSaveGrid("");
                         lb_flag = true;
                     }
-                    else{
+                    else {
                         lb_flag = false;
                     }
                 });
             }
-            else{
+            else {
                 lb_flag = true;
             }
 
-            if(lb_flag) {
+            if (lb_flag) {
                 var lo_params = {
                     room_cod: this.$parent.singleData.room_cod,
                     begin_dat: this.$parent.singleData.begin_dat
@@ -449,22 +449,22 @@ Vue.component('single-grid-pms0810020-tmp', {
         showRoomTypeStock: function () {
             var self = this;
             var lb_flag = false;
-            if(this.isUpdate){
+            if (this.isUpdate) {
                 $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if(result){
+                    if (result) {
                         self.doSaveGrid("");
                         lb_flag = true;
                     }
-                    else{
+                    else {
                         lb_flag = false;
                     }
                 });
             }
-            else{
+            else {
                 lb_flag = true;
             }
 
-            if(lb_flag){
+            if (lb_flag) {
                 self.dialogRmTypeStockVisible = true;
                 self.reset_qnt = false;
                 self.begin_dat = self.$parent.singleData.begin_dat;
@@ -476,22 +476,22 @@ Vue.component('single-grid-pms0810020-tmp', {
         showRoomTypeSort: function () {
             var self = this;
             var lb_flag = false;
-            if(this.isUpdate){
+            if (this.isUpdate) {
                 $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
                     if (result) {
                         self.doSaveGrid("");
                         lb_flag = true;
                     }
-                    else{
+                    else {
                         lb_flag = false;
                     }
                 });
             }
-            else{
+            else {
                 lb_flag = true;
             }
 
-            if(lb_flag){
+            if (lb_flag) {
                 self.dialogShowRoomSortVisible = true;
             }
         },
@@ -791,7 +791,7 @@ var vm = new Vue({
         },
 
         // 上船圖檔
-        uploadAction: function(){
+        uploadAction: function () {
             var self = this;
             var li_file_counter = 0;
             var fd = new FormData();
@@ -809,7 +809,11 @@ var vm = new Vue({
 
                         var blobAsDataUrl = reader.result;
                         fd.append('dataURL', blobAsDataUrl);
-                        fd.append('fileName', file.name);
+                        fd.append("roomInfo", JSON.stringify({
+                            room_cod: self.singleData.room_cod,
+                            begin_dat: self.singleData.begin_dat,
+                            fileName: file.name
+                        }));
 
                         if (li_file_counter == self.uploadFileList.length) {
                             $.ajax({
