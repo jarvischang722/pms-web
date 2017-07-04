@@ -850,8 +850,6 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         //抓取新增資料
         function (data, callback) {
             lo_result.defaultValues = _.extend(lo_result.defaultValues, ruleAgent.getCreateCommonDefaultDataRule(session));
-            delete lo_result.defaultValues["ins_dat"];
-            delete lo_result.defaultValues["upd_dat"];
             if (!_.isEmpty(addRuleFunc) && !_.isUndefined(ruleAgent[addRuleFunc.rule_func_name])) {
                 ruleAgent[addRuleFunc.rule_func_name](postData, session, function (err, result) {
                     lo_result.defaultValues = _.extend(lo_result.defaultValues, result.defaultValues);
