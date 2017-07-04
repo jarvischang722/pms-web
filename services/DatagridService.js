@@ -761,7 +761,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
             //抓取對應的table
 
             var apiParams = {
-                "REVE-CODE": "0300901000",
+                "REVE-CODE": "BAC03009010000",
                 "program_id": prg_id,
                 "user": userInfo.usr_id,
                 "count": Object.keys(savaExecDatas).length,
