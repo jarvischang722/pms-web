@@ -45,17 +45,21 @@ exports.uploadFile = function (params, session, cb) {
 
         _.each(dataURL, function (file, index) {
             // 上傳路徑 = config上傳位置/athena_id/hotel_cod/room_cod/
+            var begin_dat = roomInfo[index].begin_dat.split("/");
+            var year = begin_dat[0];
+            var mon = begin_dat[1];
+            var day = begin_dat[2];
             var ext = roomInfo[index].fileName.split(".")[1];
             var ls_upload_url = sysConfig.upload_url + athena_id + "/" + hotel_cod + "/" + roomInfo[index].room_cod.trim();
             chkDir(ls_upload_url);
-            var ls_fileName = "RMK_" + moment(roomInfo[index].begin_dat).format("YYYYMMDD") + "." + ext;
+            var ls_fileName = "RMK_" + year + mon + day + "." + ext;
             var string = file;
             var regex = /^data:.+\/(.+);base64,(.*)$/;
 
             var matches = string.match(regex);
             var data = matches[2];
             var buffer = new Buffer(data, 'base64');
-            // fs.writeFileSync(ls_upload_url + "/" + ls_fileName, buffer);
+            fs.writeFileSync(ls_upload_url + "/" + ls_fileName, buffer);
         })
         cb(null, true);
 
