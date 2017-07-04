@@ -614,7 +614,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
-                        prgDefaultObj = result.prgDefaultObj;
+                        prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                     }
                     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;

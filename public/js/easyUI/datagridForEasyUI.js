@@ -26,7 +26,7 @@ var EZfieldClass = {
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number" ||fieldAttrObj.ui_type == "percent" ) {
+        } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
         } else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
@@ -85,20 +85,36 @@ var EZfieldClass = {
             if (fieldAttrObj.requirable == "Y") {
                 return 'background-color:rgb(198, 242, 217);';
             }
-
         };
 
         // Formatter 顯示資料
         if (dataType == "datebox") {
-            tmpFieldObj.formatter = function (date, row, index) {
+            var dateFunc = function (date) {
                 return moment(date).format("YYYY/MM/DD");
             };
+
+            var dateParserFunc = function (date) {
+                return  new Date(Date.parse(date));
+            };
+
+            tmpFieldObj.formatter = dateFunc;
+            tmpFieldObj.editor.options.parser = dateParserFunc;
+            tmpFieldObj.editor.options.formatter = dateParserFunc;
+
         } else if (dataType == "datetimebox") {
-            var datetimeFunc = function (date) {
+
+            var datetimeFunc = function (date,row) {
+
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
+
+            var datetimeFuncParser = function (date) {
+                return  new Date(Date.parse(date));
+            };
             tmpFieldObj.formatter = datetimeFunc;
-            //tmpFieldObj.editor.options.formatter = datetimeFunc;
+            tmpFieldObj.editor.options.parser = datetimeFuncParser;
+            tmpFieldObj.editor.options.formatter = datetimeFunc;
+
         } else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
@@ -128,7 +144,9 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {return false;}
+                    if (oldValue == "") {
+                        return false;
+                    }
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 };
             }
@@ -169,7 +187,7 @@ var EZfieldClass = {
                     onChange_Action(fieldAttrObj, oldValue, newValue);
                 }
             }
-        }else if(dataType == "numberbox"){
+        } else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
             if (fieldAttrObj.ui_type == "percent") {
@@ -178,9 +196,15 @@ var EZfieldClass = {
                     return fieldName;
                 };
             }
-        } else if (dataType == "numberbox") {
-            tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
+        } else if (dataType == "timespinner") {
+            tmpFieldObj.formatter = function (val, row, index) {
+                var hour = val.substring(0, 2);
+                var min = val.substring(2, 4);
+                var fieldName = hour + ":" + min;
+                return fieldName;
+            };
         }
+
         return tmpFieldObj;
     }
 
