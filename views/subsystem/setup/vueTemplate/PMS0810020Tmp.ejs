@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                            <el-upload v-if="editStatus" drag class="upload-demo" :file-list="displayFileList"
+                            <el-upload v-if="editStatus" action="" drag class="upload-demo" :file-list="displayFileList"
                                        list-type="picture" :auto-upload="false" :on-change="fileChange"
                                        :on-remove="fileRemove">
                                 <el-button size="small" type="primary">載入顯示圖檔</el-button>
@@ -323,7 +323,7 @@
                     <el-row>
                         <el-col :span="12" :offset="3">
                             <el-button @click="dialogShowRoomSortVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="rmCodSortSave">确 定</el-button>
+                            <el-button type="primary" @click="rmCodSortSave">確 定</el-button>
                         </el-col>
                     </el-row>
                 </div>

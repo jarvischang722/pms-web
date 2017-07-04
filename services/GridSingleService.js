@@ -987,10 +987,15 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
             var log_id = moment().format("YYYYMMDDHHmmss");
             var err = null;
-            if (apiErr) {
+            if (apiErr || !data) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
+            }else if(data["RETN-CODE"]!="0000"){
+                chk_result.success = false;
+                err = {};
+                console.error(data["RETN-CODE-DESC"]);
+                err.errorMsg = "save error!";
             }
 
             //寄出exceptionMail
