@@ -889,9 +889,9 @@ function handleDateFormat(prgFields, rowData) {
         var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
         if (!_.isUndefined(la_tmpField)) {
             if (la_tmpField.ui_type == 'date') {
-                rowData[field_name] = moment(val).format("YYYY/MM/DD");
+                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD");
             } else if (la_tmpField.ui_type == 'datetime') {
-                rowData[field_name] = moment(val).format("YYYY/MM/DD HH:mm:ss");
+                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD HH:mm:ss");
             }
         }
     });

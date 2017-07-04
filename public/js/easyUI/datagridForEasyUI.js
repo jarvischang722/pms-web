@@ -166,10 +166,15 @@ var EZfieldClass = {
             }
         }else if( dataType == "timespinner"){
             tmpFieldObj.formatter = function (val, row, index) {
-                var hour = val.substring(0,2);
-                var min = val.substring(2,4);
-                var fieldName = hour + ":" + min;
-                return fieldName;
+                var lo_val = String(val);
+                if(lo_val.indexOf(":") == "-1"){
+                    var hour = lo_val.substring(0,2);
+                    var min = lo_val.substring(2,4);
+                    return hour + ":" + min;
+                }
+                else {
+                    return val;
+                }
             };
         }else if(dataType == "numberbox"){
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
