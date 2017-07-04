@@ -3,9 +3,9 @@
  */
 var config = require("../configs/database");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
-var datagridSVC = require("../services/datagridService");
-var sgSVC = require("../services/gridSingleService");
-var tbSVC = require("../services/dbTableService");
+var datagridSVC = require("../services/DatagridService");
+var sgSVC = require("../services/GridSingleService");
+var tbSVC = require("../services/DbTableService");
 
 var userInfo = {
 

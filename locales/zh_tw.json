@@ -449,10 +449,12 @@
     "Leave": "離開",
     "Login": "登入",
     "Logout": "登出",
-    "Loading": "讀取中"
+    "Loading": "讀取中",
+    "ProgramID": "程式編號"
   },
   "SystemWarn": {
-    "Idle_auto_logout": "您閒置時間過長，請重新登錄"
+    "Idle_auto_logout": "您閒置時間過長，請重新登錄",
+    "Not_found_program": "找不到此程式。"
   },
   "Validation": {
     "Formatter": {

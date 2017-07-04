@@ -8,7 +8,7 @@ var moment = require("moment");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var mongoAgent = require("../plugins/mongodb");
 var async = require("async");
-var commonTools = require("../utils/commonTools");
+var commonTools = require("../utils/CommonTools");
 
 /**
  * datagrid 資料多語處理

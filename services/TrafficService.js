@@ -9,12 +9,12 @@ var _ = require("underscore");
 var async = require("async");
 var moment = require("moment");
 var i18n = require("i18n");
-var tools = require("../utils/commonTools");
-var dataRuleSvc = require("../services/dataRuleService");
+var tools = require("../utils/CommonTools");
+var dataRuleSvc = require("./DataRuleService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
-var logSvc = require("./logService");
-var mailSvc = require("./mailService");
-var langSvc = require("./langService");
+var logSvc = require("./LogService");
+var mailSvc = require("./MailService");
+var langSvc = require("./LangService");
 
 
 /**

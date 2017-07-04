@@ -24,7 +24,7 @@
     <!-- PMS0810110 取得使用中住客類別群組-->
     <dao name="QRY_SOURCE_RF_SOURCE_GRP">
         <statement><![CDATA[
-          select source_grp as value,source_grp_nam as display from source_grp_rf where athena_id = ? and use_sta = 'Y'
+          select source_grp as value,source_grp_nam as display from source_grp_rf where athena_id = ? and use_sta = 'Y' order by source_grp
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

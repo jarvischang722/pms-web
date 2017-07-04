@@ -1,10 +1,10 @@
 /**
  * Created by Jun on 2017/2/10.
  */
-var datagridSVC = require("../services/datagridService");
-var dataRuleSVC = require("../services/dataRuleService");
+var datagridSVC = require("../services/DatagridService");
+var dataRuleSVC = require("../services/DataRuleService");
 var _ = require("underscore");
-var commonTools = require("../utils/commonTools");
+var commonTools = require("../utils/CommonTools");
 
 /**
  * 取得datagrid資料

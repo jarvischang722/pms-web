@@ -63,5 +63,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_a6hfd_areapnt_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_order_confirm_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
     </sql-sources>
 </struts-config>

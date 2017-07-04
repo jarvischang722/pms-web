@@ -3,7 +3,7 @@
  */
 var _ = require("underscore");
 var mongoAgent = require("../../mongodb");
-var sgSVC = require("../../../services/gridSingleService");
+var sgSVC = require("../../../services/GridSingleService");
 
 
 
