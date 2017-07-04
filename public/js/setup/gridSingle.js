@@ -41,7 +41,7 @@ Vue.component("multiLang-dialog-tmp", {
                     }
                 }
             }];
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField));
+            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField,'multiLangDG'));
             var width = 10;
             _.each(columnsData, function (column) {
                 width += Number(column.width);
@@ -300,10 +300,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                             var effectValues = result.effectValues;
                             _.each(Object.keys(effectValues), function (key) {
                                 self.singleData[key] = effectValues[key] || "";
-                                console.log(self.singleData);
+
                             });
                         }
-
                         //是否要show出訊息
                         if (result.showAlert) {
                             alert(result.alertMsg);
@@ -615,7 +614,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
-                        prgDefaultObj = result.prgDefaultObj;
+                        prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                     }
                     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
@@ -847,7 +846,7 @@ var vm = new Vue({
 
         //根據欄位屬性組資料
         combineField: function (fieldData, callback) {
-            callback(EZfieldClass.combineFieldOption(fieldData));
+            callback(EZfieldClass.combineFieldOption(fieldData,'dg'));
         },
         //dg row刪除
         removeRow: function () {
