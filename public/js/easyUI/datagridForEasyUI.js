@@ -99,7 +99,7 @@ var EZfieldClass = {
 
             tmpFieldObj.formatter = dateFunc;
             tmpFieldObj.editor.options.parser = dateParserFunc;
-            tmpFieldObj.editor.options.formatter = dateParserFunc;
+            tmpFieldObj.editor.options.formatter = dateFunc;
 
         } else if (dataType == "datetimebox") {
 
