@@ -212,7 +212,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 callback(err, fieldData);
             });
         },
-        // 5)尋找ui_type有select的話，取得combobox的資料
+        // 5)尋找ui_type有select的話，取得combobox的資料；看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位
         function (fields, callback) {
 
             var selectDSFunc = [];
@@ -850,6 +850,8 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         //抓取新增資料
         function (data, callback) {
             lo_result.defaultValues = _.extend(lo_result.defaultValues, ruleAgent.getCreateCommonDefaultDataRule(session));
+            delete lo_result.defaultValues["ins_dat"];
+            delete lo_result.defaultValues["upd_dat"];
             if (!_.isEmpty(addRuleFunc) && !_.isUndefined(ruleAgent[addRuleFunc.rule_func_name])) {
                 ruleAgent[addRuleFunc.rule_func_name](postData, session, function (err, result) {
                     lo_result.defaultValues = _.extend(lo_result.defaultValues, result.defaultValues);
