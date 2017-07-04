@@ -165,16 +165,17 @@ var EZfieldClass = {
         else if (fieldAttrObj.ui_type == "text") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-
                 if (!_.isUndefined(newValue)) {
                     if (fieldAttrObj.modificable == "I") {
                         var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                        var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name
                         });
-
-                        $(lo_editor.target).textbox("readonly", true);
+                        if (!rowData.createRow) {
+                            $(lo_editor.target).textbox("readonly", true);
+                        }
                     }
                 }
 
