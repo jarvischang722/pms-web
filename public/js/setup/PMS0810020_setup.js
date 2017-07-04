@@ -542,7 +542,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 fieldData: fieldData,
                 mainTableName: "room_cod_order"
             };
-            // this.execSQLProcessAction(params);
+            this.$parent.execSQLProcessAction(params, function (err, result) {});
         },
 
         // 初始化tmpCUD
@@ -552,24 +552,6 @@ Vue.component('single-grid-pms0810020-tmp', {
                 updateData: [],
                 deleteData: []
             };
-        },
-
-        // 執行SQLProcess
-        execSQLProcessAction: function (params) {
-            waitingDialog.show('Saving...');
-            axios.post("/api/execSQLProcess", params)
-                .then(function (response) {
-                    waitingDialog.hide();
-                    if (response.data.success) {
-                        alert('save success!');
-                    } else {
-                        alert(response.data.errorMsg);
-                    }
-                })
-                .catch(function (error) {
-                    waitingDialog.hide();
-                    console.log(error);
-                });
         },
 
         // 儲存房型庫存
@@ -771,7 +753,7 @@ var vm = new Vue({
                 if (result.success) {
 
                     if (self.uploadFileList.length != 0) {
-                        self.uploadAction();
+                        self.uploadAction(callback);
                     }
                     else {
                         vm.initTmpCUD();
@@ -791,7 +773,7 @@ var vm = new Vue({
         },
 
         // 上船圖檔
-        uploadAction: function () {
+        uploadAction: function (callback) {
             var self = this;
             var li_file_counter = 0;
             var fd = new FormData();
@@ -825,11 +807,43 @@ var vm = new Vue({
                                 processData: false
                             }).done(function (uploadResult) {
                                 if (uploadResult.success) {
-                                    vm.initTmpCUD();
-                                    vm.loadDataGridByPrgID(function (success) {
-                                        callback(success);
+
+                                    var fieldData = [
+                                        {ui_field_name: 'room_cod', keyable: 'Y'},
+                                        {ui_field_name: 'athena_id', keyable: 'Y'},
+                                        {ui_field_name: 'hotel_cod', keyable: 'Y'}
+                                    ];
+
+                                    var lo_tmpCUD = {
+                                        createData: [],
+                                        updateData: [],
+                                        deleteData: []
+                                    };
+
+                                    _.each(uploadResult.rtnData, function (eachData) {
+                                        lo_tmpCUD.updateData.push({
+                                            "room_cod": self.singleData.room_cod,
+                                            "pic_path": eachData.fileDir
+                                        });
                                     });
-                                    alert('save success!');
+
+                                    var params = {
+                                        prg_id: prg_id,
+                                        tmpCUD: lo_tmpCUD,
+                                        fieldData: fieldData,
+                                        mainTableName: "room_cod_order"
+                                    };
+                                    self.execSQLProcessAction(params, function (err, result) {
+                                        if (result) {
+                                            vm.initTmpCUD();
+                                            vm.loadDataGridByPrgID(function (success) {
+                                                callback(success);
+                                            });
+                                            alert('save success!');
+                                        }
+                                    });
+
+
                                 }
                                 else {
                                     alert(uploadResult.errorMsg);
@@ -845,6 +859,28 @@ var vm = new Vue({
                 xhr.send();
             });
         },
+
+        // 執行SQLProcess
+        execSQLProcessAction: function (params, callback) {
+            waitingDialog.show('Saving...');
+            axios.post("/api/execSQLProcess", params)
+                .then(function (response) {
+                    waitingDialog.hide();
+                    if (response.data.success) {
+                        alert('save success!');
+                        callback(null, true);
+                    } else {
+                        alert(response.data.errorMsg);
+                        callback(response.data.errorMsg, false);
+                    }
+                })
+                .catch(function (error) {
+                    waitingDialog.hide();
+                    console.log(error);
+                    callback(error, false);
+                });
+        },
+
         //新增按鈕Event
         appendRow: function () {
             vm.initTmpCUD();
