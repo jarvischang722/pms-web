@@ -8,6 +8,7 @@ var mongoAgent = require("../plugins/mongodb");
 var trafficSvc = require("../services/TrafficService");
 var holidayDateSvc = require("../services/HolidayDateService");
 let roomSvc = require("../services/RoomService");
+var singleGridSVC = require("../services/GridSingleService");
 
 /**
  * 前台參數設定 Module
@@ -70,4 +71,11 @@ exports.roomCodOrder = function (req, res) {
         res.json({success: _.isNull(err), errorMsg: err, roomCodOrderData: roomCodOrderData});
     });
 };
+
+// 取房型圖片
+exports.getRoomTypeUploadPic = function (req, res) {
+    roomSvc.getRoomTypeUploadPic(req.body, req.session, function (err, getResult) {
+        res.json({success: _.isNull(err), errorMsg: err, roomTypePicData: getResult});
+    });
+}
 

@@ -1,3 +1,4 @@
+<%- include ../../../common/importFiles.ejs %>
 <link rel="stylesheet" href="/css/setup/gridSingle.css">
 <div id="GSApp">
     <div class="col-xs-12">
@@ -65,7 +66,8 @@
             :page-one-data-grid-rows="pageOneDataGridRows"
             :tmp-cud="tmpCud"
             :modificable-for-data="modificableForData"
-            :dialog-visible="dialogVisible">
+            :dialog-visible="dialogVisible"
+            :display-file-list="displayFileList">
     </single-grid-pms0810020-tmp>
 
     <field-multi-lang-dialog-tmp

@@ -99,13 +99,12 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'displayFileList'],
     data: function () {
         return {
             tmpCUD: {},
             isFistData: false,
             isLastData: false,
-            displayFileList: [],
             dialogShowRoomSortVisible: false,
             dialogRmTypeStockVisible: false,
             tabName: 'ERP',
@@ -455,6 +454,22 @@ Vue.component('single-grid-pms0810020-tmp', {
             });
         },
 
+        //上傳正圖
+        uploadRoomTypePic: function () {
+            var lo_params = {
+                room_cod: this.$parent.singleData.room_cod,
+                begin_dat: this.$parent.singleData.begin_dat
+            }
+            $.post("/api/gateway/uploadRoomTypePic", lo_params, function(getResult){
+                if(getResult.success){
+                    alert("upload success!");
+                }
+                else{
+                    alert(getResult.errorMsg);
+                }
+            });
+        },
+
         // 顯示庫存dialog
         showRoomTypeStock: function () {
             var self = this;
@@ -649,7 +664,8 @@ var vm = new Vue({
         dialogVisible: false,
         dgIns: {},
         labelPosition: 'right',
-        uploadFileList: []
+        uploadFileList: [],
+        displayFileList: []
     },
     watch: {
         editStatus: function (newVal) {
@@ -939,15 +955,44 @@ var vm = new Vue({
         fetchSingleData: function (editingRow, callback) {
 
             vm.initTmpCUD();
+            vm.displayFileList = [];
             vm.editStatus = true;
             vm.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
+
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
                     vm.modificableForData = result.modificable || true;
-                    callback(true);
+
+                    var params = {
+                        room_cod: vm.singleData.room_cod,
+                        begin_dat: vm.singleData.begin_dat
+                    }
+                    axios.post("/api/PMS0810020/getRoomTypeUploadPic", params)
+                        .then(function (getResult) {
+                            if (getResult.data.success) {
+                                vm.singleData.pic_path = getResult.data.roomTypePicData;
+                                _.each(vm.singleData.pic_path, function (eachPic) {
+                                    var la_filePath = eachPic.pic_path.split("/");
+                                    var ls_fileName = la_filePath[la_filePath.length - 1];
+                                    vm.displayFileList.push({
+                                        name: ls_fileName,
+                                        url: eachPic.pic_path
+                                    });
+                                });
+
+                                callback(true);
+                            }
+                            else {
+                                console.log(getResult.data.errorMsg);
+                                vm.singleData.pic_path = [];
+                                callback(true);
+                            }
+                        });
+
+
                 } else {
                     vm.singleData = {};
                     callback(false);
@@ -955,6 +1000,7 @@ var vm = new Vue({
 
             });
         },
+
         //init datepicker
         initDatePicker: function () {
             if (!this.isDatepickerInit) {
