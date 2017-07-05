@@ -1483,26 +1483,35 @@ body {
 /* line 400, ../sass/partials/_fixTableMain.sass */
 .ca-headerTitle .ca-headerIcon {
   margin: auto auto auto 5px;
-  cursor: p;
+}
+/* line 402, ../sass/partials/_fixTableMain.sass */
+.ca-headerTitle .ca-headerIcon i {
+  cursor: pointer;
+}
+/* line 404, ../sass/partials/_fixTableMain.sass */
+.ca-headerTitle .caSelect, .ca-headerTitle .caIcon {
+  margin: 2px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
-/* line 404, ../sass/partials/_fixTableMain.sass */
+/* line 409, ../sass/partials/_fixTableMain.sass */
 .td-first {
   position: relative;
 }
 
-/* line 418, ../sass/partials/_fixTableMain.sass */
+/* line 423, ../sass/partials/_fixTableMain.sass */
 .height-fntThead {
   padding-bottom: 6px !important;
   border-bottom: 2px solid #778899 !important;
 }
-/* line 423, ../sass/partials/_fixTableMain.sass */
+/* line 428, ../sass/partials/_fixTableMain.sass */
 .height-fntThead .ca-center {
   margin: auto auto auto 30%;
   box-sizing: border-box;
 }
 
-/* line 426, ../sass/partials/_fixTableMain.sass */
+/* line 431, ../sass/partials/_fixTableMain.sass */
 .roomNumTip {
   position: absolute;
   right: 0;
@@ -1512,7 +1521,7 @@ body {
   padding-bottom: 1px;
 }
 
-/* line 433, ../sass/partials/_fixTableMain.sass */
+/* line 438, ../sass/partials/_fixTableMain.sass */
 .roomNumTip2 {
   position: absolute;
   right: 0;
@@ -1521,26 +1530,26 @@ body {
   padding-bottom: 1px;
 }
 
-/* line 442, ../sass/partials/_fixTableMain.sass */
+/* line 447, ../sass/partials/_fixTableMain.sass */
 .subTree-s th, .subTree-s td {
   color: #3a67df !important;
 }
-/* line 444, ../sass/partials/_fixTableMain.sass */
+/* line 449, ../sass/partials/_fixTableMain.sass */
 .subTree-s .td-first {
   color: #3a67df !important;
 }
 
-/* line 446, ../sass/partials/_fixTableMain.sass */
+/* line 451, ../sass/partials/_fixTableMain.sass */
 .subTree-title {
   color: #3a67df !important;
 }
 
-/* line 448, ../sass/partials/_fixTableMain.sass */
+/* line 453, ../sass/partials/_fixTableMain.sass */
 table.treetable span.indenter {
   width: auto;
 }
 
-/* line 453, ../sass/partials/_fixTableMain.sass */
+/* line 458, ../sass/partials/_fixTableMain.sass */
 .treeIconDisplay table.treetable tr.collapsed span.indenter a {
   display: none !important;
 }
@@ -4222,36 +4231,42 @@ a {
   height: 25px;
 }
 /* line 258, ../sass/modules/_public.sass */
+.input-medium.ca-select {
+  width: 55px;
+  max-width: 100%;
+  height: 25px;
+}
+/* line 260, ../sass/modules/_public.sass */
 .input-medium.checkMail {
   width: 530px;
   max-width: 100%;
   height: 25px;
 }
-/* line 260, ../sass/modules/_public.sass */
+/* line 262, ../sass/modules/_public.sass */
 .input-medium.large-c1 {
   width: 210px;
   max-width: 100%;
   height: 25px;
 }
 
-/* line 262, ../sass/modules/_public.sass */
+/* line 264, ../sass/modules/_public.sass */
 .input-hMedium {
   height: 25px !important;
 }
 
-/* line 264, ../sass/modules/_public.sass */
+/* line 266, ../sass/modules/_public.sass */
 .input-hCol2 {
   height: 55px !important;
 }
 
-/* line 266, ../sass/modules/_public.sass */
+/* line 268, ../sass/modules/_public.sass */
 .input-spc-1 {
   width: 434px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 266, ../sass/modules/_public.sass */
+  /* line 268, ../sass/modules/_public.sass */
   .input-spc-1 {
     width: 349px;
     max-width: 100%;
@@ -4259,14 +4274,14 @@ a {
   }
 }
 
-/* line 270, ../sass/modules/_public.sass */
+/* line 272, ../sass/modules/_public.sass */
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
 }
 @media screen and (min-width: 768px) and (max-width: 1030px) {
-  /* line 270, ../sass/modules/_public.sass */
+  /* line 272, ../sass/modules/_public.sass */
   .input-spc-key {
     width: 376px;
     max-width: 100%;
@@ -4274,35 +4289,35 @@ a {
   }
 }
 
-/* line 274, ../sass/modules/_public.sass */
+/* line 276, ../sass/modules/_public.sass */
 .input-mLeft-1 {
   margin-left: 28px;
 }
 
-/* line 278, ../sass/modules/_public.sass */
+/* line 280, ../sass/modules/_public.sass */
 .dateBox-custom1 .textbox {
   height: 25px;
   line-height: 20px;
   border-radius: 0;
   border: 1px solid #D5D5D3;
 }
-/* line 283, ../sass/modules/_public.sass */
+/* line 285, ../sass/modules/_public.sass */
 .dateBox-custom1 .combo-arrow {
   background-color: #dddddd;
   width: 24px !important;
 }
 
-/* line 286, ../sass/modules/_public.sass */
+/* line 288, ../sass/modules/_public.sass */
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
 
-/* line 288, ../sass/modules/_public.sass */
+/* line 290, ../sass/modules/_public.sass */
 .margin-spacing-3 {
   margin: 3px auto;
 }
 
-/* line 292, ../sass/modules/_public.sass */
+/* line 294, ../sass/modules/_public.sass */
 .multiLangDGPosition {
   width: 80%;
   top: 30%;
@@ -4310,7 +4325,7 @@ a {
   position: absolute;
 }
 
-/* line 298, ../sass/modules/_public.sass */
+/* line 300, ../sass/modules/_public.sass */
 .prg_idLbH3 {
   display: block;
   font-size: 16px !important;
@@ -4320,14 +4335,14 @@ a {
   font-weight: bold;
 }
 
-/* line 309, ../sass/modules/_public.sass */
+/* line 311, ../sass/modules/_public.sass */
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* line 316, ../sass/modules/_public.sass */
+/* line 318, ../sass/modules/_public.sass */
 input[type="text"],
 input[type="number"],
 input[type="date"],
@@ -4336,60 +4351,60 @@ input[type="datetime-local"] {
   border-radius: 5px !important;
 }
 
-/* line 336, ../sass/modules/_public.sass */
+/* line 338, ../sass/modules/_public.sass */
 .gritter-item-wrapper.gritter-info {
   background-color: #438eb9;
 }
 
-/* line 340, ../sass/modules/_public.sass */
+/* line 342, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 {
   width: 106px;
 }
-/* line 343, ../sass/modules/_public.sass */
+/* line 345, ../sass/modules/_public.sass */
 .popCheckbox.resvCk-1 .checkbox label {
   padding-left: 14px;
 }
-/* line 345, ../sass/modules/_public.sass */
+/* line 347, ../sass/modules/_public.sass */
 .popCheckbox .checkbox {
   margin: 1px auto 0 auto;
 }
-/* line 347, ../sass/modules/_public.sass */
+/* line 349, ../sass/modules/_public.sass */
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
 }
-/* line 349, ../sass/modules/_public.sass */
+/* line 351, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label {
   width: auto;
 }
-/* line 352, ../sass/modules/_public.sass */
+/* line 354, ../sass/modules/_public.sass */
 .popCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
 }
-/* line 357, ../sass/modules/_public.sass */
+/* line 359, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .txt {
   line-height: 22px;
 }
-/* line 360, ../sass/modules/_public.sass */
+/* line 362, ../sass/modules/_public.sass */
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
 }
 
-/* line 363, ../sass/modules/_public.sass */
+/* line 365, ../sass/modules/_public.sass */
 .remarkInput {
   width: 85%;
   margin-left: 5px;
 }
 
-/* line 366, ../sass/modules/_public.sass */
+/* line 368, ../sass/modules/_public.sass */
 .border-raduis-5 {
   border-radius: 5px;
 }
 
-/* line 368, ../sass/modules/_public.sass */
+/* line 370, ../sass/modules/_public.sass */
 .extendGrid {
   position: relative;
 }
-/* line 370, ../sass/modules/_public.sass */
+/* line 372, ../sass/modules/_public.sass */
 .extendGrid .extendIcon {
   position: absolute;
   padding: 0 5px;
@@ -4399,22 +4414,22 @@ input[type="datetime-local"] {
   top: -37px;
   cursor: pointer;
 }
-/* line 378, ../sass/modules/_public.sass */
+/* line 380, ../sass/modules/_public.sass */
 .extendGrid .extendIcon:hover {
   background: #69AA46;
 }
-/* line 380, ../sass/modules/_public.sass */
+/* line 382, ../sass/modules/_public.sass */
 .extendGrid .extendIcon.activeBg {
   background: #69AA46;
 }
-/* line 382, ../sass/modules/_public.sass */
+/* line 384, ../sass/modules/_public.sass */
 .extendGrid .extendIcon i {
   color: #fff;
   font-weight: bold;
   -webkit-transform: rotate(0deg);
   -webkit-animation: outAnimation 1s;
 }
-/* line 387, ../sass/modules/_public.sass */
+/* line 389, ../sass/modules/_public.sass */
 .extendGrid .extendIcon i.active {
   -webkit-animation: inAnimation 1s;
   -webkit-transform: rotate(180deg);
@@ -4435,12 +4450,12 @@ input[type="datetime-local"] {
     -webkit-transform: rotate(360deg);
   }
 }
-/* line 401, ../sass/modules/_public.sass */
+/* line 403, ../sass/modules/_public.sass */
 .extendGrid .extendContent {
   display: none;
 }
 
-/* line 404, ../sass/modules/_public.sass */
+/* line 406, ../sass/modules/_public.sass */
 .totalMiddle {
   display: inline-block;
   vertical-align: middle;

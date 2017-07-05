@@ -128,7 +128,7 @@
                 modal: true,
                 title: "訂房確認書",
                 title_html: true,
-                width: 600,
+                width: 700,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -287,9 +287,9 @@
             e.preventDefault();
             var dialog = $("#reservationDialog-confirm-print").removeClass('hide').dialog({
                 modal: true,
-                title: "訂房確認書格式",
+                title: "是否列印",
                 title_html: true,
-                width: 600,
+                width: 500,
                 height: 135,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -380,26 +380,10 @@
             });
         });
 
-        // 彈出 訂房確認書(傳真) resv_BtnPage13
+        // 彈出 訂房確認書(傳真)-傳真號碼 resv_BtnPage13
         $(document).on('click', ".resv_BtnPage13", function (e) {
             e.preventDefault();
             var dialog = $("#resv_BtnPage13-message").removeClass('hide').dialog({
-                modal: true,
-                title: "訂房確認書(傳真)",
-                title_html: true,
-                width: 700,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 訂房確認書(傳真)-傳真號碼 resv_BtnPage13-1
-        $(document).on('click', ".resv_BtnPage13-1", function (e) {
-            e.preventDefault();
-            var dialog = $("#resv_BtnPage13-1-message").removeClass('hide').dialog({
                 modal: true,
                 title: "傳真號碼",
                 title_html: true,
@@ -411,6 +395,7 @@
                 resizable: true
             });
         });
+
         // 彈出 異動紀錄 resv_BtnPage08
         $(document).on('click', ".resv_BtnPage08", function (e) {
             e.preventDefault();
