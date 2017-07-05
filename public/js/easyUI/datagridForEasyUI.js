@@ -99,6 +99,13 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.parser = dateParserFunc;
             tmpFieldObj.editor.options.formatter = dateFunc;
 
+            //combobox連動
+            if (fieldAttrObj.rule_func_name != "") {
+                tmpFieldObj.editor.options.onSelect = function (date) {
+                    onChange_Action(fieldAttrObj, "", date, dgName);
+                };
+            }
+
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
