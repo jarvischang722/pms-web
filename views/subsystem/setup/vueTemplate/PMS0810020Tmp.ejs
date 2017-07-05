@@ -94,13 +94,16 @@
                                 </div>
                             </div>
 
-                            <el-upload v-if="editStatus" drag class="upload-demo" :file-list="displayFileList"
-                                       list-type="picture" :auto-upload="false" :on-change="fileChange"
+                            <el-upload v-if="editStatus" drag class="upload-demo" list-type="picture"
+                                       :auto-upload="false" :on-change="fileChange"
                                        :on-remove="fileRemove">
-                                <el-button size="small" type="primary">載入顯示圖檔</el-button>
-                                <div class="el-upload__text">將文字拖曳至此，或<em>點擊上傳</em></div>
-                                <div slot="tip" class="el-upload__tip">只能上傳jpg/png文件，且不超過500kb</div>
+                                <el-button size="small" type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
+                                <div class="el-upload__text"><%= __("program")["PMS0810020"].uploadImageText %></div>
+                                <div slot="tip" class="el-upload__tip"><%= __("program")["PMS0810020"].uploadImageTip %></div>
                             </el-upload>
+                            <div v-for="file in displayFileList">
+                                <img :src="file.url" width="500px">
+                            </div>
                         </div>
                     </form>
                     <!-- End Content -->
@@ -143,19 +146,25 @@
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                                 @click="uploadWebSite">
-                                            上傳官網
+                                            <%= __("program")["PMS0810020"].uploadWebSite %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                @click="uploadRoomTypePic">
+                                            <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                                 @click="showRoomTypeStock">
-                                            產生庫存
+                                            <%= __("program")["PMS0810020"].genRommTypeStock %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                                 @click="showRoomTypeSort">
-                                            房型顯示排序
+                                            <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>
                                     </li>
                                 </ul>
@@ -202,11 +211,11 @@
             <el-row>
                 <el-col :span="12" :offset="6">
                     <el-form>
-                        <el-form-item label="開始日期">
+                        <el-form-item label="<%= __("program")["PMS0810020"].begin_dat %>">
                             <el-date-picker
                                     v-model="begin_dat"
                                     type="date"
-                                    placeholder="選擇日期"
+                                    placeholder="<%= __("program")["PMS0810020"].select_dat %>"
                                     format="yyyy/MM/dd"
                                     :picker-options="pickerOptions0">
                             </el-date-picker>
@@ -218,11 +227,11 @@
             <el-row>
                 <el-col :span="12" :offset="6">
                     <el-form>
-                        <el-form-item label="結束日期">
+                        <el-form-item label="<%= __("program")["PMS0810020"].end_dat %>">
                             <el-date-picker
                                     v-model="end_dat"
                                     type="date"
-                                    placeholder="選擇日期"
+                                    placeholder="<%= __("program")["PMS0810020"].select_dat %>"
                                     format="yyyy/MM/dd"
                                     :picker-options="pickerOptions0">
                             </el-date-picker>
@@ -233,37 +242,37 @@
 
             <el-row>
                 <el-col :span="12" :offset="6">
-                    <el-checkbox v-model="reset_qnt">一併重整庫存</el-checkbox>
+                    <el-checkbox v-model="reset_qnt"><%= __("program")["PMS0810020"].reset_qnt %></el-checkbox>
                 </el-col>
             </el-row>
 
             <el-row>
                 <el-col :span="12" :offset="6">
-                    <span>房型庫存最大日期: </span><span>{{ maxRmStock }}</span>
+                    <span><%= __("program")["PMS0810020"].maxRmStock %>: </span><span>{{ maxRmStock }}</span>
                 </el-col>
             </el-row>
 
             <div slot="footer" class="dialog-footer">
                 <el-row>
                     <el-col :span="12" :offset="3">
-                        <el-button @click="dialogRmTypeStockVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="genRmStockSave">确 定</el-button>
+                        <el-button @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                        <el-button type="primary" @click="genRmStockSave"><%= __("SystemCommon").OK %></el-button>
                     </el-col>
                 </el-row>
             </div>
         </el-dialog>
 
         <!-- 房型顯示排序dialog -->
-        <el-dialog title="房型顯示排序" :visible.sync="dialogShowRoomSortVisible" size="tiny" :show-close="false"
+        <el-dialog title="<%= __("program")["PMS0810020"].erpTabPageTitle %>" :visible.sync="dialogShowRoomSortVisible" size="tiny" :show-close="false"
                    :modal-append-to-body="false">
             <template>
                 <el-tabs v-model="tabName" type="card" @tab-click="tabChange">
-                    <el-tab-pane label="ERP 順序" name="ERP">
+                    <el-tab-pane label="<%= __("program")["PMS0810020"].erpTabPageTitle %>" name="ERP">
                         <table width="100%" border="1">
                             <thead>
                             <tr>
-                                <th>房型代號</th>
-                                <th>房型名稱</th>
+                                <th><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th><%= __("program")["PMS0810020"].room_name %></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -284,12 +293,12 @@
                             </tbody>
                         </table>
                     </el-tab-pane>
-                    <el-tab-pane label="官網顯示順序" name="webSite">
+                    <el-tab-pane label="<%= __("program")["PMS0810020"].wrsTabPageTitle %>" name="webSite">
                         <table width="100%" border="1">
                             <thead>
                             <tr>
-                                <th>房型代號</th>
-                                <th>房型名稱</th>
+                                <th><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th><%= __("program")["PMS0810020"].room_name %></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -308,7 +317,8 @@
                                     </el-button>
                                 </td>
                                 <td>
-                                    <input type="checkbox" v-model="checkList" :value="item.room_cod" :true-value="item.room_cod">
+                                    <input type="checkbox" v-model="checkList" :value="item.room_cod"
+                                           :true-value="item.room_cod">
                                 </td>
                             </tr>
                             </tbody>
@@ -319,8 +329,8 @@
                 <div slot="footer" class="dialog-footer">
                     <el-row>
                         <el-col :span="12" :offset="3">
-                            <el-button @click="dialogShowRoomSortVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="rmCodSortSave">确 定</el-button>
+                            <el-button @click="dialogShowRoomSortVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                            <el-button type="primary" @click="rmCodSortSave"><%= __("SystemCommon").OK %></el-button>
                         </el-col>
                     </el-row>
                 </div>
