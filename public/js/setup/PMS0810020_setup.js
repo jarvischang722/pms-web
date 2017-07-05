@@ -699,7 +699,7 @@ var vm = new Vue({
         showDataGrid: function () {
 
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0810020_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData));
+            this.dgIns.init(prg_id, 'PMS0810020_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData,'PMS0810020_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },

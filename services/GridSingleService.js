@@ -975,7 +975,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     function doSaveDataByAPI(chk_result, callback) {
 
         var apiParams = {
-            "REVE-CODE": "0300901000",
+            "REVE-CODE": "BAC03009010000",
             "program_id": prg_id,
             "user": userInfo.usr_id,
             "table_name": mainTableName,
@@ -1055,10 +1055,11 @@ function dataValueChange(fields, data) {
 function changeValueFormat(value, ui_type) {
     var valueTemp;
     if (ui_type == "time") {
-        var hour = value.substring(0, 2);
-        var min = value.substring(2, 4);
-        var fieldName = hour + ":" + min;
-
+        if(!_.isEmpty(value)) {
+            var hour = value.substring(0, 2);
+            var min = value.substring(2, 4);
+            var fieldName = hour + ":" + min;
+        }
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) * 100;
