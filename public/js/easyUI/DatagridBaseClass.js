@@ -60,6 +60,7 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
+        console.log(self.dgName);
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)

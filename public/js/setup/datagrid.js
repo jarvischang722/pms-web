@@ -141,7 +141,7 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = EZfieldClass.combineFieldOption(fieldData);
+            var columnsData = EZfieldClass.combineFieldOption(fieldData,'prg_dg');
             var hasMultiLangField = _.filter(fieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
@@ -280,7 +280,6 @@ var vm = new Vue({
                         vm.initTmpCUD();
                         $("#gridEdit").val(null);
                         alert('save success!');
-                        // location.reload();
                         $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
                     } else {
                         alert(result.errorMsg);
@@ -337,7 +336,7 @@ var vm = new Vue({
                 }
             }];
 
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
+            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField,'multiLangDG'));
 
             var widtd = 10;
             _.each(columnsData, function (column) {

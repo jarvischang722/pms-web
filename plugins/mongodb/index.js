@@ -1,14 +1,17 @@
 /**
  * Created by Jun Chang on 2017/1/20.
  */
-var _ = require("underscore");
-var dbConfig = require("../../configs/database");
-var mongoose = require('mongoose');
-var dbconn = ["mongodb://",dbConfig.mongo.username,":",dbConfig.mongo.password,"@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
+let _ = require("underscore");
+let dbConfig = require("../../configs/database");
+let mongoose = require('mongoose');
+let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
+let options = {
+    useMongoClient: true
+};
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(dbconn, function (err) {
+mongoose.connect(dbconn, options, function (err) {
     if (err) {
         console.error('connect to %s error: ', dbconn, err.message);
         process.exit(1);

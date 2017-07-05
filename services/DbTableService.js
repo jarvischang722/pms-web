@@ -28,7 +28,7 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
         let user_id = userInfo.usr_id;
         let athena_id = userInfo.athena_id;
         let hotel_cod = userInfo.fun_hotel_cod;
-        let REVE_CODE = "0200930010";
+        let REVE_CODE = "BAC09008010000";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
             var params = {
                 "REVE-CODE": REVE_CODE,
@@ -80,7 +80,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
         let user_id = userInfo.usr_id;
         let athena_id = userInfo.athena_id;
         let hotel_cod = userInfo.fun_hotel_cod;
-        let REVE_CODE = "0200930011";
+        let REVE_CODE = "BAC09008020000";
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
             var params = {
@@ -124,7 +124,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
  */
 exports.doTableAllUnLock = function (callback) {
     try {
-        var REVE_CODE = "0200930012";
+        var REVE_CODE = "BAC09008030000";
         tools.requestApi(sysConfig.api_url, {"REVE-CODE": REVE_CODE}, function (err, res, data) {
             var success = true;
             var errorMsg = null;
@@ -161,7 +161,7 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
     var prg_id = formData.prg_id;
     var userInfo = session.user;
     var apiParams = {
-        "REVE-CODE": "0300901000",
+        "REVE-CODE": "BAC03009010000",
         "program_id": prg_id,
         "user": userInfo.usr_id,
         "count": Object.keys(savaExecDatas).length,
