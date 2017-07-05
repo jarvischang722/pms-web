@@ -53,7 +53,7 @@ exports.uploadFile = function (params, session, cb) {
             var ext = roomInfo[index].fileName.split(".")[1];
             var ls_folder = athena_id + "/" + hotel_cod + "/" + roomInfo[index].room_cod.trim();
             var ls_upload_url = sysConfig.upload_url + ls_folder;
-            chkDir(ls_upload_url);
+            // chkDir(ls_upload_url);
             var ls_fileName = "RMK_" + year + mon + day + "." + ext;
             var string = file;
             var regex = /^data:.+\/(.+);base64,(.*)$/;
