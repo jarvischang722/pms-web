@@ -81,7 +81,7 @@ module.exports = {
                             if (chkResult) {
                                 if (chkResult.order_dt_count > 0) {
                                     isDeleteRow = false;
-                                    callback(null, isDeleteRow);
+                                    callback('訂房卡已使用,不可刪除', isDeleteRow);
                                 } else {
                                     if (isDeleteRow && deleteResult)
                                         isDeleteRow = true;
@@ -115,6 +115,10 @@ module.exports = {
                 callback(lo_error, lo_result);
 
             } else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorCod = "1111";
+                lo_error.errorMsg = errMsg;
                 callback(lo_error, lo_result);
             }
         })
