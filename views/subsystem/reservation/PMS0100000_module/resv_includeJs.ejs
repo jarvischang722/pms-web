@@ -217,14 +217,14 @@
             });
         });
 
-        // 彈出 接送機
-        $(document).on('click', ".resvPickUp-btn", function (e) {
+        // 彈出 預授權
+        $(document).on('click', ".authorize-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+            var dialog = $("#authorizeDialog").removeClass('hide').dialog({
                 modal: true,
-                title: "接送機資料輸入",
+                title: "預授權",
                 title_html: true,
-                width: 800,
+                width: 900,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -559,6 +559,70 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 接送機
+        $(document).on('click', ".resvPickUp-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+                modal: true,
+                title: "接送機資料輸入",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 航空卡號
+        $(document).on('click', ".air-num-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#air-numDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "航空哩程",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 航空哩程
+        $(document).on('click', ".agent-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#agent-Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "航空哩程",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出　公帳號
+        $(document).on('click', ".publiceAccount-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#publiceAccountDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "公帳號",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
