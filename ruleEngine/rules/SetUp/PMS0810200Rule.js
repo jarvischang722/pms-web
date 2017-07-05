@@ -17,7 +17,7 @@ module.exports = {
      PMS0810200 :最大的顯示順序+10
      */
     r_pms0810200_add: function (postData, session, callback) {
-        var data = postData.girdDataInfo ;
+        var data = postData.gridDataInfo ;
         var result = new ReturnClass();
         var error = null;
         var maxNumber;
