@@ -183,7 +183,7 @@ a
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
 
-/*-- top-sec-menu --*/
+/*-- standard-table --*/
 .standard-table
   width: 100%
   border-collapse: collapse
@@ -239,6 +239,7 @@ a
     max-height: 100%
     overflow: auto
     width: 100%
+
 /*-- singleGridDialogTmp 新增權限 --*/
 #singleGridDialog
   position: relative
@@ -274,6 +275,7 @@ a
   .singleBtnBottom
     position: fixed
     bottom: 50px
+
 
 /*-- 訂房確認書 email --*/
 .reserveCheckMail
@@ -334,6 +336,7 @@ a
 .search-content
   position: relative
   padding: 0 0 15px 0
+  margin-left: 5px
   .search-co
     position: relative
     height: auto
@@ -369,11 +372,10 @@ a
                 border-radius: 32px
                 margin: 0 auto 4px auto
                 box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
-
     .search-co-content
       text-align: left
       border-collapse: collapse
-      .block-table
+      .grid-item
         label
           margin: 0 5px 0 0
           text-align: right
@@ -421,7 +423,7 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: -5px
+          top: -10px
       .searchCheckbox
         .checkbox
           margin: 3px auto 0 auto
@@ -431,13 +433,6 @@ a
               &:before
                 margin-right: 3px
 
-    .search-co-btn
-      background: #555
-      border: none
-      color: #fff
-      padding: 5px 20px
-      &:hover
-        background: #9b9b9b
 
 /*-- colorPicker 修改(假日類別設定) --*/
 .spectrumColor
@@ -448,6 +443,7 @@ a
   padding: 0 10px 0 5px
   box-sizing: border-box
   margin-left: -15px
+
 /*-- 訂房特殊版型 日期 --*/
 @mixin datePin($bk: #5367ff)
   background: $bk //#5367ff
@@ -780,8 +776,8 @@ ul.newVisitOther-btn
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
-  right: 15px
-  top: 10px
+  right: 10px
+  //top: 10px
   z-index: 2
   .resvTabs-content
     span

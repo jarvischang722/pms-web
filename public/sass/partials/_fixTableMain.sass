@@ -16,7 +16,13 @@ $orange2Tag: #E7B296
 $greenTag: #E2EFDC
 $yellowTag: #FEFC38
 $subTreeColor: #3334A6
-$subTreeColor: #3334A6
+
+$grayTag: #e2e2e2
+$redTxt: #dc5034
+$darkRedTxt: #a1402a
+$greenTxt: #7ab800
+$blueBg: #3d48a6
+
 // height
 $lineHeight18: 18px
 
@@ -156,6 +162,38 @@ $switchLeft:      23px       //  39px
       margin: auto 5px auto auto
   .no-data
     height: 20px
+  // 專案訂房
+  &.themeTableTwo
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    //padding-left: 3px
+    //padding-right: 3px
+    //td
+    //  padding-left: 3px
+    //  padding-right: 3px
+    //.td-first
+    //  padding-left: 3px
+    .tbodyRight
+      .numeric
+        text-align: right
+    .redTxt
+      color: $redTxt
+    .darkRedTxt
+      color: $darkRedTxt
+    .greenTxt
+      color: $greenTxt
+    .grayBg
+      background: $grayTag
+      td,th
+        background: $grayTag
+    .yellowBg
+      background: $yellowTag !important
+    .blueBg
+      background: $blueBg
+      color: #fff
+
+
 // tooltip
 $wrapper-color: #fff  //#fff
 $wrapper-bg-color: #825C26 //#1496bb
