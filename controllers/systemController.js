@@ -11,6 +11,7 @@ var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/RoleFuncService");
 var dbSvc = require("../services/DbTableService");
 var langSvc = require("../services/LangService");
+var uploadSvc = require("../services/uploadService");
 /**
  * 首頁
  */
@@ -50,7 +51,7 @@ exports.systemOption = function (req, res) {
                 });
 
             });
-            res.render('system/systemOption',{sysList: sysRows });
+            res.render('system/systemOption', {sysList: sysRows});
         });
 
     });
@@ -167,5 +168,12 @@ exports.getGroupMdlPros = function (req, res) {
 exports.execSQLProcess = function (req, res) {
     dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
         res.json({success: success, errorMsg: err});
+    });
+};
+
+// 上傳檔案
+exports.uploadFile = function (req, res) {
+    uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {
+        res.json({success: uploadResult.success, errorMsg: err, rtnData: uploadResult.rtnData});
     });
 };
