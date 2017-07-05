@@ -787,10 +787,12 @@ var vm = new Vue({
                             callback(success);
                         });
                         alert('save success!');
+                        waitingDialog.hide();
                     }
                     isEditStatus = false;
 
                 } else {
+                    waitingDialog.hide();
                     alert(result.errorMsg);
                 }
 
@@ -814,13 +816,19 @@ var vm = new Vue({
                     var reader = new FileReader;
                     reader.onload = function () {
                         li_file_counter++;
-
                         var blobAsDataUrl = reader.result;
-                        fd.append('dataURL', blobAsDataUrl);
-                        fd.append("roomInfo", JSON.stringify({
+                        var ext = file.name.split(".")[1];
+                        var begin_dat = moment(self.singleData.begin_dat);
+                        var year = begin_dat.format("YYYY");
+                        var mon = begin_dat.format("MM");
+                        var day = begin_dat.format("DD");
+
+
+                        fd.append('imageURL', blobAsDataUrl);
+                        fd.append("info", JSON.stringify({
                             room_cod: self.singleData.room_cod,
                             begin_dat: self.singleData.begin_dat,
-                            fileName: file.name
+                            fileName: self.singleData.room_cod.trim() + "_" + year + mon + day + "." + ext
                         }));
 
                         if (li_file_counter == self.uploadFileList.length) {
@@ -832,8 +840,9 @@ var vm = new Vue({
                                 contentType: false,
                                 processData: false
                             }).done(function (uploadResult) {
-                                if (uploadResult.success) {
 
+                                if (uploadResult.success) {
+                                    self.uploadFileList = [];
                                     var fieldData = [
                                         {ui_field_name: 'room_cod', keyable: 'Y'},
                                         {ui_field_name: 'athena_id', keyable: 'Y'},
@@ -867,6 +876,7 @@ var vm = new Vue({
                                             vm.loadDataGridByPrgID(function (success) {
                                                 callback(success);
                                             });
+                                            waitingDialog.hide();
                                             // alert('save success!');
                                         }
                                     });
