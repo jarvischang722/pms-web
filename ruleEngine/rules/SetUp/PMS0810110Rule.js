@@ -101,7 +101,7 @@ module.exports = {
                             queryAgent.query("GET_GW_CUST_RF.DEFAULT_SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
                                 if (!err) {
                                     if (data == true) {
-                                        if (guestData.guest_count > 0) {
+                                        if (guestData.source_count > 0) {
                                             isDeleteRow = false;
                                             callback(null, isDeleteRow);
                                         } else {

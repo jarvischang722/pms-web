@@ -212,7 +212,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 callback(err, fieldData);
             });
         },
-        // 5)尋找ui_type有select的話，取得combobox的資料
+        // 5)尋找ui_type有select的話，取得combobox的資料；看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位
         function (fields, callback) {
 
             var selectDSFunc = [];
@@ -761,7 +761,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
             //抓取對應的table
 
             var apiParams = {
-                "REVE-CODE": "0300901000",
+                "REVE-CODE": "BAC03009010000",
                 "program_id": prg_id,
                 "user": userInfo.usr_id,
                 "count": Object.keys(savaExecDatas).length,
@@ -772,7 +772,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 var success = true;
                 var errMsg = null;
                 var log_id = moment().format("YYYYMMDDHHmmss");
-                if (apiErr) {
+                if (apiErr || !data) {
                     chkResult.success = false;
                     errMsg = apiErr;
                 }
@@ -891,9 +891,9 @@ function handleDateFormat(prgFields, rowData) {
         var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
         if (!_.isUndefined(la_tmpField)) {
             if (la_tmpField.ui_type == 'date') {
-                rowData[field_name] = moment(val).format("YYYY/MM/DD");
+                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD");
             } else if (la_tmpField.ui_type == 'datetime') {
-                rowData[field_name] = moment(val).format("YYYY/MM/DD HH:mm:ss");
+                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD HH:mm:ss");
             }
         }
     });

@@ -141,7 +141,7 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = EZfieldClass.combineFieldOption(fieldData);
+            var columnsData = EZfieldClass.combineFieldOption(fieldData,'prg_dg');
             var hasMultiLangField = _.filter(fieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
@@ -196,8 +196,6 @@ var vm = new Vue({
                     }, 0);
                 }
             }
-
-
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
@@ -218,11 +216,11 @@ var vm = new Vue({
         },
         //新增一個Row
         appendRow: function () {
-            var girdDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
+            var gridDataInfo = $("#prg_dg").datagrid("getData");    //SAM 20170418 因新增時可能需要帶預設值且是由目前資料來判斷取得值，所以需取得所有資料
             if (this.endEditing()) {
                 $.post("/api/handleDataGridAddEventRule", {
                     prg_id: prg_id,
-                    girdDataInfo: girdDataInfo
+                    gridDataInfo: gridDataInfo
                 }, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
@@ -282,6 +280,7 @@ var vm = new Vue({
                         vm.initTmpCUD();
                         $("#gridEdit").val(null);
                         alert('save success!');
+                        $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
                     } else {
                         alert(result.errorMsg);
                     }
@@ -337,7 +336,7 @@ var vm = new Vue({
                 }
             }];
 
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField));
+            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField,'multiLangDG'));
 
             var widtd = 10;
             _.each(columnsData, function (column) {
