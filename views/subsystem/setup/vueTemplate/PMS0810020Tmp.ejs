@@ -120,54 +120,59 @@
                                 <ul>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="handleDeleteSingleData">
                                             <%= __("SystemCommon").Delete %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadRoomTypePic">
                                             <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeStock">
                                             <%= __("program")["PMS0810020"].genRommTypeStock %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeSort">
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>

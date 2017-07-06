@@ -1004,7 +1004,7 @@ var vm = new Vue({
         },
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
-            this.isLoading = true;
+            vm.isLoading = true;
             vm.initTmpCUD();
             vm.editStatus = true;
             vm.editingRow = editingRow;
