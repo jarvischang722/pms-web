@@ -7,7 +7,6 @@ module.exports = {
     oracle: [{
         id: 'IDC_TEST_ORACLE',
         connectString: "210.64.24.131/WRS",
-        // connectString: "192.168.168.203/MISUTF8",
         user: "htce7",
         password: "sql",
         months: [1, 2, 3, 4, 5, 6],

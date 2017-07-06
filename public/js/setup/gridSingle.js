@@ -671,6 +671,15 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
 
             this.tmpCud[dataType].push(rowData);
+        },
+        filterLocaleContent:function(langContent, locale, field_name){
+            var m_lang_val = "";
+            var fIdx = _.findIndex(langContent, {locale: locale});
+            if (fIdx > -1) {
+                m_lang_val = langContent[fIdx][field_name] || "";
+            }
+
+            return m_lang_val;
         }
     }
 })

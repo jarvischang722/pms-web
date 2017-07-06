@@ -46,7 +46,7 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
             tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
                 var success = true;
                 var errorMsg = null;
-                if (err) {
+                if (err || !data) {
                     success = false;
                     errorMsg = err;
 
@@ -99,7 +99,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
             tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
                 var success = true;
                 var errorMsg = null;
-                if (err) {
+                if (err || !data) {
                     success = false;
                     errorMsg = err;
                 } else {
@@ -128,7 +128,7 @@ exports.doTableAllUnLock = function (callback) {
         tools.requestApi(sysConfig.api_url, {"REVE-CODE": REVE_CODE}, function (err, res, data) {
             var success = true;
             var errorMsg = null;
-            if (err) {
+            if (err || !data) {
                 success = false;
                 errorMsg = err;
             } else {
@@ -157,7 +157,7 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
     if (_.isUndefined(session.user) || _.size(session.user) == 0) {
         return callback("Not Login.", false);
     }
-    var savaExecDatas = this.combineExecData(formData.fieldData,formData.tmpCUD,session,formData.mainTableName) ;
+    var savaExecDatas = this.combineExecData(formData.fieldData, formData.tmpCUD, session, formData.mainTableName);
     var prg_id = formData.prg_id;
     var userInfo = session.user;
     var apiParams = {
@@ -216,19 +216,19 @@ exports.handleExecSQLProcess = function (formData, session, callback) {
  * @param session
  * @return {{}}
  */
-exports.combineExecData = function(fieldData,tmpCUD,session,mainTableName){
+exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
     var savaExecDatas = {};
     var exec_seq = 1;
     var userInfo = session.user;
-    var las_keyFields = _.pluck(_.where(fieldData,{keyable: 'Y'}),"ui_field_name");
-    _.each(tmpCUD.createData,function(c_data){
+    var las_keyFields = _.pluck(_.where(fieldData, {keyable: 'Y'}), "ui_field_name");
+    _.each(tmpCUD.createData, function (c_data) {
         var tmpIns = {"function": "1"}; //1  新增
         tmpIns["table_name"] = mainTableName;
 
         try {
             c_data = handleDateFormat(fieldData, c_data);
         }
-        catch(err){
+        catch (err) {
 
         }
 

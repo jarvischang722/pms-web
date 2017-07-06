@@ -29,6 +29,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
     props: ['sys_locales', 'singleData'],
     data: function () {
         return {
+            editingMultiLangFieldName:'',
+            showMultiLangDialog :false,
             editingLangField: "",
             multiLangContentList: [],
             fieldMultiLang: {}
@@ -45,6 +47,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.editingLangField = fieldInfo.ui_field_name;
             var self = this;
             var params = {
+                dataType : 'gridsingle',
                 rowData: this.singleData,
                 prg_id: fieldInfo.prg_id,
                 page_id: 2,
@@ -53,27 +56,30 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
             $.post("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
+                self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                // console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
+               console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
-        openFieldMultiLangDialog: function (fieldName) {
-            var width = 300;
-            var height = (this.sys_locales.length + 1) * 40 + 100;
-            var dialog = $("#fieldMultiLangTmpDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                title: fieldName,
-                height: height,
-                width: width,
-                resizable: false,
-                buttons: "#fieldMultiDialogBtns"
-            });
-
-            dialog.dialog("open");
+        openFieldMultiLangDialog: function () {
+            this.showMultiLangDialog = true;
+            // var width = 300;
+            // var height = (this.sys_locales.length + 1) * 40 + 100;
+            // var dialog = $("#fieldMultiLangTmpDialog").dialog({
+            //     autoOpen: false,
+            //     modal: true,
+            //     title: fieldName,
+            //     height: height,
+            //     width: width,
+            //     resizable: false,
+            //     buttons: "#fieldMultiDialogBtns"
+            // });
+            //
+            // dialog.dialog("open");
         },
         closeFieldMultiLangDialog: function () {
-            $("#fieldMultiLangTmpDialog").dialog("close");
+            this.showMultiLangDialog = false;
+            // $("#fieldMultiLangTmpDialog").dialog("close");
         },
         saveFieldMultiLang: function () {
 
@@ -90,6 +96,15 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
             this.singleData["multiLang"] = multiLang;
             this.closeFieldMultiLangDialog();
+        },
+        filterLocaleContent:function(langContent, locale, field_name){
+            var m_lang_val = "";
+            var fIdx = _.findIndex(langContent, {locale: locale});
+            if (fIdx > -1) {
+                m_lang_val = langContent[fIdx][field_name] || "";
+            }
+
+            return m_lang_val;
         }
     }
 
@@ -840,7 +855,7 @@ var vm = new Vue({
                         alert('save success!');
                         waitingDialog.hide();
                     }
-                    isEditStatus = false;
+                    // self.isEditStatus = false;
 
                 } else {
                     waitingDialog.hide();
@@ -975,7 +990,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:2}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
@@ -1093,17 +1108,7 @@ var vm = new Vue({
 
 });
 
-/** 過濾Function **/
-Vue.filter("filterLocaleContent", function (langContent, locale, field_name) {
 
-    var m_lang_val = "";
-    var fIdx = _.findIndex(langContent, {locale: locale});
-    if (fIdx > -1) {
-        m_lang_val = langContent[fIdx][field_name] || "";
-    }
-
-    return m_lang_val;
-});
 
 Vue.filter("showDropdownDisplayName", function (val) {
     console.log(val);

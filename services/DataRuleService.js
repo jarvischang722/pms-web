@@ -141,7 +141,7 @@ exports.handleBlurUiField = function (postData, session, callback) {
  */
 exports.handleAddFuncRule = function (postData, session, callback) {
     let prg_id = postData.prg_id;
-    let page_id = postData.page_id || 1;
+    let page_id = postData.page_id ? Number(postData.page_id): 1;
     async.waterfall([
         function (cb) {
             mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
