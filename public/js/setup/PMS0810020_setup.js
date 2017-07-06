@@ -29,8 +29,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
     props: ['sys_locales', 'singleData'],
     data: function () {
         return {
-            editingMultiLangFieldName:'',
-            showMultiLangDialog :false,
+            editingMultiLangFieldName: '',
+            showMultiLangDialog: false,
             editingLangField: "",
             multiLangContentList: [],
             fieldMultiLang: {}
@@ -47,7 +47,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.editingLangField = fieldInfo.ui_field_name;
             var self = this;
             var params = {
-                dataType : 'gridsingle',
+                dataType: 'gridsingle',
                 rowData: this.singleData,
                 prg_id: fieldInfo.prg_id,
                 page_id: 2,
@@ -58,7 +58,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-               console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
+                console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
         openFieldMultiLangDialog: function () {
@@ -97,7 +97,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.singleData["multiLang"] = multiLang;
             this.closeFieldMultiLangDialog();
         },
-        filterLocaleContent:function(langContent, locale, field_name){
+        filterLocaleContent: function (langContent, locale, field_name) {
             var m_lang_val = "";
             var fIdx = _.findIndex(langContent, {locale: locale});
             if (fIdx > -1) {
@@ -475,11 +475,11 @@ Vue.component('single-grid-pms0810020-tmp', {
                 room_cod: this.$parent.singleData.room_cod,
                 begin_dat: this.$parent.singleData.begin_dat
             }
-            $.post("/api/gateway/uploadRoomTypePic", lo_params, function(getResult){
-                if(getResult.success){
+            $.post("/api/gateway/uploadRoomTypePic", lo_params, function (getResult) {
+                if (getResult.success) {
                     alert("upload success!");
                 }
-                else{
+                else {
                     alert(getResult.errorMsg);
                 }
             });
@@ -680,7 +680,8 @@ var vm = new Vue({
         dgIns: {},
         labelPosition: 'right',
         uploadFileList: [],
-        displayFileList: []
+        displayFileList: [],
+        isLoading: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -955,7 +956,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:2}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 2}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
@@ -968,7 +969,7 @@ var vm = new Vue({
         },
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
-
+            this.isLoading = true;
             vm.initTmpCUD();
             vm.displayFileList = [];
             vm.editStatus = true;
@@ -976,6 +977,7 @@ var vm = new Vue({
             editingRow["prg_id"] = prg_id;
 
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
@@ -987,6 +989,7 @@ var vm = new Vue({
                     }
                     axios.post("/api/PMS0810020/getRoomTypeUploadPic", params)
                         .then(function (getResult) {
+                            vm.isLoading = false;
                             if (getResult.data.success) {
                                 vm.singleData.pic_path = getResult.data.roomTypePicData;
                                 _.each(vm.singleData.pic_path, function (eachPic) {
@@ -1001,7 +1004,6 @@ var vm = new Vue({
                                 callback(true);
                             }
                             else {
-                                console.log(getResult.data.errorMsg);
                                 vm.singleData.pic_path = [];
                                 callback(true);
                             }
@@ -1009,6 +1011,7 @@ var vm = new Vue({
 
 
                 } else {
+                    vm.isLoading = false;
                     vm.singleData = {};
                     callback(false);
                 }
@@ -1073,7 +1076,6 @@ var vm = new Vue({
     }
 
 });
-
 
 
 Vue.filter("showDropdownDisplayName", function (val) {

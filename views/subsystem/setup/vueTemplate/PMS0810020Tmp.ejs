@@ -6,7 +6,7 @@
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
     <div id="singleGridPMS0810020" v-show="false">
-        <div class="col-sm-12 col-xs-12 singleGridContent" >
+        <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
@@ -97,9 +97,11 @@
                             <el-upload v-if="editStatus" drag class="upload-demo" list-type="picture"
                                        :auto-upload="false" :on-change="fileChange"
                                        :on-remove="fileRemove">
-                                <el-button size="small" type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
+                                <el-button size="small"
+                                           type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
                                 <div class="el-upload__text"><%= __("program")["PMS0810020"].uploadImageText %></div>
-                                <div slot="tip" class="el-upload__tip"><%= __("program")["PMS0810020"].uploadImageTip %></div>
+                                <div slot="tip"
+                                     class="el-upload__tip"><%= __("program")["PMS0810020"].uploadImageTip %></div>
                             </el-upload>
                             <div v-for="file in displayFileList">
                                 <img :src="file.url" width="500px">
@@ -115,54 +117,59 @@
                                 <ul>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="handleDeleteSingleData">
                                             <%= __("SystemCommon").Delete %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadRoomTypePic">
                                             <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeStock">
                                             <%= __("program")["PMS0810020"].genRommTypeStock %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeSort">
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>
@@ -255,7 +262,8 @@
             <div slot="footer" class="dialog-footer">
                 <el-row>
                     <el-col :span="12" :offset="3">
-                        <el-button @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                        <el-button
+                                @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
                         <el-button type="primary" @click="genRmStockSave"><%= __("SystemCommon").OK %></el-button>
                     </el-col>
                 </el-row>
@@ -263,38 +271,39 @@
         </el-dialog>
 
         <!-- 房型顯示排序dialog -->
-        <el-dialog title="<%= __("program")["PMS0810020"].erpTabPageTitle %>" :visible.sync="dialogShowRoomSortVisible" size="tiny" :show-close="false"
+        <el-dialog title="<%= __("program")["PMS0810020"].erpTabPageTitle %>" :visible.sync="dialogShowRoomSortVisible"
+                   size="tiny" :show-close="false"
                    :modal-append-to-body="false">
             <template>
                 <el-tabs v-model="tabName" type="card" @tab-click="tabChange">
                     <el-tab-pane label="<%= __("program")["PMS0810020"].erpTabPageTitle %>" name="ERP">
 
-                            <table class="css_table horizTable" width="100％;">
-                                <thead class="css_thead">
-                                <tr class="css_tr">
-                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
-                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
-                                    <th class="css_th" style="width: 25%;"></th>
-                                </tr>
-                                </thead>
-                                <tbody class="css_tbody">
-                                <tr class="css_tr" v-for="(item, index) in erpSortData">
-                                    <td class="css_td">{{item.room_cod}} {{testData}}</td>
-                                    <td class="css_td">{{item.room_nam}}</td>
-                                    <td class="css_td">
-                                        <el-button type="button" size="small" class="el-icon-caret-top"
-                                                   @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
-                                        </el-button>
-                                        <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                                   @click="itemMove(index, index+1, erpSortData)"
-                                                   v-if="index != erpSortData.length-1">
-                                        </el-button>
-                                    </td>
-                                </tr>
+                        <table class="css_table horizTable" width="100％;">
+                            <thead class="css_thead">
+                            <tr class="css_tr">
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th" style="width: 25%;"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="css_tbody">
+                            <tr class="css_tr" v-for="(item, index) in erpSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, erpSortData)"
+                                               v-if="index != erpSortData.length-1">
+                                    </el-button>
+                                </td>
+                            </tr>
 
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
                     </el-tab-pane>
                     <el-tab-pane label="<%= __("program")["PMS0810020"].wrsTabPageTitle %>" name="webSite">
 
@@ -347,7 +356,8 @@
                 <div slot="footer" class="dialog-footer">
                     <el-row>
                         <el-col :span="12" :offset="3">
-                            <el-button @click="dialogShowRoomSortVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                            <el-button
+                                    @click="dialogShowRoomSortVisible = false"><%= __("SystemCommon").Cancel %></el-button>
                             <el-button type="primary" @click="rmCodSortSave"><%= __("SystemCommon").OK %></el-button>
                         </el-col>
                     </el-row>
