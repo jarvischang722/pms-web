@@ -128,7 +128,8 @@
                 modal: true,
                 title: "訂房確認書",
                 title_html: true,
-                width: 700,
+                width: 600,
+                height: 250,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -572,7 +573,7 @@
                 modal: true,
                 title: "接送機資料輸入",
                 title_html: true,
-                width: 800,
+                width: 1000,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -598,9 +599,9 @@
         });
 
         // 彈出 航空哩程
-        $(document).on('click', ".agent-btn", function (e) {
+        $(document).on('click', ".aviationMile-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#agent-Dialog").removeClass('hide').dialog({
+            var dialog = $("#aviationMile-Dialog").removeClass('hide').dialog({
                 modal: true,
                 title: "航空哩程",
                 title_html: true,

@@ -21,18 +21,7 @@
                                                     <label>連絡人</label>
                                                     <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>指定住客</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="MUZIK古典樂刊_1"/>
-                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
-                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
-                                                    <!--<option value="">WWW</option>-->
-                                                    <!--</select>-->
-                                                </div>
-                                            </div>
-                                            <!--<div class="space-custom-5"></div>-->
 
-                                            <div class="grid">
                                                 <div class="grid-item">
                                                     <label>電話一</label>
                                                     <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
@@ -40,6 +29,40 @@
                                                 <div class="grid-item">
                                                     <label>電話二</label>
                                                     <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+
+
+                                            </div>
+                                            <!--<div class="space-custom-5"></div>-->
+
+                                            <div class="grid">
+
+                                                <div class="grid-item">
+                                                    <label>Transfer Type</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>指定住客</label>
+                                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
+                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
+                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                                    <!--<option value="">WWW</option>-->
+                                                    <!--</select>-->
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>大人數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>小孩數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>嬰兒數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
                                                 </div>
                                             </div>
 
@@ -49,24 +72,6 @@
                                                     <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>大人數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>Transfer Type</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>小孩數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
                                                     <label>班次</label>
                                                     <select class="input-medium medium-c1">
                                                         <option value="">CX531</option>
@@ -74,20 +79,17 @@
                                                     </select>
                                                 </div>
                                                 <div class="grid-item">
-                                                    <label>嬰兒數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                    <label>時間</label>
+                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
                                                 </div>
                                             </div>
+
 
                                             <div class="grid">
 
                                                 <div class="grid-item">
-                                                    <label>時間</label>
-                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
-                                                </div>
-                                                <div class="grid-item">
                                                     <label>備註</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                    <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
                                                     <span class="moreClick">...</span>
                                                 </div>
                                             </div>
@@ -570,7 +572,7 @@
 </div>
 
 <!-- 訂房確認書頁面 彈出視窗 -->
-<div id="resv_BtnPage04-message" class="hide padding-5" style="top: 0 !important;">
+<div id="resv_BtnPage04-message" class="hide padding-5" style="">
 
     <div class="businessCompanyData">
         <div class="col-xs-12 col-sm-12">
@@ -580,7 +582,8 @@
                         <div class="grid">
                             <div class="grid-item">
                                 <label>Type</label>
-                                <select class="input-medium popWindow-s1-col2">
+                                <!--popWindow-s1-col2-->
+                                <select class="input-medium medium-c5">
                                     <option value="">1.訂房確認書_103五月版</option>
                                     <option value="">2.訂房確認書_103六月版</option>
                                 </select>
@@ -588,6 +591,7 @@
                         </div>
 
                         <div class="clearfix"></div>
+                        <div class="space-32"></div>
 
                         <div class="row">
                             <div class="col-xs-4">
@@ -998,7 +1002,7 @@
         </div>
 
         <!--航空哩程-彈出視窗-->
-        <div id="agent-Dialog" class="hide padding-5" style="top: 200px !important;">
+        <div id="aviationMile-Dialog" class="hide padding-5" style="top: 200px !important;">
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
