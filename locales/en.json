@@ -78,6 +78,8 @@
       "maxRmStock": "房型庫存最大日期(英文)",
       "room_cod": "房型代號(英文)",
       "room_name": "房型名稱(英文)",
+      "room_sort": "排序(英文)",
+      "room_disable": "不顯示(英文)",
       "roomTypeOrderDialogTitle": "房型顯示排序(英文)",
       "erpTabPageTitle": "ERP 順序(英文)",
       "wrsTabPageTitle": "官網顯示順序(英文)"

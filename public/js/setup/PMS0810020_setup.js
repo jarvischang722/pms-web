@@ -29,8 +29,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
     props: ['sys_locales', 'singleData'],
     data: function () {
         return {
-            editingMultiLangFieldName: '',
-            showMultiLangDialog: false,
+            editingMultiLangFieldName:'',
+            showMultiLangDialog :false,
             editingLangField: "",
             multiLangContentList: [],
             fieldMultiLang: {}
@@ -47,7 +47,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.editingLangField = fieldInfo.ui_field_name;
             var self = this;
             var params = {
-                dataType: 'gridsingle',
+                dataType : 'gridsingle',
                 rowData: this.singleData,
                 prg_id: fieldInfo.prg_id,
                 page_id: 2,
@@ -58,7 +58,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
+               console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
         openFieldMultiLangDialog: function () {
@@ -97,7 +97,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             this.singleData["multiLang"] = multiLang;
             this.closeFieldMultiLangDialog();
         },
-        filterLocaleContent: function (langContent, locale, field_name) {
+        filterLocaleContent:function(langContent, locale, field_name){
             var m_lang_val = "";
             var fIdx = _.findIndex(langContent, {locale: locale});
             if (fIdx > -1) {
@@ -114,7 +114,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'displayFileList'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'displayFileList', 'imageDisplay'],
     data: function () {
         return {
             tmpCUD: {},
@@ -471,10 +471,38 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //上傳正圖
         uploadRoomTypePic: function () {
+            var self = this;
             var lo_params = {
                 room_cod: this.$parent.singleData.room_cod,
                 begin_dat: this.$parent.singleData.begin_dat
             }
+
+            if (this.isUpdate) {
+                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
+                    if (result) {
+                        if (self.editStatus) {
+                            self.$parent.initTmpCUD();
+                            self.$parent.tmpCud.editData = [self.singleData];
+                        }
+                        self.$parent.doSaveCUD(function (saveResult) {
+                            if (saveResult) {
+                                if (self.$parent.displayFileList.length != 0) {
+                                    self.execUploadRoomTypePic(lo_params);
+                                }
+                                self.isUpdate = false;
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                if (self.$parent.displayFileList.length != 0) {
+                    self.execUploadRoomTypePic(lo_params);
+                }
+            }
+        },
+
+        execUploadRoomTypePic: function (lo_params) {
             $.post("/api/gateway/uploadRoomTypePic", lo_params, function (getResult) {
                 if (getResult.success) {
                     alert("upload success!");
@@ -641,6 +669,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         fileRemove: function (file, fileList) {
             var ls_uploadFileList = this.$parent.uploadFileList;
             this.$parent.uploadFileList = _.without(ls_uploadFileList, file);
+            this.$parent.imageDisplay = true;
         }
     }
 })
@@ -681,6 +710,7 @@ var vm = new Vue({
         labelPosition: 'right',
         uploadFileList: [],
         displayFileList: [],
+        imageDisplay: true,
         isLoading: false
     },
     watch: {
@@ -700,6 +730,11 @@ var vm = new Vue({
             if (newVal) {
                 vm.editStatus = false;
                 vm.createStatus = false;
+            }
+        },
+        uploadFileList: function(newVal){
+            if(this.uploadFileList.length != 0){
+                this.imageDisplay = false;
             }
         }
     },
@@ -971,7 +1006,6 @@ var vm = new Vue({
         fetchSingleData: function (editingRow, callback) {
             this.isLoading = true;
             vm.initTmpCUD();
-            vm.displayFileList = [];
             vm.editStatus = true;
             vm.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
@@ -982,6 +1016,7 @@ var vm = new Vue({
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
                     vm.modificableForData = result.modificable || true;
+                    vm.displayFileList = [];
 
                     var params = {
                         room_cod: vm.singleData.room_cod,
