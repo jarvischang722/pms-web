@@ -204,7 +204,7 @@
         // 彈出 櫃檯備品 Counter supplies
         $(document).on('click', ".resv_counterSupplies", function (e) {
             e.preventDefault();
-            var dialog = $("#resvCounterSupplies-message").removeClass('hide').dialog({
+            var dialog = $("#counterSupplies-message").removeClass('hide').dialog({
                 modal: true,
                 title: "櫃檯用品",
                 title_html: true,
@@ -939,17 +939,21 @@
 //            height: auto
         });
 
+
 //      超訂overBooking PMS0120020
         $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
 
 //      專案訂房 PMS0110030
-        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 40, everyColumnsAddWith: 0 });
+        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 15, everyColumnsAddWith: 0 });
 
 //      依房型訂房
         $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
 
 //      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+
+//      櫃檯備品CounterSupplies
+//        $('#counterSupplies-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 100, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
         //everyColumnsAddWith      : 每一個欄位的-寬

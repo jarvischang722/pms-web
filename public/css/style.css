@@ -3624,6 +3624,12 @@ span.roomNum-text {
   padding-bottom: 0px !important;
 }
 
+/* line 1252, ../sass/_bacchusMain.sass */
+.input-medium.resvCard-xxs {
+  width: 27px;
+  height: 18px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
