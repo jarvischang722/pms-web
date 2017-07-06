@@ -44,4 +44,7 @@ module.exports = function(app  ) {
     //依房號訂房(靜態 quickMenu)
     app.get('/resv_roomPlan', reservationCrtl.getResv_roomPlan);
 
+    //櫃檯備品iframe(靜態)
+    app.get('/counterSupplies-Table_1', reservationCrtl.getResv_counterSuppliesTable);
+
 };
