@@ -84,9 +84,10 @@ exports.logout = function (req, res) {
  * 選擇系統別
  */
 exports.selectSystem = function (req, res) {
-    var sys_id = req.body["sys_id"] || "";
+    let sys_id = req.body["sys_id"] || "";
     if(!_.isUndefined(req.session.user.sys_id ) && !_.isEqual(sys_id,req.session.user.sys_id ) ){
         delete  req.cookies.usingSubsysID;
+        req.session.user.sys_id = sys_id;
         res.clearCookie("usingSubsysID");
         res.clearCookie("usingPrgID");
     }
@@ -112,7 +113,8 @@ exports.selectSystem = function (req, res) {
                             usingSubsysID = req.cookies.usingSubsysID;
                         }
                         res.cookie('usingSubsysID', usingSubsysID);
-                        res.redirect("/bacchus4web/" + usingSubsysID);
+                        // res.redirect("/bacchus4web/" + usingSubsysID);
+                        res.json({success:true,subsysPage:"/bacchus4web/" + usingSubsysID});
                     });
                 });
             });
