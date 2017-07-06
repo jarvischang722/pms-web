@@ -98,7 +98,7 @@
                                     <label style="width: 75px;"><span>房型圖片 : </span></label>
                                     <el-upload v-if="editStatus" class="upload-demo" list-type="picture"
                                                :auto-upload="false" :on-change="fileChange"
-                                               :on-remove="fileRemove">
+                                               :on-remove="fileRemove" ref="upload">
                                         <el-button size="small"
                                                    type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
                                         <div slot="tip"
