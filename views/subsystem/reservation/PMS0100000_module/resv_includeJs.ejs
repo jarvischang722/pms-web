@@ -129,6 +129,7 @@
                 title: "訂房確認書",
                 title_html: true,
                 width: 600,
+                height: 250,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -204,7 +205,7 @@
         // 彈出 櫃檯備品 Counter supplies
         $(document).on('click', ".resv_counterSupplies", function (e) {
             e.preventDefault();
-            var dialog = $("#resvCounterSupplies-message").removeClass('hide').dialog({
+            var dialog = $("#counterSupplies-message").removeClass('hide').dialog({
                 modal: true,
                 title: "櫃檯用品",
                 title_html: true,
@@ -217,14 +218,14 @@
             });
         });
 
-        // 彈出 接送機
-        $(document).on('click', ".resvPickUp-btn", function (e) {
+        // 彈出 預授權
+        $(document).on('click', ".authorize-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+            var dialog = $("#authorizeDialog").removeClass('hide').dialog({
                 modal: true,
-                title: "接送機資料輸入",
+                title: "預授權",
                 title_html: true,
-                width: 800,
+                width: 900,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -287,9 +288,9 @@
             e.preventDefault();
             var dialog = $("#reservationDialog-confirm-print").removeClass('hide').dialog({
                 modal: true,
-                title: "訂房確認書格式",
+                title: "是否列印",
                 title_html: true,
-                width: 600,
+                width: 500,
                 height: 135,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -380,26 +381,10 @@
             });
         });
 
-        // 彈出 訂房確認書(傳真) resv_BtnPage13
+        // 彈出 訂房確認書(傳真)-傳真號碼 resv_BtnPage13
         $(document).on('click', ".resv_BtnPage13", function (e) {
             e.preventDefault();
             var dialog = $("#resv_BtnPage13-message").removeClass('hide').dialog({
-                modal: true,
-                title: "訂房確認書(傳真)",
-                title_html: true,
-                width: 700,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 訂房確認書(傳真)-傳真號碼 resv_BtnPage13-1
-        $(document).on('click', ".resv_BtnPage13-1", function (e) {
-            e.preventDefault();
-            var dialog = $("#resv_BtnPage13-1-message").removeClass('hide').dialog({
                 modal: true,
                 title: "傳真號碼",
                 title_html: true,
@@ -411,6 +396,7 @@
                 resizable: true
             });
         });
+
         // 彈出 異動紀錄 resv_BtnPage08
         $(document).on('click', ".resv_BtnPage08", function (e) {
             e.preventDefault();
@@ -574,6 +560,70 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 接送機
+        $(document).on('click', ".resvPickUp-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#reservationDialog-pickUp").removeClass('hide').dialog({
+                modal: true,
+                title: "接送機資料輸入",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 航空卡號
+        $(document).on('click', ".air-num-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#air-numDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "航空哩程",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 航空哩程
+        $(document).on('click', ".aviationMile-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#aviationMile-Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "航空哩程",
+                title_html: true,
+                width: 750,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出　公帳號
+        $(document).on('click', ".publiceAccount-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#publiceAccountDialog").removeClass('hide').dialog({
+                modal: true,
+                title: "公帳號",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -805,18 +855,18 @@
             method: 'get',
             columns: [[
                 {field: 'kinds', title: '種類', width: 40},
-                {field: 'status', title: '狀態', width: 40},
-                {field: 'bookingsNum', title: '訂房卡號', width: 50},
+                {field: 'status', title: '狀態', width: 60},
+                {field: 'bookingsNum', title: '訂房卡號', width: 100},
                 {field: 'quickSearch', title: '速查', width: 50},
                 {field: 'ciDate', title: 'C/I日期', width: 80},
                 {field: 'coDate', title: 'C/O日期', width: 80},
-                {field: 'dateNum', title: '天數', width: 150},
+                {field: 'dateNum', title: '天數', width: 50},
                 {field: 'useHousing', title: '使用房種', width: 100},
-                {field: 'housingNum', title: '間數', width: 100},
+                {field: 'housingNum', title: '間數', width: 50},
                 {field: 'planRoomNum', title: '排房數', width: 50},
-                {field: 'ciNum', title: 'C/I數', width: 60,align:'right'},
+                {field: 'ciNum', title: 'C/I數', width: 60},
                 {field: 'fullName', title: 'Full Name', width: 60},
-                {field: 'groupNum', title: '團號', width: 60,align:'right'},
+                {field: 'groupNum', title: '團號', width: 60},
                 {field: 'companyName', title: '公司名稱', width: 60},
                 {field: 'contact', title: '聯絡人', width: 60},
                 {field: 'roomPriceCode', title: '房價代號', width: 60},
@@ -864,19 +914,19 @@
             url: '/jsonData/resv_PMS0110030-dg.json',
             method: 'get',
             columns: [[
-                {field: 'resv', title: '訂房', width: 40},
-                {field: 'roomCode', title: '房間代號', width: 40},
-                {field: 'housing', title: '房種', width: 70},
-                {field: 'ciDate', title: 'C/I日期', width: 80},
-                {field: 'coDate', title: 'C/O日期', width: 80},
-                {field: 'dateNum', title: '天數', width: 150},
-                {field: 'housingNum', title: '間數', width: 100},
-                {field: 'roomPrice', title: '房價', width: 100,align:'right'},
-                {field: 'serviceCharge', title: '服務費', width: 50,align:'right'},
-                {field: 'total', title: '合計', width: 60,align:'right'},
-                {field: 'adult', title: '大人', width: 40},
-                {field: 'child', title: '小孩', width: 40,align:'right'},
-                {field: 'baby', title: '嬰兒', width: 40}
+                {field: 'rateCode', title: 'Rate Code', width: 80},
+                {field: 'rateName', title: 'Rate Name', width: 80},
+                {field: 'rmType', title: 'RM Type', width: 100},
+                {field: 'arrival', title: 'Ａrrival', width: 80},
+                {field: 'departure', title: 'Departure', width: 80},
+                {field: 'days', title: 'Days', width: 50},
+                {field: 'qnt', title: 'Qnt.', width: 50},
+                {field: 'rateAmt', title: 'Rate Amt.', width: 60,align:'right'},
+                {field: 'svc', title: 'Svc.', width: 60,align:'right'},
+                {field: 'sTotal', title: 'S.Total', width: 60,align:'right'},
+                {field: 'adult', title: 'Adult', width: 40},
+                {field: 'child', title: 'Child', width: 40},
+                {field: 'baby', title: 'Baby', width: 40}
             ]]
         });
     });
@@ -890,17 +940,21 @@
 //            height: auto
         });
 
+
 //      超訂overBooking PMS0120020
         $('#PMS0120020-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 80, everyColumnsAddWith: 0 });
 
 //      專案訂房 PMS0110030
-        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 40, everyColumnsAddWith: 0 });
+        $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 15, everyColumnsAddWith: 0 });
 
 //      依房型訂房
-        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 5 });
+        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
 
 //      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
+
+//      櫃檯備品CounterSupplies
+//        $('#counterSupplies-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 100, everyColumnsAddWith: 0 });
         //fixedColumns             : 固定左側列行數
         //addPxForFixedColumnsWidth: 固定左側列行數-寬
         //everyColumnsAddWith      : 每一個欄位的-寬
@@ -926,7 +980,7 @@
 
         //#PMS0110030-table
         var PMS0110030Height = $("#PMS0110030-table").height();
-        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height);
+        $("#PMS0110030-table").parents(".PMS0110030-table").find(".height600").css("height", PMS0110030Height+10);
 
 
         var tableWidth1 = $(".sidebar").width();

@@ -336,7 +336,7 @@ a
 .search-content
   position: relative
   padding: 0 0 15px 0
-  margin-left: 5px
+  //margin-left: 5px
   .search-co
     position: relative
     height: auto
@@ -587,6 +587,7 @@ a
     .lbl
       .txt
         margin: auto 5px
+
 
 //ho-修改業務員表格
 .ChangeBusiness-wrap
@@ -1048,7 +1049,7 @@ ul.newVisitOther-btn
 .plan-btn-group
   text-align: center
   width: 300px
-  margin: 0 0 4px 4px
+  margin: 0 0 4px 0
   ul
     margin-left: 0
     margin-bottom: 0
@@ -1076,6 +1077,10 @@ ul.newVisitOther-btn
   background: #ffe5d5 !important
 .name-color
   background: #f7ccac !important
+  &:after
+    border-color: transparent transparent transparent #0000FF
+    border-style: solid solid solid solid
+    border-width: 45px
   text-align: center
 .datecolor
   background: #DAEAFC !important
@@ -1129,17 +1134,30 @@ th.dateColor
 .otherContact-insideBtn
   margin-top: 70px
 
-//進入頁
+//ho進入頁
 .system-box-Wrap
   width: 150px
   height: 150px
   display: inline-block
-
-.system-box-Wrap .background
+  margin-left: 20px
+.system-box-Wrap .circle-background
   width: 150px
   height: 150px
   border-radius: 50%
   background: #438EB9
+  font-size: 36px
+  color: #fff
+  display: block
+  float: left
+  padding: 49px 10px 0px 10px
+  text-align: center
+  vertical-align: top
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+.system-block-all
+  display: inline-block
+  text-align: center
 
 //.message-lbl
 //  position: relative
@@ -1185,3 +1203,57 @@ th.dateColor
   height: 25px
 .sug-btn
   margin-bottom: 10px
+.input-medium.medium-c4
+  width: 176px
+  max-width: 100%
+  height: 25px
+.input-medium.input-spc-2
+  width: 455px
+  max-width: 100%
+  height: 25px
+  height: 25px
+.input-medium.input-more-1
+  width: 431px
+  max-width: 100%
+  height: 25px
+  height: 25px
+.input-medium.input-spc-3
+  width: 349px
+  max-width: 100%
+  height: 25px
+input[type="datetime-local"]
+  font-size: 10px
+.input-hCol35
+  height: 35px !important
+.suggestion-btnGroup
+  width: 70%
+  margin: 20px auto 0 auto
+.th-h30
+  height: 40px
+.roomNum-wrap
+  border-top: 1px solid #778899
+  height: 20px
+  margin-bottom: 0
+  //display: table-cell
+  i
+    padding-right: 0 !important
+.month-wrap
+  padding: 3px 0
+.room-Num-Right
+  border-left: 1px solid #778899
+  display: inline-block
+  //height: 30px
+  padding-right: 10px
+.room-Num-Left
+  display: inline-block
+  //height: 30px
+span.roomNum-text
+  vertical-align: sub
+  padding-left: 3px
+.roomPlanTable .height-fntThead
+  padding-bottom: 0px !important
+////ho 備品表格td寬度
+.input-medium.resvCard-xxs
+  width: 27px
+  height: 18px
+
