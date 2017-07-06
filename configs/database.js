@@ -16,7 +16,7 @@ module.exports = {
     }],
     //mongoDB 設定檔
     mongo: {
-        host: "192.168.1.76",
+        host: "210.64.24.130",
         // host: "127.0.0.1",
         port: "2717",
         dbname: "bacchus",

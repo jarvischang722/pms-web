@@ -243,7 +243,7 @@ module.exports = {
                                         function (callback) {
                                             queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
                                                 var thisRuleErr = null;
-                                                if (Number(data.cover_count || 0) > 0) {
+                                                if (Number(data.cover_count || 0) > 1) {
                                                     thisRuleErr = "相同房型的開始結束日期不可重疊";
                                                 }
                                                 callback(thisRuleErr, []);
@@ -465,7 +465,7 @@ module.exports = {
                 function (callback) {
                     queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", params, function (err, data) {
                         var thisRuleErr = null;
-                        if (Number(data.cover_count || 0) > 0) {
+                        if (Number(data.cover_count || 0) > 1) {
                             thisRuleErr = "相同房型的開始結束日期不可重疊";
                         }
                         callback(thisRuleErr, chkResult);

@@ -36,9 +36,28 @@ exports.getRoomTypeUploadPic = function (postData, session, callback) {
         begin_dat: postData.begin_dat
     };
     queryAgent.queryList("QRY_PIC_PATH".toUpperCase(), params, 0, 0, function (err, getResult) {
-        _.each(getResult, function(eachFile){
+        getResult = filter_array(getResult);
+        _.each(getResult, function (eachFile) {
             eachFile.pic_path = sysConfig.image_url + eachFile.pic_path;
         });
+
         callback(err, getResult);
     });
 };
+
+function filter_array(test_array) {
+    var index = -1,
+        arr_length = test_array ? test_array.length : 0,
+        resIndex = -1,
+        result = [];
+
+    while (++index < arr_length) {
+        var value = test_array[index].pic_path;
+
+        if (value) {
+            result[++resIndex] = {pic_path: value};
+        }
+    }
+
+    return result;
+}

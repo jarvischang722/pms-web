@@ -99,7 +99,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('single-grid-pms0810020-tmp', {
     template: '#sigleGridPMS0810020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'displayFileList'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'displayFileList', 'imageDisplay'],
     data: function () {
         return {
             tmpCUD: {},
@@ -456,15 +456,43 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //上傳正圖
         uploadRoomTypePic: function () {
+            var self = this;
             var lo_params = {
                 room_cod: this.$parent.singleData.room_cod,
                 begin_dat: this.$parent.singleData.begin_dat
             }
-            $.post("/api/gateway/uploadRoomTypePic", lo_params, function(getResult){
-                if(getResult.success){
+
+            if (this.isUpdate) {
+                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
+                    if (result) {
+                        if (self.editStatus) {
+                            self.$parent.initTmpCUD();
+                            self.$parent.tmpCud.editData = [self.singleData];
+                        }
+                        self.$parent.doSaveCUD(function (saveResult) {
+                            if (saveResult) {
+                                if (self.$parent.displayFileList.length != 0) {
+                                    self.execUploadRoomTypePic(lo_params);
+                                }
+                                self.isUpdate = false;
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                if (self.$parent.displayFileList.length != 0) {
+                    self.execUploadRoomTypePic(lo_params);
+                }
+            }
+        },
+
+        execUploadRoomTypePic: function (lo_params) {
+            $.post("/api/gateway/uploadRoomTypePic", lo_params, function (getResult) {
+                if (getResult.success) {
                     alert("upload success!");
                 }
-                else{
+                else {
                     alert(getResult.errorMsg);
                 }
             });
@@ -626,6 +654,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         fileRemove: function (file, fileList) {
             var ls_uploadFileList = this.$parent.uploadFileList;
             this.$parent.uploadFileList = _.without(ls_uploadFileList, file);
+            this.$parent.imageDisplay = true;
         }
     }
 })
@@ -665,7 +694,8 @@ var vm = new Vue({
         dgIns: {},
         labelPosition: 'right',
         uploadFileList: [],
-        displayFileList: []
+        displayFileList: [],
+        imageDisplay: true
     },
     watch: {
         editStatus: function (newVal) {
@@ -684,6 +714,11 @@ var vm = new Vue({
             if (newVal) {
                 vm.editStatus = false;
                 vm.createStatus = false;
+            }
+        },
+        uploadFileList: function(newVal){
+            if(this.uploadFileList.length != 0){
+                this.imageDisplay = false;
             }
         }
     },
@@ -955,7 +990,6 @@ var vm = new Vue({
         fetchSingleData: function (editingRow, callback) {
 
             vm.initTmpCUD();
-            vm.displayFileList = [];
             vm.editStatus = true;
             vm.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
@@ -965,6 +999,7 @@ var vm = new Vue({
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
                     vm.modificableForData = result.modificable || true;
+                    vm.displayFileList = [];
 
                     var params = {
                         room_cod: vm.singleData.room_cod,
@@ -987,7 +1022,6 @@ var vm = new Vue({
                             }
                             else {
                                 console.log(getResult.data.errorMsg);
-                                vm.singleData.pic_path = [];
                                 callback(true);
                             }
                         });
