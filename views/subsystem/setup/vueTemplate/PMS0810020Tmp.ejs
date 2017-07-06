@@ -268,46 +268,52 @@
             <template>
                 <el-tabs v-model="tabName" type="card" @tab-click="tabChange">
                     <el-tab-pane label="<%= __("program")["PMS0810020"].erpTabPageTitle %>" name="ERP">
-                        <table width="100%" border="1">
-                            <thead>
-                            <tr>
-                                <th><%= __("program")["PMS0810020"].room_cod %></th>
-                                <th><%= __("program")["PMS0810020"].room_name %></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(item, index) in erpSortData">
-                                <td>{{item.room_cod}} {{testData}}</td>
-                                <td>{{item.room_nam}}</td>
-                                <td>
-                                    <el-button type="button" size="small" class="el-icon-caret-top"
-                                               @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
-                                    </el-button>
-                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                               @click="itemMove(index, index+1, erpSortData)"
-                                               v-if="index != erpSortData.length-1">
-                                    </el-button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                            <table class="css_table horizTable" width="100％;">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                    <th class="css_th" style="width: 25%;"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="css_tbody">
+                                <tr class="css_tr" v-for="(item, index) in erpSortData">
+                                    <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                    <td class="css_td">{{item.room_nam}}</td>
+                                    <td class="css_td">
+                                        <el-button type="button" size="small" class="el-icon-caret-top"
+                                                   @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
+                                        </el-button>
+                                        <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                                   @click="itemMove(index, index+1, erpSortData)"
+                                                   v-if="index != erpSortData.length-1">
+                                        </el-button>
+                                    </td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
                     </el-tab-pane>
                     <el-tab-pane label="<%= __("program")["PMS0810020"].wrsTabPageTitle %>" name="webSite">
-                        <table width="100%" border="1">
-                            <thead>
-                            <tr>
-                                <th><%= __("program")["PMS0810020"].room_cod %></th>
-                                <th><%= __("program")["PMS0810020"].room_name %></th>
-                                <th></th>
-                                <th></th>
+
+                        <table class="css_table horizTable" width="100％;">
+                            <thead class="css_thead">
+                            <tr class="css_tr">
+
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th" style="width: 35%;"></th>
+                                <th class="css_th" style="width: 5%;"></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr v-for="(item, index) in webSiteSortData">
-                                <td>{{item.room_cod}} {{testData}}</td>
-                                <td>{{item.room_nam}}</td>
-                                <td>
+                            <tbody class="css_tbody">
+
+                            <tr class="css_tr" v-for="(item, index) in webSiteSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
                                     <el-button type="button" size="small" class="el-icon-caret-top"
                                                @click="itemMove(index, index-1, webSiteSortData)" v-if="index != 0">
                                     </el-button>
@@ -316,11 +322,23 @@
                                                v-if="index != webSiteSortData.length-1">
                                     </el-button>
                                 </td>
-                                <td>
+                                <td class="css_td">
                                     <input type="checkbox" v-model="checkList" :value="item.room_cod"
                                            :true-value="item.room_cod">
                                 </td>
                             </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table width="100%" border="1">
+                            <thead>
+                            <tr>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
                             </tbody>
                         </table>
                     </el-tab-pane>
