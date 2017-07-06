@@ -116,7 +116,12 @@
                         }
                     }
                 })
-
+                if (_.isEmpty(ls_pro_url)) {
+                    var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id})
+                    if (tmpQuick) {
+                        ls_pro_url = tmpQuick.pro_url;
+                    }
+                }
                 if (!_.isEmpty(ls_pro_url)) {
                     $("#MainContentDiv").load(ls_pro_url);
                 }
