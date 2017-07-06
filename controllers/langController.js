@@ -14,7 +14,7 @@ const fs = require("fs");
  */
 exports.fieldAllLocaleContent = function (req, res) {
 
-    langSVC.handleRowDataMultiLang(req, ui_field_name, function (multiLangData) {
+    langSVC.handleRowDataMultiLang(req, req.body.ui_field_name, function (multiLangData) {
         res.json({success: true, multiLangContentList: multiLangData});
     });
 };
