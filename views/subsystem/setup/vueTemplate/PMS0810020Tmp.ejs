@@ -98,7 +98,7 @@
                                     <label style="width: 75px;"><span>房型圖片 : </span></label>
                                     <el-upload v-if="editStatus" class="upload-demo" list-type="picture"
                                                :auto-upload="false" :on-change="fileChange"
-                                               :on-remove="fileRemove">
+                                               :on-remove="fileRemove" ref="upload">
                                         <el-button size="small"
                                                    type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
                                         <div slot="tip"
@@ -120,54 +120,59 @@
                                 <ul>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isFistData"
+                                                :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="isLastData"
+                                                :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="handleDeleteSingleData">
                                             <%= __("SystemCommon").Delete %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="uploadRoomTypePic">
                                             <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeStock">
                                             <%= __("program")["PMS0810020"].genRommTypeStock %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
                                                 @click="showRoomTypeSort">
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>
@@ -299,8 +304,8 @@
                                 </tr>
 
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
                     </el-tab-pane>
                     <el-tab-pane label="<%= __("program")["PMS0810020"].wrsTabPageTitle %>" name="webSite">
 

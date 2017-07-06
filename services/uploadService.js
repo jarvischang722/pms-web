@@ -65,7 +65,9 @@ exports.uploadFile = function (params, session, cb) {
             try {
                 fs.writeFileSync(ls_upload_url + "/" + info[index].fileName, buffer);
                 rtnData.push({
-                    fileDir: ls_folder + "/" + info[index].fileName
+                    fileDir: ls_folder + "/" + info[index].fileName,
+                    fileName: info[index].fileName,
+                    image_url: sysConfig.image_url + ls_folder + "/" + info[index].fileName
                 });
             }
             catch (err) {
