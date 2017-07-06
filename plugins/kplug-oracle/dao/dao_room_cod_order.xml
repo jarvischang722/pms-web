@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-
     <!-- 檢查房型排序檔是否存在-->
     <dao name="CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD">
         <statement><![CDATA[
@@ -8,11 +7,27 @@
             select count(*) as room_count
             from room_cod_order
             where athena_id = :athena_id and room_cod = :room_cod
+            and    trim(hotel_cod) = trim(:hotel_cod)
 
         ]]>
         </statement>
         <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">athena_id</parameter>
 
+    </dao>
+
+    <!-- 撈取房型排序 -->
+    <dao name="QRY_ROOM_COD_ORDER">
+        <statement><![CDATA[
+        select rmod.* , rm.room_nam
+            from room_cod_order rmod
+            inner join (select distinct athena_id,hotel_cod,room_cod,room_nam from RVRMCOD_RF) rm on rm.athena_id = rmod.athena_id and rm.hotel_cod = rmod.hotel_cod and rm.room_cod = rmod.room_cod
+            where rmod.athena_id = :athena_id
+            and trim(rmod.hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>

@@ -24,5 +24,6 @@ module.exports = function(app  ) {
 
     /** **/
     app.post('/api/getGroupMdlPros', middles, systCrtl.getGroupMdlPros);
+    app.post("/api/uploadFile", middles, systCrtl.uploadFile);
 
 };

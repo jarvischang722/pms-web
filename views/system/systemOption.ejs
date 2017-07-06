@@ -30,30 +30,23 @@
                                 </div><!-- /.page-header -->
                             </div>
 
-                            <!--<div class="col-sm-1"></div>-->
-                            <div class="col-sm-12 system-block-all">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-6 system-block-all">
                                 <div class="system-block">
                                     <% sysList.forEach(function(sys){ %>
-                                    <div class="system-box-Wrap">
-                                        <a class="system-circle" href="#" onclick="selectSys('<%= sys.sys_id %>')">
-                                            <div class="circle-background" title="PMS">PMS</div>
+                                    <div class="imgWrap">
+                                        <a href="#" @click="selectSys('<%= sys.sys_id %>')">
+                                            <img src="/images/flow.png"/>
+                                            <span class="text-content">
+                                                    <span><%= sys["sys_name_" + session.locale] %></span>
+                                                </span>
                                         </a>
-                                        <!--<a href="#" onclick="selectSys('<%= sys.sys_id %>')">-->
-                                            <!--<img src="/images/flow.png"/>-->
-                                            <!--<span class="text-content">-->
-                                                    <!--<span><%= sys["sys_name_" + session.locale] %></span>-->
-                                                <!--</span>-->
-                                        <!--</a>-->
                                     </div>
                                     <% }) %>
-
                                 </div>
                             </div><!-- /.col -->
-
                             <div class="col-sm-1"></div>
                         </div><!-- /.row -->
-
-
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -68,18 +61,21 @@
     </a>
 </div><!-- /.main-container -->
 
-<form action="/api/selectSystem" method="post" id="sys_form">
-     <input type="hidden" id="sys_id"   name="sys_id" value="">
-</form>
-
 </body>
 </html>
 
 <script>
-
-    function selectSys(sys_id) {
-        $("#sys_id").val(sys_id);
-        $("#sys_form").submit();
-    }
-
+    new Vue({
+        el: '#main-container',
+        methods: {
+            //選擇系統
+            selectSys: function (sys_id) {
+                $.post("/api/selectSystem", {sys_id, sys_id}, function (result) {
+                    if (result.success) {
+                        location.href = result.subsysPage;
+                    }
+                })
+            }
+        }
+    })
 </script>

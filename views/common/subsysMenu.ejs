@@ -1,9 +1,10 @@
 <div class="col-xs-12 top-sec-ul breadcrumbs-fixed">
+    <!-- Subsystem menu  -->
     <div class="top-ul">
         <ul id="subsysUl">
             <li v-for="subsysItem in subsysMenu"
                 :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
-                @click.prevent="location.href= '/bacchus4web/'+subsysItem.subsys_id">
+                @click.prevent="changeSubsys(subsysItem.subsys_id)">
                     {{
                         subsysItem["subsys_nam_" + locale] != ""
                         ? subsysItem["subsys_nam_" + locale]
@@ -12,7 +13,7 @@
             </li>
 
         </ul>
-    </div> <!-- /.top-ul -->
+    </div>
 
     <!-- Quick menu  -->
     <div class="secondMenu-ul secondMenuClick ">
@@ -23,7 +24,7 @@
                 {{ quick["pro_name_" + locale] }} 
             </li>
         </ul>
-    </div> <!-- /.secondMenuUl -->
+    </div>
 </div>
 
 
