@@ -7,7 +7,7 @@ module.exports = {
     oracle: [{
         id: 'IDC_TEST_ORACLE',
         connectString: "210.64.24.131/WRS",
-        user: "htce7",
+        user: "bacchus",
         password: "sql",
         months: [1, 2, 3, 4, 5, 6],
         debug: 1,
@@ -15,8 +15,8 @@ module.exports = {
     }],
     //mongoDB 設定檔
     mongo: {
-        host: "210.64.24.130",
-        // host: "127.0.0.1",
+        // host: "210.64.24.130",
+        host: "127.0.0.1",
         port: "2717",
         dbname: "bacchus",
         username: "bacchus",
