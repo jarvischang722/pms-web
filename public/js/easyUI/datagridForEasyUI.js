@@ -38,6 +38,8 @@ var EZfieldClass = {
             dataType = 'color';
         } else if (fieldAttrObj.ui_type == "time") {
             dataType = 'timespinner';
+        }else if(fieldAttrObj.ui_type == "selectgrid"){
+            dataType = 'combogrid';
         }
 
         var tmpFieldObj = {
@@ -99,10 +101,16 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.parser = dateParserFunc;
             tmpFieldObj.editor.options.formatter = dateFunc;
 
+            //combobox連動
+            if (fieldAttrObj.rule_func_name != "") {
+                tmpFieldObj.editor.options.onSelect = function (date) {
+                    onChange_Action(fieldAttrObj, "", date, dgName);
+                };
+            }
+
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
-
                 return moment(date).format("YYYY/MM/DD HH:mm:ss");
             };
 
@@ -142,7 +150,10 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    if (oldValue == "") {
+                    // if (oldValue == "") {    //SAM:因為如一開始沒有值下拉後不會連動到其他欄位
+                    //     return false;
+                    // }
+                    if (oldValue == newValue) {
                         return false;
                     }
                     onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
@@ -180,7 +191,11 @@ var EZfieldClass = {
                 }
 
                 if (fieldAttrObj.rule_func_name != "") {
-                    if (oldValue == "") {
+                    // if (oldValue == "") {    //SAM:因為如一開始沒有值下拉後不會連動到其他欄位
+                    //     return false;
+                    // }
+
+                    if (oldValue == newValue) {
                         return false;
                     }
                     onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
@@ -207,6 +222,10 @@ var EZfieldClass = {
                     return val;
                 }
             };
+        }else if(dataType == "combogrid"){  //SAM:目前正在實做中，目前都沒用到
+            tmpFieldObj.editor.options.idField = 'field';
+            tmpFieldObj.editor.options.textField = 'title';
+            tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
         }
 
         return tmpFieldObj;

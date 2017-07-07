@@ -1,365 +1,356 @@
-<div class="main-content-inner">
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
 
-    <div class="page-content">
-        <div class="">
-            <div class="page-header">
-            </div><!-- /.page-header -->
-            <div class="col-xs-12">
-                <div class="row">
-                    <label id="prg_Id" class="prg_idLbH3">PMS0620010</label>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="col-sm-11 col-xs-11">
-                        <div class="row no-margin-right">
-                            <div class="search-content">
-                                <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                <div class="search-co">
-                                    <div class="search-co-h">
-                                        <i class="ace-icon fa fa-search search-icon"></i>
-                                        <span>搜尋</span>
-                                        <div class="row search-right-btn">
-                                            <div class="right-btn-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <i class="fa fa-chevron-down show-search-detail"></i>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="search-co-content col-xs-12">
-                                            <div class="col-sm-4">
-
-                                            </div>
-                                            <div class="col-sm-4">
-
-                                            </div>
-                                            <div class="col-sm-4">
-
-                                            </div>
-                                        </div>
-                                        <div class="search-co-content col-xs-12 rece-search-detail"
-                                             style="display: none;">
-                                            <div class="row search-footer-btn">
-                                                <div class="footer-btn-menu-co">
-                                                    <ul>
-                                                        <li>
-                                                            <div class="" data-rel="tooltip"
-                                                                 data-placement="bottom"
-                                                                 title="查詢"
-                                                                 style="padding: 0 0 5px 0;">
-                                                                <div class="icon-reStyle icon-co-14"></div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="" data-rel="tooltip"
-                                                                 data-placement="bottom"
-                                                                 title="清除" style="padding: 0 0 5px 0;">
-                                                                <div class="icon-reStyle icon-co-11"></div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>  <!-- /.footer-btn-menu-co -->
-                                            </div> <!-- /.search-footer-btn -->
-                                            <div class="grid width-95">
-                                                <div class="grid-item block-table">
-                                                    <label>Sales Id</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Name</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Employee</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Status</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Stop Date</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Stop Date</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Team</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Hotel</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>F&B</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                                <div class="grid-item block-table">
-                                                    <label>Membership</label>
-                                                    <input type="text" class="input-medium medium-c1"/>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div> <!-- row-->
-                                </div> <!-- /.search-co -->
-                            </div> <!-- /.row  search-content-->
-                        </div>
-                    </div>
-                </div> <!-- /.col-sm-12 -->
-                <div class="clearfix"></div>
-                <div class="col-xs-12">
-                    <div class="col-sm-11 col-xs-11">
-                        <div class="row no-margin-right">
-                            <!-- 歷史消費 dataGrid -->
-                            <table id="clerkDataGridResult-table"></table>
-                        </div>
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row">
-                            <div class="right-menu-co">
-                                <ul>
-                                    <li>
-                                        <button id="ins-btn"
-                                                class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
-                                                role="button">新增
-                                        </button>
-                                    </li>
-
-                                    <li>
-                                        <button id="remove-btn"
-                                                class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">刪除
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button id="ins-btn"
-                                                class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
-                                                role="button">修改
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button id="ins-btn"
-                                                class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">業務員指派
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- /.col-sm-12 -->
-                <div class="clearfix"></div>
-
-            </div>
-            <!-- 業務員修改 彈出視窗 -->
-            <div id="changeBusiness-page" class="hide">
-                <div class="col-sm-10 col-xs-10 businessModify-Left">
-                    <div class="col-xs-12 col-sm-12">
-                        <!--<div class="row businessModify-head">-->
-                        <!--<p class="businessModify-title">修改業務員</p>-->
-                        <!--</div>-->
-                    </div>
-                    <div class="ChangeBusiness-wrap">
-                        <div class="grid">
-                            <div class="tab-block grid-item">
-                                <label>Sales Id</label>
-                                <select id="" class="input-medium medium-c1">
-                                    <option value="1">A0001</option>
-                                    <option value="2">A0002</option>
-                                    <option value="3">A0003</option>
-                                </select>
-                            </div>
-                            <div class="grid-item tab-block">
-                                <label>Employee</label>
-                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                    <option value="1">Yes</option>
-                                    <option value="2">No</option>
-                                </select>
-                            </div>
-                            <div class="grid-item tab-block single">
-                                <label>Name</label>
-                                <select id="" class="input-medium medium-c1-col2">
-                                    <option value="1">Markelle Fultz</option>
-                                    <option value="2">Josh Jackson</option>
-                                    <option value="3">Lonzo Ball</option>
-                                    <option value="4">De'Aaron Fox</option>
-                                    <option value="5">Jayson Tatum</option>
-                                    <option value="6">Sindarius Thornwell</option>
-                                    <option value="7">Alpha Kaba</option>
-                                </select>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Status</label>
-                                <select id="" class="input-medium medium-c1">
-                                    <option value="1">Normal</option>
-                                    <option value="2">Disable</option>
-                                </select>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Stop Date</label>
-                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                       class="input-medium medium-c1 dateClass" type="date" required="">
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Team</label>
-                                <select id="" class="input-medium medium-c1">
-                                    <option value="1">001</option>
-                                    <option value="2">002</option>
-                                </select>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>User Id</label>
-                                <select id="" class="input-medium medium-c1">
-                                    <option value="1">B0001</option>
-                                    <option value="2">B0002</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="checkboxGroup">
-                                <div class="tab-block grid-item checkboxGrid">
-                                    <div class="popCheckbox">
-                                                    <span class="checkbox">
-                                                      <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                          <span class="lbl">Hotel</span>
-                                                      </label>
-                                                  </span>
-                                    </div>
-                                </div>
-                                <div class="tab-block grid-item checkboxGrid">
-                                    <div class="popCheckbox">
-                                                    <span class="checkbox">
-                                                      <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                          <span class="lbl">F&B</span>
-                                                      </label>
-                                                  </span>
-                                    </div>
-                                </div>
-                                <div class="tab-block grid-item checkboxGrid">
-                                    <div class="popCheckbox">
-                                                    <span class="checkbox">
-                                                      <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                          <span class="lbl">Membership</span>
-                                                      </label>
-                                                  </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="tab-block grid-item">
-                                <label>Add Date</label>
-                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                       class="input-medium medium-c1 dateClass SelectDisable" type="date"
-                                       value="2017-05-05" required="" disabled>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Add Staff</label>
-                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                    <option value="1">admin</option>
-                                    <option value="2">test</option>
-                                </select>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Last Revise Date</label>
-                                <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                       class="input-medium medium-c1 dateClass SelectDisable" type="date"
-                                       value="2017-05-05" required="" disabled>
-                            </div>
-                            <div class="tab-block grid-item">
-                                <label>Last Revise Staff</label>
-                                <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                    <option value="1">admin</option>
-                                    <option value="2">test</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="BusinessProperty-wrap">
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="row businessModify-head">
-                                <span class="businessModify-title">Property</span>
-                            </div>
-                            <div class="BusinessProperty">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-xs-9 col-sm-9">
-                                            <div class="row">
-                                                <select id="" class="input-medium medium-c1">
-                                                    <option value="1">01:德安大酒店</option>
-                                                    <option value="2">02:顆顆大酒店</option>
-                                                    <option value="3">03:呵呵大飯店</option>
-                                                    <option value="4">04:維多利亞大飯店</option>
-                                                    <option value="5">05:海棉寶寶城市商旅</option>
-                                                    <option value="6">06:測試大飯店</option>
-                                                    <option value="7">07:321大飯店</option>
-                                                </select>
-                                                <select id="" class="input-medium medium-c1">
-                                                    <option value="1">01:德安大酒店</option>
-                                                    <option value="2">02:顆顆大酒店</option>
-                                                    <option value="3">03:呵呵大飯店</option>
-                                                    <option value="4">04:維多利亞大飯店</option>
-                                                    <option value="5">05:海棉寶寶城市商旅</option>
-                                                    <option value="6">06:測試大飯店</option>
-                                                    <option value="7">07:321大飯店</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-3 right-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">New
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                            role="button">Delete
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-sm-2 col-xs-2 right-menu-co BusinessModify-Right">
-                    <ul>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save
-                            </button>
-                        </li>
-                        <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
-                        <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth NewChangeLog"
-                                    role="button">Change Log
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <label id="prg_Id" class="prg_idLbH3">PMS0620010</label>
         </div>
         <div class="clearfix"></div>
+
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip"
+                                                         data-placement="bottom"
+                                                         title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip"
+                                                         data-placement="bottom"
+                                                         title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="grid width-95">
+                                        <div class="grid-item">
+                                            <label>Sales Id</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Name</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Employee</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Status</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Stop Date</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Stop Date</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Team</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Hotel</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>F&B</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Membership</label>
+                                            <input type="text" class="input-medium medium-c1"/>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- 歷史消費 dataGrid -->
+                    <table id="clerkDataGridResult-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
+                                        role="button">新增
+                                </button>
+                            </li>
+
+                            <li>
+                                <button id="remove-btn"
+                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">刪除
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth changeBusiness"
+                                        role="button">修改
+                                </button>
+                            </li>
+                            <li>
+                                <button id="ins-btn"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">業務員指派
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+    </div>
+
+    <!-- 業務員修改 彈出視窗 -->
+    <div id="changeBusiness-page" class="hide">
+        <div class="col-sm-10 col-xs-10 businessModify-Left">
+            <div class="col-xs-12 col-sm-12">
+                <!--<div class="row businessModify-head">-->
+                <!--<p class="businessModify-title">修改業務員</p>-->
+                <!--</div>-->
+            </div>
+            <div class="ChangeBusiness-wrap">
+                <div class="grid">
+                    <div class="tab-block grid-item">
+                        <label>Sales Id</label>
+                        <select id="" class="input-medium medium-c1">
+                            <option value="1">A0001</option>
+                            <option value="2">A0002</option>
+                            <option value="3">A0003</option>
+                        </select>
+                    </div>
+                    <div class="grid-item tab-block">
+                        <label>Employee</label>
+                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                    <div class="grid-item tab-block single">
+                        <label>Name</label>
+                        <select id="" class="input-medium medium-c1-col2">
+                            <option value="1">Markelle Fultz</option>
+                            <option value="2">Josh Jackson</option>
+                            <option value="3">Lonzo Ball</option>
+                            <option value="4">De'Aaron Fox</option>
+                            <option value="5">Jayson Tatum</option>
+                            <option value="6">Sindarius Thornwell</option>
+                            <option value="7">Alpha Kaba</option>
+                        </select>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Status</label>
+                        <select id="" class="input-medium medium-c1">
+                            <option value="1">Normal</option>
+                            <option value="2">Disable</option>
+                        </select>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Stop Date</label>
+                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                               class="input-medium medium-c1 dateClass" type="date" required="">
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Team</label>
+                        <select id="" class="input-medium medium-c1">
+                            <option value="1">001</option>
+                            <option value="2">002</option>
+                        </select>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>User Id</label>
+                        <select id="" class="input-medium medium-c1">
+                            <option value="1">B0001</option>
+                            <option value="2">B0002</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="checkboxGroup">
+                        <div class="tab-block grid-item checkboxGrid">
+                            <div class="popCheckbox">
+                                            <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl">Hotel</span>
+                                              </label>
+                                          </span>
+                            </div>
+                        </div>
+                        <div class="tab-block grid-item checkboxGrid">
+                            <div class="popCheckbox">
+                                            <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl">F&B</span>
+                                              </label>
+                                          </span>
+                            </div>
+                        </div>
+                        <div class="tab-block grid-item checkboxGrid">
+                            <div class="popCheckbox">
+                                            <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl">Membership</span>
+                                              </label>
+                                          </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="tab-block grid-item">
+                        <label>Add Date</label>
+                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                               class="input-medium medium-c1 dateClass SelectDisable" type="date"
+                               value="2017-05-05" required="" disabled>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Add Staff</label>
+                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                            <option value="1">admin</option>
+                            <option value="2">test</option>
+                        </select>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Last Revise Date</label>
+                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
+                               class="input-medium medium-c1 dateClass SelectDisable" type="date"
+                               value="2017-05-05" required="" disabled>
+                    </div>
+                    <div class="tab-block grid-item">
+                        <label>Last Revise Staff</label>
+                        <select id="" class="input-medium medium-c1 SelectDisable" disabled>
+                            <option value="1">admin</option>
+                            <option value="2">test</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="BusinessProperty-wrap">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row businessModify-head">
+                        <span class="businessModify-title">Property</span>
+                    </div>
+                    <div class="BusinessProperty">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-xs-9 col-sm-9">
+                                    <div class="row">
+                                        <select id="" class="input-medium medium-c1">
+                                            <option value="1">01:德安大酒店</option>
+                                            <option value="2">02:顆顆大酒店</option>
+                                            <option value="3">03:呵呵大飯店</option>
+                                            <option value="4">04:維多利亞大飯店</option>
+                                            <option value="5">05:海棉寶寶城市商旅</option>
+                                            <option value="6">06:測試大飯店</option>
+                                            <option value="7">07:321大飯店</option>
+                                        </select>
+                                        <select id="" class="input-medium medium-c1">
+                                            <option value="1">01:德安大酒店</option>
+                                            <option value="2">02:顆顆大酒店</option>
+                                            <option value="3">03:呵呵大飯店</option>
+                                            <option value="4">04:維多利亞大飯店</option>
+                                            <option value="5">05:海棉寶寶城市商旅</option>
+                                            <option value="6">06:測試大飯店</option>
+                                            <option value="7">07:321大飯店</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-3 right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">New
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    role="button">Delete
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-2 col-xs-2 right-menu-co BusinessModify-Right">
+            <ul>
+                <li>
+                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save
+                    </button>
+                </li>
+                <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
+                <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
+                <li>
+                    <button class="btn btn-primary btn-white btn-defaultWidth NewChangeLog"
+                            role="button">Change Log
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit
+                    </button>
+                </li>
+            </ul>
+        </div>
     </div>
     <!-- /.業務員修改 彈出視窗-->
     <!-- 新增拜訪 彈出視窗-->
@@ -567,7 +558,8 @@
                             </div>
                             <div class="tab-block grid-item">
                                 <label>Remarks</label>
-                                <textarea class="form-control newVisit-textarea" cols="30" rows="5">Have a nice day</textarea>
+                                <textarea class="form-control newVisit-textarea" cols="30"
+                                          rows="5">Have a nice day</textarea>
                             </div>
 
                         </div>
@@ -606,6 +598,7 @@
     </div>
 
     <!-- /.新增拜訪記錄修改 彈出視窗-->
+
 
     <!-- 修改拜訪記錄修改 彈出視窗-->
     <div id="NewDetail-page" class="hide">
@@ -863,7 +856,8 @@
                             </div>
                             <div class="tab-block grid-item">
                                 <label>Remarks</label>
-                                <textarea class="form-control newVisit-textarea" cols="30" rows="5">談合約其貢獻度數字以及房價等級定義</textarea>
+                                <textarea class="form-control newVisit-textarea" cols="30"
+                                          rows="5">談合約其貢獻度數字以及房價等級定義</textarea>
                             </div>
                             <div class="tab-block grid-item">
                                 <label>Add Date</label>
@@ -1028,13 +1022,13 @@
                             <div class="clearfix"></div>
                             <div class="space-custom-5"></div>
                             <div class="tab-block">
-                                          <span class="checkbox">
-                                              <label>可簽帳</label>
-                                              <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl"></span>
-                                              </label>
-                                          </span>
+                                      <span class="checkbox">
+                                          <label>可簽帳</label>
+                                          <label class="checkbox-width">
+                                              <input name="form-field-checkbox" type="checkbox" class="ace">
+                                              <span class="lbl"></span>
+                                          </label>
+                                      </span>
                                 <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
                                 <!--<input type="checkbox" disabled="disabled"/>-->
                             </div>
@@ -1192,6 +1186,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
+
 </div>
 
 <script type="text/javascript">
@@ -1458,4 +1453,3 @@
         });
     });
 </script>
-</html>

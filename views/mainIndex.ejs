@@ -9,7 +9,7 @@
 
 <%- include ./common/navbar.ejs %>
 
-<div id="MainApp" class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+<div id="MainApp" class="main-container ace-save-state" style="margin-top: 35px;">
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
         <%- include ./common/moduleMenu.ejs %>
@@ -43,17 +43,24 @@
             moduleMenu: [],
             quickMenu: [],
             subsysMenu: [],
-            isOpenModule:"" //打開的模組 ex: PMS0001000
+            isOpenModule: "" //打開的模組 ex: PMS0001000
         },
-        mounted(){
+        mounted: function () {
 
             this.getUserSubsys();
 
         },
         watch: {
             usingSubsysID(subsys_id){
-                this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
-                this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
+                let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
+                if (lo_subsysMenu) {
+                    this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
+                    this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
+                } else {
+                    this.quickMenu = [];
+                    this.moduleMenu = [];
+                }
+
                 if (_.isEmpty(this.usingPrgID)) {
                     if (this.getQueryString("prg_id") != null) {
                         this.usingPrgID = this.getQueryString("prg_id");
@@ -65,13 +72,13 @@
                 } else {
                     this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
                 }
-                this.loadMainProcess(this.usingPrgID );
+                this.loadMainProcess(this.usingPrgID);
 
             }
         },
         methods: {
             //取得此子系統的權限
-            getUserSubsys(){
+            getUserSubsys: function () {
                 axios.post("/api/getUserSubsys").then(function (res) {
                     vm.subsysMenu = res.data.subsysMenu;
                     vm.usingSubsysID = getCookie('usingSubsysID');
@@ -86,8 +93,11 @@
                 }
                 return null;
             },
+            changeSubsys: function (subsys_id) {
+                location.href = '/bacchus4web/' + subsys_id;
+            },
             //讀入主程式
-            loadMainProcess(prg_id){
+            loadMainProcess: function (prg_id) {
                 var ls_pro_url = "";
                 this.isOpenModule = "";
                 doCookieSetup("usingPrgID", prg_id);
@@ -106,7 +116,12 @@
                         }
                     }
                 })
-
+                if (_.isEmpty(ls_pro_url)) {
+                    var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id})
+                    if (tmpQuick) {
+                        ls_pro_url = tmpQuick.pro_url;
+                    }
+                }
                 if (!_.isEmpty(ls_pro_url)) {
                     $("#MainContentDiv").load(ls_pro_url);
                 }
@@ -115,6 +130,13 @@
         },
 
     })
+
+    /** 模組伸縮版需要先關閉再打開才會WORK (暫時解法)**/
+    $(function () {
+        $("#sidebar-toggle-icon").click();
+        $("#sidebar-toggle-icon").click();
+    })
+
 </script>
 </html>
 

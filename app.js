@@ -66,8 +66,13 @@ app.set('port', process.env.PORT || port);
 
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
+
+//Sam:暫時為了post擴充可傳的資料量，做修改 20170705
+app.use(bodyParser.json({limit: "10mb"}));
+app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit:10000}));
+
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());

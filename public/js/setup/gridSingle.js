@@ -671,6 +671,15 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
 
             this.tmpCud[dataType].push(rowData);
+        },
+        filterLocaleContent:function(langContent, locale, field_name){
+            var m_lang_val = "";
+            var fIdx = _.findIndex(langContent, {locale: locale});
+            if (fIdx > -1) {
+                m_lang_val = langContent[fIdx][field_name] || "";
+            }
+
+            return m_lang_val;
         }
     }
 })
@@ -910,7 +919,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:2}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();

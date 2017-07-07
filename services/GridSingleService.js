@@ -60,9 +60,9 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                     la_fields[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
-                            })
+                            });
                         }
-                    )
+                    );
                 }
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
@@ -111,13 +111,13 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                 }
                             }
                         }
-                    )
+                    );
                 }
             });
 
             async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result)
-            })
+                callback(err, result);
+            });
         },
         //3) 撈取page2 如果有grid的資料跟欄位
         function (result, callback) {
@@ -199,7 +199,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             function (callback) {
                 mongoAgent.TemplateRf.findOne({
                     prg_id: prg_id,
-                    page_id:2
+                    page_id: 2
                 }, function (err, singleData) {
 
                     if (err || !singleData) {
@@ -214,7 +214,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     postData["hotel_cod"] = userInfo.fun_hotel_cod;
                     postData["user_id"] = userInfo.usr_id;
 
-                    postData = tools.convUtcToDate(postData);
+                    postData = tools.handlePreprocessData(postData);
 
                     queryAgent.query(singleData.rule_func_name.toUpperCase(), postData, function (err, rowData) {
 
@@ -223,7 +223,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                         }
 
                         langSvc.handleSingleDataLangConv(rowData, prg_id, 2, session.locale, function (err, rowData) {
-                            lo_rowData = tools.convUtcToDate(rowData);
+                            lo_rowData = tools.handlePreprocessData(rowData);
                             callback(null, rowData);
                         });
 
@@ -265,7 +265,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             queryAgent.queryList(grid.rule_func_name, params, 0, 0, function (err, dtDataList) {
                                 if (dtDataList.length > 0) {
                                     _.each(dtDataList, function (row, idx) {
-                                        dtDataList[idx] = tools.convUtcToDate(row);
+                                        dtDataList[idx] = tools.handlePreprocessData(row);
                                     });
                                     lo_dtData = dtDataList;
                                 }
@@ -306,7 +306,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                 }, function (err, pageField) {
                     dataValueChange(pageField, lo_rowData);
                     callback(err, result);
-                })
+                });
             }
         ],
         function (err, result) {
@@ -349,7 +349,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     /** main process **/
     async.waterfall([
         getTableName,       //(1)撈取要異動的table name
-        getDtTableName,     //(2)取得DT要異動的欄位
+        getDtTableName,     //(2)取得DT要異動的table name
         getPrgField,        //(3)取得此程式的欄位
         chkDtDeleteRule,    //(4)DT 刪除資料規則檢查
         combineDtDeleteExecData,//(5)組合DT 刪除檢查
@@ -371,7 +371,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         //抓取對應的table
         mongoAgent.TemplateRf.findOne({
             page_id: page_id,
-            prg_id: prg_id,
+            prg_id: prg_id
             // template_id: "gridsingle"
         }, function (err, sg_tmp) {
             if (err || !sg_tmp) {
@@ -463,6 +463,12 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 }
             }
         ], function (err, result) {
+             deleteData = tools.handlePreprocessData(postData["deleteData"], prgFields);
+             createData = tools.handlePreprocessData(postData["createData"] ,prgFields);
+             editData = tools.handlePreprocessData(postData["editData"] ,prgFields);
+             dt_deleteData = tools.handlePreprocessData(postData["dt_deleteData"],la_dtkeyFields);
+             dt_createData = tools.handlePreprocessData(postData["dt_createData"] ,la_dtkeyFields);
+             dt_editData = tools.handlePreprocessData(postData["dt_editData"] ,la_dtkeyFields);
             callback(err, result);
         });
 
@@ -522,7 +528,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     function chkRuleBeforeSave(fields, callback) {
 
         dataRuleSvc.doChkSingleGridBeforeSave(postData, session, function (chk_err, chk_result) {
-            if (!chk_err && chk_result.length > 0) {
+            if (!chk_err && chk_result.extendExecDataArrSet.length > 0) {
                 _.each(chk_result.extendExecDataArrSet, function (execData) {
                     savaExecDatas[exec_seq] = execData;
                     exec_seq++;
@@ -543,6 +549,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         async.parallel([
             //新增 0200
             function (callback) {
+                if (_.isUndefined(createData) || createData.length == 0) {
+                    return callback(null, '0200');
+                }
                 _.each(createData, function (data) {
                     var tmpIns = {"function": "1", "table_name": mainTableName}; //1  新增
 
@@ -556,7 +565,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                                     var finalValue = changeValueFormat4Save(value, row.ui_type);
                                     value = finalValue ? finalValue : value;
                                 }
-                            })
+                            });
 
                             if (typeof data[objKey] === 'string') {
                                 data[objKey] = data[objKey].trim();
@@ -601,6 +610,9 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             },
             //刪除 0300
             function (callback) {
+                if (_.isUndefined(deleteData) || deleteData.length == 0) {
+                    return callback(null, '0300');
+                }
                 _.each(deleteData, function (data) {
                     var tmpDel = {"function": "0", "table_name": mainTableName}; //0 代表刪除
                     tmpDel.condition = [];
@@ -622,7 +634,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             },
             //修改 0400
             function (callback) {
-                if (editData.length == 0) {
+                if (_.isUndefined(editData) || editData.length == 0) {
                     return callback(null, '0400');
                 }
 
@@ -633,16 +645,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             tmpEdit[objKey] = data[objKey];
 
                             _.each(la_dtFields, function (row) {
-                                // if (row.ui_field_name == objKey && row.ui_type == "time") {
-                                //     tmpEdit[objKey] = tmpEdit[objKey].replace(":", "");
-                                // } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
-                                //     tmpEdit[objKey] = parseFloat(tmpEdit[objKey]) / 100;
-                                // }
                                 if (row.ui_field_name == objKey) {
                                     var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
                                     tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
                                 }
-                            })
+                            });
                         }
                     });
                     var lo_keysData = {};
@@ -980,10 +987,15 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
             var log_id = moment().format("YYYYMMDDHHmmss");
             var err = null;
-            if (apiErr) {
+            if (apiErr || !data) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
+            }else if(data["RETN-CODE"]!="0000"){
+                chk_result.success = false;
+                err = {};
+                console.error(data["RETN-CODE-DESC"]);
+                err.errorMsg = "save error!";
             }
 
             //寄出exceptionMail
@@ -1039,9 +1051,9 @@ function dataValueChange(fields, data) {
                     }
 
                 }
-            })
+            });
         }
-    })
+    });
 }
 
 //將要顯示在頁面上的欄位格式做轉換
@@ -1055,7 +1067,7 @@ function changeValueFormat(value, ui_type) {
         }
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
-        valueTemp = (parseFloat(value) * 100);
+        valueTemp = parseFloat(value) * 100;
     } else if(ui_type == "checkbox"){
         if(value == "Y"){
             valueTemp = true;

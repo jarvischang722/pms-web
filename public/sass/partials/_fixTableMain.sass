@@ -122,7 +122,7 @@ $switchLeft:      23px       //  39px
     background: $holiday-color
   &.dateColor
     background: $date-color
-    padding: 3px
+    //padding: 3px //使用padding 會跑版
   &.orangeTag
     background: $orangeTag !important
   &.orange2Tag
@@ -399,6 +399,12 @@ $ca-height: 30px
 .ca-headerTitle
   .ca-headerIcon
     margin: auto auto auto 5px
+    i
+      cursor: pointer
+  .caSelect, .caIcon
+    margin: 2px
+    display: inline-block
+    vertical-align: middle
 //connact jquery.fixheadertable.js →→ tableProp.thead[index]
 .td-first
   position: relative

@@ -112,7 +112,7 @@
             loadSetUpPage: function (doingPrgID) {
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
-                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
+//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.handleClearHtml();
                 this.goTopForPage();
                 this.checkTmpNotEmpty(doingPrgID);
@@ -127,7 +127,7 @@
 
             },
             //判斷是否要Unlock
-            checkDoUnlock(doingPrgID){
+            checkDoUnlock: function (doingPrgID) {
                 if (!_.isEmpty(this.usingPrgID) && !_.isEqual(doingPrgID, this.usingPrgID)) {
                     this.isTableLockProcessing = true;
                     this.doTableUnLock(function (errorMsg, success) {
@@ -137,7 +137,7 @@
                 }
             },
             // 讓捲軸用動畫的方式移動到 0 的位置
-            goTopForPage(){
+            goTopForPage: function () {
                 var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
                 $body.animate({
                     scrollTop: 0

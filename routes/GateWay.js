@@ -8,7 +8,7 @@ var middles = [ authMW];
 module.exports = function (app) {
 
     /** 產生房型庫存**/
-    app.post('/api/gateway/genRoomTypeStoc',middles, gateWayCrtl.genRoomTypeStoc);
+    app.post('/api/gateway/genRoomTypeStock',middles, gateWayCrtl.genRoomTypeStock);
     /** 上傳房型**/
     app.post('/api/gateway/uploadRoomType',middles, gateWayCrtl.uploadRoomType);
     /** 上傳房型圖片**/

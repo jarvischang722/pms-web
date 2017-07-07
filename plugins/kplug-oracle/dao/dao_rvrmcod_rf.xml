@@ -6,12 +6,13 @@
 			select rvrm.ATHENA_ID,rvrm.HOTEL_COD,rvrm.room_cod, rvrm.room_sna, rvrm.room_nam, rvrm.room_qnt, rvrm.room_amt, rvrm.serv_amt, rvrm.begin_dat,
 			 rvrm.end_dat, rvrm.room_typ, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) room_typ_nam
 			from rvrmcod_rf rvrm
-            inner join room_cod_order ord on rvrm.athena_id = ord.athena_id and rvrm.room_cod = ord.room_cod
+            inner join room_cod_order ord on rvrm.athena_id = ord.athena_id and rvrm.room_cod = ord.room_cod and rvrm.hotel_cod = ord.hotel_cod
             left join room_rf rm on rvrm.athena_id = rm.athena_id and rvrm.room_typ = rm.room_typ
-            where trim(rvrm.athena_id) = trim(:athena_id)
+            where trim(rvrm.athena_id) = trim(:athena_id) and trim(rvrm.hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
     <!-- 單筆房型資料 -->
@@ -20,10 +21,11 @@
 			select *
 			from rvrmcod_rf rvrm
 			where rvrm.athena_id = :athena_id and rvrm.begin_dat = to_date(:begin_dat, 'YYYY/MM/DD')
-			     and trim(rvrm.room_cod) = trim(:room_cod)
+			     and trim(rvrm.room_cod) = trim(:room_cod) and trim(rvrm.hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
@@ -36,9 +38,11 @@
                 WHERE TRIM(VAL_RMK) = 'rent_cal_dat'
                      AND SYS_COD = 'HFD'
                      AND athena_id = :athena_id
+                     AND trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
     <!-- 取得房型資料 -->
@@ -47,11 +51,13 @@
                select room_nam,room_sna,room_typ
                from rvrmcod_rf
                where athena_id = :athena_id
+               and trim(hotel_cod) = trim(:hotel_cod)
                and room_cod = :room_cod
                and rownum = 1
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
 
@@ -61,10 +67,12 @@
               select count(*) as room_count
               from rvrmcod_rf
               where athena_id = :athena_id
+              and trim(hotel_cod) = trim(:hotel_cod)
               and room_cod =  :room_cod
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="2" condition="begin_dat <> to_date(:begin_dat, 'YYYY/MM/DD')">begin_dat</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
@@ -73,14 +81,16 @@
     <!--  -->
     <dao name="CHK_RVRMCOD_RF_IS_EXIST_RMINV_DT">
         <statement><![CDATA[
-
              select  count(*) as room_count
              from rminv_dt
-             where room_cod = :room_cod
-
+             where   athena_id = :athena_id
+             and trim(hotel_cod) = trim(:hotel_cod)
+             and trim(room_cod) = trim(:room_cod)
+             and rownum = 1
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
 
@@ -131,7 +141,9 @@
 
         select count(*) as room_count
         from rvrmcod_rf
-        where trim(athena_id) = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod) and trim(room_typ) = trim(:room_typ)
+        where trim(athena_id) = trim(:athena_id)
+        and trim(hotel_cod) = trim(:hotel_cod)
+        and trim(room_typ) = trim(:room_typ)
 
         ]]>
         </statement>

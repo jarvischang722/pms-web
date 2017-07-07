@@ -35,6 +35,7 @@ exports.doAuthAccount = function (authData, callback) {
             } else {
                 self.getUserHotels(user, function (err, hotels) {
                     user.hotels = hotels;
+                    user.hotel_cod = hotels.length > 0 ? hotels[0].hotel_cod.trim() : "";
                     user.fun_hotel_cod = hotels.length > 0 ? hotels[0].hotel_cod.trim() : "";
                     user.fun_hotel_name = hotels.length > 0 ? hotels[0].hotel_nam.trim() : "";
                     user.athena_id = hotels.length > 0 ? hotels[0].athena_id : "";

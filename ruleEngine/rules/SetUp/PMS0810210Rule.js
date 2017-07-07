@@ -53,5 +53,41 @@ module.exports = {
             callback(err, result)
         });
 
+    },
+    //Sam:確認開始日期小於結束日期
+    chk_begin_day_correct : function (postData, session, callback) {
+        var startDate = postData.newValue;
+        var endDate = postData.rowData.end_dat;
+
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
+            callback(lo_error, lo_result);
+        } else {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "開始日期不能大於結束日期";
+            lo_error.errorCod = "1111";
+            lo_result.effectValues = postData.rowData;
+            callback(lo_error, lo_result);
+        }
+    },
+    //Sam:確認開始日期小於結束日期
+    chk_end_day_correct : function (postData, session, callback) {
+        var startDate = postData.rowData.begin_dat;
+        var endDate = postData.newValue;
+
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
+            callback(lo_error, lo_result);
+        } else {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "結束日期不能小於開始日期";
+            lo_error.errorCod = "1111";
+            lo_result.effectValues = postData.rowData;
+            callback(lo_error, lo_result);
+        }
     }
 };
