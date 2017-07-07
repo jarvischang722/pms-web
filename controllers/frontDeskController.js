@@ -14,7 +14,7 @@ var roleSvc = require("../services/RoleFuncService");
  * 櫃檯備品(靜態)
  */
 exports.getPMS0210020 = function (req, res) {
-    res.render("subsystem/frontDesk/PMS0210010");
+    res.render("subsystem/frontDesk/PMS0210020");
 }
 /**
  * 團體管理(靜態)
