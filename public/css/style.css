@@ -3668,6 +3668,47 @@ td div.triangle-box:after {
   border-width: 9px 0 9px 10px;
 }
 
+/* line 1294, ../sass/_bacchusMain.sass */
+.cashierSetting-btn-wrap {
+  margin-top: 10px;
+}
+
+/* line 1297, ../sass/_bacchusMain.sass */
+.cashierSetting-left.css_table .css_td.active {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+/* line 1301, ../sass/_bacchusMain.sass */
+.rules-notice {
+  color: red;
+}
+
+/* line 1303, ../sass/_bacchusMain.sass */
+.rules-wrap {
+  margin-bottom: 30px;
+}
+
+/* line 1305, ../sass/_bacchusMain.sass */
+.rules-wrap .counterRow .counterBlock {
+  background: #8080ff;
+}
+
+/* line 1307, ../sass/_bacchusMain.sass */
+.purple-text {
+  color: #810584;
+}
+
+/* line 1309, ../sass/_bacchusMain.sass */
+.cashierSetting-left .css_table .css_th {
+  background: #fff;
+}
+
+/* line 1311, ../sass/_bacchusMain.sass */
+.cashierSetting-left.css_table .css_td {
+  background: #e6e6ff;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
