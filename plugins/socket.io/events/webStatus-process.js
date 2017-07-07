@@ -13,19 +13,16 @@ module.exports = function (io) {
             var chkSessionInterval = setInterval(function () {
 
                 mongoAgent.Sessions.findOne({_id: socket.request.session.id}, function (err, sessionData) {
-                    var isSessionOverTime = false;
+                    let lastTimes = 0;
                     if (!err && sessionData) {
-                        isSessionOverTime = moment(sessionData.expires).diff(moment(), "seconds") < 0
-                            ? true : false;
-                    } else {
-                        isSessionOverTime = true;
+                        lastTimes = moment(sessionData.expires).diff(moment(), "seconds");
                     }
 
-                    if (isSessionOverTime) {
+                    if (lastTimes < 0) {
                         clearInterval(chkSessionInterval);
                         socket.emit("sessionStatus", {exist: false});
                     } else {
-                        socket.emit("sessionTimeLeft", {timeLeft: moment(sessionData.expires).diff(moment(), "seconds")});
+                        socket.emit("sessionTimeLeft", {timeLeft: lastTimes});
                     }
 
                 });
