@@ -425,9 +425,7 @@ body
     width: 100%
     th,td
       border: 1px solid #a0a8b4
-      //padding: 2px 5px
-    th
-      text-align: center
+      padding-left: 2px
     tr
       th
         background: #c0d6ee
@@ -437,6 +435,7 @@ body
           background: #bfbfbf
           border: none
           float: right
+          height: 20px
         .float-left
           float: left
         .float-right
@@ -465,8 +464,25 @@ body
       td
         width: 80%
 
-.show-intCounterRight
+//.show-intCounterRight
+//  display: none
+.intCounterRight
   display: none
+.intCounterleft
+  position: relative
+.show-intCounterRight
+  float: right
+  display: block
+  i
+    border: 1px solid #8fbcd9
+    padding: 3px 10px
+    cursor: pointer
+  color: #70a0c1
+  //line-height: 1.42857143
+  span
+    margin: 0 0 0 2px
+    font-size: 14px
+    line-height: 2
 
 // 彈出視窗置中
 .dialog-center
