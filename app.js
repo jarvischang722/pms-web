@@ -98,7 +98,11 @@ var sessionMiddleware = session({
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, next);
+    sessionMiddleware(socket.request, socket.request.res, function(){
+        socket.session = socket.request.session;
+        socket.session.id = socket.request.sessionID;
+        next();
+    });
 });
 
 app.use(sessionMiddleware);

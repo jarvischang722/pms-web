@@ -138,7 +138,8 @@ Vue.component('single-grid-pms0810020-tmp', {
             begin_dat: '',
             end_dat: '',
             isUpdate: false,
-            isSort: false
+            isSort: false,
+            previewList: []
 
         };
     },
@@ -387,7 +388,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     } else {
                         self.emitFetchSingleData();
                     }
-
+                    self.previewList = [];
                     if (self.deleteStatue) {
                         /**
                          * 刪除成功
@@ -622,7 +623,6 @@ Vue.component('single-grid-pms0810020-tmp', {
                 });
             });
 
-            // console.log(ga_tmpCUD.updateData);
             var params = {
                 prg_id: prg_id,
                 tmpCUD: this.tmpCUD,
@@ -870,7 +870,7 @@ var vm = new Vue({
 
         },
 
-        // 上船圖檔
+        // 上傳圖檔預處理
         uploadAction: function (callback) {
             var self = this;
             var li_file_counter = 0;
@@ -902,69 +902,7 @@ var vm = new Vue({
                         }));
 
                         if (li_file_counter == self.uploadFileList.length) {
-                            $.ajax({
-                                type: 'POST',
-                                url: '/api/uploadFile',
-                                data: fd,
-                                cache: false,
-                                contentType: false,
-                                processData: false
-                            }).done(function (uploadResult) {
-
-                                if (uploadResult.success) {
-                                    self.uploadFileList = [];
-                                    var fieldData = [
-                                        {ui_field_name: 'room_cod', keyable: 'Y'},
-                                        {ui_field_name: 'athena_id', keyable: 'Y'},
-                                        {ui_field_name: 'hotel_cod', keyable: 'Y'},
-                                        {ui_field_name: 'begin_dat', keyable: 'Y'}
-                                    ];
-
-                                    var lo_tmpCUD = {
-                                        createData: [],
-                                        updateData: [],
-                                        deleteData: []
-                                    };
-
-                                    _.each(uploadResult.rtnData, function (eachData) {
-                                        lo_tmpCUD.updateData.push({
-                                            "room_cod": self.singleData.room_cod,
-                                            "pic_path": eachData.fileDir,
-                                            "begin_dat": self.singleData.begin_dat
-                                        });
-                                        // self.displayFileList.push({
-                                        //     name: eachData.fileName,
-                                        //     url: eachData.image_url
-                                        // });
-                                    });
-                                    // self.uploadFileList = [];
-                                    // self.imageDisplay = true;
-
-                                    var params = {
-                                        prg_id: prg_id,
-                                        tmpCUD: lo_tmpCUD,
-                                        fieldData: fieldData,
-                                        mainTableName: "wrs_normal_pic"
-                                    };
-                                    self.execSQLProcessAction(params, function (err, result) {
-                                        if (result) {
-                                            vm.initTmpCUD();
-
-                                            vm.loadDataGridByPrgID(function (success) {
-                                                callback(success);
-                                            });
-
-                                            waitingDialog.hide();
-                                            // alert('save success!');
-                                        }
-                                    });
-
-
-                                }
-                                else {
-                                    alert(uploadResult.errorMsg);
-                                }
-                            });
+                            self.execFileUpload(fd, callback);
                         }
                     };
 
@@ -973,6 +911,68 @@ var vm = new Vue({
 
                 xhr.open('GET', blobUrl);
                 xhr.send();
+            });
+        },
+
+        // 執行圖片上傳
+        execFileUpload: function(fd, callback){
+            var self = this;
+            $.ajax({
+                type: 'POST',
+                url: '/api/uploadFile',
+                data: fd,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function (uploadResult) {
+
+                if (uploadResult.success) {
+                    self.uploadFileList = [];
+                    var fieldData = [
+                        {ui_field_name: 'room_cod', keyable: 'Y'},
+                        {ui_field_name: 'athena_id', keyable: 'Y'},
+                        {ui_field_name: 'hotel_cod', keyable: 'Y'},
+                        {ui_field_name: 'begin_dat', keyable: 'Y'}
+                    ];
+
+                    var lo_tmpCUD = {
+                        createData: [],
+                        updateData: [],
+                        deleteData: []
+                    };
+
+                    _.each(uploadResult.rtnData, function (eachData) {
+                        lo_tmpCUD.updateData.push({
+                            "room_cod": self.singleData.room_cod,
+                            "pic_path": eachData.fileDir,
+                            "begin_dat": self.singleData.begin_dat
+                        });
+                    });
+
+                    var params = {
+                        prg_id: prg_id,
+                        tmpCUD: lo_tmpCUD,
+                        fieldData: fieldData,
+                        mainTableName: "wrs_normal_pic"
+                    };
+                    self.execSQLProcessAction(params, function (err, result) {
+                        if (result) {
+                            vm.initTmpCUD();
+
+                            vm.loadDataGridByPrgID(function (success) {
+                                callback(success);
+                            });
+
+                            waitingDialog.hide();
+                            // alert('save success!');
+                        }
+                    });
+
+
+                }
+                else {
+                    alert(uploadResult.errorMsg);
+                }
             });
         },
 
@@ -992,7 +992,6 @@ var vm = new Vue({
                 })
                 .catch(function (error) {
                     waitingDialog.hide();
-                    console.log(error);
                     callback(error, false);
                 });
         },
@@ -1015,50 +1014,19 @@ var vm = new Vue({
         },
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
+            var self = this;
             vm.isLoading = true;
             vm.initTmpCUD();
             vm.editStatus = true;
             vm.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
-            console.log(editingRow);
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
-                console.log(result);
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
                     vm.modificableForData = result.modificable || true;
                     vm.displayFileList = [];
-
-                    var params = {
-                        room_cod: vm.singleData.room_cod,
-                        begin_dat: vm.singleData.begin_dat
-                    }
-                    axios.post("/api/PMS0810020/getRoomTypeUploadPic", params)
-                        .then(function (getResult) {
-                            console.log(getResult);
-                            vm.isLoading = false;
-                            if (getResult.data.success) {
-                                vm.singleData.pic_path = getResult.data.roomTypePicData;
-                                _.each(vm.singleData.pic_path, function (eachPic) {
-                                    var la_filePath = eachPic.pic_path.split("/");
-                                    var ls_fileName = la_filePath[la_filePath.length - 1];
-                                    vm.displayFileList.push({
-                                        name: ls_fileName,
-                                        url: eachPic.pic_path + "?" + Math.random()
-                                    });
-
-                                });
-                                // vm.$refs.upload.clearFiles();
-                                vm.uploadFileList = [];
-                                vm.imageDisplay = true;
-                                callback(true);
-                            }
-                            else {
-                                vm.singleData.pic_path = [];
-                                callback(true);
-                            }
-                        });
-
+                    self.getRoomTypePic(callback);
 
                 } else {
                     vm.isLoading = false;
@@ -1067,6 +1035,39 @@ var vm = new Vue({
                 }
 
             });
+        },
+
+        // 取房型圖片
+        getRoomTypePic: function(callback){
+            var params = {
+                room_cod: vm.singleData.room_cod,
+                begin_dat: vm.singleData.begin_dat
+            };
+            waitingDialog.show("Loading...");
+            axios.post("/api/PMS0810020/getRoomTypeUploadPic", params)
+                .then(function (getResult) {
+                    waitingDialog.hide();
+                    vm.isLoading = false;
+                    if (getResult.data.success) {
+                        vm.singleData.pic_path = getResult.data.roomTypePicData;
+                        _.each(vm.singleData.pic_path, function (eachPic) {
+                            var la_filePath = eachPic.pic_path.split("/");
+                            var ls_fileName = la_filePath[la_filePath.length - 1];
+                            vm.displayFileList.push({
+                                name: ls_fileName,
+                                url: eachPic.pic_path + "?" + Math.random()
+                            });
+
+                        });
+                        vm.uploadFileList = [];
+                        vm.imageDisplay = true;
+                        callback(true);
+                    }
+                    else {
+                        vm.singleData.pic_path = [];
+                        callback(true);
+                    }
+                });
         },
 
         //init datepicker

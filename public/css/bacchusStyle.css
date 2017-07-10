@@ -1396,34 +1396,32 @@ input[type="datetime-local"] {
 /* line 426, ../sass/bacchusStyle.sass */
 .floorPlan-table table th, .floorPlan-table table td {
   border: 1px solid #a0a8b4;
+  padding-left: 2px;
 }
-/* line 429, ../sass/bacchusStyle.sass */
-.floorPlan-table table th {
-  text-align: center;
-}
-/* line 432, ../sass/bacchusStyle.sass */
+/* line 430, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr th {
   background: #c0d6ee;
 }
-/* line 434, ../sass/bacchusStyle.sass */
+/* line 432, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr td {
   word-break: break-all;
 }
-/* line 436, ../sass/bacchusStyle.sass */
+/* line 434, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr td .moreInfo {
   background: #bfbfbf;
   border: none;
   float: right;
+  height: 20px;
 }
-/* line 440, ../sass/bacchusStyle.sass */
+/* line 439, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr td .float-left {
   float: left;
 }
-/* line 442, ../sass/bacchusStyle.sass */
+/* line 441, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr td .float-right {
   float: right;
 }
-/* line 444, ../sass/bacchusStyle.sass */
+/* line 443, ../sass/bacchusStyle.sass */
 .floorPlan-table table tr td.roomNum {
   box-sizing: border-box;
   font-size: 1.5em;
@@ -1432,80 +1430,104 @@ input[type="datetime-local"] {
   color: #DD5A43;
   border: 2px solid #DD5A43;
 }
-/* line 451, ../sass/bacchusStyle.sass */
+/* line 450, ../sass/bacchusStyle.sass */
 .floorPlan-table .customInfo-table {
   width: 100%;
 }
-/* line 453, ../sass/bacchusStyle.sass */
+/* line 452, ../sass/bacchusStyle.sass */
 .floorPlan-table .customInfo-table .table-left, .floorPlan-table .customInfo-table .table-right {
   float: left;
 }
-/* line 455, ../sass/bacchusStyle.sass */
+/* line 454, ../sass/bacchusStyle.sass */
 .floorPlan-table .customInfo-table .table-left {
   width: 25%;
   margin: 0 3% 0 0;
 }
-/* line 458, ../sass/bacchusStyle.sass */
+/* line 457, ../sass/bacchusStyle.sass */
 .floorPlan-table .customInfo-table .table-right {
   width: 72%;
 }
-/* line 461, ../sass/bacchusStyle.sass */
+/* line 460, ../sass/bacchusStyle.sass */
 .floorPlan-table .fav table {
   width: 100%;
 }
-/* line 463, ../sass/bacchusStyle.sass */
+/* line 462, ../sass/bacchusStyle.sass */
 .floorPlan-table .fav table th {
   width: 20%;
 }
-/* line 465, ../sass/bacchusStyle.sass */
+/* line 464, ../sass/bacchusStyle.sass */
 .floorPlan-table .fav table td {
   width: 80%;
 }
 
-/* line 468, ../sass/bacchusStyle.sass */
-.show-intCounterRight {
+/* line 469, ../sass/bacchusStyle.sass */
+.intCounterRight {
   display: none;
 }
 
-/* line 472, ../sass/bacchusStyle.sass */
+/* line 471, ../sass/bacchusStyle.sass */
+.intCounterleft {
+  position: relative;
+}
+
+/* line 473, ../sass/bacchusStyle.sass */
+.show-intCounterRight {
+  float: right;
+  display: block;
+  color: #70a0c1;
+}
+/* line 476, ../sass/bacchusStyle.sass */
+.show-intCounterRight i {
+  border: 1px solid #8fbcd9;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+/* line 482, ../sass/bacchusStyle.sass */
+.show-intCounterRight span {
+  margin: 0 0 0 2px;
+  font-size: 14px;
+  line-height: 2;
+}
+
+/* line 488, ../sass/bacchusStyle.sass */
 .dialog-center {
   margin: 0 auto;
   vertical-align: middle;
   text-align: center;
 }
 
-/* line 476, ../sass/bacchusStyle.sass */
+/* line 492, ../sass/bacchusStyle.sass */
 .companyInfo {
   display: none;
 }
 
-/* line 479, ../sass/bacchusStyle.sass */
+/* line 495, ../sass/bacchusStyle.sass */
 .Img100 img {
   width: 100%;
   height: auto;
 }
 
-/* line 484, ../sass/bacchusStyle.sass */
+/* line 500, ../sass/bacchusStyle.sass */
 .flexTable {
   height: 300px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* line 489, ../sass/bacchusStyle.sass */
+/* line 505, ../sass/bacchusStyle.sass */
 .flexTable2 {
   height: 300px;
   margin: 0 auto;
 }
 
-/* line 494, ../sass/bacchusStyle.sass */
+/* line 510, ../sass/bacchusStyle.sass */
 .flexTable3 {
   height: 300px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* line 500, ../sass/bacchusStyle.sass */
+/* line 516, ../sass/bacchusStyle.sass */
 .btn-save {
   margin: 10px 0 0 0;
   padding: 7px 20px;
@@ -1513,13 +1535,13 @@ input[type="datetime-local"] {
   color: #fff;
   border: none;
 }
-/* line 506, ../sass/bacchusStyle.sass */
+/* line 522, ../sass/bacchusStyle.sass */
 .btn-save:hover {
   opacity: 0.8;
 }
 
 /* manageSetting.html */
-/* line 511, ../sass/bacchusStyle.sass */
+/* line 527, ../sass/bacchusStyle.sass */
 .settingSingleWidth span.title {
   min-width: 100px;
   max-width: 100%;
@@ -1527,7 +1549,7 @@ input[type="datetime-local"] {
 }
 
 /* settingRole.html */
-/* line 518, ../sass/bacchusStyle.sass */
+/* line 534, ../sass/bacchusStyle.sass */
 .settingRole .choiceLine {
   width: 10%;
   text-align: center;
@@ -1536,64 +1558,64 @@ input[type="datetime-local"] {
 }
 
 /* settingAccControl.html */
-/* line 526, ../sass/bacchusStyle.sass */
+/* line 542, ../sass/bacchusStyle.sass */
 .starSearch {
   display: block;
   margin: 0 0 40px 0;
 }
-/* line 529, ../sass/bacchusStyle.sass */
+/* line 545, ../sass/bacchusStyle.sass */
 .starSearch .nav-search {
   left: 0;
 }
-/* line 531, ../sass/bacchusStyle.sass */
+/* line 547, ../sass/bacchusStyle.sass */
 .starSearch .nav-search-input {
   display: block;
 }
 
-/* line 534, ../sass/bacchusStyle.sass */
+/* line 550, ../sass/bacchusStyle.sass */
 .checkboxStyle .checkbox {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-/* line 538, ../sass/bacchusStyle.sass */
+/* line 554, ../sass/bacchusStyle.sass */
 .profileInfo .field {
   margin: 10px auto;
 }
-/* line 540, ../sass/bacchusStyle.sass */
+/* line 556, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo {
   position: relative;
 }
-/* line 542, ../sass/bacchusStyle.sass */
+/* line 558, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo table.tableProfile {
   width: 100%;
 }
-/* line 546, ../sass/bacchusStyle.sass */
+/* line 562, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo table.tableProfile td input:active, .profileInfo .blockTwo table.tableProfile td input:focus, .profileInfo .blockTwo table.tableProfile th input:active, .profileInfo .blockTwo table.tableProfile th input:focus {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   border-right: 1px solid #eee;
   border-left: 2px solid #87B87F;
 }
-/* line 551, ../sass/bacchusStyle.sass */
+/* line 567, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo .blockPlus {
   cursor: pointer;
   margin: 0 0 10px 10px;
 }
 
 /* settingAccManage.html */
-/* line 557, ../sass/bacchusStyle.sass */
+/* line 573, ../sass/bacchusStyle.sass */
 .addNewStyle .addNewAcc-form {
   width: 100px;
   text-align: right;
   margin: 10px 20px 15px auto;
 }
-/* line 561, ../sass/bacchusStyle.sass */
+/* line 577, ../sass/bacchusStyle.sass */
 .addNewStyle .modal-body {
   text-align: left;
 }
 
-/* line 563, ../sass/bacchusStyle.sass */
+/* line 579, ../sass/bacchusStyle.sass */
 .deleteAddAccount {
   cursor: pointer;
   margin-left: 10px;
@@ -1603,46 +1625,46 @@ input[type="datetime-local"] {
 }
 
 /*----- reservation-01.html ----- */
-/* line 571, ../sass/bacchusStyle.sass */
+/* line 587, ../sass/bacchusStyle.sass */
 .optionBtn {
   margin: 0 5px !important;
   padding: 5px 30px;
 }
 
-/* line 575, ../sass/bacchusStyle.sass */
+/* line 591, ../sass/bacchusStyle.sass */
 .companyInfo {
   display: none;
 }
 
-/* line 577, ../sass/bacchusStyle.sass */
+/* line 593, ../sass/bacchusStyle.sass */
 .nav-search-input {
   display: none;
 }
 
 @media screen and (max-width: 1280px) {
-  /* line 582, ../sass/bacchusStyle.sass */
+  /* line 598, ../sass/bacchusStyle.sass */
   .intCounterRight {
     display: none;
   }
 
-  /* line 584, ../sass/bacchusStyle.sass */
+  /* line 600, ../sass/bacchusStyle.sass */
   .intCounterleft {
     position: relative;
   }
 
-  /* line 586, ../sass/bacchusStyle.sass */
+  /* line 602, ../sass/bacchusStyle.sass */
   .show-intCounterRight {
     float: right;
     display: block;
     color: #70a0c1;
   }
-  /* line 589, ../sass/bacchusStyle.sass */
+  /* line 605, ../sass/bacchusStyle.sass */
   .show-intCounterRight i {
     border: 1px solid #8fbcd9;
     padding: 3px 10px;
     cursor: pointer;
   }
-  /* line 595, ../sass/bacchusStyle.sass */
+  /* line 611, ../sass/bacchusStyle.sass */
   .show-intCounterRight span {
     margin: 0 0 0 2px;
     font-size: 14px;

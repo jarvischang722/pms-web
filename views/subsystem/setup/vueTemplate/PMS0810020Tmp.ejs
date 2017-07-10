@@ -6,7 +6,7 @@
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
     <div id="singleGridPMS0810020" v-show="false">
-        <div class="col-sm-12 col-xs-12 singleGridContent" >
+        <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
@@ -95,10 +95,10 @@
                             </div>
                             <div class="row">
                                 <div class="grid-item">
-                                    <label style="width: 75px;"><span>房型圖片 : </span></label>
+                                    <label style="width: 75px;"><span><%= __("program")["PMS0810020"].roomTypeLabel %> : </span></label>
                                     <el-upload v-if="editStatus" class="upload-demo" list-type="picture"
                                                :auto-upload="false" :on-change="fileChange"
-                                               :on-remove="fileRemove" ref="upload">
+                                               :on-remove="fileRemove" action="" :file-list="previewList">
                                         <el-button size="small"
                                                    type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
                                         <div slot="tip"
@@ -167,7 +167,7 @@
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
                                                 :disabled="$parent.isLoading"
                                                 @click="showRoomTypeStock">
-                                            <%= __("program")["PMS0810020"].genRommTypeStock %>
+                                            <%= __("program")["PMS0810020"].genRoomTypeStock %>
                                         </button>
                                     </li>
                                     <li>
@@ -216,7 +216,7 @@
         </div>
 
         <!-- 產生庫存dialog -->
-        <el-dialog title="產生庫存" :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false"
+        <el-dialog title="<%= __("program")["PMS0810020"].genRoomTypeDialogTitle %>" :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false"
                    :modal-append-to-body="false">
             <el-row>
                 <el-col :span="12" :offset="6">
@@ -265,7 +265,8 @@
             <div slot="footer" class="dialog-footer">
                 <el-row>
                     <el-col :span="12" :offset="3">
-                        <el-button @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                        <el-button
+                                @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
                         <el-button type="primary" @click="genRmStockSave"><%= __("SystemCommon").OK %></el-button>
                     </el-col>
                 </el-row>
@@ -280,28 +281,28 @@
                 <el-tabs v-model="tabName" type="card" @tab-click="tabChange">
                     <el-tab-pane label="<%= __("program")["PMS0810020"].erpTabPageTitle %>" name="ERP">
 
-                            <table class="css_table horizTable" width="100％;">
-                                <thead class="css_thead">
-                                <tr class="css_tr">
-                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
-                                    <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
-                                    <th class="css_th" style="width: 25%;"><%= __("program")["PMS0810020"].room_sort %></th>
-                                </tr>
-                                </thead>
-                                <tbody class="css_tbody">
-                                <tr class="css_tr" v-for="(item, index) in erpSortData">
-                                    <td class="css_td">{{item.room_cod}} {{testData}}</td>
-                                    <td class="css_td">{{item.room_nam}}</td>
-                                    <td class="css_td">
-                                        <el-button type="button" size="small" class="el-icon-caret-top"
-                                                   @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
-                                        </el-button>
-                                        <el-button type="button" size="small" class="el-icon-caret-bottom"
-                                                   @click="itemMove(index, index+1, erpSortData)"
-                                                   v-if="index != erpSortData.length-1">
-                                        </el-button>
-                                    </td>
-                                </tr>
+                        <table class="css_table horizTable" width="100％;">
+                            <thead class="css_thead">
+                            <tr class="css_tr">
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th" style="width: 25%;"><%= __("program")["PMS0810020"].room_sort %></th>
+                            </tr>
+                            </thead>
+                            <tbody class="css_tbody">
+                            <tr class="css_tr" v-for="(item, index) in erpSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, erpSortData)"
+                                               v-if="index != erpSortData.length-1">
+                                    </el-button>
+                                </td>
+                            </tr>
 
 
                             </tbody>
@@ -316,7 +317,8 @@
                                 <th class="css_th" style="width: 20%;"><%= __("program")["PMS0810020"].room_cod %></th>
                                 <th class="css_th" style="width: 45%;"><%= __("program")["PMS0810020"].room_name %></th>
                                 <th class="css_th" style="width: 15%;"><%= __("program")["PMS0810020"].room_sort %></th>
-                                <th class="css_th" style="width: 20%;"><%= __("program")["PMS0810020"].room_disable %></th>
+                                <th class="css_th"
+                                    style="width: 20%;"><%= __("program")["PMS0810020"].room_disable %></th>
                             </tr>
                             </thead>
                             <tbody class="css_tbody">
