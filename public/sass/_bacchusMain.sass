@@ -1076,11 +1076,7 @@ ul.newVisitOther-btn
 .room-color
   background: #ffe5d5 !important
 .name-color
-  background: #f7ccac !important
-  &:after
-    border-color: transparent transparent transparent #0000FF
-    border-style: solid solid solid solid
-    border-width: 45px
+  background: #e3efdb !important
   text-align: center
 .datecolor
   background: #DAEAFC !important
@@ -1144,6 +1140,9 @@ th.dateColor
   width: 150px
   height: 150px
   border-radius: 50%
+  -moz-border-radius: 50%
+  -webkit-border-radius: 50%
+  border: 0px solid #000000
   background: #438EB9
   font-size: 36px
   color: #fff
@@ -1256,4 +1255,38 @@ span.roomNum-text
 .input-medium.resvCard-xxs
   width: 27px
   height: 18px
+//td div.triangle-box
+//  width: 100%
+//  line-height: 20px
+//  background: mediumaquamarine
+//  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
+//  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
+//表格td長六角形
+td div.triangle-box
+  width: 75%
+  height: 19px
+  /* margin-left: 18px; */
+  margin: 0px auto
+  color: #000
+  position: relative
+  background-color: #f8cbac !important
+
+td div.triangle-box:before,
+td div.triangle-box:after
+  content: ""
+  border-style: solid
+  border-width: 0
+  height: 19px
+  position: absolute
+  width: 0
+  border-color: transparent #f8cbac
+
+
+td div.triangle-box:before
+  left: -10px
+  border-width: 9px 10px 9px 0px
+
+td div.triangle-box:after
+  right: -10px
+  border-width: 9px 0 9px 10px
