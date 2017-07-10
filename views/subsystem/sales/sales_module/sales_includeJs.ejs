@@ -150,6 +150,85 @@
         });
 
         /***
+         * PMS0620010
+         */
+
+        // PMS0620010 彈出拜訪記錄
+        $(document).on('click', ".NewVisit", function (e) {
+            e.preventDefault();
+            var dialog = $("#NewVisit-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增拜訪記錄",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // PMS0620010 彈出新增拜訪記錄
+        $(document).on('click', ".NewVisitRecord", function (e) {
+            e.preventDefault();
+            var dialog = $("#NewVisitRecord-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增拜訪記錄",
+                title_html: true,
+                width: 1200,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // PMS0620010 彈出新增拜訪記錄修改
+        $(document).on('click', ".NewVsitModify", function (e) {
+            e.preventDefault();
+            var dialog = $("#NewVsitModify-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增拜訪記錄",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // PMS0620010 拜訪記錄彈出
+        $(document).on('click', ".changeBusiness", function (e) {
+            e.preventDefault();
+            var dialog = $("#changeBusiness-page").removeClass('hide').dialog({
+                modal: true,
+                title: "業務員修改",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // PMS0620010 Change Log
+        $(document).on('click', ".PMS0620010changeLog", function (e) {
+            e.preventDefault();
+            var dialog = $("#PMS0620010changeLog-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Change Log",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        /***
          * dataGrid
          */
 
@@ -383,6 +462,77 @@
                 {field:'totalConsume',title:'總消費',width:70}
             ]]
         });
+
+        /***
+         * PMS0620010 datagrid
+         */
+        // PMS0620010 業務員資料維護-查詢結果 dataGrid
+        $('#clerkDataGridResult-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/bsCompany_clerkDataGridResult.json',
+            method: 'get',
+            columns: [[
+                {field: 'clerkNum', title: 'Sales Id', width: 100},
+                {field: 'clerkName', title: 'Name', width: 100},
+                {field: 'ifStaff', title: 'Employee', width: 100},
+                {field: 'status', title: 'Status', width: 100},
+                {field: 'disabledYear', title: 'Stop Date', width: 100},
+                {field: 'clerkTeam', title: 'Team', width: 100},
+                {field: 'hotelBusiness', title: 'Hotel', width: 100},
+                {field: 'foodBusiness', title: 'F&B', width: 100},
+                {field: 'memberBusiness', title: 'Membership', width: 100}
+            ]]
+
+        });
+
+        // PMS0620010 新增拜訪查詢
+        $('#NewVisitResult-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/bsCompany_newVisit.json',
+            method: 'get',
+            columns: [[
+                {field: 'clerkNum', title: 'Choose', width: 60},
+                {field: 'clerkName', title: 'Co. Id', width: 80},
+                {field: 'ifStaff', title: 'Co. Name', width: 180},
+                {field: 'status', title: 'Status', width: 50},
+                {field: 'subject', title: 'Contract', width: 70},
+                {field: 'disabledYear', title: 'Co. Type', width: 60},
+                {field: 'clerkTeam', title: 'Category', width: 70},
+                {field: 'hotelBusiness', title: 'Region', width: 70},
+                {field: 'memberBusiness', title: 'Industry', width: 60}
+            ]]
+
+        });
+
+        // PMS0620010 新增拜訪編輯
+        $('#NewVisitRecord-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/bsCompany_newVisitRecord.json',
+            method: 'get',
+            columns: [[
+                {field: 'VisitNum', title: 'Co. Id', width: 80},
+                {field: 'VisitName', title: 'Co. Name', width: 100},
+                {field: 'VisitStatus', title: 'Status', width: 50},
+                {field: 'VisitContract', title: 'Contract', width: 60},
+                {field: 'visitMethod', title: 'Method', width: 60},
+                {field: 'visitPlanned', title: 'Planned', width: 80},
+                {field: 'visitVStatus', title: 'Visit Status', width: 80},
+                {field: 'visitFeedback', title: 'Feedback', width: 70},
+                {field: 'visitPurpose', title: 'Purpose', width: 70},
+                {field: 'visitDocuments', title: 'Documents', width: 80},
+                {field: 'visitRemarks', title: 'Remarks', width: 70},
+                {field: 'visitActual', title: 'Actual', width: 80},
+                {field: 'visitExpense', title: 'Expense', width: 60}
+            ]]
+
+        });
+
     });
 </script>
 
