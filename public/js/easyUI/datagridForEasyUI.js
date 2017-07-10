@@ -149,14 +149,18 @@ var EZfieldClass = {
 
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
+                var isComboTouchEvent = true;
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    // if (oldValue == "") {    //SAM:因為如一開始沒有值下拉後不會連動到其他欄位
-                    //     return false;
-                    // }
-                    if (oldValue == newValue) {
+                    var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                    var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
+
+                    if (isComboTouchEvent || (rowData.createRow == "Y" && !isComboTouchEvent && oldValue != "")) {  //SAM:20170717 修改cb一直連動問題
+                        onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
+                        isComboTouchEvent = false;
+                    } else {
+                        isComboTouchEvent = true;
                         return false;
                     }
-                    onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
                 };
             }
         } else if (dataType == "checkbox") {
@@ -174,12 +178,14 @@ var EZfieldClass = {
             tmpFieldObj.formatter = lf_colorFormatter;
         }
         else if (fieldAttrObj.ui_type == "text") {
+            var isTextTouchEvent = true;
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
+
                 if (!_.isUndefined(newValue)) {
                     if (fieldAttrObj.modificable == "I") {
-                        var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-                        var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name
@@ -191,14 +197,13 @@ var EZfieldClass = {
                 }
 
                 if (fieldAttrObj.rule_func_name != "") {
-                    // if (oldValue == "") {    //SAM:因為如一開始沒有值下拉後不會連動到其他欄位
-                    //     return false;
-                    // }
-
-                    if (oldValue == newValue) {
+                    if (isTextTouchEvent || (rowData.createRow == "Y" && !isTextTouchEvent && oldValue != "")) {  //SAM:20170717 修改cb一直連動問題
+                        onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
+                        isTextTouchEvent = false;
+                    } else {
+                        isTextTouchEvent = true;
                         return false;
                     }
-                    onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
                 }
             };
         } else if (dataType == "numberbox") {
