@@ -3256,13 +3256,13 @@ ul.newVisitOther-btn {
   height: 25px;
 }
 
-/* line 1026, ../sass/_bacchusMain.sass */
+/* line 1028, ../sass/_bacchusMain.sass */
 .rvType-code {
   background-color: #82b9ae;
   color: #fff;
 }
 
-/* line 1029, ../sass/_bacchusMain.sass */
+/* line 1031, ../sass/_bacchusMain.sass */
 .rvType-table-container {
   margin-top: 10px;
 }
@@ -3343,14 +3343,8 @@ ul.newVisitOther-btn {
 
 /* line 1078, ../sass/_bacchusMain.sass */
 .name-color {
-  background: #f7ccac !important;
+  background: #e3efdb !important;
   text-align: center;
-}
-/* line 1080, ../sass/_bacchusMain.sass */
-.name-color:after {
-  border-color: transparent transparent transparent #0000FF;
-  border-style: solid solid solid solid;
-  border-width: 45px;
 }
 
 /* line 1085, ../sass/_bacchusMain.sass */
@@ -3445,6 +3439,9 @@ th.dateColor {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border: 0px solid #000000;
   background: #438EB9;
   font-size: 36px;
   color: #fff;
@@ -3634,6 +3631,41 @@ span.roomNum-text {
 .input-medium.resvCard-xxs {
   width: 27px;
   height: 18px;
+}
+
+/* line 1266, ../sass/_bacchusMain.sass */
+td div.triangle-box {
+  width: 75%;
+  height: 19px;
+  /* margin-left: 18px; */
+  margin: 0px auto;
+  color: #000;
+  position: relative;
+  background-color: #f8cbac !important;
+}
+
+/* line 1275, ../sass/_bacchusMain.sass */
+td div.triangle-box:before,
+td div.triangle-box:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  height: 19px;
+  position: absolute;
+  width: 0;
+  border-color: transparent #f8cbac;
+}
+
+/* line 1286, ../sass/_bacchusMain.sass */
+td div.triangle-box:before {
+  left: -10px;
+  border-width: 9px 10px 9px 0px;
+}
+
+/* line 1290, ../sass/_bacchusMain.sass */
+td div.triangle-box:after {
+  right: -10px;
+  border-width: 9px 0 9px 10px;
 }
 
 /*------  共用區public ------ */

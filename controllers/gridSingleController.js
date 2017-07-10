@@ -53,3 +53,12 @@ exports.saveGridSingleData = function (req, res) {
         res.json({success: result.success, errorMsg: errorMsg});
     });
 };
+
+/**
+ * 取得跳窗頁面上的資料
+ */
+exports.selectGridData = function (req, res) {
+    singleGridSVC.handleSinglePageRowData(req.session, req.body, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err,result));
+    });
+};
