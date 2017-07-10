@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-
+    <!--PMS0810040 洲別設定 取得多筆 -->
     <dao name="QRY_STATE_RF">
        <statement><![CDATA[
-
-          SELECT * FROM  STATE_RF
-
+                SELECT athena_id, state_cod, state_nam, ins_dat, ins_usr, upd_dat, upd_usr
+               FROM state_rf
+               WHERE trim(athena_id) = trim(:athena_id)
         ]]></statement>
-
-
+        <parameter type="string" kind="3">athena_id</parameter>
     </dao>
 
+    <!--PMS0810030 國籍設定取得洲別 -->
+    <dao name="QRY_CNTRY_RF_STATE_COD">
+        <statement><![CDATA[
+               select state_cod as value,state_nam as display
+               from  state_rf where
+               trim(athena_id) = trim(?)
+        ]]></statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 
 </root>

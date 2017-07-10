@@ -1,0 +1,179 @@
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+<!-- overBooking Page-->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>訂房卡號</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>公帳號</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item pull-left">
+                                                <label>團號</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item pull-left">
+                                                <label>住客姓名</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                            <div class="searchCheckbox pull-left">
+                                                <span class="checkbox">
+                                                  <label class="checkbox-width">
+                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                      <span class="lbl">Keyword</span>
+                                                  </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>入住日期</label>
+                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>退房日期</label>
+                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--5-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>查詢資料</label>
+                                                <select class="input-medium popWindow-s1">
+                                                    <option value="1">未入住</option>
+                                                    <option value="2">已入住</option>
+                                                    <option value="3">全部</option>
+                                                </select>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>住客帳狀態</label>
+                                                <select class="input-medium popWindow-s1">
+                                                    <option value="1">開帳</option>
+                                                    <option value="2">關帳</option>
+                                                    <option value="3">全部</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <!--<div class="blockSetting-heading">查詢結果</div>-->
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- 團體管理 front_groups-table dataGrid -->
+                    <table id="front_groups-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">團體明細</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+</div><!-- /.page-content -->
+
+<script type="text/javascript">
+    $(function (){
+        // 團體管理 dataGrid
+        $('#front_groups-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_groups.json',
+            method: 'get',
+            columns: [[
+                {field: 'publicAccount', title: '公帳號', width: 80},
+                {field: 'groups', title: '團號', width: 80},
+                {field: 'touristGuide', title: '導遊', width: 80},
+                {field: 'publicAccName', title: '公帳號名稱', width: 80},
+                {field: 'publicAccStatus', title: '公帳狀態', width: 80},
+                {field: 'resvCard', title: '訂房卡號', width: 80},
+                {field: 'resvStatus', title: '訂房卡狀態', width: 80},
+                {field: 'ciDate', title: '入住日期', width: 100},
+                {field: 'coDate', title: '退房日期', width: 100}
+            ]]
+        });
+
+
+    });
+
+</script>

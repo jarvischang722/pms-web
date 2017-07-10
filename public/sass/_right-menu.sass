@@ -1,0 +1,59 @@
+@charset "UTF-8"
+.right-menu-co
+  //border-left: 1px solid #ede3d1
+  text-align: center
+  //margin: 20px auto auto 10px
+  ul
+    margin-left: 0
+    margin-bottom: 0
+    li
+      list-style: none
+      padding: 3px 0
+      vertical-align: middle
+      &:first-child
+        padding: 0 0 3px 0
+      div
+        //width: 36px
+        //height: 36px
+        //border-radius: 36px
+        //margin: 0 auto 4px auto
+        //box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
+        //box-shadow: 2px 2px 1px rgba(20%,20%,40%,0.5) inset
+        //box-shadow: 2px 2px 2px rgba(20%,20%,40%,0.6),4px 4px 6px rgba(20%,20%,40%,0.4),6px 6px 12px rgba(20%,20%,40%,0.4)
+      span
+        font-weight: bold
+  .holiday-btn
+    margin: 38px auto auto auto
+
+//右拉視窗
+@mixin icon-bk($imgpath,$imgpathHover,$repeat: no-repeat,$bk-size: 100% 100%)
+  background: url($imgpath)
+  //position: $position
+  repeat: $repeat
+  background-size: $bk-size
+  &:hover
+    background: url($imgpathHover)
+    repeat: $repeat
+    background-size: $bk-size
+
+.icon-co-03
+  @include icon-bk('../images/icon/03.png','../images/icon/03-1.png')
+.icon-co-06
+  @include icon-bk('../images/icon/06.png','../images/icon/06-1.png')
+.icon-co-10
+  @include icon-bk('../images/icon/10.png','../images/icon/10-1.png')
+.icon-co-11
+  @include icon-bk('../images/icon/11.png','../images/icon/11-1.png')
+.icon-co-14
+  @include icon-bk('../images/icon/14.png','../images/icon/14-1.png')
+
+
+
+
+
+
+
+
+
+
+

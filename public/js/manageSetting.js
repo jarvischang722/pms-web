@@ -22,7 +22,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 
@@ -37,7 +37,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 
@@ -52,7 +52,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 
@@ -67,7 +67,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 
@@ -82,7 +82,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 
@@ -97,7 +97,8 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
+            // ,resizable: true
         });
     });
 
@@ -112,7 +113,7 @@ $(function (){
             maxwidth: 1920,
 //                autoOpen: true,
             dialogClass: "test",
-            responsive: true
+            resizable: true
         });
     });
 

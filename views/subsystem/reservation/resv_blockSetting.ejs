@@ -1,0 +1,346 @@
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Blk No.</label>
+                                                <input type="text" class="input-medium input-spc-key" placeholder="Ago2017">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Description</label>
+                                                <input type="text" class="input-medium input-spc-key" placeholder="2017 AGODA 10 FOR DXK DAILY">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Agent/company</label>
+                                                <input type="text" class="input-medium input-spc-key" placeholder="AGODA COMPANY">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Block Date</label>
+                                                <input type="date" class="input-medium input-spc-key" placeholder="2017/6/6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <!--<div class="blockSetting-heading">查詢結果</div>-->
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- rateCode-查詢結果 dataGrid -->
+                    <table id="blockSettingResult-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth blockSettingSingle"
+                                        role="button">Add</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">edit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+
+    <!-- blockSettingSingle 鎖控單筆 彈出視窗 -->
+    <div id="blockSettingSingle-page" class="hide padding-5" style="">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <!--1-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Blcok No.</label>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="Ago2017"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Agent/Com</label>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="AGODA COMPANY"/>
+                                </div>
+                            </div>
+                            <!--2-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label class="pull-left">Guest Remark</label>
+                                    <textarea class="input-medium resvCard-col3 pull-left input-hCol2 marginLeft-5" placeholder="2017 AGODA BLOCK 10 FOR DXK DAILY"></textarea>
+                                    <!--<input type="text" class="input-medium resvCard-col2" placeholder="pick guy" style="height:55px;" />-->
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!--3-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Added date</label>
+                                    <input type="date" class="input-medium resvCard-col2"
+                                           placeholder="2017/6/6"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Added by</label>
+                                    <input type="date" class="input-medium resvCard-col2"
+                                           placeholder="RICK"/>
+                                </div>
+                            </div>
+                            <!--4-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Upd date</label>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="2017/6/6"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Upd by</label>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="RICK"/>
+                                </div>
+                            </div>
+
+                        </div><!--main-content-data-->
+                        <div class="space-6"></div>
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="row">
+                                <!--content-col-4-->
+                                <div class="main-content-data">
+                                    <div>
+                                        <!--訂房卡資料table-->
+                                        <table id="blockSettingSingle-table" style="height: 200px;"></table>
+                                    </div>
+                                </div><!--main-content-data-->
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth bloch-btn-single"
+                                                role="button">Exit
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Add
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Delete
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save
+                                        </button>
+                                    </li>
+                                    <!--blockSettingDetails 彈出視窗-->
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth blockSettingDetails"
+                                                role="button">Details
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.blockSettingSingle 鎖控單筆 彈出視窗 -->
+
+    <!-- blockSettingDetails 鎖控明細 彈出視窗 -->
+    <div id="blockSettingDetails-page" class="hide padding-5" style="">
+
+        <iframe src="../resvBlockSettingTable_1" style="width: 100%; min-height: 300px;" frameborder="0" scrolling="0"></iframe>
+
+    </div>
+    <!-- /.blockSettingDetails 鎖控明細 彈出視窗 -->
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        // 彈出blockSettingSingle
+        $(document).on('click', ".blockSettingSingle", function (e) {
+            e.preventDefault();
+            var dialog = $("#blockSettingSingle-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Block Setting",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出blockSettingSingle
+        $(document).on('click', ".blockSettingDetails", function (e) {
+            e.preventDefault();
+            var dialog = $("#blockSettingDetails-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Block Setting Details",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 查詢結果
+        $('#blockSettingResult-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_blockSettingResult.json',
+            method: 'get',
+            columns: [[
+                {field: 'blockNo', title: 'Block No.', width: 100},
+                {field: 'blockW', title: 'Agent', width: 100},
+                {field: 'blockCname', title: 'Company Name', width: 150},
+                {field: 'blockDescription', title: 'Description', width: 500},
+            ]]
+
+        });
+
+        // 鎖控 table
+        $('#blockSettingSingle-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_blockSettingSingle.json',
+            method: 'get',
+            columns: [[
+                {field: 'blockNo', title: 'Block No.', width: 80},
+                {field: 'blockRM', title: 'RM type', width: 80},
+                {field: 'blockSD', title: 'Start Date', width: 80},
+                {field: 'blockED', title: 'End Date', width: 80},
+                {field: 'blockBQ', title: 'Block Qnt', width: 80},
+                {field: 'blockRB', title: 'Release before', width: 100},
+                {field: 'blockRW', title: 'Released way', width: 100},
+                {field: 'blockAD', title: 'Added Date', width: 100},
+                {field: 'blockAB', title: 'Added by', width: 100},
+                {field: 'blockUD', title: 'Upd date', width: 100},
+                {field: 'blockUB', title: 'Upd by', width: 100},
+            ]]
+
+        });
+
+
+//    });
+
+//    $(function() {
+
+//
+//        var tableWidth1 = $(".sidebar").width();
+//
+//        tableWidth=$(window).width()-tableWidth1-10;
+//        $(".grid_12").css("width", "95%");
+////        $(".grid_12").find(".fht-fixed-body").css("width", "95%");
+//        $(".fht-body").css("width", "95% !important");
+//        $(window).resize(function() {
+//            tableWidth=$(window).width()-tableWidth1-10;
+//            $(".grid_12").css("width", "100%");
+//            $(".fht-body").css("width", "100%");
+//
+////        });
+//
+//
+//
+    });
+</script>

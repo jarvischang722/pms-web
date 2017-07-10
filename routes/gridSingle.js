@@ -4,9 +4,9 @@
 
 var sgCrtl = require("../controllers/gridSingleController");
 var authMW = require("../middlewares/authMiddleware");
-var hotelMW = require("../middlewares/hotelMiddleware");
+var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
-var middles = [i18nMW,authMW,hotelMW];
+var middles = [i18nMW,authMW,sysMW];
 
 module.exports = function(app ) {
 
@@ -18,6 +18,9 @@ module.exports = function(app ) {
 
     //儲存資料API
     app.post('/api/saveGridSingleData',middles, sgCrtl.saveGridSingleData);
+
+    //取得跳窗頁面資料(用在跳窗選擇資料後可帶回資料到欄位)
+    app.post('/api/selectGridData',middles, sgCrtl.selectGridData);
 
 
 };

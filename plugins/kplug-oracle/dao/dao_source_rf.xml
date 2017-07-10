@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810110取得多筆資料-->
+    <dao name="QRY_SOURCE_RF">
+        <statement><![CDATA[
+           select athena_id, source_typ, source_nam, use_sta, source_grp, modify_sta, ins_dat, ins_usr, upd_dat, upd_usr
+           from source_rf
+           where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+
+    <!-- PMS0810180取得預設訂房來源-->
+    <dao name="QRY_GW_CUST_RF_DEFAULT_SOURCE_TYP">
+        <statement><![CDATA[
+              select source_typ as value, source_nam as display
+              from source_rf
+              where use_sta = 'Y' and athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

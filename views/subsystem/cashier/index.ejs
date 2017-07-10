@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
+
+<body class="no-skin" id="app">
+
+<%- include ../../common/navbar.ejs %>
+
+<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
+
+    <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+        <%- include('../../common/moduleMenu',{module:'front_desk_conf' ,current_subsys_id:'PMS0300000',pro_id:''}) %>
+    </div>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0300000',pro_id:''}) %>
+            <div id="MainContentDiv" class="page-content">
+                <!-- 主內容 -->
+
+            </div>
+        </div>
+    </div><!-- /.main-content -->
+    <%- include ../../common/footer %>
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+</body>
+
+</html>
+

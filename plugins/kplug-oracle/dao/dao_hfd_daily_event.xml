@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!--  -->
+    <dao name="QRY_HFD_DAILY_EVENT">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, key_nos, event_nam, begin_dat, end_dat, color_num, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
+            from hfd_daily_event
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+            order by view_seq,begin_dat,end_dat,event_nam
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+
+    </dao>
+
+
+</root>

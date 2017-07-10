@@ -1,37 +1,44 @@
 <ul class="nav nav-list" id="moduleUl">
     <li class="active nav-height">
-        <a href="/">
+        <a href="javascript:void(0)">
             <i class="menu-icon fa fa-tachometer"></i>
             <span class="menu-text"> <%= session.user["sys_name_" + session.locale] %> </span>
         </a>
-
-        <b class="arrow"></b>
     </li>
+    <li class="nav-height" v-for="mdlItem in moduleMenu"  :class="{open : isOpenModule == mdlItem.mdl_id}" >
+        <template v-if="mdlItem.group_sta == 'N'">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
+                    <!-- 模組名稱 -->
+                {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
+            </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
 
-    <li class="nav-height">
-        <a href="#" class="dropdown-toggle">
-            <i class="menu-icon fa fa-desktop"></i>
-            <span class="menu-text">
-                               <%= __("front_desk_conf") %>
-                            </span>
+            <ul class="submenu">
+                <li v-for="proItem in mdlItem.processMenu"
+                    v-if="proItem.flag2_sta == 'Y'"
+                    >
+                    <a @click="window.open('?prg_id='+proItem.pro_id)"
+                       target="_blank">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        <!-- 作業名稱 -->
+                        {{proItem["pro_name_" + locale]}}
+                    </a>
+                </li>
+            </ul>
+        </template>
 
-            <b class="arrow fa fa-angle-down"></b>
-        </a>
-
-        <b class="arrow"></b>
-        <ul class="submenu">
-            <li class="">
-                <!--<a href="manageReservation.html" target="_blank" class="dropdown-toggle"> dropdown-toggle 在下拉一層-->
-                <a onclick="javascript:window.open('/manageSetting')" target="_blank">
-                    <i class="menu-icon fa fa-caret-right"></i>
-                    <%= __("reserve_comparsion") %>
-                </a>
-
-                <b class="arrow"></b>
-
-            </li>
-
-        </ul>
+        <template v-else>
+            <a @click="window.open('?prg_id='+mdlItem.mdl_id)" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
+                        <!-- 模組名稱 -->
+                    {{mdlItem["mdl_name_" + locale]  ?  mdlItem["mdl_name_" + locale] : mdlItem.mdl_name}}
+                </span>
+            </a>
+        </template>
 
     </li>
 
@@ -41,4 +48,3 @@
     </div>
 </ul>
 
-<!-- /.nav-list -->

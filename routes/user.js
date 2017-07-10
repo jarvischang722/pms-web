@@ -34,10 +34,16 @@ module.exports = function (app, passport) {
     //取得QuickMenu
     app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);
 
-    //取得權限設計web
-    app.get('/authorityRole',middles, userCrtl.getAuthorityRole);
+    //新增 角色權限(靜態)
+    app.get('/authorityRole', userCrtl.getAuthorityRole);
 
-    app.get('/authorityStaff',middles, userCrtl.getAuthorityStaff);
+    //新增 人員權限(靜態)
+    app.get('/authorityStaff', userCrtl.getAuthorityStaff);
+
+
+    //新增 功能權限(靜態)
+    app.get('/authorityFeature', userCrtl.getAuthorityFeature);
+
 
 };
 

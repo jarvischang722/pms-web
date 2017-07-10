@@ -7,9 +7,31 @@ var fs = require("fs");
 var rulesDirectory = __dirname + "/rules/";
 var AllRuleClass = {};
 
-fs.readdirSync(rulesDirectory).filter(function (file) {
-    AllRuleClass = _.extend(AllRuleClass,require(rulesDirectory + file));
-})
+loadDirRules(rulesDirectory);
+
+function loadDirRules(rootPath) {
+    fs.readdir(rootPath, function (err, files) {
+        if (err) throw err;
+
+        files.forEach(function (file) {
+            fs.stat(rootPath + file, function (err, stats) {
+                if (err) throw err;
+
+                if (stats.isFile()) {
+                    // console.log("%s is file", file);
+                    if (file.indexOf(".js") > -1)
+                        AllRuleClass = _.extend(AllRuleClass, require(rootPath + file));
+                }
+                else if (stats.isDirectory()) {
+                    // console.log("%s is a directory", file);
+                    loadDirRules(rootPath + file + "/");
+                }
+
+            });
+        });
+    });
+}
+
 
 module.exports = AllRuleClass;
 

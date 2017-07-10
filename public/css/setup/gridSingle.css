@@ -1,0 +1,34 @@
+select {
+    color: #000000 !important;
+}
+
+input {
+    color: #000000 !important;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+.input_sta_required {
+    /*background-color: rgb(100, 218, 141) !important;*/
+    background-color: rgb(198, 242, 217) !important; /* (186, 242, 234) */
+}
+
+.input_sta_readonly {
+    background-color: #dadada !important;
+}
+
+.btnUnable {
+    background-color: #d2d2d2 !important;
+    border-color: #d2d2d2 !important;
+}
+
+/* ---- grid ---- */
+
+/* ---- grid-item ---- */
+/**/
+/*.input {*/
+/*height: 50px;*/
+/*}*/
+

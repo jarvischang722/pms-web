@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0860020'] 查詢資料-->
+    <dao name="QRY_BUSINESS_RF">
+        <statement><![CDATA[
+              select business_cod, business_rmk, ins_dat, ins_usr, upd_dat, upd_usr, athena_id
+               from business_rf
+               where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

@@ -1,0 +1,72 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "impliedStrict": true
+    }
+  },
+
+  "rules": {
+    "semi": 2,
+    // "quotes": [1, "single"], //建議使用單引號
+    // "no-inner-declarations": [1, "both"], //不建議在{}代碼塊內部聲明變量或函數
+    "no-extra-boolean-cast": 1, //多餘的感嘆號轉布爾型
+    "no-extra-semi": 1, //多餘的分號
+    "no-extra-parens": 1, //多餘的括號
+    "no-empty": 1, //空代碼塊
+    "no-use-before-define": [1, "nofunc"], //使用前未定義
+    "complexity": [1, 10], //圈複雜度大於10 警告
+    //常見錯誤
+    "no-console": 1,
+    "comma-dangle": [2, "never"], //定義數組或對象最後多餘的逗號
+    "no-debugger": 2, //debugger 調試代碼未刪除
+    "no-constant-condition": 2, //常量作為條件
+    "no-dupe-args": 2, //參數重複
+    "no-dupe-keys": 2, //對象屬性重複
+    "no-duplicate-case": 2, //case重複
+    "no-empty-character-class": 2, //正則無法匹配任何值
+    "no-invalid-regexp": 2, //無效的正則
+    "no-func-assign": 2, //函數被賦值
+    "valid-typeof": 2, //無效的類型判斷
+    "no-unreachable": 2, //不可能執行到的代碼
+    "no-unexpected-multiline": 2, //行尾缺少分號可能導致一些意外情況
+    "no-sparse-arrays": 2, //數組中多出逗號
+    "no-shadow-restricted-names": 2, //關鍵詞與命名衝突
+    "no-undef": 0, //變量未定義
+    "no-unused-vars": 1, //變量定義後未使用
+    "no-cond-assign": 2, //條件語句中禁止賦值操作
+    "no-native-reassign": 2, //禁止覆蓋原生對象
+
+    //代碼風格優化
+    "no-else-return": 1,  //在else代碼塊中return，else是多餘的
+    "no-multi-spaces": 1, //不允許多個空格
+    "key-spacing": [1, {"beforeColon": false, "afterColon": true}],//object直接量建議寫法 : 後一個空格簽名不留空格
+    "block-scoped-var": 2,  //變量定義後未使用
+    "consistent-return": 2, //函數返回值可能是不同類型
+    "accessor-pairs": 2,    //object getter/setter方法需要成對出現
+    "dot-location": [2, "property"], //換行調用對象方法 點操作符應寫在行首
+    "no-lone-blocks": 2,   //多餘的{}嵌套
+    "no-empty-label": 1,   //無用的標記
+    "no-extend-native": 2, //禁止擴展原生對象
+    "no-floating-decimal": 2, //浮點型需要寫全 禁止.1 或 2.寫法
+    "no-loop-func": 2, //禁止在循環體中定義函數
+    "no-new-func": 2,  //禁止new Function(...) 寫法
+    "no-self-compare": 2, //不允與自己比較作為條件
+    "no-sequences": 2, //禁止可能導致結果不明確的逗號操作符
+    "no-throw-literal": 2, //禁止拋出一個直接量 應是Error對象
+    "no-return-assign": [2, "always"], //不允return時有賦值操作
+    "no-redeclare": [2, {"builtinGlobals": true}],//不允許重複聲明
+    "no-unused-expressions": [2, {"allowShortCircuit": true, "allowTernary": true}],//未使用的表達式
+    "no-useless-call": 2, //無意義的函數call或apply
+    "no-useless-concat": 2, //無意義的string concat
+    "no-void": 2, //禁用void
+    "no-with": 2, //禁用with
+    "strict": 2,//使用严格模式
+    "no-warning-comments": [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }],//標記未寫註釋
+    "curly": 2 //if、else、while、for代碼塊用{}包圍
+  }
+  //"extends": "eslint:recommended"
+
+}

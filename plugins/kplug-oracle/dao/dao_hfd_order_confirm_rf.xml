@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!--  -->
+    <dao name="QRY_HFD_ORDER_CONFIRM_RF">
+        <statement><![CDATA[
+              select athena_id, hotel_cod, confirm_cod, subject, content, use_cod, ins_dat, ins_usr, upd_dat, upd_usr
+              from hfd_order_confirm_rf
+              where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(confirm_cod) = trim(:confirm_cod) ">confirm_cod</parameter>
+        <orderby >order by confirm_cod </orderby>
+    </dao>
+
+    <dao name="QRY_HFD_ORDER_CONFIRM_RF_USE_COD">
+        <statement><![CDATA[
+              select use_cod as value ,use_nam as display
+              from email_use_rf
+              where athena_id = :athena_id
+              and trim(hotel_cod) = trim(:fun_hotel_cod) and use_sta = 'Y'
+        ]]></statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">fun_hotel_cod</parameter>
+        <orderby >order by use_cod </orderby>
+    </dao>
+
+</root>

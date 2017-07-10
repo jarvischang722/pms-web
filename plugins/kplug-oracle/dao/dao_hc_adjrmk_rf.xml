@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830060'] 取得多筆 -->
+    <dao name="QRY_HC_ADJRMK_RF">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, remark_cod, remark_nam, bincome_sta, cancel_sta, ins_dat, ins_usr, upd_dat, upd_usr
+        from hc_adjrmk_rf
+        where athena_id = ? and trim(hotel_cod) = trim(?)
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+</root>

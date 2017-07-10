@@ -1,95 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<%-include common/head%>
-<%-include common/importFiles%>
+
+<%- include ./common/head %>
+
+<%- include ./common/importFiles %>
 
 <body class="no-skin">
-<script>
 
-        location.href='/manageSetting';
+<%- include ./common/navbar.ejs %>
 
+<div id="MainApp" class="main-container ace-save-state" style="margin-top: 35px;">
 
-
-</script>
-
-<!-- #section:basics/navbar.layout -->
-<%-include common/navbar.ejs %>
-<!-- include header.html -->
-
-<!-- /section:basics/navbar.layout -->
-<div class="main-container ace-save-state" id="main-container">
-    <!-- #section:basics/sidebar -->
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-
-        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success">
-                    <i class="ace-icon fa fa-signal"></i>
-                </button>
-
-                <button class="btn btn-info">
-                    <i class="ace-icon fa fa-pencil"></i>
-                </button>
-
-                <!-- #section:basics/sidebar.layout.shortcuts -->
-                <button class="btn btn-warning">
-                    <i class="ace-icon fa fa-users"></i>
-                </button>
-
-                <button class="btn btn-danger">
-                    <i class="ace-icon fa fa-cogs"></i>
-                </button>
-
-                <!-- /section:basics/sidebar.layout.shortcuts -->
-            </div>
-
-            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-                <span class="btn btn-success"></span>
-
-                <span class="btn btn-info"></span>
-
-                <span class="btn btn-warning"></span>
-
-                <span class="btn btn-danger"></span>
-            </div>
-        </div><!-- /.sidebar-shortcuts -->
-
-        <%- include('common/moduleMenu',{}) %>
-
-
-        <!-- #section:basics/sidebar.layout.minimize -->
-        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
-               data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-        </div>
-        <div class="companyInfo">
-            <img src="/images/athena.png"/>
-        </div>
-        <!-- /section:basics/sidebar.layout.minimize -->
+        <%- include ./common/moduleMenu.ejs %>
     </div>
-
-    <!-- /section:basics/sidebar -->
-
-
     <div class="main-content">
         <div class="main-content-inner">
-
-            <%- include('common/subsysMenu',{}) %>
-
-            <div id="manageReservation-load" class="page-content">
-                <h2>Welcome</h2>
-            </div><!-- /.page-content -->
+            <%- include ./common/subsysMenu.ejs %>
+            <div id="MainContentDiv" class="page-content">
+                <!-- 主內容 -->
+            </div>
         </div>
-    </div><!-- /.main-content -->
-
-    <%-include common/footer%>
-
+    </div>
+    <%- include ./common/footer %>
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
-</div><!-- /.main-container -->
+</div>
 
-<!-- basic scripts -->
 
 </body>
+
+<script>
+
+
+    var vm = new Vue({
+        el: '#MainApp',
+        data: {
+            usingSubsysID: '',
+            usingPrgID: '',
+            locale: '<%= session.locale %>',
+            moduleMenu: [],
+            quickMenu: [],
+            subsysMenu: [],
+            isOpenModule: "" //打開的模組 ex: PMS0001000
+        },
+        mounted: function () {
+
+            this.getUserSubsys();
+
+        },
+        watch: {
+            usingSubsysID(subsys_id){
+                let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
+                if (lo_subsysMenu) {
+                    this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
+                    this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
+                } else {
+                    this.quickMenu = [];
+                    this.moduleMenu = [];
+                }
+
+                if (_.isEmpty(this.usingPrgID)) {
+                    if (this.getQueryString("prg_id") != null) {
+                        this.usingPrgID = this.getQueryString("prg_id");
+                    } else if (!_.isUndefined(getCookie('usingPrgID')) && !_.isNull(getCookie('usingPrgID'))) {
+                        this.usingPrgID = getCookie('usingPrgID');
+                    } else {
+                        this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
+                    }
+                } else {
+                    this.usingPrgID = this.quickMenu.length > 0 ? this.quickMenu[0].pro_id : "";
+                }
+                this.loadMainProcess(this.usingPrgID);
+
+            }
+        },
+        methods: {
+            //取得此子系統的權限
+            getUserSubsys: function () {
+                axios.post("/api/getUserSubsys").then(function (res) {
+                    vm.subsysMenu = res.data.subsysMenu;
+                    vm.usingSubsysID = getCookie('usingSubsysID');
+                })
+            },
+            //取得網址get 參數
+            getQueryString(name) {
+                var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) {
+                    return unescape(r[2]);
+                }
+                return null;
+            },
+            changeSubsys: function (subsys_id) {
+                location.href = '/bacchus4web/' + subsys_id;
+            },
+            //讀入主程式
+            loadMainProcess: function (prg_id) {
+                var ls_pro_url = "";
+                this.isOpenModule = "";
+                doCookieSetup("usingPrgID", prg_id);
+                $("#MainContentDiv").html("");
+
+                _.each(this.moduleMenu, function (mdl) {
+                    if (mdl.group_sta == 'N') {
+                        var lo_pro = _.findWhere(mdl.processMenu, {pro_id: prg_id}) || {};
+                        if (_.size(lo_pro) > 0) {
+                            vm.isOpenModule = mdl.mdl_id;
+                            ls_pro_url = lo_pro.pro_url;
+                        }
+                    } else {
+                        if (mdl.mdl_id == prg_id) {
+                            ls_pro_url = mdl.mdl_url;
+                        }
+                    }
+                })
+                if (_.isEmpty(ls_pro_url)) {
+                    var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id})
+                    if (tmpQuick) {
+                        ls_pro_url = tmpQuick.pro_url;
+                    }
+                }
+                if (!_.isEmpty(ls_pro_url)) {
+                    $("#MainContentDiv").load(ls_pro_url);
+                }
+
+            }
+        },
+
+    })
+
+    /** 模組伸縮版需要先關閉再打開才會WORK (暫時解法)**/
+    $(function () {
+        $("#sidebar-toggle-icon").click();
+        $("#sidebar-toggle-icon").click();
+    })
+
+</script>
 </html>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810200-->
+    <dao name="QRY_HFD_TODO_LIST_RF_DEPTCOD">
+        <statement><![CDATA[
+                select trim(dept_cod) as value ,dept_nam as display
+                 from dept_rf
+                 where athena_id = ? and comp_cod = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cmp_id</parameter>
+
+    </dao>
+</root>

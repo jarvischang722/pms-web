@@ -1,0 +1,211 @@
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+
+                                    <div class="width-95">
+                                        <div class="grid">
+                                            <div class="grid-item pull-left">
+                                                <label>速查</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+
+                                            </div>
+                                            <div class="searchCheckbox pull-left">
+                                                <span class="checkbox">
+                                                  <label class="checkbox-width">
+                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                      <span class="lbl">Keyword</span>
+                                                  </label>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>姓名</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>歷史編號</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>身分證字號</label>
+                                                <input type="text" class="input-medium popWindow-s2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>國籍</label>
+                                                <input type="text" class="input-medium popWindow-s2" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>出生日期</label>
+                                                <input type="date" class="input-medium popWindow-s2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>C/I 日期</label>
+                                                <input type="date" class="input-medium popWindow-s2" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>消費總額</label>
+                                                <input type="text" class="input-medium popWindow-s2 text-right" placeholder="">
+                                            </div>
+
+                                            <div class="grid-item">
+                                                <label>是否收取DM</label>
+                                                <select class="input-medium popWindow-s2">
+                                                    <option value="y">Y</option>
+                                                    <option value="n">N</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>代訂公司代號</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>公司代號</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>公司名稱</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <!--<div class="blockSetting-heading">查詢結果</div>-->
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- rateCode-查詢結果 dataGrid -->
+                    <table id="resv_gProfile-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
+                                        role="button">Add</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-2"
+                                        role="button">Edit</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">Delete</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">以下全選</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">以下全不選</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+
+    <!--  依房型訂房 彈出視窗內容-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
+    <!--  /.End 彈出視窗內容 -->
+</div><!-- /.page-content -->
+
+
+<!--treeTable-->
+<script type="text/javascript" src="/js/tree/jquery.treetable-ajax-persist.js"></script>
+<script type="text/javascript" src="/js/tree/jquery.treetable-3.0.0.js"></script>
+<script type="text/javascript" src="/js/tree/persist-min.js"></script>
+<!--fixTable-->
+<script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
+
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

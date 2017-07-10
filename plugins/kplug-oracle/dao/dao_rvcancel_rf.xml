@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0810160 取得多筆 -->
+    <dao name="QRY_RVCANCEL_RF">
+        <statement><![CDATA[
+			select athena_id, hotel_cod, cancel_cod, cancel_rmk, flag1_sta, ins_dat, ins_usr, upd_dat, upd_usr
+			from rvcancel_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+</root>

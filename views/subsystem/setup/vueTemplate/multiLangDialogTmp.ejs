@@ -1,0 +1,22 @@
+<script type="text/x-template" id="multiLangDialogTmp">
+
+    <div id="multiLangDialog" style="display: none;" align="center">
+        <div class="multiLangDGPosition">
+            <table id="multiLangDG"></table>
+        </div>
+        <div class="col-sm-12 col-xs-12 center" id="multiDialogBtns" >
+            <div class="singleRelative">
+                <div class="singleBtnBottom">
+                    <button class="btn btn-primary btn-white" @click="saveMultiLang">
+                        <%= __("SystemCommon").OK %>
+                    </button>
+                    <button class="btn btn-primary btn-white" @click="closeMultiLangDialog">
+                        <%= __("SystemCommon").Cancel %>
+                    </button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+</script>

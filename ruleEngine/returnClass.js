@@ -14,6 +14,8 @@ function rtnObject () {
     this.isGoPostAjax  = false;  //是否在打一次ajax到後端
     this.ajaxURL = "";           //ajax要打的路徑
     this.extendExecDataArrSet = [];    //存放額外要組合sql的資料集合
+    this.selectOptions = [];     //下拉選單選項
+    this.modifiedRowData = {};     //修改後的Row資料
 }
 
 

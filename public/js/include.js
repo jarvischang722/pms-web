@@ -1,8 +1,8 @@
 $(function () {
 
 //訂房第一層帶入
-    $("#manageReservation-load").load("roomTypePlan.html");
-    $(".secondMenuClick li:first-child").addClass("activeThis");
+//     $("#manageReservation-load").load("roomTypePlan.html");
+//     $(".secondMenuClick li:first-child").addClass("activeThis");
 
     //第一層架構
     $(document).on('click',".secondMenuClick li",function (e) {
@@ -107,7 +107,15 @@ $(function () {
 ////            $(this).find('.sub-ul li:first-child').addClass("sub-active");
 //    });
 
-
+    // search toggle
+    $(document).on('click',".show-search-detail",function (e) {
+        $('.rece-search-detail').slideToggle();
+    });
+    // resevation toggle 依房型訂房
+    $(document).on('click',".show-extendContent",function (e) {
+        $('.extendContent').slideToggle();
+        $(this).children().toggleClass("active");
+    });
 });
 
 

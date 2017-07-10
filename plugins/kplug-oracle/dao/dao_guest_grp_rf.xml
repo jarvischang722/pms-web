@@ -9,4 +9,14 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!-- 取得使用中市場類別群組-->
+    <dao name="QRY_GUEST_RF_GUEST_GRP">
+        <statement><![CDATA[
+           select guest_grp,guest_grp_nam from guest_grp_rf where athena_id = ? and guest_grp = ? and use_sta = 'Y'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">guest_grp</parameter>
+    </dao>
 </root>

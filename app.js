@@ -19,12 +19,13 @@ var port = 8888;
 var app = express();// initail express
 var server = http.createServer(app);
 var io = require('socket.io')(server);
+var ios = require('socket.io-express-session');
+var dbSvc = require("./services/DbTableService");
 var dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 var mongoAgent = require("./plugins/mongodb");
-var tbSVC = require("./services/dbTableService");
+var tbSVC = require("./services/DbTableService");
 var _ = require("underscore");
-//初始化io event
-require("./plugins/socket.io/socketEvent")(io);
+
 
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
@@ -35,11 +36,22 @@ require('./plugins/kplug-oracle/DB').create(dbConfig.oracle);
 
 // i18n setting
 i18n.configure({
+    // watch for changes in json files to reload locale on updates - defaults to false
+    autoReload: true,
+    // setup some locales - other locales default to en silently
     locales: ['zh_tw', 'zh_cn', 'en', 'ja'],
+    // you may alter a site wide default locale
     defaultLocale: 'en',
+    // sets a custom cookie name to parse locale settings from - defaults to NULL
     cookie: sysConfig.secret + 'i18n',
+    // where to store json files - defaults to './locales' relative to modules directory
     directory: __dirname + '/locales',
-    objectNotation: true
+    // enable object notation
+    objectNotation: true,
+    // object or [obj1, obj2] to bind the i18n api and current locale to - defaults to null
+    register: global,
+    // query parameter to switch locale (ie. /home?lang=ch) - defaults to NULL
+    queryParameter: 'locale'
 });
 
 require('./utils/passport-cas')(passport);
@@ -50,11 +62,17 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')));
+
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
+
+//Sam:暫時為了post擴充可傳的資料量，做修改 20170705
+app.use(bodyParser.json({limit: "10mb"}));
+app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit:10000}));
+
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
@@ -63,13 +81,46 @@ app.use(i18n.init);
 app.use(flash());
 
 //session setting
-app.use(session({
+var maxAgeSec = 20 * 60;                //session 設定過期時間（秒）
+var sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。
     saveUninitialized: false,              //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid
+    cookie: {
+        maxAge: maxAgeSec * 1000        //單位 毫秒
+    },
+    store: new MongoStore({
+        url: dbconn,
+        ttl: maxAgeSec                   //單位 秒
+    })
+});
 
-}));
+//設定socket.io 可以取得session
+io.use(function (socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, function(){
+        socket.session = socket.request.session;
+        socket.session.id = socket.request.sessionID;
+        next();
+    });
+});
+
+app.use(sessionMiddleware);
+
+//Layout 設定
+// app.use(expressLayouts);
+// app.set("layout extractScripts", true);
+// app.set('layout', 'layouts/mainLayout');
+
+//初始化io event
+require("./plugins/socket.io/socketEvent")(io);
+
+//一直保持session 不閒置
+app.use(function (req, res, next) {
+    req.session._touchSession = new Date();
+    req.session.touch();
+    next();
+});
 
 app.use(function (req, res, next) {
     res.locals.session = req.session;
@@ -77,7 +128,21 @@ app.use(function (req, res, next) {
     next();
 });
 
-
+//設定系統提供語系
+app.use(function (req, res, next) {
+    var options = {
+        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        //httpOnly: true, // The cookie only accessible by the web server
+        //signed: true // Indicates if the cookie should be signed
+    };
+    var localeInfo = [
+        {lang: 'en', sort: 1, name: 'English'},
+        {lang: 'zh_TW', sort: 2, name: encodeURIComponent('繁體中文')},
+        {lang: 'ja', sort: 3, name: encodeURIComponent('日本語')}
+    ];
+    res.cookie('sys_locales', localeInfo, options);
+    next();
+});
 routing(app, passport);
 
 // catch 404 and forward to error handler
@@ -110,31 +175,13 @@ server.listen(port, function () {
  */
 function tableUnlockforAllPrg() {
 
-    mongoAgent.UI_Type_Grid.find().exec(function (err, templates) {
-        var funcs = [];
-        var template = {};
-        _.each(templates, function(template){
-            funcs.push(
-                function (callback) {
-                    tbSVC.doTableUnLock(template.prg_id,
-                        template.lock_table,
-                        "",
-                        "T",
-                        ""
-                        , callback)
-                }
-            )
-        });
+    dbSvc.doTableAllUnLock(function (err, success) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("Table unlock all program ID.");
+        }
 
-        // require("async").parallel(funcs, function (err, result) {
-        //     if(err){
-        //        console.error("table unlock error!")
-        //        console.error(err)
-        //     }else{
-        //         console.log("table unlock finished!");
-        //     }
-        //
-        // })
     })
 
 }

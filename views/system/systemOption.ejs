@@ -35,7 +35,7 @@
                                 <div class="system-block">
                                     <% sysList.forEach(function(sys){ %>
                                     <div class="imgWrap">
-                                        <a href="#" onclick="selectSys('<%= sys.sys_id %>')">
+                                        <a href="#" @click="selectSys('<%= sys.sys_id %>')">
                                             <img src="/images/flow.png"/>
                                             <span class="text-content">
                                                     <span><%= sys["sys_name_" + session.locale] %></span>
@@ -43,14 +43,10 @@
                                         </a>
                                     </div>
                                     <% }) %>
-
                                 </div>
                             </div><!-- /.col -->
-
                             <div class="col-sm-1"></div>
                         </div><!-- /.row -->
-
-
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -65,20 +61,21 @@
     </a>
 </div><!-- /.main-container -->
 
-
 </body>
 </html>
 
 <script>
-
-    function selectSys(sys_id) {
-        $.post("/api/selectSystem", {sys_id: sys_id}, function (result) {
-            if (result.success) {
-                location.href = "/";
-            } else {
-                alert(result.errorMsg);
+    new Vue({
+        el: '#main-container',
+        methods: {
+            //選擇系統
+            selectSys: function (sys_id) {
+                $.post("/api/selectSystem", {sys_id, sys_id}, function (result) {
+                    if (result.success) {
+                        location.href = result.subsysPage;
+                    }
+                })
             }
-        });
-    }
-
+        }
+    })
 </script>

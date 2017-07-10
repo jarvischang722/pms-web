@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 假日類別資訊 -->
+    <dao name="QRY_HOLIDAY_KIND_RF">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, day_sta, day_nam, color_num, sys_default,
+                    ins_dat, ins_usr, upd_dat, upd_usr from holiday_kind_rf
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+
+</root>

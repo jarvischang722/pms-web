@@ -1,0 +1,374 @@
+<!-- 單檔彈出視窗 -->
+<style>
+    input[type=file] {
+        display: none;
+    }
+</style>
+<script type="text/x-template" id="sigleGridPMS0810020Tmp">
+    <div id="singleGridPMS0810020" v-show="false">
+        <div class="col-sm-12 col-xs-12 singleGridContent">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <!-- Start Content -->
+                    <form id="singleDataForm" method="post">
+                        <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
+                            <div class="row" v-for="fields in pageTwoFieldData">
+                                <div class="grid-item " v-for="field in fields">
+                                    <label :style="{width:field.label_width + 'px'}"
+                                           v-if="field.visiable == 'Y'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
+                                            {{field.ui_field_name}}
+                                        </a>
+                                        <span v-else>{{field.ui_display_name}} </span>
+                                    </label>
+                                    <span v-if="field.visiable == 'Y'"
+                                          style="width: 15px; text-align: center;
+                                          display: inline-block; min-width: 15px;">:</span>
+
+                                    <!--  Text & Number -->
+                                    <!--  number no spinner add class="numStyle-none" -->
+                                    <input v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number')"
+                                           :type="field.ui_type"
+                                           class="numStyle-none"
+                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :required="field.requirable == 'Y'"
+                                           min="0"
+                                           :maxlength="field.ui_field_length"
+                                           :disabled="field.modificable == 'N'"
+                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+
+                                    <!-- 日期選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="date"
+                                                        placeholder=""
+                                                        size="small"
+                                                        :disabled="field.modificable == 'N'"
+                                                        format="yyyy/MM/dd"
+                                                        :style="{width:field.width + 'px' , height:'30px'}"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                        </el-date-picker>
+                                    </template>
+
+                                    <!-- 日期時間選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="datetime"
+                                                        placeholder=""
+                                                        :disabled="field.modificable == 'N'"
+                                                        size="small"
+                                                        format="yyyy/MM/dd HH:mm:ss"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                        </el-date-picker>
+                                    </template>
+
+
+                                    <!-- 下拉選單 -->
+                                    <span class="dropdown margin-adjust" align="left"
+                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'">
+                                        <button :disabled="field.modificable == 'N'"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                type="button"
+                                                data-toggle="dropdown">
+                                                {{ showDropdownDisplayName(singleData[field.ui_field_name] , field.selectData) }}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation" v-for="opt in field.selectData">
+                                                <a @click.prevent="singleData[field.ui_field_name] = opt.value">
+                                                    {{opt.display}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </span>
+
+                                    <input type="hidden"
+                                           v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'N'"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="grid-item">
+                                    <label style="width: 75px;"><span><%= __("program")["PMS0810020"].roomTypeLabel %> : </span></label>
+                                    <el-upload v-if="editStatus" class="upload-demo" list-type="picture"
+                                               :auto-upload="false" :on-change="fileChange"
+                                               :on-remove="fileRemove" action="" :file-list="previewList">
+                                        <el-button size="small"
+                                                   type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
+                                        <div slot="tip"
+                                             class="el-upload__tip"><%= __("program")["PMS0810020"].uploadImageTip %></div>
+                                    </el-upload>
+                                </div>
+                            </div>
+                            <div v-for="file in displayFileList">
+                                <img :src="file.url" width="500px" v-show="imageDisplay">
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End Content -->
+
+                    <!-- Control Panel -->
+                    <div class="col-sm-1 col-xs-1 singleRelative">
+                        <div class="row" v-if="editStatus">
+                            <div class="singleEditStatus right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData || $parent.isLoading"
+                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData || $parent.isLoading"
+                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData || $parent.isLoading"
+                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData || $parent.isLoading"
+                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="handleDeleteSingleData">
+                                            <%= __("SystemCommon").Delete %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="uploadWebSite">
+                                            <%= __("program")["PMS0810020"].uploadWebSite %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="uploadRoomTypePic">
+                                            <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="showRoomTypeStock">
+                                            <%= __("program")["PMS0810020"].genRoomTypeStock %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="showRoomTypeSort">
+                                            <%= __("program")["PMS0810020"].showRoomTypeOrder %>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- End Control Panel -->
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!-- buttons -->
+        <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
+            <div class="singleRelative">
+                <div class="singleBtnBottom">
+                    <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
+                            @click="doSaveGrid('addOther')">
+                        <%= __("SystemCommon").Add_after_save %>
+                    </button>
+                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
+                        <%= __("SystemCommon").Leave_after_save %>
+                    </button>
+                    <button v-if="editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white"
+                            @click="doSaveGrid('')">
+                        <%= __("SystemCommon").Save %>
+                    </button>
+                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
+                        <%= __("SystemCommon").Leave %>
+                    </button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <!-- 產生庫存dialog -->
+        <el-dialog title="<%= __("program")["PMS0810020"].genRoomTypeDialogTitle %>" :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false"
+                   :modal-append-to-body="false">
+            <el-row>
+                <el-col :span="12" :offset="6">
+                    <el-form>
+                        <el-form-item label="<%= __("program")["PMS0810020"].begin_dat %>">
+                            <el-date-picker
+                                    v-model="begin_dat"
+                                    type="date"
+                                    placeholder="<%= __("program")["PMS0810020"].select_dat %>"
+                                    format="yyyy/MM/dd"
+                                    :picker-options="pickerOptions0">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12" :offset="6">
+                    <el-form>
+                        <el-form-item label="<%= __("program")["PMS0810020"].end_dat %>">
+                            <el-date-picker
+                                    v-model="end_dat"
+                                    type="date"
+                                    placeholder="<%= __("program")["PMS0810020"].select_dat %>"
+                                    format="yyyy/MM/dd"
+                                    :picker-options="pickerOptions0">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12" :offset="6">
+                    <el-checkbox v-model="reset_qnt"><%= __("program")["PMS0810020"].reset_qnt %></el-checkbox>
+                </el-col>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12" :offset="6">
+                    <span><%= __("program")["PMS0810020"].maxRmStock %>: </span><span>{{ maxRmStock }}</span>
+                </el-col>
+            </el-row>
+
+            <div slot="footer" class="dialog-footer">
+                <el-row>
+                    <el-col :span="12" :offset="3">
+                        <el-button
+                                @click="dialogRmTypeStockVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                        <el-button type="primary" @click="genRmStockSave"><%= __("SystemCommon").OK %></el-button>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-dialog>
+
+        <!-- 房型顯示排序dialog -->
+        <el-dialog title="<%= __("program")["PMS0810020"].erpTabPageTitle %>" :visible.sync="dialogShowRoomSortVisible"
+                   size="small" :show-close="false"
+                   :modal-append-to-body="false">
+            <template>
+                <el-tabs v-model="tabName" type="card" @tab-click="tabChange">
+                    <el-tab-pane label="<%= __("program")["PMS0810020"].erpTabPageTitle %>" name="ERP">
+
+                        <table class="css_table horizTable" width="100％;">
+                            <thead class="css_thead">
+                            <tr class="css_tr">
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th" style="width: 25%;"><%= __("program")["PMS0810020"].room_sort %></th>
+                            </tr>
+                            </thead>
+                            <tbody class="css_tbody">
+                            <tr class="css_tr" v-for="(item, index) in erpSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, erpSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, erpSortData)"
+                                               v-if="index != erpSortData.length-1">
+                                    </el-button>
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </el-tab-pane>
+                    <el-tab-pane label="<%= __("program")["PMS0810020"].wrsTabPageTitle %>" name="webSite">
+
+                        <table class="css_table horizTable" width="100％;">
+                            <thead class="css_thead">
+                            <tr class="css_tr">
+
+                                <th class="css_th" style="width: 20%;"><%= __("program")["PMS0810020"].room_cod %></th>
+                                <th class="css_th" style="width: 45%;"><%= __("program")["PMS0810020"].room_name %></th>
+                                <th class="css_th" style="width: 15%;"><%= __("program")["PMS0810020"].room_sort %></th>
+                                <th class="css_th"
+                                    style="width: 20%;"><%= __("program")["PMS0810020"].room_disable %></th>
+                            </tr>
+                            </thead>
+                            <tbody class="css_tbody">
+
+                            <tr class="css_tr" v-for="(item, index) in webSiteSortData">
+                                <td class="css_td">{{item.room_cod}} {{testData}}</td>
+                                <td class="css_td">{{item.room_nam}}</td>
+                                <td class="css_td">
+                                    <el-button type="button" size="small" class="el-icon-caret-top"
+                                               @click="itemMove(index, index-1, webSiteSortData)" v-if="index != 0">
+                                    </el-button>
+                                    <el-button type="button" size="small" class="el-icon-caret-bottom"
+                                               @click="itemMove(index, index+1, webSiteSortData)"
+                                               v-if="index != webSiteSortData.length-1">
+                                    </el-button>
+                                </td>
+                                <td class="css_td">
+                                    <input type="checkbox" v-model="checkList" :value="item.room_cod"
+                                           :true-value="item.room_cod">
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table width="100%" border="1">
+                            <thead>
+                            <tr>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </el-tab-pane>
+                </el-tabs>
+
+                <div slot="footer" class="dialog-footer">
+                    <el-row>
+                        <el-col :span="12" :offset="3">
+                            <el-button
+                                    @click="dialogShowRoomSortVisible = false"><%= __("SystemCommon").Cancel %></el-button>
+                            <el-button type="primary" @click="rmCodSortSave"><%= __("SystemCommon").Save %></el-button>
+                        </el-col>
+                    </el-row>
+                </div>
+            </template>
+        </el-dialog>
+
+    </div>
+    <!-- /.settingSingleDialog -->
+</script>

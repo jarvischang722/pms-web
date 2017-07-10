@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810050'] 交通接駁設定查詢資料-->
+    <dao name="QRY_HFD_ARRIVE_RF">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, arrive_cod, arrive_spot, arrive_tim, company_rmk,
+            remark, day1, day2, day3, day4, day5, day6, day7, ins_dat,
+            ins_usr, upd_dat, upd_usr
+            from hfd_arrive_rf
+            where athena_id = ? and trim(hotel_cod )= trim(?)
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+</root>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS08110220'] 取得多筆 -->
+    <dao name="QRY_HFD_TRANSPORT_RF">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, transport_cod, transport_nam, ins_dat, ins_usr, upd_dat, upd_usr
+         from hfd_transport_rf
+         where athena_id = ?  and trim(hotel_cod) = trim(?)
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+</root>

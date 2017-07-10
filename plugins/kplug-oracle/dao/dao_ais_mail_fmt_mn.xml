@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0810030'] 取得郵件代號設定-->
+    <dao name="QRY_CNTRY_RF_MAIL_REMARK1">
+        <statement><![CDATA[
+                select remark1
+                from ais_mail_fmt_mn
+                where athena_id = ? and mail_fmt =?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">mail_fmt</parameter>
+    </dao>
+
+    <!-- ['PMS0810030'] 取得郵件格式-->
+    <dao name="QRY_CNTRY_RF_MAIL_FMT">
+        <statement><![CDATA[
+                select mail_fmt as value,remark1 as display
+                from ais_mail_fmt_mn
+                where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>

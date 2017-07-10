@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820060'] 參數:留言管理顯示行數-->
+    <dao name="CHK_PG_MSGGT_MN_LIN">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval( :hotel_cod, 'HFD', 'msggt_mn_line',  :athena_id ) as msggtlin from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- ['PMS0820060'] 參數:留言管理可輸入長度-->
+    <dao name="CHK_PG_MSGGT_MN_LENGTH">
+        <statement><![CDATA[
+               select pg_ais2.sf_get_hotel_sval( :hotel_cod, 'HFD', 'msggt_mn_length',  :athena_id ) as msggtlength from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+    <!-- ['PMS0810030'] 參數:是否顯示此欄位-->
+    <dao name="CHK_PG_HAVE_EIS_SYS">
+        <statement><![CDATA[
+               select pg_ais2.SF_GET_COMP_SVAL('NULL','EIS','have_eis_sys') as displayFiled from dual
+        ]]>
+        </statement>
+    </dao>
+</root>

@@ -1,0 +1,52 @@
+<style>
+    .langTable {
+        max-width: 960px;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+
+    .langTable thead {
+        background: #f5f5f5;
+    }
+
+    .langTable tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .langTable caption {
+        font-size: 24px;
+        padding: 10px;
+    }
+
+    .langTable td, th {
+        text-align: left;
+        padding: 8px;
+        /*border: 1px solid #ccc;*/
+        border: 1px solid #95B8E7;
+    }
+</style>
+<script type="text/x-template" id="fieldMultiLangDialogTmp">
+    <el-dialog :title="editingMultiLangFieldName" :visible.sync="showMultiLangDialog" size="tiny">
+
+        <table class="langTable" style="margin-top: 20px" align="center">
+
+            <tbody>
+            <tr v-for="locale in sys_locales">
+                <td> {{locale.name}}</td>
+                <td>
+
+                    <input :data-locale="locale.lang"
+                           :id="editingLangField"
+                           :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) "
+                           class="multi_lang_input">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="closeFieldMultiLangDialog"><%= __("SystemCommon").Cancel %></el-button>
+            <el-button type="primary" @click="saveFieldMultiLang">  <%= __("SystemCommon").OK %> </el-button>
+        </span>
+
+    </el-dialog>
+</script>

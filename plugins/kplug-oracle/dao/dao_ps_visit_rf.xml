@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0860050-->
+    <dao name="QRY_PS_VISIT_RF">
+        <statement><![CDATA[
+                  select visit_typ, visit_nam, ins_dat, ins_usr, upd_dat, upd_usr, athena_id
+                  from ps_visit_rf
+                  where athena_id = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+</root>
