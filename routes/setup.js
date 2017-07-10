@@ -36,4 +36,7 @@ module.exports = function(app) {
 
     // 取房型圖片 (程式編號 : PMS0810020)
     app.post("/api/PMS0810020/getRoomTypeUploadPic", setupCrtl.getRoomTypeUploadPic);
+
+    //分帳規則(靜態)
+    app.get('/PMS0830080', setupCrtl.getPMS0830080);
 };

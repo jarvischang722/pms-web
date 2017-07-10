@@ -12,7 +12,4 @@ var middles = [i18nMW,authMW,sysMW];
 module.exports = function(app  ) {
 
 
-    //分帳規則
-    app.get('/PMS0830080', cashierCrtl.getPMS0830080);
-
 };
