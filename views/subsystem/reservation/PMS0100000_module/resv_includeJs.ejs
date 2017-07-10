@@ -218,6 +218,22 @@
             });
         });
 
+        // 彈出 櫃檯備品詳細資料 resv_countSupDetails
+        $(document).on('click', ".resv_countSupDetails", function (e) {
+            e.preventDefault();
+            var dialog = $("#countSupDetails-message").removeClass('hide').dialog({
+                modal: true,
+                title: "櫃檯用品詳細資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 預授權
         $(document).on('click', ".authorize-btn", function (e) {
             e.preventDefault();
