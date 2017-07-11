@@ -867,7 +867,7 @@ ul.newVisitOther-btn
       word-break: break-all
       word-wrap: break-word
 
-//int_Counter．html
+// PMS0110000 訂房卡 分帳規則
 .rulesOfSeparation
   //position: relative
   max-height: 600px
@@ -929,6 +929,145 @@ ul.newVisitOther-btn
         right: 5px
         span
           color: #D15B47
+
+
+// PMS0210020 綜合櫃檯
+.foCounter
+  .counterPage
+    //position: relative
+    max-height: 600px
+    overflow: auto
+    .counterRow
+      //margin: 0 auto
+      .counterBlock
+        float: left
+        margin: 0 1px 1px 0
+        border: 2px solid #fff
+        position: relative
+        padding: 5px
+        //min-width: 100%
+        //min-height: 100%
+        width: 129px
+        height: 74px
+        line-height: 23px
+        box-sizing: border-box
+        background: #c0d6ee
+        color: #000
+        font-size: 11px
+        cursor: pointer
+        @include color-bk
+        &:hover
+          opacity: 0.6
+        .head
+          .left
+            position: absolute
+            top: 5px
+            left: 5px
+          .right
+            position: absolute
+            top: 5px
+            right: 5px
+          .txt-lg
+            font-weight: bold
+            font-size: 18px
+            line-height: 18px
+        .content
+          position: absolute
+          top: 25px
+          left: 5px
+        .content-sub
+          .left
+            position: absolute
+            top: 45px
+            left: 5px
+        .foot
+          position: absolute
+          bottom: 5px
+          left: 5px
+          .red-tip
+            span
+              color: #ff0000
+        //font-weight: bold
+        //font-size: 14px
+        .foot-right
+          position: absolute
+          bottom: 5px
+          right: 5px
+          span
+            color: #D15B47
+
+  .counter-right
+    min-height: 200px
+    max-height: 100%
+    overflow-y: auto
+    label
+      font-size: 9px
+
+  // int_counter floorPlan-table
+  .floorPlan-table
+    table
+      border: 1px solid #a0a8b4
+      width: 100%
+      th,td
+        border: 1px solid #a0a8b4
+        padding-left: 2px
+      tr
+        th
+          background: #c0d6ee
+        td
+          word-break: break-all
+          .moreInfo
+            background: #bfbfbf
+            border: none
+            float: right
+            height: 20px
+          .float-left
+            float: left
+          .float-right
+            float: right
+          &.roomNum
+            box-sizing: border-box
+            font-size: 1.5em
+            font-style: italic
+            font-weight: bold
+            color: #DD5A43
+            border: 2px solid #DD5A43
+    .customInfo-table
+      width: 100%
+      .table-left,.table-right
+        float: left
+      .table-left
+        width: 25%
+        margin: 0 3% 0 0
+      .table-right
+        width: 72%
+    .fav
+      table
+        width: 100%
+        th
+          width: 20%
+        td
+          width: 80%
+
+  //.show-intCounterRight
+  //  display: none
+  .intCounterRight
+    display: none
+  .intCounterleft
+    position: relative
+  .show-intCounterRight
+    float: right
+    display: block
+    i
+      border: 1px solid #8fbcd9
+      padding: 3px 10px
+      cursor: pointer
+    color: #70a0c1
+    //line-height: 1.42857143
+    span
+      margin: 0 0 0 2px
+      font-size: 14px
+      line-height: 2
 
 
 //Ho-鎖控
@@ -1103,10 +1242,7 @@ ul.newVisitOther-btn
   text-align: center
 .datecolor
   background: #DAEAFC !important
-.roomPlanTable tbody td
-  //min-width: 50px
-  //padding: 0 1px
-  //white-space: nowrap
+//.roomPlanTable
 .room-table-container
   overflow: hidden
   display: block
