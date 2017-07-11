@@ -55,6 +55,9 @@ a
   @media screen and (max-width: 1030px)
     font-size: 12px
 /*-- optionSystem --/
+@mixin optionCircle($w:150px,$h:150px)
+  width: $w
+  height: $h
 .optionSystem
   .banner
     width: 100%
@@ -64,33 +67,51 @@ a
     line-height: $lineHeight22
   // optionSystem hover text
   .system-block-all
-    margin: 50px 0 0 0
-  .system-block
-    margin: 0 0 0 30px
     display: inline-block
-  .imgWrap
-    position: relative
-    display: inline-block
-    margin: 0 15px 0 0
-    span.text-content
-      background: rgba(0,0,0,0.5)
-      color: white
-      cursor: pointer
-      display: table
-      height: 150px
-      position: absolute
-      left: 0
-      top: 0
-      width: 150px
-      border-radius: 150px
-      opacity: 0
-    span.text-content span
-      display: table-cell
-      text-align: center
-      vertical-align: middle
-    &:hover .text-content
-      visibility: visible
-      opacity: 1
+    .system-block
+      display: inline-block
+      .imgWrap
+        +optionCircle
+        position: relative
+        display: inline-block
+        margin: 0 15px 0 0
+        .circle-bg
+          +optionCircle
+          +border-radius(50%)
+          border: 0px solid #000000
+          background: #438EB9
+          font-size: 36px
+          color: #fff
+          display: inline-block
+          padding: 49px 10px 0px 10px
+          text-align: center
+          vertical-align: top
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          &.circle-bg-orange
+            background: $orange
+          &.circle-bg-green
+            background: $green
+        span.text-content
+          +optionCircle
+          background: rgba(0,0,0,0.5)
+          color: white
+          cursor: pointer
+          display: table
+          position: absolute
+          left: 0
+          top: 0
+          border-radius: 150px
+          opacity: 0
+          .optionTip
+            display: table-cell
+            text-align: center
+            vertical-align: middle
+        &:hover .text-content
+          visibility: visible
+          opacity: 1
+
 
 /*-- footer --*/
 .bacchus-footer
@@ -1129,34 +1150,6 @@ th.dateColor
   font-size: 14px
 .otherContact-insideBtn
   margin-top: 70px
-
-//ho進入頁
-.system-box-Wrap
-  width: 150px
-  height: 150px
-  display: inline-block
-  margin-left: 20px
-.system-box-Wrap .circle-background
-  width: 150px
-  height: 150px
-  border-radius: 50%
-  -moz-border-radius: 50%
-  -webkit-border-radius: 50%
-  border: 0px solid #000000
-  background: #438EB9
-  font-size: 36px
-  color: #fff
-  display: block
-  float: left
-  padding: 49px 10px 0px 10px
-  text-align: center
-  vertical-align: top
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
-.system-block-all
-  display: inline-block
-  text-align: center
 
 //.message-lbl
 //  position: relative
