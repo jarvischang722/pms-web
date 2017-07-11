@@ -37,7 +37,9 @@
                                             <!--circle-bg        :預設
                                                 circle-bg-orange :橘色
                                                 circle-bg-green  :綠色-->
-                                            <div class="circle-bg" title="PMS">PMS</div>
+                                            <div class="circle-bg" title="<%= sys["sys_name_" + session.locale] %>">
+                                                <%= sys["sys_name_" + session.locale] %>
+                                            </div>
 
                                             <span class="text-content">
                                                 <span class="optionTip"><%= sys["sys_name_" + session.locale] %></span>
