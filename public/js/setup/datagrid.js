@@ -27,6 +27,8 @@ Vue.component("multi-lang-dialog-tmp", {
                 page_id: 1
             };
 
+
+            //新增欄位，預設多語系欄位
             if (!_.isUndefined(rowData.createRow) && _.isEqual(rowData.createRow, "Y")) {
                 var multiLangContent = [];
                 _.each(this.sys_locales, function (locale) {
@@ -39,9 +41,18 @@ Vue.component("multi-lang-dialog-tmp", {
                 return;
             }
 
-            $.post("/api/multiLangFieldContentByKey", params, function (result) {
-                self.$emit('update-multi-lang-dg', result);
-            });
+            var existIdx = this.$parent.chkTmpCudExistData("rowData", "updateData");
+            if (existIdx == -1) {
+                // 取多語系資料
+                $.post("/api/multiLangFieldContentByKey", params, function (result) {
+                    self.$emit('update-multi-lang-dg', result);
+                });
+            }
+            // 有資料，顯示暫存資料
+            else {
+                self.$emit('update-multi-lang-dg', {multiLangContent: self.$parent.tmpCUD.updateData[existIdx].multiLang});
+
+            }
         },
         closeMultiLangDialog: function () {
             $("#multiLangDialog").dialog("close");
@@ -141,7 +152,7 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = EZfieldClass.combineFieldOption(fieldData,'prg_dg');
+            var columnsData = EZfieldClass.combineFieldOption(fieldData, 'prg_dg');
             var hasMultiLangField = _.filter(fieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
@@ -199,6 +210,9 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
+            if (!_.isUndefined(changes.room_nam)) {
+
+            }
             this.tempExecData(row);
         },
         endEditing: function () {
@@ -263,6 +277,8 @@ var vm = new Vue({
         //儲存
         doSave: function () {
             if (this.endEditing()) {
+                console.log(gs_locale);
+
 
                 var params = {
                     prg_id: prg_id,
@@ -271,20 +287,20 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
                 vm.saving = true;
-                waitingDialog.show('Saving...');
-                $.post("/api/saveDataRow", params, function (result) {
-                    vm.saving = false;
-                    waitingDialog.hide();
-                    if (result.success) {
-                        $('#prg_dg').datagrid('acceptChanges');
-                        vm.initTmpCUD();
-                        $("#gridEdit").val(null);
-                        alert('save success!');
-                        $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
-                    } else {
-                        alert(result.errorMsg);
-                    }
-                });
+                // waitingDialog.show('Saving...');
+                // $.post("/api/saveDataRow", params, function (result) {
+                //     vm.saving = false;
+                //     waitingDialog.hide();
+                //     if (result.success) {
+                //         $('#prg_dg').datagrid('acceptChanges');
+                //         vm.initTmpCUD();
+                //         $("#gridEdit").val(null);
+                //         alert('save success!');
+                //         $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
+                //     } else {
+                //         alert(result.errorMsg);
+                //     }
+                // });
 
             }
         },
@@ -336,7 +352,7 @@ var vm = new Vue({
                 }
             }];
 
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField,'multiLangDG'));
+            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField, 'multiLangDG'));
 
             var widtd = 10;
             _.each(columnsData, function (column) {
@@ -381,6 +397,16 @@ var vm = new Vue({
         tempExecData: function (rowData) {
             var dataType = rowData.createRow == 'Y'
                 ? "createData" : "updateData";  //判斷此筆是新增或更新
+            var existIdx = this.chkTmpCudExistData(rowData, dataType);
+            if (existIdx > -1) {
+                this.tmpCUD[dataType].splice(existIdx, 1);
+            }
+
+            this.tmpCUD[dataType].push(rowData);
+            $("#gridEdit").val(this.tmpCUD);
+        },
+        // 檢查暫存是否有資料
+        chkTmpCudExistData: function(rowData, dataType){
             var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
             var condKey = {};
             _.each(keyVals, function (field_name) {
@@ -388,15 +414,8 @@ var vm = new Vue({
             });
             //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
             var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
-            if (existIdx > -1) {
-                this.tmpCUD[dataType].splice(existIdx, 1);
-            }
-
-            this.tmpCUD[dataType].push(rowData);
-            $("#gridEdit").val(this.tmpCUD);
+            return existIdx;
         }
-
-
     }
 });
 
