@@ -153,55 +153,10 @@
          * PMS0620010
          */
 
-        // PMS0620010 彈出拜訪記錄
-        $(document).on('click', ".NewVisit", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVisit-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // PMS0620010 彈出新增拜訪記錄
-        $(document).on('click', ".NewVisitRecord", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVisitRecord-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 1200,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // PMS0620010 彈出新增拜訪記錄修改
-        $(document).on('click', ".NewVsitModify", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVsitModify-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 800,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
         // PMS0620010 拜訪記錄彈出
-        $(document).on('click', ".changeBusiness", function (e) {
+        $(document).on('click', ".sales_changeBusiness", function (e) {
             e.preventDefault();
-            var dialog = $("#changeBusiness-page").removeClass('hide').dialog({
+            var dialog = $("#sales_changeBusiness-page").removeClass('hide').dialog({
                 modal: true,
                 title: "業務員修改",
                 title_html: true,
@@ -227,6 +182,44 @@
                 resizable: true
             });
         });
+
+        /***
+         * PMS0620040
+         */
+        // PMS0620040 彈出新增拜訪記錄
+        $(document).on('click', ".NewVisitRecord", function (e) {
+            e.preventDefault();
+            var dialog = $("#NewVisitRecord-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增拜訪記錄",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        /***
+         * PMS0620050
+         */
+
+        // PMS0620050 彈出修改拜訪記錄
+        $(document).on('click', ".editVisitRecord", function (e) {
+            e.preventDefault();
+            var dialog = $("#editVisitRecord-page").removeClass('hide').dialog({
+                modal: true,
+                title: "修改拜訪記錄",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         /***
          * dataGrid
@@ -487,7 +480,11 @@
 
         });
 
-        // PMS0620010 新增拜訪查詢
+        /***
+         * PMS0620040 datagrid
+         */
+
+        // PMS0620040 新增拜訪查詢
         $('#NewVisitResult-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -508,27 +505,90 @@
 
         });
 
-        // PMS0620010 新增拜訪編輯
+        // PMS0620040 新增拜訪編輯
         $('#NewVisitRecord-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
+            singleSelect:true,
+            collapsible:true,
             // 從json 撈
-            url: '/jsonData/bsCompany_newVisitRecord.json',
-            method: 'get',
-            columns: [[
-                {field: 'VisitNum', title: 'Co. Id', width: 80},
-                {field: 'VisitName', title: 'Co. Name', width: 100},
-                {field: 'VisitStatus', title: 'Status', width: 50},
-                {field: 'VisitContract', title: 'Contract', width: 60},
-                {field: 'visitMethod', title: 'Method', width: 60},
-                {field: 'visitPlanned', title: 'Planned', width: 80},
-                {field: 'visitVStatus', title: 'Visit Status', width: 80},
-                {field: 'visitFeedback', title: 'Feedback', width: 70},
-                {field: 'visitPurpose', title: 'Purpose', width: 70},
-                {field: 'visitDocuments', title: 'Documents', width: 80},
-                {field: 'visitRemarks', title: 'Remarks', width: 70},
-                {field: 'visitActual', title: 'Actual', width: 80},
-                {field: 'visitExpense', title: 'Expense', width: 60}
+            url:'/jsonData/bsCompany_newVisitRecord.json',
+            method:'get',
+            columns:[[
+                {field:'VisitNum',title:'Co. Id',width:60},
+                {field:'VisitName',title:'Co. Name',width:170},
+                {field:'VisitStatus',title:'Status',width:50},
+                {field:'VisitContract',title:'Contract',width:60},
+                {field:'visitMethod',title:'Method',width:60},
+                {field:'visitPlanned',title:'Planned',width:80},
+                {field:'visitVStatus',title:'Visit Status',width:80},
+                {field:'visitFeedback',title:'Feedback',width:70},
+                {field:'visitPurpose',title:'Purpose',width:70},
+                {field:'visitDocuments',title:'Documents',width:80},
+                {field:'visitRemarks',title:'Remarks',width:70},
+                {field:'visitActual',title:'Actual',width:80},
+                {field:'visitExpense',title:'Expense',width:60}
+            ]]
+
+        });
+
+        /***
+         * PMS0620050 datagrid
+         */
+
+        // PMS0620050 拜訪紀錄查詢結果
+        $('#sales_visitRecord-table').datagrid({
+            singleSelect:true,
+            collapsible:true,
+            // 從json 撈
+            url:'/jsonData/sales_visitRecord.json',
+            method:'get',
+            columns:[[
+                {field:'choose',title:'Choose',width:60,align:'center'},
+                {field:'coID',title:'Co. Id',width:80},
+                {field:'coName',title:'Co. Name',width:180},
+                {field:'status',title:'Status',width:50},
+                {field:'contract',title:'Contract',width:70},
+                {field:'method',title:'Method',width:70},
+                {field:'planned',title:'Planned',width:70},
+                {field:'visitStatus',title:'Visit Status',width:70},
+                {field:'feedBack',title:'Feedback',width:70},
+                {field:'purpose',title:'Purpose',width:70},
+                {field:'documents',title:'Documents',width:70},
+                {field:'visitRemarks',title:'Remarks',width:70},
+                {field:'visitActual',title:'Actual',width:80},
+                {field:'visitExpense',title:'Expense',width:60,align:'right'},
+                {field:'addedDate',title:'Added Date',width:60},
+                {field:'addedBy',title:'Added By',width:60},
+                {field:'updatedDate',title:'Updated Date',width:60},
+                {field:'updatedBy',title:'Updated By',width:60},
+            ]]
+
+        });
+
+        // PMS0620050 修改拜訪紀錄
+        $('#sales_editVisitRecord-table').datagrid({
+            singleSelect:true,
+            collapsible:true,
+            // 從json 撈
+            url:'/jsonData/sales_editVisitRecord.json',
+            method:'get',
+            columns:[[
+                {field:'coID',title:'Co. Id',width:60},
+                {field:'coName',title:'Co. Name',width:170},
+                {field:'status',title:'Status',width:50},
+                {field:'contract',title:'Contract',width:60},
+                {field:'method',title:'Method',width:70},
+                {field:'planned',title:'Planned',width:70},
+                {field:'visitStatus',title:'Visit Status',width:70},
+                {field:'feedBack',title:'Feedback',width:70},
+                {field:'purpose',title:'Purpose',width:70},
+                {field:'documents',title:'Documents',width:70},
+                {field:'visitRemarks',title:'Remarks',width:70},
+                {field:'visitActual',title:'Actual',width:80},
+                {field:'visitExpense',title:'Expense',width:60,align:'right'},
+                {field:'addedDate',title:'Added Date',width:60},
+                {field:'addedBy',title:'Added By',width:60},
+                {field:'updatedDate',title:'Updated Date',width:60},
+                {field:'updatedBy',title:'Updated By',width:60},
             ]]
 
         });
