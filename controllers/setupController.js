@@ -79,3 +79,9 @@ exports.getRoomTypeUploadPic = function (req, res) {
     });
 }
 
+/**
+ * 分帳規則(靜態)
+ */
+exports.getPMS0830080 = function (req, res) {
+    res.render("subsystem/setup/PMS0830080");
+};

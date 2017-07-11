@@ -1,0 +1,11 @@
+{"total":28,
+  "rows":[
+    {"ruleCode":"01","ruleName":"團體公帳號","importDate":"2004/9/14 20:15:10","importStaff":"cio","lastModifyDate":"2016/4/12 10:48:59","lastModifyStaff":"cio"},
+    {"ruleCode":"-100","ruleName":"..","importDate":"2005/6/21 10:04:42","importStaff":"cio","lastModifyDate":"2005/6/21 10:04:42","lastModifyStaff":"cio"},
+    {"ruleCode":"02","ruleName":"0231","importDate":"2000/02/12 16:10:20","importStaff":"cio","lastModifyDate":"2012/2/28 02:22:22","lastModifyStaff":"cio"},
+    {"ruleCode":"22","ruleName":"222","importDate":"2015/10/10 23:20:25","importStaff":"cio","lastModifyDate":"2016/5/18 11:49:36","lastModifyStaff":"cio"},
+    {"ruleCode":"3","ruleName":"01234567890123456789","importDate":"2010/5/10 23:00:00","importStaff":"cio","lastModifyDate":"2015/2/1 05:00:05","lastModifyStaff":"cio"},
+    {"ruleCode":"33","ruleName":"333","importDate":"2005/2/10 11:00:00","importStaff":"cio","lastModifyDate":"2011/12/1 00:00:05","lastModifyStaff":"cio"},
+    {"ruleCode":"t01","ruleName":"散客","importDate":"2005/7/15 10:50:10","importStaff":"cio","lastModifyDate":"2006/11/11 10:00:00","lastModifyStaff":"cio"}
+   ]}
+
