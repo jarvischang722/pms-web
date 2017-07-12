@@ -21,6 +21,38 @@
             });
         });
 
+        // 彈出 walkIn foCnt_walkIn
+        $(document).on('click', ".foCnt_walkIn", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_walkIn-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Walk In",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 DayUse foCnt_dayUse
+        $(document).on('click', ".foCnt_dayUse", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_dayUse-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Walk In",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         $('[data-rel=tooltip]').tooltip();
 
