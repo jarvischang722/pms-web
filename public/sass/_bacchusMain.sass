@@ -1244,7 +1244,7 @@ ul.newVisitOther-btn
   background: #DAEAFC !important
 //.roomPlanTable
 .room-table-container
-  overflow: hidden
+  overflow-y: auto
   display: block
   .roomPlan-table
     .ca-center
@@ -1263,8 +1263,8 @@ ul.newVisitOther-btn
   padding-right: 5px
   padding-bottom: 1px
 .roomPlan-Num2
-  position: absolute
-  right: 19%
+  //position: absolute
+  //right: calc(100% - 79%)
   border-left: 1px solid #888
   padding-left: 5px
   padding-right: 5px
@@ -1274,7 +1274,7 @@ th.dateColor
 .roomPlanTable.fancyTable tbody tr td .datecolor
   background-color: #DAEAFC !important
 .roomPlanTable td
-  min-width: 60px
+  //min-width: 30px
   white-space: nowrap
 .roomPlanTable thead:first-child
   min-width: 200px
@@ -1367,18 +1367,18 @@ input[type="datetime-local"]
   //display: table-cell
   i
     padding-right: 0 !important
-.month-wrap
-  padding: 3px 0
+//.month-wrap
+//  padding: 3px 0
 .room-Num-Right
   border-left: 1px solid #778899
   display: inline-block
   //height: 30px
-  padding-right: 10px
+  padding-right: 3px
 .room-Num-Left
   display: inline-block
   //height: 30px
 span.roomNum-text
-  vertical-align: sub
+  //vertical-align: sub
   padding-left: 3px
 .roomPlanTable .height-fntThead
   padding-bottom: 0px !important
@@ -1395,7 +1395,7 @@ span.roomNum-text
 
 //表格td長六角形
 td div.triangle-box
-  width: 75%
+  width: 65%
   height: 19px
   /* margin-left: 18px; */
   margin: 0px auto
@@ -1441,3 +1441,13 @@ td div.triangle-box:after
   background: #fff
 .cashierSetting-left.css_table .css_td
   background: #e6e6ff
+span.triangle-text
+  width: 100%
+  display: inline-block
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+.month-wrap
+  width: 90%
+  margin: 0 auto
+  padding: 5px 0
