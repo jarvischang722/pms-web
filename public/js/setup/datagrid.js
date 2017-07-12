@@ -3,6 +3,7 @@
  */
 var prg_id = gs_prg_id;
 var vmHub = new Vue;
+var gb_isUserEdit = true;
 
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
@@ -181,20 +182,26 @@ var vm = new Vue({
         },
         //按下一個Row
         onClickCell: function (index, field) {
-            if (vm.editIndex != index) {
-                if (this.endEditing()) {
-                    $('#prg_dg').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
-                    var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
-                    if (ed) {
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+
+            if(gb_isUserEdit) {
+                if (vm.editIndex != index) {
+                    if (this.endEditing()) {
+                        gb_isUserEdit =false;
+                        $('#prg_dg').datagrid('selectRow', index)
+                            .datagrid('beginEdit', index);
+                        var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
+                        if (ed) {
+                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                        }
+
+                        vm.editIndex = index;
+                    } else {
+                        setTimeout(function () {
+                            $('#prg_dg').datagrid('selectRow', vm.editIndex);
+                        }, 0);
                     }
-                    vm.editIndex = index;
-                } else {
-                    setTimeout(function () {
-                        $('#prg_dg').datagrid('selectRow', vm.editIndex);
-                    }, 0);
                 }
+                gb_isUserEdit =true;
             }
         },
         //結束編輯

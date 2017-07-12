@@ -3,7 +3,7 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
-
+var isUserEdit = true;
 var gb_onceEffectFlag = true;
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
@@ -38,7 +38,7 @@ var EZfieldClass = {
             dataType = 'color';
         } else if (fieldAttrObj.ui_type == "time") {
             dataType = 'timespinner';
-        }else if(fieldAttrObj.ui_type == "selectgrid"){
+        } else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
         }
 
@@ -149,17 +149,9 @@ var EZfieldClass = {
 
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
-                var isComboTouchEvent = true;
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                    var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-                    var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
-
-                    if (isComboTouchEvent || (rowData.createRow == "Y" && !isComboTouchEvent && oldValue != "")) {  //SAM:20170717 修改cb一直連動問題
+                    if (isUserEdit) {
                         onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
-                        isComboTouchEvent = false;
-                    } else {
-                        isComboTouchEvent = true;
-                        return false;
                     }
                 };
             }
@@ -181,11 +173,12 @@ var EZfieldClass = {
             var isTextTouchEvent = true;
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-                var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
 
                 if (!_.isUndefined(newValue)) {
                     if (fieldAttrObj.modificable == "I") {
+                        var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
+                        var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
+
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name
@@ -196,16 +189,13 @@ var EZfieldClass = {
                     }
                 }
 
-                if (fieldAttrObj.rule_func_name != "") {
-                    if (isTextTouchEvent || (rowData.createRow == "Y" && !isTextTouchEvent && oldValue != "")) {  //SAM:20170717 修改cb一直連動問題
+                if (isUserEdit) {
+                    if (fieldAttrObj.rule_func_name != "") {
                         onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
-                        isTextTouchEvent = false;
-                    } else {
-                        isTextTouchEvent = true;
-                        return false;
                     }
                 }
             };
+
         } else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
@@ -227,7 +217,7 @@ var EZfieldClass = {
                     return val;
                 }
             };
-        }else if(dataType == "combogrid"){  //SAM:目前正在實做中，目前都沒用到
+        } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
             tmpFieldObj.editor.options.idField = 'field';
             tmpFieldObj.editor.options.textField = 'title';
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
@@ -280,7 +270,7 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
                 var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-
+                isUserEdit = false;
                 $('#' + dgName).datagrid('endEdit', indexRow);
                 $('#' + dgName).datagrid('updateRow', {
                     index: indexRow,
@@ -288,6 +278,7 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
                 });
 
                 $('#' + dgName).datagrid('beginEdit', indexRow);
+                isUserEdit = true;
             }
         });
     }
