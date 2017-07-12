@@ -493,6 +493,8 @@
 
         $(".show-intCounterRight > .fa-angle-left").click(function () {
             $('.intCounterLeft').removeClass('col-xs-12').addClass('col-xs-7');
+            $('.intCounterLeft .chooseCount').css('width','8%');
+            $('.intCounterLeft .resultCount').css('width','92%');
             $('.intCounterRight').css('display', 'block');
             $('.fa-angle-left').css('display', 'none');
             $('.fa-angle-right').css('display', 'block');
@@ -500,6 +502,8 @@
 
         $(".show-intCounterRight > .fa-angle-right").click(function () {
             $('.intCounterLeft').removeClass('col-xs-7').addClass('col-xs-12');
+            $('.intCounterLeft .chooseCount').css('width','5%');
+            $('.intCounterLeft .resultCount').css('width','95%');
             $('.intCounterRight').css('display', 'none');
             $('.fa-angle-right').css('display', 'none');
             $('.fa-angle-left').css('display', 'block');
