@@ -210,13 +210,50 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
-            if (!_.isUndefined(changes.room_nam)) {
+            var dataType = row.createRow == 'Y'
+                ? "createData" : "updateData";  //判斷此筆是新增或更新
+            if (dataType != "createData") {
+                var tmpCUD_index = this.chkTmpCudExistData(row, dataType);  // 檢查是否有暫存
+                var lb_multiLangExist = true;                               // 是否有多語系
+                var la_multiLangTmp = [];
 
+                try {
+                    var chkMultiLang = this.tmpCUD[dataType][tmpCUD_index].multiLang;
+                    lb_multiLangExist = true;
+                }
+                catch (err) {
+                    lb_multiLangExist = false;
+                }
+
+                // 產生所有語系資料
+                _.each(this.sys_locales, function (locales) {
+                    la_multiLangTmp.push({
+                        display_locale: locales.name,
+                        locale: locales.lang
+                    });
+                });
+                // dataGrid room_nam 或 room_sna 有修改 且 暫存沒有多語系資料
+                // 則一起儲存進多語系
+                if (!_.isUndefined(changes.room_nam) && !lb_multiLangExist) {
+                    _.each(la_multiLangTmp, function (tmpLang) {
+                        if (tmpLang.locale == gs_locale) {
+                            tmpLang.room_nam = changes.room_nam;
+                        }
+                    });
+                    row.multiLang = la_multiLangTmp;
+                }
+                if (!_.isUndefined(changes.room_sna) && !lb_multiLangExist) {
+                    _.each(la_multiLangTmp, function (tmpLang) {
+                        if (tmpLang.locale == gs_locale) {
+                            tmpLang.room_sna = changes.room_sna;
+                        }
+                    });
+                    row.multiLang = la_multiLangTmp;
+                }
             }
             this.tempExecData(row);
         },
         endEditing: function () {
-
             if (vm.editIndex == undefined) {
                 return true;
             }
@@ -250,7 +287,7 @@ var vm = new Vue({
             }
         },
         //刪除選定的Row
-        removeRow: function removeRow() {
+        removeRow: function () {
             var delRow = $('#prg_dg').datagrid('getSelected');
             if (!delRow) {
                 alert("請選擇要刪除的資料");
@@ -279,7 +316,6 @@ var vm = new Vue({
             if (this.endEditing()) {
                 console.log(gs_locale);
 
-
                 var params = {
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData,
@@ -287,20 +323,20 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
                 vm.saving = true;
-                // waitingDialog.show('Saving...');
-                // $.post("/api/saveDataRow", params, function (result) {
-                //     vm.saving = false;
-                //     waitingDialog.hide();
-                //     if (result.success) {
-                //         $('#prg_dg').datagrid('acceptChanges');
-                //         vm.initTmpCUD();
-                //         $("#gridEdit").val(null);
-                //         alert('save success!');
-                //         $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
-                //     } else {
-                //         alert(result.errorMsg);
-                //     }
-                // });
+                waitingDialog.show('Saving...');
+                $.post("/api/saveDataRow", params, function (result) {
+                    vm.saving = false;
+                    waitingDialog.hide();
+                    if (result.success) {
+                        $('#prg_dg').datagrid('acceptChanges');
+                        vm.initTmpCUD();
+                        $("#gridEdit").val(null);
+                        alert('save success!');
+                        $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
 
             }
         },
@@ -393,6 +429,7 @@ var vm = new Vue({
             return false;
 
         },
+
         //將資料放入暫存
         tempExecData: function (rowData) {
             var dataType = rowData.createRow == 'Y'
@@ -406,7 +443,7 @@ var vm = new Vue({
             $("#gridEdit").val(this.tmpCUD);
         },
         // 檢查暫存是否有資料
-        chkTmpCudExistData: function(rowData, dataType){
+        chkTmpCudExistData: function (rowData, dataType) {
             var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
             var condKey = {};
             _.each(keyVals, function (field_name) {
