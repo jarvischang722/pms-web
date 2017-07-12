@@ -94,7 +94,12 @@ var EZfieldClass = {
             };
 
             var dateParserFunc = function (date) {
-                return new Date(Date.parse(date));
+                if(date != "") {
+                    return new Date(Date.parse(date));
+                }
+                else{
+                    return "";
+                }
             };
 
             tmpFieldObj.formatter = dateFunc;

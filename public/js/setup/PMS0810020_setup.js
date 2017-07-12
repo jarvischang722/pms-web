@@ -493,6 +493,9 @@ Vue.component('single-grid-pms0810020-tmp', {
                                 if (self.$parent.displayFileList.length != 0) {
                                     self.execUploadRoomTypePic(lo_params);
                                 }
+                                else{
+                                    alert("無圖片可上傳");
+                                }
                                 self.isUpdate = false;
                             }
                         });
@@ -502,6 +505,9 @@ Vue.component('single-grid-pms0810020-tmp', {
             else {
                 if (self.$parent.displayFileList.length != 0) {
                     self.execUploadRoomTypePic(lo_params);
+                }
+                else{
+                    alert("無圖片可上傳");
                 }
             }
         },
@@ -666,9 +672,12 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         },
 
+        // 圖片change事件
         fileChange: function (file, fileList) {
             this.$parent.uploadFileList.push(file);
         },
+
+        // 刪除預覽圖片
         fileRemove: function (file, fileList) {
             var ls_uploadFileList = this.$parent.uploadFileList;
             this.$parent.uploadFileList = _.without(ls_uploadFileList, file);
