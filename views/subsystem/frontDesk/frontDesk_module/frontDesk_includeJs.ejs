@@ -42,7 +42,7 @@
             e.preventDefault();
             var dialog = $("#foCnt_dayUse-message").removeClass('hide').dialog({
                 modal: true,
-                title: "Walk In",
+                title: "Day Use",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -107,6 +107,74 @@
         /***
          * PMS0210040 團體管理
          */
+
+
+        // 彈出 團體多筆(未入住) groups_noAdmit
+        $(document).on('click', ".groups_noAdmit", function (e) {
+            e.preventDefault();
+            var dialog = $("#groups_noAdmit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(未)",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 團體多筆(未入住)-住客 gpsNoAdmit_PaxList
+        $(document).on('click', ".gpsNoAdmit_PaxList", function (e) {
+            e.preventDefault();
+            var dialog = $("#gpsNoAdmit_PaxList-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(未)-PAX List",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 團體多筆(已入住)-住客 gpsAdmit_PaxList
+        $(document).on('click', ".gpsAdmit_PaxList", function (e) {
+            e.preventDefault();
+            var dialog = $("#gpsAdmit_PaxList-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(已)-PAX List",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 團體多筆(已入住) groups_admit
+        $(document).on('click', ".groups_admit", function (e) {
+            e.preventDefault();
+            var dialog = $("#groups_admit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(已)",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 團體管理 dataGrid
         $('#front_groups-table').datagrid({
             singleSelect: true,
