@@ -3117,7 +3117,7 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock {
   float: left;
   margin: 0 1px 1px 0;
-  border: px solid #fff;
+  border: 1px solid #fff;
   position: relative;
   padding: 5px;
   width: 129px;
@@ -3619,7 +3619,7 @@ ul.newVisitOther-btn {
 
 /* line 1246, ../sass/_bacchusMain.sass */
 .room-table-container {
-  overflow: hidden;
+  overflow-y: auto;
   display: block;
 }
 /* line 1251, ../sass/_bacchusMain.sass */
@@ -3645,8 +3645,6 @@ ul.newVisitOther-btn {
 
 /* line 1265, ../sass/_bacchusMain.sass */
 .roomPlan-Num2 {
-  position: absolute;
-  right: 19%;
   border-left: 1px solid #888;
   padding-left: 5px;
   padding-right: 5px;
@@ -3665,7 +3663,6 @@ th.dateColor {
 
 /* line 1276, ../sass/_bacchusMain.sass */
 .roomPlanTable td {
-  min-width: 60px;
   white-space: nowrap;
 }
 
@@ -3829,16 +3826,11 @@ input[type="datetime-local"] {
   padding-right: 0 !important;
 }
 
-/* line 1370, ../sass/_bacchusMain.sass */
-.month-wrap {
-  padding: 3px 0;
-}
-
 /* line 1372, ../sass/_bacchusMain.sass */
 .room-Num-Right {
   border-left: 1px solid #778899;
   display: inline-block;
-  padding-right: 10px;
+  padding-right: 3px;
 }
 
 /* line 1377, ../sass/_bacchusMain.sass */
@@ -3848,7 +3840,6 @@ input[type="datetime-local"] {
 
 /* line 1380, ../sass/_bacchusMain.sass */
 span.roomNum-text {
-  vertical-align: sub;
   padding-left: 3px;
 }
 
@@ -3865,7 +3856,7 @@ span.roomNum-text {
 
 /* line 1397, ../sass/_bacchusMain.sass */
 td div.triangle-box {
-  width: 75%;
+  width: 65%;
   height: 19px;
   /* margin-left: 18px; */
   margin: 0px auto;
@@ -3937,6 +3928,22 @@ td div.triangle-box:after {
 /* line 1442, ../sass/_bacchusMain.sass */
 .cashierSetting-left.css_table .css_td {
   background: #e6e6ff;
+}
+
+/* line 1444, ../sass/_bacchusMain.sass */
+span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* line 1450, ../sass/_bacchusMain.sass */
+.month-wrap {
+  width: 90%;
+  margin: 0 auto;
+  padding: 5px 0;
 }
 
 /*------  共用區public ------ */
