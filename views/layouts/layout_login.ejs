@@ -135,7 +135,7 @@
     function doLogin() {
         $("#login_btn").attr("disabled",true);
         var isRememberMe = $("#rememberMeCheck").prop("checked");
-        doCookieSetup("login_isRememberMe", isRememberMe ? "Y" : "N", "/", 2592000000);
+        setupCookie("login_isRememberMe", isRememberMe ? "Y" : "N", "/", 2592000000);
         var params = {
             username: $("#username").val(),
             passwd: $("#passwd").val(),
@@ -149,12 +149,12 @@
             if (result.success) {
 
                 if (isRememberMe) {
-                    doCookieSetup("login_isRememberMe", "Y", "/", 2592000000);
-                    doCookieSetup("login_username", params.username, "/", 2592000000);
-                    doCookieSetup("login_dbname", params.dbname, "/", 2592000000);
-                    doCookieSetup("login_comp_id", params.comp_id, "/", 2592000000);
+                    setupCookie("login_isRememberMe", "Y", "/", 2592000000);
+                    setupCookie("login_username", params.username, "/", 2592000000);
+                    setupCookie("login_dbname", params.dbname, "/", 2592000000);
+                    setupCookie("login_comp_id", params.comp_id, "/", 2592000000);
                 } else {
-                    doCookieSetup("login_isRememberMe", "N", "/", 2592000000);
+                    setupCookie("login_isRememberMe", "N", "/", 2592000000);
                     delCookie("login_username", params.username);
                     delCookie("login_dbname", params.dbname);
                     delCookie("login_comp_id", params.comp_id);

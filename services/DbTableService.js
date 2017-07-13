@@ -77,10 +77,10 @@ exports.doTableLock = function (prg_id, table_name, userInfo, lock_type, key_cod
  */
 exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_cod, socket_id, callback) {
     try {
-        let user_id = userInfo.usr_id;
-        let athena_id = userInfo.athena_id;
-        let hotel_cod = userInfo.fun_hotel_cod;
-        let REVE_CODE = "BAC09008020000";
+        let user_id = userInfo ? userInfo.usr_id : '';
+        let athena_id = userInfo ? userInfo.athena_id : '';
+        let hotel_cod = userInfo ? userInfo.fun_hotel_cod : '';
+        let REVE_CODE = userInfo ? "BAC09008020000" : 'BAC09008020000';
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
             var params = {
