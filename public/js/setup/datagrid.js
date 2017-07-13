@@ -41,7 +41,7 @@ Vue.component("multi-lang-dialog-tmp", {
                 return;
             }
 
-            var existIdx = this.$parent.chkTmpCudExistData("rowData", "updateData");
+            var existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
             if (existIdx == -1) {
                 // 取多語系資料
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
@@ -64,7 +64,6 @@ Vue.component("multi-lang-dialog-tmp", {
                 var multiLang = $("#multiLangDG").datagrid("getRows");
                 var updateRow = $('#prg_dg').datagrid("getSelected");
                 updateRow["multiLang"] = multiLang;
-                console.log(multiLang);
                 $('#prg_dg').datagrid('updateRow', {
                     index: selectIndex,
                     row: updateRow
@@ -307,9 +306,8 @@ var vm = new Vue({
         },
         //儲存
         doSave: function () {
+            var self = this;
             if (this.endEditing()) {
-                console.log(gs_locale);
-
                 var params = {
                     prg_id: prg_id,
                     deleteData: vm.tmpCUD.deleteData,
@@ -324,6 +322,7 @@ var vm = new Vue({
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
                         vm.initTmpCUD();
+                        self.fetchDataGridData();
                         $("#gridEdit").val(null);
                         alert('save success!');
                         $("#prgContentDiv").load('/mainSetUp/' + prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
