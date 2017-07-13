@@ -1021,6 +1021,21 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
 };
 
+//取得跳窗頁面的值
+exports.handleSelectTextGridData = function (postData, session, callback) {
+    var userInfo = session.user;
+    var attrName = postData.attr_func_name;
+
+    ruleAgent[attrName](field, userInfo, function (err, result) {
+        if (result) {
+            la_fields[fIdx] = result[0];
+            callback(err, {ui_field_idx: fIdx, field: result});
+        } else {
+            callback(err, {ui_field_idx: fIdx, field: result});
+        }
+    });
+}
+
 //將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
 function dataValueChange(fields, data) {
     fields = tools.mongoDocToObject(fields);

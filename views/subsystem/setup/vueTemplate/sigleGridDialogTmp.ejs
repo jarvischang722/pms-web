@@ -30,7 +30,8 @@
                                                                                       field.ui_type == 'date' ||
                                                                                        field.ui_type == 'datetime' ||
                                                                                        field.ui_type == 'percent'  ||
-                                                                                     field.ui_type == 'time')"
+                                                                                     field.ui_type == 'time' ||
+                                                                                     field.ui_type == 'textgrid')"
                                            type="text"
                                            class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
@@ -40,6 +41,7 @@
                                            :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N'"
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                           @click="chkClickTextGrid(field.ui_field_name,field.rule_func_name,field.ui_type)"
                                         >
 
                                     <!--  checkbox -->
