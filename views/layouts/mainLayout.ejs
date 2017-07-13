@@ -65,8 +65,8 @@
             },
 //切換子系統
             toSubsys(subsys_id){
-                doCookieSetup("usingPrgID", "");
-                doCookieSetup('usingSubsysID', subsys_id)
+                setupCookie("usingPrgID", "");
+                setupCookie('usingSubsysID', subsys_id)
                 this.usingSubsysID = subsys_id;
 
             },

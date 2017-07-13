@@ -98,9 +98,13 @@
             },
             //讀入主程式
             loadMainProcess: function (prg_id) {
+                g_socket.emit('handleTableUnlock')
+
                 var ls_pro_url = "";
+                this.doTableUnlock();
                 this.isOpenModule = "";
-                doCookieSetup("usingPrgID", prg_id);
+                setupCookie("usingPrgID", prg_id);
+                setupCookie("lockingPrgID", prg_id)
                 $("#MainContentDiv").html("");
 
                 _.each(this.moduleMenu, function (mdl) {
@@ -126,7 +130,18 @@
                     $("#MainContentDiv").load(ls_pro_url);
                 }
 
+            },
+            doTableLock:function(){
+
+
+            },
+            doTableUnlock:function(){
+                var lockingPrgID = !_.isUndefined(getCookie("lockingPrgID")) && !_.isEmpty(getCookie("lockingPrgID"))
+                                    ? getCookie("lockingPrgID") : '';
+                g_socket.emit('handleTableUnlock')
             }
+
+
         },
 
     })

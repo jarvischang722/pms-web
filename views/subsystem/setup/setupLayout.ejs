@@ -56,14 +56,8 @@
 
 </div>
 <script>
-    var url_hash = window.location.hash.replace("#", "");
-    if (!_.isEmpty(url_hash)) {
-        $("#MainContentDiv").load(url_hash);
-    }
-    var gs_mdl_id = '<%= mdl_id %>';
-    var socket = io.connect('/setup');
-    var userInfo = <%- JSON.stringify(session.user) %>;
 
+    var gs_mdl_id = '<%= mdl_id %>';
     var vmMain = new Vue({
         el: '#main-container',
         data: {
@@ -87,7 +81,11 @@
 
             this.loadProcess();
         },
-        watch: {},
+        watch: {
+            usingPrgID: function (usingPrgID) {
+                setupCookie("lockingPrgID", usingPrgID)
+            }
+        },
         methods: {
             //打開第一個對照檔
             doFirstPrg: function () {
@@ -98,7 +96,6 @@
             //讀取此Module 所有對照檔
             loadProcess: function () {
                 this.prosList = [];
-
                 $.post("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}, function (result) {
 
                     if (result.success) {
@@ -110,9 +107,9 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (doingPrgID) {
+//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
-                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.handleClearHtml();
                 this.goTopForPage();
                 this.checkTmpNotEmpty(doingPrgID);
@@ -138,23 +135,22 @@
             },
             // 讓捲軸用動畫的方式移動到 0 的位置
             goTopForPage: function () {
-                var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                var $body = (window.opera) ? (document.compatMode == "CSS1Compat"
+                    ? $('html') : $('body')) : $('html,body');
                 $body.animate({
                     scrollTop: 0
                 }, 600);
             },
             //資料表上鎖
             doTableLock: function (prg_id) {
-                socket.emit('handleTableLock', {
-                    'prg_id': prg_id,
-                    'user': userInfo
+                g_socket.emit('handleTableLock', {
+                    'prg_id': prg_id
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
-                socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID,
-                    'user': userInfo
+                g_socket.emit('handleTableUnlock', {
+                    'prg_id': vmMain.usingPrgID
                 })
                 callback(null, true);
             },
@@ -186,7 +182,7 @@
     })
 
     //Lock 結果
-    socket.on('checkTableLock', function (result) {
+    g_socket.on('checkTableLock', function (result) {
         vmMain.isTableLockProcessing = false;
         vmMain.isTableLocked = !result.success;
         vmMain.tableLockMsg = result.errorMsg;
