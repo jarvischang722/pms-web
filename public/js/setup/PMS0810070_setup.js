@@ -229,8 +229,8 @@ function bindDayClickEvent() {
             chkDataSourceAndEdit(eachDate.date);
         });
 
-        insertTmpCUD(ls_rtnDate);
         setCalendarDataSource();
+        insertTmpCUD(ls_rtnDate);
     });
 }
 
@@ -250,14 +250,19 @@ function chkDataSourceAndEdit(ls_date) {
     }
     else {
         // 設定顏色不一樣，直接更新
-        if (ga_dataSource[isExist].id != $("#color_scheme option:selected").data("day_sta")) {
+        console.log(ga_dataSource[isExist].color, $("#color_scheme option:selected").val());
+        if (ga_dataSource[isExist].color != $("#color_scheme option:selected").val()) {
+            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
             ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
             ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
+            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
         }
         // 設定顏色相同，等於取消
         else {
+            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
             ga_dataSource[isExist].id = "N";
             ga_dataSource[isExist].color = "#fff";
+            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
         }
 
     }
