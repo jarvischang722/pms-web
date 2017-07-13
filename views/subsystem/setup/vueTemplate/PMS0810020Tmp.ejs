@@ -18,7 +18,7 @@
                                            v-if="field.visiable == 'Y'">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                            {{field.ui_field_name}}
+                                            {{field.ui_display_name}}
                                         </a>
                                         <span v-else>{{field.ui_display_name}} </span>
                                     </label>
