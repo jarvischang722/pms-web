@@ -149,7 +149,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         function (pageInfo, callback) {
             mongoAgent.UI_Type_Grid.findOne({
                 prg_id: prg_id,
-                page_id:1
+                page_id: 1
             }, function (err, gridInfo) {
                 if (err || !gridInfo) {
                     gridInfo = {};
@@ -164,7 +164,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             if (!_.isUndefined(gridInfo.rule_func_name) && !_.isEmpty(gridInfo.rule_func_name)) {
                 queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                     dataGridRows = data;
-                    if(err){
+                    if (err) {
                         console.error(err);
                     }
                     callback(null, dataGridRows);
@@ -246,7 +246,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
                 var attrName = field.attr_func_name;
-                if(!_.isEmpty(attrName)) {
+                if (!_.isEmpty(attrName)) {
                     selectDSFunc.push(
                         function (callback) {
                             if (field.visiable == "C") {
@@ -288,11 +288,11 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                                 } else {
                                     callback(null, {ui_field_idx: fIdx, field: result});
                                 }
-                            }else {
+                            } else {
                                 callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
                             }
                         }
-                    )
+                    );
                 }
             });
 
@@ -475,6 +475,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
     var savaExecDatas = {};
     var exec_seq = 1;
     var userInfo = session.user;
+    var athena_id = userInfo.athena_id;
     var hotel_cod = userInfo["fun_hotel_cod"];
     var prg_id = postData["prg_id"] || "";
     var prgFields = []; //prg 所屬的欄位
@@ -576,7 +577,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                         _.each(data.multiLang, function (lo_lang) {
                             var ls_locale = lo_lang.locale || "";
                             _.each(lo_lang, function (langVal, fieldName) {
-                                if (fieldName != "locale" && !_.isEmpty(langVal)) {
+                                if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
                                     var langTable = _.findWhere(la_multiLangFields, {ui_field_name: fieldName}).multi_lang_table;
                                     var lo_langTmp = {
                                         function: '1',
@@ -619,6 +620,26 @@ exports.doSaveDataGrid = function (postData, session, callback) {
 
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
+
+                    /** 刪除多語系 **/
+                    if(la_multiLangFields.length > 0){
+                        var ls_langTable = la_multiLangFields[0].multi_lang_table;
+                        var langDel = {"function": "0"};
+                        langDel["table_name"] = ls_langTable;
+                        langDel.condition = [];
+                        _.each(keyFields, function (keyField, keyIdx) {
+                            if (!_.isUndefined(data[keyField])) {
+                                langDel.condition.push({
+                                    key: keyField,
+                                    operation: "=",
+                                    value: data[keyField]
+                                });
+                            }
+                        });
+                        savaExecDatas[exec_seq] = langDel;
+                        exec_seq++;
+                    }
+
                 });
                 callback(null, '0300');
             },
@@ -874,7 +895,6 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         callback(null, lo_result);
     });
 };
-
 
 /**
  * 根據field 屬性格式化日期格式
