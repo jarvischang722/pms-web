@@ -232,24 +232,18 @@ var vm = new Vue({
                         locale: locales.lang
                     });
                 });
-                // dataGrid room_nam 或 room_sna 有修改 且 暫存沒有多語系資料
+                // dataGrid 多語系欄位有修改 且 暫存沒有多語系資料
                 // 則一起儲存進多語系
-                if (!_.isUndefined(changes.room_nam) && !lb_multiLangExist) {
-                    _.each(la_multiLangTmp, function (tmpLang) {
-                        if (tmpLang.locale == gs_locale) {
-                            tmpLang.room_nam = changes.room_nam;
-                        }
-                    });
-                    row.multiLang = la_multiLangTmp;
-                }
-                if (!_.isUndefined(changes.room_sna) && !lb_multiLangExist) {
-                    _.each(la_multiLangTmp, function (tmpLang) {
-                        if (tmpLang.locale == gs_locale) {
-                            tmpLang.room_sna = changes.room_sna;
-                        }
-                    });
-                    row.multiLang = la_multiLangTmp;
-                }
+                _.each(this.multiLangField, function(multiLangField){
+                    if(!_.isUndefined(changes[multiLangField.ui_field_name]) && ! lb_multiLangExist){
+                        _.each(la_multiLangTmp, function (tmpLang) {
+                            if (tmpLang.locale == gs_locale) {
+                                tmpLang[multiLangField.ui_field_name] = changes[multiLangField.ui_field_name];
+                            }
+                        });
+                        row.multiLang = la_multiLangTmp;
+                    }
+                });
             }
             this.tempExecData(row);
         },
