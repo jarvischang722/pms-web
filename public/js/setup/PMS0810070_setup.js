@@ -51,7 +51,7 @@ function initCalendar() {
             ls_select_color = ls_select_color + " 0px -4px 0px 0px inset";
             $(lo_clickDate).css('box-shadow', ls_select_color);
 
-            chkDataSourceAndEdit(ls_clickDateStr);
+            // chkDataSourceAndEdit(ls_clickDateStr);
 
             la_dateDT.push({
                 date: ls_clickDateStr,
@@ -64,7 +64,7 @@ function initCalendar() {
             var lo_dateSource = _.find(ga_dataSource, function (dataSource) {
                 return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_clickDateStr).format("YYYY/MM/DD");
             });
-            lo_dateSource.color = "#fff";
+            lo_dateSource.color = "#FFFFFF";
             lo_dateSource.id = "N";
 
             la_dateDT.push({
@@ -141,41 +141,24 @@ function initTmpCUD() {
 // 新增資料進tmpCUD
 function insertTmpCUD(la_dateDT) {
     _.each(la_dateDT, function (tmpDate) {
-        var dateIsExist = _.find(go_holidayDate, function (Date) {
-            return moment(Date.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
+        var dateIsExist = _.find(go_holidayDate, function (holidayDate) {
+            return moment(holidayDate.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
 
 
-        if (_.isUndefined(dateIsExist)) {
+        var dataType = _.isUndefined(dateIsExist) ? "createData" : "updateData";
 
-            var createIndex = _.findIndex(ga_tmpCUD.createData, function (createDT) {
-                return moment(createDT.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
-            });
+        var chkIndex = _.findIndex(ga_tmpCUD[dataType], function (cudDate) {
+            return moment(cudDate.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
+        });
 
-            if (createIndex != -1)
-                ga_tmpCUD.createData[createIndex].day_sta = tmpDate.day_sta;
-            else {
-                ga_tmpCUD.createData.push({
-                    "day_sta": $("#color_scheme option:selected").data("day_sta"),
-                    "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
-            }
-        }
+        if (chkIndex != -1)
+            ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;
         else {
-
-            var updateIndex = _.findIndex(ga_tmpCUD.updateData, function (updateDT) {
-                return moment(updateDT.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
+            ga_tmpCUD[dataType].push({
+                "day_sta": $("#color_scheme option:selected").data("day_sta"),
+                "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
             });
-
-            if (updateIndex != -1) {
-                ga_tmpCUD.updateData[updateIndex].day_sta = tmpDate.day_sta;
-            }
-            else {
-                ga_tmpCUD.updateData.push({
-                    "day_sta": tmpDate.day_sta,
-                    "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
-            }
         }
     });
 
@@ -229,42 +212,32 @@ function bindDayClickEvent() {
             chkDataSourceAndEdit(eachDate.date);
         });
 
-        setCalendarDataSource();
         insertTmpCUD(ls_rtnDate);
     });
 }
 
 // 檢查dataSource
 function chkDataSourceAndEdit(ls_date) {
-    var isExist = _.findIndex(ga_dataSource, function (dataSource) {
-        return moment(dataSource.startDate).format("YYYY/MM/DD") == moment(ls_date).format("YYYY/MM/DD");
-    })
 
-    if (isExist == -1) {
-        ga_dataSource.push({
-            id: $("#color_scheme option:selected").data("day_sta"),
-            startDate: new Date(ls_date),
-            endDate: new Date(ls_date),
-            color: $("#color_scheme option:selected").val()
-        });
+    var monStr = moment(ls_date).format("MMMM");
+    var dayStr = moment(ls_date).format("D");
+    var ls_select_color = $("#color_scheme option:selected").val();
+    var selCSS = ls_select_color + " 0px -4px 0px 0px inset";
+    var monthTable = $("table.month th:contains('" + monStr + "')").closest("table");
+    var selDayTd = $("div.day-content", monthTable).filter(function(){
+        return $(this).text() === dayStr;
+    }).closest("td");
+
+    var rgb = splitRgb(selDayTd.css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
+    var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
+
+    // 設定顏色不一樣，直接更新
+    if (ls_select_color != ls_clickDate_color) {
+        selDayTd.css('box-shadow', selCSS);
     }
-    else {
-        // 設定顏色不一樣，直接更新
-        console.log(ga_dataSource[isExist].color, $("#color_scheme option:selected").val());
-        if (ga_dataSource[isExist].color != $("#color_scheme option:selected").val()) {
-            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
-            ga_dataSource[isExist].id = $("#color_scheme option:selected").data("day_sta");
-            ga_dataSource[isExist].color = $("#color_scheme option:selected").val();
-            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
-        }
-        // 設定顏色相同，等於取消
-        else {
-            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
-            ga_dataSource[isExist].id = "N";
-            ga_dataSource[isExist].color = "#fff";
-            console.log(ga_dataSource[isExist].id,ga_dataSource[isExist].color);
-        }
-
+    // 設定顏色相同，等於取消
+    else{
+        selDayTd.css('box-shadow', "");
     }
 }
 
@@ -343,7 +316,7 @@ function getDaysBetweenDates(ls_start, ls_end, dayName) {
         if (li_day == day) {
             result.push({
                 date: lo_date.format("YYYY/MM/DD"),
-                day_sta: $("#color_scheme option:selected").data("day_sta"),
+                day_sta: $("#color_scheme option:selected").data("day_sta").toString(),
                 color: $("#color_scheme option:selected").val()
             });
         }
