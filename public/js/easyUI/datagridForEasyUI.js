@@ -5,6 +5,7 @@
  */
 var isUserEdit = true;
 var gb_onceEffectFlag = true;
+var ga_colorAry = [];
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
@@ -94,10 +95,10 @@ var EZfieldClass = {
             };
 
             var dateParserFunc = function (date) {
-                if(date != "") {
+                if (date != "") {
                     return new Date(Date.parse(date));
                 }
-                else{
+                else {
                     return "";
                 }
             };
@@ -126,7 +127,8 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
 
-        } else if (dataType == "combobox") {
+        }
+        else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
@@ -160,17 +162,31 @@ var EZfieldClass = {
                     }
                 };
             }
-        } else if (dataType == "checkbox") {
+        }
+        else if (dataType == "checkbox") {
             tmpFieldObj.formatter = function (val, row, index) {
                 var displayName = fieldAttrObj.selectData[1];
                 var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
-        } else if (fieldAttrObj.ui_type == "color") {
+        }
+        else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
-                var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
+
+                // return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this,dgName) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
-                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this,dgName) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
+                var colorAry_index = _.findIndex(ga_colorAry, function (colorObj) {
+                    return colorObj.index == index;
+                });
+
+                if (colorAry_index == -1) {
+                    ga_colorAry.push({
+                        index: index,
+                        color: "#" + String(colorTool.colorCodToHex(color_cod)),
+                        disabled: disabled
+                    });
+                }
+                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' value='" + ga_colorAry[index].color + "'>";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
@@ -201,7 +217,8 @@ var EZfieldClass = {
                 }
             };
 
-        } else if (dataType == "numberbox") {
+        }
+        else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
             if (fieldAttrObj.ui_type == "percent") {
@@ -210,7 +227,8 @@ var EZfieldClass = {
                     return fieldName;
                 };
             }
-        } else if (dataType == "timespinner") {
+        }
+        else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
                 var lo_val = String(val);
                 if (lo_val.indexOf(":") == "-1") {
@@ -222,7 +240,8 @@ var EZfieldClass = {
                     return val;
                 }
             };
-        } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
+        }
+        else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
             tmpFieldObj.editor.options.idField = 'field';
             tmpFieldObj.editor.options.textField = 'title';
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
@@ -289,21 +308,17 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     }
 }
 
-var ColorFunc = {
-    //選擇顏色事件
-    selectEvent: function (field_name, rowIdx, _this, dgName) {
-        console.log(dgName);
-        var dataGridName = dgName;
-        var updateRow = {};
-        var color_cod = colorTool.hexToColorCod(_this.value);
-        updateRow[field_name] = color_cod;
-        vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
-        vm.endEditing();
-        $('#' + dataGridName).datagrid('updateRow', {
-            index: rowIdx,
-            row: updateRow
-        });
-    }
-};
+$(document).on("change", "#colorWell", function (event) {
+    var updateRow = {};
+    var li_index = $(this).closest("tr").attr("datagrid-row-index");
+    var ls_field_name = $(this).data("field");
+    var ls_dgName = $(this).data("dgname");
+    var color_cod = colorTool.hexToColorCod(event.target.value);
+    ga_colorAry[li_index].color = event.target.value;
+    updateRow[ls_field_name] = color_cod;
+    var lo_row = $('#' + ls_dgName).datagrid('getRows')[li_index];
+    lo_row.color_num = color_cod;
+    vm.tempExecData(lo_row);
+});
 
 
