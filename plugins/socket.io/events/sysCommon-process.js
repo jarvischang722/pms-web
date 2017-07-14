@@ -20,7 +20,7 @@ module.exports = function (io) {
                 let table_name = "";
                 let lock_type = "";
                 let key_cod = "";
-                let socket_id = socket.id;
+                let socket_id = socket.client.id;
 
                 mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
@@ -62,7 +62,7 @@ module.exports = function (io) {
         // table unlock
         socket.on('handleTableUnlock', function (data) {
 
-            let socket_id = socket.id;
+            let socket_id = socket.client.id;
             try {
                 if (go_session) {
                     if (data) {
