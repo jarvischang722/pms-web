@@ -204,15 +204,43 @@ function bindSelectChangeEvent() {
 function bindDayClickEvent() {
     $(".choiceDay").click(function () {
         var ls_date = $(this).text().trim();
-        var ls_start_date = $("input[name='start']").val();
-        var ls_end_date = $("input[name='end']").val();
-        var ls_rtnDate = getDaysBetweenDates(ls_start_date, ls_end_date, ls_date);
+        var ls_start_date;
+        var ls_end_date;
+        var ls_rtnDate = [];
+        var day_counter = 0;
+        if (ls_date == "All") {
+            ls_start_date = gs_calendar_year + "/01/01";
+            ls_end_date = gs_calendar_year + "/12/31";
+            console.log(ls_end_date);
+            var li_diffDay = moment(ls_end_date).diff(moment(ls_start_date), "days") + 1;
+            waitingDialog.show("Loading...");
 
-        _.each(ls_rtnDate, function (eachDate) {
-            chkDataSourceAndEdit(eachDate.date);
-        });
+            setTimeout(function(){
+                while (day_counter != li_diffDay) {
+                    var nowDay = moment(ls_start_date).add("days", day_counter);
+                    chkDataSourceAndEdit(nowDay);
+                    ls_rtnDate.push({
+                        date: nowDay.format("YYYY/MM/DD"),
+                        day_sta: $("#color_scheme option:selected").data("day_sta").toString(),
+                        color: $("#color_scheme option:selected").val()
+                    });
+                    day_counter++;
+                }
+                waitingDialog.hide();
+                insertTmpCUD(ls_rtnDate);
+            }, 1000);
 
-        insertTmpCUD(ls_rtnDate);
+
+        }
+        else {
+            ls_start_date = $("input[name='start']").val();
+            ls_end_date = $("input[name='end']").val();
+            ls_rtnDate = getDaysBetweenDates(ls_start_date, ls_end_date, ls_date);
+            _.each(ls_rtnDate, function (eachDate) {
+                chkDataSourceAndEdit(eachDate.date);
+            });
+            insertTmpCUD(ls_rtnDate);
+        }
     });
 }
 
@@ -224,7 +252,7 @@ function chkDataSourceAndEdit(ls_date) {
     var ls_select_color = $("#color_scheme option:selected").val();
     var selCSS = ls_select_color + " 0px -4px 0px 0px inset";
     var monthTable = $("table.month th:contains('" + monStr + "')").closest("table");
-    var selDayTd = $("div.day-content", monthTable).filter(function(){
+    var selDayTd = $("div.day-content", monthTable).filter(function () {
         return $(this).text() === dayStr;
     }).closest("td");
 
@@ -236,7 +264,7 @@ function chkDataSourceAndEdit(ls_date) {
         selDayTd.css('box-shadow', selCSS);
     }
     // 設定顏色相同，等於取消
-    else{
+    else {
         selDayTd.css('box-shadow', "");
     }
 }

@@ -426,7 +426,8 @@
       "wed_nam": "Wed",
       "thu_nam": "Thu",
       "fri_nam": "Fri",
-      "sat_nam": "Sat"
+      "sat_nam": "Sat",
+      "allDay_nam": "All"
     }
   },
   "table_in_use": "Table in use (%s)",
