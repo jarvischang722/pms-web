@@ -277,9 +277,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
     },
     created: function () {
-
         var self = this;
-        vmHub.$on('showSearchDataGrid', function (dtDataGridRows) {
+        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
         vmHub.$on('tempExecData', function (row) {
@@ -498,10 +497,13 @@ Vue.component('sigle-grid-dialog-tmp', {
             var columnsData = [];
             this.$emit("combine-field", this.pageTwoDataGridFieldData, function (columns) {
                 columnsData = columns;
+                console.log(columnsData);
             });
             var hasMultiLangField = _.filter(this.pageTwoDataGridFieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
+
+            console.log(hasMultiLangField);
             if (hasMultiLangField) {
                 columnsData.push({
                     type: 'textbox',
@@ -800,6 +802,8 @@ var vm = new Vue({
                     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
+
+
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
             });
@@ -957,6 +961,7 @@ var vm = new Vue({
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
+                console.log(result);
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
