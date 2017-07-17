@@ -76,7 +76,7 @@
         methods: {
             //選擇系統
             selectSys: function (sys_id) {
-                $.post("/api/selectSystem", {sys_id:sys_id}, function (result) {
+                $.post("/api/selectSystem", {sys_id, sys_id}, function (result) {
                     if (result.success) {
                         location.href = result.subsysPage;
                     }
