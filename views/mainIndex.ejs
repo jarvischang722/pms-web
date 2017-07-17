@@ -51,7 +51,7 @@
 
         },
         watch: {
-            usingSubsysID(subsys_id){
+            usingSubsysID: function (subsys_id) {
                 let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
                 if (lo_subsysMenu) {
                     this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
@@ -85,7 +85,7 @@
                 })
             },
             //取得網址get 參數
-            getQueryString(name) {
+            getQueryString: function (name) {
                 var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
                 var r = window.location.search.substr(1).match(reg);
                 if (r != null) {
@@ -98,7 +98,7 @@
             },
             //讀入主程式
             loadMainProcess: function (prg_id) {
-                g_socket.emit('handleTableUnlock',{'clientSocketID': gs_clientSocketID});
+                g_socket.emit('handleTableUnlock', {'clientSocketID': gs_clientSocketID});
 
                 var ls_pro_url = "";
                 this.doTableUnlock();
