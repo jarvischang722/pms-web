@@ -483,7 +483,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             postData["isDtData"] = true;
             dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
                 if (err || !result.success) {
-                    callback(err.errorMsg, result);
+                    callback(err, result);
                 } else {
                     callback(null, result);
                 }

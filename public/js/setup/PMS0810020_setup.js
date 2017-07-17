@@ -1010,7 +1010,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 2}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();

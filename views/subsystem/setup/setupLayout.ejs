@@ -144,13 +144,15 @@
             //資料表上鎖
             doTableLock: function (prg_id) {
                 g_socket.emit('handleTableLock', {
-                    'prg_id': prg_id
+                    'prg_id': prg_id,
+                    'clientSocketID':gs_clientSocketID
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
                 g_socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID
+                    'prg_id': vmMain.usingPrgID,
+                    'clientSocketID':gs_clientSocketID
                 })
                 callback(null, true);
             },

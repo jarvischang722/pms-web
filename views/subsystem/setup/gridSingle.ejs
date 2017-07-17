@@ -28,7 +28,7 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button id="ins-btn" @click="switchToCreateStatus"
+                                <button id="ins-btn" @click="appendRow"
                                         class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">
                                     <%= __("SystemCommon").Add %>
@@ -51,7 +51,7 @@
     <div class="clearfix"></div>
     <sigle-grid-dialog-tmp
             @close-single-grid-dialog="closeSingleGridDialog"
-            @switch-to-create-status="switchToCreateStatus"
+            @append-row="appendRow"
             @fetch-single-data="fetchSingleData"
             @do-save-cud="doSaveCUD"
             @combine-field="combineField"
