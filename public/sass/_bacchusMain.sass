@@ -1273,7 +1273,8 @@ th.dateColor
   text-align: center
 .roomPlanTable.fancyTable tbody tr td .datecolor
   background-color: #DAEAFC !important
-.roomPlanTable td
+.roomPlanTable td,
+.roomPlanTable th
   //min-width: 30px
   white-space: nowrap
 .roomPlanTable thead:first-child
@@ -1362,18 +1363,20 @@ input[type="datetime-local"]
   height: 40px
 .roomNum-wrap
   border-top: 1px solid #778899
-  height: 20px
+  height: 19px
   margin-bottom: 0
   //display: table-cell
-  i
-    padding-right: 0 !important
+  .roomNum-text
+    margin-left: -23%
+    i
+      padding-right: 0 !important
 //.month-wrap
 //  padding: 3px 0
 .room-Num-Right
   border-left: 1px solid #778899
-  display: inline-block
-  //height: 30px
-  padding-right: 3px
+  //display: inline-block
+  ////height: 30px
+  //padding-right: 3px
 .room-Num-Left
   display: inline-block
   //height: 30px
@@ -1451,3 +1454,7 @@ span.triangle-text
   width: 90%
   margin: 0 auto
   padding: 5px 0
+.roomPlanTable
+  .col-xs-6
+    text-align: center
+    display: inline-table
