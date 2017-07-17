@@ -1396,7 +1396,7 @@ span.roomNum-text
 //  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 //  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
-//表格td長六角形
+//ho-表格td長六角形
 td div.triangle-box
   width: 65%
   height: 19px
@@ -1425,31 +1425,33 @@ td div.triangle-box:after
   right: -10px
   border-width: 9px 0 9px 10px
 
+//ho-分帳規則
 .cashierSetting-btn-wrap
   margin-top: 10px
-
-.cashierSetting-left.css_table .css_td.active
-  background: #fff !important
-  color: #000 !important
 
 .rules-notice
   color: red
 .rules-wrap
   margin-bottom: 30px
-.rules-wrap .counterRow .counterBlock
-  background: #8080ff
+//.rules-wrap .counterRow .counterBlock
+//  //background: #8080ff
 .purple-text
-  color: #810584
-.cashierSetting-left .css_table .css_th
-  background: #fff
-.cashierSetting-left.css_table .css_td
-  background: #e6e6ff
-span.triangle-text
-  width: 100%
-  display: inline-block
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
+  color: #DD5A43 !important
+
+.cashierSetting-left
+  &.css_table
+    .css_td
+      background: #e6e6ff
+      &.active
+        background: #fff !important
+        color: #000 !important
+span
+  &.triangle-text
+    width: 100%
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
 .month-wrap
   width: 90%
   margin: 0 auto
@@ -1458,3 +1460,7 @@ span.triangle-text
   .col-xs-6
     text-align: center
     display: inline-table
+
+.cashier-top-wrap
+  margin: 15px 15px
+  padding-top: 10px

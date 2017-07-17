@@ -3892,48 +3892,37 @@ td div.triangle-box:after {
   border-width: 9px 0 9px 10px;
 }
 
-/* line 1428, ../sass/_bacchusMain.sass */
+/* line 1429, ../sass/_bacchusMain.sass */
 .cashierSetting-btn-wrap {
   margin-top: 10px;
 }
 
-/* line 1431, ../sass/_bacchusMain.sass */
+/* line 1432, ../sass/_bacchusMain.sass */
+.rules-notice {
+  color: red;
+}
+
+/* line 1434, ../sass/_bacchusMain.sass */
+.rules-wrap {
+  margin-bottom: 30px;
+}
+
+/* line 1438, ../sass/_bacchusMain.sass */
+.purple-text {
+  color: #DD5A43 !important;
+}
+
+/* line 1443, ../sass/_bacchusMain.sass */
+.cashierSetting-left.css_table .css_td {
+  background: #e6e6ff;
+}
+/* line 1445, ../sass/_bacchusMain.sass */
 .cashierSetting-left.css_table .css_td.active {
   background: #fff !important;
   color: #000 !important;
 }
 
-/* line 1435, ../sass/_bacchusMain.sass */
-.rules-notice {
-  color: red;
-}
-
-/* line 1437, ../sass/_bacchusMain.sass */
-.rules-wrap {
-  margin-bottom: 30px;
-}
-
-/* line 1439, ../sass/_bacchusMain.sass */
-.rules-wrap .counterRow .counterBlock {
-  background: #8080ff;
-}
-
-/* line 1441, ../sass/_bacchusMain.sass */
-.purple-text {
-  color: #810584;
-}
-
-/* line 1443, ../sass/_bacchusMain.sass */
-.cashierSetting-left .css_table .css_th {
-  background: #fff;
-}
-
-/* line 1445, ../sass/_bacchusMain.sass */
-.cashierSetting-left.css_table .css_td {
-  background: #e6e6ff;
-}
-
-/* line 1447, ../sass/_bacchusMain.sass */
+/* line 1449, ../sass/_bacchusMain.sass */
 span.triangle-text {
   width: 100%;
   display: inline-block;
@@ -3942,17 +3931,23 @@ span.triangle-text {
   text-overflow: ellipsis;
 }
 
-/* line 1453, ../sass/_bacchusMain.sass */
+/* line 1455, ../sass/_bacchusMain.sass */
 .month-wrap {
   width: 90%;
   margin: 0 auto;
   padding: 5px 0;
 }
 
-/* line 1458, ../sass/_bacchusMain.sass */
+/* line 1460, ../sass/_bacchusMain.sass */
 .roomPlanTable .col-xs-6 {
   text-align: center;
   display: inline-table;
+}
+
+/* line 1464, ../sass/_bacchusMain.sass */
+.cashier-top-wrap {
+  margin: 15px 15px;
+  padding-top: 10px;
 }
 
 /*------  共用區public ------ */
