@@ -86,15 +86,15 @@ function initDatePicker() {
 
 // 取假日種類設定
 function getHolidayKindSet() {
-    axios.post("/api/getHolidayKindSet")
+    $.post("/api/getHolidayKindSet")
         .then(function (kindSetResult) {
-            go_holidayKind = kindSetResult.data.dateKindSetData;
+            go_holidayKind = kindSetResult.dateKindSetData;
             createDateKindSelectOption();
         })
-        .catch(function (error) {
+        .fail(function (error) {
             console.log(error);
             waitingDialog.hide();
-        })
+        });
 }
 
 // 取假日日期設定
@@ -103,14 +103,14 @@ function getHolidayDateSet() {
     var params = {
         year: gs_calendar_year
     };
-    axios.post("/api/getHolidayDateSet", params)
+    $.post("/api/getHolidayDateSet", params)
         .then(function (getResult) {
-            go_holidayDate = getResult.data.dateSetData;
+            go_holidayDate = getResult.dateSetData;
             initDataSource();
             setCalendarDataSource();
             waitingDialog.hide();
         })
-        .catch(function (err) {
+        .fail(function (err) {
             console.log(err);
             waitingDialog.hide();
         });
@@ -158,7 +158,7 @@ function insertTmpCUD(la_dateDT) {
                 ga_tmpCUD.createData.push({
                     "day_sta": $("#color_scheme option:selected").data("day_sta"),
                     "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
+                });
             }
         }
         else {
