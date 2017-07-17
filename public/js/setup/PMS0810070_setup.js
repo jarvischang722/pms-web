@@ -104,7 +104,7 @@ function getHolidayDateSet() {
         year: gs_calendar_year
     };
     $.post("/api/getHolidayDateSet", params)
-        .then(function (getResult) {
+        .done(function (getResult) {
             go_holidayDate = getResult.dateSetData;
             initDataSource();
             setCalendarDataSource();
@@ -174,7 +174,7 @@ function insertTmpCUD(la_dateDT) {
                 ga_tmpCUD.updateData.push({
                     "day_sta": tmpDate.day_sta,
                     "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
+                });
             }
         }
     });
@@ -286,19 +286,18 @@ function saveIntoOracleHolidayRf() {
         mainTableName: "holiday_rf"
     };
 
-    console.log(ga_tmpCUD);
     waitingDialog.show('Saving...');
-    axios.post("/api/execSQLProcess", params)
-        .then(function (response) {
+    $.post("/api/execSQLProcess", params)
+        .done(function (response) {
             waitingDialog.hide();
-            if (response.data.success) {
+            if (response.success) {
                 alert('save success!');
                 initTmpCUD();
             } else {
-                alert(response.data.errorMsg);
+                alert(response.errorMsg);
             }
         })
-        .catch(function (error) {
+        .fail(function (error) {
             waitingDialog.hide();
             console.log(error);
         });

@@ -79,7 +79,7 @@
         methods: {
             //取得此子系統的權限
             getUserSubsys: function () {
-                $.post("/api/getUserSubsys").then(function (res) {
+                $.post("/api/getUserSubsys").done(function (res) {
                     vm.subsysMenu = res.subsysMenu;
                     vm.usingSubsysID = getCookie('usingSubsysID');
                 })
