@@ -13,11 +13,11 @@
                     <ul>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth cashierSetting-btn"
-                                    role="button">設定</button>
+                                    role="button">Add</button>
                         </li>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">修改</button>
+                                    role="button">Modify</button>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +33,7 @@
         <div class="col-xs-12 col-sm-12">
 
             <div class="row">
-                <div class="main-content-data">
+                <div class="main-content-data borderFrame cashier-top-wrap">
                     <div class="grid">
                         <div class="grid-item">
                             <label>規則代號</label>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12">
+                <div class="col-xs-11 col-sm-11">
                     <div class="main-content-data">
                         <div class="col-xs-12 col-sm-12">
                             <div class="row">
@@ -57,7 +57,7 @@
                                             <table class="css_table horizTable center table-lg cashierSetting-left">
                                                 <thead class="css_thead">
                                                 <tr class="css_tr">
-                                                    <th class="css_th center" style="min-width:130px;">帳夾編號</th>
+                                                    <th class="css_th center" style="min-width:130px;">Folio No.</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody class="css_tbody">
@@ -90,22 +90,6 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                        <div class="col-sm-11 cashierSetting-btn-wrap">
-                                            <div class="row">
-                                                <div class="right-menu-co">
-                                                    <ul>
-                                                        <li>
-                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button">儲存</button>
-                                                        </li>
-                                                        <li>
-                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button">離開</button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -618,7 +602,7 @@
                                             </div>
                                         </div><!--main-content-data-->
                                         <div class="clearfix"></div>
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-12" style="display: none">
                                             <span class="rules-notice">
                                                 在畫面上點選小分類時: <br>
                                              點選一下:入帳時將此小分類的帳一致左測所選的帳夾編號內 <br>
@@ -632,6 +616,23 @@
                         </div>
                     </div><!--main-content-data-->
 
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">離開</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">移至公帳號</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -652,7 +653,7 @@
             modal: true,
             title: "公帳號",
             title_html: true,
-            width: 900,
+            width: 1000,
             maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
