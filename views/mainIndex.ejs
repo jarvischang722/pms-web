@@ -52,7 +52,7 @@
         },
         watch: {
             usingSubsysID: function (subsys_id) {
-                let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
+                var lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
                 if (lo_subsysMenu) {
                     this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
                     this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
@@ -79,8 +79,8 @@
         methods: {
             //取得此子系統的權限
             getUserSubsys: function () {
-                axios.post("/api/getUserSubsys").then(function (res) {
-                    vm.subsysMenu = res.data.subsysMenu;
+                $.post("/api/getUserSubsys").then(function (res) {
+                    vm.subsysMenu = res.subsysMenu;
                     vm.usingSubsysID = getCookie('usingSubsysID');
                 })
             },
@@ -127,7 +127,7 @@
                     }
                 }
                 if (!_.isEmpty(ls_pro_url)) {
-                    $("#MainContentDiv").load(ls_pro_url);
+                    $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
                 }
 
             },
