@@ -3950,6 +3950,15 @@ span.triangle-text {
   padding-top: 10px;
 }
 
+/* line 1469, ../sass/_bacchusMain.sass */
+.cashier-main-wrap .counterBlock span {
+  width: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
