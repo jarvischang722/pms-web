@@ -67,7 +67,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
                 var attrName = field.attr_func_name;
-                if(!_.isEmpty(attrName)) {
+                if (!_.isEmpty(attrName)) {
                     selectDSFunc.push(
                         function (callback) {
                             if (field.visiable == "C") {
@@ -170,7 +170,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                     let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
                     la_fields[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
                 });
-                callback(err,la_fields);
+                callback(err, la_fields);
             });
         }
     ], function (err, result) {
@@ -260,15 +260,15 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
                             var params = {
                                 athena_id: userInfo.athena_id,
+                                hotel_cod: userInfo.hotel_cod,
                                 type: lo_rowData.type
                             };
-                            queryAgent.queryList(grid.rule_func_name, params, 0, 0, function (err, dtDataList) {
-                                if (dtDataList.length > 0) {
-                                    _.each(dtDataList, function (row, idx) {
-                                        dtDataList[idx] = tools.handlePreprocessData(row);
-                                    });
-                                    lo_dtData = dtDataList;
-                                }
+                            queryAgent.queryList(grid.rule_func_name.toUpperCase(), params, 0, 0, function (err, dtDataList) {
+                                _.each(dtDataList, function (row, idx) {
+                                    dtDataList[idx] = tools.handlePreprocessData(row);
+                                });
+                                lo_dtData = dtDataList;
+
                                 callback(err, dtDataList);
                             });
                         } else {
@@ -463,12 +463,12 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 }
             }
         ], function (err, result) {
-             deleteData = tools.handlePreprocessData(postData["deleteData"], prgFields);
-             createData = tools.handlePreprocessData(postData["createData"] ,prgFields);
-             editData = tools.handlePreprocessData(postData["editData"] ,prgFields);
-             dt_deleteData = tools.handlePreprocessData(postData["dt_deleteData"],la_dtkeyFields);
-             dt_createData = tools.handlePreprocessData(postData["dt_createData"] ,la_dtkeyFields);
-             dt_editData = tools.handlePreprocessData(postData["dt_editData"] ,la_dtkeyFields);
+            deleteData = tools.handlePreprocessData(postData["deleteData"], prgFields);
+            createData = tools.handlePreprocessData(postData["createData"], prgFields);
+            editData = tools.handlePreprocessData(postData["editData"], prgFields);
+            dt_deleteData = tools.handlePreprocessData(postData["dt_deleteData"], la_dtkeyFields);
+            dt_createData = tools.handlePreprocessData(postData["dt_createData"], la_dtkeyFields);
+            dt_editData = tools.handlePreprocessData(postData["dt_editData"], la_dtkeyFields);
             callback(err, result);
         });
 
@@ -991,7 +991,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 chk_result.success = false;
                 err = {};
                 err.errorMsg = apiErr;
-            }else if(data["RETN-CODE"]!="0000"){
+            } else if (data["RETN-CODE"] != "0000") {
                 chk_result.success = false;
                 err = {};
                 console.error(data["RETN-CODE-DESC"]);
@@ -1021,6 +1021,21 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
 };
 
+//取得跳窗頁面的值
+exports.handleSelectTextGridData = function (postData, session, callback) {
+    var userInfo = session.user;
+    var attrName = postData.attr_func_name;
+
+    ruleAgent[attrName](field, userInfo, function (err, result) {
+        if (result) {
+            la_fields[fIdx] = result[0];
+            callback(err, {ui_field_idx: fIdx, field: result});
+        } else {
+            callback(err, {ui_field_idx: fIdx, field: result});
+        }
+    });
+}
+
 //將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
 function dataValueChange(fields, data) {
     fields = tools.mongoDocToObject(fields);
@@ -1044,9 +1059,9 @@ function dataValueChange(fields, data) {
             _.each(fields, function (row) {
                 if (row.ui_field_name == objKey) {
                     var finalValue = changeValueFormat(value, row.ui_type);
-                    if(row.ui_type != "checkbox"){
+                    if (row.ui_type != "checkbox") {
                         data[objKey] = finalValue ? finalValue : value;
-                    }else {
+                    } else {
                         data[objKey] = finalValue;
                     }
 
@@ -1060,7 +1075,7 @@ function dataValueChange(fields, data) {
 function changeValueFormat(value, ui_type) {
     var valueTemp;
     if (ui_type == "time") {
-        if(!_.isEmpty(value)) {
+        if (!_.isEmpty(value)) {
             var hour = value.substring(0, 2);
             var min = value.substring(2, 4);
             var fieldName = hour + ":" + min;
@@ -1068,10 +1083,10 @@ function changeValueFormat(value, ui_type) {
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) * 100;
-    } else if(ui_type == "checkbox"){
-        if(value == "Y"){
+    } else if (ui_type == "checkbox") {
+        if (value == "Y") {
             valueTemp = true;
-        }else {
+        } else {
             valueTemp = false;
         }
     }
@@ -1086,10 +1101,10 @@ function changeValueFormat4Save(value, ui_type) {
         valueTemp = value.replace(":", "");
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) / 100;
-    }else if(ui_type == "checkbox"){
-        if(value.toUpperCase() == "TRUE"){
+    } else if (ui_type == "checkbox") {
+        if (value.toUpperCase() == "TRUE") {
             valueTemp = "Y";
-        }else {
+        } else {
             valueTemp = "N";
         }
     }

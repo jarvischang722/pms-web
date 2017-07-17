@@ -24,7 +24,7 @@ module.exports = {
             remark_typ: postData.singleRowData.remark_typ
         };
 
-        if (!_.isEmpty(postData.singleRowData.remark_typ.trim())) {
+        if ((postData.singleRowData.remark_typ) && (!_.isEmpty(postData.singleRowData.remark_typ))) {
             queryAgent.query("QRY_REMARK_TYP_RF_IS_EXIST_CUST_MN_COUNT", params, function (err, guestData) {
                 if (!err) {
                     if (guestData.countremark > 0) {
@@ -39,8 +39,9 @@ module.exports = {
                 } else {
                     callback(err, lo_result);
                 }
-
             })
+        }else {
+            callback(null, lo_result);
         }
     }
 }

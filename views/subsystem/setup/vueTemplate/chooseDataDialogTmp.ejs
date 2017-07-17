@@ -1,11 +1,12 @@
 <!-- 彈出視窗 -->
 <script type="text/x-template" id="chooseDataDialogTmp">
-    <div id="dataSearchDialog" v-show="false">
-        <div class="col-sm-12 col-xs-12">
+    <div id="dataTextGridDialog" v-show="false">
+        <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 ">
+                    <!--顯示內容-->
                     <form id="searchDataForm" method="post">
-                        <div class="col-sm-11 col-xs-11 grid">
+                        <div id="textGridDiv" class="col-sm-11 col-xs-11 grid">
                             <div class="row">
                                 <div class="grid-item">
                                     <div class="col-sm-12">

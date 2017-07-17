@@ -229,6 +229,17 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
 });
 
+Vue.component('text-select-grid-dialog-tmp',{
+    template:"#chooseDataDialogTmp",
+    data:function () {
+        return {
+            isFistData: false,
+            isLastData: false,
+            dtEditIndex: undefined
+        };
+    }
+});
+
 /** 編輯新增Dialog Component **/
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
@@ -266,9 +277,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
     },
     created: function () {
-
         var self = this;
-        vmHub.$on('showSearchDataGrid', function (dtDataGridRows) {
+        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
         vmHub.$on('tempExecData', function (row) {
@@ -328,6 +338,14 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }
 
                 });
+            }
+        },
+        chkClickTextGrid :function (ui_field_name, rule_func_name,ui_type) {
+            //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
+
+            if(ui_type == "textgrid"){
+
+                vm.showTextGridDialog();
             }
         }
         ,
@@ -479,10 +497,13 @@ Vue.component('sigle-grid-dialog-tmp', {
             var columnsData = [];
             this.$emit("combine-field", this.pageTwoDataGridFieldData, function (columns) {
                 columnsData = columns;
+                console.log(columnsData);
             });
             var hasMultiLangField = _.filter(this.pageTwoDataGridFieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
+
+            console.log(hasMultiLangField);
             if (hasMultiLangField) {
                 columnsData.push({
                     type: 'textbox',
@@ -682,8 +703,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             return m_lang_val;
         }
     }
-})
-;
+});
 
 var vm = new Vue({
     el: '#GSApp',
@@ -782,6 +802,8 @@ var vm = new Vue({
                     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
+
+
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
             });
@@ -939,6 +961,7 @@ var vm = new Vue({
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
+                console.log(result);
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;
@@ -1047,6 +1070,28 @@ var vm = new Vue({
                 page_id: 1,
                 fieldOptions: saveField
             });
+        },
+        //顯示textgrid跳窗訊息
+        showTextGridDialog: function () {
+            this.dialogVisible = true;
+            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
+            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
+            if (this.pageTwoDataGridFieldData.length > 0) {
+                //加上 dt 高度
+                height += this.dtData.length * 35 + 130;
+            }
+            var dialog = $("#dataTextGridDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height: _.min([maxHeight, height]),
+                title: prg_id,
+                minWidth: 750,
+                maxHeight: maxHeight,
+                resizable: true
+            });
+            dialog.dialog("open");
+            // 給 dialog "內容"高 值
+            //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         }
 
 

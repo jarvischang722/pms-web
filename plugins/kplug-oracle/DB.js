@@ -123,7 +123,7 @@ function getConnection(arg1, arg2) {
             cb(err, null);
             return;
         }
-        console.log('pool.connectionOpen:' + pools[id].connectionsOpen);
+        // console.log('pool.connectionOpen:' + pools[id].connectionsOpen);
         cb(err, connection);
     });
 }

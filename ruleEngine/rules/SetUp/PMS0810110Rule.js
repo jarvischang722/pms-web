@@ -60,7 +60,7 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
-            source_typ: postData.singleRowData.source_typ.trim()
+            source_typ: postData.singleRowData.source_typ
         };
 
         var createSubFunc = [];
