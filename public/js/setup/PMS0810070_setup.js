@@ -43,7 +43,7 @@ function initCalendar() {
         var ls_select_color = $("#color_scheme option:selected").val();
         var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
         var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
-        var ls_clickDateStr = e.date.toLocaleDateString();
+        var ls_clickDateStr = moment(e.date.toLocaleDateString('en-US'), "MM/DD/YYYY").toDate();
         var la_dateDT = [];
 
         // 顏色不一樣直接設定
@@ -144,7 +144,6 @@ function insertTmpCUD(la_dateDT) {
         var dateIsExist = _.find(go_holidayDate, function (Date) {
             return moment(Date.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
-
 
         if (_.isUndefined(dateIsExist)) {
 
@@ -294,7 +293,7 @@ function saveIntoOracleHolidayRf() {
                 alert('save success!');
                 initTmpCUD();
             } else {
-                alert(response.errorMsg);
+                alert(response.data.errorMsg);
             }
         })
         .fail(function (error) {
