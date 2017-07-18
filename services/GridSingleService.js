@@ -17,6 +17,7 @@ var logSvc = require("./LogService");
 var mailSvc = require("./MailService");
 var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
+
 /**
  * 抓取singlePage 欄位資料
  * @param session {Object}: session
@@ -141,16 +142,10 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                             page_id: page_id
                         }).sort({col_seq: 1}).exec(function (err, commonFields) {
                             lo_grid_field.datagridFields = tools.mongoDocToObject(commonFields);
-                            _.each(lo_grid_field.datagridFields, function (field, fIdx) {
-                                lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-                            });
                             callback(err, commonFields);
                         });
                     } else {
                         lo_grid_field.datagridFields = tools.mongoDocToObject(fields);
-                        _.each(lo_grid_field.datagridFields, function (field, fIdx) {
-                            lo_grid_field.datagridFields[fIdx]["ui_display_name"] = i18n.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-                        });
                         callback(err, fields);
                     }
 
@@ -169,6 +164,12 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                 _.each(la_fields, function (field, fIdx) {
                     let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
                     la_fields[fIdx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
+                    if (field.ui_type == 'grid') {
+                        _.each(field.datagridFields, function (field, Idx) {
+                            let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
+                            la_fields[fIdx].datagridFields[Idx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
+                        });
+                    }
                 });
                 callback(err, la_fields);
             });
@@ -182,7 +183,6 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
 
 
 };
-
 
 /**
  * 撈取單筆記錄
@@ -232,6 +232,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             },
             //抓取dt datagrid 資料
             function (rowData, callback) {
+                let go_dataGridField;
                 async.waterfall([
                     function (callback) {
                         mongoAgent.UI_PageField.findOne({
@@ -239,6 +240,16 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             ui_type: 'grid',
                             page_id: 2
                         }, function (err, pageField) {
+                            callback(err, pageField);
+                        });
+                    },
+                    // 找dt datagrid欄位資廖
+                    function (pageField, callback) {
+                        mongoAgent.UIDatagridField.find({
+                            prg_id: prg_id,
+                            page_id: 2
+                        }, function (err, dataGridField) {
+                            go_dataGridField = tools.mongoDocToObject(dataGridField);
                             callback(err, pageField);
                         });
                     },
@@ -257,12 +268,14 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     },
                     function (grid, callback) {
                         if (_.size(grid)) {
+                            let params = {};
+                            let dtKeys = _.pluck(_.where(go_dataGridField, {keyable: 'Y'}), "ui_field_name");
+                            _.each(dtKeys, function (key) {
+                                params[key] = lo_rowData[key] || '';
+                            });
+                            params["athena_id"] = userInfo.athena_id;
+                            params["hotel_cod"] = userInfo.hotel_cod;
 
-                            var params = {
-                                athena_id: userInfo.athena_id,
-                                hotel_cod: userInfo.hotel_cod,
-                                type: lo_rowData.type
-                            };
                             queryAgent.queryList(grid.rule_func_name.toUpperCase(), params, 0, 0, function (err, dtDataList) {
                                 _.each(dtDataList, function (row, idx) {
                                     dtDataList[idx] = tools.handlePreprocessData(row);
@@ -318,7 +331,6 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
 
 };
-
 
 /**
  * 儲存新增修改刪除資料
@@ -1034,7 +1046,7 @@ exports.handleSelectTextGridData = function (postData, session, callback) {
             callback(err, {ui_field_idx: fIdx, field: result});
         }
     });
-}
+};
 
 //將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
 function dataValueChange(fields, data) {

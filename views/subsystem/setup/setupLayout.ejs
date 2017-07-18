@@ -21,6 +21,11 @@
                                                 </a>
                                             </li>
 
+                                            <li>
+                                                <a @click="loadSetUpPage('PMS0840010')" href="javascript:void(0)">
+                                                    房務入帳分類設定
+                                                </a>
+                                            </li>
                                         </ul>
                                         <div class="tab-content">
                                             <!-- 對照檔內容 -->
@@ -107,7 +112,7 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (doingPrgID) {
-//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
+                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
                 this.handleClearHtml();

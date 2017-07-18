@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--
+        ['PMS0840010']
+        小分類已被其他中分類使用則不允許新增
+        訊息: 小分類『[[%%small_typ%%]]』 已被中分類『[[%%middle_typ%%]]』使用,不允許新增
+    -->
+    <dao name="CHK_HKMTYPE_RF_INS">
+        <statement><![CDATA[
+            select middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+            and small_typ = :small_typ and middle_typ <> :middle_typ and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">small_typ</parameter>
+        <parameter type="string" kind="3">middle_typ</parameter>
+    </dao>
+</root>

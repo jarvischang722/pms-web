@@ -183,7 +183,6 @@ var EZfieldClass = {
                     if (fieldAttrObj.modificable == "I") {
                         var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
                         var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
-
                         var lo_editor = $('#' + dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name

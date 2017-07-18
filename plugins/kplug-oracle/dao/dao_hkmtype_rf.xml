@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0840010']取得多筆 -->
+    <dao name="QRY_HKMTYPE_RF">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, middle_typ, typ_nam, item_nos, serv_nos from hkmtype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840010']取得單筆 房務入帳分類設定mn -->
+    <dao name="QRY_SINGLE_HKMTYPE_RF">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, middle_typ, typ_nam, item_nos, serv_nos, ins_dat, ins_usr, upd_dat, upd_usr
+         from hkmtype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">middle_typ</parameter>
+    </dao>
+
+    <!--  ['PMS0840010']取得單筆 房務入帳分類設定dt -->
+    <dao name="QRY_HKSTYPE_RF">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, middle_typ, small_typ, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr from hkstype_rf
+         where athena_id = (:athena_id) and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">middle_typ</parameter>
+    </dao>
+</root>
