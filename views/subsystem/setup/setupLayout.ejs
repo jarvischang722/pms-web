@@ -76,14 +76,6 @@
             prosList: []
         },
         mounted: function () {
-            //偵測離開頁面
-            $(window).on('beforeunload', function () {
-                if (!_.isEmpty(vmMain.usingPrgID)) {
-                    return vmMain.doTableUnLock();
-                }
-
-            });
-
             this.loadProcess();
         },
         watch: {
@@ -156,8 +148,7 @@
             //資料表解鎖
             doTableUnLock: function (callback) {
                 g_socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID,
-                    'clientSocketID': gs_clientSocketID
+                    'prg_id': getCookie("lockingPrgID")
                 })
                 callback(null, true);
             },
