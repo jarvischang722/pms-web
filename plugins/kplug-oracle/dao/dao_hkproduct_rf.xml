@@ -3,7 +3,7 @@
     <!-- ['PMS0840010'] 取中分類使用數量 -->
     <dao name="GET_MIDDLE_TYP_COUNT">
         <statement><![CDATA[
-            select count(*) from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and  middle_typ  = :middle_typ and rownum =1
+            select count(*) middle_typ_count from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ) and rownum =1
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
@@ -14,7 +14,7 @@
     <!-- ['PMS0840010'] 取小分類使用數量 -->
     <dao name="GET_SMALL_TYP_COUNT">
         <statement><![CDATA[
-            select count(*) from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and small_typ = :small_typ and rownum =1
+            select count(*) small_typ_count from hkproduct_rf where athena_id= :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(small_typ) = trim(:small_typ) and rownum =1
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>

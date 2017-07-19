@@ -641,6 +641,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     });
                     savaExecDatas[exec_seq] = tmpDel;
                     exec_seq++;
+
+                    if (dtTableName != "") {
+                        combineDelDetailData(dtTableName, la_dtkeyFields, data);
+                    }
                 });
                 callback(null, '0300');
             },
@@ -1029,6 +1033,25 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             });
             callback(err, chk_result);
         });
+    }
+
+    //組要刪除的dt資料
+    function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
+        let tmpDel = {"function": "0", "table_name": dtTableName}; //0 代表刪除
+        tmpDel.condition = [];
+        //組合where 條件
+        _.each(la_dtkeyFields, function (keyField, keyIdx) {
+            if (!_.isUndefined(mnData[keyField.ui_field_name])) {
+                tmpDel.condition.push({
+                    key: keyField.ui_field_name,
+                    operation: "=",
+                    value: mnData[keyField.ui_field_name]
+                });
+            }
+
+        });
+        savaExecDatas[exec_seq] = tmpDel;
+        exec_seq++;
     }
 
 };

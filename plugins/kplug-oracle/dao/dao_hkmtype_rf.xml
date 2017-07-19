@@ -22,15 +22,20 @@
         <parameter type="string" kind="3">middle_typ</parameter>
     </dao>
 
-    <!--  ['PMS0840010']取得單筆 房務入帳分類設定dt -->
-    <dao name="QRY_HKSTYPE_RF">
+    <!--
+        ['PMS0840010']
+        小分類已被其他中分類使用則不允許新增
+        訊息: 小分類『[[%%small_typ%%]]』 已被中分類『[[%%middle_typ%%]]』使用,不允許新增
+    -->
+    <dao name="CHK_HKMTYPE_RF_INS">
         <statement><![CDATA[
-         select athena_id, hotel_cod, middle_typ, small_typ, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr from hkstype_rf
-         where athena_id = (:athena_id) and trim(hotel_cod) = trim(:hotel_cod) and trim(middle_typ) = trim(:middle_typ)
+            select middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(small_typ) = trim(:small_typ) and trim(middle_typ) <> trim(:middle_typ) and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">small_typ</parameter>
         <parameter type="string" kind="3">middle_typ</parameter>
     </dao>
 </root>

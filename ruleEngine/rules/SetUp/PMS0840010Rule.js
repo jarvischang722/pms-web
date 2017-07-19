@@ -28,21 +28,31 @@ module.exports = {
         var lo_error = null;
         var lo_params = {
             athena_id: session.user.athena_id,
-            hotel_cod: session.user.func_hotel_cod,
-            small_typ: postData.small_typ,
-            middle_typ: postData.middle_typ
+            hotel_cod: session.user.hotel_cod,
+            middle_typ: postData.createData[0].middle_typ
         };
 
-        queryAgent.queryList("CHK_HKMTYPE_RF_INS", lo_params, 0, 0, function (err, chkResult) {
-            if (chkResult.length > 0) {
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = "小分類『" + postData.small_typ + "』 已被中分類『" + postData.middle_typ + "』使用,不允許新增";
-                lo_error.errorCod = "1111";
-            }
+        var li_totalCreateDT = postData.dt_createData.length;
+        var li_dt_counter = 0;
+        _.each(postData.dt_createData, function (eachDT) {
+            li_dt_counter++;
+            lo_params.small_typ = eachDT.small_typ;
+            queryAgent.queryList("CHK_HKMTYPE_RF_INS", lo_params, 0, 0, function (err, chkResult) {
+                if (chkResult.length > 0) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "小分類『" + eachDT.small_typ + "』 已被中分類『" + chkResult[0].middle_typ.trim() + "』使用,不允許新增";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                    return false;
+                }
+                if (li_dt_counter == li_totalCreateDT) {
+                    callback(lo_error, lo_result);
+                }
 
-            callback(lo_error, lo_result);
+            });
         });
+
     },
     /**
      * 1.中分類已被使用，則不可刪除
@@ -55,14 +65,15 @@ module.exports = {
      * @constructor
      */
     CHK_HKMTYPE_RF_DEL: function (postData, session, callback) {
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
         async.waterfall([
-            chkMiddleTypDel,
-            chkSmallTypDel
-        ], function(err, chkResult){
-            if(!err){
+            chkMiddleTypDel,    // 檢查mn是否已被使用
+            getSmallTypData,    // 取dt資料
+            chkSmallTypDel      // 檢查dt是否已被使用
+        ], function (err, chkResult) {
+            if (!err) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = chkResult;
@@ -72,35 +83,90 @@ module.exports = {
         })
 
         function chkMiddleTypDel(cb) {
-            var lo_params = {
+            let lo_params = {
                 athena_id: session.user.athena_id,
-                hotel_cod: session.user.func_hotel_cod,
-                middle_typ: postData.middle_typ
+                hotel_cod: session.user.hotel_cod,
+                middle_typ: postData.deleteData[0].middle_typ
             };
             queryAgent.query("GET_MIDDLE_TYP_COUNT", lo_params, function (err, result) {
-                if (result > 0) {
-                    cb(false, "中分類『"+ lo_params.middle_typ +"』,已被『房務入帳明細項目設定』使用,不可刪除");
+                if (result.middle_typ_count > 0) {
+                    cb(false, "中分類『" + lo_params.middle_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
                 }
                 else {
-                    cb(null, "success");
+                    cb(true, true);
                 }
             });
         }
 
-        function chkSmallTypDel(middleResult, cb) {
-            var lo_params = {
+        function getSmallTypData(middleResult, cb){
+            let lo_params = {
                 athena_id: session.user.athena_id,
-                hotel_cod: session.user.func_hotel_cod,
-                small_typ: postData.small_typ
+                hotel_cod: session.user.hotel_cod,
+                middle_typ: postData.deleteData[0].middle_typ
             };
-            queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
-                if (result > 0) {
-                    cb(false, "小分類『"+ lo_params.small_typ +"』,已被『房務入帳明細項目設定』使用,不可刪除");
-                }
-                else {
-                    cb(null, "success");
+            queryAgent.queryList("QRY_HKSTYPE_RF", lo_params, 0, 0, function(err, smallTypResult){
+                if(!err){
+                    cb(true, smallTypResult);
                 }
             });
         }
+
+        function chkSmallTypDel(smallTypData, cb) {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod
+            };
+            let li_smallTyp_count = smallTypData.length;
+            let li_counter = 0;
+            _.each(smallTypData, function(eachData){
+                li_counter++;
+                queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
+                    if (result.small_typ_count > 0) {
+                        cb(false, "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+                    }
+
+                    if(li_counter == li_smallTyp_count)
+                        cb(true, "success");
+                });
+            });
+
+        }
+    },
+
+    /**
+     * 小分類已被使用，則不可刪除
+     * 訊息: 小分類『[[%%明細的small_typ%%]]』,已被『房務入帳明細項目設定』使用,不可刪除"
+     * @param postData
+     * @param session
+     * @param callback
+     * @constructor
+     */
+    CHK_HKSTYPE_RF_DEL: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        var lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        var li_totalDelData = postData.deleteData.length;
+        var li_del_counter = 0;
+        _.each(postData.deleteData, function (eachDelData) {
+            li_del_counter++;
+            lo_params.small_typ = eachDelData.small_typ;
+            queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
+                if (result.small_typ_count > 0) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                    return false;
+                }
+                if (li_del_counter == li_totalDelData)
+                    callback(lo_error, lo_result);
+            });
+        });
     }
 };
