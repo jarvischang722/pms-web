@@ -19,9 +19,9 @@ module.exports = {
         callback(error, result);
 
     },
-    chk_address_rf_del:function (postData, session, callback) {
+    chk_address_rf_del: function (postData, session, callback) {
         var error = null;
         var result = new ReturnClass();
         callback(error, result);
     }
-}
+};

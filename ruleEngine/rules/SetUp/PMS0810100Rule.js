@@ -38,7 +38,7 @@ module.exports = {
                     callback(err, lo_result);
                 }
 
-            })
+            });
         }
     }
 

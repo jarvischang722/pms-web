@@ -36,7 +36,7 @@ module.exports = {
                         lo_error.errorCod = "1111";
                     }
                 }
-            })
+            });
         } else {
             lo_result.success = false;
             lo_error = new ErrorClass();
@@ -55,7 +55,7 @@ module.exports = {
         if(allGridData) {
             $.each(allGridData.rows,function (index,item) {
                 count +=1;
-            })
+            });
         }
 
         if(count >1){
@@ -73,4 +73,4 @@ module.exports = {
 
         callback(lo_error,lo_result);
     }
-}
+};

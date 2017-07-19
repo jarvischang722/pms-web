@@ -5,6 +5,15 @@
  */
 var isUserEdit = true;
 var gb_onceEffectFlag = true;
+/**
+ * datagrid 轉接器與call
+ * @param vm
+ * @constructor
+ */
+var AdapterDatagrid = function(vm){
+    this.tempExecData = vm.tempExecData;
+};
+
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
@@ -42,13 +51,12 @@ var EZfieldClass = {
             dataType = 'combogrid';
         }
 
-        var tmpFieldObj = {
-            field: fieldAttrObj.ui_field_name.toLowerCase(),
-            title: fieldAttrObj.ui_display_name,
-            page_id: fieldAttrObj.page_id,
-            width: fieldAttrObj.width,
-            sortable: true
-        };
+        var tmpFieldObj  = fieldAttrObj;
+
+        tmpFieldObj.field =  fieldAttrObj.ui_field_name.toLowerCase();
+        tmpFieldObj.title = fieldAttrObj.ui_display_name;
+        tmpFieldObj.sortable= true;
+
 
         tmpFieldObj.editor = {
             type: dataType,
@@ -70,17 +78,6 @@ var EZfieldClass = {
             tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
         }
 
-        tmpFieldObj.ui_type = fieldAttrObj.ui_type;
-        tmpFieldObj.ui_field_length = fieldAttrObj.ui_field_length;
-        tmpFieldObj.ui_field_num_point = fieldAttrObj.ui_field_num_point;
-        tmpFieldObj.visiable = fieldAttrObj.visiable;
-        tmpFieldObj.modificable = fieldAttrObj.modificable;
-        tmpFieldObj.requirable = fieldAttrObj.requirable;
-        tmpFieldObj.keyable = fieldAttrObj.keyable;
-        tmpFieldObj.rule_func_name = fieldAttrObj.rule_func_name;
-        tmpFieldObj.format_func_name = fieldAttrObj.format_func_name;
-        tmpFieldObj.grid_field_name = fieldAttrObj.grid_field_name;
-        tmpFieldObj.multi_lang_table = fieldAttrObj.multi_lang_table;
         tmpFieldObj.styler = function () {
             if (fieldAttrObj.requirable == "Y") {
                 return 'background-color:rgb(198, 242, 217);';
@@ -94,10 +91,10 @@ var EZfieldClass = {
             };
 
             var dateParserFunc = function (date) {
-                if(date != "") {
+                if (date != "") {
                     return new Date(Date.parse(date));
                 }
-                else{
+                else {
                     return "";
                 }
             };
@@ -170,7 +167,7 @@ var EZfieldClass = {
             var lf_colorFormatter = function (color_cod, row, index) {
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
-                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this,dgName) class='dg_colorPicker_class spectrumColor'  value='" + color_val + "'  />";
+                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this,'"+dgName+"') class='dg_colorPicker_class spectrumColor' style='width: 100%;' value='" + color_val + "'  />";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
@@ -233,6 +230,7 @@ var EZfieldClass = {
 
 };
 
+
 // onchange執行時，檢查規則
 function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue) {
@@ -292,17 +290,20 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
 var ColorFunc = {
     //選擇顏色事件
     selectEvent: function (field_name, rowIdx, _this, dgName) {
-        console.log(dgName);
         var dataGridName = dgName;
-        var updateRow = {};
         var color_cod = colorTool.hexToColorCod(_this.value);
+        var updateRow = {};
         updateRow[field_name] = color_cod;
-        vm.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
-        vm.endEditing();
+        /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
+        adpterDg.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
+        if ($('#' + dgName).datagrid('validateRow', rowIdx)) {
+            $('#' + dgName).datagrid('endEdit', rowIdx);
+        }
         $('#' + dataGridName).datagrid('updateRow', {
             index: rowIdx,
             row: updateRow
         });
+        window.colorPickerIsOpened = true;
     }
 };
 

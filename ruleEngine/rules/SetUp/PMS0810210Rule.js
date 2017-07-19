@@ -50,12 +50,12 @@ module.exports = {
             }
 
             result.modifiedRowData = singleRowData;
-            callback(err, result)
+            callback(err, result);
         });
 
     },
     //Sam:確認開始日期小於結束日期
-    chk_begin_day_correct : function (postData, session, callback) {
+    chk_begin_day_correct: function (postData, session, callback) {
         var startDate = postData.newValue;
         var endDate = postData.rowData.end_dat;
 
@@ -73,7 +73,7 @@ module.exports = {
         }
     },
     //Sam:確認開始日期小於結束日期
-    chk_end_day_correct : function (postData, session, callback) {
+    chk_end_day_correct: function (postData, session, callback) {
         var startDate = postData.rowData.begin_dat;
         var endDate = postData.newValue;
 

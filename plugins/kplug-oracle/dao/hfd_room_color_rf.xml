@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- PMS0820030 取得所有房間顏色設定資料 -->
+    <dao name="QRY_HFD_ROOM_COLOR_RF">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, key_nos, pro_typ, status_cod, view_seq, color_num,
+            decode( nvl(status_cod, 'FONT' ), 'FONT', 'FONT', 'BK') color_typ, remark,
+            ins_dat, ins_usr, upd_dat, upd_usr from hfd_room_color_rf
+            where athena_id = :athena_id  and trim(hotel_cod) = trim(:hotel_cod)
+            and can_del = 'N' and pro_typ in ('ASI','RM','HK')
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <orderby> order by decode(pro_typ,'ASI',1,'RM',2,'HK',3),view_seq</orderby>
+    </dao>
+
+
+</root>
