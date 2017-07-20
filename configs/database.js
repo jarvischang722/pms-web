@@ -6,8 +6,9 @@ module.exports = {
     //oracle 設定檔{Array}
     oracle: [{
         id: 'IDC_TEST_ORACLE',
-        connectString: "210.64.24.131/WRS",
-        user: "bacchus",
+        // connectString: "210.64.24.131/WRS",
+        connectString: "192.168.60.79/WRS",
+        user: "htce7",
         password: "sql",
         months: [1, 2, 3, 4, 5, 6],
         debug: 1,
