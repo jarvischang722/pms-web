@@ -8,8 +8,8 @@ var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/RoleFuncService");
 
 /**
- * 外幣匯兌(靜態)
+ * 失物管理(靜態)
  */
-exports.getPMS0320010 = function (req, res) {
-    res.render("subsystem/cashier/PMS0320010");
+exports.getPMS0410050 = function (req, res) {
+    res.render("subsystem/housekeeping/PMS0410050");
 };
