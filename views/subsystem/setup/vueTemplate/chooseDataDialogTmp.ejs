@@ -6,30 +6,44 @@
                 <div class="col-sm-12 col-xs-12 ">
                     <!--顯示內容-->
                     <form id="searchDataForm" method="post">
-                        <div id="textGridDiv" class="col-sm-11 col-xs-11 grid">
-                            <div class="row">
-                                <div class="grid-item">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-4">
-                                            <input type="select">
-                                        </div>
-                                        <div class="col-sm-2">
+                        <div class="col-sm-12"></div>
+                        <div id="textGridDiv" class="col-sm-12 col-xs-12 grid">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    <select id="cbSelect" style="width: 100%" class="easyui-combobox">
+                                        <option v-for="option in  fieldNameConditionTmp" :value="option.value">
+                                            {{option.display}}
+                                        </option>
+                                    </select>
+                                </div>
 
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="col-sm-12">
-                                        <table class="easyui-datagrid" id="chooseGrid" style="width: 100%;height: auto;">
-
-                                        </table>
-                                    </div>
+                                <div class="col-sm-6">
+                                    <input type="text" style="width: 100%" class="numStyle-none">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button style="width: 100%"
+                                            class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                            @click="btnSearchData">
+                                        <%= __("SystemCommon").Search %>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-10">
+                                <table class="easyui-datagrid" id="chooseGrid"
+                                       style="width: 100%;height: auto;"></table>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button"
+                                        style="width: 100%"
+                                        class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        @click="chooseDataBackGridSingle">
+                                    <%= __("SystemCommon").OK %>
+                                </button>
+                            </div>
+                        </div>
 
 
                     </form>

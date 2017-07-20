@@ -183,6 +183,52 @@ exports.getContactContractTypList = function () {
 };
 
 /**
+ * 取得PMS0830090 MasterTyp
+ * @returns {Array}
+ */
+exports.getMasteRrfMasterTypList = function () {
+    var contractTypList = [
+        {
+            display: '指定使用',
+            value: 'N'
+        },
+        {
+            display: '系統自動給號',
+            value: 'A'
+        },
+        {
+            display: '現金帳',
+            value: 'C'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
+ * 取得PMS0830090 MasterSta
+ * @returns {Array}
+ */
+exports.getMasteRrfMasterStaList = function () {
+    var contractTypList = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        },
+        {
+            display: '暫停使用',
+            value: 'P'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
  * 取得地址類別
  * @returns {Array}
  */
@@ -536,5 +582,25 @@ exports.qryGuarenteerfDpreq = function(params, callback){
 exports.chkHfdorderconfirmrfContent = function(params,callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0830090 MasterSta
+ * @param params
+ */
+exports.qryMasterrfMastertyp = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0830090 MasterTyp
+ * @param params
+ */
+exports.qryMasterrfMastersta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
     callback(null,lo_result);
 };

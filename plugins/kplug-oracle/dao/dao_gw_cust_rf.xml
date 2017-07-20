@@ -27,7 +27,7 @@
     <!-- [PMS0810180]-->
     <dao name="QRY_GW_CUST_RF">
         <statement><![CDATA[
-           select agent_no, acust_cod, ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccsut_nam
+           select a.athena_id,trim(a.agent_no) agent_no, a.acust_cod, a.ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccust_nam,a.default_source_typ,a.default_guest_typ, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr
            from gw_cust_rf a
            left join cust_mn b on b.status_cod = 'N' and b.cust_typ= 'N' and b.athena_id = :athena_id and b.cust_cod = a.acust_cod
            left join cust_mn c on c.status_cod = 'N' and c.cust_typ= 'N' and c.athena_id = :athena_id and c.cust_cod = a.ccust_cod
@@ -40,14 +40,14 @@
     <!-- [PMS0810180] 單筆項目-->
     <dao name="QRY_SINGLE_GW_CUST_RF">
         <statement><![CDATA[
-           select agent_no, acust_cod, ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccsut_nam
+           select a.athena_id,trim(a.agent_no) agent_no, a.acust_cod, a.ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccust_nam,a.default_source_typ,a.default_guest_typ, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr
            from gw_cust_rf a
-           left join cust_mn b on b.status_cod = 'N' and b.cust_typ= 'N' and athena_id = ? and b.cust_cod = a.acust_cod
-           left join cust_mn c on c.status_cod = 'N' and c.cust_typ= 'N' and athena_id = ? and c.cust_cod = a.ccust_cod
-           where athena_id =? and agent_no =?
+           left join cust_mn b on b.status_cod = 'N' and b.cust_typ= 'N' and b.athena_id = :athena_id and b.cust_cod = a.acust_cod
+           left join cust_mn c on c.status_cod = 'N' and c.cust_typ= 'N' and c.athena_id = :athena_id and c.cust_cod = a.ccust_cod
+           where a.athena_id =:athena_id and trim(agent_no) =?
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="1">agent_no</parameter>
     </dao>
 </root>
