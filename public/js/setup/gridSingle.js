@@ -41,7 +41,7 @@ Vue.component("multiLang-dialog-tmp", {
                     }
                 }
             }];
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField,'multiLangDG'));
+            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField, 'multiLangDG'));
             var width = 10;
             _.each(columnsData, function (column) {
                 width += Number(column.width);
@@ -229,9 +229,9 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
 });
 
-Vue.component('text-select-grid-dialog-tmp',{
-    template:"#chooseDataDialogTmp",
-    data:function () {
+Vue.component('text-select-grid-dialog-tmp', {
+    template: "#chooseDataDialogTmp",
+    data: function () {
         return {
             isFistData: false,
             isLastData: false,
@@ -264,6 +264,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
+                if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1)
+                    this.isLastData = true;
+
             } else if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
@@ -340,10 +343,10 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
         },
-        chkClickTextGrid :function (ui_field_name, rule_func_name,ui_type) {
+        chkClickTextGrid: function (ui_field_name, rule_func_name, ui_type) {
             //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
 
-            if(ui_type == "textgrid"){
+            if (ui_type == "textgrid") {
 
                 vm.showTextGridDialog();
             }
@@ -497,13 +500,11 @@ Vue.component('sigle-grid-dialog-tmp', {
             var columnsData = [];
             this.$emit("combine-field", this.pageTwoDataGridFieldData, function (columns) {
                 columnsData = columns;
-                console.log(columnsData);
             });
             var hasMultiLangField = _.filter(this.pageTwoDataGridFieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
 
-            console.log(hasMultiLangField);
             if (hasMultiLangField) {
                 columnsData.push({
                     type: 'textbox',
@@ -659,6 +660,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
+                page_id: 2,
                 deleteData: vm.tmpCud.dt_deleteData
             }, function (result) {
                 if (result.success) {
@@ -694,7 +696,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             this.tmpCud[dataType].push(rowData);
         },
-        filterLocaleContent:function(langContent, locale, field_name){
+        filterLocaleContent: function (langContent, locale, field_name) {
             var m_lang_val = "";
             var fIdx = _.findIndex(langContent, {locale: locale});
             if (fIdx > -1) {
@@ -878,7 +880,7 @@ var vm = new Vue({
 
         //根據欄位屬性組資料
         combineField: function (fieldData, callback) {
-            callback(EZfieldClass.combineFieldOption(fieldData,'dg'));
+            callback(EZfieldClass.combineFieldOption(fieldData, 'dg'));
         },
         //dg row刪除
         removeRow: function () {
@@ -922,7 +924,6 @@ var vm = new Vue({
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
-                console.log(result);
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
@@ -941,7 +942,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:1}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
@@ -961,7 +962,6 @@ var vm = new Vue({
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
-                console.log(result);
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.modificableForData = result.modificable || true;

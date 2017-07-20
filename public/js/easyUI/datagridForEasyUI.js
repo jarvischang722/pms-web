@@ -175,13 +175,13 @@ var EZfieldClass = {
             var isTextTouchEvent = true;
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 if (!_.isUndefined(newValue)) {
                     if (fieldAttrObj.modificable == "I") {
                         var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-                        var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
 
-                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        var rowData = $('#' + ls_dgName).datagrid('getRows')[li_rowIndex];
+                        var lo_editor = $('#' + ls_dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name
                         });
@@ -193,7 +193,7 @@ var EZfieldClass = {
 
                 if (isUserEdit) {
                     if (fieldAttrObj.rule_func_name != "") {
-                        onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
+                        onChange_Action(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
             };
