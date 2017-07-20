@@ -44,26 +44,26 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
             var selectDSFunc = [];
             _.each(la_fields, function (field, fIdx) {
                 if (field.ui_type == 'select') {
-                    selectDSFunc.push(
-                        function (callback) {
-                            mongoAgent.UI_Type_Select.findOne({
-                                prg_id: prg_id,
-                                ui_field_name: field.ui_field_name
-                            }).exec(function (err, selRow) {
-                                if (selRow) {
-                                    selRow = selRow.toObject();
-                                }
-                                la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
-                                la_fields[fIdx].referiable = selRow.referiable || "N";
-                                la_fields[fIdx].defaultVal = selRow.defaultVal || "";
-                                la_fields[fIdx].selectData = [];
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
-                                    la_fields[fIdx].selectData = selectData;
-                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                        selectDSFunc.push(
+                            function (callback) {
+                                mongoAgent.UI_Type_Select.findOne({
+                                    prg_id: prg_id,
+                                    ui_field_name: field.ui_field_name
+                                }).exec(function (err, selRow) {
+                                    if (selRow) {
+                                        selRow = selRow.toObject();
+                                    }
+                                    la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                    la_fields[fIdx].referiable = selRow.referiable || "N";
+                                    la_fields[fIdx].defaultVal = selRow.defaultVal || "";
+                                    la_fields[fIdx].selectData = [];
+                                    dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                        la_fields[fIdx].selectData = selectData;
+                                        callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                    });
                                 });
-                            });
-                        }
-                    );
+                            }
+                        );
                 }
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
@@ -73,7 +73,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                         function (callback) {
                             if (field.visiable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](fields, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
@@ -86,7 +86,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                 }
                             } else if (field.modificable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](fields, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
@@ -99,7 +99,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                 }
                             } else if (field.requirable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](fields, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
