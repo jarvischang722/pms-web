@@ -654,6 +654,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     });
                     var lo_keysData = {};
                     tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
+
+                    delete tmpEdit["ins_dat"];
+                    delete tmpEdit["ins_usr"];
+
                     tmpEdit.condition = [];
                     //組合where 條件
                     _.each(la_keyFields, function (keyField) {
