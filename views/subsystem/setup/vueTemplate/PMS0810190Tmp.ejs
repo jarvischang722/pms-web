@@ -28,7 +28,7 @@
                                                class="input-medium checkMail"
                                                maxlength="4000"
                                                :class="{errorTextArea:lo_formatError.subject}"
-                                               placeholder="[[%%訂房公司%%]]訂房確認書"
+                                               placeholder="[[%%ReservationComp%%]]訂房確認書"
                                                @keyup="keyUpContent('subject',$event)"
                                                @mouseup="mouseUpContent('subject',$event)"
                                                @change="checkContentFormat"/>
@@ -129,13 +129,13 @@
 
                                 <div class="changeChoice">
                                     <ul>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%訂房卡號%%]]')">訂房卡號</li>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%聯絡人%%]]')">聯絡人</li>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%Full Name%%]]')">Full
+                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%ReservationNo%%]]')">訂房卡號</li>
+                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%ContactMan%%]]')">聯絡人</li>
+                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%FullName%%]]')">Full
                                             Name
                                         </li>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%公司名稱%%]]')">公司名稱</li>
-                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%訂房公司%%]]')">訂房公司</li>
+                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%CompName%%]]')">公司名稱</li>
+                                        <li style="cursor: pointer;" @click="insertFormatCont('[[%%ReservationComp%%]]')">訂房公司</li>
                                     </ul>
                                 </div>
 

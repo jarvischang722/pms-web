@@ -50,17 +50,21 @@ module.exports = {
             }
 
             result.modifiedRowData = singleRowData;
-            callback(err, result);
+            callback(err, result)
         });
 
     },
     //Sam:確認開始日期小於結束日期
-    chk_begin_day_correct: function (postData, session, callback) {
-        var startDate = postData.newValue;
-        var endDate = postData.rowData.end_dat;
+    chk_begin_day_correct : function (postData, session, callback) {
 
         var lo_result = new ReturnClass();
         var lo_error = null;
+
+        if(postData.rowData.end_dat == null || postData.rowData.end_dat == '') callback(lo_error, lo_result);   //如沒資料就跳過規則判斷
+
+        var startDate = postData.newValue;
+        var endDate = postData.rowData.end_dat;
+
         if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
             callback(lo_error, lo_result);
         } else {
@@ -73,12 +77,16 @@ module.exports = {
         }
     },
     //Sam:確認開始日期小於結束日期
-    chk_end_day_correct: function (postData, session, callback) {
-        var startDate = postData.rowData.begin_dat;
-        var endDate = postData.newValue;
+    chk_end_day_correct : function (postData, session, callback) {
 
         var lo_result = new ReturnClass();
         var lo_error = null;
+
+        if(postData.rowData.begin_dat == null || postData.rowData.begin_dat == '') callback(lo_error, lo_result);   //如沒資料就跳過規則判斷
+
+        var startDate = postData.rowData.begin_dat;
+        var endDate = postData.newValue;
+
         if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
             callback(lo_error, lo_result);
         } else {
