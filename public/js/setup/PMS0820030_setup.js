@@ -6,7 +6,6 @@ var PMS0820030VM = new Vue({
     el: '#app-PMS0820030',
     mounted: function () {
         waitingDialog.hide();
-
         this.fetchDgFieldData();
     },
     data: {
@@ -18,17 +17,14 @@ var PMS0820030VM = new Vue({
             deleteData: []
         },
         saving: false,
-        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         dgIns: {},
         colorClipboard: "" //顏色剪貼板
     },
     watch: {},
     methods: {
-
         //抓取欄位顯示資料
         fetchDgFieldData: function () {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
-                console.log(result);
                 PMS0820030VM.prgFieldDataAttr = result.fieldData;
                 PMS0820030VM.prgColumnsOption = EZfieldClass.combineFieldOption(result.fieldData, 'PMS0820030_prg_dg');
                 PMS0820030VM.createDatagrid();
@@ -39,7 +35,6 @@ var PMS0820030VM = new Vue({
         createDatagrid: function () {
             this.dgIns = new DatagridBaseClass();
             this.dgIns.init(gs_prg_id, 'PMS0820030_prg_dg', this.prgColumnsOption, this.prgFieldDataAttr);
-
         },
         //新增一個Row
         doAppendRow: function () {
@@ -51,8 +46,7 @@ var PMS0820030VM = new Vue({
         },
         //將資料放入暫存
         tempExecData: function (rowData) {
-            var dataType = rowData.createRow == 'Y'
-                ? "createData" : "updateData";  //判斷此筆是新增或更新
+            var dataType = rowData.createRow == 'Y' ? "createData" : "updateData";  //判斷此筆是新增或更新
             var existIdx = this.chkTmpCudExistData(rowData, dataType);
             if (existIdx > -1) {
                 this.dgIns.tmpCUD[dataType].splice(existIdx, 1);
@@ -74,6 +68,9 @@ var PMS0820030VM = new Vue({
         },
         //讀取顏色設定
         loadDefaultColor: function () {
+            $("#PMS0820030_prg_dg").datagrid("getRows").forEach(function (obj) {
+                console.log(obj);
+            })
             var defaultData = [
                 {pro_typ: "ASI", status_cod: "FONT", color_num: "16777215"},
                 {pro_typ: "ASI", status_cod: "NA", color_num: "11750841"},
@@ -108,8 +105,9 @@ var PMS0820030VM = new Vue({
                     pro_typ: obj.pro_typ,
                     status_cod: obj.status_cod
                 });
-                var rowData = $("#PMS0820030_prg_dg").datagrid("getRows")[tmpIdx]
-                if (tmpIdx > -1 && !_.isEqual(rowData.color_num, obj.color_num)) {
+                var rowData = $("#PMS0820030_prg_dg").datagrid("getRows")[tmpIdx];
+                if (tmpIdx > -1 && !_.isUndefined(rowData) && rowData.color_num != obj.color_num) {
+                    console.log(rowData.color_num +"@"+obj.color_num);
                     $("#PMS0820030_prg_dg").datagrid("updateRow", {
                         index: tmpIdx,
                         row: obj
@@ -137,11 +135,14 @@ var PMS0820030VM = new Vue({
             }
 
             if (!_.isNaN(this.colorClipboard)) {
+                var rowData = $("#PMS0820030_prg_dg").datagrid("getRows")[this.dgIns.editIndex];
                 var updateData = {color_num: this.colorClipboard};
                 $("#PMS0820030_prg_dg").datagrid("updateRow", {
                     index: this.dgIns.editIndex,
                     row: updateData
                 });
+
+                PMS0820030VM.dgIns.doTmpExecData(_.extend(rowData, updateData));
             }
 
 
@@ -158,9 +159,9 @@ var PMS0820030VM = new Vue({
                     fieldData: this.prgFieldDataAttr,
                     mainTableName: mainTableName
                 };
-                console.log(this.dgIns.tmpCUD);
                 PMS0820030VM.saving = true;
                 waitingDialog.show('Saving...');
+                console.log(this.dgIns.tmpCUD);
                 // console.log("===== 儲存資料 =====");
                 // console.log(params);
                 $.post('/api/execSQLProcess', params)

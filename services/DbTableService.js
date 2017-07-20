@@ -128,7 +128,7 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
  * @param socket_id {String} : socket_id
  * @param callback{function} : 回調函數
  */
-exports.doTableUnLockBySocketID = function ( socket_id, callback) {
+exports.doTableUnLockBySocketID = function (socket_id, callback) {
     try {
 
         let REVE_CODE = "BAC09008040000";
@@ -261,6 +261,9 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
     var exec_seq = 1;
     var userInfo = session.user;
     var las_keyFields = _.pluck(_.where(fieldData, {keyable: 'Y'}), "ui_field_name");
+    if (!tmpCUD) {
+        tmpCUD = {};
+    }
     _.each(tmpCUD.createData, function (c_data) {
         var tmpIns = {"function": "1"}; //1  新增
         tmpIns["table_name"] = mainTableName;
