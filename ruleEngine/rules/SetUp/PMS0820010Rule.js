@@ -19,7 +19,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        var lb_isDefault = (postData.rowData.sys_default == "Y") ? false : true;
+        var lb_isDefault = postData.rowData.sys_default == "Y" ? false : true;
         if (lb_isDefault == false) {
 
             lo_result.success = false;
@@ -69,7 +69,7 @@ module.exports = {
                     } else {
                         callback(err, lo_result);
                     }
-                })
+                });
             },
             function (deleteResult, callback) {
                 //查詢滾房租日
@@ -84,7 +84,7 @@ module.exports = {
                                     callback('訂房卡已使用,不可刪除', isDeleteRow);
                                 } else {
                                     if (isDeleteRow && deleteResult)
-                                        isDeleteRow = true;
+                                        {isDeleteRow = true;}
                                     else {
                                         isDeleteRow = false;
                                     }
@@ -96,7 +96,7 @@ module.exports = {
                             }
 
 
-                        })
+                        });
                     } else {
                         callback(err, deleteResult);
                     }
@@ -121,8 +121,8 @@ module.exports = {
                 lo_error.errorMsg = errMsg;
                 callback(lo_error, lo_result);
             }
-        })
+        });
 
 
     }
-}
+};

@@ -460,3 +460,5 @@ var vm = new Vue({
 function editFieldMultiLang(rowIdx) {
     vm.editFieldMultiLang(rowIdx);
 }
+
+var adpterDg = new AdapterDatagrid(vm);

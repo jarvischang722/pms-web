@@ -421,8 +421,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
         ,
         //新增模式
-        emitSwitchToCreateStatus: function () {
-            this.$emit('switch-to-create-status');
+        emitAppendRow: function () {
+            this.$emit('append-row');
         }
         ,
         //儲存新增或修改資料
@@ -462,7 +462,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         //新增完再新增另一筆
                         else if (saveAfterAction == "addOther") {
                             self.singleData = {};
-                            self.emitSwitchToCreateStatus();
+                            self.emitAppendRow();
                         }
 
                         if (self.deleteStatue) {
@@ -665,6 +665,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 } else {
                     vm.tmpCud.deleteData = _.without(vm.tmpCud.deleteData, delRow);  //刪除在裡面的暫存
+                    vm.tmpCud.dt_deleteData = _.without(vm.tmpCud.dt_deleteData, delRow);  //刪除在裡面的暫存
                     self.endDtEditing();
                     alert(result.errorMsg);
                 }
@@ -890,17 +891,15 @@ var vm = new Vue({
             $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
                 if (q) {
                     //刪除前檢查
-
-                    _.each(checkRows, function (row) {
-                        vm.tmpCud.deleteData.push(row);
-                    });
-
                     $.post("/api/deleteFuncRule", {
                         page_id: 1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCud.deleteData
                     }, function (result) {
                         if (result.success) {
+                            _.each(checkRows, function (row) {
+                                vm.tmpCud.deleteData.push(row);
+                            });
                             //刪除Row
                             _.each(checkRows, function (row) {
                                 var DelIndex = $('#dg').datagrid('getRowIndex', row);
@@ -923,6 +922,7 @@ var vm = new Vue({
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
+                console.log(result);
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
@@ -937,11 +937,11 @@ var vm = new Vue({
 
         },
         //新增按鈕Event
-        switchToCreateStatus: function () {
+        appendRow: function () {
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:2}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id,page_id:1}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();

@@ -52,7 +52,7 @@ Vue.component('single-grid-pms0810190-tmp', {
             isSubjectFormatError: false,
             isContentFormatError: false,
             lo_curForTextArea: {},  //textArea 游標Object
-            currentType: '',  // subject | content
+            currentType: ''  // subject | content
         };
     },
     methods: {
@@ -92,7 +92,7 @@ Vue.component('single-grid-pms0810190-tmp', {
         },
         mouseUpContent: function (type, e) {
             this.currentType = type;
-            this.lo_curForTextArea = new cursor(e)
+            this.lo_curForTextArea = new cursor(e);
         },
         insertFormatCont: function (content) {
             this.lo_curForTextArea.insertTextInCursor(content);
@@ -168,26 +168,26 @@ let vm = new Vue({
             this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData,'PMS0810190_dg'));
         },
         getSingleGridPageField: function () {
-            axios.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
-                .then(function (response) {
-                    let result = response.data;
+            $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
+                .done(function (response) {
+                    let result = response;
                     vm.pageTwoFieldData = result.fieldData;
                     vm.useCodList = _.findWhere(vm.pageTwoFieldData, {ui_field_name: 'use_cod'}).selectData;
                 })
-                .catch(function (error) {
+                .fail(function (error) {
                     console.log(error);
                 });
         },
         getOrderConfirm: function () {
-            axios.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
-                .then(function (response) {
-                    console.log(response.data);
-                    let result = response.data;
+            $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
+                .done(function (response) {
+                    console.log(response);
+                    let result = response;
                     vm.pageOneDataGridRows = result.dataGridRows;
                     vm.pageOneFieldData = result.fieldData;
                     vm.showCheckboxDG();
                 })
-                .catch(function (error) {
+                .fail(function (error) {
                     console.log(error);
                 });
         },
@@ -294,7 +294,7 @@ let vm = new Vue({
                     alert("[ " + field.ui_display_name + " ] is requirable !");
                     isContFmtOK = false;
                 }
-            })
+            });
 
             //格式檢查
             if (!this.isContentFormatOK) {
@@ -314,9 +314,9 @@ let vm = new Vue({
                 this.tmpCUD.editData = [this.singleData];
             }
 
-            axios.post('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD))
-                .then(function (response) {
-                    if (response.data.success) {
+            $.post('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD))
+                .done(function (response) {
+                    if (response.success) {
                         if (vm.isCreateStatus) {
                             if (vm.isAddAfterSave) {
                                 vm.addData();
@@ -352,7 +352,7 @@ let vm = new Vue({
                         alert("save success!");
 
                     } else {
-                        alert(response.data.errorMsg);
+                        alert(response.errorMsg);
                     }
                 });
         },
@@ -392,8 +392,8 @@ let vm = new Vue({
                 editData: [],
                 deleteData: []
             };
-        },
-    },
+        }
+    }
 });
 
 

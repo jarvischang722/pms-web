@@ -69,7 +69,7 @@ app.set('port', process.env.PORT || port);
 
 //Sam:暫時為了post擴充可傳的資料量，做修改 20170705
 app.use(bodyParser.json({limit: "10mb"}));
-app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit:10000}));
+app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10000}));
 
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
@@ -98,7 +98,7 @@ var sessionMiddleware = session({
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, function(){
+    sessionMiddleware(socket.request, socket.request.res, function () {
         socket.session = socket.request.session;
         socket.session.id = socket.request.sessionID;
         next();

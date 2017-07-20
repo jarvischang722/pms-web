@@ -62,7 +62,7 @@ module.exports = {
                             } else {
                                 callback(err, []);
                             }
-                        })
+                        });
                     },
                     function (data, callback) {
                         queryAgent.query("GET_GUEST_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
@@ -81,7 +81,7 @@ module.exports = {
                             } else {
                                 callback(err, []);
                             }
-                        })
+                        });
                     },
                     function (data, callback) {
                         queryAgent.query("GET_GHIST_MN.GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
@@ -101,7 +101,7 @@ module.exports = {
                                 callback(err, []);
                             }
 
-                        })
+                        });
                     },
                     function (data, callback) {
                         queryAgent.query("GET_GW_CUST_RF.DEFAULT_GUEST_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
@@ -120,7 +120,7 @@ module.exports = {
                             } else {
                                 callback(err, []);
                             }
-                        })
+                        });
                     }
                     //因SD有變，這個不做檢查
                     // },
@@ -148,9 +148,9 @@ module.exports = {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         if (errMsg == true)
-                            lo_error.errorMsg = "已使用此類別，不可刪除";
+                            {lo_error.errorMsg = "已使用此類別，不可刪除";}
                         else
-                            lo_error.errorMsg = errMsg;
+                            {lo_error.errorMsg = errMsg;}
 
                         lo_error.errorCod = "1111";
                         callback(lo_error, lo_result);
@@ -159,13 +159,13 @@ module.exports = {
                         callback(lo_error, lo_result);
                     }
 
-                })
+                });
             }
         );
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
 
     }
 
-}
+};

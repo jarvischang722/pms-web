@@ -244,7 +244,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     },
                     function (pageField, callback) {
                         if (pageField) {
-                            mongoAgent.UI_Type_Grid.findOne({
+                            mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
                                 ui_field_name: pageField.ui_field_name
                             }, function (err, grid) {
@@ -483,7 +483,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             postData["isDtData"] = true;
             dataRuleSvc.handleDeleteFuncRule(postData, session, function (err, result) {
                 if (err || !result.success) {
-                    callback(err.errorMsg, result);
+                    callback(err, result);
                 } else {
                     callback(null, result);
                 }

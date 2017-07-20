@@ -50,7 +50,7 @@ module.exports = {
                     } else {
                         callback(err, lo_result);
                     }
-                })
+                });
             }
             ], function (errMsg, result) {
                 if (errMsg == null) {
@@ -68,6 +68,6 @@ module.exports = {
                     callback(lo_error, lo_result);
                 }
             }
-        )
+        );
     }
-}
+};

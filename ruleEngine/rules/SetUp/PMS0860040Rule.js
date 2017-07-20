@@ -16,7 +16,7 @@ module.exports = {
     /*
      PMS0860040 :備註有資料就不能刪除
      */
-    chk_remark_typ_rf_is_exist_cust_mn : function (postData, session, callback) {
+    chk_remark_typ_rf_is_exist_cust_mn: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
@@ -24,7 +24,7 @@ module.exports = {
             remark_typ: postData.singleRowData.remark_typ
         };
 
-        if ((postData.singleRowData.remark_typ) && (!_.isEmpty(postData.singleRowData.remark_typ))) {
+        if (postData.singleRowData.remark_typ && !_.isEmpty(postData.singleRowData.remark_typ)) {
             queryAgent.query("QRY_REMARK_TYP_RF_IS_EXIST_CUST_MN_COUNT", params, function (err, guestData) {
                 if (!err) {
                     if (guestData.countremark > 0) {
@@ -39,9 +39,9 @@ module.exports = {
                 } else {
                     callback(err, lo_result);
                 }
-            })
+            });
         }else {
             callback(null, lo_result);
         }
     }
-}
+};

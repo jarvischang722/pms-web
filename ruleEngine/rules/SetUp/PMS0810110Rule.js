@@ -52,7 +52,7 @@ module.exports = {
                     callback(err, lo_result);
                 }
 
-            })
+            });
         }
     },
     chkSourcerfModifysta: function (postData, session, callback) {
@@ -96,7 +96,7 @@ module.exports = {
                                 } else {
                                     callback(err, []);
                                 }
-                            })
+                            });
                         }, function (data, callback) {
                             queryAgent.query("GET_GW_CUST_RF.DEFAULT_SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
                                 if (!err) {
@@ -114,7 +114,7 @@ module.exports = {
                                 } else {
                                     callback(err, []);
                                 }
-                            })
+                            });
                         }
                         // , function (data, callback) {
                         //
@@ -134,12 +134,12 @@ module.exports = {
                         } else {
                             callback(lo_error, lo_result);
                         }
-                    })
+                    });
                 }
             );
 
             async.parallel(createSubFunc, function (err, result) {
                 callback(err, result);
-            })
+            });
     }
-}
+};

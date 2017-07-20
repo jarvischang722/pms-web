@@ -43,7 +43,7 @@ function initCalendar() {
         var ls_select_color = $("#color_scheme option:selected").val();
         var rgb = splitRgb($(lo_clickDate).css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
         var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
-        var ls_clickDateStr = e.date.toLocaleDateString();
+        var ls_clickDateStr = moment(e.date.toLocaleDateString('en-US'), "MM/DD/YYYY").toDate();
         var la_dateDT = [];
 
         // 顏色不一樣直接設定
@@ -86,15 +86,15 @@ function initDatePicker() {
 
 // 取假日種類設定
 function getHolidayKindSet() {
-    axios.post("/api/getHolidayKindSet")
+    $.post("/api/getHolidayKindSet")
         .then(function (kindSetResult) {
-            go_holidayKind = kindSetResult.data.dateKindSetData;
+            go_holidayKind = kindSetResult.dateKindSetData;
             createDateKindSelectOption();
         })
-        .catch(function (error) {
+        .fail(function (error) {
             console.log(error);
             waitingDialog.hide();
-        })
+        });
 }
 
 // 取假日日期設定
@@ -103,14 +103,14 @@ function getHolidayDateSet() {
     var params = {
         year: gs_calendar_year
     };
-    axios.post("/api/getHolidayDateSet", params)
-        .then(function (getResult) {
-            go_holidayDate = getResult.data.dateSetData;
+    $.post("/api/getHolidayDateSet", params)
+        .done(function (getResult) {
+            go_holidayDate = getResult.dateSetData;
             initDataSource();
             setCalendarDataSource();
             waitingDialog.hide();
         })
-        .catch(function (err) {
+        .fail(function (err) {
             console.log(err);
             waitingDialog.hide();
         });
@@ -145,7 +145,6 @@ function insertTmpCUD(la_dateDT) {
             return moment(Date.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
 
-
         if (_.isUndefined(dateIsExist)) {
 
             var createIndex = _.findIndex(ga_tmpCUD.createData, function (createDT) {
@@ -158,7 +157,7 @@ function insertTmpCUD(la_dateDT) {
                 ga_tmpCUD.createData.push({
                     "day_sta": $("#color_scheme option:selected").data("day_sta"),
                     "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
+                });
             }
         }
         else {
@@ -174,7 +173,7 @@ function insertTmpCUD(la_dateDT) {
                 ga_tmpCUD.updateData.push({
                     "day_sta": tmpDate.day_sta,
                     "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
-                })
+                });
             }
         }
     });
@@ -286,19 +285,18 @@ function saveIntoOracleHolidayRf() {
         mainTableName: "holiday_rf"
     };
 
-    console.log(ga_tmpCUD);
     waitingDialog.show('Saving...');
-    axios.post("/api/execSQLProcess", params)
-        .then(function (response) {
+    $.post("/api/execSQLProcess", params)
+        .done(function (response) {
             waitingDialog.hide();
-            if (response.data.success) {
+            if (response.success) {
                 alert('save success!');
                 initTmpCUD();
             } else {
                 alert(response.data.errorMsg);
             }
         })
-        .catch(function (error) {
+        .fail(function (error) {
             waitingDialog.hide();
             console.log(error);
         });

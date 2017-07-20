@@ -8,11 +8,11 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 module.exports = {
     /**
      * 1.mn只能新增1到10的大類，若1到10都滿了，就不可新增了，顯示「最多只能設定10筆」
@@ -26,7 +26,7 @@ module.exports = {
         var lo_error = null;
         var la_rvtyp_OneToTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         var la_rvtyp = [];
-        queryAgent.queryList("QRY_RVTYPE_RF", {athena_id: session.user.athena_id}, 0, 0, function (err, rvtypList) {
+        queryAgent.queryList("QRY_RVTYPE_RF", session.user, 0, 0, function (err, rvtypList) {
             if (rvtypList.length > 0 && rvtypList.length < 10) {
                 la_rvtyp = _.pluck(rvtypList, "type");  //取房間類別種類陣列
                 var la_diffType = _.difference(la_rvtyp_OneToTen, la_rvtyp);
@@ -40,7 +40,7 @@ module.exports = {
             }
 
             callback(lo_error, lo_result);
-        })
+        });
 
     },
     /**
@@ -68,7 +68,7 @@ module.exports = {
             }
 
             callback(lo_error, lo_result);
-        })
+        });
     },
     /**
      * 檢查在訂房卡是否已使用，若已使用則明細不可刪除
@@ -92,12 +92,12 @@ module.exports = {
                     lo_result.success = false;
 
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "訂房卡是否已使用+[" + type_cod + "]類別代號";
+                    lo_error.errorMsg = "訂房卡已使用[" + type_cod + "]類別代號, 不可刪除！";
                     lo_error.errorCod = "1111";
                 }
             }
 
             callback(lo_error, lo_result);
-        })
+        });
     }
 };

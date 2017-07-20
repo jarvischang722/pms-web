@@ -20,9 +20,9 @@ module.exports = {
         callback(error, result);
         
     },
-    chk_contact_rf_del:function (postData, session, callback) {
+    chk_contact_rf_del: function (postData, session, callback) {
         var error = null;
         var result = new ReturnClass();
         callback(error, result);
     }
-}
+};

@@ -15,12 +15,12 @@ var ReturnClass = require(ruleRootPath+"/returnClass");
 var ErrorClass = require(ruleRootPath+"/errorClass");
 
 module.exports ={
-    chk_guest_grp_rf_isexist_guestrf : function (postData,session,callback) {
+    chk_guest_grp_rf_isexist_guestrf: function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
-            athena_id : session.user.athena_id,
-            guest_grp : postData.singleRowData.guest_grp
+            athena_id: session.user.athena_id,
+            guest_grp: postData.singleRowData.guest_grp
         };
 
         if(!_.isEmpty(postData.singleRowData.guest_grp.trim())) {
@@ -39,7 +39,7 @@ module.exports ={
                 {
                     callback(err,lo_result);
                 }
-            })
+            });
         }
     }
 
