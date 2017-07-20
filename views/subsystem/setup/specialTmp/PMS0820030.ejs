@@ -24,28 +24,28 @@
                             <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="loadDefaultColor"
                                     role="button">
-                                讀取顏色設定
+                                <%=__("program.PMS0820030.load_default_color")%>
                             </button>
                         </li>
                         <li>
                             <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="copyColor"
                                     role="button">
-                                複製顏色
+                                <%=__("program.PMS0820030.copy_color")%>
                             </button>
                         </li>
                         <li>
                             <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="pasteColor"
                                     role="button">
-                                貼上顏色
+                                <%=__("program.PMS0820030.paste_color")%>
                             </button>
                         </li>
                         <li>
                             <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="doSave();"
                                     role="button">
-                                <%= __("SystemCommon").Save %>
+                                <%=__("SystemCommon.Save")%>
                             </button>
                         </li>
                     </ul>
