@@ -19,9 +19,8 @@ module.exports = {
         var result = new ReturnClass();
         var error = null;
         var ls_sys_default = _.findWhere(postData, {ui_field_name: "sys_default"});
-        // var lo_view_seq = _.findWhere(postData, {ui_field_name: "view_seq"});
-        var ls_view_seq = ls_sys_default.modificable == "Y" ? "N" : "Y";
-        result.defaultValues = { modificable : ls_view_seq};
-        callback(error, result);
+        var lo_view_seq = _.findWhere(postData, {ui_field_name: "view_seq"});
+        lo_view_seq.modificable = ls_sys_default.modificable == "Y" ? "N" : "Y";
+        callback(error, [lo_view_seq]);
     }
 };

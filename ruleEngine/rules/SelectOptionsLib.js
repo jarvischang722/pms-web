@@ -308,6 +308,46 @@ exports.getCharacterrfSysdefaultList = function(){
     return lo_SysdefaultList;
 };
 
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 退房提醒
+ * @returns {array}
+ */
+exports.getChkOutOption = function(){
+    var lo_optionList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
+ * @returns {[array]}
+ */
+exports.getVisiableOption = function(){
+    var lo_optionList = [
+        {
+            display: "顯示",
+            value: "顯示"
+        },
+        {
+            display: "不顯示",
+            value: "不顯示"
+        },
+        {
+            display: "全部",
+            value: "全部"
+        }
+    ];
+    return lo_optionList;
+}
+
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -537,4 +577,24 @@ exports.chkHfdorderconfirmrfContent = function(params,callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
     callback(null,lo_result);
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 退房提醒
+ * @param params
+ */
+exports.qryHfdusedtConotice = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getChkOutOption();
+    callback(null, lo_result);
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
+ * @returns params
+ */
+exports.qryHfdusedtIsvisiable = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getVisiableOption();
+    callback(null, lo_result);
 };

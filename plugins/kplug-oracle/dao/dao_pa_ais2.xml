@@ -27,4 +27,12 @@
         ]]>
         </statement>
     </dao>
+
+    <!-- ['PMS0820050'] 參數:滾房租日-->
+    <dao name="chk_hfd_use_dt_begin_end_dat">
+        <statement><![CDATA[
+               select pg_ais2.SF_GET_COMP_SVAL('NULL','EIS','have_eis_sys') as displayFiled from dual
+        ]]>
+        </statement>
+    </dao>
 </root>
