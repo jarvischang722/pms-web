@@ -22,3 +22,9 @@ exports.getPMS0210020 = function (req, res) {
 exports.getPMS0210040 = function (req, res) {
     res.render("subsystem/frontDesk/PMS0210040");
 };
+/**
+ * CO清單(靜態)
+ */
+exports.getPMS0210070 = function (req, res) {
+    res.render("subsystem/frontDesk/PMS0210070");
+};

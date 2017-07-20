@@ -20,7 +20,6 @@
                                                     ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
                                                 </a>
                                             </li>
-
                                         </ul>
                                         <div class="tab-content">
                                             <!-- 對照檔內容 -->
@@ -71,14 +70,6 @@
             prosList: []
         },
         mounted: function () {
-            //偵測離開頁面
-            $(window).on('beforeunload', function () {
-                if (!_.isEmpty(vmMain.usingPrgID)) {
-                    return vmMain.doTableUnLock();
-                }
-
-            });
-
             this.loadProcess();
         },
         watch: {
@@ -107,7 +98,7 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (doingPrgID) {
-//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
+                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
                 this.handleClearHtml();
@@ -145,19 +136,18 @@
             doTableLock: function (prg_id) {
                 g_socket.emit('handleTableLock', {
                     'prg_id': prg_id,
-                    'clientSocketID':gs_clientSocketID
+                    'clientSocketID': gs_clientSocketID
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
                 g_socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID,
-                    'clientSocketID':gs_clientSocketID
+                    'prg_id': getCookie("lockingPrgID")
                 })
                 callback(null, true);
             },
             //判斷是否有正在編輯的程式
-            checkTmpNotEmpty(doingPrgID){
+            checkTmpNotEmpty: function (doingPrgID) {
                 var oldPrgId = this.usingPrgID;
                 var datagridEdit = $("#gridEdit").val();
                 if (!_.isEmpty(datagridEdit)) {
@@ -172,7 +162,7 @@
                 }
             },
             //用jquery load 讀取html 有時會有些殘留的沒清掉，故須處理
-            handleClearHtml(){
+            handleClearHtml: function () {
                 /** 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog **/
                 $("#prgContentDiv").empty();
                 $(".panel.window").remove();

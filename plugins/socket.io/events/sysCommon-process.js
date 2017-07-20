@@ -20,7 +20,7 @@ module.exports = function (io) {
                 let table_name = "";
                 let lock_type = "";
                 let key_cod = "";
-                let socket_id = data.clientSocketID || socket.client.id;
+                let socket_id = socket.client.id;
 
                 mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
 
@@ -61,45 +61,7 @@ module.exports = function (io) {
 
         // table unlock
         socket.on('handleTableUnlock', function (data) {
-
-            let socket_id = data.clientSocketID || socket.client.id;
-            try {
-                if (go_session) {
-                    if (data) {
-                        let prg_id = data.prg_id || "";
-                        let page_id = data.page_id || 1;
-                        let table_name = "";
-                        let lock_type = "";
-                        let key_cod = "";
-                        mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
-
-                            if (!err && template && !_.isEmpty(template.lock_table)) {
-                                template = template.toObject();
-                                table_name = template.lock_table;
-                                lock_type = template.lock_type == "table" ? "T" : "R";
-
-                                dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
-                                    deleteLockList(socket_id, prg_id);
-                                });
-                            }
-
-                        });
-                    } else {
-
-                        _.each(_.where(ga_lockPrgIDList, {socket_id: socket_id}), function (data, idx) {
-                            let tmpPrgID = data.lockingPrgID;
-                            let table_name = data.table_name;
-                            ga_lockPrgIDList.slice(idx, 1);
-                            dbSVC.doTableUnLock(tmpPrgID, table_name, go_session.user,
-                                'T', '', socket_id, function () {
-                                });
-
-                        });
-                    }
-                }
-            } catch (ex) {
-                console.error(ex);
-            }
+            doTableUnlock(socket.client.id, go_session, data);
         });
 
         //檢查session 是否存在
@@ -125,11 +87,76 @@ module.exports = function (io) {
             }, 1000);
 
         });
+
+        socket.on('disconnect', function () {
+            let lo_socket = _.findWhere(ga_lockPrgIDList, {socket_id: socket.client.id});
+            doTableUnlock(socket.client.id, go_session, {prg_id: lo_socket ? lo_socket.lockingPrgID || "" : ""});
+
+
+        });
+
     });
 
+
+    /**
+     * 解Lock
+     * @param socket_id
+     * @param go_session
+     * @param data :{
+          prg_id {String}
+          page_id {Number}   : default  1
+
+     }
+     */
+    function doTableUnlock(socket_id, go_session, data) {
+        let prg_id = "";
+        let page_id = 1;
+        let table_name = "";
+        let lock_type = "";
+        let key_cod = "";
+
+        try {
+
+            if (data && !_.isUndefined(data.prg_id) && !_.isEmpty(data.prg_id) && !_.isUndefined(go_session.user)) {
+                prg_id = data.prg_id || "";
+                page_id = data.page_id || 1;
+                table_name = "";
+                lock_type = "";
+                key_cod = "";
+                mongoAgent.TemplateRf.findOne({prg_id: prg_id, page_id: page_id}, function (err, template) {
+
+                    if (!err && template && !_.isEmpty(template.lock_table)) {
+                        template = template.toObject();
+                        table_name = template.lock_table;
+                        lock_type = template.lock_type == "table" ? "T" : "R";
+
+                        dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
+                            deleteLockList(socket_id, prg_id);
+                        });
+                    }
+
+                });
+            } else {
+                dbSVC.doTableUnLockBySocketID(socket_id, function (errorMsg, success) {
+                    deleteLockListBySocketID(socket_id);
+                });
+            }
+
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
+
+
+    /**
+     * 更新暫存的lock中的program
+     * @param socket_id
+     * @param prg_id
+     * @param table_name
+     */
     function updateLockList(socket_id, prg_id, table_name) {
         let lo_lock = {socket_id: socket_id, lockingPrgID: prg_id, table_name};
-        let idx = _.findIndex(ga_lockPrgIDList, {socket_id})
+        let idx = _.findIndex(ga_lockPrgIDList, {socket_id});
         if (idx > -1) {
             ga_lockPrgIDList[idx] = lo_lock;
         } else {
@@ -137,13 +164,29 @@ module.exports = function (io) {
         }
     }
 
+    /**
+     * 刪除暫存
+     * @param socket_id
+     * @param lockingPrgID
+     */
     function deleteLockList(socket_id, lockingPrgID) {
         ga_lockPrgIDList = _.filter(ga_lockPrgIDList, function (data) {
             if (!_.isUndefined(lockingPrgID)) {
                 return _.findIndex(ga_lockPrgIDList, {socket_id, lockingPrgID}) == -1;
-            } else {
+            } 
                 return _.findIndex(ga_lockPrgIDList, {socket_id}) == -1;
-            }
+            
+        });
+
+    }
+
+    /**
+     * 刪除指定SocketID暫存
+     * @param socket_id
+     */
+    function deleteLockListBySocketID(socket_id) {
+        ga_lockPrgIDList = _.filter(ga_lockPrgIDList, function (data) {
+            return !_.isEqual(socket_id, data.socket_id);
         });
 
     }

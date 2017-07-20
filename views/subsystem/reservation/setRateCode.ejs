@@ -964,7 +964,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">房價一覽表
+                                                role="button">Rate List
                                         </button>
                                     </li>
                                     <li>
@@ -1703,7 +1703,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">房價一覽表
+                                                role="button">Rate List
                                         </button>
                                     </li>
                                     <li>
@@ -1728,61 +1728,6 @@
     <!-- /.rate code(MR) 彈出視窗 -->
 </div>
 
-<script type="text/javascript">
-    $(function () {
-
-        // 彈出setRateCode (Type:NOR)
-        $(document).on('click', ".setRateCode-1", function (e) {
-            e.preventDefault();
-            var dialog = $("#setRateCode-1-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Rate code",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出setRateCode (Type:MR)
-        $(document).on('click', ".setRateCode-2", function (e) {
-            e.preventDefault();
-            var dialog = $("#setRateCode-2-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Rate code-MR",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // rateCode-查詢結果 dataGrid
-        $('#clerkDataGridResult-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation_RateCode.json',
-            method: 'get',
-            columns: [[
-                {field: 'choose', title: '選擇', width: 100},
-                {field: 'roomCode', title: '房價代號', width: 100},
-                {field: 'roomName', title: '房價名稱', width: 100},
-                {field: 'anotherName', title: '別名', width: 100},
-                {field: 'menu', title: 'MENU選單', width: 100},
-                {field: 'roomChangeChoose', title: '訂房可異動房價', width: 100},
-                {field: 'setTripChoose', title: '為套裝行程', width: 100},
-                {field: 'useDescription', title: '使用說明', width: 200},
-                {field: 'MasterRatecod', title: 'Master Ratecod', width: 100},
-                {field: 'hall', title: '館別', width: 100}
-            ]]
-
-        });
-
-
-    });
-</script>
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

@@ -257,8 +257,8 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 取得房型排序設定資料
         fetchRoomCodOrder: function () {
             var self = this;
-            axios.post('/api/PMS0810020/roomCodOrder').then(function (response) {
-                self.originSortData = response.data.roomCodOrderData;
+            $.post('/api/PMS0810020/roomCodOrder').done(function (response) {
+                self.originSortData = response.roomCodOrderData;
                 self.erpSortData = _.sortBy(self.originSortData, function (item) {
                     return item.view_seq;
                 });
@@ -436,7 +436,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             var lo_params = {
                 room_cod: this.$parent.singleData.room_cod,
                 begin_dat: this.$parent.singleData.begin_dat
-            }
+            };
 
             if (this.isUpdate) {
                 $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
@@ -479,7 +479,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             var lo_params = {
                 room_cod: this.$parent.singleData.room_cod,
                 begin_dat: this.$parent.singleData.begin_dat
-            }
+            };
 
             if (this.isUpdate) {
                 $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
@@ -988,18 +988,18 @@ var vm = new Vue({
         // 執行SQLProcess
         execSQLProcessAction: function (params, callback) {
             waitingDialog.show('Saving...');
-            axios.post("/api/execSQLProcess", params)
-                .then(function (response) {
+            $.post("/api/execSQLProcess", params)
+                .done(function (response) {
                     waitingDialog.hide();
-                    if (response.data.success) {
+                    if (response.success) {
                         alert('save success!');
                         callback(null, true);
                     } else {
-                        alert(response.data.errorMsg);
-                        callback(response.data.errorMsg, false);
+                        alert(response.errorMsg);
+                        callback(response.errorMsg, false);
                     }
                 })
-                .catch(function (error) {
+                .fail(function (error) {
                     waitingDialog.hide();
                     callback(error, false);
                 });
@@ -1053,12 +1053,12 @@ var vm = new Vue({
                 begin_dat: vm.singleData.begin_dat
             };
             waitingDialog.show("Loading...");
-            axios.post("/api/PMS0810020/getRoomTypeUploadPic", params)
-                .then(function (getResult) {
+            $.post("/api/PMS0810020/getRoomTypeUploadPic", params)
+                .done(function (getResult) {
                     waitingDialog.hide();
                     vm.isLoading = false;
-                    if (getResult.data.success) {
-                        vm.singleData.pic_path = getResult.data.roomTypePicData;
+                    if (getResult.success) {
+                        vm.singleData.pic_path = getResult.roomTypePicData;
                         _.each(vm.singleData.pic_path, function (eachPic) {
                             var la_filePath = eachPic.pic_path.split("/");
                             var ls_fileName = la_filePath[la_filePath.length - 1];
@@ -1141,5 +1141,5 @@ var vm = new Vue({
 Vue.filter("showDropdownDisplayName", function (val) {
     console.log(val);
     console.log(selectData);
-})
+});
 

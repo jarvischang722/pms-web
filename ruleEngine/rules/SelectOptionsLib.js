@@ -266,7 +266,7 @@ exports.checkStaList = function () {
     var checkList = [{
         on: 'Y',
         off: 'N'
-    },{
+    }, {
         Y: '使用',
         N: '非使用'
     }];
@@ -294,7 +294,7 @@ exports.checkStaIsDefaultList = function () {
  * [PMS0820010_房間特色設定] 系統預設
  * @returns {array}
  */
-exports.getCharacterrfSysdefaultList = function(){
+exports.getCharacterrfSysdefaultList = function () {
     var lo_SysdefaultList = [
         {
             display: "是",
@@ -307,10 +307,57 @@ exports.getCharacterrfSysdefaultList = function(){
     ];
     return lo_SysdefaultList;
 };
-
-
+exports.roomcolorrfColortyp = function () {
+    return [
+        {
+            display: "文字",
+            value: "FONT"
+        },
+        {
+            display: "背景",
+            value: "BK"
+        }
+    ];
+};
+exports.HfdroomcolorrfProtyp = function () {
+    return [
+        {
+            display: "排房作業",
+            value: "ASI"
+        },
+        {
+            display: "房間管理",
+            value: "RM"
+        },
+        {
+            display: "房務管理",
+            value: "HK"
+        }
+    ];
+};
 //TODO 將搬到 [程式編碼]Rule裡
 
+/**
+ * PMS0820030
+ * @param params
+ * @param callback
+ */
+exports.getHfdroomcolorrfColortyp = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.roomcolorrfColortyp();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0820030
+ * @param params
+ * @param callback
+ */
+exports.getHfdroomcolorrfProtyp = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.HfdroomcolorrfProtyp();
+    callback(null, lo_result);
+};
 /**
  * 取得房型全部上傳狀態
  * @param params
@@ -319,222 +366,222 @@ exports.getCharacterrfSysdefaultList = function(){
 exports.getRvrmUploadStaList = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UploadStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得住客類別群組對照檔使用與未使用
  */
-exports.getGuestgrprfUseStaList = function (params,callback) {
+exports.getGuestgrprfUseStaList = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得訂房卡來員群組設定對照檔使用與未使用(與住客類別群組對照檔一樣)
  */
-exports.getSourcegrprfUseStaList = function (params,callback) {
+exports.getSourcegrprfUseStaList = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得住客類別設定是否留下客戶歷史資料
  */
-exports.qry_guest_rf_history_sta = function (params,callback) {
+exports.qry_guest_rf_history_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.HistoryStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得住客類別設定有哪些客群
  */
-exports.qry_guest_rf_guest_way = function (params,callback) {
+exports.qry_guest_rf_guest_way = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.GuestWayList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得住客類別設定使用還未使用
  */
-exports.qry_guest_rf_use_sta = function (params,callback) {
+exports.qry_guest_rf_use_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 取得住客類別設定列印或不列印
  */
-exports.qry_guest_rf_rcard_prtrent = function (params,callback) {
+exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.PrintRcardList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0810110取得是否使用
  */
-exports.qry_source_rf_use_sta = function (params,callback) {
+exports.qry_source_rf_use_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * FOC設定(PMS0810140)取得下拉選項
  */
-exports.qry_foc_rf_role_sta_list = function (params,callback) {
+exports.qry_foc_rf_role_sta_list = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getFocRfRoleStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 交辦事項設定(PMS0810200)取得下拉選項
  */
-exports.qry_hfd_todo_list_rf_Is_default = function (params,callback) {
+exports.qry_hfd_todo_list_rf_Is_default = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 訂房取消原因設定
  */
-exports.getRvcancelrfFlag1sta = function(params, callback){
+exports.getRvcancelrfFlag1sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseRvancelRfFlagStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 住客帳調整原因bincome
  */
-exports.qry_hc_adjrmk_rf_bincome_sta = function(params, callback){
+exports.qry_hc_adjrmk_rf_bincome_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 合約狀態設定
  */
-exports.qry_contract_status_rf_default_sta = function(params, callback){
+exports.qry_contract_status_rf_default_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsDefaultList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 住客帳調整原因cancel
  */
-exports.qry_hc_adjrmk_rf_cancel_sta = function(params, callback){
+exports.qry_hc_adjrmk_rf_cancel_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0830110平展作業區設定是否啟用
  */
-exports.qry_a6hfd_areapnt_rf_areapnt_sta = function(params, callback){
+exports.qry_a6hfd_areapnt_rf_areapnt_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 聯絡設定取得聯絡類別
  */
-exports.qry_contact_rf_contact_typ = function(params, callback){
+exports.qry_contact_rf_contact_typ = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getContactContractTypList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 地址設定取得地址類別
  */
-exports.qry_address_rf_contact_typ = function(params, callback){
+exports.qry_address_rf_contact_typ = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getAddressContractTypList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 聯絡設定取得是否可刪除
  */
-exports.qry_contact_rf_delete_flag = function(params, callback){
+exports.qry_contact_rf_delete_flag = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getDeleteFlagList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 地址設定取得是否可刪除
  */
-exports.qry_address_rf_delete_flag = function(params, callback){
+exports.qry_address_rf_delete_flag = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getDeleteFlagList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 地址設定取得商務公司使用
  */
-exports.qry_address_rf_cust_use = function(params, callback){
+exports.qry_address_rf_cust_use = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 地址設定取得住客歷史使用
  */
-exports.qry_address_rf_ghist_use = function(params, callback){
+exports.qry_address_rf_ghist_use = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
  */
-exports.qryCharacterrfSysdefault = function(params, callback){
+exports.qryCharacterrfSysdefault = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCharacterrfSysdefaultList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 訂房類別設定(PMS0810150)取得是否使用下拉選項
  */
-exports.qryGuarenteerfUsesta = function(params, callback){
+exports.qryGuarenteerfUsesta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * 訂房類別設定(PMS0810150)取得是否需要訂金
  */
-exports.qryGuarenteerfDpreq = function(params, callback){
+exports.qryGuarenteerfDpreq = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsNeed();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0810190
  * @param params
  */
-exports.chkHfdorderconfirmrfContent = function(params,callback){
+exports.chkHfdorderconfirmrfContent = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };

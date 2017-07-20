@@ -147,7 +147,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         },
         // 2)
         function (pageInfo, callback) {
-            mongoAgent.UI_Type_Grid.findOne({
+            mongoAgent.TemplateRf.findOne({
                 prg_id: prg_id,
                 page_id: 1
             }, function (err, gridInfo) {

@@ -414,7 +414,8 @@
       "wed_nam": "三",
       "thu_nam": "四",
       "fri_nam": "五",
-      "sat_nam": "六"
+      "sat_nam": "六",
+      "allDay_nam": "全部"
     }
   },
   "table_in_use": "%s 使用中",

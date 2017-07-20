@@ -16,13 +16,13 @@ module.exports = {
     /*
      PMS0860050 :拜訪資料有資料就不能刪除
      */
-    chk_hfd_transport_rf_del : function (postData, session, callback) {
+    chk_hfd_transport_rf_del: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.fun_hotel_cod,
-            transport_cod : postData.singleRowData.transport_cod
+            transport_cod: postData.singleRowData.transport_cod
         };
 
         if (!_.isEmpty(postData.singleRowData.transport_cod.trim())) {
@@ -41,7 +41,7 @@ module.exports = {
                     callback(err, lo_result);
                 }
 
-            })
+            });
         }
     }
-}
+};

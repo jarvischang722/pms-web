@@ -1,0 +1,160 @@
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>交辦事項日期</label>
+                                                <select class="input-medium popWindow-s1v2-col4">
+                                                    <option value="1">2017/04/03</option>
+                                                    <option value="2">2017/04/04</option>
+                                                    <option value="3">2017/04/05</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>訂房卡號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col4" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>處理部門</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col4RM" placeholder="">
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>交辦事項狀態</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col4" placeholder="Ｎ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <!--<div class="blockSetting-heading">查詢結果</div>-->
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!--假的checkbox table-->
+                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                        <table id="dgCheckbox-table"></table>
+                    </div>
+                        <!-- 交辦事項多筆 resv_traces-table dataGrid -->
+                        <table id="resv_traces-table"></table>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Resolved</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Unresolved</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_tracesSingle-1"
+                                        role="button">Edit</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Save</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Exit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+
+    <!--  依房型訂房 彈出視窗內容-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_1 %>
+    <!--  /.End 彈出視窗內容 -->
+
+    <!--  依房型訂房 彈出視窗內容(ho 新增)-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_2 %>
+    <!--  /.End 彈出視窗內容(ho 新增) -->
+
+
+    <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
+    <%- include PMS0100000_module/resvRoomTypeBtn_3 %>
+    <!--  /.End 彈出視窗內容 -->
+</div><!-- /.page-content -->
+
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

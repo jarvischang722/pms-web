@@ -26,14 +26,14 @@ module.exports = {
         result.defaultValues = commandRules.getCreateCommonDefaultDataRule(session);
         callback(error, result);
     },
-    chk_guest_grp_rf_is_exist_rvrmcod_rf:function (postData,session,callback) {
+    chk_guest_grp_rf_is_exist_rvrmcod_rf: function (postData,session,callback) {
         var result = new ReturnClass();
         var error = null;
         var params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.fun_hotel_cod,
             room_typ: postData.singleRowData.room_typ || ""
-        }
+        };
         queryAgent.query("CHK_GUEST_GRP_RF_IS_EXIST_RVRMCOD_RF", params, function (err, data) {
             if (data.room_count > 0) {
                 result.success = false;
@@ -43,7 +43,7 @@ module.exports = {
 
             }
             callback(error, result);
-        })
+        });
     }
     
 

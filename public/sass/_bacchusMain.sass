@@ -909,6 +909,12 @@ ul.newVisitOther-btn
         position: absolute
         top: 25px
         left: 5px
+        span
+          width: 103px
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          display: inline-block
       .content-sub
         .left
           position: absolute
@@ -929,7 +935,6 @@ ul.newVisitOther-btn
         right: 5px
         span
           color: #D15B47
-
 
 // PMS0210020 綜合櫃檯
 .foCounter
@@ -1273,7 +1278,8 @@ th.dateColor
   text-align: center
 .roomPlanTable.fancyTable tbody tr td .datecolor
   background-color: #DAEAFC !important
-.roomPlanTable td
+.roomPlanTable td,
+.roomPlanTable th
   //min-width: 30px
   white-space: nowrap
 .roomPlanTable thead:first-child
@@ -1362,18 +1368,20 @@ input[type="datetime-local"]
   height: 40px
 .roomNum-wrap
   border-top: 1px solid #778899
-  height: 20px
+  height: 19px
   margin-bottom: 0
   //display: table-cell
-  i
-    padding-right: 0 !important
+  .roomNum-text
+    margin-left: -23%
+    i
+      padding-right: 0 !important
 //.month-wrap
 //  padding: 3px 0
 .room-Num-Right
   border-left: 1px solid #778899
-  display: inline-block
-  //height: 30px
-  padding-right: 3px
+  //display: inline-block
+  ////height: 30px
+  //padding-right: 3px
 .room-Num-Left
   display: inline-block
   //height: 30px
@@ -1393,9 +1401,9 @@ span.roomNum-text
 //  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 //  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
-//表格td長六角形
+//ho-表格td長六角形
 td div.triangle-box
-  width: 65%
+  width: 80%
   height: 19px
   /* margin-left: 18px; */
   margin: 0px auto
@@ -1422,32 +1430,50 @@ td div.triangle-box:after
   right: -10px
   border-width: 9px 0 9px 10px
 
+//ho-分帳規則
 .cashierSetting-btn-wrap
   margin-top: 10px
-
-.cashierSetting-left.css_table .css_td.active
-  background: #fff !important
-  color: #000 !important
 
 .rules-notice
   color: red
 .rules-wrap
   margin-bottom: 30px
-.rules-wrap .counterRow .counterBlock
-  background: #8080ff
+//.rules-wrap .counterRow .counterBlock
+//  //background: #8080ff
 .purple-text
-  color: #810584
-.cashierSetting-left .css_table .css_th
-  background: #fff
-.cashierSetting-left.css_table .css_td
-  background: #e6e6ff
-span.triangle-text
-  width: 100%
-  display: inline-block
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
+  color: #DD5A43 !important
+
+.cashierSetting-left
+  &.css_table
+    .css_td
+      background: #e6e6ff
+      &.active
+        background: #fff !important
+        color: #000 !important
+span
+  &.triangle-text
+    width: 100%
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
 .month-wrap
   width: 90%
   margin: 0 auto
   padding: 5px 0
+.roomPlanTable
+  .col-xs-6
+    text-align: center
+    display: inline-table
+
+.cashier-top-wrap
+  margin: 15px 15px
+  padding-top: 10px
+.cashier-main-wrap
+  .counterBlock
+    span
+      width: 70px
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      display: inline-block

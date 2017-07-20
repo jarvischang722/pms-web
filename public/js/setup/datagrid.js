@@ -43,7 +43,19 @@ Vue.component("multi-lang-dialog-tmp", {
             }
 
             var existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
-            if (existIdx == -1) {
+            var lb_getFromAPI = true;
+            try{
+                if(_.isUndefined(vm.tmpCUD.updateData[existIdx].multiLang)){
+                    lb_getFromAPI = true;
+                }
+                else{
+                    lb_getFromAPI = false;
+                }
+            }
+            catch(err){
+                lb_getFromAPI = true;
+            }
+            if (lb_getFromAPI) {
                 // 取多語系資料
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
                     self.$emit('update-multi-lang-dg', result);
@@ -464,3 +476,5 @@ var vm = new Vue({
 function editFieldMultiLang(rowIdx) {
     vm.editFieldMultiLang(rowIdx);
 }
+
+var adpterDg = new AdapterDatagrid(vm);

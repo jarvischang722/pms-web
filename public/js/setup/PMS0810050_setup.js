@@ -121,19 +121,19 @@ var vueMain = new Vue({
                 waitingDialog.show('Saving...');
                 // console.log("===== 儲存資料 =====");
                 // console.log(params);
-                axios.post('/api/execSQLProcess', params)
-                    .then(function (response) {
+                $.post('/api/execSQLProcess', params)
+                    .done(function (response) {
                         vueMain.saving = false;
                         waitingDialog.hide();
-                        if (response.data.success) {
+                        if (response.success) {
                             self.dgIns.initTmpCUD();
                             $("#gridEdit").val(null);
                             alert('save success!');
                         } else {
-                            alert(response.data.errorMsg);
+                            alert(response.errorMsg);
                         }
                     })
-                    .catch(function (error) {
+                    .fail(function (error) {
                         vueMain.saving = false;
                         waitingDialog.hide();
                         console.log(error);

@@ -51,8 +51,8 @@
 
         },
         watch: {
-            usingSubsysID(subsys_id){
-                let lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
+            usingSubsysID: function (subsys_id) {
+                var lo_subsysMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID});
                 if (lo_subsysMenu) {
                     this.quickMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).quickMenu;
                     this.moduleMenu = _.findWhere(this.subsysMenu, {subsys_id: this.usingSubsysID}).mdlMenu;
@@ -79,13 +79,13 @@
         methods: {
             //取得此子系統的權限
             getUserSubsys: function () {
-                axios.post("/api/getUserSubsys").then(function (res) {
-                    vm.subsysMenu = res.data.subsysMenu;
+                $.post("/api/getUserSubsys").done(function (res) {
+                    vm.subsysMenu = res.subsysMenu;
                     vm.usingSubsysID = getCookie('usingSubsysID');
                 })
             },
             //取得網址get 參數
-            getQueryString(name) {
+            getQueryString: function (name) {
                 var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
                 var r = window.location.search.substr(1).match(reg);
                 if (r != null) {
@@ -98,11 +98,11 @@
             },
             //讀入主程式
             loadMainProcess: function (prg_id) {
-                g_socket.emit('handleTableUnlock',{'clientSocketID': gs_clientSocketID});
+                g_socket.emit('handleTableUnlock', {  'prg_id':getCookie("lockingPrgID")});
 
                 var ls_pro_url = "";
-                this.doTableUnlock();
                 this.isOpenModule = "";
+                this.doTableUnlock();
                 setupCookie("usingPrgID", prg_id);
                 setupCookie("lockingPrgID", prg_id)
                 $("#MainContentDiv").html("");
@@ -127,7 +127,7 @@
                     }
                 }
                 if (!_.isEmpty(ls_pro_url)) {
-                    $("#MainContentDiv").load(ls_pro_url);
+                    $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
                 }
 
             },
@@ -138,7 +138,9 @@
             doTableUnlock: function () {
                 var lockingPrgID = !_.isUndefined(getCookie("lockingPrgID")) && !_.isEmpty(getCookie("lockingPrgID"))
                     ? getCookie("lockingPrgID") : '';
-                g_socket.emit('handleTableUnlock', {'clientSocketID': gs_clientSocketID})
+                g_socket.emit('handleTableUnlock', {
+                    'prg_id':lockingPrgID
+                })
             }
 
 
@@ -146,11 +148,15 @@
 
     })
 
-    /** 模組伸縮版需要先關閉再打開才會WORK (暫時解法)**/
+
     $(function () {
+        /** 模組伸縮版需要先關閉再打開才會WORK (暫時解法) **/
         $("#sidebar-toggle-icon").click();
         $("#sidebar-toggle-icon").click();
+
+
     })
+
 
 </script>
 </html>
