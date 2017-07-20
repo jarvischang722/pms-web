@@ -195,6 +195,27 @@
             ]]
         });
 
+        // CO清單 dataGrid
+        $('#front_coList-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_coList.json',
+            method: 'get',
+            columns: [[
+                {field: 'preCOTime', title: '預計C/O時間', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: '姓名', width: 150},
+                {field: 'custAccStatus', title: '客帳狀態', width: 80},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'ciTime', title: 'C/I時間', width: 60},
+                {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
+                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'coRemark', title: 'C/O備註', width: 150}
+            ]]
+        });
+
 
 
     });

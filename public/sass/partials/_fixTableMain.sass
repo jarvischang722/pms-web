@@ -457,3 +457,12 @@ table.treetable span.indenter
 
 .treeIconDisplay table.treetable tr.collapsed span.indenter a
   display: none !important
+
+// Ｑ:第一行的colspan有問題 S:做一個假的清除height
+.hidden-firstTr
+  visibility: hidden
+  height: 0 !important
+  td
+    height: 0 !important
+.hidden-firstTd
+  height: 0 !important
