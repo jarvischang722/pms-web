@@ -22,5 +22,8 @@ module.exports = {
         var lo_view_seq = _.findWhere(postData, {ui_field_name: "view_seq"});
         lo_view_seq.modificable = ls_sys_default.modificable == "Y" ? "N" : "Y";
         callback(error, [lo_view_seq]);
+    },
+    chk_hfd_use_dt_begin_end_dat: function(postData, session, callback){
+
     }
 };
