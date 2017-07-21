@@ -19,7 +19,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
-            athena_id: session.user.athena_id,
+            athena_id: session.user.athena_id
         };
 
         if (!_.isEmpty(postData.singleRowData.live_cod.trim())) {
@@ -37,7 +37,7 @@ module.exports = {
                 } else {
                     callback(err, lo_result);
                 }
-            })
+            });
         }
 
     },
@@ -68,16 +68,16 @@ module.exports = {
                                 field.visiable = "N";
                                 callback(err, field);
                             }
-                        })
+                        });
                     }
                 ], function (errMsg, result) {
                     callback(null, result);
-                })
+                });
             });
 
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
     },
     //選擇國籍代號，如統計代號沒值則從國籍代入(有bug只能第一次)
     chk_cntry_rf_contry_cod: function (postData, session, callback) {
@@ -109,4 +109,4 @@ module.exports = {
         lo_result.effectValues = postData.rowData;
         callback(lo_error, lo_result);
     }
-}
+};

@@ -46,7 +46,7 @@ module.exports = {
                     callback(err, lo_result);
                 }
 
-            })
+            });
         }
     },
     //role_sta=4指定金額時free_qnt 固定為1不可修改
@@ -86,4 +86,4 @@ module.exports = {
             callback(lo_error, lo_result);
         }
     }
-}
+};

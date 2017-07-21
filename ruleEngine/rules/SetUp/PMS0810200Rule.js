@@ -26,7 +26,7 @@ module.exports = {
 
           _.each(data.rows,function (row) {
               getMaxValue = parseInt(row.view_seq) > parseInt(getMaxValue) ? row.view_seq : getMaxValue;
-          })
+          });
 
             maxNumber = parseInt(getMaxValue) +10;
         } else {
@@ -36,4 +36,4 @@ module.exports = {
         result.defaultValues = dataObj;
         callback(error, result);
     }
-}
+};

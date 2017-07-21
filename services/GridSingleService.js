@@ -243,7 +243,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             callback(err, pageField);
                         });
                     },
-                    // 找dt datagrid欄位資廖
+                    // 找dt datagrid欄位資料
                     function (pageField, callback) {
                         mongoAgent.UIDatagridField.find({
                             prg_id: prg_id,
@@ -255,9 +255,10 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     },
                     function (pageField, callback) {
                         if (pageField) {
-                            mongoAgent.UI_Type_Grid.findOne({
+                            mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
-                                ui_field_name: pageField.ui_field_name
+                                page_id: 2,
+                                template_id:'datagrid'
                             }, function (err, grid) {
                                 callback(err, grid);
                             });
@@ -670,6 +671,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     });
                     var lo_keysData = {};
                     tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
+
+                    delete tmpEdit["ins_dat"];
+                    delete tmpEdit["ins_usr"];
+
                     tmpEdit.condition = [];
                     //組合where 條件
                     _.each(la_keyFields, function (keyField) {

@@ -11,5 +11,7 @@ var middles = [i18nMW,authMW,sysMW];
 /* GET  page. */
 module.exports = function(app  ) {
 
+    //外幣匯兌(靜態)
+    app.get('/PMS0320010', cashierCrtl.getPMS0320010);
 
 };

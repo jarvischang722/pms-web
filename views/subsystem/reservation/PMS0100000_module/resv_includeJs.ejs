@@ -630,7 +630,7 @@
             });
         });
 
-        // 彈出　公帳號
+        // 彈出setRateCode　公帳號
         $(document).on('click', ".publiceAccount-btn", function (e) {
             e.preventDefault();
             var dialog = $("#publiceAccountDialog").removeClass('hide').dialog({
@@ -645,6 +645,54 @@
                 resizable: true
             });
         });
+
+
+        // 彈出setRateCode (Type:NOR)
+        $(document).on('click', ".setRateCode-1", function (e) {
+            e.preventDefault();
+            var dialog = $("#setRateCode-1-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Rate code",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出setRateCode (Type:MR)
+        $(document).on('click', ".setRateCode-2", function (e) {
+            e.preventDefault();
+            var dialog = $("#setRateCode-2-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Rate code-MR",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // PMS01200070 彈出 交辦事項單筆 resv_tracessingle-1
+        $(document).on('click', ".resv_tracesSingle-1", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_tracesSingle-1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "交辦事項單筆",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -945,6 +993,61 @@
                 {field: 'baby', title: 'Baby', width: 40}
             ]]
         });
+
+
+        // setRateCode rateCode-查詢結果 dataGrid
+        $('#clerkDataGridResult-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_RateCode.json',
+            method: 'get',
+            columns: [[
+                {field: 'choose', title: '選擇', width: 100},
+                {field: 'roomCode', title: '房價代號', width: 100},
+                {field: 'roomName', title: '房價名稱', width: 100},
+                {field: 'anotherName', title: '別名', width: 100},
+                {field: 'menu', title: 'MENU選單', width: 100},
+                {field: 'roomChangeChoose', title: '訂房可異動房價', width: 100},
+                {field: 'setTripChoose', title: '為套裝行程', width: 100},
+                {field: 'useDescription', title: '使用說明', width: 200},
+                {field: 'MasterRatecod', title: 'Master Ratecod', width: 100},
+                {field: 'hall', title: '館別', width: 100}
+            ]]
+
+        });
+
+        // PMS0120070 resv_traces 交辦事項 dataGrid
+        $('#resv_traces-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_traces.json',
+            method: 'get',
+            columns: [[
+                {field: 'status', title: '狀態', width: 100},
+                {field: 'startDate', title: '開始日期', width: 100},
+                {field: 'endDate', title: '結束日期', width: 100},
+                {field: 'bookingsNum', title: '訂房卡號', width: 100},
+                {field: 'roomNum', title: '房號', width: 80},
+                {field: 'tracesCon', title: '交辦事項內容', width: 350},
+                {field: 'processDepartment', title: '處理部門', width: 100}
+            ]]
+
+        });
+
+        // PMS0120070 resv_traces 交辦事項(前面的checkbox) dataGrid
+        $('#dgCheckbox-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/dgCheckbox-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+
+        });
     });
 
     $(function() {
@@ -964,7 +1067,7 @@
         $('#PMS0110030-table').fixedHeaderTable({ cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 10, everyColumnsAddWith: 0 });
 
 //      依房型訂房
-        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 30, everyColumnsAddWith: 0 });
+        $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 20, everyColumnsAddWith: 0 });
 
 //      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });

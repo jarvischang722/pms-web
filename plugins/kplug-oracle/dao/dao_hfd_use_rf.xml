@@ -17,11 +17,12 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
     <dao name="QRY_SINGLE_HFD_USE_RF">
         <statement><![CDATA[
          select athena_id, hotel_cod, item_cod, item_nam, view_seq, sys_default, co_notice, ins_dat, ins_usr, upd_dat, upd_usr from hfd_use_rf
-         where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+         where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and item_cod = :item_cod
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">item_cod</parameter>
     </dao>
 
     <!-- ['PMS0820050'] 明細櫃檯備品庫存 -->

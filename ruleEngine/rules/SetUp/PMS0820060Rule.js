@@ -42,16 +42,16 @@ module.exports = {
                                 field.visiable = "N";
                                 callback(err, field);
                             }
-                        })
+                        });
                     }
                 ],function (errMsg, result) {
                     callback(null, result);
-                })
+                });
             });
 
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
 
     },
     chkMsggtrmkrfMsgLin3: function (field, userInfo, callback) {
@@ -82,16 +82,16 @@ module.exports = {
                                 field.visiable = "N";
                                 callback(err, field);
                             }
-                        })
+                        });
                     }
                 ],function (errMsg, result) {
                     callback(null, result);
-                })
+                });
             });
 
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
     },
     chkMsggtrmkrfMsgLin4: function (field, userInfo, callback) {
         var params = {
@@ -121,18 +121,18 @@ module.exports = {
                                 field.visiable = "N";
                                 callback(err, field);
                             }
-                        })
+                        });
                     }
                 ],function (errMsg, result) {
                     callback(null, result);
-                })
+                });
             });
 
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
     },
-    chkMsggtrmkrfMsgtax:function (postData, session, callback) {
+    chkMsggtrmkrfMsgtax: function (postData, session, callback) {
         var params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.fun_hotel_cod
@@ -162,6 +162,6 @@ module.exports = {
             } else {
                 callback(lo_error, lo_result);
             }
-        })
+        });
     }
-}
+};

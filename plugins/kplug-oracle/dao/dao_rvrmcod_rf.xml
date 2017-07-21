@@ -38,11 +38,9 @@
                 WHERE TRIM(VAL_RMK) = 'rent_cal_dat'
                      AND SYS_COD = 'HFD'
                      AND athena_id = :athena_id
-                     AND trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
-        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
     <!-- 取得房型資料 -->

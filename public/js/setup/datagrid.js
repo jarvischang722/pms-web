@@ -43,7 +43,19 @@ Vue.component("multi-lang-dialog-tmp", {
             }
 
             var existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
-            if (existIdx == -1) {
+            var lb_getFromAPI = true;
+            try{
+                if(_.isUndefined(vm.tmpCUD.updateData[existIdx].multiLang)){
+                    lb_getFromAPI = true;
+                }
+                else{
+                    lb_getFromAPI = false;
+                }
+            }
+            catch(err){
+                lb_getFromAPI = true;
+            }
+            if (lb_getFromAPI) {
                 // 取多語系資料
                 $.post("/api/multiLangFieldContentByKey", params, function (result) {
                     self.$emit('update-multi-lang-dg', result);
@@ -293,23 +305,27 @@ var vm = new Vue({
                 alert("請選擇要刪除的資料");
             }
 
-            vm.tmpCUD.deleteData.push(delRow);
-            $("#gridEdit").val(vm.tmpCUD);
+            if(delRow.createRow == 'Y'){    //如果刪除此次新建的資料，則直接刪除即可。
+                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow))
+            }
+            else{
+                vm.tmpCUD.deleteData.push(delRow);
+                $("#gridEdit").val(vm.tmpCUD);
 
-            $.post("/api/handleDataGridDeleteEventRule", {
-                prg_id: prg_id,
-                deleteData: vm.tmpCUD.deleteData
-            }, function (result) {
-                if (result.success) {
-                    $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
-                } else {
-                    vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
-                    vm.endEditing();
-                    alert(result.errorMsg);
-                }
+                $.post("/api/handleDataGridDeleteEventRule", {
+                    prg_id: prg_id,
+                    deleteData: vm.tmpCUD.deleteData
+                }, function (result) {
+                    if (result.success) {
+                        $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                    } else {
+                        vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
+                        vm.endEditing();
+                        alert(result.errorMsg);
+                    }
 
-            });
-
+                });
+            }
         },
         //儲存
         doSave: function () {
@@ -460,3 +476,5 @@ var vm = new Vue({
 function editFieldMultiLang(rowIdx) {
     vm.editFieldMultiLang(rowIdx);
 }
+
+var adpterDg = new AdapterDatagrid(vm);

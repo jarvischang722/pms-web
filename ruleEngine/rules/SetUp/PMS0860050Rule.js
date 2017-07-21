@@ -16,7 +16,7 @@ module.exports = {
     /*
      PMS0860050 :拜訪資料有資料就不能刪除
      */
-    chk_ps_visit_rf_is_exist_ps_visit_dt : function (postData, session, callback) {
+    chk_ps_visit_rf_is_exist_ps_visit_dt: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
@@ -40,7 +40,7 @@ module.exports = {
                     callback(err, lo_result);
                 }
 
-            })
+            });
         }
     }
-}
+};
