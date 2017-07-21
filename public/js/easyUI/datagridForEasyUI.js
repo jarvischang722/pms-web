@@ -184,7 +184,7 @@ var EZfieldClass = {
                     ga_colorAry[index].color = color_val;
                 }
 
-                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' value='" + ga_colorAry[index].color + "'>";
+                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' style='width:100%' value='" + ga_colorAry[index].color + "'>";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
