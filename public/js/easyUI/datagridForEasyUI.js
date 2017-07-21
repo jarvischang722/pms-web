@@ -12,6 +12,10 @@ var ga_colorAry = [];
  * @constructor
  */
 var AdapterDatagrid = function(vm){
+
+    if(_.isUndefined(vm.tempExecData)){
+        console.error(  new Error("method 'tempExecData' not defined."));
+    }
     this.tempExecData = vm.tempExecData;
 };
 
@@ -166,6 +170,10 @@ var EZfieldClass = {
             };
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
+
+                if(_.isUndefined(index)){
+                    return;
+                }
 
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
