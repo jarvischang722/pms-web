@@ -80,7 +80,11 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
         let user_id = userInfo ? userInfo.usr_id : '';
         let athena_id = userInfo ? userInfo.athena_id : '';
         let hotel_cod = userInfo ? userInfo.fun_hotel_cod : '';
-        let REVE_CODE = userInfo ? "BAC09008020000" : 'BAC09008020000';
+        let REVE_CODE = "BAC09008020000";
+        if (_.isUndefined(userInfo) || (_.isUndefined(prg_id) || _.isEmpty(prg_id))) {
+            REVE_CODE = 'BAC09008040000';
+        }
+
         queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
 
             var params = {
@@ -107,6 +111,42 @@ exports.doTableUnLock = function (prg_id, table_name, userInfo, lock_type, key_c
                         success = false;
                         errorMsg = i18n.__("table_in_use", data["RETN-CODE-DESC"]);
                     }
+                }
+
+                callback(errorMsg, success);
+            });
+
+        });
+    } catch (err) {
+        callback(err, true);
+    }
+};
+
+
+/**
+ * 刪除所有指定SocketID 的Lock
+ * @param socket_id {String} : socket_id
+ * @param callback{function} : 回調函數
+ */
+exports.doTableUnLockBySocketID = function ( socket_id, callback) {
+    try {
+
+        let REVE_CODE = "BAC09008040000";
+
+
+        queryAgent.query("QRY_CONN_SESSION", {}, function (err, session) {
+
+            var params = {
+                "REVE-CODE": REVE_CODE,
+                "socket_id": socket_id
+            };
+
+            tools.requestApi(sysConfig.api_url, params, function (err, res, data) {
+                var success = true;
+                var errorMsg = null;
+                if (err || !data) {
+                    success = false;
+                    errorMsg = err;
                 }
 
                 callback(errorMsg, success);
