@@ -792,6 +792,7 @@ var vm = new Vue({
         },
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
+
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
 
                 var fieldData = result.fieldData;

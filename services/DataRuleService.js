@@ -210,7 +210,9 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
     var isDtData = postData["isDtData"] || false;
     var prg_id = postData.prg_id;
     var page_id = Number(postData.page_id || 1);
-    mongoAgent.DatagridFunction.findOne({
+    let dbName = (page_id == 2) ? "PageFunction" : "DatagridFunction";
+
+    mongoAgent[dbName].findOne({
         prg_id: prg_id,
         func_id: '0300',
         page_id: page_id
@@ -439,7 +441,6 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
  * @param session
  * @param callback
  */
-'use strict';
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let prg_id = postData["prg_id"];
     let page_id = postData.page_id || 1;

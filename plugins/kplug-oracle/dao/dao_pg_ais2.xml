@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820050'] 參數:留言管理顯示行數-->
+    <dao name="CHK_PG_MSGGT_MN_LIN">
+        <statement><![CDATA[
+               select PG_AIS2.SP_GET_NOS( :athena_id, 'NULL', :hotel_cod, 'HFD', 'HFD_USE_DT', '2000/01/01') as msggtlin from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+
+
+</root>

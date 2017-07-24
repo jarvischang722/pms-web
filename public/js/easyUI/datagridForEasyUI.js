@@ -88,15 +88,21 @@ var EZfieldClass = {
         // Formatter 顯示資料
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                return moment(date).format("YYYY/MM/DD");
+                if(date != "" && !_.isUndefined(date)){
+                    return moment(date).format("YYYY/MM/DD");
+                }
+                else{
+                    return new moment().format("YYYY/MM/DD");
+                }
+
             };
 
             var dateParserFunc = function (date) {
-                if (date != "") {
+                if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
                 else {
-                    return "";
+                    return new Date();
                 }
             };
 
@@ -116,11 +122,21 @@ var EZfieldClass = {
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
-                return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                if(date != "" && !_.isUndefined(date)) {
+                    return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                }
+                else{
+                    return moment().format("YYYY/MM/DD HH:mm:ss");
+                }
             };
 
             var datetimeFuncParser = function (date) {
-                return new Date(Date.parse(date));
+                if(date != "" && !_.isUndefined(date)) {
+                    return new Date(Date.parse(date));
+                }
+                else{
+                    return new Date();
+                }
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
@@ -255,15 +271,15 @@ var EZfieldClass = {
 function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        selectDataRow[fieldAttrObj.ui_field_name] =  newValue;
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
-            rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            rowData: selectDataRow,
             newValue: newValue,
             oldValue: oldValue
         };
-
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息

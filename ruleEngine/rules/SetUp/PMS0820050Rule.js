@@ -16,12 +16,13 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     r_HfduserfViewseqAttr: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var ls_sys_default = _.findWhere(postData, {ui_field_name: "sys_default"});
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        // var ls_sys_default = postData.
         var lo_view_seq = _.findWhere(postData, {ui_field_name: "view_seq"});
-        lo_view_seq.modificable = ls_sys_default.modificable == "Y" ? "N" : "Y";
-        callback(error, [lo_view_seq]);
+        // lo_view_seq.modificable = ls_sys_default.modificable == "Y" ? "N" : "Y";
+        callback(lo_error, [lo_view_seq]);
     },
     chk_hfd_use_dt_begin_end_dat: function (postData, session, callback) {
         let ls_rentCalDat;
@@ -68,49 +69,99 @@ module.exports = {
         }
 
         function chkBeginAndEndDat(rent_cal_dat, cb) {
-            let lo_beginDat;
-            let lo_endDat;
-            if (postData.validateField == "begin_dat") {
-                lo_beginDat = moment(new Date(postData.newValue));
-                lo_endDat = moment(postData.rowData.end_dat);
+            let lo_beginDat = "";
+            let lo_endDat = "";
+            rent_cal_dat = new Date(rent_cal_dat);
+
+            if (!_.isUndefined(postData.rowData.begin_dat)) {
+                lo_beginDat = moment(new Date(postData.rowData.begin_dat));
+            }
+            if (!_.isUndefined(postData.rowData.end_dat)) {
+                lo_endDat = moment(new Date(postData.rowData.end_dat));
+            }
+
+            if (lo_beginDat != "" && lo_endDat != "") {
+
+                // 1) 判斷開始日語結束日
+                if (lo_endDat.diff(lo_beginDat) < 0) {
+                    return cb(true, "結束日期不可以早於開始日期");
+                }
+                // 2) 判斷結束日與滾房租日
+                if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    return cb(true, "結束日不可小於滾房租日");
+                }
+                // 3) 判斷開始日與滾房租日
+                if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    return cb(true, "開始日不可小於滾房租日");
+                }
+                // 4) 判斷區間是否重疊
+                let lb_chkBeginDat;
+                let lb_chkEndDat;
+                let ls_repeatMsg;
+                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.rowData.key_nos)});
+
+
+                _.each(la_dtData, function (comparDT, compIdx) {
+                    if (comparDT.key_nos != postData.rowData.key_nos) {
+                        lb_chkBeginDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_beginDat);
+                        lb_chkEndDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_endDat);
+                        if (lb_chkBeginDat && lb_chkEndDat) {
+                            ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
+                                "與第" + (compIdx + 1) + "行" + moment(comparDT.begin_dat).format("YYYY/MM/DD") + "~" + moment(comparDT.end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
+                            return cb(true, ls_repeatMsg);
+                        }
+                    }
+                });
             }
             else {
-                lo_beginDat = moment(postData.rowData.begin_dat);
-                lo_endDat = moment(new Date(postData.newValue));
+                cb(false, null);
             }
-            // 1)
-            if (lo_endDat.diff(lo_beginDat) < 0) {
-                return cb(true, "結束日期不可以早於開始日期");
-            }
-            // 2)
-            if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
-                return cb(true, "結束日不可小於滾房租日");
-            }
-            // 3)
-            if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
-                return cb(true, "開始日不可小於滾房租日");
-            }
-            // 4)
-            let lb_chkBeginDat;
-            let lb_chkEndDat;
-            let ls_repeatMsg;
-            let li_curIdx = _.findIndex(la_dtData, {key_nos: postData.rowData.key_nos});
-
-
-            _.each(la_dtData, function (comparDT, compIdx) {
-                if (comparDT.key_nos != postData.rowData.key_nos) {
-                    lb_chkBeginDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_beginDat);
-                    lb_chkEndDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_endDat);
-                    if (lb_chkBeginDat && lb_chkEndDat) {
-                        ls_repeatMsg = "第" + li_curIdx + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
-                            "與第" + compIdx + "行" + moment(comparDT.begin_dat).format("YYYY/MM/DD") + "~" + moment(comparDT.end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
-                        return cb(true, ls_repeatMsg);
-                    }
-                }
-            });
-
 
         }
+    },
+
+    // 此rule 有問題待討論
+    r_HfduserfSave: function (postData, session, callback) {
+    },
+
+    r_HfduserfSaveDel: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        async.waterfall([
+            chkSysDefault,
+            chkItemIsUse
+        ], function (err, result) {
+            if(err){
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "系統預設，不可刪除";
+                lo_error.errorCod = "1111";
+            }
+            callback(lo_error, lo_result);
+        });
+
+        function chkSysDefault(cb) {
+            if (postData.singleRowData.sys_default == "Y") {
+                return cb(true, "系統預設,不可刪除");
+            }
+            cb(null, "");
+        }
+
+        function chkItemIsUse(chkDefault, cb) {
+            let params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                item_cod: postData.singleData.item_cod
+            };
+            queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function(err, qryResult){
+                if(!_.isNull(qryResult)){
+                    return cb(true, "已使用中,不可刪除");
+                }
+                cb(null, "");
+            });
+        }
+
     }
 };
 
