@@ -165,6 +165,54 @@
             });
         });
 
+        // 彈出 綜合櫃檯-拆併床-搜尋樓層 foCnt_bedSetFindMore1
+        $(document).on('click', ".foCnt_bedSetFindMore1", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床-搜尋房種 foCnt_bedSetFindMore2
+        $(document).on('click', ".foCnt_bedSetFindMore2", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore2-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床-搜尋房號 foCnt_bedSetFindMore3
+        $(document).on('click', ".foCnt_bedSetFindMore3", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore3-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         $('[data-rel=tooltip]').tooltip();
 

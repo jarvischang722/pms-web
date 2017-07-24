@@ -653,7 +653,7 @@
                                             role="button">Lost&found</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth  foCnt_bedSetting"
                                             role="button">bedSetting</button>
                                 </div>
                             </div>
@@ -1768,24 +1768,24 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>樓層</label>
-                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                                <span class="moreClick">...</span>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=" '2','3','5' "/>
+                                                <span class="moreClick foCnt_bedSetFindMore1">...</span>
                                             </div>
                                         </div>
                                         <!--2-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>房種</label>
-                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                                <span class="moreClick">...</span>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=" 'DXT','EXT','SPR' "/>
+                                                <span class="moreClick foCnt_bedSetFindMore2">...</span>
                                             </div>
                                         </div>
                                         <!--3-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>房號</label>
-                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                                <span class="moreClick">...</span>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=" '1006','1008','1009','1021','1110','703' "/>
+                                                <span class="moreClick foCnt_bedSetFindMore3">...</span>
                                             </div>
                                         </div>
                                         <!--4-->
@@ -1946,7 +1946,377 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <!-- /.PMS0120020 demolitionBed foCnt_demolitionBed-->
+    <!-- /.PMS0120020 bedSetting foCnt_bedSetting-->
+
+    <!-- PMS0120020 bedSetting-搜尋-樓層 foCnt_bedSetFindMore1 彈出視窗 -->
+    <div id="foCnt_bedSetFindMore1-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <input type="text" class="input-medium medium-c1" placeholder="" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <select class="input-medium medium-c1">
+                                            <option value="1">樓層</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:150px;">樓層</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">10</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">12</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" /></td>
+                                            <td class="css_td">14</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">2</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">3</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">4</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">5</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" /></td>
+                                            <td class="css_td">6</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">7</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">8</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下選取</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下清除</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 bedSetting-搜尋-樓層 foCnt_bedSetFindMore1-->
+
+    <!-- PMS0120020 bedSetting-搜尋-房種 foCnt_bedSetFindMore2 彈出視窗 -->
+    <div id="foCnt_bedSetFindMore2-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <input type="text" class="input-medium medium-c1" placeholder="" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <select class="input-medium medium-c1">
+                                            <option value="1">房號代號</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種代號</th>
+                                            <th class="css_th" style="min-width:100px;">房種名稱</th>
+                                            <th class="css_th" style="min-width:100px;">房種別名</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">DXK</td>
+                                            <td class="css_td">豪華客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">豪華客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" /></td>
+                                            <td class="css_td">EXK</td>
+                                            <td class="css_td">豪華行政</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">EXT</td>
+                                            <td class="css_td">豪華行政</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">Q1</td>
+                                            <td class="css_td">行政客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">DXK</td>
+                                            <td class="css_td">豪華客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">豪華客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" /></td>
+                                            <td class="css_td">EXK</td>
+                                            <td class="css_td">豪華行政</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">EXT</td>
+                                            <td class="css_td">豪華行政</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">Q1</td>
+                                            <td class="css_td">行政客房</td>
+                                            <td class="css_td"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下選取</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下清除</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 bedSetting-搜尋-房種 foCnt_bedSetFindMore2-->
+
+    <!-- PMS0120020 bedSetting-搜尋-房號 foCnt_bedSetFindMore3 彈出視窗 -->
+    <div id="foCnt_bedSetFindMore3-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <input type="text" class="input-medium medium-c1" placeholder="" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <select class="input-medium medium-c1">
+                                            <option value="1">棟別</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">棟別</th>
+                                            <th class="css_th" style="min-width:70px;">樓層</th>
+                                            <th class="css_th" style="min-width:100px;">房種</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1001</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1002</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1003</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td bgLGrey">1004</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1005</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td bgLGrey">1006</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1007</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td bgLGrey">1008</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1009</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">1010</td>
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">10</td>
+                                            <td class="css_td">DXK</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下選取</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下清除</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 bedSetting-搜尋-房號 foCnt_bedSetFindMore3-->
 
     <!-- PMS0120040 團體多筆(未入住) groups_noAdmit 彈出視窗 -->
     <div id="groups_noAdmit-message" class="hide padding-5">
