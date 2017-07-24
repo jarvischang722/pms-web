@@ -294,7 +294,7 @@
 .horizTable-outer .css_table.horizTable {
   table-layout: fixed;
 }
-/* line 159, ../sass/vendor/_grid.sass */
+/* line 149, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.horizTable th, .horizTable-outer .css_table.horizTable td {
   height: 25px;
 }
@@ -4001,13 +4001,33 @@ span.triangle-text {
   padding-top: 10px;
 }
 
-/* line 1474, ../sass/_bacchusMain.sass */
-.cashier-main-wrap .counterBlock span {
+/* line 1475, ../sass/_bacchusMain.sass */
+.rulesOfSeparation .counterBlock span {
   width: 70px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+/* line 1485, ../sass/_bacchusMain.sass */
+.lost-found-wrap .grid-item label {
+  width: 120px;
+}
+
+/* line 1488, ../sass/_bacchusMain.sass */
+.pbx-clean-box {
+  border: 1px solid #000;
+}
+
+/* line 1490, ../sass/_bacchusMain.sass */
+.green-box {
+  width: 70px;
+  height: 25px;
+  border-radius: 5px;
+  float: right;
+  background: green;
+  margin-left: 5px;
 }
 
 /*------  共用區public ------ */
@@ -4549,7 +4569,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-/* line 237, ../sass/modules/_public.sass */
+/* line 235, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1v2 {
   width: 115px;
   max-width: 100%;
