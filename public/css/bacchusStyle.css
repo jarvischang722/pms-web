@@ -888,6 +888,23 @@ input[type="datetime-local"] {
   vertical-align: middle;
 }
 
+/* line 427, ../sass/modules/_public.sass */
+.searchCheckbox {
+  margin-right: 5px;
+}
+/* line 429, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox {
+  margin: 3px auto 0 auto;
+}
+/* line 431, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox label {
+  padding-left: 10px;
+}
+/* line 434, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox label .lbl:before {
+  margin-right: 3px;
+}
+
 /* line 11, ../sass/bacchusStyle.sass */
 .lang {
   margin: 20px 20px 0 0;

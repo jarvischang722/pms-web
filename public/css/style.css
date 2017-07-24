@@ -294,7 +294,7 @@
 .horizTable-outer .css_table.horizTable {
   table-layout: fixed;
 }
-/* line 149, ../sass/vendor/_grid.sass */
+/* line 159, ../sass/vendor/_grid.sass */
 .horizTable-outer .css_table.horizTable th, .horizTable-outer .css_table.horizTable td {
   height: 25px;
 }
@@ -4611,7 +4611,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-/* line 235, ../sass/modules/_public.sass */
+/* line 237, ../sass/modules/_public.sass */
 .input-medium.popWindow-s1v2 {
   width: 115px;
   max-width: 100%;
@@ -4954,6 +4954,23 @@ input[type="datetime-local"] {
 .totalMiddle {
   display: inline-block;
   vertical-align: middle;
+}
+
+/* line 427, ../sass/modules/_public.sass */
+.searchCheckbox {
+  margin-right: 5px;
+}
+/* line 429, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox {
+  margin: 3px auto 0 auto;
+}
+/* line 431, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox label {
+  padding-left: 10px;
+}
+/* line 434, ../sass/modules/_public.sass */
+.searchCheckbox .checkbox label .lbl:before {
+  margin-right: 3px;
 }
 
 /*-------------- responsive -------------- */

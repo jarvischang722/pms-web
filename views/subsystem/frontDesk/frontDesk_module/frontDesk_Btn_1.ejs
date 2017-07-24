@@ -695,7 +695,7 @@
                                             role="button">Pbx/Tv</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail-btn1"
                                             role="button">Trace</button>
                                 </div>
                             </div>
@@ -726,7 +726,7 @@
                             <div class="row">
                                 <div class="col-xs-4">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Item Ity</button>
+                                            role="button">Amenities Ity.</button>
                                 </div>
                                 <div class="col-xs-4">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1588,7 +1588,7 @@
     </div>
     <!-- /.PMS0120020 editCoDate foCnt_editCoDate-->
 
-    <!-- PMS0120020 prePayment foCnt_prePayment 彈出視窗 -->
+    <!-- PMS0120020 prePayment(預估款) foCnt_prePayment 彈出視窗 -->
     <div id="foCnt_prePayment-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
@@ -1602,11 +1602,11 @@
                                         <label>房號</label>
                                         <!--原本 medium-c1 湊165px -->
                                         <select class="input-medium popWindow-s1v2">
-                                            <option value="1">602</option>
+                                            <option value="1">602345</option>
                                             <option value="2">603</option>
                                         </select>
                                         <span>.</span>
-                                        <input type="text" class="input-medium resvCard-xs " placeholder="1"/><!--rateCode-s2-->
+                                        <input type="text" class="input-medium resvCard-xs " placeholder="12"/><!--rateCode-s2-->
                                     </div>
 
                                     <div class="grid-item">
@@ -1649,9 +1649,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>住客名稱</label>
-                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
-                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
-                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="0933554劉書雲" disabled/>
                                     </div>
                                     <div class="grid-item">
                                         <label>住客類別</label>
@@ -1668,27 +1666,33 @@
                                 </div>
 
                                 <div class="space-6"></div>
-                                <p class="notice">*注意：新增及刪除動作均要儲存後，其結果才生效</p>
+
+                                <div class="pull-left">
+                                    <div class="searchCheckbox pull-left">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                              <span class="lbl">只顯示正常資料</span>
+                                          </label>
+                                        </span>
+                                    </div>
+                                    <div class="searchCheckbox pull-left">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                              <span class="lbl">只顯示今天以後資料</span>
+                                          </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <p class="notice no-margin">*注意：新增及刪除動作均要儲存後，其結果才生效</p>
+                                </div>
+                                <div class="clearfix"></div>
+
                                 <!--PMS0210020 foCnt_prePayment table-->
                                 <table id="foCnt_prePayment-table" style="height: 200px;"></table>
 
-                                <div class="searchCheckbox pull-left">
-                                    <span class="checkbox">
-                                      <label class="checkbox-width" style="width: auto;">
-                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                          <span class="lbl">只顯示正常資料</span>
-                                      </label>
-                                    </span>
-                                </div>
-                                <div class="searchCheckbox pull-left">
-                                    <span class="checkbox">
-                                      <label class="checkbox-width" style="width: auto;">
-                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                          <span class="lbl">只顯示今天以後資料</span>
-                                      </label>
-                                    </span>
-                                </div>
-                                <div class="clearfix"></div>
                             </div><!--main-content-data-->
                         </div>
                     </div>
