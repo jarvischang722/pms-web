@@ -1,121 +1,182 @@
-<!--<div id="lfMore-page">-->
-    <!--<div class="businessCompanyData">-->
-        <!--<div class="col-xs-12 col-sm-12">-->
-            <!--<div class="row">-->
-                <!--<table style="width:70%">-->
-                    <!--<tr>-->
-                        <!--<th>選擇</th>-->
-                        <!--<th>狀態</th>-->
-                        <!--<th>名稱</th>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td><input type="checkbox"></td>-->
-                        <!--<td>Smith</td>-->
-                        <!--<td>50</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td><input type="checkbox"></td>-->
-                        <!--<td>Jackson</td>-->
-                        <!--<td>94</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-            <!--</div>-->
+    <!--L&F more-->
+    <div id="lfMore-page" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9">
+                        <div class="main-content-data">
 
-            <!--<div class="clearfix"></div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+                            <div class="lf-more-topWrap">
+                                <input class="input-medium bill-input-s1" type="text" placeholder="">
+                                <select class="input-medium bill-input-s1" type="text" placeholder="602">
+                                    <option value="">狀態</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
+                            </div>
+
+
+                            <div class="horizTable-outer">
+                                <div class="css_table horizTable">
+                                    <div class="css_thead">
+                                        <div class="css_tr">
+                                            <div class="css_th" style="min-width:40px;">選擇</div>
+                                            <div class="css_th" style="min-width:60px;">狀態</div>
+                                            <div class="css_th" style="min-width:142px;">名稱</div>
+                                        </div>
+                                    </div>
+                                    <div class="css_tbody">
+                                        <div class="css_tr">
+                                            <div class="css_td"><input type="checkbox"></div>
+                                            <div class="css_td">1</div>
+                                            <div class="css_td">拾獲</div>
+                                        </div>
+                                        <div class="css_tr">
+                                            <div class="css_td"><input type="checkbox"></div>
+                                            <div class="css_td">2</div>
+                                            <div class="css_td">遺失者領回</div>
+                                        </div>
+                                        <div class="css_tr">
+                                            <div class="css_td"><input type="checkbox"></div>
+                                            <div class="css_td">3</div>
+                                            <div class="css_td">拾獲者領回</div>
+                                        </div>
+                                        <div class="css_tr">
+                                            <div class="css_td"><input type="checkbox"></div>
+                                            <div class="css_td">4</div>
+                                            <div class="css_td">報失</div>
+                                        </div>
+                                        <div class="css_tr">
+                                            <div class="css_td"><input type="checkbox"></div>
+                                            <div class="css_td">D</div>
+                                            <div class="css_td">刪除</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="row">
+                            <div class="right-menu-co lf-btn-box">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定(F3)
+                                        </button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消(ESC)
+                                        </button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下確認 (F4)
+                                        </button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下清除(F5)
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- PBX 彈出視窗 -->
-    <!--<div id="pbx-Dialog" class="hide padding-5 lost-found-wrap">-->
-        <!--<div class="businessCompanyData">-->
-            <!--<div class="col-xs-12 col-sm-12">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-xs-7 col-sm-7">-->
+    <div id="pbx-Dialog" class="hide padding-5 lost-found-wrap">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-7 col-sm-7">
 
-                        <!--<div class="main-content-data">-->
+                        <div class="main-content-data">
 
-                            <!--<div class="grid">-->
-                                <!--<div class="grid-item">-->
-                                    <!--<label>房號</label>-->
-                                    <!--<input class="input-medium popWindow-s2" type="text">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="grid">-->
-                                <!--<div class="grid-item">-->
-                                    <!--<label>房間狀態</label>-->
-                                    <!--<input class="input-medium popWindow-s2" type="text">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="pbx-clean-box">-->
-                                <!--<div class="grid">-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>電話啟用狀態</label>-->
-                                        <!--<input class="input-medium popWindow-s2" type="text">-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="grid">-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>話機語言</label>-->
-                                        <!--<input class="input-medium popWindow-s2" type="text">-->
-                                    <!--</div>-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>話機語言</label>-->
-                                        <!--<input class="input-medium popWindow-s2" type="text">-->
-                                    <!--</div>-->
-                                    <!--<br>-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>話機語言</label>-->
-                                        <!--<input class="input-medium popWindow-s2" type="text">-->
-                                    <!--</div>-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>話機語言</label>-->
-                                        <!--<input class="input-medium popWindow-s2" type="text">-->
-                                    <!--</div>-->
-                                    <!--<br>-->
-                                    <!--<hr>-->
-                                    <!--<div class="grid-item">-->
-                                        <!--<label>電視啟用狀態</label>-->
-                                        <!--<div class="green-box"></div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>&lt;!&ndash;main-content-data&ndash;&gt;-->
-                        <!--<div class="clearfix"></div>-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input class="input-medium popWindow-s2" type="text" placeholder="602">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房間狀態</label>
+                                    <input class="input-medium popWindow-s2" type="text" placeholder="住人">
+                                </div>
+                            </div>
+                            <div class="pbx-clean-box">
+                                <fieldset>
+                                    <legend>狀態</legend>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>電話啟用狀態</label>
+                                            <div class="green-box"></div>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>話機語言</label>
+                                            <input class="input-medium popWindow-s2" type="text" placeholder="中文" disabled>
+                                        </div>
+                                        <div class="grid-item single-grid">
+                                            <label>勿打擾</label>
+                                        </div>
+                                        <br>
+                                        <div class="grid-item single-grid">
+                                            <label>留言燈</label>
+                                        </div>
+                                        <div class="grid-item single-grid">
+                                            <label>限制播出</label>
+                                        </div>
+                                        <hr>
+                                        <div class="grid-item">
+                                            <label>電視啟用狀態</label>
+                                            <div class="green-box"></div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
 
-                    <!--</div>-->
-                    <!--<div class="col-xs-3 col-sm-3">-->
-                        <!--<div class="main-content-data">-->
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="main-content-data">
+                            <div class="pbx-clean-box pbxPhone-box">
+                                <fieldset>
+                                    <legend>電話</legend>
+                                    <div class="grid">
+                                            <button class="btn btn-primary btn-white">開啟</button>
+                                            <br>
+                                            <button class="btn btn-primary btn-white">關閉</button>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <!--<div class="grid">-->
-                                <!--<div class="grid-item">-->
-                                    <!--<h3>電話</h3>-->
-                                    <!--<button class="btn btn-primary btn-white">開啟</button>-->
-                                    <!--<br>-->
-                                    <!--<button class="btn btn-primary btn-white">關閉</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-xs-2 col-sm-2">-->
-                        <!--<div class="row">-->
-                            <!--<div class="right-menu-co">-->
-                                <!--<ul>-->
-                                    <!--<li>-->
-                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth editClean-btn"-->
-                                                <!--role="button">離開-->
-                                        <!--</button>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <!--<div class="clearfix"></div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!-- /.clean 彈出視窗 -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /PBX 彈出視窗 -->
 
     <!-- clean 彈出視窗 -->
     <div id="clean-Dialog" class="hide padding-5 lost-found-wrap">

@@ -666,7 +666,7 @@
             e.preventDefault();
             var dialog = $("#pbx-Dialog").removeClass('hide').dialog({
                 modal: true,
-                title: "PBX",
+                title: "單筆開啟電話",
                 title_html: true,
                 width: 700,
                 maxwidth: 1920,
@@ -739,7 +739,7 @@
             });
         });
 
-        // PMS01200070 彈出 交辦事項單筆 resv_tracessingle-1
+        // 失物明細
         $(document).on('click', ".lf-modify-btn", function (e) {
             e.preventDefault();
             var dialog = $("#lost-found-modify").removeClass('hide').dialog({
@@ -754,13 +754,14 @@
             });
         });
 
+//       L&F點選... 彈出視窗
         $(document).on('click', ".lfMore", function (e) {
             e.preventDefault();
             var dialog = $("#lfMore-page").removeClass('hide').dialog({
                 modal: true,
                 title: "可選擇項目",
                 title_html: true,
-                width: 500,
+                width: 400,
                 maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
