@@ -141,7 +141,7 @@ exports.handleBlurUiField = function (postData, session, callback) {
  */
 exports.handleAddFuncRule = function (postData, session, callback) {
     let prg_id = postData.prg_id;
-    let page_id = postData.page_id ? Number(postData.page_id): 1;
+    let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.waterfall([
         function (cb) {
             mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
@@ -441,10 +441,11 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
  */
 'use strict';
 exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
-    var prg_id = postData["prg_id"];
-    var deleteData = postData["deleteData"] || [];
-    var delChkFuncs = [];
-    mongoAgent.DatagridFunction.findOne({prg_id: prg_id, func_id: '0300'}, function (err, deleteRule) {
+    let prg_id = postData["prg_id"];
+    let page_id = postData.page_id || 1;
+    let deleteData = postData["deleteData"] || [];
+    let delChkFuncs = [];
+    mongoAgent.DatagridFunction.findOne({prg_id: prg_id, page_id: Number(page_id), func_id: '0300'}, function (err, deleteRule) {
 
         var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
         if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {

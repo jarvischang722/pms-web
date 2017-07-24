@@ -5,6 +5,7 @@
  */
 var isUserEdit = true;
 var gb_onceEffectFlag = true;
+var ga_colorAry = [];
 /**
  * datagrid 轉接器與call
  * @param vm
@@ -165,9 +166,25 @@ var EZfieldClass = {
             };
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
+
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
-                return "<input type='color' " + disabled + " onchange=ColorFunc.selectEvent('" + tmpFieldObj.field + "'," + index + ",this,'"+dgName+"') class='dg_colorPicker_class spectrumColor' style='width: 100%;' value='" + color_val + "'  />";
+                var colorAry_index = _.findIndex(ga_colorAry, function (colorObj) {
+                    return colorObj.index == index;
+                });
+
+                if (colorAry_index == -1) {
+                    ga_colorAry.push({
+                        index: index,
+                        color: color_val,
+                        disabled: disabled
+                    });
+                }
+                else{
+                    ga_colorAry[index].color = color_val;
+                }
+
+                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' value='" + ga_colorAry[index].color + "'>";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
@@ -175,13 +192,13 @@ var EZfieldClass = {
             var isTextTouchEvent = true;
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                 if (!_.isUndefined(newValue)) {
                     if (fieldAttrObj.modificable == "I") {
                         var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-                        var rowData = $('#' + dgName).datagrid('getRows')[li_rowIndex];
 
-                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        var rowData = $('#' + ls_dgName).datagrid('getRows')[li_rowIndex];
+                        var lo_editor = $('#' + ls_dgName).datagrid('getEditor', {
                             index: li_rowIndex,
                             field: fieldAttrObj.ui_field_name
                         });
@@ -193,7 +210,7 @@ var EZfieldClass = {
 
                 if (isUserEdit) {
                     if (fieldAttrObj.rule_func_name != "") {
-                        onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
+                        onChange_Action(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
             };
@@ -229,7 +246,6 @@ var EZfieldClass = {
     }
 
 };
-
 
 // onchange執行時，檢查規則
 function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
@@ -287,24 +303,18 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     }
 }
 
-var ColorFunc = {
-    //選擇顏色事件
-    selectEvent: function (field_name, rowIdx, _this, dgName) {
-        var dataGridName = dgName;
-        var color_cod = colorTool.hexToColorCod(_this.value);
-        var updateRow = {};
-        updateRow[field_name] = color_cod;
-        /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
-        adpterDg.tempExecData($('#' + dataGridName).datagrid('getRows')[rowIdx]);
-        if ($('#' + dgName).datagrid('validateRow', rowIdx)) {
-            $('#' + dgName).datagrid('endEdit', rowIdx);
-        }
-        $('#' + dataGridName).datagrid('updateRow', {
-            index: rowIdx,
-            row: updateRow
-        });
-        window.colorPickerIsOpened = true;
-    }
-};
+$(document).on("change", "#colorWell", function (event) {
+    var updateRow = {};
+    var li_index = $(this).closest("tr").attr("datagrid-row-index");
+    var ls_field_name = $(this).data("field");
+    var ls_dgName = $(this).data("dgname");
+    var color_cod = colorTool.hexToColorCod(event.target.value);
+    ga_colorAry[li_index].color = event.target.value;
+    updateRow[ls_field_name] = color_cod;
+    var lo_row = $('#' + ls_dgName).datagrid('getRows')[li_index];
+    lo_row.color_num = color_cod;
+    /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
+    adpterDg.tempExecData(lo_row);
+});
 
 

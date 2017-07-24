@@ -715,7 +715,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">拆併床</button>
+                                            role="button">bedSetting</button>
                                 </div>
                             </div>
                         </div>
@@ -1153,6 +1153,861 @@
         </div>
     </div>
     <!-- /.dayUse foCnt_dayUse -->
+
+    <!-- PMS0120020 Details foCnt_details 彈出視窗 -->
+    <div id="foCnt_details-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3">
+                                            <div class="row no-margin-right">
+                                                <div class="horizTable-outer">
+                                                    <table class="css_table horizTable">
+                                                        <thead class="css_thead">
+                                                            <tr class="css_tr">
+                                                                <th class="css_th" style="min-width:80px;">住客帳狀態</th>
+                                                                <th class="css_th" style="min-width:120px;">住客姓名</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="css_tbody">
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">開帳</td>
+                                                                <td class="css_td">王大明</td>
+                                                            </tr>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">開帳</td>
+                                                                <td class="css_td">王美美</td>
+                                                            </tr>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">開帳</td>
+                                                                <td class="css_td">李大同</td>
+                                                            </tr>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">關帳</td>
+                                                                <td class="css_td">陳小華</td>
+                                                            </tr>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">關帳</td>
+                                                                <td class="css_td">張三</td>
+                                                            </tr>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">關帳</td>
+                                                                <td class="css_td">李四</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-9 col-sm-9">
+                                            <div class="row">
+                                                <div class="main-content-data borderFrame">
+                                                    <!--1-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>房號</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="201" disabled/>
+                                                        </div>
+                                                    </div>
+                                                    <!--2-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>Full name</label>
+                                                            <input type="text" class="input-medium resvCard-col2Spec1" placeholder="Simon Cowll" />
+                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 reservationDialog-2">Profile</button>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>Guest Status</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="border-double1"></div>
+                                                    <!--3-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>入住日期</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>入住時間</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>入住人員</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                    </div>
+                                                    <!--4-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>退房日期</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>退房時間</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>退房人員</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                    <!--5-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>訂房公司</label>
+                                                            <input type="text" class="input-medium resvCard-col2" placeholder="" />
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>市場類別</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                    <!--6-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>公司名稱</label>
+                                                            <input type="text" class="input-medium resvCard-col2" placeholder="" />
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>訂房來源</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                    <!--7-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>房價代號</label>
+                                                            <input type="text" class="input-medium resvCard-col2" placeholder="" />
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>信用卡號</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                    <!--8-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>計價房種</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>房價</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>授權碼</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                    </div>
+                                                    <!--9-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>使用房種</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>服務費</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>預刷額度</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                    </div>
+                                                    <!--10-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>人數</label>
+                                                            <!--<label>大人/小孩</label>-->
+                                                            <input type="text" class="input-medium resvCard-2xs text-right" placeholder="1"/>
+                                                            <span>/</span>
+                                                            <input type="text" class="input-medium resvCard-2xs text-right" placeholder="0"/>
+                                                            <span>/</span>
+                                                            <input type="text" class="input-medium resvCard-2xs text-right" placeholder="0"/>
+                                                            <!--<input type="text" class="input-medium resvCard" placeholder="大/小/嬰"/>-->
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>車號</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>G.U.I</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder=""/>
+                                                        </div>
+                                                    </div>
+                                                    <!--11-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>退房提醒</label>
+                                                            <input type="text" class="input-medium resvCard-col3-fullRemark" placeholder=""/>
+                                                            <span class="moreClick">...</span>
+                                                        </div>
+                                                    </div>
+                                                    <!--12-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>客房備註</label>
+                                                            <input type="text" class="input-medium resvCard-col3-fullRemark" placeholder=""/>
+                                                            <span class="moreClick">...</span>
+                                                        </div>
+                                                    </div>
+                                                </div><!--main-content-data-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">新增住客</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">個人換房</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Late C/O</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Pre.auth.</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 Details foCnt_details-->
+
+    <!-- PMS0120020 Deposits foCnt_deposits 彈出視窗 -->
+    <div id="foCnt_deposits-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂金代號</label>
+                                        <select class="input-medium medium-c5">
+                                            <option value="">C/I 日期</option>
+                                            <option value="">C/O 日期</option>
+                                            <option value="">房價代號</option>
+                                            <option value="">計價房種</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>名稱</label>
+                                        <input type="text" class="input-medium medium-c5" placeholder="" disabled/>
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-6"></div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--PMS0210020 Deposit table-->
+                                <table id="foCnt_deposits-table" style="height: 200px;"></table>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">RM:602</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全不選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">反向選擇</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全不選</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 Deposits foCnt_deposits-->
+
+    <!-- PMS0120020 editCoDate foCnt_editCoDate 彈出視窗 -->
+    <div id="foCnt_editCoDate-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>C/O日期</label>
+                                        <select class="input-medium medium-c5">
+                                            <option value="">2014/8/8</option>
+                                            <option value="">2014/8/9</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-6"></div>
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+
+                                <!--PMS0210020 editCoDate table-->
+                                <table id="foCnt_editCoDate-table" style="height: 200px;"></table>
+
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">RM:602</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全不選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">反向選擇</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全不選</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 editCoDate foCnt_editCoDate-->
+
+    <!-- PMS0120020 prePayment foCnt_prePayment 彈出視窗 -->
+    <div id="foCnt_prePayment-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房號</label>
+                                        <!--原本 medium-c1 湊165px -->
+                                        <select class="input-medium popWindow-s1v2">
+                                            <option value="1">602</option>
+                                            <option value="2">603</option>
+                                        </select>
+                                        <span>.</span>
+                                        <input type="text" class="input-medium resvCard-xs " placeholder="1"/><!--rateCode-s2-->
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label>住客序號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="2014080700000602" disabled/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住客帳狀況</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="0:關帳" disabled/>
+                                    </div>
+
+                                </div>
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>實際住房日期</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="2014/08/07" disabled/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>預計離店日</label>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="2014/08/08" disabled/>
+                                        <!--<select class="input-medium popWindow-s1" disabled>-->
+                                        <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                        <!--<option value="">WWW</option>-->
+                                        <!--</select>-->
+                                    </div>
+                                </div>
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>計價別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="C001" disabled/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>計價房種</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="DXK" disabled/>
+                                    </div>
+                                </div>
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>住客名稱</label>
+                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
+                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
+                                        <input type="text" class="input-medium addedDate" placeholder="0933554劉書雲" disabled/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住客類別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="01:T/A-GRP" disabled/>
+                                    </div>
+                                </div>
+                                <!--5-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客房備註</label>
+                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                        <span class="moreClick">...</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-6"></div>
+                                <p class="notice">*注意：新增及刪除動作均要儲存後，其結果才生效</p>
+                                <!--PMS0210020 foCnt_prePayment table-->
+                                <table id="foCnt_prePayment-table" style="height: 200px;"></table>
+
+                                <div class="searchCheckbox pull-left">
+                                    <span class="checkbox">
+                                      <label class="checkbox-width" style="width: auto;">
+                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                          <span class="lbl">只顯示正常資料</span>
+                                      </label>
+                                    </span>
+                                </div>
+                                <div class="searchCheckbox pull-left">
+                                    <span class="checkbox">
+                                      <label class="checkbox-width" style="width: auto;">
+                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                          <span class="lbl">只顯示今天以後資料</span>
+                                      </label>
+                                    </span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Add</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                role="button">Delete</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">重新讀取</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_prePayBtn5"
+                                                role="button">帳戶明細</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">轉至住客帳</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">批次新增</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 prePayment foCnt_prePayment-->
+
+    <!-- PMS0120020 prePayBtn5 foCnt_prePayBtn5 彈出視窗 -->
+    <div id="foCnt_prePayBtn5-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+
+                                <!--PMS0210020 foCnt_prePayment table-->
+                                <table id="foCnt_prePayBtn5-table" style="height: 200px;"></table>
+
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 prePayBtn5 foCnt_prePayBtn5-->
+
+    <!-- PMS0120020 bedSetting foCnt_bedSetting 彈出視窗 -->
+    <div id="foCnt_bedSetting-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <!-- search content -->
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>樓層</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房種</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房號</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item foCntRadio">
+                                                <label class="pull-left">拆併床狀態</label>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">拆床</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">併床</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">無設定</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">全部</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>設定拆病床狀態</label>
+
+                                        <select class="input-medium resvCard-col2">
+                                            <option value="1">(無設定)</option>
+                                            <option value="2">拆床</option>
+                                            <option value="3">併床</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
+
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
+
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">303</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">305</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td bgLGrey">DXT</td>
+                                            <td class="css_td bgLGrey">307</td>
+                                            <td class="css_td bgLGrey">拆床</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">506</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">507</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">DXT</td>
+                                            <td class="css_td bgLGrey">1001</td>
+                                            <td class="css_td bgLGrey">拆床</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">STD</td>
+                                            <td class="css_td">1003</td>
+                                            <td class="css_td">拆床</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0120020 demolitionBed foCnt_demolitionBed-->
 
     <!-- PMS0120040 團體多筆(未入住) groups_noAdmit 彈出視窗 -->
     <div id="groups_noAdmit-message" class="hide padding-5">
