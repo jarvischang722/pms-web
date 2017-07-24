@@ -4001,75 +4001,13 @@ span.triangle-text {
   padding-top: 10px;
 }
 
-/* line 1475, ../sass/_bacchusMain.sass */
-.rulesOfSeparation .counterBlock span {
+/* line 1474, ../sass/_bacchusMain.sass */
+.cashier-main-wrap .counterBlock span {
   width: 70px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
-}
-
-/* line 1485, ../sass/_bacchusMain.sass */
-.lost-found-wrap .grid-item label {
-  width: 120px;
-}
-
-/* line 1488, ../sass/_bacchusMain.sass */
-.pbx-clean-box {
-  padding-top: 7px;
-}
-/* line 1491, ../sass/_bacchusMain.sass */
-.pbx-clean-box fieldset {
-  display: block;
-  border: 1px solid #000;
-  padding: 12px;
-}
-/* line 1496, ../sass/_bacchusMain.sass */
-.pbx-clean-box fieldset legend {
-  width: auto;
-  border-bottom: 0px;
-  margin-bottom: 3px;
-}
-/* line 1500, ../sass/_bacchusMain.sass */
-.pbx-clean-box hr {
-  clear: both;
-}
-
-/* line 1502, ../sass/_bacchusMain.sass */
-.green-box {
-  width: 70px;
-  height: 25px;
-  border-radius: 5px;
-  float: right;
-  background: #00ff00;
-  margin-left: 5px;
-  border: 1px solid #000;
-}
-
-/* line 1510, ../sass/_bacchusMain.sass */
-.single-grid {
-  width: 300px;
-}
-
-/* line 1512, ../sass/_bacchusMain.sass */
-.pbxPhone-box {
-  margin-top: 65px;
-}
-/* line 1515, ../sass/_bacchusMain.sass */
-.pbxPhone-box .grid button {
-  width: 100%;
-  margin-bottom: 11px;
-}
-
-/* line 1522, ../sass/_bacchusMain.sass */
-.lf-btn-box ul li button {
-  margin-bottom: 5px;
-}
-
-/* line 1524, ../sass/_bacchusMain.sass */
-.lf-more-topWrap {
-  margin-bottom: 5px;
 }
 
 /*------  共用區public ------ */
