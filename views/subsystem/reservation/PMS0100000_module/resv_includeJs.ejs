@@ -630,6 +630,53 @@
             });
         });
 
+        // 彈出 Clean
+        $(document).on('click', ".clean-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#clean-Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "清掃房間",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 點擊 彈出 清掃房間
+        $(document).on('click', ".editClean-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#editClean-Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "清掃房間",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 pbx視窗
+        $(document).on('click', ".pbx-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#pbx-Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "PBX",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出setRateCode　公帳號
         $(document).on('click', ".publiceAccount-btn", function (e) {
             e.preventDefault();
@@ -692,6 +739,34 @@
             });
         });
 
+        // PMS01200070 彈出 交辦事項單筆 resv_tracessingle-1
+        $(document).on('click', ".lf-modify-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lost-found-modify").removeClass('hide').dialog({
+                modal: true,
+                title: "失物明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        $(document).on('click', ".lfMore", function (e) {
+            e.preventDefault();
+            var dialog = $("#lfMore-page").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         <!-- ********* dataGrid ********* -->
 
@@ -1032,6 +1107,26 @@
                 {field: 'roomNum', title: '房號', width: 80},
                 {field: 'tracesCon', title: '交辦事項內容', width: 350},
                 {field: 'processDepartment', title: '處理部門', width: 100}
+            ]]
+
+        });
+
+        // setRateCode rateCode-查詢結果 dataGrid
+        $('#lostFound-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_lostFound.json',
+            method: 'get',
+            columns: [[
+                {field: 'choose', title: '選擇', width: 50},
+                {field: 'LfCode', title: '編號', width: 50},
+                {field: 'LfState', title: '狀態', width: 100},
+                {field: 'LfDate', title: '遺失日期', width: 100},
+                {field: 'LfTime', title: '遺失時間', width: 100},
+                {field: 'LfThings', title: '遺失物品', width: 200},
+                {field: 'LfName', title: '遺失者', width: 100},
+                {field: 'LfPlace', title: '移師處', width: 100},
             ]]
 
         });

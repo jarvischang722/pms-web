@@ -1,4 +1,621 @@
-<div>
+<!--<div id="lfMore-page">-->
+    <!--<div class="businessCompanyData">-->
+        <!--<div class="col-xs-12 col-sm-12">-->
+            <!--<div class="row">-->
+                <!--<table style="width:70%">-->
+                    <!--<tr>-->
+                        <!--<th>選擇</th>-->
+                        <!--<th>狀態</th>-->
+                        <!--<th>名稱</th>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><input type="checkbox"></td>-->
+                        <!--<td>Smith</td>-->
+                        <!--<td>50</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><input type="checkbox"></td>-->
+                        <!--<td>Jackson</td>-->
+                        <!--<td>94</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+
+            <!--<div class="clearfix"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+    <!-- PBX 彈出視窗 -->
+    <!--<div id="pbx-Dialog" class="hide padding-5 lost-found-wrap">-->
+        <!--<div class="businessCompanyData">-->
+            <!--<div class="col-xs-12 col-sm-12">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-xs-7 col-sm-7">-->
+
+                        <!--<div class="main-content-data">-->
+
+                            <!--<div class="grid">-->
+                                <!--<div class="grid-item">-->
+                                    <!--<label>房號</label>-->
+                                    <!--<input class="input-medium popWindow-s2" type="text">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="grid">-->
+                                <!--<div class="grid-item">-->
+                                    <!--<label>房間狀態</label>-->
+                                    <!--<input class="input-medium popWindow-s2" type="text">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="pbx-clean-box">-->
+                                <!--<div class="grid">-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>電話啟用狀態</label>-->
+                                        <!--<input class="input-medium popWindow-s2" type="text">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="grid">-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>話機語言</label>-->
+                                        <!--<input class="input-medium popWindow-s2" type="text">-->
+                                    <!--</div>-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>話機語言</label>-->
+                                        <!--<input class="input-medium popWindow-s2" type="text">-->
+                                    <!--</div>-->
+                                    <!--<br>-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>話機語言</label>-->
+                                        <!--<input class="input-medium popWindow-s2" type="text">-->
+                                    <!--</div>-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>話機語言</label>-->
+                                        <!--<input class="input-medium popWindow-s2" type="text">-->
+                                    <!--</div>-->
+                                    <!--<br>-->
+                                    <!--<hr>-->
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>電視啟用狀態</label>-->
+                                        <!--<div class="green-box"></div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>&lt;!&ndash;main-content-data&ndash;&gt;-->
+                        <!--<div class="clearfix"></div>-->
+
+                    <!--</div>-->
+                    <!--<div class="col-xs-3 col-sm-3">-->
+                        <!--<div class="main-content-data">-->
+
+                            <!--<div class="grid">-->
+                                <!--<div class="grid-item">-->
+                                    <!--<h3>電話</h3>-->
+                                    <!--<button class="btn btn-primary btn-white">開啟</button>-->
+                                    <!--<br>-->
+                                    <!--<button class="btn btn-primary btn-white">關閉</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-2 col-sm-2">-->
+                        <!--<div class="row">-->
+                            <!--<div class="right-menu-co">-->
+                                <!--<ul>-->
+                                    <!--<li>-->
+                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth editClean-btn"-->
+                                                <!--role="button">離開-->
+                                        <!--</button>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="clearfix"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!-- /.clean 彈出視窗 -->
+
+    <!-- clean 彈出視窗 -->
+    <div id="clean-Dialog" class="hide padding-5 lost-found-wrap">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+
+                        <div class="main-content-data">
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input class="input-medium popWindow-s2" placeholder="602" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>原清掃狀態</label>
+                                    <input class="input-medium popWindow-s2" type="text" placeholder="乾淨" disabled>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>新清掃狀態</label>
+                                    <select class="input-medium popWindow-s2">
+                                        <option value="">乾淨</option>
+                                        <option value="">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth editClean-btn"
+                                                role="button">清掃
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">待檢查
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.clean 彈出視窗 -->
+
+    <!-- 點擊清掃 彈出視窗 -->
+    <div id="editClean-Dialog" class="hide padding-5 lost-found-wrap">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+
+                        <div class="main-content-data">
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input class="input-medium popWindow-s2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>原清掃狀態</label>
+                                    <input class="input-medium popWindow-s2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>新清掃狀態</label>
+                                    <input class="input-medium popWindow-s2" type="text">
+                                </div>
+                            </div>
+                            <hr>
+                            <h4 class="text-center">房號602房間狀態更改成功!</h4>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">清掃
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">待檢查
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.點擊清掃 彈出視窗 -->
+
+    <!-- lost found 彈出視窗 -->
+    <div id="lost-found-page" class="hide padding-5 lost-found-wrap">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+
+                        <div class="main-content-data">
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>編號</label>
+                                    <input class="input-medium popWindow-s1-col2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>報失/拾獲/領回日期</label>
+                                    <input class="input-medium popWindow-s1-col2" type="date">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>報失/拾獲物品</label>
+                                    <input class="input-medium popWindow-s1-col2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>報失/食或地點</label>
+                                    <input class="input-medium popWindow-s1-col2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>報失/拾獲/領回者</label>
+                                    <input class="input-medium popWindow-s1-col2" type="text">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>狀態</label>
+                                    <input class="input-medium popWindow-s1-col2" type="text" placeholder="'1','2','3','4','5'">
+                                    <span class="moreClick bs-company-totalMain lfMore">...</span>
+                                </div>
+                            </div>
+                            <table id="lostFound-table"></table>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">查詢
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">清除查詢
+                                        </button>
+                                    </li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">新增
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">新增報失
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">新增拾獲
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
+                                                role="button">修改
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" disabled>拾獲
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">刪除
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" disabled>遺失者領回
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" disabled>拾獲者領回
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" >批次拾獲者領回
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" >以下全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button" >以下全不選
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.lost found -->
+
+    <!-- 失物明細 彈出視窗 -->
+    <div id="lost-found-modify" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>編號</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                </div>
+                                <br>
+                                <div class="clearfix"></div>
+                                <div class="grid-item">
+                                    <label>遺失日期</label>
+                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>遺失時間</label>
+                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>狀態</label>
+                                    <input type="time" class="input-medium medium-c1" placeholder="" disabled/>
+                                </div>
+
+                            </div>
+                            <!--<div class="space-custom-5"></div>-->
+
+                            <div class="grid">
+
+                                <div class="grid-item">
+                                    <label>遺失者</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label></label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
+                                    <button class="btn btn-primary btn-white">查詢住客</button>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>遺失物品</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="(可記載顏色、大小 ...等特徵)"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>C/O日期</label>
+                                    <input type="date" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input type="text" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>遺失處</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>遺失備註</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="grid">
+                                <div class="clearfix"></div>
+                                <div class="grid-item">
+                                    <label>拾獲日期</label>
+                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>拾獲時間</label>
+                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
+                                </div>
+                            </div>
+                            <!--<div class="space-custom-5"></div>-->
+
+                            <div class="grid">
+
+                                <div class="grid-item">
+                                    <label>拾獲者</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label></label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="" disabled/>
+                                    <button class="btn btn-primary btn-white">查詢住客</button>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>拾獲物品</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="(可記載顏色、大小 ...等特徵)"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>C/O日期</label>
+                                    <input type="date" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input type="text" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>拾獲處</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>拾獲備註</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="grid">
+                                <div class="clearfix"></div>
+                                <div class="grid-item">
+                                    <label>領回日期</label>
+                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>領回時間</label>
+                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
+                                </div>
+                            </div>
+                            <!--<div class="space-custom-5"></div>-->
+
+                            <div class="grid">
+
+                                <div class="grid-item">
+                                    <label>領回者</label>
+                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label></label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="" disabled/>
+                                    <button class="btn btn-primary btn-white">查詢住客</button>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>身分證字號</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>C/O日期</label>
+                                    <input type="date" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input type="text" class="input-medium resvCard" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>領回備註</label>
+                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
+                                </div>
+                            </div>
+                                <div class="grid">
+                                    <div class="clearfix"></div>
+                                    <div class="grid-item">
+                                        <label>輸入者</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="2017/06/19"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>輸入日</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder=": :"/>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="clearfix"></div>
+                                    <div class="grid-item">
+                                        <label>最後異動者</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>最後異動日</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder=": :"/>
+                                    </div>
+                                </div>
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Resolved</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Unresolved</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Edit</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- 失物明細 彈出視窗 -->
+
     <!-- PMS0120020 選項 PMS0120020Option 彈出視窗 -->
     <div id="PMS0120010Option-message" class="hide padding-5">
         <div class="businessCompanyData">
@@ -13,7 +630,7 @@
                                             role="button">Pick up</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth pbx-btn"
                                             role="button">Pbx/Tv</button>
                                 </div>
                                 <div class="col-xs-4">
@@ -32,7 +649,7 @@
                                             role="button">Message</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth lost-found-btn"
                                             role="button">Lost&found</button>
                                 </div>
                                 <div class="col-xs-4">

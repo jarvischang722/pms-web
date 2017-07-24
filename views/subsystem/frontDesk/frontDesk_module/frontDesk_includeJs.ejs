@@ -53,6 +53,21 @@
             });
         });
 
+        // 彈出 lost found
+        $(document).on('click', ".lost-found-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lost-found-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Lost & Found",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         $('[data-rel=tooltip]').tooltip();
 

@@ -291,8 +291,8 @@
   font-weight: 400;
 }
 
-/* line 154, ../sass/vendor/_grid.sass */
-.moreClick {
+/* line 155, ../sass/vendor/_grid.sass */
+.grid-textArea .moreClick {
   height: 25px;
   border: 1px solid #d5d5d5;
   background: #d5d5d5;
@@ -3989,13 +3989,33 @@ span.triangle-text {
   padding-top: 10px;
 }
 
-/* line 1474, ../sass/_bacchusMain.sass */
-.cashier-main-wrap .counterBlock span {
+/* line 1475, ../sass/_bacchusMain.sass */
+.rulesOfSeparation .counterBlock span {
   width: 70px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   display: inline-block;
+}
+
+/* line 1485, ../sass/_bacchusMain.sass */
+.lost-found-wrap .grid-item label {
+  width: 120px;
+}
+
+/* line 1488, ../sass/_bacchusMain.sass */
+.pbx-clean-box {
+  border: 1px solid #000;
+}
+
+/* line 1490, ../sass/_bacchusMain.sass */
+.green-box {
+  width: 70px;
+  height: 25px;
+  border-radius: 5px;
+  float: right;
+  background: green;
+  margin-left: 5px;
 }
 
 /*------  共用區public ------ */
