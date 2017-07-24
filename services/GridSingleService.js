@@ -243,7 +243,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             callback(err, pageField);
                         });
                     },
-                    // 找dt datagrid欄位資廖
+                    // 找dt datagrid欄位資料
                     function (pageField, callback) {
                         mongoAgent.UIDatagridField.find({
                             prg_id: prg_id,
@@ -257,7 +257,8 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                         if (pageField) {
                             mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
-                                ui_field_name: pageField.ui_field_name
+                                page_id: 2,
+                                template_id:'datagrid'
                             }, function (err, grid) {
                                 callback(err, grid);
                             });
