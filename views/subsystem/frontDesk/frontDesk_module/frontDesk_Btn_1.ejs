@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">拆併床</button>
+                                            role="button">bedSetting</button>
                                 </div>
                             </div>
                         </div>
@@ -1095,9 +1095,132 @@
     </div>
     <!-- /.PMS0120020 prePayBtn5 foCnt_prePayBtn5-->
 
-    <!-- PMS0120020 demolitionBed foCnt_demolitionBed 彈出視窗 -->
-    <div id="foCnt_demolitionBed-message" class="hide padding-5">
+    <!-- PMS0120020 bedSetting foCnt_bedSetting 彈出視窗 -->
+    <div id="foCnt_bedSetting-message" class="hide padding-5">
         <div class="businessCompanyData">
+            <!-- search content -->
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>樓層</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房種</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房號</label>
+                                                <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                <span class="moreClick">...</span>
+                                            </div>
+                                        </div>
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item foCntRadio">
+                                                <label class="pull-left">拆併床狀態</label>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">拆床</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">併床</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">無設定</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                                <div class="searchRadio pull-left">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">全部</span>
+                                          </label>
+                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
@@ -1106,60 +1229,74 @@
                                 <!--1-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>樓層</label>
-                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                        <span class="moreClick">...</span>
-                                    </div>
-                                </div>
-                                <!--2-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>房種</label>
-                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                        <span class="moreClick">...</span>
-                                    </div>
-                                </div>
-                                <!--3-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>房號</label>
-                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                        <span class="moreClick">...</span>
-                                    </div>
-                                </div>
-                                <!--4-->
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>查詢拆併床狀態</label>
-                                        <input type="radio" class="input-medium medium-c1" placeholder=""/>拆床
-                                        <input type="radio" class="input-medium medium-c1" placeholder=""/>併床
-                                        <input type="radio" class="input-medium medium-c1" placeholder=""/>無設定
-                                        <input type="radio" class="input-medium medium-c1" placeholder=""/>全部
-                                    </div>
-                                </div>
+                                        <label>設定拆病床狀態</label>
 
-                                <div class="space-6"></div>
-                                <p class="notice">*注意：新增及刪除動作均要儲存後，其結果才生效</p>
-                                <!--PMS0210020 foCnt_prePayment table-->
-                                <table id="foCnt_prePayment-table" style="height: 200px;"></table>
+                                        <select class="input-medium resvCard-col2">
+                                            <option value="1">(無設定)</option>
+                                            <option value="2">拆床</option>
+                                            <option value="3">併床</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
 
-                                <div class="searchCheckbox pull-left">
-                                    <span class="checkbox">
-                                      <label class="checkbox-width" style="width: auto;">
-                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                          <span class="lbl">只顯示正常資料</span>
-                                      </label>
-                                    </span>
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
+
+                                            <th class="css_th" style="min-width:70px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">房種</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">拆併床</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">303</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">305</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td bgLGrey">DXT</td>
+                                            <td class="css_td bgLGrey">307</td>
+                                            <td class="css_td bgLGrey">拆床</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">506</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td">DXT</td>
+                                            <td class="css_td">507</td>
+                                            <td class="css_td">拆床</td>
+                                            <td class="css_td text-center"><input type="checkbox"/></td>
+                                            <td class="css_td bgLGrey">DXT</td>
+                                            <td class="css_td bgLGrey">1001</td>
+                                            <td class="css_td bgLGrey">拆床</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                            <td class="css_td">STD</td>
+                                            <td class="css_td">1003</td>
+                                            <td class="css_td">拆床</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="searchCheckbox pull-left">
-                                    <span class="checkbox">
-                                      <label class="checkbox-width" style="width: auto;">
-                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                          <span class="lbl">只顯示今天以後資料</span>
-                                      </label>
-                                    </span>
-                                </div>
-                                <div class="clearfix"></div>
                             </div><!--main-content-data-->
                         </div>
                     </div>
@@ -1169,31 +1306,15 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Add</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                role="button">Delete</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">Save</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">重新讀取</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_prePayBtn5"
-                                                role="button">帳戶明細</button>
+                                                role="button">全選</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">轉至住客帳</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">批次新增</button>
+                                                role="button">取消全選</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
