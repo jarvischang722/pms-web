@@ -85,3 +85,10 @@ exports.getRoomTypeUploadPic = function (req, res) {
 exports.getPMS0830080 = function (req, res) {
     res.render("subsystem/setup/PMS0830080");
 };
+
+/**
+ * 區域別(靜態)
+ */
+exports.getPMS0860030 = function (req, res) {
+    res.render("subsystem/setup/PMS0860030");
+};
