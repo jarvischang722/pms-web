@@ -19,10 +19,8 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        // var ls_sys_default = postData.
-        var lo_view_seq = _.findWhere(postData, {ui_field_name: "view_seq"});
-        // lo_view_seq.modificable = ls_sys_default.modificable == "Y" ? "N" : "Y";
-        callback(lo_error, [lo_view_seq]);
+        postData.field.modificable = postData.singleRowData.sys_default == "Y" ? "N" : "Y";
+        callback(lo_error, [postData.field]);
     },
     chk_hfd_use_dt_begin_end_dat: function (postData, session, callback) {
         let ls_rentCalDat;
@@ -50,7 +48,7 @@ module.exports = {
         });
 
         function qryHfdUseDtData(cb) {
-            params.item_cod = postData.rowData.item_cod;
+            params.item_cod = postData.editData.item_cod;
             queryAgent.queryList("qry_hfd_use_dt".toUpperCase(), params, 0, 0, function (err, getResult) {
                 if (getResult) {
                     la_dtData = getResult;
@@ -73,11 +71,11 @@ module.exports = {
             let lo_endDat = "";
             rent_cal_dat = new Date(rent_cal_dat);
 
-            if (!_.isUndefined(postData.rowData.begin_dat)) {
-                lo_beginDat = moment(new Date(postData.rowData.begin_dat));
+            if (!_.isUndefined(postData.editData.begin_dat)) {
+                lo_beginDat = moment(new Date(postData.editData.begin_dat));
             }
-            if (!_.isUndefined(postData.rowData.end_dat)) {
-                lo_endDat = moment(new Date(postData.rowData.end_dat));
+            if (!_.isUndefined(postData.editData.end_dat)) {
+                lo_endDat = moment(new Date(postData.editData.end_dat));
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
@@ -98,11 +96,11 @@ module.exports = {
                 let lb_chkBeginDat;
                 let lb_chkEndDat;
                 let ls_repeatMsg;
-                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.rowData.key_nos)});
+                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.editData.key_nos)});
 
 
                 _.each(la_dtData, function (comparDT, compIdx) {
-                    if (comparDT.key_nos != postData.rowData.key_nos) {
+                    if (comparDT.key_nos != postData.editData.key_nos) {
                         lb_chkBeginDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_beginDat);
                         lb_chkEndDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_endDat);
                         if (lb_chkBeginDat && lb_chkEndDat) {
@@ -120,10 +118,6 @@ module.exports = {
         }
     },
 
-    // 此rule 有問題待討論
-    r_HfduserfSave: function (postData, session, callback) {
-    },
-
     r_HfduserfSaveDel: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
@@ -132,7 +126,7 @@ module.exports = {
             chkSysDefault,
             chkItemIsUse
         ], function (err, result) {
-            if(err){
+            if (err) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
                 lo_error.errorMsg = "系統預設，不可刪除";
@@ -154,13 +148,40 @@ module.exports = {
                 hotel_cod: session.user.hotel_cod,
                 item_cod: postData.singleData.item_cod
             };
-            queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function(err, qryResult){
-                if(!_.isNull(qryResult)){
+            queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function (err, qryResult) {
+                if (!_.isNull(qryResult)) {
                     return cb(true, "已使用中,不可刪除");
                 }
                 cb(null, "");
             });
         }
+
+    },
+
+    r_HfduserfBegindatAttr: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+        let dtData = postData.dtData;
+        let field = postData.field;
+
+        // let begin_dat
+
+
+        callback(lo_error, lo_result);
+    },
+
+    r_pms0820050_add: function(postData, session, callback){
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        queryAgent.query("R_PMS0820050_ADD", lo_params, function(err, result){
+
+            callback(lo_error, lo_result);
+        });
+
 
     }
 };

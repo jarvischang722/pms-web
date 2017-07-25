@@ -50,7 +50,7 @@ module.exports = {
             }
 
             result.modifiedRowData = singleRowData;
-            callback(err, result)
+            callback(err, result);
         });
 
     },

@@ -529,6 +529,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 data: dtDataGridRows,
                 onEndEdit: function (index, row, changes) {
                     self.tempExecData(row);
+
                 },
                 onDropColumn: function () {
                     //當移動順序欄位時
@@ -546,6 +547,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         ,
         onClickDtCell: function (index, field) {
             if (this.dtEditIndex != index) {
+                $('#dt_dg').datagrid('acceptChanges');
                 if (this.endDtEditing()) {
                     $("#dt_dg").datagrid('selectRow', index).datagrid('beginEdit', index);
 
@@ -695,6 +697,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
 
             this.tmpCud[dataType].push(rowData);
+
         },
         filterLocaleContent: function (langContent, locale, field_name) {
             var m_lang_val = "";
@@ -718,7 +721,6 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.loadDataGridByPrgID(function (success) {
         });
-        this.loadSingleGridPageField();
     },
     data: {
         isDatepickerInit: false,
@@ -785,15 +787,16 @@ var vm = new Vue({
                 waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
+                console.log(vm.pageOneDataGridRows, vm.pageOneFieldData);
                 vm.showCheckboxDG();
                 vm.showDataGrid();
                 callback(result.success);
             });
         },
         //抓取page_id 2 單頁顯示欄位
-        loadSingleGridPageField: function () {
+        loadSingleGridPageField: function (callback) {
 
-            $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
+            $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2, singleRowData: vm.editingRow}, function (result) {
 
                 var fieldData = result.fieldData;
 
@@ -810,6 +813,7 @@ var vm = new Vue({
 
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
+                callback(result);
             });
 
         },
@@ -960,20 +964,22 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.editStatus = true;
             vm.editingRow = editingRow;
-            editingRow["prg_id"] = prg_id;
-            $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
-                var dtData = result.dtData || [];
-                if (result.success) {
-                    vm.singleData = result.rowData;
-                    vm.modificableForData = result.modificable || true;
-                    vm.dtData = dtData;
-                    vmHub.$emit('showDtDataGrid', dtData);
-                    callback(true);
-                } else {
-                    vm.singleData = {};
-                    callback(false);
-                }
+            this.loadSingleGridPageField(function(result){
+                editingRow["prg_id"] = prg_id;
+                $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+                    var dtData = result.dtData || [];
+                    if (result.success) {
+                        vm.singleData = result.rowData;
+                        vm.modificableForData = result.modificable || true;
+                        vm.dtData = dtData;
+                        vmHub.$emit('showDtDataGrid', dtData);
+                        callback(true);
+                    } else {
+                        vm.singleData = {};
+                        callback(false);
+                    }
 
+                });
             });
         },
         //init datepicker

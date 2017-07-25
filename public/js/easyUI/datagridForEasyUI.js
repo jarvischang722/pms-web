@@ -271,12 +271,15 @@ var EZfieldClass = {
 function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
-        selectDataRow[fieldAttrObj.ui_field_name] =  newValue;
+        var editDataRow = {};
+        $.extend( editDataRow, selectDataRow );
+        editDataRow[fieldAttrObj.ui_field_name] = newValue;
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: selectDataRow,
+            editData: editDataRow,
             newValue: newValue,
             oldValue: oldValue
         };
@@ -307,17 +310,18 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
 
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
-                var effectValues = result.effectValues;
-                var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-                isUserEdit = false;
-                $('#' + dgName).datagrid('endEdit', indexRow);
-                $('#' + dgName).datagrid('updateRow', {
-                    index: indexRow,
-                    row: effectValues
-                });
-
-                $('#' + dgName).datagrid('beginEdit', indexRow);
-                isUserEdit = true;
+                $('#' + dgName).datagrid('rejectChanges');
+            //     var effectValues = result.effectValues;
+            //     var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+            //     isUserEdit = false;
+            //     $('#' + dgName).datagrid('endEdit', indexRow);
+            //     $('#' + dgName).datagrid('updateRow', {
+            //         index: indexRow,
+            //         row: effectValues
+            //     });
+            //
+            //     $('#' + dgName).datagrid('beginEdit', indexRow);
+            //     isUserEdit = true;
             }
         });
     }

@@ -45,4 +45,14 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0820050'] 預設為目前已存在資料顯示順序最大值加1 -->
+    <dao name="R_PMS0820050_ADD">
+        <statement><![CDATA[
+         select nvl(max(view_seq),0) + 1 as view_seq from hfd_use_rf where athena_id = :athena and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
