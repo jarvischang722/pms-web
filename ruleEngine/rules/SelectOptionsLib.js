@@ -229,6 +229,25 @@ exports.getMasteRrfMasterStaList = function () {
 };
 
 /**
+ * 取得PMS0840030 使用狀態
+ * @returns {Array}
+ */
+exports.getIsCanUseStaList = function () {
+    var contractTypList = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '停用',
+            value: 'N'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
  * 取得地址類別
  * @returns {Array}
  */
@@ -331,6 +350,22 @@ exports.checkStaIsDefaultList = function () {
     }, {
         Y: '預設',
         N: '非預設'
+    }];
+
+    return checkList;
+};
+
+/**
+ * checkbox是否使用(PMS0860070)
+ * @returns
+ */
+exports.checkStaIsCheckedList = function () {
+    var checkList = [{
+        on: 'Y',
+        off: 'N'
+    }, {
+        Y: '打勾',
+        N: '不打勾'
     }];
 
     return checkList;
@@ -586,7 +621,7 @@ exports.chkHfdorderconfirmrfContent = function(params,callback){
 };
 
 /**
- * PMS0830090 MasterSta
+ * PMS0830090 MasterTyp
  * @param params
  */
 exports.qryMasterrfMastertyp = function(params,callback){
@@ -596,11 +631,51 @@ exports.qryMasterrfMastertyp = function(params,callback){
 };
 
 /**
- * PMS0830090 MasterTyp
+ * PMS0830090 MasterSta
  * @param params
  */
 exports.qryMasterrfMastersta = function(params,callback){
     var lo_result = new ReturnClass();
-    lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
+    lo_result.selectOptions = optionsLib.getMasteRrfMasterStaList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否打勾可修改金額
+ * @param params
+ */
+exports.qryHkproductrfAmodifysta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否打勾要服務費
+ * @param params
+ */
+exports.qryHkproductrfServicesta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否要扣庫存
+ * @param params
+ */
+exports.qryHkproductrfInvsta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否要使用狀態
+ * @param params
+ */
+exports.qryHkproductrfUsesta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUseStaList();
     callback(null,lo_result);
 };

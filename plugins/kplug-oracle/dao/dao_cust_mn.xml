@@ -68,4 +68,15 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <statement test="_v(param.cshow_cod)"><![CDATA[and show_cod = :cshow_cod]]></statement>
     </dao>
+
+    <!--[PMS0830090] 顯示cshow_cod跳出訊息的選擇客戶代號 -->
+    <dao name="QRY_CUSTMN_DEPOSIT_NOS">
+        <statement><![CDATA[
+              select show_cod ,cust_nam ,cust_typ
+               from cust_mn where athena_id = ? and show_cod = ? and status_cod <> 'D'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">show_cod</parameter>
+    </dao>
 </root>

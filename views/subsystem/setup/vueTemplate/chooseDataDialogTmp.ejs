@@ -18,14 +18,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <input type="text" style="width: 100%" class="numStyle-none">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button style="width: 100%"
-                                            class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                            @click="btnSearchData">
-                                        <%= __("SystemCommon").Search %>
-                                    </button>
+                                    <input type="text" style="width: 100%" class="numStyle-none" @keyup="txtSearchChangeText">
                                 </div>
                             </div>
                         </div>

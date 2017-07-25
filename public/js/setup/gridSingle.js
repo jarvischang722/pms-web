@@ -232,9 +232,12 @@ Vue.component("field-multi-lang-dialog-tmp", {
 /** 顯示多欄位**/
 Vue.component('text-select-grid-dialog-tmp', {
     template: "#chooseDataDialogTmp",
-    props: ['selectGridData','updateFieldNameTmp','fieldNameConditionTmp'],
-    data: {
-        fieldNameConditionTmp:[]
+    props: [],
+    data: function () {
+        return {
+            fieldNameConditionTmp: [],
+            updateFieldNameTmp: []
+        }
     },
     created: function () {
         var self = this;
@@ -245,17 +248,21 @@ Vue.component('text-select-grid-dialog-tmp', {
     methods: {
         //顯示點選textgrid跳出來的視窗
         showTextDataGrid: function (result) {
+            var self = this;
             var textDataGrid = result.showDataGrid;
             var updateFieldName = result.updateFieldNameTmp;
             var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
-            vm.fieldNameConditionTmp=[];
+            this.fieldNameConditionTmp = [];
+
             delete textDataGrid ['errorMsg'];
             var columnsData = [];
-            var textDataGridArray = Object.keys(textDataGrid).map(function(key){return textDataGrid[key]});
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+                return textDataGrid[key]
+            });
 
             for (var col in textDataGrid[0]) {
-                _.each(fieldNameChangeLanguage,function (name,field) {
-                    if(col == field) {
+                _.each(fieldNameChangeLanguage, function (name, field) {
+                    if (col == field) {
                         columnsData.push({
                             type: 'textbox',
                             field: col,
@@ -263,34 +270,35 @@ Vue.component('text-select-grid-dialog-tmp', {
                             width: 200,
                             align: "left"
                         });
-                        vm.fieldNameConditionTmp.push({value:name,display:field});
+                        self.fieldNameConditionTmp.push({value: field, display: name});
                     }
                 })
+
             }
 
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
                 // collapsible: true,
                 // remoteSort: false,
-                 singleSelect: true,
+                singleSelect: true,
                 // selectOnCheck: true,
                 // checkOnSelect: true,
-                data:textDataGridArray,
-                width:500
+                data: textDataGridArray,
+                width: 500
             }).datagrid('columnMoving');
-            //vm.fieldNameConditionTmp = fieldNameCondition;
-            vm.updateFieldNameTmp = updateFieldName;
+            self.updateFieldNameTmp = updateFieldName;
 
         },
         //將選擇到的資料帶回Page2
-        chooseDataBackGridSingle:function () {
+        chooseDataBackGridSingle: function () {
+            var self = this;
             var selectTable = $('#chooseGrid').datagrid('getSelected');
-            var chooseData=vm.updateFieldNameTmp;
-            var updateFieldName = vm.updateFieldNameTmp;
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
 
-            _.each(selectTable,function (selectValue,selectField) {
-                _.each(updateFieldName,function (updateValue,updateField) {
-                    if(selectField == updateValue){
+            _.each(selectTable, function (selectValue, selectField) {
+                _.each(updateFieldName, function (updateValue, updateField) {
+                    if (selectField == updateValue) {
                         chooseData[updateField] = selectValue;
                     }
                 })
@@ -298,8 +306,25 @@ Vue.component('text-select-grid-dialog-tmp', {
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataTextGridDialog").dialog('close');
         },
-        btnSearchData:function () {
-            
+        btnSearchData: function () {
+
+        },
+        txtSearchChangeText: function (keyContent) {
+            var allData = $('#chooseGrid').datagrid('getData');
+            var selectFieldName = $('#cbSelect').val();
+
+
+            var dataGrid = _.filter(allData.rows, function (row) {
+
+                //console.log($.contains(row[selectFieldName].trim(),keyContent.key.trim()));
+                console.log(row[selectFieldName]);
+                console.log(keyContent.key);
+                console.log(row[selectFieldName].includes(keyContent.key));
+               return row;
+            });
+            //console.log(dataGrid);
+
+
         }
     }
 });
@@ -308,7 +333,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectTextGridData','updateBackSelectData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectTextGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -352,7 +377,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         vmHub.$on('updateBackSelectData', function (chooseData) {
             console.log(chooseData);
             console.log(self.singleData);
-            _.each(Object.keys(chooseData),function (key) {
+            _.each(Object.keys(chooseData), function (key) {
 
                 self.singleData[key] = chooseData[key] || "";
             })
@@ -424,7 +449,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 };
 
                 $.post("/api/selectGridData", params, function (result) {
-                    if(result != null) {
+                    if (result != null) {
                         vm.selectTextGridData = result.showDataGrid;
                         vmHub.$emit('showTextDataGrid', result);
                         vm.showTextGridDialog();
