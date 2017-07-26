@@ -11,7 +11,7 @@ var ga_colorAry = [];
  * @param vm
  * @constructor
  */
-var AdapterDatagrid = function(vm){
+var AdapterDatagrid = function (vm) {
     this.tempExecData = vm.tempExecData;
 };
 
@@ -52,11 +52,11 @@ var EZfieldClass = {
             dataType = 'combogrid';
         }
 
-        var tmpFieldObj  = fieldAttrObj;
+        var tmpFieldObj = fieldAttrObj;
 
-        tmpFieldObj.field =  fieldAttrObj.ui_field_name.toLowerCase();
+        tmpFieldObj.field = fieldAttrObj.ui_field_name.toLowerCase();
         tmpFieldObj.title = fieldAttrObj.ui_display_name;
-        tmpFieldObj.sortable= true;
+        tmpFieldObj.sortable = true;
 
 
         tmpFieldObj.editor = {
@@ -88,10 +88,10 @@ var EZfieldClass = {
         // Formatter 顯示資料
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                if(date != "" && !_.isUndefined(date)){
+                if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
-                else{
+                else {
                     return new moment().format("YYYY/MM/DD");
                 }
 
@@ -122,19 +122,19 @@ var EZfieldClass = {
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
-                if(date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD HH:mm:ss");
                 }
-                else{
+                else {
                     return moment().format("YYYY/MM/DD HH:mm:ss");
                 }
             };
 
             var datetimeFuncParser = function (date) {
-                if(date != "" && !_.isUndefined(date)) {
+                if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-                else{
+                else {
                     return new Date();
                 }
             };
@@ -200,7 +200,7 @@ var EZfieldClass = {
                         disabled: disabled
                     });
                 }
-                else{
+                else {
                     ga_colorAry[index].color = color_val;
                 }
 
@@ -269,17 +269,17 @@ var EZfieldClass = {
 
 // onchange執行時，檢查規則
 function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
-    if (newValue != oldValue) {
+    if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
-        var editDataRow = {};
-        $.extend( editDataRow, selectDataRow );
-        editDataRow[fieldAttrObj.ui_field_name] = newValue;
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+        var rowData = $('#' + dgName).datagrid('getRows')[indexRow];
+        if (rowData.createRow == "Y")
+            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: selectDataRow,
-            editData: editDataRow,
             newValue: newValue,
             oldValue: oldValue
         };
@@ -310,18 +310,27 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
 
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
-                $('#' + dgName).datagrid('rejectChanges');
-            //     var effectValues = result.effectValues;
-            //     var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-            //     isUserEdit = false;
-            //     $('#' + dgName).datagrid('endEdit', indexRow);
-            //     $('#' + dgName).datagrid('updateRow', {
-            //         index: indexRow,
-            //         row: effectValues
-            //     });
-            //
-            //     $('#' + dgName).datagrid('beginEdit', indexRow);
-            //     isUserEdit = true;
+                var effectValues = result.effectValues;
+                isUserEdit = false;
+                $('#' + dgName).datagrid('endEdit', indexRow);
+                $('#' + dgName).datagrid('updateRow', {
+                    index: indexRow,
+                    row: effectValues
+                });
+
+                $('#' + dgName).datagrid('beginEdit', indexRow);
+                isUserEdit = true;
+            }
+
+            if (!result.isModifiable) {
+                var la_readonlyFields = _.uniq(result.readonlyFields);
+                _.each(la_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
             }
         });
     }

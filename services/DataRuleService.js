@@ -117,20 +117,37 @@ exports.getSelectOptions = function (params, selRow, callback) {
  * @return callback
  */
 exports.handleBlurUiField = function (postData, session, callback) {
-
     if (!_.isUndefined(ruleAgent[postData.rule_func_name])) {
 
         ruleAgent[postData.rule_func_name](postData, session, function (err, result) {
             callback(err, result);
         });
-
     } else {
         var errorObj = new ErrorClass();
         errorObj.errorMsg = "Not found rule function.";
         callback(errorObj, new ReturnClass());
-
     }
+};
 
+exports.handleClickUiRow = function (postData, session, callback) {
+    let la_dtField = postData.dtField;
+
+    let funcField = _.filter(la_dtField, function (dtField) {
+        return dtField.rule_func_name != "";
+    });
+
+    if(funcField.length != 0) {
+        _.each(funcField, function (dtField, Idx) {
+            ruleAgent[dtField.rule_func_name](postData, session, function (err, result) {
+                if (Idx + 1 == funcField.length) {
+                    callback(err, result);
+                }
+            });
+        });
+    }
+    else{
+        callback(null, "");
+    }
 };
 
 /**
@@ -178,6 +195,15 @@ exports.handleAddFuncRule = function (postData, session, callback) {
 
 
 };
+
+//TODO: 小良Rule完成後可刪
+exports.getKeyNos = function(postData, session, callback){
+    queryAgent.query("QRY_MAX_KEY_NOS", "",  function(err, getResult){
+        let lo_result = new ReturnClass();
+        lo_result.defaultValues = {key_nos: getResult.max_key_nos};
+        callback(null, lo_result);
+    });
+}
 
 /**
  * 按下編輯按鈕
@@ -446,7 +472,11 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let page_id = postData.page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
-    mongoAgent.DatagridFunction.findOne({prg_id: prg_id, page_id: Number(page_id), func_id: '0300'}, function (err, deleteRule) {
+    mongoAgent.DatagridFunction.findOne({
+        prg_id: prg_id,
+        page_id: Number(page_id),
+        func_id: '0300'
+    }, function (err, deleteRule) {
 
         var beforeDeleteFuncRule = !err && deleteRule ? deleteRule.toObject().rule_func_name : "";
         if (!_.isEmpty(beforeDeleteFuncRule) && !_.isUndefined(ruleAgent[beforeDeleteFuncRule])) {

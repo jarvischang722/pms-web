@@ -42,13 +42,14 @@ module.exports = {
                 lo_result.success = false;
                 lo_error.errorMsg = result;
                 lo_error.errorCod = "1111";
+                // postData.rowData[postData.validateField] = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
             callback(lo_error, lo_result);
         });
 
         function qryHfdUseDtData(cb) {
-            params.item_cod = postData.editData.item_cod;
+            params.item_cod = postData.rowData.item_cod;
             queryAgent.queryList("qry_hfd_use_dt".toUpperCase(), params, 0, 0, function (err, getResult) {
                 if (getResult) {
                     la_dtData = getResult;
@@ -71,11 +72,11 @@ module.exports = {
             let lo_endDat = "";
             rent_cal_dat = new Date(rent_cal_dat);
 
-            if (!_.isUndefined(postData.editData.begin_dat)) {
-                lo_beginDat = moment(new Date(postData.editData.begin_dat));
+            if (!_.isUndefined(postData.rowData.begin_dat)) {
+                lo_beginDat = moment(new Date(postData.rowData.begin_dat));
             }
-            if (!_.isUndefined(postData.editData.end_dat)) {
-                lo_endDat = moment(new Date(postData.editData.end_dat));
+            if (!_.isUndefined(postData.rowData.end_dat)) {
+                lo_endDat = moment(new Date(postData.rowData.end_dat));
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
@@ -86,21 +87,25 @@ module.exports = {
                 }
                 // 2) 判斷結束日與滾房租日
                 if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    lo_result.isModifiable = false;
+                    lo_result.readonlyFields.push("end_dat");
+                    lo_result.readonlyFields.push("item_qnt");
                     return cb(true, "結束日不可小於滾房租日");
                 }
                 // 3) 判斷開始日與滾房租日
                 if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    lo_result.isModifiable = false;
+                    lo_result.readonlyFields.push("begin_dat");
                     return cb(true, "開始日不可小於滾房租日");
                 }
                 // 4) 判斷區間是否重疊
                 let lb_chkBeginDat;
                 let lb_chkEndDat;
                 let ls_repeatMsg;
-                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.editData.key_nos)});
-
+                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.rowData.key_nos)});
 
                 _.each(la_dtData, function (comparDT, compIdx) {
-                    if (comparDT.key_nos != postData.editData.key_nos) {
+                    if (comparDT.key_nos != postData.rowData.key_nos) {
                         lb_chkBeginDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_beginDat);
                         lb_chkEndDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_endDat);
                         if (lb_chkBeginDat && lb_chkEndDat) {
@@ -178,7 +183,7 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
         queryAgent.query("R_PMS0820050_ADD", lo_params, function(err, result){
-
+            lo_result.defaultValues = {view_seq: result.view_seq};
             callback(lo_error, lo_result);
         });
 

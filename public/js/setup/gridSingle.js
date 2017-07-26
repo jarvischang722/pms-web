@@ -249,7 +249,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-            dtEditIndex: undefined
+            dtEditIndex: undefined,
+            key_nos: 0
         };
     },
     watch: {
@@ -288,14 +289,14 @@ Vue.component('sigle-grid-dialog-tmp', {
             self.tempExecData(row);
         });
 
-    }
-    ,
+    },
+
     methods: {
         //打開單欄多語編輯
         editFieldMultiLang: function (fieldInfo) {
             vmHub.$emit('editFieldMultiLang', fieldInfo);
-        }
-        ,
+        },
+
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
@@ -343,6 +344,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
         },
+
         chkClickTextGrid: function (ui_field_name, rule_func_name, ui_type) {
             //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
 
@@ -350,40 +352,40 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                 vm.showTextGridDialog();
             }
-        }
-        ,
+        },
+
         //到第一筆
         toFirstData: function () {
             this.isFistData = true;
             this.isLastData = false;
             this.editingRow = _.first(this.pageOneDataGridRows);
             this.emitFetchSingleData();
-        }
-        ,
+        },
+
         //上一筆
         toPreData: function () {
             var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
             this.emitFetchSingleData();
 
-        }
-        ,
+        },
+
         //下一筆
         toNextData: function () {
             var nowRowIndex = $("#dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex + 1];
             this.emitFetchSingleData();
 
-        }
-        ,
+        },
+
         //最後一筆
         toLastData: function () {
             this.isFistData = false;
             this.isLastData = true;
             this.editingRow = _.last(this.pageOneDataGridRows);
             this.emitFetchSingleData();
-        }
-        ,
+        },
+
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
@@ -408,26 +410,26 @@ Vue.component('sigle-grid-dialog-tmp', {
                     });
                 }
             });
-        }
-        ,
+        },
+
         //關閉
         emitCloseGridDialog: function () {
+            this.dtEditIndex = undefined;
             this.$emit('close-single-grid-dialog');
-        }
+        },
 
-        ,
         //抓取單筆資料
         emitFetchSingleData: function () {
             var params = this.editingRow;
             this.$emit('fetch-single-data', params, function (success) {
             });
-        }
-        ,
+        },
+
         //新增模式
         emitAppendRow: function () {
             this.$emit('append-row');
-        }
-        ,
+        },
+
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
 
@@ -453,8 +455,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                     this.tmpCud.editData = [this.singleData];
                 }
 
-
                 //先驗證有無欄位沒驗證過的
+                console.log(this.tmpCud);
                 this.$emit('do-save-cud', function (success) {
                     if (success) {
                         //儲存後離開
@@ -490,8 +492,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
 
-        }
-        ,
+        },
+
         /**  DT Data grid event**/
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
@@ -518,6 +520,15 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                 });
             }
+            //TODO: 小良Rule完成後可刪
+            if(prg_id == "PMS0820050"){
+                $.post("/api/getKeyNos", function(getResult){
+                    if(getResult){
+                        self.key_nos = getResult.defaultValues.key_nos;
+                    }
+                });
+            }
+
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [columnsData],
@@ -529,7 +540,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 data: dtDataGridRows,
                 onEndEdit: function (index, row, changes) {
                     self.tempExecData(row);
-
                 },
                 onDropColumn: function () {
                     //當移動順序欄位時
@@ -539,20 +549,20 @@ Vue.component('sigle-grid-dialog-tmp', {
                     //當欄位時寬度異動時
                     self.doSaveColumnFields();
                 },
-                onClickCell: self.onClickDtCell
+                onClickCell: self.onClickDtCell,
+
+                onClickRow: self.onClickDtRow
 
 
             }).datagrid('columnMoving');
-        }
-        ,
+        },
+
         onClickDtCell: function (index, field) {
             if (this.dtEditIndex != index) {
-                $('#dt_dg').datagrid('acceptChanges');
                 if (this.endDtEditing()) {
                     $("#dt_dg").datagrid('selectRow', index).datagrid('beginEdit', index);
 
                     var ed = $("#dt_dg").datagrid('getEditor', {index: index, field: field});
-
                     if (ed) {
                         ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                     }
@@ -563,8 +573,50 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }, 0);
                 }
             }
-        }
-        ,
+        },
+
+        onClickDtRow: function (index, dtRow) {
+            var lo_params = {
+                dtField: this.pageTwoDataGridFieldData,
+                rowData: dtRow
+            };
+            $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
+                if (chkResult.success) {
+                    //是否要show出訊息
+                    if (chkResult.showAlert) {
+                        alert(chkResult.alertMsg);
+                    }
+
+                    //是否要show出詢問視窗
+                    if (chkResult.showConfirm) {
+                        if (confirm(chkResult.confirmMsg)) {
+                            //有沒有要再打一次ajax到後端
+                            if (chkResult.isGoPostAjax) {
+                                $.post(chkResult.ajaxURL, postData, function (ajaxResult) {
+                                    if (!ajaxResult.success) {
+                                        alert(ajaxResult.errorMsg);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+                else {
+                    alert(chkResult.errorMsg);
+                    if (!chkResult.isModifiable) {
+                        var la_readonlyFields = _.uniq(chkResult.readonlyFields);
+                        _.each(la_readonlyFields, function (field) {
+                            var lo_editor = $('#dt_dg').datagrid('getEditor', {
+                                index: index,
+                                field: field
+                            });
+                            $(lo_editor.target).textbox("readonly", true);
+                        });
+                    }
+                }
+            });
+        },
+
         //結束編輯dt
         endDtEditing: function () {
             if (this.dtEditIndex == undefined) {
@@ -577,8 +629,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
             return false;
 
-        }
-        ,
+        },
+
         //儲存page2 datagrid欄位屬性
         doSaveColumnFields: function () {
 
@@ -620,6 +672,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     "col_seq": fIdx,
                     "visiable": "Y"
                 };
+
                 columnOption = _.extend(columnOption, currentColumOption);
                 saveField.push(columnOption);
 
@@ -629,8 +682,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 page_id: 2,
                 fieldOptions: saveField
             });
-        }
-        ,
+        },
+
         //新增一個Dt Row
         appendDtRow: function () {
             var self = this;
@@ -647,8 +700,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
 
             }
-        }
-        ,
+        },
+
         //刪除選定Dt的Row
         removeDtRow: function () {
             var self = this;
@@ -676,10 +729,11 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             });
 
-        }
-        ,
+        },
+
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
+            var self = this;
             rowData["mnRowData"] = this.singleData;
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
@@ -690,15 +744,17 @@ Vue.component('sigle-grid-dialog-tmp', {
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = rowData[field_name] || "";
             });
+
             //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
             var existIdx = _.findIndex(this.tmpCud[dataType], condKey);
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-
+            rowData.key_nos = this.key_nos;
             this.tmpCud[dataType].push(rowData);
 
         },
+
         filterLocaleContent: function (langContent, locale, field_name) {
             var m_lang_val = "";
             var fIdx = _.findIndex(langContent, {locale: locale});
@@ -745,8 +801,8 @@ var vm = new Vue({
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
-        dtMultiLangField: []  //Dt 多語編輯欄位
-        , dialogVisible: false
+        dtMultiLangField: [],  //Dt 多語編輯欄位
+        dialogVisible: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -787,7 +843,6 @@ var vm = new Vue({
                 waitingDialog.hide();
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
-                console.log(vm.pageOneDataGridRows, vm.pageOneFieldData);
                 vm.showCheckboxDG();
                 vm.showDataGrid();
                 callback(result.success);
@@ -796,7 +851,11 @@ var vm = new Vue({
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function (callback) {
 
-            $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2, singleRowData: vm.editingRow}, function (result) {
+            $.post("/api/singleGridPageFieldQuery", {
+                prg_id: prg_id,
+                page_id: 2,
+                singleRowData: vm.editingRow
+            }, function (result) {
 
                 var fieldData = result.fieldData;
 
@@ -925,6 +984,7 @@ var vm = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
+            console.log(vm.tmpCud);
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -947,24 +1007,24 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
-                if (result.success) {
-                    vm.singleData = result.defaultValues;
-                    vm.showSingleGridDialog();
-                    vmHub.$emit('showDtDataGrid', []);
-                } else {
-                    alert(result.errorMsg);
-                }
-
+            this.loadSingleGridPageField(function (success) {
+                $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
+                    if (result.success) {
+                        vm.singleData = result.defaultValues;
+                        vm.showSingleGridDialog();
+                        vmHub.$emit('showDtDataGrid', []);
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
             });
-
         },
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
             vm.initTmpCUD();
             vm.editStatus = true;
             vm.editingRow = editingRow;
-            this.loadSingleGridPageField(function(result){
+            this.loadSingleGridPageField(function (result) {
                 editingRow["prg_id"] = prg_id;
                 $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                     var dtData = result.dtData || [];
