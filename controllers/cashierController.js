@@ -13,3 +13,9 @@ var roleSvc = require("../services/RoleFuncService");
 exports.getPMS0320010 = function (req, res) {
     res.render("subsystem/cashier/PMS0320010");
 };
+/**
+ * 住客帳維護(靜態)
+ */
+exports.getPMS0310010 = function (req, res) {
+    res.render("subsystem/cashier/PMS0310010");
+};

@@ -1,6 +1,15 @@
 <script type="text/javascript">
     jQuery(function () {
 
+        // tabs setting
+        $('.easyUi-custom1').tabs({
+            // 可以resize 左右，但height 會變大
+//            fit: true,
+//            height: auto
+        });
+
+
+        $('[data-rel=tooltip]').tooltip();
         /***
          * PMS0210020 綜合櫃檯
          */
@@ -214,7 +223,6 @@
         });
 
 
-        $('[data-rel=tooltip]').tooltip();
 
         // 櫃檯備品 screen小於1280縮小
 //        var $window = $(window),
@@ -458,7 +466,7 @@
                 {field: 'ciTime', title: 'C/I時間', width: 60},
                 {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
                 {field: 'resvNum', title: '訂房卡號', width: 80},
-                {field: 'coRemark', title: 'C/O備註', width: 150}
+                {field: 'coRemark', title: 'C/O備註', width: 250}
             ]]
         });
 
