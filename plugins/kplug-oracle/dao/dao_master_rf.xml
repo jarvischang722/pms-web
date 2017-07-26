@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <!-- ['PMS0830090'] 取得公帳號設定master_rf(多筆) -->
-    <dao name="QRY_QRY_MASTER_RF">
+    <dao name="QRY_MASTER_RF">
         <statement><![CDATA[
              select a.athena_id, a.hotel_cod, a.master_nos, a.master_typ, a.master_sta, a.cust_cod, a.deposit_nos, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr,b.alt_nam,c.show_cod,c.cust_nam
             from master_rf a
-            left join deposit_mn b on b.athena_id = :athena_id and b.deposit_nos = a.deposit_nos
-            left join cust_mn c on c.athena_id= :athena_id  and c.cust_cod = a.cust_cod
-            where a.athena_id = :athena_id  and a.hotel_cod = :athena_id
+            left join deposit_mn b on trim(b.athena_id) = :athena_id and b.deposit_nos = a.deposit_nos
+            left join cust_mn c on trim(c.athena_id)= :athena_id  and c.cust_cod = a.cust_cod
+            where trim(a.athena_id) = :athena_id  and trim(a.hotel_cod) = :hotel_cod
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
@@ -15,13 +15,14 @@
     </dao>
 
     <!-- ['PMS0830090'] 取得公帳號設定master_rf(單筆) -->
-    <dao name="QRY_SINGLE_QRY_MASTER_RF">
+    <dao name="QRY_SINGLE_MASTER_RF">
         <statement><![CDATA[
-             select a.athena_id, a.hotel_cod, a.master_nos, a.master_typ, a.master_sta, a.cust_cod, a.deposit_nos, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr,b.alt_nam,c.show_cod,c.cust_nam
+            select a.athena_id, a.hotel_cod, a.master_nos, a.master_typ, a.master_sta, a.cust_cod, a.deposit_nos, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr,b.alt_nam,c.show_cod,c.cust_nam
             from master_rf a
-            left join deposit_mn b on b.athena_id = :athena_id and b.deposit_nos = a.deposit_nos
-            left join cust_mn c on c.athena_id= :athena_id  and c.cust_cod = a.cust_cod
-            where a.athena_id = :athena_id  and a.hotel_cod = :athena_id and a.master_nos = :master_nos
+            left join deposit_mn b on trim(b.athena_id) = :athena_id and b.deposit_nos = a.deposit_nos
+            left join cust_mn c on trim(c.athena_id)= :athena_id  and c.cust_cod = a.cust_cod
+            where trim(a.athena_id) = :athena_id  and trim(a.hotel_cod) = :hotel_cod and a.master_nos = :master_nos
+
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>

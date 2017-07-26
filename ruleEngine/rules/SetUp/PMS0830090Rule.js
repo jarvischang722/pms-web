@@ -16,6 +16,15 @@ module.exports = {
     //「類別」為『N:指定使用』時,一定要輸入『客戶代號』
     r_MasterrfSaveModify : function (postData, session, callback) {
         var lo_result = new ReturnClass();
+        var lo_error = null;
+        var masterTyp = postData.singleRowData.master_typ;
+        var showCod = postData.singleRowData.show_cod;
+
+        if(masterTyp == "N"){
+            if(showCod != ""){
+                callback(lo_error,lo_result);
+            }
+        }
         callback(null,lo_result);
     },
     //「類別」為「系統自動給號」，且「目前狀態」不為「使用中」時，才能刪除

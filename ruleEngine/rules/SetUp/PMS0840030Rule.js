@@ -53,7 +53,6 @@ module.exports = {
 
         if( serviceStaValue == "N"){
             if(servratValue != "0"){
-                lo_error = new ErrorClass();
                 // postData.singleRowData.serv_rat = "0";
                 // lo_result.effectValues = postData.singleRowData;
                 lo_error.succeed
@@ -63,5 +62,11 @@ module.exports = {
         }else {
             callback(lo_error, lo_result);
         }
+    },
+    //顯示順序,目前已存在的資料的最大值+1
+    rHkproductrfIns:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        callback(lo_error, lo_result);
     }
 }
