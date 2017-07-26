@@ -12,29 +12,19 @@
                             <div class="search-co-h">
                                 <i class="ace-icon fa fa-search search-icon"></i>
                                 <span>搜尋</span>
-                                <div class="row search-right-btn">
-                                    <div class="right-btn-menu-co">
-                                        <ul>
-                                            <li>
-                                                <i class="fa fa-chevron-down show-search-detail"></i>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <!--<div class="row search-right-btn">-->
+                                    <!--<div class="right-btn-menu-co">-->
+                                        <!--<ul>-->
+                                            <!--<li>-->
+                                                <!--<i class="fa fa-chevron-down show-search-detail"></i>-->
+                                            <!--</li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
                             <div class="row">
-                                <div class="search-co-content col-xs-12">
-                                    <div class="col-sm-4">
 
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                    </div>
-                                </div>
-                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                <div class="search-co-content col-xs-12 rece-search-detail">
                                     <div class="row search-footer-btn">
                                         <div class="footer-btn-menu-co">
                                             <ul>
@@ -75,7 +65,7 @@
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>訂房公司</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
                                             </div>
 
                                             <div class="searchCheckbox pull-left">
@@ -101,6 +91,14 @@
                                                     <option value="3">DXK</option>
                                                     <option value="4">DXT</option>
                                                 </select>
+                                            </div>
+                                            <div class="searchCheckbox pull-left">
+                                                <span class="checkbox">
+                                                  <label class="checkbox-width">
+                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                      <span class="lbl">package</span>
+                                                  </label>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -130,10 +128,6 @@
                                             role="button">選擇房價資料</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">訂房</button>
-                                </li>
-                                <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth resv_counterSupplies"
                                             role="button">Item Iny.</button>
                                 </li>
@@ -147,7 +141,7 @@
                 </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-        <div class="space-12"></div>
+        <div class="space-4"></div>
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
@@ -160,6 +154,10 @@
                 <div class="row">
                     <div class="right-menu-co">
                         <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">訂房</button>
+                            </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth"
                                         role="button">清除房價資料</button>

@@ -170,19 +170,20 @@
 </div>
 
 <script>
-    var socket = io.connect('/webStatus');
-    socket.emit("checkSessionExist");
+    var g_socket = io.connect('/system');
+    var gs_clientSocketID = randomWord(false, 30); //產生網頁唯一的ID
+    g_socket.emit("checkSessionExist");
 
     //接收session 剩餘時間
-    socket.on("sessionTimeLeft", function (data) {
+    g_socket.on("sessionTimeLeft", function (data) {
         var timeLeft = data.timeLeft;
         var mm = String(Math.floor(timeLeft / 60));
-        var ss = String(timeLeft % 60);
+        var ss = timeLeft % 60 >= 10 ? String(timeLeft % 60) : "0" + String(timeLeft % 60);
         $("#timeLeft").text(mm + ":" + ss);
     })
 
     //接收socket 回傳
-    socket.on("sessionStatus", function (session) {
+    g_socket.on("sessionStatus", function (session) {
         var inst = $('[data-remodal-id=sessionModal]').remodal();
         inst.open();
     })
@@ -198,7 +199,7 @@
     })
 
     function updateDateTime() {
-        var datetime = moment(new Date()).format("YYYY/MM/DD A hh:mm:ss");
+        var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
         $("#datetimeSpan").html(datetime);
     }
     function doLogout() {
@@ -212,6 +213,26 @@
                 location.reload();
             }
         })
+    }
+
+    /*
+     ** randomWord 產生任意長度随機字母數字组合
+     ** randomFlag-是否任意长度 min-任意长度最小位[固定位数] max-任意長度最大位
+     */
+    function randomWord(randomFlag, min, max) {
+        var str = "",
+            range = min,
+            arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+        // 隨機產生
+        if (randomFlag) {
+            range = Math.round(Math.random() * (max - min)) + min;
+        }
+        for (var i = 0; i < range; i++) {
+            var pos = Math.round(Math.random() * (arr.length - 1));
+            str += arr[pos];
+        }
+        return str;
     }
 
 </script>

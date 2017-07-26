@@ -55,6 +55,9 @@ a
   @media screen and (max-width: 1030px)
     font-size: 12px
 /*-- optionSystem --/
+@mixin optionCircle($w:150px,$h:150px)
+  width: $w
+  height: $h
 .optionSystem
   .banner
     width: 100%
@@ -64,33 +67,53 @@ a
     line-height: $lineHeight22
   // optionSystem hover text
   .system-block-all
-    margin: 50px 0 0 0
-  .system-block
-    margin: 0 0 0 30px
     display: inline-block
-  .imgWrap
-    position: relative
-    display: inline-block
-    margin: 0 15px 0 0
-    span.text-content
-      background: rgba(0,0,0,0.5)
-      color: white
-      cursor: pointer
-      display: table
-      height: 150px
-      position: absolute
-      left: 0
-      top: 0
-      width: 150px
-      border-radius: 150px
-      opacity: 0
-    span.text-content span
-      display: table-cell
-      text-align: center
-      vertical-align: middle
-    &:hover .text-content
-      visibility: visible
-      opacity: 1
+    .system-block
+      display: inline-block
+      .imgWrap
+        +optionCircle
+        position: relative
+        display: inline-block
+        margin: 0 15px 0 0
+        .circle-bg
+          +optionCircle
+          +border-radius(50%)
+          border: 0px solid #000000
+          background: #438EB9
+          font-size: 36px
+          color: #fff
+          display: inline-block
+          padding: 49px 10px 0px 10px
+          text-align: center
+          vertical-align: top
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          &.circle-bg-blue
+            background: #438EB9
+          &.circle-bg-orange
+            background: $orange
+          &.circle-bg-green
+            background: $green
+        span.text-content
+          +optionCircle
+          background: rgba(0,0,0,0.5)
+          color: white
+          cursor: pointer
+          display: table
+          position: absolute
+          left: 0
+          top: 0
+          border-radius: 150px
+          opacity: 0
+          .optionTip
+            display: table-cell
+            text-align: center
+            vertical-align: middle
+        &:hover .text-content
+          visibility: visible
+          opacity: 1
+
 
 /*-- footer --*/
 .bacchus-footer
@@ -844,7 +867,7 @@ ul.newVisitOther-btn
       word-break: break-all
       word-wrap: break-word
 
-//int_Counter．html
+// PMS0110000 訂房卡 分帳規則
 .rulesOfSeparation
   //position: relative
   max-height: 600px
@@ -886,6 +909,12 @@ ul.newVisitOther-btn
         position: absolute
         top: 25px
         left: 5px
+        span
+          width: 103px
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          display: inline-block
       .content-sub
         .left
           position: absolute
@@ -906,6 +935,144 @@ ul.newVisitOther-btn
         right: 5px
         span
           color: #D15B47
+
+// PMS0210020 綜合櫃檯
+.foCounter
+  .counterPage
+    //position: relative
+    max-height: 600px
+    overflow: auto
+    .counterRow
+      //margin: 0 auto
+      .counterBlock
+        float: left
+        margin: 0 1px 1px 0
+        border: 1px solid #fff
+        position: relative
+        padding: 5px
+        //min-width: 100%
+        //min-height: 100%
+        width: 129px
+        height: 74px
+        line-height: 23px
+        box-sizing: border-box
+        background: #c0d6ee
+        color: #000
+        font-size: 11px
+        cursor: pointer
+        @include color-bk
+        &:hover
+          opacity: 0.6
+        .head
+          .left
+            position: absolute
+            top: 5px
+            left: 5px
+          .right
+            position: absolute
+            top: 5px
+            right: 5px
+          .txt-lg
+            font-weight: bold
+            font-size: 18px
+            line-height: 18px
+        .content
+          position: absolute
+          top: 25px
+          left: 5px
+        .content-sub
+          .left
+            position: absolute
+            top: 45px
+            left: 5px
+        .foot
+          position: absolute
+          bottom: 5px
+          left: 5px
+          .red-tip
+            span
+              color: #ff0000
+        //font-weight: bold
+        //font-size: 14px
+        .foot-right
+          position: absolute
+          bottom: 5px
+          right: 5px
+          span
+            color: #D15B47
+
+  .counter-right
+    min-height: 200px
+    max-height: 100%
+    overflow-y: auto
+    label
+      font-size: 9px
+
+  // int_counter floorPlan-table
+  .floorPlan-table
+    table
+      border: 1px solid #a0a8b4
+      width: 100%
+      th,td
+        border: 1px solid #a0a8b4
+        padding-left: 2px
+      tr
+        th
+          background: #c0d6ee
+        td
+          word-break: break-all
+          .moreInfo
+            background: #bfbfbf
+            border: none
+            float: right
+            height: 20px
+          .float-left
+            float: left
+          .float-right
+            float: right
+          &.roomNum
+            box-sizing: border-box
+            font-size: 1.5em
+            font-style: italic
+            font-weight: bold
+            color: #DD5A43
+            border: 2px solid #DD5A43
+    .customInfo-table
+      width: 100%
+      .table-left,.table-right
+        float: left
+      .table-left
+        width: 25%
+        margin: 0 3% 0 0
+      .table-right
+        width: 72%
+    .fav
+      table
+        width: 100%
+        th
+          width: 20%
+        td
+          width: 80%
+
+  //.show-intCounterRight
+  //  display: none
+  .intCounterRight
+    display: none
+  .intCounterleft
+    position: relative
+  .show-intCounterRight
+    float: right
+    display: block
+    i
+      border: 1px solid #8fbcd9
+      padding: 3px 10px
+      cursor: pointer
+    color: #70a0c1
+    //line-height: 1.42857143
+    span
+      margin: 0 0 0 2px
+      font-size: 14px
+      line-height: 2
 
 
 //Ho-鎖控
@@ -1076,20 +1243,13 @@ ul.newVisitOther-btn
 .room-color
   background: #ffe5d5 !important
 .name-color
-  background: #f7ccac !important
-  &:after
-    border-color: transparent transparent transparent #0000FF
-    border-style: solid solid solid solid
-    border-width: 45px
+  background: #e3efdb !important
   text-align: center
 .datecolor
   background: #DAEAFC !important
-.roomPlanTable tbody td
-  //min-width: 50px
-  //padding: 0 1px
-  //white-space: nowrap
+//.roomPlanTable
 .room-table-container
-  overflow: hidden
+  overflow-y: auto
   display: block
   .roomPlan-table
     .ca-center
@@ -1108,8 +1268,8 @@ ul.newVisitOther-btn
   padding-right: 5px
   padding-bottom: 1px
 .roomPlan-Num2
-  position: absolute
-  right: 19%
+  //position: absolute
+  //right: calc(100% - 79%)
   border-left: 1px solid #888
   padding-left: 5px
   padding-right: 5px
@@ -1118,8 +1278,9 @@ th.dateColor
   text-align: center
 .roomPlanTable.fancyTable tbody tr td .datecolor
   background-color: #DAEAFC !important
-.roomPlanTable td
-  min-width: 60px
+.roomPlanTable td,
+.roomPlanTable th
+  //min-width: 30px
   white-space: nowrap
 .roomPlanTable thead:first-child
   min-width: 200px
@@ -1133,31 +1294,6 @@ th.dateColor
   font-size: 14px
 .otherContact-insideBtn
   margin-top: 70px
-
-//ho進入頁
-.system-box-Wrap
-  width: 150px
-  height: 150px
-  display: inline-block
-  margin-left: 20px
-.system-box-Wrap .circle-background
-  width: 150px
-  height: 150px
-  border-radius: 50%
-  background: #438EB9
-  font-size: 36px
-  color: #fff
-  display: block
-  float: left
-  padding: 49px 10px 0px 10px
-  text-align: center
-  vertical-align: top
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
-.system-block-all
-  display: inline-block
-  text-align: center
 
 //.message-lbl
 //  position: relative
@@ -1232,23 +1368,25 @@ input[type="datetime-local"]
   height: 40px
 .roomNum-wrap
   border-top: 1px solid #778899
-  height: 20px
+  height: 19px
   margin-bottom: 0
   //display: table-cell
-  i
-    padding-right: 0 !important
-.month-wrap
-  padding: 3px 0
+  .roomNum-text
+    margin-left: -23%
+    i
+      padding-right: 0 !important
+//.month-wrap
+//  padding: 3px 0
 .room-Num-Right
   border-left: 1px solid #778899
-  display: inline-block
-  //height: 30px
-  padding-right: 10px
+  //display: inline-block
+  ////height: 30px
+  //padding-right: 3px
 .room-Num-Left
   display: inline-block
   //height: 30px
 span.roomNum-text
-  vertical-align: sub
+  //vertical-align: sub
   padding-left: 3px
 .roomPlanTable .height-fntThead
   padding-bottom: 0px !important
@@ -1256,4 +1394,132 @@ span.roomNum-text
 .input-medium.resvCard-xxs
   width: 27px
   height: 18px
+//td div.triangle-box
+//  width: 100%
+//  line-height: 20px
+//  background: mediumaquamarine
+//  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
+//  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
+//ho-表格td長六角形
+td div.triangle-box
+  width: 80%
+  height: 19px
+  /* margin-left: 18px; */
+  margin: 0px auto
+  color: #000
+  position: relative
+  background-color: #f8cbac !important
+
+td div.triangle-box:before,
+td div.triangle-box:after
+  content: ""
+  border-style: solid
+  border-width: 0
+  height: 19px
+  position: absolute
+  width: 0
+  border-color: transparent #f8cbac
+
+
+td div.triangle-box:before
+  left: -10px
+  border-width: 9px 10px 9px 0px
+
+td div.triangle-box:after
+  right: -10px
+  border-width: 9px 0 9px 10px
+
+//ho-分帳規則
+.cashierSetting-btn-wrap
+  margin-top: 10px
+
+.rules-notice
+  color: red
+.rules-wrap
+  margin-bottom: 30px
+//.rules-wrap .counterRow .counterBlock
+//  //background: #8080ff
+.purple-text
+  color: #DD5A43 !important
+
+.cashierSetting-left
+  &.css_table
+    .css_td
+      background: #e6e6ff
+      &.active
+        background: #fff !important
+        color: #000 !important
+span
+  &.triangle-text
+    width: 100%
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+.month-wrap
+  width: 90%
+  margin: 0 auto
+  padding: 5px 0
+.roomPlanTable
+  .col-xs-6
+    text-align: center
+    display: inline-table
+
+.cashier-top-wrap
+  margin: 15px 15px
+  padding-top: 10px
+
+.rulesOfSeparation
+  .counterBlock
+    span
+      width: 70px
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      display: inline-block
+
+//Lost&found
+.lost-found-wrap
+  .grid-item
+    label
+      width: 120px
+//pbx
+.pbx-clean-box
+  //width: 360px
+  padding-top: 7px
+  fieldset
+    display: block
+    //height: 300px
+    border: 1px solid #000
+    padding: 12px
+    legend
+      width: auto
+      border-bottom: 0px
+      margin-bottom: 3px
+  hr
+    clear: both
+.green-box
+  width: 70px
+  height: 25px
+  border-radius: 5px
+  float: right
+  background: #00ff00
+  margin-left: 5px
+  border: 1px solid #000
+.single-grid
+  width: 300px
+.pbxPhone-box
+  margin-top: 65px
+  .grid
+    button
+      width: 100%
+      margin-bottom: 11px
+//L&F
+.lf-btn-box
+  ul
+    li
+      button
+        margin-bottom: 5px
+.lf-more-topWrap
+  margin-bottom: 5px

@@ -20,7 +20,6 @@
                                                     ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
                                                 </a>
                                             </li>
-
                                         </ul>
                                         <div class="tab-content">
                                             <!-- 對照檔內容 -->
@@ -56,14 +55,8 @@
 
 </div>
 <script>
-    var url_hash = window.location.hash.replace("#", "");
-    if (!_.isEmpty(url_hash)) {
-        $("#MainContentDiv").load(url_hash);
-    }
-    var gs_mdl_id = '<%= mdl_id %>';
-    var socket = io.connect('/setup');
-    var userInfo = <%- JSON.stringify(session.user) %>;
 
+    var gs_mdl_id = '<%= mdl_id %>';
     var vmMain = new Vue({
         el: '#main-container',
         data: {
@@ -77,17 +70,13 @@
             prosList: []
         },
         mounted: function () {
-            //偵測離開頁面
-            $(window).on('beforeunload', function () {
-                if (!_.isEmpty(vmMain.usingPrgID)) {
-                    return vmMain.doTableUnLock();
-                }
-
-            });
-
             this.loadProcess();
         },
-        watch: {},
+        watch: {
+            usingPrgID: function (usingPrgID) {
+                setupCookie("lockingPrgID", usingPrgID)
+            }
+        },
         methods: {
             //打開第一個對照檔
             doFirstPrg: function () {
@@ -98,7 +87,6 @@
             //讀取此Module 所有對照檔
             loadProcess: function () {
                 this.prosList = [];
-
                 $.post("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}, function (result) {
 
                     if (result.success) {
@@ -110,9 +98,9 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (doingPrgID) {
+//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
-//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.handleClearHtml();
                 this.goTopForPage();
                 this.checkTmpNotEmpty(doingPrgID);
@@ -138,28 +126,28 @@
             },
             // 讓捲軸用動畫的方式移動到 0 的位置
             goTopForPage: function () {
-                var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                var $body = (window.opera) ? (document.compatMode == "CSS1Compat"
+                    ? $('html') : $('body')) : $('html,body');
                 $body.animate({
                     scrollTop: 0
                 }, 600);
             },
             //資料表上鎖
             doTableLock: function (prg_id) {
-                socket.emit('handleTableLock', {
+                g_socket.emit('handleTableLock', {
                     'prg_id': prg_id,
-                    'user': userInfo
+                    'clientSocketID': gs_clientSocketID
                 })
             },
             //資料表解鎖
             doTableUnLock: function (callback) {
-                socket.emit('handleTableUnlock', {
-                    'prg_id': vmMain.usingPrgID,
-                    'user': userInfo
+                g_socket.emit('handleTableUnlock', {
+                    'prg_id': getCookie("lockingPrgID")
                 })
                 callback(null, true);
             },
             //判斷是否有正在編輯的程式
-            checkTmpNotEmpty(doingPrgID){
+            checkTmpNotEmpty: function (doingPrgID) {
                 var oldPrgId = this.usingPrgID;
                 var datagridEdit = $("#gridEdit").val();
                 if (!_.isEmpty(datagridEdit)) {
@@ -174,7 +162,7 @@
                 }
             },
             //用jquery load 讀取html 有時會有些殘留的沒清掉，故須處理
-            handleClearHtml(){
+            handleClearHtml: function () {
                 /** 把dialog 在div產生的html 刪除, 不然會導致另一個對照檔開錯dialog **/
                 $("#prgContentDiv").empty();
                 $(".panel.window").remove();
@@ -186,7 +174,7 @@
     })
 
     //Lock 結果
-    socket.on('checkTableLock', function (result) {
+    g_socket.on('checkTableLock', function (result) {
         vmMain.isTableLockProcessing = false;
         vmMain.isTableLocked = !result.success;
         vmMain.tableLockMsg = result.errorMsg;

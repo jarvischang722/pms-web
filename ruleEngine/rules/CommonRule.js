@@ -41,4 +41,4 @@ module.exports = {
         return lo_common;
     }
 
-}
+};

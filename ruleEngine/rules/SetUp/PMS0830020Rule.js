@@ -19,7 +19,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        var isDeleteRow = (postData.rowData.modify_sta == "N") ? false : true;
+        var isDeleteRow = postData.rowData.modify_sta == "N" ? false : true;
 
         if (isDeleteRow == false) {
             lo_error = new ErrorClass();
@@ -37,7 +37,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        var isDeleteRow = (postData.rowData.modify_sta == "N") ? false : true;
+        var isDeleteRow = postData.rowData.modify_sta == "N" ? false : true;
 
         if (isDeleteRow == false) {
             lo_error = new ErrorClass();
@@ -62,7 +62,7 @@ module.exports = {
         };
 
         // 1.欄位modify_sta不為’Y’的，則不可刪除
-        var isDeleteRow = (modifySta != "Y") ? false : true;
+        var isDeleteRow = modifySta != "Y" ? false : true;
 
         // 2.檢查若服務項目設定有使用，則不可刪除
         queryAgent.query("chk_serv_type_rf_is_exist_service_rf".toUpperCase(), params, function (err, chkResult) {
@@ -77,4 +77,4 @@ module.exports = {
             }
         });
     }
-}
+};

@@ -13,12 +13,12 @@ var ReturnClass = require(ruleRootPath+"/returnClass");
 var ErrorClass = require(ruleRootPath+"/errorClass");
 
 module.exports = {
-    chkHfdLivecodrfDel:function (postData,session,callback) {
+    chkHfdLivecodrfDel: function (postData,session,callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params={
-            athena_id : session.user.athena_id,
-            live_cod : postData.singleRowData.live_cod
+            athena_id: session.user.athena_id,
+            live_cod: postData.singleRowData.live_cod
         };
 
         if(!_.isEmpty(postData.singleRowData.live_cod.trim())) {
@@ -37,7 +37,7 @@ module.exports = {
                 {
                     callback(err,lo_result);
                 }
-            })
+            });
         }
     }
-}
+};

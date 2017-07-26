@@ -1,0 +1,12 @@
+{"total":28,
+  "rows":[
+    {"dateOfEntry":"2017/03/28","serviceDate":"2017/03/28","projectCode":"1002:房租服務費","unitPrice":"420","quantity":"1","subtotal":"420","star":"*","status":"正常","residentAccSingle":"2017032800170F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10035"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"2017/03/29","serviceDate":"2017/03/29","projectCode":"1002:房租","unitPrice":"4,200","quantity":"1","subtotal":"4,200","star":"*","status":"正常","residentAccSingle":"2017032800140F0 01","addBy":"cio","addDate":"2017/07/06 10:19:05","updBy":"","updDate":"","sort":"10036"},
+    {"dateOfEntry":"","serviceDate":"","projectCode":"","unitPrice":"","quantity":"有效合計","subtotal":"71,700","star":"","status":"","residentAccSingle":"","addBy":"","addDate":"","updBy":"","updDate":"","sort":""}
+  ]}
+

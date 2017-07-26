@@ -150,12 +150,12 @@ function convUtcToDate(lo_data, fieldAttrs) {
             }
         } else {
             var patternDat = /_dat$/i; //找尋欄位是dat或date結尾
-            if (patternDat.test(fieldName)) {
-                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
-            }
 
             if (fieldName == 'ins_dat' || fieldName == 'upd_dat') {
                 lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
+            }
+            else if (patternDat.test(fieldName)){
+                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
             }
         }
     });

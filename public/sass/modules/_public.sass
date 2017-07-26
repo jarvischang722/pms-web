@@ -119,6 +119,8 @@ a
   color: $brown !important
 .grey
   color: $grey !important
+.bgLGrey
+  background: $light-grey !important
 .light-grey
   color: $light-grey !important
 .orangeBlock1
@@ -169,9 +171,11 @@ $medium-c3-card: 212px
     +input-s1(488px)
     //todo resvRoomTyprBtn2
   &.medium-c1-col2v2
-    +input-s1(435px)
+    +input-s1(434px)
+  &.medium-c1-col2v2Remark
+    +input-s1(407px)
   &.medium-c1-Full
-    +input-s1(703px)
+    +input-s1(702px)
   &.medium-c2
     +input-s1(179px)
     @media screen and (min-width: 768px) and (max-width: 1030px)
@@ -238,8 +242,10 @@ $medium-c3-card: 212px
     +input-s1(200px)
   &.popWindow-s1v2-keyword
     +input-s1(460px)
-  &.popWindow-s1v2-col3
+  &.popWindow-s1v2-col4
     +input-s1(562px)
+  &.popWindow-s1v2-col4RM
+    +input-s1(535px)
   &.resvCard
     +input-s1(103px)
   &.resvCard-date
@@ -247,23 +253,27 @@ $medium-c3-card: 212px
   &.resvCardRemark
     +input-s1(77px)
   &.resvCard-col2
-    +input-s1(308px)
+    +input-s1(310px)
   &.resvCard-col3
     +input-s1(719px)
   &.resvCard-col2Spec1
     +input-s1(250px)
   &.resvCard-col2Remark
     +input-s1(283px)
+  &.resvCard-col2Remark2
+    +input-s1(265px)
   &.resvCard-fullRemark
     +input-s1(698px)
   &.resvCard-col3-fullRemark
     +input-s1(490px)
   &.resvCard-xs
     +input-s1(40px)
+  &.resvCard-2xs
+    +input-s1(26.7px)
   &.resvCard-sm
     +input-s1(81px)
   &.ca-select
-    +input-s1(55px)
+    +input-s1(65px)
   &.checkMail
     +input-s1(530px)
   &.large-c1
@@ -413,6 +423,16 @@ input[type="datetime-local"]
 .totalMiddle
   display: inline-block
   vertical-align: middle
+
+.searchCheckbox
+  margin-right: 5px
+  .checkbox
+    margin: 3px auto 0 auto
+    label
+      padding-left: 10px
+      .lbl
+        &:before
+          margin-right: 3px
 
 //scroll-bar style
 // https://codepen.io/kqlambert/pen/tbJCD?editors=1100

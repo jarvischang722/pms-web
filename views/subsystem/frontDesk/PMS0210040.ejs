@@ -1,7 +1,7 @@
 <!--page-content-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
-<!-- overBooking Page-->
+<!-- FrontDesk Groups Page-->
     <div class="row">
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
@@ -141,6 +141,14 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">團體明細</button>
                             </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth groups_noAdmit"
+                                        role="button">團體多筆(未)</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth groups_admit"
+                                        role="button">團體多筆(已)</button>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -149,31 +157,11 @@
         <div class="clearfix"></div>
 
     </div>
+    <!--  接待 彈出視窗內容(jing)-->
+    <%- include frontDesk_module/frontDesk_Btn_1.ejs %>
+    <!--  /.End 接待 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
-<script type="text/javascript">
-    $(function (){
-        // 團體管理 dataGrid
-        $('#front_groups-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/front_groups.json',
-            method: 'get',
-            columns: [[
-                {field: 'publicAccount', title: '公帳號', width: 80},
-                {field: 'groups', title: '團號', width: 80},
-                {field: 'touristGuide', title: '導遊', width: 80},
-                {field: 'publicAccName', title: '公帳號名稱', width: 80},
-                {field: 'publicAccStatus', title: '公帳狀態', width: 80},
-                {field: 'resvCard', title: '訂房卡號', width: 80},
-                {field: 'resvStatus', title: '訂房卡狀態', width: 80},
-                {field: 'ciDate', title: '入住日期', width: 100},
-                {field: 'coDate', title: '退房日期', width: 100}
-            ]]
-        });
-
-
-    });
-
-</script>
+<!--  接待共用 initial js -->
+<%- include frontDesk_module/frontDesk_includeJs.ejs %>
+<!--  /.End 接待共用 initial js  -->

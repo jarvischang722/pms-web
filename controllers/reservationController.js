@@ -83,8 +83,14 @@ exports.getResv_roomPlan = function (req, res) {
     res.render("subsystem/reservation/resv_roomPlan");
 };
 /**
- * 櫃檯備品iframe(靜態u)
+ * 櫃檯備品iframe(靜態)
  */
 exports.getResv_counterSuppliesTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/counterSupplies-Table_1");
+};
+/**
+ * 交辦事項(靜態)
+ */
+exports.getPMS0120070 = function (req, res) {
+    res.render("subsystem/reservation/PMS0120070");
 };

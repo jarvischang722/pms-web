@@ -17,14 +17,16 @@ function DatagridBaseClass() {
     this.dgName = "";
     this.prg_id = "";
     this.page_id = 1;
-    this.fieldData = [];
+    this.fieldsData = [];
     this.editIndex = undefined;
 
     //datagrid 初始化
-    this.init = function (prg_id, dgName, columns) {
+    this.init = function (prg_id, dgName, columns, fieldsData) {
+
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.columns = columns;
+        self.fieldsData = fieldsData;
         $('#' + dgName).datagrid({
             columns: [columns],
             remoteSort: false,
@@ -40,8 +42,6 @@ function DatagridBaseClass() {
             onSortColumn: this.doSortColumn
         }).datagrid('columnMoving');
     };
-
-
 
 
     /**
@@ -140,7 +140,8 @@ function DatagridBaseClass() {
      * @param index {Number}
      * @param row  {Object}
      */
-    this.onClickRow = function (index, row) {};
+    this.onClickRow = function (index, row) {
+    };
 
 
     /**
@@ -205,16 +206,8 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
-            var ui_type = currentColumOption.ui_type;
-            var columnOption = {
-                "prg_id": prg_id,
-                "ui_field_name": field,
-                "ui_type": ui_type,
-                "col_seq": fIdx,
-                "visiable": "Y"
-            };
-            columnOption = _.extend(columnOption, currentColumOption);
-            saveField.push(columnOption);
+            currentColumOption.col_seq = fIdx;
+            saveField.push(_.extend(currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {
@@ -229,9 +222,12 @@ function DatagridBaseClass() {
      * @param rowData 要處理的那筆資料
      */
     this.doTmpExecData = function (rowData) {
+
+
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
-        var keyVals = _.pluck(_.where(this.columns, {keyable: 'Y'}), "field");
+        var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
+
         var condKey = {};
         _.each(keyVals, function (field_name) {
             condKey[field_name] = rowData[field_name] || "";

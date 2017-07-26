@@ -58,15 +58,15 @@
         },
         methods: {
             getUserSubsys(){
-                axios.post("/api/getUserSubsys").then(function (res) {
-                    mainVue.subsysMenu = res.data.subsysMenu;
+                $.post("/api/getUserSubsys").done(function (res) {
+                    mainVue.subsysMenu = res.subsysMenu;
                     mainVue.usingSubsysID = getCookie('usingSubsysID');
                 })
             },
 //切換子系統
             toSubsys(subsys_id){
-                doCookieSetup("usingPrgID", "");
-                doCookieSetup('usingSubsysID', subsys_id)
+                setupCookie("usingPrgID", "");
+                setupCookie('usingSubsysID', subsys_id)
                 this.usingSubsysID = subsys_id;
 
             },

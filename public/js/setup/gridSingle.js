@@ -353,6 +353,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
+                if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1)
+                    this.isLastData = true;
+
             } else if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
@@ -366,9 +369,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
     },
     created: function () {
-
         var self = this;
-        vmHub.$on('showSearchDataGrid', function (dtDataGridRows) {
+        vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
         vmHub.$on('tempExecData', function (row) {
@@ -530,8 +532,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         }
         ,
         //新增模式
-        emitSwitchToCreateStatus: function () {
-            this.$emit('switch-to-create-status');
+        emitAppendRow: function () {
+            this.$emit('append-row');
         }
         ,
         //儲存新增或修改資料
@@ -571,7 +573,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         //新增完再新增另一筆
                         else if (saveAfterAction == "addOther") {
                             self.singleData = {};
-                            self.emitSwitchToCreateStatus();
+                            self.emitAppendRow();
                         }
 
                         if (self.deleteStatue) {
@@ -610,6 +612,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             var hasMultiLangField = _.filter(this.pageTwoDataGridFieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
+
             if (hasMultiLangField) {
                 console.log(columnsData);
                 columnsData.push({
@@ -908,6 +911,8 @@ var vm = new Vue({
                     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
+
+
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
             });
@@ -994,17 +999,15 @@ var vm = new Vue({
             $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
                 if (q) {
                     //刪除前檢查
-
-                    _.each(checkRows, function (row) {
-                        vm.tmpCud.deleteData.push(row);
-                    });
-
                     $.post("/api/deleteFuncRule", {
                         page_id: 1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCud.deleteData
                     }, function (result) {
                         if (result.success) {
+                            _.each(checkRows, function (row) {
+                                vm.tmpCud.deleteData.push(row);
+                            });
                             //刪除Row
                             _.each(checkRows, function (row) {
                                 var DelIndex = $('#dg').datagrid('getRowIndex', row);
@@ -1041,11 +1044,11 @@ var vm = new Vue({
 
         },
         //新增按鈕Event
-        switchToCreateStatus: function () {
+        appendRow: function () {
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
-            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 2}, function (result) {
+            $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();

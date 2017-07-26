@@ -21,7 +21,7 @@ module.exports = {
         var params = {
             athena_id: session.user.athena_id,
             type_cod: postData.singleRowData.type_cod
-        }
+        };
         queryAgent.query("chk_cust_type_rf_is_exist_cust_mn".toUpperCase(), params, function (err, chkResult) {
             if (chkResult) {
                 if (chkResult.cust_mn_count > 0) {
@@ -34,4 +34,4 @@ module.exports = {
             }
         });
     }
-}
+};

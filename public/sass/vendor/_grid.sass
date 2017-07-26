@@ -57,7 +57,19 @@
       bottom: -30px
       font-size: 0.85em
       color: #ff625f
-
+  &.grid-fee
+    border-bottom: 1px solid #333
+    padding-bottom: 5px
+  // radio Style 預估款
+  &.foCntRadio
+    .searchRadio
+      .radio
+        margin: 0px auto 0 4px
+        label
+          padding-left: 10px
+          .lbl
+            &:before
+              margin-right: 3px
 .grid-item-input
   width: 100px
   height: 50px
@@ -148,3 +160,15 @@
         height: 25px
       th
         font-weight: 400
+
+.grid-textArea
+  .moreClick
+    //width: 25px
+    height: $inputHeight-medium
+    //line-height: $inputHeight-medium
+    border: 1px solid $border-color
+    background: $border-color
+    border-radius: 5px
+    padding: 3px 5px 4px 5px
+    box-sizing: border-box
+    cursor: pointer

@@ -6,20 +6,20 @@
 $ npm install 
 ```
 
-### 2.Setting database config
+2.Setting database config
 
 ```
 path/to/config/database.js
 ```
 
-### 3.Run Project
+3.Run Project
 
 ```
 $ node app.js
 ```
 
 
-## Branch 
+## Branch
 
 ### 主要分支
     master：釋出的版本，只從 release 與 hotfix merge  回來，不直接在上面 commit 變更。

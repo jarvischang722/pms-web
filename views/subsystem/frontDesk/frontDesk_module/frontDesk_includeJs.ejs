@@ -1,0 +1,468 @@
+<script type="text/javascript">
+    jQuery(function () {
+
+        /***
+         * PMS0210020 綜合櫃檯
+         */
+
+        // 彈出 綜合櫃檯-選項 option
+        $(document).on('click', ".PMS0120010Option", function (e) {
+            e.preventDefault();
+            var dialog = $("#PMS0120010Option-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Option",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-walkIn foCnt_walkIn
+        $(document).on('click', ".foCnt_walkIn", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_walkIn-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Walk In",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-DayUse foCnt_dayUse
+        $(document).on('click', ".foCnt_dayUse", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_dayUse-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Day Use",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 lost found
+        $(document).on('click', ".lost-found-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lost-found-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Lost & Found",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-Details foCnt_details
+        $(document).on('click', ".foCnt_details", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_details-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Details",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-Details foCnt_deposits
+        $(document).on('click', ".foCnt_deposits", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_deposits-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Deposits",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-c/o Date foCnt_editCoDate
+        $(document).on('click', ".foCnt_editCoDate", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_editCoDate-message").removeClass('hide').dialog({
+                modal: true,
+                title: "更改C/O日期",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-預估款 foCnt_prePayment
+        $(document).on('click', ".foCnt_prePayment", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_prePayment-message").removeClass('hide').dialog({
+                modal: true,
+                title: "預估款",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-預估款-帳款明細 foCnt_prePayBtn5
+        $(document).on('click', ".foCnt_prePayBtn5", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_prePayBtn5-message").removeClass('hide').dialog({
+                modal: true,
+                title: "帳款明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床 foCnt_bedSetting
+        $(document).on('click', ".foCnt_bedSetting", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetting-message").removeClass('hide').dialog({
+                modal: true,
+                title: "拆併床設定",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床-搜尋樓層 foCnt_bedSetFindMore1
+        $(document).on('click', ".foCnt_bedSetFindMore1", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床-搜尋房種 foCnt_bedSetFindMore2
+        $(document).on('click', ".foCnt_bedSetFindMore2", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore2-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-拆併床-搜尋房號 foCnt_bedSetFindMore3
+        $(document).on('click', ".foCnt_bedSetFindMore3", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_bedSetFindMore3-message").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        $('[data-rel=tooltip]').tooltip();
+
+        // 櫃檯備品 screen小於1280縮小
+//        var $window = $(window),
+//            $ul = $('ul.nav');
+//        $(window).on('resize', function () {
+//            if ($window.width() < 1281) {
+//                $('.intCounterLeft').removeClass('col-xs-6').addClass('col-xs-12');
+//            } else {
+//                $('.intCounterLeft').removeClass('col-xs-12').addClass('col-xs-6');
+//            }
+//        })
+        /* screen小於1280縮小 END */
+
+        /* 點選右上箭頭選擇觀看右邊表格 */
+        function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
+            $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
+//            $('.intCounterLeft .chooseCount').css('width','8%');
+            $('.intCounterLeft .resultCount').css('max-width', maxW);
+            $('.intCounterRight').css('display', disToggle1);
+            $('.fa-angle-left').css('display', disToggle2);
+            $('.fa-angle-right').css('display', disToggle1);
+        }
+
+        $(".show-intCounterRight > .fa-angle-left").click(function () {
+            foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+        });
+        $(".show-intCounterRight > .fa-angle-right").click(function () {
+            foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+        });
+        /* 點選右上箭頭選擇觀看右邊表格 End */
+
+        /* 點選左上放大鏡選擇觀看內容多寡 */
+        function zoomInOut(width, height, disToggle1, disToggle2) {
+            $('.counterBlock').css('width', width).css('height', height);
+            $('.counterBlock > .head > .right >.counterPrice').css('display', disToggle1);
+            $('.counterBlock > .content').css('display', disToggle1);
+            $('.counterBlock > .content-sub').css('display', disToggle1);
+            $('.zoomOut').css('display', disToggle1);
+            $('.zoomIn').css('display', disToggle2);
+        }
+
+        $(document).on('click', ".zoomOut", function () {
+            zoomInOut('70px', '33px', 'none', 'inline-block');
+        });
+        $(document).on('click', ".zoomIn", function () {
+            zoomInOut('129px', '74px', 'inline-block', 'none');
+        });
+        /* 點選左上放大鏡選擇觀看內容多寡 End */
+
+        /***
+         * PMS0210040 團體管理
+         */
+
+
+        // 彈出 團體多筆(未入住) groups_noAdmit
+        $(document).on('click', ".groups_noAdmit", function (e) {
+            e.preventDefault();
+            var dialog = $("#groups_noAdmit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(未)",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 團體多筆(未入住)-住客 gpsNoAdmit_PaxList
+        $(document).on('click', ".gpsNoAdmit_PaxList", function (e) {
+            e.preventDefault();
+            var dialog = $("#gpsNoAdmit_PaxList-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(未)-PAX List",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 團體多筆(已入住)-住客 gpsAdmit_PaxList
+        $(document).on('click', ".gpsAdmit_PaxList", function (e) {
+            e.preventDefault();
+            var dialog = $("#gpsAdmit_PaxList-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(已)-PAX List",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 團體多筆(已入住) groups_admit
+        $(document).on('click', ".groups_admit", function (e) {
+            e.preventDefault();
+            var dialog = $("#groups_admit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "團體單筆(已)",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        /***
+         * dataGrid
+         */
+        // 綜合櫃檯-Deposits foCnt_deposits dataGrid
+        $('#foCnt_deposits-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_deposits.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkBox', title: '選擇', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: 'Full Name', width: 150},
+                {field: 'depositCode', title: '訂金代號', width: 80},
+                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+            ]]
+        });
+
+        // 綜合櫃檯-c/o日期 foCnt_editCoDate dataGrid
+        $('#foCnt_editCoDate-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_editCoDate.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkBox', title: '選擇', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: 'Full Name', width: 150},
+                {field: 'ciDate', title: 'C/I日期', width: 80},
+                {field: 'expectCo', title: '預計C/O', width: 80},
+                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+            ]]
+        });
+
+        // 綜合櫃檯-預估款 foCnt_prePayment dataGrid
+        $('#foCnt_prePayment-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_prePayment.json',
+            method: 'get',
+            columns: [[
+                {field: 'dateOfEntry', title: '入帳日期', width: 80},
+                {field: 'serviceDate', title: '服務日期', width: 80},
+                {field: 'projectCode', title: '項目代號', width: 120},
+                {field: 'unitPrice', title: '單價', width: 60,align:"right"},
+                {field: 'quantity', title: '數量', width: 40},
+                {field: 'subtotal', title: '小計', width: 60,align:"right"},
+                {field: 'status', title: '狀態', width: 60},
+                {field: 'star', title: '', width: 40},
+                {field: 'residentAccSingle', title: '住客帳單號', width: 150},
+                {field: 'addBy', title: '輸入者', width: 60},
+                {field: 'addDate', title: '輸入日', width: 130},
+                {field: 'updBy', title: '最後異動者', width: 60},
+                {field: 'updDate', title: '最後異動日', width: 130},
+                {field: 'sort', title: '序號', width: 80}
+            ]]
+        });
+
+        // 綜合櫃檯-預估款-帳款明細 foCnt_prePayBtn5 dataGrid
+        $('#foCnt_prePayBtn5-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_prePayBtn5.json',
+            method: 'get',
+            columns: [[
+                {field: 'status', title: '狀態', width: 60},
+                {field: 'dateOfEntry', title: '入帳日期', width: 80},
+                {field: 'serviceDate', title: '服務日期', width: 80},
+                {field: 'projectCode', title: '項目代號', width: 120},
+                {field: 'unitPrice', title: '單價', width: 60,align:"right"},
+                {field: 'quantity', title: '數量', width: 40},
+                {field: 'subtotal', title: '小計', width: 60,align:"right"},
+                {field: 'addBy', title: '輸入者', width: 60},
+                {field: 'addDate', title: '輸入日', width: 130},
+                {field: 'updBy', title: '最後異動者', width: 60},
+                {field: 'updDate', title: '最後異動日', width: 130},
+                {field: 'residentAccSingle', title: '住客帳單號', width: 150}
+            ]]
+        });
+
+        // 團體管理 dataGrid
+        $('#front_groups-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_groups.json',
+            method: 'get',
+            columns: [[
+                {field: 'publicAccount', title: '公帳號', width: 80},
+                {field: 'groups', title: '團號', width: 80},
+                {field: 'touristGuide', title: '導遊', width: 80},
+                {field: 'publicAccName', title: '公帳號名稱', width: 80},
+                {field: 'publicAccStatus', title: '公帳狀態', width: 80},
+                {field: 'resvCard', title: '訂房卡號', width: 80},
+                {field: 'resvStatus', title: '訂房卡狀態', width: 80},
+                {field: 'ciDate', title: '入住日期', width: 100},
+                {field: 'coDate', title: '退房日期', width: 100}
+            ]]
+        });
+
+        // CO清單 dataGrid
+        $('#front_coList-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_coList.json',
+            method: 'get',
+            columns: [[
+                {field: 'preCOTime', title: '預計C/O時間', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: '姓名', width: 150},
+                {field: 'custAccStatus', title: '客帳狀態', width: 80},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'ciTime', title: 'C/I時間', width: 60},
+                {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
+                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'coRemark', title: 'C/O備註', width: 150}
+            ]]
+        });
+
+
+
+    });
+</script>
