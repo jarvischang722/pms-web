@@ -523,6 +523,22 @@
         /***
          * PMS0210130 messages
          */
+// pm dataGrid
+        $('#pa-setting-1').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_paSetting-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'CO', title: '選擇', width: 50},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'code', title: '序號', width: 40},
+                {field: 'fullName', title: 'Full Name', width: 150},
+                {field: 'PA', title: '公帳號', width: 80},
+                {field: 'roomCode', title: '訂房卡號', width: 100},
+            ]]
+        });
 
 
         // PMS0210130 messages 多筆 dataGrid
@@ -546,6 +562,37 @@
                 {field: 'addedBy', title: 'Added By', width: 80},
                 {field: 'updby', title: 'Upd by', width: 80},
                 {field: 'updDate', title: 'Upd Date', width: 80}
+            ]]
+        });
+        // pm dataGrid
+        $('#pa-choosed').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_pa-choosed.json',
+            method: 'get',
+            columns: [[
+                {field: 'CO', title: '公帳號', width: 70},
+                {field: 'roomNum', title: '訂金帳號', width: 100},
+                {field: 'code', title: '客戶代號', width: 100},
+                {field: 'fullName', title: '使用者名稱', width: 150},
+            ]]
+        });
+// pm dataGrid
+        $('#pa-more').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_pa-more.json',
+            method: 'get',
+            columns: [[
+                {field: 'pa', title: '公帳號', width: 70},
+                {field: 'depart', title: '類別', width: 70},
+                {field: 'state', title: '目前狀態', width: 70},
+                {field: 'account', title: '訂金帳號', width: 100},
+                {field: 'code', title: '客戶代號', width: 150},
+                {field: 'name', title: '使用者名稱', width: 150},
+                {field: 'num', title: '使用次數', width: 150},
             ]]
         });
 
