@@ -45,10 +45,10 @@
                                         >
 
                                     <!--  label -->
-                                    <label :style="{width:field.label_width + 'px'}"
+                                    <label v-model="singleData[field.ui_field_name]"
+                                           :style="{width:field.label_width + 'px'}"
                                            class="numStyle-none"
                                            v-if="field.visiable == 'Y' && field.ui_type == 'label'"
-                                           :min="0"
                                            :maxlength="field.ui_field_length"
                                     >
                                         <span v-else :value="singleData[field.ui_field_name]"></span>

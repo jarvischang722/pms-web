@@ -30,14 +30,14 @@
     <!-- [PMS0830010] 取得出納員名稱 -->
     <dao name="QRY_CASHIER_RF_CASHIER_COD">
         <statement><![CDATA[
-            select usr_id cashier_cod, usr_cname from s99_user
+            select usr_id value, usr_cname display from s99_user
             where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
 
         ]]> </statement>
 
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cmp_id</parameter>
-        <parameter type="string" kind="3">cashier_cod</parameter>
+        <!--<parameter type="string" kind="3">cashier_cod</parameter>-->
 
     </dao>
 

@@ -372,6 +372,24 @@ exports.checkStaIsCheckedList = function () {
 };
 
 /**
+ * [PMS0830010_出納員設定] 啟用狀態
+ * @returns {[array]}
+ */
+exports.getCashierrfUseSta = function(){
+    var lo_optionList= [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '啟用',
+            N: '不啟用'
+        }
+    ];
+    return lo_optionList;
+}
+
+
+/**
  * [PMS0820010_房間特色設定] 系統預設
  * @returns {array}
  */
@@ -484,25 +502,6 @@ exports.getVisiableOption = function(){
     ];
     return lo_optionList;
 };
-
-/**
- * [PMS0830010_出納員設定] 啟用狀態
- * @returns {[array]}
- */
-exports.getCashierrfUseSta = function(){
-    var lo_optionList= [
-        {
-            display: "啟用",
-            value: "Y"
-        },
-        {
-            display: "不啟用",
-            value: "N"
-        }
-    ];
-    return lo_optionList;
-}
-
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -839,4 +838,4 @@ exports.qryCashierrfUsesta = function (params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCashierrfUseSta();
     callback(null, lo_result);
-}
+};
