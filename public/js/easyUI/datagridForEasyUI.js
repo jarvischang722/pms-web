@@ -12,6 +12,10 @@ var ga_colorAry = [];
  * @constructor
  */
 var AdapterDatagrid = function(vm){
+
+    if(_.isUndefined(vm.tempExecData)){
+        console.error(  new Error("method 'tempExecData' not defined."));
+    }
     this.tempExecData = vm.tempExecData;
 };
 
@@ -167,6 +171,10 @@ var EZfieldClass = {
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
 
+                if(_.isUndefined(index)){
+                    return;
+                }
+
                 var color_val = "#" + String(colorTool.colorCodToHex(color_cod));
                 var disabled = fieldAttrObj.modificable == "N" ? "disabled" : ""; //判斷可否修改
                 var colorAry_index = _.findIndex(ga_colorAry, function (colorObj) {
@@ -184,7 +192,7 @@ var EZfieldClass = {
                     ga_colorAry[index].color = color_val;
                 }
 
-                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' value='" + ga_colorAry[index].color + "'>";
+                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' style='width:100%' value='" + ga_colorAry[index].color + "'>";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
