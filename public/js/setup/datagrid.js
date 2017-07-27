@@ -285,7 +285,7 @@ var vm = new Vue({
                     prg_id: prg_id,
                     gridDataInfo: gridDataInfo
                 }, function (result) {
-                    var prgDefaultObj = {createRow: 'Y'};
+                    var prgDefaultObj = {};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
                     }

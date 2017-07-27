@@ -72,6 +72,7 @@ module.exports = {
             lo_result.success = false;
             lo_error.errorMsg = "開始日期不能大於結束日期";
             lo_error.errorCod = "1111";
+            postData.rowData.begin_dat = "";
             lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
         }
@@ -94,6 +95,7 @@ module.exports = {
             lo_result.success = false;
             lo_error.errorMsg = "結束日期不能小於開始日期";
             lo_error.errorCod = "1111";
+            postData.rowData.end_dat = "";
             lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
         }
