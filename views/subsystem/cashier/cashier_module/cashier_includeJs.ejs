@@ -46,6 +46,38 @@
             });
         });
 
+        // 彈出 已結帳處理-明細
+        $(document).on('click', ".cashierHistLedger_Detail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashierHistLedger_Detail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "住客帳資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 已結帳處理-明細
+        $(document).on('click', ".cashierHistLedger_Detail02", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashierHistLedger_Detail02-message").removeClass('hide').dialog({
+                modal: true,
+                title: "明細資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         /***
          * dataGrid
          */
@@ -150,6 +182,99 @@
             ]]
         });
 
+
+        <!-- ********* PMS0310030 dataGrid ********* -->
+
+        // 在館住客資料 dataGrid
+        $('#PMS0310030-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0310030.json',
+            method: 'get',
+            columns: [[
+                {field: 'roomNum', title: '房號', width: 50},
+                {field: 'num', title: '序號', width: 50},
+                {field: 'ledgerStatus', title: '帳狀況', width: 70},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'guestNum', title: '住客編號', width: 100},
+                {field: 'housingDate', title: '住房時間', width: 70},
+                {field: 'historyNum', title: '歷史編號', width: 180},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'guestType', title: '住客類別', width: 100},
+                {field: 'gender', title: '性別', width: 50},
+                {field: 'publicLedger', title: '公帳號', width: 100},
+                {field: 'bookingNum', title: '訂房卡號', width: 100},
+                {field: 'originalCiDate', title: '原訂C/I日', width: 100},
+                {field: 'prepareCiDate', title: '預計C/I日', width: 100},
+                {field: 'totalAmount', title: '已結帳總金額', width: 100}
+            ]]
+        });
+
+        // 退房住客資料 dataGrid
+        $('#quitPMS0310030-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/quitPMS0310030.json',
+            method: 'get',
+            columns: [[
+                {field: 'roomNum', title: '房號', width: 50},
+                {field: 'num', title: '序號', width: 50},
+                {field: 'ledgerStatus', title: '帳狀況', width: 70},
+                {field: 'ciDate', title: '實際C/I日期', width: 100},
+                {field: 'guestNum', title: '住客編號', width: 100},
+                {field: 'housingDate', title: '住房時間', width: 70},
+                {field: 'historyNum', title: '歷史編號', width: 180},
+                {field: 'fullName', title: '姓名', width: 100},
+                {field: 'guestType', title: '住客類別', width: 100},
+                {field: 'gender', title: '性別', width: 50},
+                {field: 'publicLedger', title: '公帳號', width: 100},
+                {field: 'bookingNum', title: '訂房卡號', width: 100},
+                {field: 'realCiDate', title: '實際C/O日', width: 100},
+                {field: 'originalCiDate', title: '原訂預計C/O日', width: 100},
+                {field: 'prepareCiDate', title: '預計預計C/O日', width: 100},
+            ]]
+        });
+
+        // 住客帳資料 dataGrid
+        $('#PMS0310030-customer-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0310030-customer.json',
+            method: 'get',
+            columns: [[
+                {field: 'reset', title: '還原', width: 40},
+                {field: 'num', title: '序號', width: 50},
+                {field: 'payRoom', title: '結帳廳別', width: 100},
+                {field: 'payDate', title: '結帳日期', width: 100},
+                {field: 'payPerson', title: '結帳者', width: 100},
+                {field: 'payTime', title: '結帳時間', width: 70},
+                {field: 'payClass', title: '結帳班別', width: 70},
+                {field: 'payNum', title: '結帳單號', width: 150},
+                {field: 'payTotal', title: '結帳金額', width: 100},
+                {field: 'invoice', title: '發票號碼', width: 150},
+            ]]
+        });
+
+        // 住客明細資料 dataGrid
+        $('#PMS0310030-customerDetail').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0310030-customerDetail.json',
+            method: 'get',
+            columns: [[
+                {field: 'consumeDate', title: '消費日期', width: 100},
+                {field: 'office', title: '入帳廳別', width: 100},
+                {field: 'class', title: '入帳班別', width: 100},
+                {field: 'billDate', title: '帳單日期', width: 100},
+                {field: 'billCode', title: '消費代號', width: 200},
+                {field: 'billNum', title: '消費數量', width: 70},
+                {field: 'billTotal', title: '消費總額', width: 70}
+            ]]
+        });
 
 
     });

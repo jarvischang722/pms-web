@@ -578,7 +578,7 @@
                 {field: 'fullName', title: '使用者名稱', width: 150},
             ]]
         });
-// pm dataGrid
+        // pm dataGrid
         $('#pa-more').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -595,6 +595,32 @@
                 {field: 'num', title: '使用次數', width: 150},
             ]]
         });
+
+        // PMS0210060 arrivals dataGrid
+        $('#PMS0210060').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0210060.json',
+            method: 'get',
+            columns: [[
+                {field: 'roomNum', title: '訂房數', width: 50},
+                {field: 'roomNum2', title: '排房數', width: 50},
+                {field: 'ciNum', title: 'C/I數', width: 50},
+                {field: 'coNum', title: 'C/O數', width: 50},
+                {field: 'state', title: '狀態', width: 100},
+                {field: 'bookingDate', title: '訂房卡號', width: 100},
+                {field: 'roomCode', title: '房號', width: 50},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'groupNum', title: '團號', width: 100},
+                {field: 'bookingCompany', title: '訂房公司', width: 150},
+                {field: 'contact', title: '聯絡人', width: 100},
+                {field: 'category', title: '住客類別', width: 100},
+                {field: 'booking', title: '訂房來源', width: 100},
+                {field: 'bookingRemark', title: '訂房備註', width: 200}
+            ]]
+        });
+
 
     });
 </script>
