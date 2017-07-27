@@ -739,36 +739,6 @@
             });
         });
 
-        // 失物明細
-        $(document).on('click', ".lf-modify-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#lost-found-modify").removeClass('hide').dialog({
-                modal: true,
-                title: "失物明細",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-//       L&F點選... 彈出視窗
-        $(document).on('click', ".lfMore", function (e) {
-            e.preventDefault();
-            var dialog = $("#lfMore-page").removeClass('hide').dialog({
-                modal: true,
-                title: "可選擇項目",
-                title_html: true,
-                width: 400,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid

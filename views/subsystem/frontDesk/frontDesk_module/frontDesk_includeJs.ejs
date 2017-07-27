@@ -78,6 +78,37 @@
             });
         });
 
+        // 失物明細
+        $(document).on('click', ".lf-modify-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lost-found-modify").removeClass('hide').dialog({
+                modal: true,
+                title: "失物明細",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+//       L&F點選... 彈出視窗
+        $(document).on('click', ".lfMore", function (e) {
+            e.preventDefault();
+            var dialog = $("#lfMore-page").removeClass('hide').dialog({
+                modal: true,
+                title: "可選擇項目",
+                title_html: true,
+                width: 400,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 綜合櫃檯-Details foCnt_details
         $(document).on('click', ".foCnt_details", function (e) {
             e.preventDefault();
@@ -222,6 +253,25 @@
             });
         });
 
+        /***
+         * PMS0210030 messages
+         */
+
+        // 彈出 messages 單筆
+        $(document).on('click', ".foCnt_messageSGL", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_messageSGL-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Message Detail",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
 
         // 櫃檯備品 screen小於1280縮小
@@ -470,7 +520,34 @@
             ]]
         });
 
+        /***
+         * PMS0210130 messages
+         */
 
+
+        // PMS0210130 messages 多筆 dataGrid
+        $('#front_message-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_message.json',
+            method: 'get',
+            columns: [[
+                {field: 'room', title: 'Room', width: 80,align:"right"},
+                {field: 'fullName', title: 'Full Name', width: 150},
+                {field: 'date', title: 'Date', width: 80},
+                {field: 'time', title: 'Time', width: 80},
+                {field: 'from', title: 'From', width: 80},
+                {field: 'at', title: 'At', width: 80},
+                {field: 'replyTo', title: 'Reply to', width: 80},
+                {field: 'message', title: 'Message', width: 150},
+                {field: 'status', title: 'Status', width: 80},
+                {field: 'alertSta', title: 'alertSta', width: 80},
+                {field: 'addedBy', title: 'Added By', width: 80},
+                {field: 'updby', title: 'Upd by', width: 80},
+                {field: 'updDate', title: 'Upd Date', width: 80}
+            ]]
+        });
 
     });
 </script>
