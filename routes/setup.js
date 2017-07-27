@@ -39,4 +39,7 @@ module.exports = function(app) {
 
     //分帳規則(靜態)
     app.get('/PMS0830080', setupCrtl.getPMS0830080);
+
+    //區域別(靜態)
+    app.get('/PMS0860030', setupCrtl.getPMS0860030);
 };

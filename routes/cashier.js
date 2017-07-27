@@ -14,4 +14,11 @@ module.exports = function(app  ) {
     //外幣匯兌(靜態)
     app.get('/PMS0320010', cashierCrtl.getPMS0320010);
 
+    //住客帳維護(靜態)
+    app.get('/PMS0310010', cashierCrtl.getPMS0310010);
+
+    //出鈉　已結帳處理(靜態)
+    app.get('/PMS0310030', cashierCrtl.getPMS0310030);
+
+
 };

@@ -1,9 +1,8 @@
 <!--page-content-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
-<!-- c/o Date Page-->
-    <div class="row">
-        <div class="col-xs-12">
+<!-- messages Page-->
+    <div class="row"><div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="search-content">
@@ -55,45 +54,59 @@
                                         <!--1-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>住客姓名</label>
-                                                <input type="text" class="input-medium popWindow-s1v2" placeholder="">
+                                                <label>Room No.</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
                                             </div>
                                             <div class="grid-item">
-                                                <label>訂房卡號</label>
-                                                <input type="text" class="input-medium popWindow-s1v2" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>狀態</label>
-                                                <select class="input-medium popWindow-s1v2">
-                                                    <option value="1">In House</option>
-                                                    <option value="2">已結帳</option>
-                                                    <option value="3">全部</option>
-                                                </select>
+                                                <label>Date</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
                                             </div>
                                         </div>
                                         <!--2-->
                                         <div class="grid">
                                             <div class="grid-item">
                                                 <label>團號</label>
-                                                <input type="text" class="input-medium popWindow-s1v2" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房號</label>
-                                                <input type="text" class="input-medium popWindow-s1v2" placeholder="">
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
                                             </div>
                                         </div>
                                         <!--3-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>公帳號</label>
-                                                <input type="text" class="input-medium popWindow-s1v2" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>訂房公司</label>
-                                                <input type="text" class="input-medium popWindow-s1v2-lg" placeholder="">
+                                                <label>Full Name</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
                                             </div>
                                         </div>
-
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>From</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--5-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Status</label>
+                                                <select class="input-medium popWindow-s1">
+                                                    <option value="N">N:新留言</option>
+                                                    <option value="Y">Y:已告知</option>
+                                                </select>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Alert Sta.</label>
+                                                <select class="input-medium popWindow-s1">
+                                                    <option value="N">N:未傳送</option>
+                                                    <option value="Y">Y:已傳送</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--6-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>輸入者</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -108,8 +121,8 @@
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <!-- c/o清單 front_coList-table dataGrid -->
-                    <table id="front_coList-table"></table>
+                    <!-- message front_message-table dataGrid -->
+                    <table id="front_message-table"></table>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
@@ -117,12 +130,16 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">C/O</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth foCnt_messageSGL"
+                                        role="button">Add</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Exit</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth foCnt_messageSGL"
+                                        role="button">Edit</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">Delete</button>
                             </li>
                         </ul>
                     </div>
