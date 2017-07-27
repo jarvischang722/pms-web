@@ -150,7 +150,7 @@ module.exports = {
             let params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
-                item_cod: postData.singleData.item_cod
+                item_cod: postData.singleRowData.item_cod
             };
             queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function (err, qryResult) {
                 if (!_.isNull(qryResult)) {

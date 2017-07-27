@@ -3,7 +3,7 @@
     <!-- ['PMS0820060'] 取得多筆留言紀錄 -->
     <dao name="QRY_MSGGTRMK_RF">
         <statement><![CDATA[
-            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod,ins_dat,ins_usr,upd_dat,upd_usr
             from msggtrmk_rf
              where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
@@ -15,7 +15,7 @@
     <!-- ['PMS0820060'] 取得單筆留言紀錄 -->
     <dao name="QRY_SINGLE_MSGGTRMK_RF">
         <statement><![CDATA[
-            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod,ins_dat,ins_usr,upd_dat,upd_usr
             from msggtrmk_rf
              where athena_id = ? and trim(hotel_cod) = trim(?) and rmk_cod = ?
         ]]>

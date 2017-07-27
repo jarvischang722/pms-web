@@ -135,16 +135,8 @@ var vm = new Vue({
 
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#prg_dg').datagrid("getColumnOption", field);
-                var ui_type = currentColumOption.ui_type;
-                var columnOption = {
-                    "prg_id": prg_id,
-                    "ui_field_name": field,
-                    "ui_type": ui_type,
-                    "col_seq": fIdx,
-                    "visiable": "Y"
-                };
-                columnOption = _.extend(columnOption, currentColumOption);
-                saveField.push(columnOption);
+                currentColumOption.col_seq = fIdx;
+                saveField.push(_.extend(currentColumOption));
             });
 
             $.post("/api/saveFieldOptionByUser", {
@@ -285,7 +277,7 @@ var vm = new Vue({
                     prg_id: prg_id,
                     gridDataInfo: gridDataInfo
                 }, function (result) {
-                    var prgDefaultObj = {createRow: 'Y'};
+                    var prgDefaultObj = {};
                     if (result.success) {
                         prgDefaultObj = result.prgDefaultObj;
                     }

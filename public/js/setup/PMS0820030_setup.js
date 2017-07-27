@@ -68,9 +68,6 @@ var PMS0820030VM = new Vue({
         },
         //讀取顏色設定
         loadDefaultColor: function () {
-            $("#PMS0820030_prg_dg").datagrid("getRows").forEach(function (obj) {
-                console.log(obj);
-            })
             var defaultData = [
                 {pro_typ: "ASI", status_cod: "FONT", color_num: "16777215"},
                 {pro_typ: "ASI", status_cod: "NA", color_num: "11750841"},
@@ -107,7 +104,6 @@ var PMS0820030VM = new Vue({
                 });
                 var rowData = $("#PMS0820030_prg_dg").datagrid("getRows")[tmpIdx];
                 if (tmpIdx > -1 && !_.isUndefined(rowData) && rowData.color_num != obj.color_num) {
-                    console.log(rowData.color_num +"@"+obj.color_num);
                     $("#PMS0820030_prg_dg").datagrid("updateRow", {
                         index: tmpIdx,
                         row: obj
