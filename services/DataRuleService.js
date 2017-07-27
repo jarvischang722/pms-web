@@ -144,7 +144,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.waterfall([
         function (cb) {
-            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
+            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: 2}, function (err, fieldNameList) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
         }

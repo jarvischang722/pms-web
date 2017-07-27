@@ -97,7 +97,7 @@ var EZfieldClass = {
             };
 
             var dateParserFunc = function (date) {
-                if (date != "") {
+                if (!_.isUndefined(date) && date != "") {
                     return new Date(Date.parse(date));
                 }
                 else {
@@ -237,14 +237,20 @@ var EZfieldClass = {
             }
         } else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
-                var lo_val = String(val);
-                if (lo_val.indexOf(":") == "-1") {
-                    var hour = lo_val.substring(0, 2);
-                    var min = lo_val.substring(2, 4);
-                    return hour + ":" + min;
+                if(val != null)
+                {
+                    var lo_val = String(val);
+                    if (lo_val.indexOf(":") == "-1") {
+                        var hour = lo_val.substring(0, 2);
+                        var min = lo_val.substring(2, 4);
+                        return hour + ":" + min;
+                    }
+                    else {
+                        return val;
+                    }
                 }
                 else {
-                    return val;
+                    return "";
                 }
             };
         } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
@@ -268,19 +274,23 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    if (newValue != oldValue) {
+    if (newValue != oldValue && !_.isUndefined(newValue) ) {
+        var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        if (selectDataRow.createRow == "Y") {
+            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
+        }
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            allRowData: JSON.parse(JSON.stringify(allDataRow)),
             newValue: newValue,
             oldValue: oldValue
         };
-
         $.post('/api/chkFieldRule', postData, function (result) {
-            console.log(result);
+
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -304,20 +314,32 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             else {
                 alert(result.errorMsg);
             }
-            console.log(result);
+
             result.effectValues= { status_desc:'連動啦！！！！'};
+
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-                isUserEdit = false;
-                $('#' + dgName).datagrid('endEdit', indexRow);
-                $('#' + dgName).datagrid('updateRow', {
-                    index: indexRow,
-                    row: effectValues
-                });
-
-                $('#' + dgName).datagrid('beginEdit', indexRow);
+                if(_.isUndefined(effectValues.length)) {
+                    var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+                    isUserEdit = false;
+                    $('#' + dgName).datagrid('endEdit', indexRow);
+                    $('#' + dgName).datagrid('updateRow', {
+                        index: indexRow,
+                        row: effectValues
+                    });
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                }else {
+                    isUserEdit = false;
+                    _.each(effectValues,function (item,index) {
+                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
+                        $('#' + dgName).datagrid('updateRow', {
+                            index: indexRow,
+                            row: item
+                        });
+                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                    });
+                }
                 isUserEdit = true;
             }
         });
