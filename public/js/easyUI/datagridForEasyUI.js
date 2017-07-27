@@ -286,7 +286,7 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    if (newValue != oldValue) {
+    if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         if (selectDataRow.createRow == "Y") {
