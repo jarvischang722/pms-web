@@ -275,6 +275,7 @@ var EZfieldClass = {
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
     if (newValue != oldValue && !_.isUndefined(newValue) ) {
+        var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         if (selectDataRow.createRow == "Y") {
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
@@ -284,6 +285,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            allRowData: JSON.parse(JSON.stringify(allDataRow)),
             newValue: newValue,
             oldValue: oldValue
         };
@@ -314,18 +316,30 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             result.effectValues= { status_desc:'連動啦！！！！'};
+
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-                isUserEdit = false;
-                $('#' + dgName).datagrid('endEdit', indexRow);
-                $('#' + dgName).datagrid('updateRow', {
-                    index: indexRow,
-                    row: effectValues
-                });
-
-                $('#' + dgName).datagrid('beginEdit', indexRow);
+                if(_.isUndefined(effectValues.length)) {
+                    var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+                    isUserEdit = false;
+                    $('#' + dgName).datagrid('endEdit', indexRow);
+                    $('#' + dgName).datagrid('updateRow', {
+                        index: indexRow,
+                        row: effectValues
+                    });
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                }else {
+                    isUserEdit = false;
+                    _.each(effectValues,function (item,index) {
+                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
+                        $('#' + dgName).datagrid('updateRow', {
+                            index: indexRow,
+                            row: item
+                        });
+                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                    });
+                }
                 isUserEdit = true;
             }
         });
