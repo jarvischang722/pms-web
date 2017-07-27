@@ -344,7 +344,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
         },
-
         chkClickTextGrid: function (ui_field_name, rule_func_name, ui_type) {
             //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
 
@@ -643,39 +642,10 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $('#dt_dg').datagrid("getColumnOption", field);
-                var editType = currentColumOption.editor.type;
-                var ui_type = "text";
-                if (editType == "textbox") {
-                    ui_type = "text";
-                } else if (editType == "numberbox") {
-                    ui_type = "number";
-                } else if (editType == "datebox") {
-                    ui_type = "date";
-                } else if (editType == "datetimebox") {
-                    ui_type = "datetime";
-                } else if (editType == "combobox") {
-                    var getMulitSelect = currentColumOption.editor.options.multiline;
-
-                    if (getMulitSelect == true) {
-                        ui_type = "multiselect";
-                    }
-                    else {
-                        ui_type = "select";
-                    }
-                }
-
-                var columnOption = {
-                    "prg_id": prg_id,
-                    "ui_field_name": field,
-                    "ui_type": ui_type,
-                    "col_seq": fIdx,
-                    "visiable": "Y"
-                };
-
-                columnOption = _.extend(columnOption, currentColumOption);
-                saveField.push(columnOption);
-
+                currentColumOption.col_seq = fIdx;
+                saveField.push(_.extend(currentColumOption));
             });
+
             $.post("/api/saveFieldOptionByUser", {
                 prg_id: prg_id,
                 page_id: 2,
@@ -751,7 +721,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
             rowData.key_nos = this.key_nos;
             this.tmpCud[dataType].push(rowData);
-
         },
 
         filterLocaleContent: function (langContent, locale, field_name) {
@@ -1112,28 +1081,8 @@ var vm = new Vue({
 
             _.each(allField, function (field, fIdx) {
                 var currentColumOption = $("#dg").datagrid("getColumnOption", field);
-                var editType = currentColumOption.editor.type;
-                var ui_type = "text";
-                if (editType == "textbox") {
-                    ui_type = "text";
-                } else if (editType == "numberbox") {
-                    ui_type = "number";
-                } else if (editType == "datebox") {
-                    ui_type = "date";
-                } else if (editType == "datetimebox") {
-                    ui_type = "datetime";
-                }
-
-                var columnOption = {
-                    "prg_id": prg_id,
-                    "ui_field_name": field,
-                    "ui_type": ui_type,
-                    "col_seq": fIdx,
-                    "visiable": "Y"
-                };
-                columnOption = _.extend(columnOption, currentColumOption);
-                saveField.push(columnOption);
-
+                currentColumOption.col_seq = fIdx;
+                saveField.push(_.extend(currentColumOption));
             });
 
             $.post("/api/saveFieldOptionByUser", {

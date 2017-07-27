@@ -335,6 +335,34 @@ exports.HfdroomcolorrfProtyp = function () {
         }
     ];
 };
+exports.roomcolorrfColortyp = function () {
+    return [
+        {
+            display: "文字",
+            value: "FONT"
+        },
+        {
+            display: "背景",
+            value: "BK"
+        }
+    ];
+};
+exports.HfdroomcolorrfProtyp = function () {
+    return [
+        {
+            display: "排房作業",
+            value: "ASI"
+        },
+        {
+            display: "房間管理",
+            value: "RM"
+        },
+        {
+            display: "房務管理",
+            value: "HK"
+        }
+    ];
+};
 
 /**
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒

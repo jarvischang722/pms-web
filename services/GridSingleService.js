@@ -50,17 +50,20 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                 prg_id: prg_id,
                                 ui_field_name: field.ui_field_name
                             }).exec(function (err, selRow) {
+                                la_fields[fIdx].selectData = [];
                                 if (selRow) {
                                     selRow = selRow.toObject();
-                                }
-                                la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
-                                la_fields[fIdx].referiable = selRow.referiable || "N";
-                                la_fields[fIdx].defaultVal = selRow.defaultVal || "";
-                                la_fields[fIdx].selectData = [];
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
-                                    la_fields[fIdx].selectData = selectData;
+                                    la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                    la_fields[fIdx].referiable = selRow.referiable || "N";
+                                    la_fields[fIdx].defaultVal = selRow.defaultVal || "";
+                                    dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                        la_fields[fIdx].selectData = selectData;
+                                        callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                    });
+                                }else{
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
-                                });
+                                }
+
                             });
                         }
                     );
@@ -263,7 +266,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
                                 page_id: 2,
-                                template_id: 'datagrid'
+                                template_id:'datagrid'
                             }, function (err, grid) {
                                 callback(err, grid);
                             });
