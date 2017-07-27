@@ -53,6 +53,4 @@ module.exports = function(app  ) {
     //出鈉　已結帳處理
     app.get('/PMS0310030', reservationCrtl.getPMS0310030);
 
-    //出鈉　Arrivals
-    app.get('/PMS0210060', reservationCrtl.getPMS0210060);
 };
