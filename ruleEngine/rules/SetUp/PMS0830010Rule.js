@@ -35,7 +35,6 @@ module.exports = {
         });
     },
     qryUseShiftOpen: function(params, callback){
-
         queryAgent.query("QRY_USE_SHIFT_OPEN", params, function(err, getResult){
             if(_.isNull(getResult.use_shift_open)){
                 getResult.use_shift_open = "Y";

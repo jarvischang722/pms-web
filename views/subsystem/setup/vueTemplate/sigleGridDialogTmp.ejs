@@ -46,12 +46,12 @@
 
                                     <!--  label -->
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'">
-                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                            {{field.ui_field_name}}
-                                        </a>
-                                        <span v-else>{{singleData[field.ui_field_name]}} </span>
+                                           class="numStyle-none"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'label'"
+                                           :min="0"
+                                           :maxlength="field.ui_field_length"
+                                    >
+                                        <span v-else :value="singleData[field.ui_field_name]"></span>
                                     </label>
 
                                     <!--  checkbox -->
