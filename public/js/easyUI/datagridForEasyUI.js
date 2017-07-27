@@ -93,15 +93,21 @@ var EZfieldClass = {
         /** Formatter 顯示  **/
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                return moment(date).format("YYYY/MM/DD");
+                if (date != "" && !_.isUndefined(date)) {
+                    return moment(date).format("YYYY/MM/DD");
+                }
+                else {
+                    return new moment().format("YYYY/MM/DD");
+                }
+
             };
 
             var dateParserFunc = function (date) {
-                if (!_.isUndefined(date) && date != "") {
+                if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
                 else {
-                    return "";
+                    return new Date();
                 }
             };
 
@@ -112,18 +118,29 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onSelect = function (date) {
-                    onChangeAction(fieldAttrObj, "", date, dgName);
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onChangeAction(fieldAttrObj, "", date, ls_dgName);
                 };
             }
 
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
-                return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                if (date != "" && !_.isUndefined(date)) {
+                    return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                }
+                else {
+                    return moment().format("YYYY/MM/DD HH:mm:ss");
+                }
             };
 
             var datetimeFuncParser = function (date) {
-                return new Date(Date.parse(date));
+                if (date != "" && !_.isUndefined(date)) {
+                    return new Date(Date.parse(date));
+                }
+                else {
+                    return new Date();
+                }
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
@@ -158,8 +175,9 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
-                        onChangeAction(fieldAttrObj, oldValue, newValue, dgName);
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
             }
@@ -237,20 +255,14 @@ var EZfieldClass = {
             }
         } else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
-                if(val != null)
-                {
-                    var lo_val = String(val);
-                    if (lo_val.indexOf(":") == "-1") {
-                        var hour = lo_val.substring(0, 2);
-                        var min = lo_val.substring(2, 4);
-                        return hour + ":" + min;
-                    }
-                    else {
-                        return val;
-                    }
+                var lo_val = String(val);
+                if (lo_val.indexOf(":") == "-1") {
+                    var hour = lo_val.substring(0, 2);
+                    var min = lo_val.substring(2, 4);
+                    return hour + ":" + min;
                 }
                 else {
-                    return "";
+                    return val;
                 }
             };
         } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
@@ -274,9 +286,9 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    if (newValue != oldValue && !_.isUndefined(newValue) ) {
-        var allDataRow = $('#' + dgName).datagrid('getRows');
+    if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         if (selectDataRow.createRow == "Y") {
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         }
@@ -284,13 +296,12 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
-            rowData: JSON.parse(JSON.stringify(selectDataRow)),
-            allRowData: JSON.parse(JSON.stringify(allDataRow)),
+            rowData: selectDataRow,
             newValue: newValue,
             oldValue: oldValue
         };
-        $.post('/api/chkFieldRule', postData, function (result) {
 
+        $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -315,32 +326,29 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 alert(result.errorMsg);
             }
 
-            result.effectValues= { status_desc:'連動啦！！！！'};
-
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                if(_.isUndefined(effectValues.length)) {
-                    var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-                    isUserEdit = false;
-                    $('#' + dgName).datagrid('endEdit', indexRow);
-                    $('#' + dgName).datagrid('updateRow', {
-                        index: indexRow,
-                        row: effectValues
-                    });
-                    $('#' + dgName).datagrid('beginEdit', indexRow);
-                }else {
-                    isUserEdit = false;
-                    _.each(effectValues,function (item,index) {
-                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
-                        $('#' + dgName).datagrid('updateRow', {
-                            index: indexRow,
-                            row: item
-                        });
-                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
-                    });
-                }
+                isUserEdit = false;
+                $('#' + dgName).datagrid('endEdit', indexRow);
+                $('#' + dgName).datagrid('updateRow', {
+                    index: indexRow,
+                    row: effectValues
+                });
+
+                $('#' + dgName).datagrid('beginEdit', indexRow);
                 isUserEdit = true;
+            }
+
+            if (!result.isModifiable) {
+                var la_readonlyFields = _.uniq(result.readonlyFields);
+                _.each(la_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
             }
         });
     }
