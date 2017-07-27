@@ -22,6 +22,6 @@ module.exports = function (app) {
     //message(靜態)
     app.get('/PMS0210130', frontDeskCrtl.getPMS0210130);
 
-    //Arrivals
+    // C/I清單 (靜態)
     app.get('/PMS0210060', frontDeskCrtl.getPMS0210060);
 };

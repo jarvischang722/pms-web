@@ -17,4 +17,8 @@ module.exports = function(app  ) {
     //住客帳維護(靜態)
     app.get('/PMS0310010', cashierCrtl.getPMS0310010);
 
+    //出鈉　已結帳處理(靜態)
+    app.get('/PMS0310030', cashierCrtl.getPMS0310030);
+
+
 };

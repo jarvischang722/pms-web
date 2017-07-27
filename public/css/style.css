@@ -618,8 +618,14 @@ label {
   overflow-x: auto;
 }
 
+/* line 160, ../sass/editDefault/_editBootstrap.sass */
+.dropdown-h {
+  height: 200px;
+  overflow-y: auto;
+}
+
 @media screen and (max-width: 992px) {
-  /* line 161, ../sass/editDefault/_editBootstrap.sass */
+  /* line 165, ../sass/editDefault/_editBootstrap.sass */
   .top-sec-ul {
     z-index: 1024;
     padding-top: 50px;

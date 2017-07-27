@@ -19,3 +19,10 @@ exports.getPMS0320010 = function (req, res) {
 exports.getPMS0310010 = function (req, res) {
     res.render("subsystem/cashier/PMS0310010");
 };
+
+/**
+ * 出鈉-已結帳處理(靜態)
+ */
+exports.getPMS0310030 = function (req, res) {
+    res.render("subsystem/cashier/PMS0310030");
+};
