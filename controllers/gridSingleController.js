@@ -13,6 +13,7 @@ var commonTools = require("../utils/CommonTools");
 exports.singleGridPageFieldQuery = function (req, res) {
     var prg_id = req.body["prg_id"];
     var page_id = req.body["page_id"] ? Number(req.body["page_id"]) : 1;
+    var singleRowData = req.body.singleRowData || "";
     var returnData = {
         success: true,
         errorMsg: "",
@@ -28,7 +29,7 @@ exports.singleGridPageFieldQuery = function (req, res) {
         return;
     }
 
-    singleGridSVC.fetchPageFieldAttr(req.session, page_id, prg_id, function (err, fieldData) {
+    singleGridSVC.fetchPageFieldAttr(req.session, page_id, prg_id, singleRowData, function (err, fieldData) {
         returnData.fieldData = fieldData;
         res.json(returnData);
     });

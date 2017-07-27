@@ -25,7 +25,7 @@ var ruleAgent = require("../ruleEngine/ruleAgent");
  * @param prg_id {String}  : 程式編號
  * @param callback
  */
-exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
+exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, callback) {
     var la_fields = []; //欄位屬性陣列
     var userInfo = session.user;
     async.waterfall([
@@ -72,6 +72,11 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
                 var attrName = field.attr_func_name;
                 if (!_.isEmpty(attrName)) {
+                    let lo_params = {
+                        field: field,
+                        singleRowData: singleRowData
+                    };
+
                     selectDSFunc.push(
                         function (callback) {
                             if (field.visiable == "C") {
@@ -89,7 +94,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, callback) {
                                 }
                             } else if (field.modificable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                                    ruleAgent[attrName](field, userInfo, function (err, result) {
+                                    ruleAgent[attrName](lo_params, userInfo, function (err, result) {
                                         if (result) {
                                             la_fields[fIdx] = result[0];
                                             callback(err, {ui_field_idx: fIdx, field: result});
@@ -286,7 +291,11 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 });
                                 lo_dtData = dtDataList;
 
-                                callback(err, dtDataList);
+                                fetchDataGridFieldAttr(go_dataGridField, lo_dtData, function(result){
+                                    callback(err, dtDataList);
+                                });
+
+
                             });
                         } else {
                             callback(null, []);
@@ -332,6 +341,69 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             callback(err, result);
         }
     );
+
+    function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback){
+        var selectDSFunc = [];
+        _.each(lo_dataGridField, function (field, fIdx) {
+            var attrName = field.attr_func_name;
+            if (!_.isEmpty(attrName) && lo_dtData.length != 0) {
+                let lo_params = {
+                    field: field,
+                    dtData: lo_dtData
+                }
+                selectDSFunc.push(
+                    function (callback) {
+                        if (field.visiable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, field: result});
+                            }
+                        } else if (field.modificable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        // lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {});
+                            }
+                        } else if (field.requirable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, field: result});
+                            }
+                        } else {
+                            callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
+                        }
+                    }
+                );
+            }
+        });
+
+        async.parallel(selectDSFunc, function (err, result) {
+            callback(err, result);
+        });
+    }
 
 
 };
