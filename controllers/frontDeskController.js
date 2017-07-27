@@ -28,3 +28,9 @@ exports.getPMS0210040 = function (req, res) {
 exports.getPMS0210070 = function (req, res) {
     res.render("subsystem/frontDesk/PMS0210070");
 };
+/**
+ * arrivals
+ */
+exports.getPMS0210060 = function (req, res) {
+    res.render("subsystem/frontDesk/PMS0210060");
+};

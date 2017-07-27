@@ -100,9 +100,3 @@ exports.getPMS0120070 = function (req, res) {
 exports.getPMS0310030 = function (req, res) {
     res.render("subsystem/cashier/PMS0310030");
 };
-/**
- * arrivals
- */
-exports.getPMS0210060 = function (req, res) {
-    res.render("subsystem/cashier/PMS0210060");
-};

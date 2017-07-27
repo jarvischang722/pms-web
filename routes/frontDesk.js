@@ -19,4 +19,6 @@ module.exports = function (app) {
     //CO清單(靜態)
     app.get('/PMS0210070', frontDeskCrtl.getPMS0210070);
 
+    //Arrivals
+    app.get('/PMS0210060', frontDeskCrtl.getPMS0210060);
 };
