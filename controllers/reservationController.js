@@ -94,3 +94,9 @@ exports.getResv_counterSuppliesTable = function (req, res) {
 exports.getPMS0120070 = function (req, res) {
     res.render("subsystem/reservation/PMS0120070");
 };
+/**
+ * 出鈉-已結帳處理
+ */
+exports.getPMS0310030 = function (req, res) {
+    res.render("subsystem/cashier/PMS0310030");
+};
