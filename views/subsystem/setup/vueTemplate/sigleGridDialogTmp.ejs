@@ -44,6 +44,16 @@
                                            @click="chkClickTextGrid(field.ui_field_name,field.rule_func_name,field.ui_type)"
                                         >
 
+                                    <!--  label -->
+                                    <label :style="{width:field.label_width + 'px'}"
+                                           v-if="field.visiable == 'Y'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
+                                            {{field.ui_field_name}}
+                                        </a>
+                                        <span v-else>{{singleData[field.ui_field_name]}} </span>
+                                    </label>
+
                                     <!--  checkbox -->
                                     <input v-model="singleData[field.ui_field_name]"
                                            v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"

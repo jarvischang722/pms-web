@@ -8,6 +8,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_bac_role.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_cashier_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_character_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cntry_nam.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_cntry_rf.xml"/>
@@ -18,6 +19,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_cust_type_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_dept_rf.xml"/>
         <sql-source base="true" comment="user" key="user" path="dao_email.xml"/>
+        <sql-source base="true" comment="user" key="user" path="dao_fmoney_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_foc_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_mn.xml"/>
@@ -45,9 +47,11 @@
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
+        <!--<sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>-->
         <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
-        <sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>
+        <!--<sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>-->
+        <sql-source base="true" comment="test" key="test" path="dao_pg_ais2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>

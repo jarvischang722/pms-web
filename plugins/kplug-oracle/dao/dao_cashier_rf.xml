@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0830010] 取得出納員cashier_rf-->
+    <dao name="QRY_CASHIER_RF">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, cashier_cod, use_sta, max_times, start_amt, def_shift_cod, ins_dat, ins_usr, upd_dat, upd_usr from cashier_rf
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]></statement>
+        <parameter type="int">athena_id</parameter>
+        <parameter type="String">hotel_cod</parameter>
+    </dao>
+
+    <!-- [PMS0830010] 預設班別不可重複-->
+    <dao name="">
+        <statement><![CDATA[
+            select count(*) from cashier_rf
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(def_shift_cod) = trim(:def_shift_cod) and trim(cashier_cod) <> trim(:cashier_cod)
+        ]]></statement>
+        <parameter type="int">athena_id</parameter>
+        <parameter type="String">hotel_cod</parameter>
+        <parameter type="String">def_shift_cod</parameter>
+        <parameter type="String">cashier_cod</parameter>
+    </dao>
+
+    <!-- [PMS0830010] 取得單筆出納員cashier_rf -->
+    <dao name="QRY_CASHIER_RF_SINGLE">
+        <statement><![CDATA[
+            select athena_id, hotel_cod, cashier_cod, use_sta, max_times, start_amt, def_shift_cod, ins_dat, ins_usr, upd_dat, upd_usr from cashier_rf
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(cashier_cod) = trim(:cashier_cod)
+        ]]></statement>
+        <parameter type="int">athena_id</parameter>
+        <parameter type="String">hotel_cod</parameter>
+        <parameter type="String">cashier_cod</parameter>
+    </dao>
+
+</root>

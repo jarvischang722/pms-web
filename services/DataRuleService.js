@@ -100,7 +100,7 @@ exports.getSelectOptions = function (params, selRow, callback) {
     } else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (err, result) {
+            ruleAgent[selRow.rule_func_name](params, function (result) {
                 callback(result.selectOptions);
             });
         } else {
