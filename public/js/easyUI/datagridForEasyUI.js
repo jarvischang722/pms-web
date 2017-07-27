@@ -97,7 +97,7 @@ var EZfieldClass = {
             };
 
             var dateParserFunc = function (date) {
-                if (date != "") {
+                if (!_.isUndefined(date) && date != "") {
                     return new Date(Date.parse(date));
                 }
                 else {
@@ -237,14 +237,20 @@ var EZfieldClass = {
             }
         } else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
-                var lo_val = String(val);
-                if (lo_val.indexOf(":") == "-1") {
-                    var hour = lo_val.substring(0, 2);
-                    var min = lo_val.substring(2, 4);
-                    return hour + ":" + min;
+                if(val != null)
+                {
+                    var lo_val = String(val);
+                    if (lo_val.indexOf(":") == "-1") {
+                        var hour = lo_val.substring(0, 2);
+                        var min = lo_val.substring(2, 4);
+                        return hour + ":" + min;
+                    }
+                    else {
+                        return val;
+                    }
                 }
                 else {
-                    return val;
+                    return "";
                 }
             };
         } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
@@ -268,8 +274,11 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    if (newValue != oldValue) {
+    if (newValue != oldValue && !_.isUndefined(newValue) ) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        if (selectDataRow.createRow == "Y") {
+            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
+        }
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
@@ -278,9 +287,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             newValue: newValue,
             oldValue: oldValue
         };
-
         $.post('/api/chkFieldRule', postData, function (result) {
-            console.log(result);
+
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -304,7 +312,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             else {
                 alert(result.errorMsg);
             }
-            console.log(result);
+
             result.effectValues= { status_desc:'連動啦！！！！'};
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
