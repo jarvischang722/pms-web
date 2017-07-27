@@ -456,7 +456,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 }
 
                 //先驗證有無欄位沒驗證過的
-                console.log(this.tmpCud);
                 this.$emit('do-save-cud', function (success) {
                     if (success) {
                         //儲存後離開
@@ -521,9 +520,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
             //TODO: 小良Rule完成後可刪
-            if(prg_id == "PMS0820050"){
-                $.post("/api/getKeyNos", function(getResult){
-                    if(getResult){
+            if (prg_id == "PMS0820050") {
+                $.post("/api/getKeyNos", function (getResult) {
+                    if (getResult) {
                         self.key_nos = getResult.defaultValues.key_nos;
                     }
                 });
@@ -957,15 +956,18 @@ var vm = new Vue({
             $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
                 if (q) {
                     //刪除前檢查
+
+                    _.each(checkRows, function (row) {
+                        vm.tmpCud.deleteData.push(row);
+                    });
+
                     $.post("/api/deleteFuncRule", {
                         page_id: 1,
                         prg_id: prg_id,
                         deleteData: vm.tmpCud.deleteData
                     }, function (result) {
                         if (result.success) {
-                            _.each(checkRows, function (row) {
-                                vm.tmpCud.deleteData.push(row);
-                            });
+
                             //刪除Row
                             _.each(checkRows, function (row) {
                                 var DelIndex = $('#dg').datagrid('getRowIndex', row);
@@ -975,6 +977,9 @@ var vm = new Vue({
                             vm.doSaveCUD();
                         } else {
                             alert(result.errorMsg);
+                            _.each(checkRows, function (row) {
+                                _.without(vm.tmpCud.deleteData, row);
+                            });
                         }
 
                     });
@@ -984,7 +989,6 @@ var vm = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
-            console.log(vm.tmpCud);
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {

@@ -42,7 +42,6 @@ module.exports = {
                 lo_result.success = false;
                 lo_error.errorMsg = result;
                 lo_error.errorCod = "1111";
-                // postData.rowData[postData.validateField] = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
             callback(lo_error, lo_result);

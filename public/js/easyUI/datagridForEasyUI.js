@@ -272,8 +272,7 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-        var rowData = $('#' + dgName).datagrid('getRows')[indexRow];
-        if (rowData.createRow == "Y")
+        if (selectDataRow.createRow == "Y")
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         var postData = {
             prg_id: fieldAttrObj.prg_id,
