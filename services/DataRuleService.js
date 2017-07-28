@@ -101,7 +101,12 @@ exports.getSelectOptions = function (params, selRow, callback) {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             ruleAgent[selRow.rule_func_name](params, function (result) {
-                callback(result.selectOptions);
+                if(!_.isNull(result)) {
+                    callback(result.selectOptions);
+                }
+                else{
+                    callback([]);
+                }
             });
         } else {
             callback([]);

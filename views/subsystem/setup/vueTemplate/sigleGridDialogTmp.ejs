@@ -45,13 +45,13 @@
                                         >
 
                                     <!--  label -->
-                                    <label v-model="singleData[field.ui_field_name]"
+                                    <label
                                            :style="{width:field.label_width + 'px'}"
                                            class="numStyle-none"
                                            v-if="field.visiable == 'Y' && field.ui_type == 'label'"
                                            :maxlength="field.ui_field_length"
                                     >
-                                        <span v-else :value="singleData[field.ui_field_name]"></span>
+                                        {{singleData[field.ui_field_name]}}
                                     </label>
 
                                     <!--  checkbox -->

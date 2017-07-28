@@ -47,7 +47,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
-        <!--<sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>-->
+        <sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
         <!--<sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>-->
