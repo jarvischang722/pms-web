@@ -4128,6 +4128,51 @@ span.triangle-text {
   width: 15%;
 }
 
+/* line 1564, ../sass/_bacchusMain.sass */
+.input-medium.width-122 {
+  width: 122px;
+  max-width: 100%;
+  height: 25px;
+}
+
+/* line 1568, ../sass/_bacchusMain.sass */
+.input-medium.width-263 {
+  width: 257px;
+  max-width: 100%;
+  height: 25px;
+}
+
+/* line 1572, ../sass/_bacchusMain.sass */
+.custab {
+  border: 0px solid #ccc;
+  padding: 5px;
+  margin: 2% 0;
+  box-shadow: 3px 3px 2px #ccc;
+}
+/* line 1578, ../sass/_bacchusMain.sass */
+.custab thead tr {
+  background: #549bdb !important;
+  background-image: none;
+  color: #fff;
+}
+/* line 1582, ../sass/_bacchusMain.sass */
+.custab thead tr th {
+  border: 1px solid #fff !important;
+}
+/* line 1586, ../sass/_bacchusMain.sass */
+.custab tbody tr:nth-child(odd) {
+  background-color: #d2ddf1;
+}
+/* line 1588, ../sass/_bacchusMain.sass */
+.custab tbody tr:nth-child(even) {
+  background-color: #f3f3f7;
+}
+/* line 1590, ../sass/_bacchusMain.sass */
+.custab tbody tr td {
+  border: 1px solid #fff !important;
+  color: #000;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
