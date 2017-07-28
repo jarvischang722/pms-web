@@ -1,7 +1,7 @@
 <!--page-content-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
-<!-- FrontDesk Groups Page-->
+    <!-- c/i Date Page-->
     <div class="row">
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
@@ -55,66 +55,87 @@
                                         <!--1-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>訂房卡號</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                                <label>速查</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-keyword" placeholder="">
                                             </div>
-                                            <div class="grid-item">
-                                                <label>公帳號</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            <div class="searchCheckbox pull-left">
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                                          <span class="lbl">Keyword</span>
+                                                      </label>
+                                                    </span>
                                             </div>
                                         </div>
                                         <!--2-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>團號</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                                <label>訂房卡號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>官網/聯訂中心</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                         </div>
                                         <!--3-->
                                         <div class="grid">
-                                            <div class="grid-item pull-left">
-                                                <label>住客姓名</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            <div class="grid-item">
+                                                <label>C/I日期</label>
+                                                <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
-                                            <div class="searchCheckbox pull-left">
-                                                <span class="checkbox">
-                                                  <label class="checkbox-width">
-                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                                      <span class="lbl">Keyword</span>
-                                                  </label>
-                                                </span>
+                                            <div class="grid-item">
+                                                <label>訂房卡狀態</label>
+                                                <select class="input-medium popWindow-s1v2-col2">
+                                                    <option value="1">有效訂房</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <!--4-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>入住日期</label>
-                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                                <label>C/O日期</label>
+                                                <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                             <div class="grid-item">
-                                                <label>退房日期</label>
-                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                                <label>訂房公司</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                         </div>
                                         <!--5-->
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>查詢資料</label>
-                                                <select class="input-medium popWindow-s1">
-                                                    <option value="1">未入住</option>
-                                                    <option value="2">已入住</option>
-                                                    <option value="3">全部</option>
-                                                </select>
+                                                <label>公司名稱</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                             <div class="grid-item">
-                                                <label>住客帳狀態</label>
-                                                <select class="input-medium popWindow-s1">
-                                                    <option value="1">開帳</option>
-                                                    <option value="2">關帳</option>
-                                                    <option value="3">全部</option>
-                                                </select>
+                                                <label>Full Name</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                         </div>
+                                        <!--6-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>團號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>住客姓名</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--7-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>聯絡電話</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>住客類別</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -129,8 +150,8 @@
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <!-- 團體管理 front_groups-table dataGrid -->
-                    <table id="front_groups-table"></table>
+                    <!-- PMS0210060 dataGrid -->
+                    <table id="PMS0210060"></table>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
@@ -138,16 +159,28 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">團體明細</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">Check In</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth groups_noAdmit"
-                                        role="button">團體多筆(未)</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">Fast C/I</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth groups_admit"
-                                        role="button">團體多筆(已)</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">Reservations</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">Pax List</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">Assign Room</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                        role="button">E Signature</button>
                             </li>
                         </ul>
                     </div>
@@ -155,28 +188,12 @@
             </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-
-        <div id="bts-ex-1" class="selectpicker">
-            <button data-id="prov" type="button" class="btn btn-lg btn-block btn-default dropdown-toggle">
-                <span class="placeholder">Choose an option</span>
-                <span class="caret"></span>
-            </button>
-            <div class="dropdown-menu">
-                <ul class="list-unstyled">
-                    <li class="items" data-value="1">Item 1</li>
-                    <li class="items" data-value="2">Item 2</li>
-                    <li class="items" data-value="3">Item 3</li>
-                    <li class="items" data-value="4">Item 4</li>
-                    <li class="items" data-value="5">Item 5</li>
-                </ul>
-            </div>
-            <input type="hidden" name="bts-ex-1" value="">
     </div>
     <!--  接待 彈出視窗內容(jing)-->
     <%- include frontDesk_module/frontDesk_Btn_1.ejs %>
     <!--  /.End 接待 彈出視窗內容 -->
-</div><!-- /.page-content -->
-
+<!-- /.page-content -->
+</div>
 <!--  接待共用 initial js -->
 <%- include frontDesk_module/frontDesk_includeJs.ejs %>
 <!--  /.End 接待共用 initial js  -->
