@@ -163,18 +163,6 @@ module.exports = {
 
     },
 
-    r_HfduserfBegindatAttr: function (postData, session, callback) {
-        let lo_result = new ReturnClass();
-        let lo_error = null;
-        let dtData = postData.dtData;
-        let field = postData.field;
-
-        // let begin_dat
-
-
-        callback(lo_error, lo_result);
-    },
-
     r_pms0820050_add: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
