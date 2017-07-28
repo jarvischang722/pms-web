@@ -518,6 +518,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                 });
             }
+
             //TODO: 小良Rule完成後可刪
             if (prg_id == "PMS0820050") {
                 $.post("/api/getKeyNos", function (getResult) {
@@ -525,7 +526,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         self.key_nos = getResult.defaultValues.key_nos;
                     }
                 });
-            }
+            };
 
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
@@ -576,7 +577,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         onClickDtRow: function (index, dtRow) {
             var lo_params = {
                 dtField: this.pageTwoDataGridFieldData,
-                rowData: dtRow
+                editData: dtRow
             };
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
                 if (chkResult.success) {
@@ -662,6 +663,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     if (result.success) {
                         prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                     }
+
                     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
                     $("#dt_dg").datagrid('selectRow', self.dtEditIndex)
@@ -702,7 +704,6 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-            var self = this;
             rowData["mnRowData"] = this.singleData;
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
@@ -719,7 +720,11 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-            rowData.key_nos = this.key_nos;
+
+            if(dataType == "dt_createData" && prg_id == "PMS0820050"){
+                rowData.key_nos = this.key_nos;
+            }
+
             this.tmpCud[dataType].push(rowData);
         },
 
