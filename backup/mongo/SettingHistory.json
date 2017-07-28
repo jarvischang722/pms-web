@@ -17549,3 +17549,2328 @@
 
     }
 }
+{ 
+    "_id" : ObjectId("597168b5ebe6c165492e8de3"), 
+    "serv_nos" : {
+        "old" : "", 
+        "new" : "1001"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "房租"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "item_nos" : {
+        "old" : "", 
+        "new" : "1001"
+    }, 
+    "table_name" : "hkmtype_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:36:39"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 10:36:39", 
+    "middle_typ" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:36:39"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("597168b5ebe6c165492e8de4"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "7月房租"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "small_typ" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "table_name" : "hkstype_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:36:27"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 10:36:27", 
+    "middle_typ" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:36:27"
+    }, 
+    "user" : "a16010", 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("597168eaebe6c165492e8de7"), 
+    "serv_nos" : {
+        "old" : "", 
+        "new" : "1004"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "半日租"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "item_nos" : {
+        "old" : "", 
+        "new" : "1004"
+    }, 
+    "table_name" : "hkmtype_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:37:32"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 10:37:32", 
+    "middle_typ" : {
+        "old" : "", 
+        "new" : "2   "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:37:32"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("597168eaebe6c165492e8de8"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "12點前"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "small_typ" : {
+        "old" : "", 
+        "new" : "2   "
+    }, 
+    "table_name" : "hkstype_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:37:18"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 10:37:18", 
+    "middle_typ" : {
+        "old" : "", 
+        "new" : "2   "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 10:37:18"
+    }, 
+    "user" : "a16010", 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("597168f4ebe6c165492e8dea"), 
+    "table_name" : "hkstype_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 10:37:42", 
+    "typ_nam" : {
+        "old" : "12點前", 
+        "new" : "13點前"
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "middle_typ" : "2   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  ", 
+        "small_typ" : "2   "
+    }
+}
+{ 
+    "_id" : ObjectId("5971690debe6c165492e8ded"), 
+    "serv_nos" : {
+        "old" : "1004", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "typ_eng" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "typ_nam" : {
+        "old" : "半日租", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "item_nos" : {
+        "old" : "1004", 
+        "new" : ""
+    }, 
+    "table_name" : "hkmtype_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-21 00:00:00", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-21 10:38:05", 
+    "middle_typ" : {
+        "old" : "2   ", 
+        "new" : ""
+    }, 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-21 10:37:42", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "middle_typ" : "2   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971690debe6c165492e8dee"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "typ_eng" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "typ_nam" : {
+        "old" : "13點前", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "small_typ" : {
+        "old" : "2   ", 
+        "new" : ""
+    }, 
+    "table_name" : "hkstype_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-21 00:00:00", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-21 10:38:05", 
+    "middle_typ" : {
+        "old" : "2   ", 
+        "new" : ""
+    }, 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-21 10:37:42", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "middle_typ" : "2   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("597170d8ebe6c165492e8e67"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "3"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "small_typ" : {
+        "old" : "", 
+        "new" : "2   "
+    }, 
+    "table_name" : "hkstype_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 11:11:18"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 11:11:18", 
+    "middle_typ" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 11:11:18"
+    }, 
+    "user" : "a14017", 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("59718f8bebe6c165492e8ebd"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "table_name" : "holiday_kind_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 13:22:21"
+    }, 
+    "color_num" : {
+        "old" : "", 
+        "new" : "65535"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 13:22:21", 
+    "day_sta" : {
+        "old" : "", 
+        "new" : "g"
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "sys_default" : {
+        "old" : "", 
+        "new" : "N"
+    }, 
+    "day_nam" : {
+        "old" : "", 
+        "new" : "g"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 13:22:21"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5971b5abebe6c165492e8ef6"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "modify_sta" : {
+        "old" : "", 
+        "new" : "Y"
+    }, 
+    "table_name" : "source_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 16:05:02"
+    }, 
+    "use_sta" : {
+        "old" : "", 
+        "new" : "Y"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-21 16:05:02", 
+    "source_grp" : {
+        "old" : "", 
+        "new" : "    "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "source_nam" : {
+        "old" : "", 
+        "new" : "k"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-21 16:05:02"
+    }, 
+    "user" : "a16009", 
+    "key" : {
+
+    }, 
+    "source_typ" : {
+        "old" : "", 
+        "new" : "k   "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b5afebe6c165492e8ef8"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:05:06", 
+    "source_nam" : {
+        "old" : "Rest", 
+        "new" : "Rest3"
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RT  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b61cebe6c165492e8efa"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:06:54", 
+    "source_nam" : {
+        "old" : "DayUse", 
+        "new" : "DayUse3"
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "DU  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b61cebe6c165492e8efb"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:06:54", 
+    "source_nam" : {
+        "old" : "GRP                           ", 
+        "new" : "GRP5                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "08  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b61cebe6c165492e8efc"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:06:54", 
+    "source_nam" : {
+        "old" : "PKG                           ", 
+        "new" : "PKG6                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "07  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b61cebe6c165492e8efd"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:06:54", 
+    "source_nam" : {
+        "old" : "CPN                           ", 
+        "new" : "CPN7                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "06  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b717ebe6c165492e8f00"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:11:06", 
+    "source_nam" : {
+        "old" : "INB                           ", 
+        "new" : "INB5                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b717ebe6c165492e8f01"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:11:06", 
+    "source_nam" : {
+        "old" : "T/A                           ", 
+        "new" : "T/A5                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "03  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b717ebe6c165492e8f02"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:11:06", 
+    "source_nam" : {
+        "old" : "WEB                           ", 
+        "new" : "WEB5                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "04  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b717ebe6c165492e8f03"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:11:06", 
+    "source_nam" : {
+        "old" : "DIR                           ", 
+        "new" : "DIR5                           "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "05  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b878ebe6c165492e8f0e"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "N", 
+        "new" : "Y"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:16:56", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "04  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f13"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "07  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f14"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "08  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f15"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "1ST "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f16"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "DU  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f17"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RG  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b8ddebe6c165492e8f18"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:18:39", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RT  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1a"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "WI  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1b"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "N", 
+        "new" : "Y"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RG  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1c"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "06  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1d"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "05  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1e"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "04  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f1f"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "03  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f20"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971b961ebe6c165492e8f21"), 
+    "table_name" : "source_rf", 
+    "use_sta" : {
+        "old" : "Y", 
+        "new" : "N"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:20:52", 
+    "user" : "a14019", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "01  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f2d"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "L   "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "WI  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f2e"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "KK  "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RT  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f2f"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "L   "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "RG  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f30"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "SAM "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "DU  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f31"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "L   "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "1ST "
+    }
+}
+{ 
+    "_id" : ObjectId("5971bb80ebe6c165492e8f32"), 
+    "table_name" : "source_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 16:29:56", 
+    "source_grp" : {
+        "old" : "    ", 
+        "new" : "SAM "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+        "athena_id" : "1", 
+        "source_typ" : "08  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971c6b1ebe6c13741d46861"), 
+    "color_num" : {
+        "old" : "16777215", 
+        "new" : "32832"
+    }, 
+    "table_name" : "hfd_room_color_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 17:17:41", 
+    "user" : "a14017", 
+    "key" : {
+        "key_nos" : "1", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5971c940ebe6c13741d4687e"), 
+    "color_num" : {
+        "old" : "32832", 
+        "new" : "16777215"
+    }, 
+    "table_name" : "hfd_room_color_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-21 17:28:36", 
+    "user" : "a14017", 
+    "key" : {
+        "key_nos" : "1", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("59745a7cebe6c123bfd4aed1"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "typ_nam" : {
+        "old" : "", 
+        "new" : "VIP"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "type" : {
+        "old" : "", 
+        "new" : "2"
+    }, 
+    "table_name" : "rvtyp_dt", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-23 16:12:37"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-23 16:12:37", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-23 16:12:37"
+    }, 
+    "user" : "a14017", 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "key" : {
+
+    }, 
+    "rv_typ" : {
+        "old" : "", 
+        "new" : "3   "
+    }
+}
+{ 
+    "_id" : ObjectId("597556cfebe6c1691e002b0d"), 
+    "color_num" : {
+        "old" : "6809419", 
+        "new" : "6213333"
+    }, 
+    "table_name" : "hfd_daily_event", 
+    "action" : "update", 
+    "event_time" : "2017-07-24 10:09:20", 
+    "user" : "a16009", 
+    "key" : {
+        "key_nos" : "24", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("597556e1ebe6c1691e002b0f"), 
+    "begin_dat" : {
+        "old" : "2017-07-18 00:00:00", 
+        "new" : "2017-07-25 00:00:00"
+    }, 
+    "table_name" : "hfd_daily_event", 
+    "action" : "update", 
+    "event_time" : "2017-07-24 10:09:39", 
+    "user" : "a16009", 
+    "key" : {
+        "key_nos" : "24", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("59755e1cebe6c1691e002b7b"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "begin_dat" : {
+        "old" : "", 
+        "new" : "2017-07-03 00:00:00"
+    }, 
+    "event_nam" : {
+        "old" : "", 
+        "new" : "123"
+    }, 
+    "end_dat" : {
+        "old" : "", 
+        "new" : "2017-07-05 00:00:00"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "12"
+    }, 
+    "table_name" : "hfd_daily_event", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 10:40:30"
+    }, 
+    "action" : "insert", 
+    "key_nos" : {
+        "old" : "", 
+        "new" : "25"
+    }, 
+    "event_time" : "2017-07-24 10:40:30", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 10:40:30"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("597585ceebe6c1691e002c87"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "加小床", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "BED1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 13:29:50", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "Y", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "BED1", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("597585ceebe6c1691e002c88"), 
+    "room_nos" : {
+        "old" : "      ", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "BED1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ikey_seq_nos" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "inv_qnt" : {
+        "old" : "10", 
+        "new" : ""
+    }, 
+    "begin_dat" : {
+        "old" : "2013-09-25 00:00:00", 
+        "new" : ""
+    }, 
+    "item_qnt" : {
+        "old" : "10", 
+        "new" : ""
+    }, 
+    "ikey" : {
+        "old" : "          ", 
+        "new" : ""
+    }, 
+    "end_dat" : {
+        "old" : "2014-12-31 00:00:00", 
+        "new" : ""
+    }, 
+    "ins_dat" : {
+        "old" : "2013-09-25 11:13:43", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "key_nos" : {
+        "old" : "3", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 13:29:50", 
+    "ins_usr" : {
+        "old" : "cio", 
+        "new" : ""
+    }, 
+    "status_cod" : {
+        "old" : "N ", 
+        "new" : ""
+    }, 
+    "action_cod" : {
+        "old" : "add  ", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 00:00:00", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "BED1"
+    }
+}
+{ 
+    "_id" : ObjectId("597585ceebe6c1691e002c89"), 
+    "room_nos" : {
+        "old" : "      ", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "BED1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ikey_seq_nos" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "inv_qnt" : {
+        "old" : "-1", 
+        "new" : ""
+    }, 
+    "begin_dat" : {
+        "old" : "2013-10-12 00:00:00", 
+        "new" : ""
+    }, 
+    "item_qnt" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ikey" : {
+        "old" : "00669102  ", 
+        "new" : ""
+    }, 
+    "end_dat" : {
+        "old" : "2013-10-12 00:00:00", 
+        "new" : ""
+    }, 
+    "ins_dat" : {
+        "old" : "2015-08-05 15:06:13", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "key_nos" : {
+        "old" : "37", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 13:29:50", 
+    "ins_usr" : {
+        "old" : "yhw", 
+        "new" : ""
+    }, 
+    "status_cod" : {
+        "old" : "I ", 
+        "new" : ""
+    }, 
+    "action_cod" : {
+        "old" : "order", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "BED1"
+    }
+}
+{ 
+    "_id" : ObjectId("597585ceebe6c1691e002c8a"), 
+    "room_nos" : {
+        "old" : "725   ", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "BED1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ikey_seq_nos" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "inv_qnt" : {
+        "old" : "-1", 
+        "new" : ""
+    }, 
+    "begin_dat" : {
+        "old" : "2013-10-12 00:00:00", 
+        "new" : ""
+    }, 
+    "item_qnt" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ikey" : {
+        "old" : "00669102  ", 
+        "new" : ""
+    }, 
+    "end_dat" : {
+        "old" : "2013-10-12 00:00:00", 
+        "new" : ""
+    }, 
+    "ins_dat" : {
+        "old" : "2015-08-05 15:42:03", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "key_nos" : {
+        "old" : "40", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 13:29:50", 
+    "ins_usr" : {
+        "old" : "yhw", 
+        "new" : ""
+    }, 
+    "status_cod" : {
+        "old" : "CO", 
+        "new" : ""
+    }, 
+    "action_cod" : {
+        "old" : "room ", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "BED1"
+    }
+}
+{ 
+    "_id" : ObjectId("59758899ebe6c1691e002ca0"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "加大床", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "BED1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 13:41:45", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "Y", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "BED1", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("597588c2ebe6c1691e002ca2"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "BED1"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "加大床"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 13:42:29"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 13:42:29", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 13:42:29"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("59758d5febe6c1691e002cef"), 
+    "msg_tax1" : {
+        "old" : "", 
+        "new" : "2"
+    }, 
+    "msg_tax2" : {
+        "old" : "", 
+        "new" : "3"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "msg_tax3" : {
+        "old" : "", 
+        "new" : "3"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "rmk_cod" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "table_name" : "msggtrmk_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:10"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 14:02:10", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:10"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "m15009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("59758d77ebe6c1691e002cf7"), 
+    "msg_tax1" : {
+        "old" : "", 
+        "new" : "2"
+    }, 
+    "msg_tax2" : {
+        "old" : "", 
+        "new" : "1e"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "msg_tax3" : {
+        "old" : "", 
+        "new" : "e"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "rmk_cod" : {
+        "old" : "", 
+        "new" : "31  "
+    }, 
+    "table_name" : "msggtrmk_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:34"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 14:02:34", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:34"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "m15009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("59758d83ebe6c1691e002cf9"), 
+    "msg_tax1" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "msg_tax2" : {
+        "old" : "", 
+        "new" : "2"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "msg_tax3" : {
+        "old" : "", 
+        "new" : "3"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "rmk_cod" : {
+        "old" : "", 
+        "new" : "32  "
+    }, 
+    "table_name" : "msggtrmk_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:45"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 14:02:45", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "m15009"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 14:02:45"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "m15009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5975c1e2ebe6c119cbdb4cbd"), 
+    "room_qnt" : {
+        "old" : "3", 
+        "new" : "4"
+    }, 
+    "table_name" : "room_rf", 
+    "action" : "update", 
+    "event_time" : "2017-07-24 17:08:04", 
+    "user" : "a16010", 
+    "key" : {
+        "room_typ" : "3   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5975c60febe6c119cbdb4cdc"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:04:04"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:04:04", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:04:04"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c641ebe6c119cbdb4ce2"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:04:04", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:04:49", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:04:04", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "test", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c6c7ebe6c119cbdb4ce9"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:07:08"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:07:08", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:07:08"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c6cfebe6c119cbdb4ceb"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:07:08", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:07:11", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:07:08", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "test", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c6e0ebe6c119cbdb4ced"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:07:33"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:07:33", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:07:33"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c6eeebe6c119cbdb4cef"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:07:33", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:07:42", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:07:33", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "test", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c714ebe6c119cbdb4cf1"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:08:24"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:08:24", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:08:24"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c71aebe6c119cbdb4cf3"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:08:24", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:08:26", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:08:24", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "test", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c72debe6c119cbdb4cf7"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "test"
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:08:49"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:08:49", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:08:49"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c732ebe6c119cbdb4cf9"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "test", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:08:49", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:08:49", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:08:49", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "test", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c781ebe6c119cbdb4d02"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "5   "
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:10:14"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:10:14", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:10:14"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}
+{ 
+    "_id" : ObjectId("5975c81debe6c119cbdb4d0d"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "item_nam" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "item_cod" : {
+        "old" : "5   ", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "view_seq" : {
+        "old" : "5", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "2017-07-24 18:10:14", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-07-24 18:12:45", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "sys_default" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-07-24 18:10:14", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "item_cod" : "5   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }, 
+    "co_notice" : {
+        "old" : "N", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5975c827ebe6c119cbdb4d0f"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "5   "
+    }, 
+    "item_nam" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "5"
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:13:00"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-07-24 18:13:00", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-07-24 18:13:00"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "co_notice" : {
+        "old" : "", 
+        "new" : "N"
+    }
+}

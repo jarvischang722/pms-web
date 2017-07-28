@@ -87,6 +87,7 @@
             //讀取此Module 所有對照檔
             loadProcess: function () {
                 this.prosList = [];
+
                 $.post("/api/getGroupMdlPros", {mdl_id: gs_mdl_id}, function (result) {
 
                     if (result.success) {

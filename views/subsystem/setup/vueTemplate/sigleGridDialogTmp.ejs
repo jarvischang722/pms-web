@@ -41,7 +41,7 @@
                                            :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                           @click="chkClickTextGrid(field.ui_field_name,field.rule_func_name,field.ui_type)"
+                                           @click="chkClickTextGrid(field)"
                                         >
 
                                     <!--  checkbox -->
