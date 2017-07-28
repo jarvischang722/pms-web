@@ -666,8 +666,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
                     $("#dt_dg").datagrid('selectRow', self.dtEditIndex)
                         .datagrid('beginEdit', self.dtEditIndex);
+                    self.key_nos++; //TODO: 小良加上rule後可刪除
                 });
-
             }
         },
 

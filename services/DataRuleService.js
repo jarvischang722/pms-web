@@ -100,8 +100,13 @@ exports.getSelectOptions = function (params, selRow, callback) {
     } else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (err, result) {
-                callback(result.selectOptions);
+            ruleAgent[selRow.rule_func_name](params, function (result) {
+                if(!_.isNull(result)) {
+                    callback(result.selectOptions);
+                }
+                else{
+                    callback([]);
+                }
             });
         } else {
             callback([]);
@@ -161,14 +166,22 @@ exports.handleAddFuncRule = function (postData, session, callback) {
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.waterfall([
         function (cb) {
-            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
+            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: 2}, function (err, fieldNameList) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
         }
     ], function (err, fieldNameList) {
         let lo_initField = {};
         _.each(fieldNameList, function (name) {
-            lo_initField[name] = "";
+            if(name == "athena_id"){
+                lo_initField[name] = session.user.athena_id;
+            }
+            else if(name == "hotel_cod"){
+                lo_initField[name] = session.user.fun_hotel_cod;
+            }
+            else{
+                lo_initField[name] = "";
+            }
         });
         mongoAgent.DatagridFunction.findOne({
             prg_id: prg_id,
