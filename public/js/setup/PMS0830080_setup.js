@@ -1,0 +1,213 @@
+/**
+ * Created by Jun on 2017/7/28.
+ * PMS0830080: 分帳規則設定
+ */
+/** DatagridRmSingleGridClass ***/
+function DatagridSingleGridClass() {
+}
+DatagridSingleGridClass.prototype = new DatagridBaseClass();
+DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    //
+};
+DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+    PMS0830080VM.editingRow = row;
+    PMS0830080VM.isEditStatus = true;
+    PMS0830080VM.fetchSingleData();
+};
+/*** Class End  ***/
+
+var Pms0830080Comp = Vue.extend({
+    template: '#PMS0830080Tmp',
+    props: ["accounts"],
+    mounted: function () {
+        this.getStypeRf();
+    },
+    data: function () {
+        return {
+            stypeRfList: [],
+
+        };
+    },
+    methods: {
+        //取得中小分類
+        getStypeRf: function () {
+            var _this = this;
+            $.post('/api/getStypeRf', function (result) {
+                _this.stypeRfList = result.stypeList;
+                console.log(_this.stypeRfList);
+            });
+        },
+        checkMasterAccStatus: function (small_typ) {
+
+            var activeAccount = String(this.$parent.activeAccount);
+            var account = _.findIndex(this.accounts["account" + activeAccount], {
+                small_typ: small_typ.trim(),
+                master_sta: 'Y'
+            });
+            if (account > -1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        },
+        checkSmallTyp: function (small_typ) {
+            var activeAccount = String(this.$parent.activeAccount);
+            var account = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
+            if (account > -1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        },
+        toMasterAcc: function () {
+
+        },
+        toggleAccount: function (small_typ) {
+            if(this.checkOtherAccSelected(small_typ)){
+                alert("Seleted!");
+                return;
+            }
+            var activeAccount = String(this.$parent.activeAccount);
+            var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
+            if (accountIdx > -1) {
+                this.accounts["account" + activeAccount].splice(accountIdx, 1);
+            } else {
+                this.accounts["account" + activeAccount].push({
+                    folio_nos: this.$parent.activeAccount,
+                    master_sta: 'N',
+                    route_cod: this.$parent.editingRow.route_cod.trim(),
+                    small_typ: small_typ.trim()
+                });
+            }
+        },
+        checkOtherAccSelected: function (small_typ) {
+            var activeAccount = String(this.$parent.activeAccount);
+            var accSelected = false;
+            _.each(this.accounts, function (data, account_cod) {
+                if (!accSelected && account_cod != "account" + activeAccount) {
+                    accSelected = _.findIndex(data, {small_typ: small_typ.trim()}) > -1 ? true : false;
+                }
+            });
+            return accSelected;
+        }
+
+
+    }
+});
+
+var PMS0830080VM = new Vue({
+    el: '#PMS0830080App',
+    components: {Pms0830080Comp},
+    data: {
+        prg_id: gs_prg_id,
+        pageOneDataGridRows: [],
+        pageOneFieldData: [],
+        editingRow: {},
+        isEditStatus: false,
+        isCreateStatus: false,
+        routeDtList: [],
+        accounts: {
+            account1: [],
+            account2: [],
+            account3: [],
+            account4: [],
+            account5: [],
+            account6: [],
+            account7: [],
+            account8: [],
+            account9: []
+        },
+        activeAccount: 1
+    },
+    mounted: function () {
+
+        this.getRouteData();
+    },
+    watch: {
+        pageOneFieldData: function () {
+            this.initDataGrid();
+            this.dgIns.loadDgData(this.pageOneDataGridRows);
+        },
+        routeDtList: function (routeDtData) {
+            this.accounts = {
+                account1: _.where(routeDtData, {folio_nos: 1}),
+                account2: _.where(routeDtData, {folio_nos: 2}),
+                account3: _.where(routeDtData, {folio_nos: 3}),
+                account4: _.where(routeDtData, {folio_nos: 4}),
+                account5: _.where(routeDtData, {folio_nos: 5}),
+                account6: _.where(routeDtData, {folio_nos: 6}),
+                account7: _.where(routeDtData, {folio_nos: 7}),
+                account8: _.where(routeDtData, {folio_nos: 8}),
+                account9: _.where(routeDtData, {folio_nos: 9})
+            };
+            console.log(this.accounts);
+        }
+
+    },
+    methods: {
+        initDataGrid: function () {
+            this.dgIns = new DatagridSingleGridClass();
+            this.dgIns.init(this.prg_id, "PMS0830080_dg", EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830080_dg'));
+        },
+        initAccounts: function () {
+            this.accounts = {
+                account1: [],
+                account2: [],
+                account3: [],
+                account4: [],
+                account5: [],
+                account6: [],
+                account7: [],
+                account8: [],
+                account9: []
+            };
+        },
+        getRouteData: function () {
+            $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
+                .done(function (response) {
+                    console.log(response);
+                    PMS0830080VM.pageOneDataGridRows = response.dataGridRows;
+                    PMS0830080VM.pageOneFieldData = response.fieldData;
+                })
+                .fail(function (error) {
+                    console.log(error);
+                });
+        },
+        addRoute: function () {
+            this.isCreateStatus = true;
+            this.isEditStatus = false;
+            this.initAccounts();
+            this.openRouteDialog();
+        },
+        fetchSingleData: function () {
+            this.isCreateStatus = false;
+            this.isEditStatus = true;
+            $.post('/api/getRouteDtByRouteCod', {route_cod: this.editingRow.route_cod})
+                .done(function (response) {
+                    PMS0830080VM.routeDtList = response.routeDtList;
+                });
+
+            this.openRouteDialog();
+        },
+        openRouteDialog: function () {
+            var dialog = $("#PMS0830080Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "公帳號",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+                dialogClass: "test",
+                resizable: true
+            });
+        },
+        closeRouteDialog: function () {
+            this.isCreateStatus = false;
+            this.isEditStatus = false;
+            $("#PMS0830080Dialog").dialog('close');
+        }
+
+    }
+});

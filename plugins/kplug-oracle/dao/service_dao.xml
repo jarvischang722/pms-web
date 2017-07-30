@@ -71,5 +71,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_wrs_normal_pic.xml"/>
         <sql-source base="true" comment="test" key="test" path="hfd_room_color_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_master_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_route_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_route_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_stype_rf.xml"/>
     </sql-sources>
 </struts-config>

@@ -75,7 +75,7 @@ module.exports = function (io) {
                         lastTimes = moment(sessionData.expires).diff(moment(), "seconds");
                     }
 
-                    if (lastTimes < 0) {
+                    if (lastTimes <= 0) {
                         clearInterval(chkSessionInterval);
                         socket.emit("sessionStatus", {exist: false});
                     } else {
