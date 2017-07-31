@@ -58,28 +58,13 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
         openFieldMultiLangDialog: function () {
             this.showMultiLangDialog = true;
-            // var width = 300;
-            // var height = (this.sys_locales.length + 1) * 40 + 100;
-            // var dialog = $("#fieldMultiLangTmpDialog").dialog({
-            //     autoOpen: false,
-            //     modal: true,
-            //     title: fieldName,
-            //     height: height,
-            //     width: width,
-            //     resizable: false,
-            //     buttons: "#fieldMultiDialogBtns"
-            // });
-            //
-            // dialog.dialog("open");
         },
         closeFieldMultiLangDialog: function () {
             this.showMultiLangDialog = false;
-            // $("#fieldMultiLangTmpDialog").dialog("close");
         },
         saveFieldMultiLang: function () {
 
