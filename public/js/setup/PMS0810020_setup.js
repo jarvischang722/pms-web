@@ -786,6 +786,7 @@ var vm = new Vue({
                 data: dgData
             });
         },
+
         //顯示DataGrid
         showDataGrid: function () {
 
@@ -832,6 +833,7 @@ var vm = new Vue({
                 }
             });
         },
+
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
@@ -1006,6 +1008,7 @@ var vm = new Vue({
             });
 
         },
+
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
             var self = this;
@@ -1091,6 +1094,7 @@ var vm = new Vue({
                 });
             }
         },
+
         //打開單檔dialog
         showSingleGridDialog: function () {
             this.initDatePicker();
@@ -1111,6 +1115,7 @@ var vm = new Vue({
             // 給 dialog "內容"高 值
             $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
+
         //關閉單檔dialog
         closeSingleGridDialog: function () {
             vm.editingRow = {};
