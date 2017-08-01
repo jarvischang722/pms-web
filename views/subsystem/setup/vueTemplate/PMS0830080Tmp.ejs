@@ -9,14 +9,14 @@
                         <div class="grid">
                             <div class="grid-item">
                                 <label>規則代號</label>
-                                <input type="text" disabled :value="$parent.editingRow.route_cod"
+                                <input type="text" :disabled="$parent.isEditStatus" :value="$parent.editingRow.route_cod"
                                        class="input-medium resvCard">
                             </div>
                         </div>
                         <div class="grid">
                             <div class="grid-item">
                                 <label>規則名稱</label>
-                                <input type="text" disabled :value="$parent.editingRow.route_nam"
+                                <input type="text" :disabled="$parent.isEditStatus" :value="$parent.editingRow.route_nam"
                                        class="input-medium resvCard-col2">
                             </div>
                         </div>
@@ -36,31 +36,31 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody class="css_tbody">
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 1">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 1; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 1}" class="css_td ">1</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 2">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 2; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 2}" class="css_td">2</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 3">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 3; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 3}" class="css_td">3</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 4">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 4; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 4}" class="css_td">4</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 5">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 5; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 5}" class="css_td">5</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 6">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 6; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 6}" class="css_td">6</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 7">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 7; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 7}" class="css_td">7</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 8">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 8; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 8}" class="css_td">8</td>
                                                     </tr>
-                                                    <tr class="css_tr" @click="$parent.activeAccount = 9">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 9; activeSmallTyp=''">
                                                         <td :class="{active: $parent.activeAccount == 9}" class="css_td">9</td>
                                                     </tr>
                                                     </tbody>
@@ -73,7 +73,10 @@
                                             <div class="main-content-data borderFrame">
                                                 <div class="rulesOfSeparation rules-wrap">
                                                     <div class="counterRow">
-                                                        <div class="counterBlock" v-for="stype in stypeRfList"  @click="toggleAccount(stype.small_typ)"  >
+                                                        <div v-for="stype in stypeRfList"
+                                                             class="counterBlock"
+                                                             :class="{active:activeSmallTyp == stype.small_typ, 'other-selected':checkOtherAccSelected(stype.small_typ.trim()) != -1 }"
+                                                             @click="toggleAccount(stype.small_typ)"  >
                                                             <div class="head">
                                                                 <span class="left txt-lg">{{stype.small_typ}}</span>
                                                                 <span class="right purple-text"
@@ -93,13 +96,6 @@
                                                 </div>
                                             </div><!--main-content-data-->
                                             <div class="clearfix"></div>
-                                            <div class="col-sm-12" style="display: none">
-                                            <span class="rules-notice">
-                                                在畫面上點選小分類時: <br>
-                                             點選小分類:入帳時將此小分類的帳一致左測所選的帳夾編號內 <br>
-                                             點選移至公帳號:入帳時將此小分類的帳移至[公帳號]內的左測所選的帳夾編號
-                                            </span>
-                                            </div>
 
                                         </div>
                                     </div>
@@ -122,7 +118,9 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">移至公帳號
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="toggleMasterAcc"
+                                                role="button">移至公帳號
                                         </button>
                                     </li>
                                 </ul>

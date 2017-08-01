@@ -6,10 +6,8 @@
 function DatagridSingleGridClass() {
 }
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
-DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
-    //
-};
 DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+
     PMS0830080VM.editingRow = row;
     PMS0830080VM.isEditStatus = true;
     PMS0830080VM.fetchSingleData();
@@ -18,13 +16,14 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 var Pms0830080Comp = Vue.extend({
     template: '#PMS0830080Tmp',
-    props: ["accounts"],
+    props: ["accounts", "tmpCUD"],
     mounted: function () {
         this.getStypeRf();
     },
     data: function () {
         return {
             stypeRfList: [],
+            activeSmallTyp: ""   //被選中的小分類
 
         };
     },
@@ -34,7 +33,6 @@ var Pms0830080Comp = Vue.extend({
             var _this = this;
             $.post('/api/getStypeRf', function (result) {
                 _this.stypeRfList = result.stypeList;
-                console.log(_this.stypeRfList);
             });
         },
         checkMasterAccStatus: function (small_typ) {
@@ -61,22 +59,52 @@ var Pms0830080Comp = Vue.extend({
             }
 
         },
-        toMasterAcc: function () {
-
-        },
-        toggleAccount: function (small_typ) {
-            if(this.checkOtherAccSelected(small_typ)){
-                alert("Seleted!");
+        toggleMasterAcc: function () {
+            if (_.isEmpty(this.activeSmallTyp)) {
+                alert("Please select a small type.");
                 return;
             }
+            console.log(this.$parent.editingRow.route_cod);
+            if (_.isUndefined(this.$parent.editingRow.route_cod)) {
+                alert("請先輸入規則代號!");
+                return;
+            }
+            var selectedAcc = this.checkOtherAccSelected(this.activeSmallTyp.trim());
             var activeAccount = String(this.$parent.activeAccount);
-            var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
+            var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: this.activeSmallTyp.trim()});
             if (accountIdx > -1) {
-                this.accounts["account" + activeAccount].splice(accountIdx, 1);
+                var account = "account" + String(accountIdx);
+                console.log(this.accounts["account" + activeAccount]);
+                this.accounts["account" + activeAccount][accountIdx].master_sta = this.accounts["account" + activeAccount][accountIdx].master_sta == "Y" ? "N" : "Y";
             } else {
                 this.accounts["account" + activeAccount].push({
                     folio_nos: this.$parent.activeAccount,
-                    master_sta: 'N',
+                    master_sta: "Y",
+                    route_cod: this.$parent.editingRow.route_cod,
+                    small_typ: this.activeSmallTyp.trim()
+                });
+            }
+        },
+        toggleAccount: function (small_typ, master_sta) {
+            if (_.isUndefined(this.$parent.editingRow.route_cod)) {
+                alert("請先輸入規則代號!");
+                return;
+            }
+            this.activeSmallTyp = small_typ;
+            var selectedAcc = this.checkOtherAccSelected(small_typ);
+            var activeAccount = String(this.$parent.activeAccount);
+            var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
+
+            if (accountIdx > -1) {
+                this.accounts["account" + activeAccount].splice(accountIdx, 1);
+            } else {
+                //判斷此小分類有無在其他賬夾, 如果有的話刪掉原本帳夾
+                if (selectedAcc != -1) {
+                    this.accounts[selectedAcc].splice(_.findIndex(this.accounts[selectedAcc], {small_typ: small_typ.trim()}), 1);
+                }
+                this.accounts["account" + activeAccount].push({
+                    folio_nos: this.$parent.activeAccount,
+                    master_sta: master_sta || "N",
                     route_cod: this.$parent.editingRow.route_cod.trim(),
                     small_typ: small_typ.trim()
                 });
@@ -84,13 +112,13 @@ var Pms0830080Comp = Vue.extend({
         },
         checkOtherAccSelected: function (small_typ) {
             var activeAccount = String(this.$parent.activeAccount);
-            var accSelected = false;
-            _.each(this.accounts, function (data, account_cod) {
-                if (!accSelected && account_cod != "account" + activeAccount) {
-                    accSelected = _.findIndex(data, {small_typ: small_typ.trim()}) > -1 ? true : false;
+            var selectedAcc = -1;
+            _.each(this.accounts, function (data, account) {
+                if (selectedAcc == -1 && account != "account" + activeAccount) {
+                    selectedAcc = _.findIndex(data, {small_typ: small_typ.trim()}) > -1 ? account : -1;
                 }
             });
-            return accSelected;
+            return selectedAcc;
         }
 
 
@@ -119,7 +147,12 @@ var PMS0830080VM = new Vue({
             account8: [],
             account9: []
         },
-        activeAccount: 1
+        activeAccount: 1,
+        tmpCUD: {
+            createData: [],
+            updateData: [],
+            deleteData: []
+        }
     },
     mounted: function () {
 
@@ -142,7 +175,6 @@ var PMS0830080VM = new Vue({
                 account8: _.where(routeDtData, {folio_nos: 8}),
                 account9: _.where(routeDtData, {folio_nos: 9})
             };
-            console.log(this.accounts);
         }
 
     },
@@ -176,6 +208,7 @@ var PMS0830080VM = new Vue({
                 });
         },
         addRoute: function () {
+            this.editingRow = {route_cod: '', route_nam: ''};
             this.isCreateStatus = true;
             this.isEditStatus = false;
             this.initAccounts();
