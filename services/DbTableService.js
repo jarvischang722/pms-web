@@ -340,3 +340,13 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
 
     return savaExecDatas;
 };
+
+/**
+ * PMS0830080 分帳規則儲存
+ * @param session
+ * @param postData
+ * @param callback
+ */
+exports.doSavePMS0830080 = function(session, postData, callback){
+        callback(null,true);
+};

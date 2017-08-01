@@ -9,14 +9,14 @@
                         <div class="grid">
                             <div class="grid-item">
                                 <label>規則代號</label>
-                                <input type="text" :disabled="$parent.isEditStatus" :value="$parent.editingRow.route_cod"
+                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_cod"
                                        class="input-medium resvCard">
                             </div>
                         </div>
                         <div class="grid">
                             <div class="grid-item">
                                 <label>規則名稱</label>
-                                <input type="text" :disabled="$parent.isEditStatus" :value="$parent.editingRow.route_nam"
+                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_nam"
                                        class="input-medium resvCard-col2">
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存
+                                        <button @click="$parent.doSave" class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存
                                         </button>
                                     </li>
                                     <li>

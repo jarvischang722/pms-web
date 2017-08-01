@@ -6,6 +6,9 @@
 function DatagridSingleGridClass() {
 }
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
+DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    //
+};
 DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
     PMS0830080VM.editingRow = row;
@@ -16,7 +19,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 var Pms0830080Comp = Vue.extend({
     template: '#PMS0830080Tmp',
-    props: ["accounts", "tmpCUD"],
+    props: ["accounts", "tmpCUD", "editingRow"],
     mounted: function () {
         this.getStypeRf();
     },
@@ -60,15 +63,12 @@ var Pms0830080Comp = Vue.extend({
 
         },
         toggleMasterAcc: function () {
+
             if (_.isEmpty(this.activeSmallTyp)) {
                 alert("Please select a small type.");
                 return;
             }
-            console.log(this.$parent.editingRow.route_cod);
-            if (_.isUndefined(this.$parent.editingRow.route_cod)) {
-                alert("請先輸入規則代號!");
-                return;
-            }
+            this.checkRouteCodAndName();
             var selectedAcc = this.checkOtherAccSelected(this.activeSmallTyp.trim());
             var activeAccount = String(this.$parent.activeAccount);
             var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: this.activeSmallTyp.trim()});
@@ -76,28 +76,25 @@ var Pms0830080Comp = Vue.extend({
                 var account = "account" + String(accountIdx);
                 console.log(this.accounts["account" + activeAccount]);
                 this.accounts["account" + activeAccount][accountIdx].master_sta = this.accounts["account" + activeAccount][accountIdx].master_sta == "Y" ? "N" : "Y";
+
             } else {
                 this.accounts["account" + activeAccount].push({
                     folio_nos: this.$parent.activeAccount,
                     master_sta: "Y",
-                    route_cod: this.$parent.editingRow.route_cod,
+                    route_cod: this.editingRow.route_cod,
                     small_typ: this.activeSmallTyp.trim()
                 });
             }
         },
         toggleAccount: function (small_typ, master_sta) {
-            if (_.isUndefined(this.$parent.editingRow.route_cod)) {
-                alert("請先輸入規則代號!");
-                return;
-            }
+
+            this.checkRouteCodAndName();
             this.activeSmallTyp = small_typ;
             var selectedAcc = this.checkOtherAccSelected(small_typ);
             var activeAccount = String(this.$parent.activeAccount);
             var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
 
-            if (accountIdx > -1) {
-                this.accounts["account" + activeAccount].splice(accountIdx, 1);
-            } else {
+            if (accountIdx == -1) {
                 //判斷此小分類有無在其他賬夾, 如果有的話刪掉原本帳夾
                 if (selectedAcc != -1) {
                     this.accounts[selectedAcc].splice(_.findIndex(this.accounts[selectedAcc], {small_typ: small_typ.trim()}), 1);
@@ -105,7 +102,7 @@ var Pms0830080Comp = Vue.extend({
                 this.accounts["account" + activeAccount].push({
                     folio_nos: this.$parent.activeAccount,
                     master_sta: master_sta || "N",
-                    route_cod: this.$parent.editingRow.route_cod.trim(),
+                    route_cod: this.editingRow.route_cod.trim(),
                     small_typ: small_typ.trim()
                 });
             }
@@ -119,6 +116,16 @@ var Pms0830080Comp = Vue.extend({
                 }
             });
             return selectedAcc;
+        },
+        checkRouteCodAndName: function () {
+            if (_.isEmpty(this.editingRow.route_cod)) {
+                alert("請先輸入規則代號!");
+                return;
+            }
+            if (_.isEmpty(this.editingRow.route_nam)) {
+                alert("請先輸入規則名稱!");
+                return;
+            }
         }
 
 
@@ -149,10 +156,21 @@ var PMS0830080VM = new Vue({
         },
         activeAccount: 1,
         tmpCUD: {
-            createData: [],
-            updateData: [],
-            deleteData: []
-        }
+            createData: {},
+            updateData: {},
+            deleteData: [],
+            dt_createData: [],
+            dt_updateData: [],
+            dt_deleteData: []
+        },
+
+    },
+    created: function () {
+        //子組件更新的暫存
+        this.$on("updateTmpCUD", function (data) {
+            this.tmpCUD = data.tmpCUD;
+        })
+
     },
     mounted: function () {
 
@@ -175,7 +193,20 @@ var PMS0830080VM = new Vue({
                 account8: _.where(routeDtData, {folio_nos: 8}),
                 account9: _.where(routeDtData, {folio_nos: 9})
             };
+        },
+        editingRow: {
+            handler(val){
+                if (this.isCreateStatus) {
+                    this.tmpCUD.createData = val;
+                    this.tmpCUD.updateData = {};
+                } else if (this.isEditStatus) {
+                    this.tmpCUD.updateData = val;
+                    this.tmpCUD.createData = {};
+                }
+            },
+            deep: true
         }
+
 
     },
     methods: {
@@ -196,6 +227,16 @@ var PMS0830080VM = new Vue({
                 account9: []
             };
         },
+        initTmpCUD: function () {
+            this.tmpCUD = {
+                createData: [],
+                updateData: [],
+                deleteData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: []
+            }
+        },
         getRouteData: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .done(function (response) {
@@ -208,6 +249,7 @@ var PMS0830080VM = new Vue({
                 });
         },
         addRoute: function () {
+
             this.editingRow = {route_cod: '', route_nam: ''};
             this.isCreateStatus = true;
             this.isEditStatus = false;
@@ -215,6 +257,7 @@ var PMS0830080VM = new Vue({
             this.openRouteDialog();
         },
         fetchSingleData: function () {
+
             this.isCreateStatus = false;
             this.isEditStatus = true;
             $.post('/api/getRouteDtByRouteCod', {route_cod: this.editingRow.route_cod})
@@ -225,6 +268,7 @@ var PMS0830080VM = new Vue({
             this.openRouteDialog();
         },
         openRouteDialog: function () {
+            this.initTmpCUD();
             var dialog = $("#PMS0830080Dialog").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
@@ -240,7 +284,47 @@ var PMS0830080VM = new Vue({
             this.isCreateStatus = false;
             this.isEditStatus = false;
             $("#PMS0830080Dialog").dialog('close');
+        },
+        doSave: function () {
+
+            this.combineSQLData();
+            console.log(this.tmpCUD);
+            $.post("/api/doSavePMS0830080",this.tmpCUD,function(result){
+                alert("save success!");
+            })
+
+        },
+        combineSQLData :function(){
+            var la_oriRouteDtList = this.routeDtList;
+            var allAccData = [];
+            if(this.tmpCUD.deleteData.length == 0){
+                this.tmpCUD.dt_createData = [];
+                this.tmpCUD.dt_updateData = [];
+                _.each(this.accounts, function (accData) {
+                    if (accData.length > 0) {
+                        allAccData = _.union(allAccData, accData)
+                    }
+                });
+                _.each(allAccData, function (type) {
+                    var existIdx = _.findIndex(la_oriRouteDtList, {small_typ: type.small_typ.trim()});
+                    if (existIdx == -1) {
+                        PMS0830080VM.tmpCUD.dt_createData.push(type);
+                    } else {
+                        if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
+                            PMS0830080VM.tmpCUD.dt_updateData.push(type);
+                        }
+
+                    }
+                })
+            }else{
+                var tmpDeleteData = this.tmpCUD.deleteData;
+                this.initTmpCUD();
+                this.tmpCUD.deleteData = tmpDeleteData;
+            }
         }
+
+
+
 
     }
 });

@@ -1,12 +1,12 @@
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/RoleFuncService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/RoleFuncService");
-var commonTools = require("../utils/CommonTools");
-
+let _ = require("underscore");
+let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+let roleFuncSvc = require("../services/RoleFuncService");
+let fs = require("fs");
+let path = require('path');
+let appRootDir = path.dirname(require.main.filename);
+let roleSvc = require("../services/RoleFuncService");
+let commonTools = require("../utils/CommonTools");
+let dbTableSvc = require("../services/DbTableService");
 /**
  * 外幣匯兌(靜態)
  */
@@ -50,5 +50,14 @@ exports.getRouteDtByRouteCod = function (req, res) {
         route_cod: req.body.route_cod
     }, 0, 0, function (err, routeDtList) {
         res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    });
+};
+
+/**
+ * PMS0830080 分帳規則儲存
+ */
+exports.doSavePMS0830080 = function (req ,res) {
+    dbTableSvc.doSavePMS0830080(req.session, req.body,function(errorMsg, success){
+        res.json({success:success,errorMsg:errorMsg});
     });
 };

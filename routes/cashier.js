@@ -25,4 +25,6 @@ module.exports = function(app  ) {
 
     //
     app.post('/api/getRouteDtByRouteCod', cashierCrtl.getRouteDtByRouteCod);
+    //
+    app.post('/api/doSavePMS0830080', cashierCrtl.doSavePMS0830080);
 };
