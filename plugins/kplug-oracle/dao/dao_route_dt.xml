@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!--   -->
+    <dao name="QRY_ROUTE_DT_BY_ROUTE_COD">
+        <statement><![CDATA[
+          select route_cod, small_typ, folio_nos, master_sta
+          from route_dt
+          where athena_id = :athena_id and trim(hotel_cod) = :hotel_cod and route_cod = :route_cod
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">route_cod</parameter>
+
+    </dao>
+
+
+</root>

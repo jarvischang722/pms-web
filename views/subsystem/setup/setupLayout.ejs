@@ -13,6 +13,11 @@
                                     <!-- #section:elements.tab.position -->
                                     <div class="tabbable tabs-left">
                                         <ul class="nav nav-tabs" id="settingUl">
+                                            <li >
+                                                <a @click="loadSetUpPage('PMS0830080')" href="javascript:void(0)">
+                                                    分帳規則設定
+                                                </a>
+                                            </li>
                                             <li v-for="proc in prosList"
                                                 :class="{active: activePrgID == proc.pro_id}">
                                                 <a @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
@@ -99,7 +104,7 @@
             },
             //讀取網頁程式頁面
             loadSetUpPage: function (doingPrgID) {
-//                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
+                this.usingPrgID = doingPrgID;  //TODO  方便開發，上機器時需拿掉這段
                 this.activePrgID = doingPrgID;
                 this.isTableLocked = false;
                 this.handleClearHtml();
