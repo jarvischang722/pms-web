@@ -13,11 +13,6 @@
                                     <!-- #section:elements.tab.position -->
                                     <div class="tabbable tabs-left">
                                         <ul class="nav nav-tabs" id="settingUl">
-                                            <li >
-                                                <a @click="loadSetUpPage('PMS0830080')" href="javascript:void(0)">
-                                                    分帳規則設定
-                                                </a>
-                                            </li>
                                             <li v-for="proc in prosList"
                                                 :class="{active: activePrgID == proc.pro_id}">
                                                 <a @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
