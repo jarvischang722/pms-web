@@ -222,13 +222,18 @@ Vue.component('single-grid-pms0830100-tmp', {
 
             var restField = _.clone(columnsData[0]);
             restField.field = "rest";
+            restField.ui_type = "text";
+            // restField.title = '<%= __("program")["PMS0830100"].rest %>';
             restField.title = "休息";
             restField.width = 100;
             restField.colspan = 4;
             restField.sortable = false;
             restField.align = "center";
+
             var stayField = _.clone(columnsData[0]);
             stayField.field = "stay";
+            stayField.ui_type = "text";
+            // stayField.title = '<%= __("program")["PMS0830100"].stay %>';
             stayField.title = "住宿";
             stayField.width = 100;
             stayField.colspan = 4;
@@ -236,25 +241,20 @@ Vue.component('single-grid-pms0830100-tmp', {
             stayField.align = "center";
 
             var insCol = [restField, stayField];
-
             _.each(columnsData, function (eachCol, colIdx) {
                 eachCol.align = "center";
-                if (colIdx < 3) {
-                    eachCol.rowspan = "2";
-                    firstCol.push(eachCol);
-                }
-
-                if (colIdx >= 11) {
-                    eachCol.rowspan = "2";
-                    firstCol.push(eachCol);
-                }
-
-                if (colIdx >= 3 && colIdx < 11) {
+                if (eachCol.field.match("free_tim") || eachCol.field.match("over_tim") || eachCol.field.match("over_amt") || eachCol.field.match("item_nos")) {
                     firstCol = _.union(firstCol, insCol);
                     secondCol.push(eachCol);
                 }
+                else{
+                    eachCol.rowspan = 2;
+                    firstCol.push(eachCol);
+                }
             });
 
+            // console.table(firstCol, ["field", "ui_type"]);
+            // console.table(secondCol, ["field", "ui_type"]);
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [firstCol, secondCol],
@@ -610,6 +610,7 @@ var vm = new Vue({
                 if (result.success) {
                     vm.singleData = result.defaultValues;
                     vm.showSingleGridDialog();
+                    vmHub.$emit('showDtDataGrid', []);
                 } else {
                     alert(result.errorMsg);
                 }
