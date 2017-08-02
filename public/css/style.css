@@ -4179,6 +4179,16 @@ span.triangle-text {
   background: #EEEEEE !important;
 }
 
+/* line 1597, ../sass/_bacchusMain.sass */
+.qt1 {
+  background: #b94db3;
+}
+
+/* line 1599, ../sass/_bacchusMain.sass */
+.qt2 {
+  background: #a0563d;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {

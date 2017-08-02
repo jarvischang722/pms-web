@@ -21,4 +21,7 @@ module.exports = function (app) {
 
     //Arrivals
     app.get('/PMS0210060', frontDeskCrtl.getPMS0210060);
+
+    //排房處理
+    app.get('/PMS0210030', frontDeskCrtl.getPMS0210030);
 };

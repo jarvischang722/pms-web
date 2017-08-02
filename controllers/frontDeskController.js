@@ -34,3 +34,9 @@ exports.getPMS0210070 = function (req, res) {
 exports.getPMS0210060 = function (req, res) {
     res.render("subsystem/frontDesk/PMS0210060");
 };
+/**
+ * 排房作業
+ */
+exports.getPMS0210030 = function (req, res) {
+    res.render("subsystem/frontDesk/PMS0210030");
+};
