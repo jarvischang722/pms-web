@@ -512,4 +512,91 @@
         });
 
     });
+
+    // 排房作業
+    $('#roomDetail-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/front_roomAssign-1.json',
+        method: 'get',
+        columns: [[
+            {field: 'cardCode', title: '訂房卡號', width: 100},
+            {field: 'code', title: '序號', width: 50},
+            {field: 'bookingNum', title: '訂房數', width: 50},
+            {field: 'roomNum', title: '排房數', width: 50},
+            {field: 'ciNum', title: 'C/I數', width: 50},
+            {field: 'coNum', title: 'C/O數', width: 50},
+            {field: 'proxyCompanyName', title: '團號', width: 100},
+            {field: 'kind', title: '種類', width: 50},
+            {field: 'state', title: '狀態', width: 70},
+            {field: 'ciDate', title: 'C/I 日期', width: 100},
+            {field: 'coDate', title: 'C/O 日期', width: 100},
+            {field: 'days', title: '天數', width: 50},
+            {field: 'roomCode', title: '房價代號', width: 150},
+            {field: 'cRoom', title: '計價房種', width: 100},
+            {field: 'useRoom', title: '使用房種', width: 100},
+            {field: 'avgRoom', title: '平均房價', width: 100},
+            {field: 'csKind', title: '住客類別', width: 100},
+            {field: 'fullName', title: 'Full Name', width: 100},
+            {field: 'company', title: '代訂公司', width: 100},
+            {field: 'contact', title: '聯絡人', width: 100},
+            {field: 'companyName', title: '公司名稱', width: 100},
+            {field: 'adult', title: '大人', width: 50},
+            {field: 'child', title: '小孩', width: 50},
+            {field: 'baby', title: '嬰兒', width: 50}
+        ]]
+    });
+    // 排房作業細節2
+    $('#roomDetail-table2').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/front_roomAssign-2.json',
+        method: 'get',
+        columns: [[
+            {field: 'cardCode', title: '訂房卡號', width: 100},
+            {field: 'code', title: '序號', width: 50},
+            {field: 'bookingNum', title: '訂房數', width: 50},
+            {field: 'roomNum', title: '排房數', width: 50},
+            {field: 'ciNum', title: 'C/I數', width: 50},
+            {field: 'coNum', title: 'C/O數', width: 50},
+            {field: 'proxyCompanyName', title: '團號', width: 100},
+            {field: 'kind', title: '種類', width: 50},
+            {field: 'state', title: '狀態', width: 70},
+            {field: 'ciDate', title: 'C/I 日期', width: 100},
+            {field: 'coDate', title: 'C/O 日期', width: 100},
+            {field: 'days', title: '天數', width: 50}
+        ]]
+    });
+
+    // 住客查詢
+    $('#PMS0210050').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/PMS0210050.json',
+        method: 'get',
+        columns: [[
+            {field: 'name', title: 'Name', width: 100},
+            {field: 'gender', title: 'Gender', width: 55},
+            {field: 'status', title: 'Status', width: 70},
+            {field: 'ciDate', title: 'CI Date', width: 100},
+            {field: 'coDate', title: 'CO Date', width: 100},
+            {field: 'company', title: 'Company', width: 100},
+            {field: 'room', title: 'Room', width: 70},
+            {field: 'rmSer', title: 'RM.Ser', width: 70},
+            {field: 'rvNos', title: 'RV.Nor', width: 70},
+            {field: 'rvSer', title: 'RV.Ser', width: 50},
+            {field: 'nationality', title: 'Nationality', width: 100},
+            {field: 'license', title: 'License Plate', width: 100}
+        ]]
+    });
+
+    //顯示排房明細
+    $(document).ready(function () {
+        $('.showCardDetail').click(function () {
+            $(".cardDetail-table").toggle().css('height','auto');
+        });
+    });
 </script>

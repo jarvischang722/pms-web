@@ -40,3 +40,9 @@ exports.getPMS0210060 = function (req, res) {
 exports.getPMS0210030 = function (req, res) {
     res.render("subsystem/frontDesk/PMS0210030");
 };
+/**
+ * 住客查詢
+ */
+exports.getPMS0210050 = function (req, res) {
+    res.render("subsystem/frontDesk/PMS0210050");
+};

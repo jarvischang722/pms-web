@@ -24,4 +24,7 @@ module.exports = function (app) {
 
     //排房處理
     app.get('/PMS0210030', frontDeskCrtl.getPMS0210030);
+
+    //住客查詢
+    app.get('/PMS0210050', frontDeskCrtl.getPMS0210050);
 };
