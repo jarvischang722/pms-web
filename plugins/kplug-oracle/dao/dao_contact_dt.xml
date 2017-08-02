@@ -17,7 +17,7 @@
         <statement><![CDATA[
                 select count(*) as contactcount
                 from contact_dt
-                where athena_id = ? and trim(add_cod) = trim(?) and rownum <= 1
+                where athena_id = ? and trim(contact_cod) = trim(?) and rownum <= 1
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
