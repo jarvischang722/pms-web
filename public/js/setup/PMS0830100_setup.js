@@ -281,6 +281,13 @@ Vue.component('single-grid-pms0830100-tmp', {
 
 
             }).datagrid('columnMoving');
+
+            var lo_rest_field = $("[field='rest']", $("#dt_dg_DIV"));
+            var lo_stay_field = $("[field='stay']", $("#dt_dg_DIV"));
+            if(!_.isUndefined($("[field='rest']", $("#dt_dg_DIV")).attr("rowspan"))){
+
+            }
+            console.log($("[field='rest']", $("#dt_dg_DIV")).attr("rowspan"));
         },
 
         onClickDtCell: function (index, field) {

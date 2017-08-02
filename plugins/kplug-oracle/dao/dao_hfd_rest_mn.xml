@@ -25,7 +25,7 @@
     <!-- ['PMS0830100'] 取得房型 -->
     <dao name="QRY_HFD_REST_MN_ROOM_COD">
         <statement><![CDATA[
-           select distinct room_cod value, room_sna display from hfd_rest_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and end_dat >= :rent_cal_dat
+           select distinct room_cod value, room_sna display from rvrmcod_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and end_dat >= :rent_cal_dat
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
