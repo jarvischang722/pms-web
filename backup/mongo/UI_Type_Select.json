@@ -877,3 +877,55 @@
     "multi_value_field" : "", 
     "multi_display_field" : ""
 }
+{ 
+    "_id" : ObjectId("598168a630731c1b48ace83d"), 
+    "prg_id" : "PMS0830100", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name" : "room_sna", 
+    "rule_func_name" : "qryHfdrestmnRoomcod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "LANG_RVRMCOD_RF", 
+    "multi_value_field" : "room_cod,begin_dat", 
+    "multi_display_field" : "room_sna"
+}
+{ 
+    "_id" : ObjectId("598168a630731c1b48ace83e"), 
+    "prg_id" : "PMS0830100", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "item_nos", 
+    "ui_display_name" : "item_sna", 
+    "rule_func_name" : "qryHfdrestdtItemnos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("598168a630731c1b48ace83f"), 
+    "prg_id" : "PMS0830100", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "stay_item_nos", 
+    "ui_display_name" : "item_sna", 
+    "rule_func_name" : "qryHfdrestdtStayitemnos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("598168a630731c1b48ace840"), 
+    "prg_id" : "PMS0830100", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day_sta", 
+    "ui_display_name" : "day_nam", 
+    "rule_func_name" : "qryHfdrestdtDaysta", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
