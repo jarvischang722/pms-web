@@ -253,6 +253,7 @@
             });
         });
 
+
         /***
          * PMS0210030 messages
          */
@@ -479,6 +480,27 @@
             ]]
         });
 
+        // 綜合櫃檯-option lost&found dataGrid
+        $('#lostFound-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation_lostFound.json',
+            method: 'get',
+            columns: [[
+                {field: 'choose', title: '選擇', width: 50},
+                {field: 'LfCode', title: '編號', width: 50},
+                {field: 'LfState', title: '狀態', width: 100},
+                {field: 'LfDate', title: '遺失日期', width: 100},
+                {field: 'LfTime', title: '遺失時間', width: 100},
+                {field: 'LfThings', title: '遺失物品', width: 200},
+                {field: 'LfName', title: '遺失者', width: 100},
+                {field: 'LfPlace', title: '遺失處', width: 100},
+            ]]
+
+        });
+
+
         // 團體管理 dataGrid
         $('#front_groups-table').datagrid({
             singleSelect: true,
@@ -558,7 +580,6 @@
                 {field: 'replyTo', title: 'Reply to', width: 80},
                 {field: 'message', title: 'Message', width: 150},
                 {field: 'status', title: 'Status', width: 80},
-                {field: 'alertSta', title: 'alertSta', width: 80},
                 {field: 'addedBy', title: 'Added By', width: 80},
                 {field: 'updby', title: 'Upd by', width: 80},
                 {field: 'updDate', title: 'Upd Date', width: 80}
@@ -615,7 +636,7 @@
                 {field: 'groupNum', title: '團號', width: 100},
                 {field: 'bookingCompany', title: '訂房公司', width: 150},
                 {field: 'contact', title: '聯絡人', width: 100},
-                {field: 'category', title: '住客類別', width: 100},
+                {field: 'category', title: '市場類別', width: 100},
                 {field: 'booking', title: '訂房來源', width: 100},
                 {field: 'bookingRemark', title: '訂房備註', width: 200}
             ]]

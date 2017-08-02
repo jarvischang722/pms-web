@@ -4102,7 +4102,7 @@ span.triangle-text {
   height: 25px;
 }
 
-/* line 1542, ../sass/_bacchusMain.sass */
+/* line 1543, ../sass/_bacchusMain.sass */
 .input-medium.medium-xs-82 {
   width: 82px;
   max-width: 100%;
@@ -4193,6 +4193,26 @@ span.triangle-text {
 /* line 1599, ../sass/_bacchusMain.sass */
 .qt2 {
   background: #a0563d;
+}
+
+/* line 1605, ../sass/_bacchusMain.sass */
+.titleInfo .titleInfo-head {
+  padding-top: 5px;
+  padding-bottom: 0;
+  border-bottom: 1px solid #eee;
+  margin: 5px auto;
+}
+/* line 1610, ../sass/_bacchusMain.sass */
+.titleInfo .titleInfo-head .titleInfo-title {
+  font-size: 1.2em;
+}
+/* line 1612, ../sass/_bacchusMain.sass */
+.titleInfo .titleInfo-head p {
+  margin-bottom: 0;
+}
+/* line 1614, ../sass/_bacchusMain.sass */
+.titleInfo .textarea-title {
+  margin: 10px auto;
 }
 
 /*------  共用區public ------ */
