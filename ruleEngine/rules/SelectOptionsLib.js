@@ -331,7 +331,7 @@ exports.checkStaList = function () {
     var checkList = [{
         on: 'Y',
         off: 'N'
-    },{
+    }, {
         Y: '使用',
         N: '非使用'
     }];
@@ -370,6 +370,24 @@ exports.checkStaIsCheckedList = function () {
 
     return checkList;
 };
+
+/**
+ * [PMS0830010_出納員設定] 啟用狀態
+ * @returns {[array]}
+ */
+exports.getCashierrfUseSta = function(){
+    var lo_optionList= [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '啟用',
+            N: '不啟用'
+        }
+    ];
+    return lo_optionList;
+}
+
 
 /**
  * [PMS0820010_房間特色設定] 系統預設
@@ -483,8 +501,7 @@ exports.getVisiableOption = function(){
         }
     ];
     return lo_optionList;
-}
-
+};
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -815,4 +832,10 @@ exports.qryHkproductrfUsesta = function(params,callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUseStaList();
     callback(null,lo_result);
+};
+
+exports.qryCashierrfUsesta = function (params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCashierrfUseSta();
+    callback(null, lo_result);
 };
