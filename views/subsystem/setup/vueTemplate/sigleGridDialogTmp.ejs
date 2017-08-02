@@ -44,6 +44,16 @@
                                            @click="chkClickTextGrid(field)"
                                         >
 
+                                    <!--  label -->
+                                    <label
+                                           :style="{width:field.label_width + 'px'}"
+                                           class="numStyle-none"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'label'"
+                                           :maxlength="field.ui_field_length"
+                                    >
+                                        {{singleData[field.ui_field_name]}}
+                                    </label>
+
                                     <!--  checkbox -->
                                     <input v-model="singleData[field.ui_field_name]"
                                            v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"

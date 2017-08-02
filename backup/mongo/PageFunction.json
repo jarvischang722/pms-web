@@ -166,3 +166,24 @@
     "func_id" : "0541", 
     "rule_func_name" : "r_CashierrfModifySave"
 }
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f2"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f3"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_PMS0830100_save"
+}
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f4"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_PMS0830100_save"
+}

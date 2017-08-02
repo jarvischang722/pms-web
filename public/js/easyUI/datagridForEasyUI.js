@@ -265,10 +265,13 @@ var EZfieldClass = {
                     return val;
                 }
             };
-        } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
-            tmpFieldObj.editor.options.idField = 'field';
-            tmpFieldObj.editor.options.textField = 'title';
-            tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
+        } else if (dataType == "combogrid") {
+            //參數設定於各對照擋的Rule
+            tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
+            tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
+            tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
+            tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
         }
 
         return tmpFieldObj;
@@ -289,6 +292,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+        console.log(selectDataRow);
         if (selectDataRow.createRow == "Y") {
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         }

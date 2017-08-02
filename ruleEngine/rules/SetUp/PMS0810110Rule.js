@@ -139,5 +139,21 @@ module.exports = {
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
         })
+    },
+    PMS0810110_source_grp: function () {
+
+        var options = new Object;
+
+        options.panelWidth = '200';
+        options.idField = 'value';
+        options.textField = 'value';
+
+        var columns = [[
+            {field:'display',title:'群組代號',width:100},
+            {field:'value',title:'群組名稱',width:100}]];
+
+        options.columns = columns;
+
+        return options;
     }
 }
