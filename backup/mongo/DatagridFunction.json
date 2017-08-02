@@ -889,3 +889,35 @@
     "func_id" : "0400", 
     "rule_func_name" : ""
 }
+{ 
+    "_id" : ObjectId("597ec0cd818df4286420c1ee"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0100", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0cd818df4286420c1ef"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0cd818df4286420c1f0"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0cd818df4286420c1f1"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : ""
+}
