@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0830010] 取得幣別名稱-->
+    <dao name="QRY_CASHIER_FM_MN_FMONEY_COD">
+        <statement><![CDATA[
+            select fmoney_cod, fmoney_nam from fmoney_rf where user_athena_id = :athena_id and trim(fmoney_cod) = trim(:fmoney_cod)
+        ]]></statement>
+        <parameter type="int">athena_id</parameter>
+        <parameter type="String">fmoney_cod</parameter>
+    </dao>
+</root>

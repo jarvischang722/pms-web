@@ -1,6 +1,6 @@
 <div>
-    <!-- PMS0320010 外幣匯兌 edit 彈出視窗 -->
-    <div id="cashier_FXDialog-1-message" class="hide padding-5">
+    <!-- PMS0320010 外幣匯兌 add 彈出視窗 -->
+    <div id="cashier_FXDialog-add-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -11,17 +11,17 @@
                                 <div class="grid-item">
                                     <label>水單號碼</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="20170403010001" disabled/>
+                                           placeholder=""/>
                                 </div>
                                 <div class="grid-item">
                                     <label>廳別</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="FO:客務櫃檯" disabled/>
+                                           placeholder=""/>
                                 </div>
                                 <div class="grid-item">
                                     <label>班別</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="1" disabled/>
+                                           placeholder=""/>
                                 </div>
                             </div>
                             <!--2-->
@@ -29,67 +29,50 @@
                                 <div class="grid-item">
                                     <label>水單產生日</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="2017/04/03" disabled/>
+                                           placeholder="" />
                                 </div>
                                 <div class="grid-item">
                                     <label>水單狀態</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="Ｎ:正常" disabled/>
+                                           placeholder="" />
                                 </div>
+
                             </div>
                             <!--3-->
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>房號</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="306"/>
+                                           placeholder=""/>
                                 </div>
                                 <div class="grid-item">
                                     <label>序號</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="1"/>
+                                           placeholder=""/>
                                 </div>
                                 <div class="grid-item">
                                     <label>身分證/護照</label>
                                     <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="F223453291"/>
+                                           placeholder=""/>
                                 </div>
                             </div>
                             <!--4-->
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>旅客姓名</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="黃志寧"/>
+                                    <input type="text" class="input-medium rateCode-s1-col2"
+                                           placeholder=""/>
                                 </div>
+
                                 <div class="grid-item">
-                                    <label>姓</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="黃"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>名</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="志寧"/>
-                                </div>
-                            </div>
-                            <!--5-->
-                            <div class="grid">
-                                <div class="grid-item">
+
                                     <label>生日</label>
                                     <input type="date" class="input-medium rateCode-s1"
-                                           placeholder="1981/11/10"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>國籍</label>
-                                    <select class="input-medium rateCode-s1">
-                                        <option value="TWN">TWN:中華民國台灣</option>
-                                        <option value="USA">USA:美國</option>
-                                        <option value="JP">JP:日本</option>
-                                    </select>
+                                           placeholder=""/>
                                 </div>
                             </div>
-                            <!--6-->
+
+                            <!--5-->
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>幣值代號</label>
@@ -107,52 +90,62 @@
                                         <option value="3">3:信用卡</option>
                                     </select>
                                 </div>
+
+                                <div class="grid-item">
+                                    <label>國籍</label>
+                                    <select class="input-medium rateCode-s1">
+                                        <option value="TWN">TWN:中華民國台灣</option>
+                                        <option value="USA">USA:美國</option>
+                                        <option value="JP">JP:日本</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="border-double1"></div>
                             <div class="borderFrame">
-                                <!--7-->
+
+                                <!--6-->
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>外幣金額</label>
                                         <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="50"/>
+                                               placeholder=""/>
                                     </div>
 
                                     <div class="grid-item">
                                         <label><span>＊</span>匯率</label>
                                         <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="30,00000" disabled/>
+                                               placeholder="" />
                                     </div>
                                     <div class="grid-item">
                                         <label>＝原兌換金額</label>
                                         <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="1,500" disabled/>
+                                               placeholder="" />
                                     </div>
                                 </div>
-                                <!--8-->
+
+                                <!--7-->
                                 <div class="grid">
                                     <div class="grid-item grid-fee" style="margin-left: 567px;">
                                         <label>-手續費</label>
                                         <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="0"/>
+                                               placeholder=""/>
                                     </div>
                                 </div>
-                                <!--9-->
+
+                                <!--8-->
                                 <div class="grid">
                                     <div class="grid-item" style="margin-left: 567px;">
                                         <label>兌換金額</label>
                                         <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="1,500"/>
+                                               placeholder=""/>
                                     </div>
                                 </div>
                             </div>
                             <div class="space-6"></div>
                             <div class="grid grid-textArea">
-                                <!--<div class="grid-item">-->
-                                    <label class="pull-left">支/鈔票號碼</label>
-                                    <textarea class="pull-left remarkInput" rows="4" placeholder="B7979791B"></textarea>
-                                    <span class="moreClick pull-left">...</span>
-                                <!--</div>-->
+                                <label class="pull-left">支/鈔票號碼</label>
+                                <textarea class="pull-left remarkInput" rows="4" placeholder=""></textarea>
+                                <span class="moreClick pull-left">...</span>
                             </div>
 
                             <div class="space-4"></div>
@@ -190,17 +183,17 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Exchange
+                                                role="button">Add
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Reprint
+                                                role="button">Print
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Invalid
+                                                role="button">Exit
                                         </button>
                                     </li>
                                 </ul>
@@ -212,7 +205,206 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <!-- /.PMS0320010 外幣匯兌 edit 彈出視窗 -->
+    <!-- /.PMS0320010 外幣匯兌 add 彈出視窗 -->
+
+    <!-- PMS0320010 外幣匯兌 void 彈出視窗 -->
+    <div id="cashier_FXDialog-void-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <!--1-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>水單號碼</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="20170403010001" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>廳別</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="FO:客務櫃檯" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>班別</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="1" disabled/>
+                                </div>
+                            </div>
+                            <!--2-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>水單產生日</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="2017/04/03" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>水單狀態</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="Ｎ:正常" disabled/>
+                                </div>
+
+                            </div>
+                            <!--3-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="306" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>序號</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="1" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>身分證/護照</label>
+                                    <input type="text" class="input-medium rateCode-s1"
+                                           placeholder="F223453291" disabled/>
+                                </div>
+                            </div>
+                            <!--4-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>旅客姓名</label>
+                                    <input type="text" class="input-medium rateCode-s1-col2"
+                                           placeholder="黃志寧" disabled/>
+                                </div>
+
+                                <div class="grid-item">
+
+                                    <label>生日</label>
+                                    <input type="date" class="input-medium rateCode-s1"
+                                           placeholder="1981/11/10" disabled/>
+                                </div>
+                            </div>
+
+                            <!--5-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>幣值代號</label>
+                                    <input type="date" class="input-medium rateCode-s1"
+                                           placeholder="美金USD" disabled/>
+                                    <!--<select class="input-medium rateCode-s1" disabled>-->
+                                        <!--<option value="USA">美金USD</option>-->
+                                        <!--<option value="TWN">台幣TWD</option>-->
+                                        <!--<option value="JP">日本JPY</option>-->
+                                    <!--</select>-->
+                                </div>
+                                <div class="grid-item">
+                                    <label>兌換方式</label>
+                                    <input type="date" class="input-medium rateCode-s1"
+                                           placeholder="1:現金" disabled/>
+                                </div>
+
+                                <div class="grid-item">
+                                    <label>國籍</label>
+                                    <input type="date" class="input-medium rateCode-s1"
+                                           placeholder="TWN:中華民國台灣" disabled/>
+                                </div>
+                            </div>
+                            <div class="border-double1"></div>
+                            <div class="borderFrame">
+
+                                <!--6-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>外幣金額</label>
+                                        <input type="text" class="input-medium rateCode-s1 text-right"
+                                               placeholder="50" disabled/>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label><span>＊</span>匯率</label>
+                                        <input type="text" class="input-medium rateCode-s1 text-right"
+                                               placeholder="30,00000" disabled/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>＝原兌換金額</label>
+                                        <input type="text" class="input-medium rateCode-s1 text-right"
+                                               placeholder="1,500" disabled/>
+                                    </div>
+                                </div>
+
+                                <!--7-->
+                                <div class="grid">
+                                    <div class="grid-item grid-fee" style="margin-left: 567px;">
+                                        <label>-手續費</label>
+                                        <input type="text" class="input-medium rateCode-s1 text-right"
+                                               placeholder="0" disabled/>
+                                    </div>
+                                </div>
+
+                                <!--8-->
+                                <div class="grid">
+                                    <div class="grid-item" style="margin-left: 567px;">
+                                        <label>兌換金額</label>
+                                        <input type="text" class="input-medium rateCode-s1 text-right"
+                                               placeholder="1,500" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-6"></div>
+                            <div class="grid grid-textArea">
+                                <label class="pull-left">支/鈔票號碼</label>
+                                <textarea class="pull-left remarkInput" rows="4" placeholder="B7979791B" disabled></textarea>
+                                <span class="moreClick pull-left">...</span>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="grid grid-textArea">
+                                <label class="pull-left">備註</label>
+                                <textarea class="pull-left remarkInput" rows="1" placeholder="" disabled></textarea>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Added date</label>
+                                    <input type="text" class="input-medium rateCode-s1" placeholder="2017/7/17 18:39:13" disabled="disabled"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Added by</label>
+                                    <input type="text" class="input-medium rateCode-s1" placeholder="cio" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Upd date</label>
+                                    <input type="text" class="input-medium rateCode-s1" placeholder="2017/7/17 18:39:13" disabled="disabled"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Upd by</label>
+                                    <input type="text" class="input-medium rateCode-s1" placeholder="cio" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div><!--main-content-data-->
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Voided
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0320010 外幣匯兌 void 彈出視窗 -->
 
     <!-- PMS0310010 住客帳維護單筆 edit 彈出視窗 -->
     <div id="cashierGstLedger_Single-message" class="hide padding-5">
@@ -263,16 +455,16 @@
                                 <!--3-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>住客姓名</label>
+                                        <label>訂房公司</label>
                                         <input type="text" class="input-medium resvCard-col2Remark" placeholder=""/>
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
-                                        <label>訂房卡號</label>
+                                        <label>訂房來源</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>消費總額</label>
+                                        <label>預收款</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                 </div>
@@ -283,7 +475,7 @@
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>住客類別</label>
+                                        <label>市場類別</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
@@ -529,7 +721,7 @@
                                         <input type="text" class="input-medium medium-c1" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>住客類別</label>
+                                        <label>市場類別</label>
                                         <input type="text" class="input-medium medium-c1" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
@@ -735,7 +927,7 @@
                                     <input type="text" class="input-medium medium-c1" placeholder=""/>
                                 </div>
                                 <div class="grid-item">
-                                    <label>住客類別</label>
+                                    <label>市場類別</label>
                                     <input type="text" class="input-medium medium-c1" placeholder=""/>
                                 </div>
                                 <div class="grid-item">

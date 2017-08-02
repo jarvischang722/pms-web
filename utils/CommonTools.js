@@ -162,3 +162,22 @@ function convUtcToDate(lo_data, fieldAttrs) {
 
     return lo_data;
 }
+
+/**
+ * trim 掉 object 裡所有字串
+ * @param notTrimObject
+ * @return Object
+ */
+exports.trimObjectAllVal = function(notTrimObject){
+    _.each(notTrimObject,function(data,idx){
+        _.each(data,function(d,key){
+            if(typeof d === 'string'){
+                notTrimObject[idx][key] =  d.trim();
+            }else{
+                notTrimObject[idx][key] =  d;
+            }
+        });
+
+    })
+    return notTrimObject;
+};

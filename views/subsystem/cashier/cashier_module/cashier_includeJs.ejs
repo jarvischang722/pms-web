@@ -14,12 +14,28 @@
          * PMS0320010 外幣匯兌
          */
 
-        // 彈出 外匯匯兌單筆
-        $(document).on('click', ".cashier_FXDialog-1", function (e) {
+        // 彈出 外匯匯兌單筆 Add
+        $(document).on('click', ".cashier_FXDialog-add", function (e) {
             e.preventDefault();
-            var dialog = $("#cashier_FXDialog-1-message").removeClass('hide').dialog({
+            var dialog = $("#cashier_FXDialog-add-message").removeClass('hide').dialog({
                 modal: true,
-                title: "外匯匯兌單筆",
+                title: "外匯匯兌單筆Add",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 外匯匯兌單筆 void
+        $(document).on('click', ".cashier_FXDialog-void", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_FXDialog-void-message").removeClass('hide').dialog({
+                modal: true,
+                title: "外匯匯兌單筆Void",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -201,7 +217,7 @@
                 {field: 'housingDate', title: '住房時間', width: 70},
                 {field: 'historyNum', title: '歷史編號', width: 180},
                 {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'guestType', title: '住客類別', width: 100},
+                {field: 'guestType', title: '市場類別', width: 100},
                 {field: 'gender', title: '性別', width: 50},
                 {field: 'publicLedger', title: '公帳號', width: 100},
                 {field: 'bookingNum', title: '訂房卡號', width: 100},
@@ -227,7 +243,7 @@
                 {field: 'housingDate', title: '住房時間', width: 70},
                 {field: 'historyNum', title: '歷史編號', width: 180},
                 {field: 'fullName', title: '姓名', width: 100},
-                {field: 'guestType', title: '住客類別', width: 100},
+                {field: 'guestType', title: '市場類別', width: 100},
                 {field: 'gender', title: '性別', width: 50},
                 {field: 'publicLedger', title: '公帳號', width: 100},
                 {field: 'bookingNum', title: '訂房卡號', width: 100},

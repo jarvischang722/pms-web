@@ -108,5 +108,21 @@ module.exports = {
         postData.rowData.mail_fmt = mailFmtDisplayName;
         lo_result.effectValues = postData.rowData;
         callback(lo_error, lo_result);
+    },
+    PMS0810030_mail_fmt: function () {
+
+        var options = new Object;
+
+        options.panelWidth = '200';
+        options.idField = 'display';
+        options.textField = 'display';
+
+        var columns = [[
+            {field:'display',title:'格式代號',width:100},
+            {field:'value',title:'格式說明',width:100}]];
+
+        options.columns = columns;
+
+        return options;
     }
 };
