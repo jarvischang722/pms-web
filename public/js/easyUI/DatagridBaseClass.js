@@ -21,16 +21,19 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
 
     //datagrid 初始化
-    this.init = function (prg_id, dgName, columns, fieldsData) {
-
+    this.init = function (prg_id, dgName, columns, fieldsData, options) {
+        console.log(options);
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+        if (!options) {
+            options = {};
+        }
         $('#' + dgName).datagrid({
             columns: [columns],
             remoteSort: false,
-            singleSelect: true,
+            singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: true,
             checkOnSelect: true,
             width: "100%",
@@ -39,7 +42,7 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn
+            onSortColumn: this.doSortColumn,
         }).datagrid('columnMoving');
     };
 

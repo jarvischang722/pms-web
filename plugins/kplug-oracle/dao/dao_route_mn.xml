@@ -17,7 +17,7 @@
 
     <dao name="QRY_ROUTE_DT">
         <statement><![CDATA[
-          select athena_id, hotel_cod, route_cod, small_typ, folio_nos, master_sta, ins_dat, ins_usr, upd_dat, upd_usr
+          select athena_id, hotel_cod, route_cod, small_typ, folio_nos, master_sta,  upd_dat, upd_usr
           from route_dt
           where athena_id = :athena_id and trim(hotel_cod) = :hotel_cod and route_cod = :route_cod
         ]]></statement>

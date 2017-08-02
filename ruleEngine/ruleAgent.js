@@ -10,6 +10,7 @@ var AllRuleClass = {};
 loadDirRules(rulesDirectory);
 
 function loadDirRules(rootPath) {
+    AllRuleClass = require("./rules/CommonRule");
     fs.readdir(rootPath, function (err, files) {
         if (err) {throw err;}
 

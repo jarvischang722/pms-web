@@ -47,9 +47,9 @@ var Pms0830080Comp = Vue.extend({
             });
             if (account > -1) {
                 return true;
-            } else {
+            } 
                 return false;
-            }
+            
 
         },
         checkSmallTyp: function (small_typ) {
@@ -57,9 +57,9 @@ var Pms0830080Comp = Vue.extend({
             var account = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
             if (account > -1) {
                 return true;
-            } else {
+            } 
                 return false;
-            }
+            
 
         },
         toggleMasterAcc: function () {
@@ -162,14 +162,14 @@ var PMS0830080VM = new Vue({
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: []
-        },
+        }
 
     },
     created: function () {
         //子組件更新的暫存
         this.$on("updateTmpCUD", function (data) {
             this.tmpCUD = data.tmpCUD;
-        })
+        });
 
     },
     mounted: function () {
@@ -211,8 +211,10 @@ var PMS0830080VM = new Vue({
     },
     methods: {
         initDataGrid: function () {
+            var colsOption =  [ { field:'ck',checkbox:true }];
+            colsOption = _.union(colsOption,EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830080_dg'));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, "PMS0830080_dg", EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830080_dg'));
+            this.dgIns.init(this.prg_id, "PMS0830080_dg", colsOption,this.pageOneFieldData, {singleSelect:false} );
         },
         initAccounts: function () {
             this.accounts = {
@@ -235,7 +237,7 @@ var PMS0830080VM = new Vue({
                 dt_createData: [],
                 dt_updateData: [],
                 dt_deleteData: []
-            }
+            };
         },
         getRouteData: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
@@ -256,6 +258,10 @@ var PMS0830080VM = new Vue({
             this.initAccounts();
             this.openRouteDialog();
         },
+        delRoutes :function(){
+            this.tmpCUD.deleteData = $("#PMS0830080_dg").datagrid("getChecked");
+            this.doSave();
+        },
         fetchSingleData: function () {
 
             this.isCreateStatus = false;
@@ -269,6 +275,7 @@ var PMS0830080VM = new Vue({
         },
         openRouteDialog: function () {
             this.initTmpCUD();
+            this.activeAccount = 1;
             var dialog = $("#PMS0830080Dialog").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
@@ -290,11 +297,17 @@ var PMS0830080VM = new Vue({
             this.combineSQLData();
             console.log(this.tmpCUD);
             $.post("/api/doSavePMS0830080",this.tmpCUD,function(result){
-                alert("save success!");
-            })
+                if(result.success){
+                    PMS0830080VM.initTmpCUD();
+                    alert("save success!");
+                }else{
+                    alert("save error!");
+                }
+
+            });
 
         },
-        combineSQLData :function(){
+        combineSQLData: function(){
             var la_oriRouteDtList = this.routeDtList;
             var allAccData = [];
             if(this.tmpCUD.deleteData.length == 0){
@@ -302,7 +315,7 @@ var PMS0830080VM = new Vue({
                 this.tmpCUD.dt_updateData = [];
                 _.each(this.accounts, function (accData) {
                     if (accData.length > 0) {
-                        allAccData = _.union(allAccData, accData)
+                        allAccData = _.union(allAccData, accData);
                     }
                 });
                 _.each(allAccData, function (type) {
@@ -315,7 +328,7 @@ var PMS0830080VM = new Vue({
                         }
 
                     }
-                })
+                });
             }else{
                 var tmpDeleteData = this.tmpCUD.deleteData;
                 this.initTmpCUD();
