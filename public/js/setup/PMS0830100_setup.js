@@ -228,7 +228,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             restField.width = 100;
             restField.colspan = 4;
             restField.sortable = false;
-            restField.align = "center";
+            restField.halign = "center";
 
             var stayField = _.clone(columnsData[0]);
             stayField.field = "stay";
@@ -238,7 +238,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             stayField.width = 100;
             stayField.colspan = 4;
             stayField.sortable = false;
-            stayField.align = "center";
+            stayField.halign = "center";
 
             var insCol = [restField, stayField];
             _.each(columnsData, function (eachCol, colIdx) {
@@ -247,7 +247,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                     firstCol = _.union(firstCol, insCol);
                     secondCol.push(eachCol);
                 }
-                else{
+                else {
                     eachCol.rowspan = 2;
                     firstCol.push(eachCol);
                 }
@@ -255,9 +255,13 @@ Vue.component('single-grid-pms0830100-tmp', {
 
             // console.table(firstCol, ["field", "ui_type"]);
             // console.table(secondCol, ["field", "ui_type"]);
+
+            $("#dt_dg").datagrid("reload");
+
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [firstCol, secondCol],
+                fitColumns: true,
                 collapsible: true,
                 remoteSort: false,
                 singleSelect: true,
@@ -284,10 +288,12 @@ Vue.component('single-grid-pms0830100-tmp', {
 
             var lo_rest_field = $("[field='rest']", $("#dt_dg_DIV"));
             var lo_stay_field = $("[field='stay']", $("#dt_dg_DIV"));
-            if(!_.isUndefined($("[field='rest']", $("#dt_dg_DIV")).attr("rowspan"))){
-
+            if (!_.isUndefined(lo_rest_field.attr("rowspan"))) {
+                lo_rest_field.removeAttr("rowspan");
             }
-            console.log($("[field='rest']", $("#dt_dg_DIV")).attr("rowspan"));
+            if (!_.isUndefined(lo_stay_field.attr("rowspan"))) {
+                lo_stay_field.removeAttr("rowspan");
+            }
         },
 
         onClickDtCell: function (index, field) {
