@@ -113,9 +113,9 @@ Vue.component('single-grid-pms0830100-tmp', {
         vmHub.$on('showDtDataGrid', function (dtDataGridRows) {
             self.showDtDataGrid(dtDataGridRows);
         });
-        // vmHub.$on('tempExecData', function (row) {
-        //     self.tempExecData(row);
-        // });
+        vmHub.$on('tempExecData', function (row) {
+            self.tempExecData(row);
+        });
     },
 
     watch: {
@@ -240,6 +240,8 @@ Vue.component('single-grid-pms0830100-tmp', {
             stayField.sortable = false;
             stayField.halign = "center";
 
+            console.table(columnsData, ["ui_type"]);
+
             var insCol = [restField, stayField];
             _.each(columnsData, function (eachCol, colIdx) {
                 eachCol.align = "center";
@@ -252,11 +254,6 @@ Vue.component('single-grid-pms0830100-tmp', {
                     firstCol.push(eachCol);
                 }
             });
-
-            // console.table(firstCol, ["field", "ui_type"]);
-            // console.table(secondCol, ["field", "ui_type"]);
-
-            $("#dt_dg").datagrid("reload");
 
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
@@ -406,67 +403,86 @@ Vue.component('single-grid-pms0830100-tmp', {
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
 
-            var self = this;
-            var targetRowAfterDelete = {}; //刪除後要指向的資料
-            if (this.deleteStatue) {
-                var rowsNum = $("#PMS0810020_dg").datagrid('getRows').length;
-                var currentRowIdx = $("#PMS0810020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
-                if (currentRowIdx == rowsNum - 1) {
-                    //刪除的資料已經是最後一筆 就取datagrid最末筆
-                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
+            if (this.endDtEditing()) {
+                var self = this;
+                var targetRowAfterDelete = {}; //刪除後要指向的資料
+                if (this.deleteStatue) {
+                    var rowsNum = $("#PMS0830100_dg").datagrid('getRows').length;
+                    var currentRowIdx = $("#PMS0830100_dg").datagrid('getRowIndex', self.editingRow); //目前索引
+                    if (currentRowIdx == rowsNum - 1) {
+                        //刪除的資料已經是最後一筆 就取datagrid最末筆
+                        targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
 
-                } else {
-                    //取下一筆
-                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
-                }
-            }
-
-            if (this.createStatus) {
-                this.tmpCud.createData = [this.singleData];
-            } else if (this.editStatus) {
-                this.tmpCud.editData = [this.singleData];
-            }
-
-
-            //先驗證有無欄位沒驗證過的
-            this.$emit('do-save-cud', function (success) {
-
-                if (success) {
-                    //儲存後離開
-                    if (saveAfterAction == "closeDialog") {
-                        self.singleData = {};
-                        self.emitCloseGridDialog();
-                    }
-                    //新增完再新增另一筆
-                    else if (saveAfterAction == "addOther") {
-                        self.singleData = {};
-                        self.emitAppendRow();
                     } else {
-                        self.emitFetchSingleData();
+                        //取下一筆
+                        targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
                     }
-                    self.previewList = [];
-                    if (self.deleteStatue) {
-                        /**
-                         * 刪除成功
-                         * 1.取下一筆
-                         * 2.無下一筆時取datagrid 最後一筆
-                         * 3.連一筆都沒有關掉dialog 回多筆
-                         **/
-                        if ($("#PMS0810020_dg").datagrid('getRows').length > 0) {
-                            self.editingRow = targetRowAfterDelete;
-                            self.emitFetchSingleData();
-                        } else {
-                            //連一筆都沒有就關掉視窗
+                }
+
+                if (this.createStatus) {
+                    this.tmpCud.createData = [this.singleData];
+                } else if (this.editStatus) {
+                    this.tmpCud.editData = [this.singleData];
+                }
+
+                //先驗證有無欄位沒驗證過的
+                this.$emit('do-save-cud', function (success) {
+                    if (success) {
+                        //儲存後離開
+                        if (saveAfterAction == "closeDialog") {
+                            self.singleData = {};
                             self.emitCloseGridDialog();
                         }
+                        //新增完再新增另一筆
+                        else if (saveAfterAction == "addOther") {
+                            self.singleData = {};
+                            self.emitAppendRow();
+                        }
+
+                        if (self.deleteStatue) {
+                            /**
+                             * 刪除成功
+                             * 1.取下一筆
+                             * 2.無下一筆時取datagrid 最後一筆
+                             * 3.連一筆都沒有關掉dialog 回多筆
+                             **/
+                            if ($("#PMS0830100_dg").datagrid('getRows').length > 0) {
+                                self.editingRow = targetRowAfterDelete;
+                                self.emitFetchSingleData();
+                            } else {
+                                //連一筆都沒有就關掉視窗
+                                self.emitCloseGridDialog();
+                            }
+
+                        }
+
 
                     }
+                });
+            }
+        },
 
-
-                }
+        //DT datagrid資料放入暫存
+        tempExecData: function (rowData) {
+            var self = this;
+            rowData["mnRowData"] = this.singleData;
+            //判斷此筆是新增或更新
+            var dataType = rowData.createRow == 'Y'
+                ? "dt_createData" : "dt_editData";
+            var fieldDataList = this.pageTwoDataGridFieldData;
+            var keyVals = _.pluck(_.where(fieldDataList, {keyable: 'Y'}), "ui_field_name");
+            var condKey = {};
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = rowData[field_name] || "";
             });
 
-
+            //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+            var existIdx = _.findIndex(this.tmpCud[dataType], condKey);
+            if (existIdx > -1) {
+                this.tmpCud[dataType].splice(existIdx, 1);
+            }
+            rowData.key_nos = this.key_nos;
+            this.tmpCud[dataType].push(rowData);
         },
 
         //新增一個Dt Row
@@ -513,7 +529,6 @@ Vue.component('single-grid-pms0830100-tmp', {
                 }
 
             });
-
         }
     }
 });
@@ -788,6 +803,7 @@ var vm = new Vue({
         closeSingleGridDialog: function () {
             vm.editingRow = {};
             vm.singleData = {};
+            vm.editStatus = false;
             vm.initTmpCUD();
             $("#singleGridPMS0830100").dialog('close');
         }

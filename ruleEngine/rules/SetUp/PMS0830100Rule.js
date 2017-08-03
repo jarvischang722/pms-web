@@ -10,13 +10,6 @@ var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
-
-    chkHfdrestmnRoomcod: function (postData, session, callback) {
-        if(postData){
-
-        }
-    },
-
     qryHfdrestmnRoomcod: function (postData, callback) {
         let lo_params = {
             athena_id: postData.athena_id,
@@ -30,7 +23,7 @@ module.exports = {
             if (!err) {
                 let lo_result = new ReturnClass();
                 lo_result.selectOptions = getResult;
-                callback(null, lo_result);
+                callback(lo_result);
             }
         });
 
@@ -56,6 +49,20 @@ module.exports = {
                 }
             });
         }
+    },
+
+    r_PMS0830100_save: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let li_seq_nos = 0;
+        _.each(postData, function (lo_ary, key) {
+            if (key == "dt_createData" || key == "dt_updateData") {
+                _.each(lo_ary, function (eachAry, Idx) {
+                    li_seq_nos++;
+                    postData[key][Idx].seq_nos = li_seq_nos;
+                });
+            }
+        });
+        callback(null, lo_result);
     }
 
 
