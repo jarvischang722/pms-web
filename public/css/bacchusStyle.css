@@ -269,12 +269,17 @@ a {
   color: #A069C3 !important;
 }
 
-/* line 118, ../sass/modules/_public.sass */
+/* line 114, ../sass/modules/_public.sass */
+.dark-purple {
+  color: #800180 !important;
+}
+
+/* line 116, ../sass/modules/_public.sass */
 .pink {
   color: #C6699F !important;
 }
 
-/* line 120, ../sass/modules/_public.sass */
+/* line 116, ../sass/modules/_public.sass */
 .pink2 {
   color: #D6487E !important;
 }

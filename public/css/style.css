@@ -4195,6 +4195,53 @@ span.triangle-text {
   background: #a0563d;
 }
 
+/* line 1602, ../sass/_bacchusMain.sass */
+.ttrial-table {
+  margin-top: 20px;
+}
+/* line 1604, ../sass/_bacchusMain.sass */
+.ttrial-table thead {
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+/* line 1607, ../sass/_bacchusMain.sass */
+.ttrial-table thead tr {
+  background: #fff !important;
+  background-image: none !important;
+}
+/* line 1610, ../sass/_bacchusMain.sass */
+.ttrial-table thead tr th {
+  border-bottom: 0;
+}
+/* line 1613, ../sass/_bacchusMain.sass */
+.ttrial-table thead tr th.ttrial-th span + span {
+  margin-left: 10px;
+}
+/* line 1617, ../sass/_bacchusMain.sass */
+.ttrial-table tbody tr:nth-of-type(odd) {
+  background: #F0F3F5;
+}
+/* line 1621, ../sass/_bacchusMain.sass */
+.ttrial-table tbody tr td.ttrial-price span {
+  display: inline-block;
+  width: 49px;
+}
+/* line 1624, ../sass/_bacchusMain.sass */
+.ttrial-table tbody tr td .test {
+  margin-left: 30px;
+}
+
+/* line 1626, ../sass/_bacchusMain.sass */
+.lineHeight17 {
+  line-height: 1.7;
+}
+
+/* line 1628, ../sass/_bacchusMain.sass */
+.ttrial-noice {
+  font-size: 14px;
+  margin-left: 86px;
+}
+
 /* line 1605, ../sass/_bacchusMain.sass */
 .titleInfo .titleInfo-head {
   padding-top: 5px;
@@ -4480,7 +4527,12 @@ a {
   color: #A069C3 !important;
 }
 
-/* line 118, ../sass/modules/_public.sass */
+/* line 114, ../sass/modules/_public.sass */
+.dark-purple {
+  color: #800180 !important;
+}
+
+/* line 116, ../sass/modules/_public.sass */
 .pink {
   color: #C6699F !important;
 }
