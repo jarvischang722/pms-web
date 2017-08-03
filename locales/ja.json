@@ -126,7 +126,8 @@
     "Login": "登入",
     "Logout": "登出",
     "Loading": "讀取中",
-    "ProgramID": "程式編號"
+    "ProgramID": "程式編號",
+    "ChangeLog" : "異動紀錄"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

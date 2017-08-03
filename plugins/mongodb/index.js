@@ -29,6 +29,7 @@ require("./models/mongoose/PageFunction");
 require("./models/mongoose/LogsAPI");
 require("./models/mongoose/Sessions");
 require("./models/mongoose/LangUIField");
+require("./models/mongoose/SettingHistory");
 
 
 exports.DatagridFunction = mongoose.model("DatagridFunction");
@@ -42,3 +43,4 @@ exports.PageFunction = mongoose.model("PageFunction");
 exports.LogsAPI = mongoose.model("LogsAPI");
 exports.Sessions = mongoose.model("Sessions");
 exports.LangUIField = mongoose.model("LangUIField");
+exports.SettingHistory = mongoose.model("SettingHistory");
