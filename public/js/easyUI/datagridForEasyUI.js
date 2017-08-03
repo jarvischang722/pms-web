@@ -292,15 +292,21 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-        console.log(selectDataRow);
+        var editRowData = $.extend({}, selectDataRow);
+        var allRows = $("#" + dgName).datagrid("getRows");
+
         if (selectDataRow.createRow == "Y") {
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         }
+        editRowData[fieldAttrObj.ui_field_name] = newValue;
+
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
             rowData: selectDataRow,
+            editData: editRowData,
+            allRows: allRows,
             newValue: newValue,
             oldValue: oldValue
         };
@@ -372,7 +378,8 @@ $(document).on("change", "#colorWell", function (event) {
     var lo_row = $('#' + ls_dgName).datagrid('getRows')[li_index];
     lo_row.color_num = color_cod;
     /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
-    adpterDg.tempExecData(lo_row);
+
+    //adpterDg.tempExecData(lo_row); //此部分會造成顏色切換一次就塞一次暫存的Array，造成違反唯一鍵值 韻仁 2017/08/03
 });
 
 //Checkbox onchange事件
