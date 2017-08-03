@@ -13,7 +13,6 @@ DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
 DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
     vm.editingRow = row;
     vm.isEditStatus = true;
-    vm.editingRow = row;
     vm.fetchSingleData();
 };
 /*** Class End  ***/
@@ -106,7 +105,7 @@ Vue.component('single-grid-pms0810190-tmp', {
     }
 });
 
-let vm = new Vue({
+var  vm = new Vue({
     el: '#PMS0810190App',
     data: {
         dgIns: {},
@@ -170,7 +169,7 @@ let vm = new Vue({
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
                 .done(function (response) {
-                    let result = response;
+                    var  result = response;
                     vm.pageTwoFieldData = result.fieldData;
                     vm.useCodList = _.findWhere(vm.pageTwoFieldData, {ui_field_name: 'use_cod'}).selectData;
                 })
@@ -181,8 +180,7 @@ let vm = new Vue({
         getOrderConfirm: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .done(function (response) {
-                    console.log(response);
-                    let result = response;
+                    var  result = response;
                     vm.pageOneDataGridRows = result.dataGridRows;
                     vm.pageOneFieldData = result.fieldData;
                     vm.showCheckboxDG();
@@ -269,13 +267,13 @@ let vm = new Vue({
         doCheckContentFormat: function () {
             var _this = this;
             _.each(this.lo_formatError, function (errStatus, currentType) {
-                let valContent = _this.singleData[currentType] || "";
-                let openReg = new RegExp(/\[\[\%\%/, "g");
-                let closeReg = new RegExp(/\%\%\]\]/, "g");
-                let openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
-                let closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
-                let reg = new RegExp(/\[\[\%\%(訂房卡號|聯絡人|Full Name|公司名稱|訂房公司)\%\%\]\]/, "g");
-                let regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
+                var  valContent = _this.singleData[currentType] || "";
+                var  openReg = new RegExp(/\[\[\%\%/, "g");
+                var  closeReg = new RegExp(/\%\%\]\]/, "g");
+                var  openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
+                var  closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
+                var  reg = new RegExp(/\[\[\%\%(訂房卡號|聯絡人|Full Name|公司名稱|訂房公司)\%\%\]\]/, "g");
+                var  regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
 
                 if (openMatchNum == closeMatchNum && regNum == openMatchNum) {
                     _this.lo_formatError[currentType] = false;
@@ -287,7 +285,7 @@ let vm = new Vue({
         },
         doVerify: function () {
             var isContFmtOK = true;
-            let checkField = ["confirm_cod", "subject", "content", "use_cod"];
+            var  checkField = ["confirm_cod", "subject", "content", "use_cod"];
             _.each(checkField, function (fieldName) {
                 if (isContFmtOK && (_.isUndefined(vm.singleData[fieldName]) || _.isEmpty(vm.singleData[fieldName].trim()))) {
                     var field = _.findWhere(vm.pageTwoFieldData, {ui_field_name: fieldName});
@@ -360,9 +358,9 @@ let vm = new Vue({
             this.isAddAfterSave = false;
             this.isLeaveAfterSave = false;
             this.dialogVisible = true;
-            let maxHeight = document.documentElement.clientHeight - 30; //browser 高度 - 70功能列
-            let height = 550; // 預設一個row 高度
-            let dialog = $("#singleGridPMS0810190").dialog({
+            var  maxHeight = document.documentElement.clientHeight - 30; //browser 高度 - 70功能列
+            var  height = 550; // 預設一個row 高度
+            var  dialog = $("#singleGridPMS0810190").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),

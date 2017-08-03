@@ -1170,7 +1170,8 @@ function dataValueChange(fields, data) {
                     var finalValue = changeValueFormat(value, row.ui_type);
                     if (row.ui_type != "checkbox") {
                         data[objKey] = finalValue ? finalValue : value;
-                    } else {
+                    }
+                    else {
                         data[objKey] = finalValue;
                     }
 

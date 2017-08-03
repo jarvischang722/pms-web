@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0830010] -->
+    <dao name="QRY_OPEN_RF_COUNT">
+        <statement><![CDATA[
+            select COUNT(*) as openRfCount from open_rf where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and shop_dat = :shop_dat
+            and trim(shift_cod) = trim(:shift_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="String" kind="3">hotel_cod</parameter>
+        <parameter type="date" kind="3">shop_dat</parameter>
+        <parameter type="String" kind="3">shift_cod</parameter>
+    </dao>
+</root>

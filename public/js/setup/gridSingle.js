@@ -256,7 +256,6 @@ Vue.component('sigle-grid-dialog-tmp', {
     watch: {
 
         editingRow: function (newRow, oldRow) {
-
             this.$parent.editingRow = newRow;
             var nowDatagridRowIndex = $("#dg").datagrid('getRowIndex', newRow);
             $("#dg").datagrid('selectRow', nowDatagridRowIndex);
@@ -305,7 +304,8 @@ Vue.component('sigle-grid-dialog-tmp', {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
                     validateField: ui_field_name,
-                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                    oriSingleRowData: this.$parent.oriSingleData
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
@@ -344,6 +344,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
         },
+
         chkClickTextGrid: function (ui_field_name, rule_func_name, ui_type) {
             //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
 
@@ -767,6 +768,7 @@ var vm = new Vue({
             dt_deleteData: []
         },
         singleData: {},         //單檔資訊
+        oriSingleData: {},      //單黨資訊原始檔
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
@@ -1002,6 +1004,7 @@ var vm = new Vue({
                 $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                     var dtData = result.dtData || [];
                     if (result.success) {
+                        vm.oriSingleData = $.extend({}, result.rowData);
                         vm.singleData = result.rowData;
                         vm.modificableForData = result.modificable || true;
                         vm.dtData = dtData;
