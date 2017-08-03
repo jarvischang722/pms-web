@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    jQuery(function () {
+
+        // tabs setting
+        $('.easyUi-custom1').tabs({
+            // 可以resize 左右，但height 會變大
+//            fit: true,
+//            height: auto
+        });
+
+        $('[data-rel=tooltip]').tooltip();
+
+        /***
+         * PMS0320010 外幣匯兌
+         */
+
+        // 彈出 外匯匯兌單筆 Add
+        $(document).on('click', ".cashier_FXDialog-add", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_FXDialog-add-message").removeClass('hide').dialog({
+                modal: true,
+                title: "外匯匯兌單筆Add",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        /***
+         * dataGrid
+         */
+        // 外幣匯兌 cashier_FX-table dataGrid
+        $('#cashier_FX-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier_FX.json',
+            method: 'get',
+            columns: [[
+                {field: 'exchangeMemoNo', title: '水單號碼', width: 100},
+                {field: 'exchangeMemoSDate', title: '水單產生日', width: 80},
+                {field: 'exchangeMemoStatus', title: '水單狀態', width: 60},
+                {field: 'travelName', title: '旅客姓名', width: 60},
+                {field: 'class', title: '班別', width: 40},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'idCard', title: '身分證/護照', width: 100},
+                {field: 'exchangeType', title: '兌換種類', width: 60},
+                {field: 'currency', title: '幣別', width: 60},
+                {field: 'foreignCurrencyAmount', title: '外幣金額', width: 80,align: 'right'},
+                {field: 'exchangeAmount', title: '兌換金額', width: 100,align: 'right'},
+                {field: 'banknote', title: '支/鈔票號碼', width: 160},
+                {field: 'updDate', title: '修改日期', width: 130}
+            ]]
+        });
+
+
+    });
+</script>
