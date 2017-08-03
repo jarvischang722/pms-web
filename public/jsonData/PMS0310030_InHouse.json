@@ -1,6 +1,6 @@
 {"total":28,
 	"rows":[
-	{"roomNum":"321","num":"0","ledgerStatus":"O:開帳","ciDate":"2017/03/31","guestNum":"2017/03/31 00","housingDate":"14:14","historyNum":"CRM000000000038201","fullName":"李安","guestType":"LOF:一般","gender":"M:男","publicLedger":"G21","bookingNum":"00457601","realCiDate":"2017/05/01","originalCiDate":"2017/03/21","prepareCiDate":"2017/04/05","totalAmount":"-2,500"},
-	{"roomNum":"123","num":"0","ledgerStatus":"K:開帳","ciDate":"2017/03/31","guestNum":"2017/03/31 00","housingDate":"14:14","historyNum":"CRM000000000038201","fullName":"李安","guestType":"LOF:一般","gender":"M:男","publicLedger":"G21","bookingNum":"00457601","realCiDate":"2017/05/10","originalCiDate":"2017/03/21","prepareCiDate":"2017/04/05","totalAmount":"-2,500"}
+	{"roomNum":"321","num":"0","ledgerStatus":"O:開帳","ciDate":"2017/03/31","housingDate":"14:14","fullName":"李安","guestType":"LOF:一般","gender":"M:男","publicLedger":"G21","bookingNum":"00457601","realCiDate":"2017/05/01","originalCiDate":"2017/03/21","prepareCiDate":"2017/04/05","totalAmount":"-2,500"},
+	{"roomNum":"123","num":"0","ledgerStatus":"K:開帳","ciDate":"2017/03/31","housingDate":"14:14","fullName":"李安","guestType":"LOF:一般","gender":"M:男","publicLedger":"G21","bookingNum":"00457601","realCiDate":"2017/05/10","originalCiDate":"2017/03/21","prepareCiDate":"2017/04/05","totalAmount":"-2,500"}
 	]}
 
