@@ -4270,6 +4270,17 @@ span.triangle-text {
   box-shadow: inset 3px 4px 20px 0px #8F8888, 5px 5px 5px 1px #707070;
 }
 
+/* line 1655, ../sass/_bacchusMain.sass */
+.townBlock.active {
+  border: 5px solid red;
+  padding: 1px !important;
+}
+
+/* line 1659, ../sass/_bacchusMain.sass */
+.roomAssign .select-group {
+  display: inline;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
