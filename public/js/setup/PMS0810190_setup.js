@@ -272,7 +272,7 @@ var  vm = new Vue({
                 var  closeReg = new RegExp(/\%\%\]\]/, "g");
                 var  openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
                 var  closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
-                var  reg = new RegExp(/\[\[\%\%(訂房卡號|聯絡人|Full Name|公司名稱|訂房公司)\%\%\]\]/, "g");
+                var  reg = new RegExp(/\[\[\%\%(ReservationNo|ContactMan|FullName|CompName|ReservationComp)\%\%\]\]/, "g");
                 var  regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
 
                 if (openMatchNum == closeMatchNum && regNum == openMatchNum) {

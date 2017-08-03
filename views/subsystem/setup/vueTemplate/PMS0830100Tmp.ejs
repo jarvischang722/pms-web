@@ -1,0 +1,191 @@
+<script type="text/x-template" id="sigleGridPMS0830100Tmp">
+    <div id="singleGridPMS0830100" v-show="false">
+        <div class="col-sm-12 col-xs-12 singleGridContent">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <!-- Start Content -->
+                    <form id="singleDataForm" method="post">
+                        <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
+                            <div class="row" v-for="fields in pageTwoFieldData">
+                                <div class="grid-item " v-for="field in fields">
+                                    <label :style="{width:field.label_width + 'px'}"
+                                           v-if="field.visiable == 'Y'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
+                                            {{field.ui_display_name}}
+                                        </a>
+                                        <span v-else>{{field.ui_display_name}} </span>
+                                    </label>
+                                    <span v-if="field.visiable == 'Y'"
+                                          style="width: 15px; text-align: center;
+                                          display: inline-block; min-width: 15px;">:</span>
+
+                                    <!--  Text & Number -->
+                                    <!--  number no spinner add class="numStyle-none" -->
+                                    <input v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number')"
+                                           :type="field.ui_type"
+                                           class="numStyle-none"
+                                           :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :required="field.requirable == 'Y'"
+                                           min="0"
+                                           :maxlength="field.ui_field_length"
+                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                           @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+
+                                    <!-- 日期選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="date"
+                                                        placeholder=""
+                                                        size="small"
+                                                        :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        format="yyyy/MM/dd"
+                                                        :style="{width:field.width + 'px' , height:'30px'}"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                        </el-date-picker>
+                                    </template>
+
+                                    <!-- 日期時間選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
+                                        <el-date-picker v-model="singleData[field.ui_field_name]"
+                                                        type="datetime"
+                                                        placeholder=""
+                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        size="small"
+                                                        format="yyyy/MM/dd HH:mm:ss"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                        </el-date-picker>
+                                    </template>
+
+
+                                    <!-- 下拉選單 -->
+                                    <span class="dropdown margin-adjust" align="left"
+                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'">
+                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                style="text-align: left!important;"
+                                                type="button"
+                                                data-toggle="dropdown">
+                                                {{ showDropdownDisplayName(singleData[field.ui_field_name] , field.selectData) }}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation" v-for="opt in field.selectData">
+                                                <a @click.prevent="singleData[field.ui_field_name] = opt.value">
+                                                    {{opt.display}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </span>
+
+                                    <input type="hidden"
+                                           v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'N'"/>
+                                </div>
+                            </div>
+
+                            <!-- DT 的datagrid -->
+                            <div id="dt_dg_DIV" style="display: none;">
+                                <table class="easyui-datagrid" id="dt_dg" style="width:100%;height:auto;">
+                                </table>
+
+                                <div id="tb" style="height:auto" class="dataGrid-toolBar01">
+                                    <a href="javascript:void(0)" class="easyui-linkbutton"
+                                       data-options="plain:true"
+                                       @click="appendDtRow">
+                                        <i class="fa fa-plus green"></i>
+                                        <%= __("SystemCommon").Add %>
+                                    </a>
+                                    <a href="javascript:void(0)" class="easyui-linkbutton"
+                                       data-options="plain:true"
+                                       @click="removeDtRow">
+                                        <i class="fa fa-minus red"></i>
+                                        <%= __("SystemCommon").Delete %>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End Content -->
+
+                    <!-- Control Panel -->
+                    <div class="col-sm-1 col-xs-1 singleRelative">
+                        <div class="row" v-if="editStatus">
+                            <div class="singleEditStatus right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData || $parent.isLoading"
+                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData || $parent.isLoading"
+                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData || $parent.isLoading"
+                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData || $parent.isLoading"
+                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                                :disabled="$parent.isLoading"
+                                                @click="handleDeleteSingleData">
+                                            <%= __("SystemCommon").Delete %>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- End Control Panel -->
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!-- buttons -->
+        <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
+            <div class="singleRelative">
+                <div class="singleBtnBottom">
+                    <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
+                            @click="doSaveGrid('addOther')">
+                        <%= __("SystemCommon").Add_after_save %>
+                    </button>
+                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
+                        <%= __("SystemCommon").Leave_after_save %>
+                    </button>
+                    <button v-if="editStatus" :disabled="editStatus && !modificableForData "
+                            class="btn btn-primary btn-white"
+                            @click="doSaveGrid('')">
+                        <%= __("SystemCommon").Save %>
+                    </button>
+                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
+                        <%= __("SystemCommon").Leave %>
+                    </button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.settingSingleDialog -->
+</script>

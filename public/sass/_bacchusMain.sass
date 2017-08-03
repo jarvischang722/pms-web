@@ -242,7 +242,7 @@ a
       margin: 5px auto
   .authRadio
     margin-right: 2px
-    //height: 11px
+  //height: 11px
   .tree-body
     padding: 5px
   .author-navbar
@@ -697,11 +697,11 @@ input[type="radio"], input[type="checkbox"]
     label
       &.checkLabel
         width: 40px
-  //查詢結果表格
+//查詢結果表格
 .result-panel-body
   td
     padding: 3px !important
-  //新增拜訪編輯
+//新增拜訪編輯
 .NewVisitRecord-wrap
   margin: 10px 0
 .newVisit-textarea
@@ -1093,7 +1093,7 @@ ul.newVisitOther-btn
 .reservation-pickUp-wrap .right-menu-co
   margin-top: 30px
 
-  //ho批次修改
+//ho批次修改
 .input-medium.medium-c5
   width: 300px
   max-width: 100%
@@ -1598,6 +1598,37 @@ span
   background: #b94db3
 .qt2
   background: #a0563d
+//夜核
+.ttrial-table
+  margin-top: 20px
+  thead
+    border-top: 2px solid #000
+    border-bottom: 2px solid #000
+    tr
+      background: #fff !important
+      background-image: none !important
+      th
+        border-bottom: 0
+        &.ttrial-th
+          span + span
+            margin-left: 10px
+  tbody
+    tr
+      &:nth-of-type(odd)
+        background: #F0F3F5
+      td
+        &.ttrial-price
+          span
+            display: inline-block
+            width: 49px
+            text-align: right
+        .test
+          margin-left: 30px
+.lineHeight17
+  line-height: 1.7
+.ttrial-noice
+  font-size: 14px
+  margin-left: 86px
 
 // 大標樣式
 .titleInfo
@@ -1613,3 +1644,17 @@ span
       margin-bottom: 0
   .textarea-title
     margin: 10px auto
+
+
+// 陰影
+.div_shadow
+  +box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
+
+//排房active
+.townBlock
+  &.active
+    border: 5px solid red
+    padding: 1px !important
+.roomAssign
+  .select-group
+    display: inline
