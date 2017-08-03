@@ -44,15 +44,15 @@ Vue.component("multi-lang-dialog-tmp", {
 
             var existIdx = this.$parent.chkTmpCudExistData(rowData, "updateData");
             var lb_getFromAPI = true;
-            try{
-                if(_.isUndefined(vm.tmpCUD.updateData[existIdx].multiLang)){
+            try {
+                if (_.isUndefined(vm.tmpCUD.updateData[existIdx].multiLang)) {
                     lb_getFromAPI = true;
                 }
-                else{
+                else {
                     lb_getFromAPI = false;
                 }
             }
-            catch(err){
+            catch (err) {
                 lb_getFromAPI = true;
             }
             if (lb_getFromAPI) {
@@ -196,11 +196,10 @@ var vm = new Vue({
         },
         //按下一個Row
         onClickCell: function (index, field) {
-
-            if(gb_isUserEdit) {
-                if (vm.editIndex != index) {
+            if (vm.editIndex != index) {
+                if (gb_isUserEdit) {
                     if (this.endEditing()) {
-                        gb_isUserEdit =false;
+                        gb_isUserEdit = false;
                         $('#prg_dg').datagrid('selectRow', index)
                             .datagrid('beginEdit', index);
                         var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
@@ -210,13 +209,15 @@ var vm = new Vue({
 
                         vm.editIndex = index;
                     } else {
+                        gb_isUserEdit = false;
                         setTimeout(function () {
                             $('#prg_dg').datagrid('selectRow', vm.editIndex);
                         }, 0);
                     }
+                    gb_isUserEdit = true;
                 }
-                gb_isUserEdit =true;
             }
+
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
@@ -244,8 +245,8 @@ var vm = new Vue({
                 });
                 // dataGrid 多語系欄位有修改 且 暫存沒有多語系資料
                 // 則一起儲存進多語系
-                _.each(this.multiLangField, function(multiLangField){
-                    if(!_.isUndefined(changes[multiLangField.ui_field_name]) && ! lb_multiLangExist){
+                _.each(this.multiLangField, function (multiLangField) {
+                    if (!_.isUndefined(changes[multiLangField.ui_field_name]) && !lb_multiLangExist) {
                         _.each(la_multiLangTmp, function (tmpLang) {
                             if (tmpLang.locale == gs_locale) {
                                 tmpLang[multiLangField.ui_field_name] = changes[multiLangField.ui_field_name];
@@ -258,6 +259,7 @@ var vm = new Vue({
             this.tempExecData(row);
         },
         endEditing: function () {
+
             if (vm.editIndex == undefined) {
                 return true;
             }
@@ -297,10 +299,10 @@ var vm = new Vue({
                 alert("請選擇要刪除的資料");
             }
 
-            if(delRow.createRow == 'Y'){    //如果刪除此次新建的資料，則直接刪除即可。
+            if (delRow.createRow == 'Y') {    //如果刪除此次新建的資料，則直接刪除即可。
                 $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow))
             }
-            else{
+            else {
                 vm.tmpCUD.deleteData.push(delRow);
                 $("#gridEdit").val(vm.tmpCUD);
 
