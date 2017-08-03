@@ -173,7 +173,15 @@ exports.handleAddFuncRule = function (postData, session, callback) {
     ], function (err, fieldNameList) {
         let lo_initField = {};
         _.each(fieldNameList, function (name) {
-            lo_initField[name] = "";
+            if(name == "athena_id"){
+                lo_initField[name] = session.user.athena_id;
+            }
+            else if(name == "hotel_cod"){
+                lo_initField[name] = session.user.hotel_cod;
+            }
+            else{
+                lo_initField[name] = "";
+            }
         });
         mongoAgent.DatagridFunction.findOne({
             prg_id: prg_id,

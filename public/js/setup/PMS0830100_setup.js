@@ -428,6 +428,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                 //先驗證有無欄位沒驗證過的
                 this.$emit('do-save-cud', function (success) {
                     if (success) {
+
                         //儲存後離開
                         if (saveAfterAction == "closeDialog") {
                             self.singleData = {};
