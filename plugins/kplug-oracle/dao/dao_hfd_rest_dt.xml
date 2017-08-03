@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830100'] 明細逾時計價相關 -->
+    <dao name="QRY_HFD_REST_DT">
+        <statement><![CDATA[
+           select athena_id, hotel_cod, room_cod, seq_nos, begin_dat, end_dat, day_sta, free_tim, over_tim, over_amt, item_nos, stay_free_tim, stay_over_tim, stay_over_amt, stay_item_nos, ins_dat, ins_usr, upd_dat, upd_usr from hfd_rest_dt
+           where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(room_cod) = trim(:room_cod) order by begin_dat, day_sta
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
+</root>
