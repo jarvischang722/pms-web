@@ -36,7 +36,7 @@ var EZfieldClass = {
     fieldConvEzAttr: function (fieldAttrObj, dgName) {
 
         var dataType = "";
-        if (fieldAttrObj.ui_type == "text") {
+        if (fieldAttrObj.ui_type == "text" ) {
             dataType = 'textbox';
         } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
@@ -54,6 +54,8 @@ var EZfieldClass = {
             dataType = 'timespinner';
         } else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
+        } else{
+            dataType = 'textbox';
         }
 
         var tmpFieldObj = fieldAttrObj;
@@ -184,8 +186,14 @@ var EZfieldClass = {
         } else if (fieldAttrObj.ui_type == "checkbox") {
 
             tmpFieldObj.formatter = function (val, row, index) {
-                var displayName = fieldAttrObj.selectData[1];
-                var fieldName = val == 'Y' ? displayName.Y : displayName.N;
+                var lo_checkboxVal = fieldAttrObj.selectData[1];
+                if (_.isUndefined(lo_checkboxVal)) {
+                    lo_checkboxVal = {
+                        Y: 'Y',
+                        N: 'N'
+                    };
+                }
+                var fieldName = val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
                 return fieldName;
             };
 
@@ -293,7 +301,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
-        console.log(selectDataRow);
+
         if (selectDataRow.createRow == "Y") {
             selectDataRow[fieldAttrObj.ui_field_name] = newValue;
         }
@@ -335,7 +343,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                if(_.isUndefined(effectValues.length)) {
+                if (_.isUndefined(effectValues.length)) {
                     isUserEdit = false;
                     $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
@@ -345,9 +353,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
                     $('#' + dgName).datagrid('beginEdit', indexRow);
 
-                }else {
+                } else {
                     isUserEdit = false;
-                    _.each(effectValues,function (item,index) {
+                    _.each(effectValues, function (item, index) {
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
@@ -422,7 +430,7 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
     });
 
     $('#' + ls_dgName).datagrid('beginEdit', li_index);
-    onChangeAction(lo_columnOption,oldVal,newVal,ls_dgName);
+    onChangeAction(lo_columnOption, oldVal, newVal, ls_dgName);
 
 });
 
@@ -431,12 +439,12 @@ $.extend($.fn.datagrid.defaults.editors, {
     checkbox: {
         init: function (container, options) {
             var ls_dgName = $('.datagrid-f').attr('id');
-            var li_index = $("#"+ls_dgName).datagrid("getRowIndex",$("#"+ls_dgName).datagrid("getSelected"));
-            var rowData = $("#"+ls_dgName).datagrid("getRows")[li_index];
+            var li_index = $("#" + ls_dgName).datagrid("getRowIndex", $("#" + ls_dgName).datagrid("getSelected"));
+            var rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
             var field_name = $(container.context.outerHTML).attr("field");
             var val = rowData[field_name];
-            var checked = options.on == val ? 'checked' :'';
-            var input = $('<input type="checkbox" class="dg-checkbox-change"  '+checked+' onchange="">').appendTo(container);
+            var checked = options.on == val ? 'checked' : '';
+            var input = $('<input type="checkbox" class="dg-checkbox-change"  ' + checked + ' onchange="">').appendTo(container);
             return input;
         },
         destroy: function (target) {

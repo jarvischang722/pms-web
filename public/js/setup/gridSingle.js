@@ -258,7 +258,7 @@ Vue.component('text-select-grid-dialog-tmp', {
             delete textDataGrid ['errorMsg'];
             var columnsData = [];
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
-                return textDataGrid[key]
+                return textDataGrid[key];
             });
 
             for (var col in textDataGrid[0]) {
@@ -273,7 +273,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                         });
                         self.fieldNameConditionTmp.push({value: field, display: name});
                     }
-                })
+                });
             }
 
             $('#chooseGrid').datagrid({
@@ -296,7 +296,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     if (selectField == updateValue) {
                         chooseData[updateField] = selectValue;
                     }
-                })
+                });
             });
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataTextGridDialog").dialog('close');
@@ -336,7 +336,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 this.isFistData = true;
                 this.isLastData = false;
                 if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1)
-                    this.isLastData = true;
+                    {this.isLastData = true;}
 
             } else if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
@@ -364,7 +364,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             _.each(Object.keys(chooseData), function (key) {
 
                 self.singleData[key] = chooseData[key] || "";
-            })
+            });
         });
     },
 
@@ -901,6 +901,7 @@ var vm = new Vue({
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
                 vm.showDataGrid();
+                console.log(result);
                 callback(result.success);
             });
         },
