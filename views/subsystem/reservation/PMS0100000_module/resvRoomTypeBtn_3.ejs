@@ -80,7 +80,7 @@
 
                         <div class="grid">
                             <div class="grid-item">
-                                <label>住客類別</label>
+                                <label>市場類別</label>
                                 <select class="chosen-select chosenDialog-w1" data-placeholder="">
                                     <option value="1">1.純訂房</option>
                                     <option value="2">2.套裝行程</option>
@@ -1525,7 +1525,100 @@
 
 <!-- 住客歷史 lost&Found 彈出視窗 -->
 <div id="resvLostFound-message" class="hide padding-5" style="top: 0 !important;">
+
+
+
     <div class="businessCompanyData">
+        <!--標題-->
+        <div class="titleInfo">
+            <div class="titleInfo-head">
+                <p class="titleInfo-title">多筆</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="main-content-data">
+                        <table id="resvProfile_lostFound-table"></table>
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">新增
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">新增報失
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">新增拾獲
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">修改
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" disabled>拾獲
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">刪除
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" disabled>遺失者領回
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" disabled>拾獲者領回
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" >批次拾獲者領回
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" >以下全選
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button" >以下全不選
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+
+        <!--標題-->
+        <div class="titleInfo">
+            <div class="titleInfo-head">
+                <p class="titleInfo-title">單筆</p>
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12">
             <div class="row">
                 <div class="col-xs-11 col-sm-11">
@@ -1543,11 +1636,11 @@
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>遺失日期</label>
-                                    <input type="date" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="date" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>遺失時間</label>
-                                    <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="time" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>狀態</label>
@@ -1558,7 +1651,7 @@
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>遺失者</label>
-                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label></label>
@@ -1572,19 +1665,19 @@
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>遺失物品</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>遺失處</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>遺失備註</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式" disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -1616,18 +1709,18 @@
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>拾獲日期</label>
-                                    <input type="date" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="date" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>拾獲時間</label>
-                                    <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="time" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                             </div>
                             <!--6-->
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>拾獲者</label>
-                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label></label>
@@ -1641,19 +1734,19 @@
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>拾獲物品</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>拾獲處</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>拾獲備註</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式" disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -1685,18 +1778,18 @@
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>領回日期</label>
-                                    <input type="date" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="date" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>領回時間</label>
-                                    <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    <input type="time" class="input-medium resvCard-date" placeholder="" disabled/>
                                 </div>
                             </div>
                             <!--9-->
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>領回者</label>
-                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label></label>
@@ -1710,13 +1803,13 @@
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>身分證字號</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
                                         <div class="grid-item">
                                             <label>領回備註</label>
-                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式" disabled/>
                                         </div>
                                     </div>
                                     <div class="gird">
@@ -1768,10 +1861,6 @@
                     <div class="row">
                         <div class="right-menu-co">
                             <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Add</button>
-                                </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">列印明細</button>

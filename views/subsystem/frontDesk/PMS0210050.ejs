@@ -52,7 +52,7 @@
                                     <!--1-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>住客姓名/房號</label>
+                                            <label>Full Name/RM</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="searchCheckbox pull-left">
@@ -67,11 +67,11 @@
                                     <!--2-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>C/I日期</label>
+                                            <label>C/I Date</label>
                                             <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="grid-item">
-                                            <label>住客類別</label>
+                                            <label>Market</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             <span class="moreClick bs-company-totalMain">...</span>
                                         </div>
@@ -79,23 +79,23 @@
                                     <!--3-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>C/O日期</label>
+                                            <label>C/O Date</label>
                                             <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="有效訂房">
                                         </div>
                                         <div class="grid-item">
-                                            <label>房號</label>
+                                            <label>RM No.</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                     </div>
                                     <!--4-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>訂房卡號</label>
+                                            <label>RV No.</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>公司名稱</label>
+                                                <label>Company</label>
                                                 <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
                                             <div class="searchCheckbox pull-left">
@@ -111,11 +111,11 @@
                                     <!--5-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>團號/團體名稱</label>
+                                            <label>Group No.</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="grid-item">
-                                            <label>訂房公司名稱</label>
+                                            <label>Agent</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="searchCheckbox pull-left">
@@ -130,15 +130,47 @@
                                     <!--6-->
                                     <div class="grid">
                                         <div class="grid-item">
-                                            <label>車號</label>
+                                            <label>Vehicle No.</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                         </div>
                                         <div class="grid-item">
-                                            <label>國籍</label>
+                                            <label>Nationality</label>
                                             <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             <span class="moreClick bs-company-totalMain">...</span>
                                         </div>
                                     </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item foCntRadio">
+                                            <div class="searchRadio pull-left lineHeight24">
+                                                    <span class="radio">
+                                                      <label class="checkbox-width" style="width: auto;">
+                                                          <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                                          <span class="lbl">IN HOUSE+今日C/I</span>
+                                                      </label>
+                                                    </span>
+                                            </div>
+                                            <div class="searchRadio pull-left lineHeight24">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">只顯示
+                                              <input class="input-medium resvCard-2xs" placeholder="3"/>
+                                              天內退房</span>
+                                          </label>
+                                        </span>
+                                            </div>
+                                            <div class="searchRadio pull-left lineHeight24">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                              <span class="lbl">全部</span>
+                                          </label>
+                                        </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                 </div>
                                 <div class="clearfix"></div>
@@ -163,12 +195,16 @@
                 <div class="right-menu-co">
                     <ul>
                         <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                            <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
                                     role="button">Reservation</button>
                         </li>
                         <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details"
                                     role="button">Guest Detail</button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail"
+                                    role="button">C/O</button>
                         </li>
                         <li>
                             <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -200,6 +236,10 @@
     <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_3 %>
     <!--  /.End 彈出視窗內容 -->
 
+    <!--  出納 彈出視窗內容-->
+    <%- include ../cashier/cashier_module/cashier_Btn_1 %>
+    <!--  /.End 彈出視窗內容 -->
+
     <!-- /.page-content -->
 
     <!--  接待共用 initial js -->
@@ -209,6 +249,11 @@
 
     <!--  業務 -->
     <%- include ../sales/sales_module/sales_Btn_1.ejs %>
+    <!--  /.End 業務 -->
+
+
+    <!--  業務 -->
+    <%- include ../cashier/cashier_module/cashier_includeJs %>
     <!--  /.End 業務 -->
 
 

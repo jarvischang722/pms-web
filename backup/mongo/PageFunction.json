@@ -125,16 +125,65 @@
     "rule_func_name" : "r_HfduserfSave"
 }
 { 
-    "_id" : ObjectId("596dc21e1ce45229ec046743"), 
-    "prg_id" : "PMS0820050", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0200", 
-    "rule_func_name" : "r_pms0820050_add"
-}
-{ 
     "_id" : ObjectId("596ecbd1818df426f8c29ac9"), 
     "prg_id" : "PMS0840010", 
     "page_id" : NumberInt(2), 
     "func_id" : "0521", 
     "rule_func_name" : "CHK_HKMTYPE_RF_INS"
+}
+{ 
+    "_id" : ObjectId("5977ea85d7826628c0a3ca91"), 
+    "prg_id" : "PMS0840030", 
+    "page_id" : NumberInt(2), 
+    "func_id" : NumberInt(300), 
+    "rule_func_name" : "r_HkproductrfSaveDel"
+}
+{ 
+    "_id" : ObjectId("5977ea85d7826628c0a3ca92"), 
+    "prg_id" : "PMS0840030", 
+    "page_id" : NumberInt(2), 
+    "func_id" : NumberInt(541), 
+    "rule_func_name" : "r_HkproductrfSaveModify"
+}
+{ 
+    "_id" : ObjectId("59786aed1ce45221e87fd743"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_CashierrfDelSave"
+}
+{ 
+    "_id" : ObjectId("59786aed1ce45221e87fd744"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_CashierrfInsSave"
+}
+{ 
+    "_id" : ObjectId("59786aed1ce45221e87fd745"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_CashierrfModifySave"
+}
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f2"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f3"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_PMS0830100_save"
+}
+{ 
+    "_id" : ObjectId("597ec0ec818df4286420c1f4"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_PMS0830100_save"
 }

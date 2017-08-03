@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820050'] 檢查異動後庫存數是否不足，若不足則不允許commit-->
+    <dao name="CHK_ITEM_STOCK">
+        <statement><![CDATA[
+               select min(batch_dat) from hfd_use_mn
+               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and item_cod = :item_cod and left_qnt < 0 and batch_dat > :batch_dat;
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="int" kind="3">item_cod</parameter>
+        <parameter type="date" kind="3">batch_dat</parameter>
+    </dao>
+
+
+</root>

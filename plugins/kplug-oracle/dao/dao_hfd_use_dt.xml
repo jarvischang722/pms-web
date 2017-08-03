@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820050'] 明細櫃檯備品庫存 -->
+    <dao name="QRY_HFD_USE_DT">
+        <statement><![CDATA[
+         select athena_id, hotel_cod, key_nos, item_cod, item_qnt, begin_dat, end_dat, action_cod, status_cod, ins_dat, ins_usr, upd_dat, upd_usr
+         from hfd_use_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(item_cod) = trim(:item_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">item_cod</parameter>
+    </dao>
+
+
+    <dao name="QRY_HFD_USE_DT_COUNT">
+        <statement><![CDATA[
+         select count(*) from hfd_use_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+         and trim(item_cod) = trim(:item_cod) and action_cod <> 'add' and status_cod = 'N' and rownum <= 1;
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">item_cod</parameter>
+    </dao>
+</root>

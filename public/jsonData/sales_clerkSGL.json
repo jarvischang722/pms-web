@@ -1,0 +1,7 @@
+{"total":28,
+  "rows":[
+    {"classCod":"002","startDat":"2005/07/01","endDat":"2007/02/15","insUsr":"cio","insDat":"2005/07/01 12:30:47","updUsr":"cio","updDat":"2005/12/16 14:15:26"},
+    {"classCod":"003","startDat":"2005/02/16","endDat":"2014/05/15","insUsr":"cio","insDat":"2007/02/16 12:30:47","updUsr":"cio","updDat":"2014/5/14 14:15:26"},
+    {"classCod":"001","startDat":"2005/07/01","endDat":"2007/02/15","insUsr":"cio","insDat":"2005/07/01 12:30:47","updUsr":"cio","updDat":"2005/12/16 14:15:26"}
+
+  ]}

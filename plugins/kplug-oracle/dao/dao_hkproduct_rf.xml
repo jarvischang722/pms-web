@@ -21,4 +21,41 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">small_typ</parameter>
     </dao>
+
+    <!-- ['PMS0840030'] 取得多筆 -->
+    <dao name="QRY_HKPRODUCT_RF">
+        <statement><![CDATA[
+       select athena_id, hotel_cod, middle_typ, small_typ, product_nos, product_nam, unit_typ, unit_amt, cost_amt, amodify_sta, inv_sta, service_sta, opencode_sta, serv_rat, view_seq, use_sta, goods_cod, item_nos, serv_nos, ins_dat, ins_usr, upd_dat, upd_usr
+       from hkproduct_rf
+       where trim(athena_id) = ? and trim(hotel_cod) = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 取得單筆 -->
+    <dao name="QRY_SINGLE_HKPRODUCT_RF">
+        <statement><![CDATA[
+       select athena_id, hotel_cod, middle_typ, small_typ, product_nos, product_nam, unit_typ, unit_amt, cost_amt, amodify_sta, inv_sta, service_sta, opencode_sta, serv_rat, view_seq, use_sta, goods_cod, item_nos, serv_nos, ins_dat, ins_usr, upd_dat, upd_usr
+       from hkproduct_rf
+       where trim(athena_id) = ? and trim(hotel_cod) = ? and product_nos = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">product_nos</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 取得中分類 -->
+    <dao name="QRY_HKPRODUCT_RF_MIDDLE_TYP">
+        <statement><![CDATA[
+              select middle_typ as value, typ_nam as display
+              from hkmtype_rf
+              where athena_id = ? and hotel_cod = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
 </root>

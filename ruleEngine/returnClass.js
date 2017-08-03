@@ -16,6 +16,8 @@ function rtnObject () {
     this.extendExecDataArrSet = [];    //存放額外要組合sql的資料集合
     this.selectOptions = [];     //下拉選單選項
     this.modifiedRowData = {};     //修改後的Row資料
+    this.isModifiable = true;     // 是否能修改
+    this.readonlyFields = [];     // 需readonly的欄位
 }
 
 

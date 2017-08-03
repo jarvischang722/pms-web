@@ -1,0 +1,137 @@
+<!-- 分帳規則 cashierSettingDialog 彈出視窗 -->
+<script type="text/x-template" id="PMS0830080Tmp">
+    <div id="PMS0830080Dialog" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+
+                <div class="row">
+                    <div class="main-content-data borderFrame cashier-top-wrap">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>規則代號</label>
+                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_cod"
+                                       class="input-medium resvCard">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>規則名稱</label>
+                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_nam"
+                                       class="input-medium resvCard-col2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="row">
+                                    <div class="col-xs-2 col-sm-2">
+                                        <div class="row">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable center table-lg cashierSetting-left">
+                                                    <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th center" style="min-width:130px;">Folio No.
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 1; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 1}" class="css_td ">1</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 2; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 2}" class="css_td">2</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 3; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 3}" class="css_td">3</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 4; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 4}" class="css_td">4</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 5; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 5}" class="css_td">5</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 6; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 6}" class="css_td">6</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 7; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 7}" class="css_td">7</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 8; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 8}" class="css_td">8</td>
+                                                    </tr>
+                                                    <tr class="css_tr" @click="$parent.activeAccount = 9; activeSmallTyp=''">
+                                                        <td :class="{active: $parent.activeAccount == 9}" class="css_td">9</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-10 col-sm-10">
+                                        <div class="row">
+                                            <div class="main-content-data borderFrame">
+                                                <div class="rulesOfSeparation rules-wrap">
+                                                    <div class="counterRow">
+                                                        <div v-for="stype in stypeRfList"
+                                                             class="counterBlock"
+                                                             :class="{active:activeSmallTyp == stype.small_typ, 'other-selected':checkOtherAccSelected(stype.small_typ.trim()) != -1 }"
+                                                             @click="toggleAccount(stype.small_typ)"  >
+                                                            <div class="head">
+                                                                <span class="left txt-lg">{{stype.small_typ}}</span>
+                                                                <span class="right purple-text"
+                                                                    v-if="checkMasterAccStatus(stype.small_typ)">
+                                                                    丟公帳
+                                                                </span>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            <div class="content">
+                                                                <i :class="{'fa-check':checkSmallTyp(stype.small_typ)}"
+                                                                   class="fa red"></i>
+                                                                <span>{{stype.typ_nam}}</span>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--main-content-data-->
+                                            <div class="clearfix"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--main-content-data-->
+
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button @click="$parent.doSave" class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button @click="$parent.closeRouteDialog"
+                                                class="btn btn-danger btn-white btn-defaultWidth" role="button">離開
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="toggleMasterAcc"
+                                                role="button">移至公帳號
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</script>
+

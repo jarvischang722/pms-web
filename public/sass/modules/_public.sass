@@ -105,10 +105,14 @@ a
   color: $light-green !important
 .orange
   color: $orange !important
+.fontBrown
+  color: $fontBrown !important
 .orange2
   color: $orange2 !important
 .light-orange
   color: $light-orange !important
+.font-yellow
+  color: $fontYellow !important
 .purple
   color: $purple !important
 .dark-purple
@@ -123,6 +127,8 @@ a
   color: $grey !important
 .bgLGrey
   background: $light-grey !important
+.bgTGreen
+  background: $t-green !important
 .light-grey
   color: $light-grey !important
 .orangeBlock1
@@ -240,16 +246,23 @@ $medium-c3-card: 212px
     +input-s1(115px)
   &.popWindow-s1v2-col2
     +input-s1(227px)
+  &.popWindow-s1v2-lg
+    +input-s1(339px)
   &.popWindow-s1v2-col2RM
     +input-s1(200px)
   &.popWindow-s1v2-keyword
     +input-s1(460px)
   &.popWindow-s1v2-col4
     +input-s1(562px)
+  &.popWindow-s1v2-col4Key
+    +input-s1(485px)
   &.popWindow-s1v2-col4RM
     +input-s1(535px)
   &.resvCard
     +input-s1(103px)
+    //住客帳維護 單筆
+  &.resvCardSpec1
+    +input-s1(203px)
   &.resvCard-date
     +input-s1(135px)
   &.resvCardRemark
@@ -384,6 +397,18 @@ input[type="datetime-local"]
 .remarkInput
   width: 85%
   margin-left: 5px
+.remarkInput-75
+  width: 75%
+  margin-left: 5px
+  margin-right: 5px
+.remarkInput-45
+  width: 45.4%
+  margin-left: 5px
+  margin-right: 5px
+.remarkInput-79
+  width: 79.4%
+  margin-left: 5px
+  margin-right: 5px
 .border-raduis-5
   border-radius: 5px
 .extendGrid
@@ -435,7 +460,11 @@ input[type="datetime-local"]
       .lbl
         &:before
           margin-right: 3px
-
+  &.msgCheck
+    .checkbox
+      margin: 0 108px auto 5px
+      .checkbox-width
+        width: auto
 //scroll-bar style
 // https://codepen.io/kqlambert/pen/tbJCD?editors=1100
 //::-webkit-scrollbar

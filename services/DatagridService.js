@@ -218,6 +218,13 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             var selectDSFunc = [];
             _.each(fieldData, function (field, fIdx) {
                 if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
+
+                    //讀取selectgrid的設定參數
+                    if(field.ui_type == 'selectgrid'){
+                         var func_name = prg_id + '_' + field.ui_field_name;
+                         fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
+                    }
+
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({

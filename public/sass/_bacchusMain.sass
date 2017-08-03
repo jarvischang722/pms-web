@@ -402,7 +402,7 @@ a
         label
           margin: 0 5px 0 0
           text-align: right
-          width: 130px
+          width: 90px
           //min-width: 90px
           //max-width: 100%
           font-size: 13px
@@ -800,7 +800,7 @@ ul.newVisitOther-btn
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
-  right: 10px
+  right: 0
   //top: 10px
   z-index: 2
   .resvTabs-content
@@ -1540,8 +1540,8 @@ span
   width: 410px
   max-width: 100%
   height: 25px
-.input-medium.medium-xs-80
-  width: 80px
+.input-medium.medium-xs-82
+  width: 82px
   max-width: 100%
   height: 25px
 //彈出視窗 PM 設定公帳號
@@ -1621,6 +1621,7 @@ span
           span
             display: inline-block
             width: 49px
+            text-align: right
         .test
           margin-left: 30px
 .lineHeight17
@@ -1628,6 +1629,27 @@ span
 .ttrial-noice
   font-size: 14px
   margin-left: 86px
+
+// 大標樣式
+.titleInfo
+  //border: 1px solid #eee
+  .titleInfo-head
+    padding-top: 5px
+    padding-bottom: 0
+    border-bottom: 1px solid #eee
+    margin: 5px auto
+    .titleInfo-title
+      font-size: $font-lg
+    p
+      margin-bottom: 0
+  .textarea-title
+    margin: 10px auto
+
+
+// 陰影
+.div_shadow
+  +box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
+
 //排房active
 .townBlock
   &.active
@@ -1635,4 +1657,4 @@ span
     padding: 1px !important
 .roomAssign
   .select-group
-    display: inline 
+    display: inline

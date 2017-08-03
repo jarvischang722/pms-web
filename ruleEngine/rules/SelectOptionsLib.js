@@ -183,6 +183,71 @@ exports.getContactContractTypList = function () {
 };
 
 /**
+ * 取得PMS0830090 MasterTyp
+ * @returns {Array}
+ */
+exports.getMasteRrfMasterTypList = function () {
+    var contractTypList = [
+        {
+            display: '指定使用',
+            value: 'N'
+        },
+        {
+            display: '系統自動給號',
+            value: 'A'
+        },
+        {
+            display: '現金帳',
+            value: 'C'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
+ * 取得PMS0830090 MasterSta
+ * @returns {Array}
+ */
+exports.getMasteRrfMasterStaList = function () {
+    var contractTypList = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '未使用',
+            value: 'N'
+        },
+        {
+            display: '暫停使用',
+            value: 'P'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
+ * 取得PMS0840030 使用狀態
+ * @returns {Array}
+ */
+exports.getIsCanUseStaList = function () {
+    var contractTypList = [
+        {
+            display: '使用中',
+            value: 'Y'
+        },
+        {
+            display: '停用',
+            value: 'N'
+        }
+    ];
+
+    return contractTypList;
+};
+
+/**
  * 取得地址類別
  * @returns {Array}
  */
@@ -291,6 +356,40 @@ exports.checkStaIsDefaultList = function () {
 };
 
 /**
+ * checkbox是否使用(PMS0860070)
+ * @returns
+ */
+exports.checkStaIsCheckedList = function () {
+    var checkList = [{
+        on: 'Y',
+        off: 'N'
+    }, {
+        Y: '打勾',
+        N: '不打勾'
+    }];
+
+    return checkList;
+};
+
+/**
+ * [PMS0830010_出納員設定] 啟用狀態
+ * @returns {[array]}
+ */
+exports.getCashierrfUseSta = function(){
+    var lo_optionList= [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '啟用',
+            N: '不啟用'
+        }
+    ];
+    return lo_optionList;
+}
+
+
+/**
  * [PMS0820010_房間特色設定] 系統預設
  * @returns {array}
  */
@@ -335,6 +434,75 @@ exports.HfdroomcolorrfProtyp = function () {
         }
     ];
 };
+exports.roomcolorrfColortyp = function () {
+    return [
+        {
+            display: "文字",
+            value: "FONT"
+        },
+        {
+            display: "背景",
+            value: "BK"
+        }
+    ];
+};
+exports.HfdroomcolorrfProtyp = function () {
+    return [
+        {
+            display: "排房作業",
+            value: "ASI"
+        },
+        {
+            display: "房間管理",
+            value: "RM"
+        },
+        {
+            display: "房務管理",
+            value: "HK"
+        }
+    ];
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 退房提醒
+ * @returns {array}
+ */
+exports.getChkOutOption = function(){
+    var lo_optionList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
+ * @returns {[array]}
+ */
+exports.getVisiableOption = function(){
+    var lo_optionList = [
+        {
+            display: "顯示",
+            value: "顯示"
+        },
+        {
+            display: "不顯示",
+            value: "不顯示"
+        },
+        {
+            display: "全部",
+            value: "全部"
+        }
+    ];
+    return lo_optionList;
+};
+
 //TODO 將搬到 [程式編碼]Rule裡
 
 /**
@@ -583,5 +751,91 @@ exports.qryGuarenteerfDpreq = function (params, callback) {
 exports.chkHfdorderconfirmrfContent = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getOrderConfirmRf();
+    callback(null, lo_result);
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 退房提醒
+ * @param params
+ */
+exports.qryHfdusedtConotice = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getChkOutOption();
+    callback(null, lo_result);
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
+ * @returns params
+ */
+exports.qryHfdusedtIsvisiable = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getVisiableOption();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0830090 MasterTyp
+ * @param params
+ */
+exports.qryMasterrfMastertyp = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0830090 MasterSta
+ * @param params
+ */
+exports.qryMasterrfMastersta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getMasteRrfMasterStaList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否打勾可修改金額
+ * @param params
+ */
+exports.qryHkproductrfAmodifysta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否打勾要服務費
+ * @param params
+ */
+exports.qryHkproductrfServicesta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否要扣庫存
+ * @param params
+ */
+exports.qryHkproductrfInvsta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0840030 是否要使用狀態
+ * @param params
+ */
+exports.qryHkproductrfUsesta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUseStaList();
+    callback(null,lo_result);
+};
+
+exports.qryCashierrfUsesta = function (params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCashierrfUseSta();
     callback(null, lo_result);
 };

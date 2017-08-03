@@ -1,723 +1,230 @@
-<html lang="en">
-<head>
-</head>
-<body>
-
-<div class="row historyLedger-wrap">
-    <div class="col-xs-12">
-        <div class="col-xs-11">
-            <div class="row">
-                <div class="search-content">
-                    <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                    <div class="search-co">
-                        <div class="search-co-h">
-                            <i class="ace-icon fa fa-search search-icon"></i>
-                            <span>搜尋</span>
-                            <div class="row search-right-btn">
-                                <div class="right-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <i class="fa fa-chevron-down show-search-detail"></i>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="search-co-content col-xs-12">
-                                <div class="col-sm-4">
-
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                            </div>
-                            <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                <div class="row search-footer-btn">
-                                    <div class="footer-btn-menu-co">
+<!--page-content-->
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
+    <!-- 已結帳處理 Page-->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
                                         <ul>
                                             <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                    <div class="icon-reStyle icon-co-14"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                    <div class="icon-reStyle icon-co-11"></div>
-                                                </div>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
                                             </li>
                                         </ul>
-                                    </div>  <!-- /.footer-btn-menu-co -->
-                                </div> <!-- /.search-footer-btn -->
-                                <div class="width-95">
-                                    <!--1-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>房號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>序號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
                                     </div>
-                                    <!--2-->
-                                    <div class="grid">
-                                        <div class="grid-item pull-left">
-                                            <label>Full Name</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="searchCheckbox pull-left">
-                                                <span class="checkbox">
-                                                  <label class="checkbox-width">
-                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                                      <span class="lbl">關鍵字</span>
-                                                  </label>
-                                                </span>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
                                     </div>
-                                    <!--3-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>訂房公司</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>公帳號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
+                                    <div class="col-sm-4">
+
                                     </div>
-                                    <!--4-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>發票號碼</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>信用卡號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
+                                    <div class="col-sm-4">
+
                                     </div>
-                                    <!--5-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>訂房卡號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>住客編號</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--6-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>住客帳狀態</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>C/I日期</label>
-                                            <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--7-->
-                                    <div class="grid">
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
                                             <div class="grid-item">
-                                                <label>結帳者</label>
+                                                <label>房號</label>
                                                 <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
                                             </div>
-                                        <div class="grid-item">
-                                            <label>C/O日期</label>
-                                            <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            <div class="grid-item">
+                                                <label>序號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item pull-left">
+                                                <label>Full Name</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="searchCheckbox pull-left">
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                          <span class="lbl">關鍵字</span>
+                                                      </label>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>訂房公司</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>公帳號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--4-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>發票號碼</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>信用卡號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--5-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>訂房卡號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>住客編號</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--6-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>住客帳狀態</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>C/I日期</label>
+                                                <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--7-->
+                                        <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>結帳者</label>
+                                                    <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                                </div>
+                                            <div class="grid-item">
+                                                <label>C/O日期</label>
+                                                <input type="date" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--9-->
+                                        <div class="grid">
+                                            <div class="grid-item pull-left">
+                                                <label>客房備註</label>
+                                                <input type="text" class="input-medium popWindow-s1v2-keyword" placeholder="">
+                                            </div>
                                         </div>
                                     </div>
-                                    <!--9-->
-                                    <div class="grid">
-                                        <div class="grid-item pull-left">
-                                            <label>客房備註</label>
-                                            <input type="text" class="input-medium popWindow-s1v2-keyword" placeholder="">
-                                        </div>
-                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div> <!-- row-->
-                    </div> <!-- /.search-co -->
-                </div> <!-- /.row  search-content-->
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-xs-12">
-            <div class="row no-margin-right">
-                <!-------- tabPage -------->
-                <div id="easyUi-custom1" class="easyui-tabs easyUi-custom1 guestHoliday" style="overflow-y: auto;width: 99%;">
-                    <!--結果-->
-                    <div title="結果" class="padding-tabs">
-                        <div class="col-xs-11 col-sm-11">
-                            <div class="row">
-                                <div class="reserveShopInfo">
-                                    <p class="title">在館住客資料（請在資料上點兩下，看詳細資料）</p>
-                                    <!--預約來館資料table-->
-                                    <table id="PMS0310030-table" style="height: 400px; width: 100%;"></table>
-                                    <hr>
-                                    <p class="title">退房住客資料（請在資料上點兩下，看詳細資料）</p>
-                                    <!--住客歷史來訪table-->
-                                    <table id="quitPMS0310030-table" style="height: 200px; width: 100%;"></table>
-                                </div>
-                                <div class="clearfix"></div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
 
-                            </div>
-                        </div>
-                        <div class="col-xs-1 col-sm-1">
-                                <div class="right-menu-co">
-                                    <ul>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth historyLedger-details-btn"
-                                                    role="button">明細</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                        </div>
-
-                        <div class="clearfix"></div>
-                    </div>
-                    <!--住客帳資料-->
-                    <div title="住客帳資料" class="padding-tabs">
-                        <div class="col-xs-12 col-sm-12 businessCompanyData">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row">
-                                    <div class="main-content-data">
-
-                                        <div class="grid">
-                                            <label for="">(退房/在館)</label>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>房號</label>
-                                                <input type="text" class="input-medium medium-xs-80" placeholder="150"/>
-                                                <input type="text" class="input-medium medium-xs-80" placeholder="住客序號"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>公帳號</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder="201704010000301"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>住客帳狀態</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder="C:結帳"/>
-                                            </div>
-
-                                        </div>
-                                        <!--<div class="space-custom-5"></div>-->
-
-                                        <div class="grid">
-
-                                            <div class="grid-item">
-                                                <label>住客姓名</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="RICK"/>
-                                                <span class="moreClick">...</span>
-
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>訂房卡號</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="23213"/>
-                                                <span class="moreClick">...</span>
-
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>入住日期</label>
-                                                <input type="datetime-local" class="input-medium medium-c1" placeholder="2017/04/03"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>訂房公司</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="Google"/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>訂房來源</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>預計退房日期</label>
-                                                <input type="date" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>公司名稱</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>住客類別</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>實際退房日期</label>
-                                                <input type="datetime-local" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>客房備註</label>
-                                                <input type="text" class="input-medium medium-c1-410" placeholder=""/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                        </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>退房提醒</label>
-                                                <input type="text" class="input-medium medium-c1-410" placeholder=""/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                        </div>
-                                    </div><!--main-content-data-->
-                                    <hr>
-                                    <table id="PMS0310030-customer-table" style="height: 200px; width: 100%;"></table>
-                                    <hr>
-                                </div>
-                                <div class="col-xs-12">
-                                    <div class="row">
-                                        <div class="col-sm-5 col-xs-5">
-                                            <div class="row">
-                                                <div class="css_table">
-                                                    <div class="css_thead">
-                                                        <div class="css_tr center">
-                                                            <div class="css_th width-20">中分類代號</div>
-                                                            <div class="css_th width-10">消費金額</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="css_tbody">
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">5,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">1,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">500,000</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-sm-1 col-xs-1"></div>
-                                        <div class="col-sm-5 col-xs-5">
-                                            <div class="row">
-                                                <div class="css_table">
-                                                    <div class="css_thead">
-                                                        <div class="css_tr center">
-                                                            <div class="css_th width-20">付款方式</div>
-                                                            <div class="css_th width-10">付款金額</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="css_tbody">
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">5,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">33,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">2,000</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">帳單列印</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">退房還原</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">預估款</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">帳單E-Mail</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!--明細資料-->
-                    <div title="明細資料" class="padding-tabs">
-                        <div class="col-xs-12 col-sm-12 businessCompanyData">
-                            <div class="col-sm-11 col-xs-11">
-                                <div class="row">
-                                    <div class="main-content-data">
-
-                                        <div class="grid">
-                                            <label for="">(退房/在館)</label>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>房號</label>
-                                                <input type="text" class="input-medium medium-xs-80" placeholder="150"/>
-                                                <input type="text" class="input-medium medium-xs-80" placeholder="住客序號"/>
-                                            </div>
-
-                                            <div class="grid-item">
-                                                <label>公帳號</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder="201704010000301"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>住客帳狀態</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder="C:結帳"/>
-                                            </div>
-
-                                        </div>
-                                        <!--<div class="space-custom-5"></div>-->
-
-                                        <div class="grid">
-
-                                            <div class="grid-item">
-                                                <label>住客姓名</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="RICK"/>
-                                                <span class="moreClick">...</span>
-
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>訂房卡號</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="23213"/>
-                                                <span class="moreClick">...</span>
-
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>入住日期</label>
-                                                <input type="date" class="input-medium medium-c1" placeholder="2017/04/03"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>訂房公司</label>
-                                                <input type="text" class="input-medium addedDate" placeholder="Google"/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>訂房來源</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>預計退房日期</label>
-                                                <input type="date" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>公司名稱</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>住客類別</label>
-                                                <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>實際退房日期</label>
-                                                <input type="date" class="input-medium medium-c1" placeholder=""/>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>客房備註</label>
-                                                <input type="text" class="input-medium medium-c1-410" placeholder=""/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                        </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>退房提醒</label>
-                                                <input type="text" class="input-medium medium-c1-410" placeholder=""/>
-                                                <span class="moreClick">...</span>
-                                            </div>
-                                        </div>
-                                    </div><!--main-content-data-->
-                                    <hr>
-                                    <table id="PMS0310030-customerDetail" style="height: 200px; width: 100%;"></table>
-                                    <hr>
-                                </div>
-                                <div class="col-xs-12">
-                                    <div class="row">
-                                        <div class="col-sm-4 col-xs-4">
-                                                <div class="css_table">
-                                                    <div class="css_thead">
-                                                        <div class="css_tr center">
-                                                            <div class="css_th width-20">中分類代號</div>
-                                                            <div class="css_th width-10">消費金額</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="css_tbody">
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">5,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">1,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">PKG:Package</div>
-                                                            <div class="css_td">500,000</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div class="col-sm-4 col-xs-4">
-                                                <div class="css_table">
-                                                    <div class="css_thead">
-                                                        <div class="css_tr center">
-                                                            <div class="css_th width-20">發票號碼</div>
-                                                            <div class="css_th width-10">發票金額</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="css_tbody">
-                                                        <div class="css_tr">
-                                                            <div class="css_td">JF00000301</div>
-                                                            <div class="css_td">5,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">QWE123456789</div>
-                                                            <div class="css_td">1,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">RRT89</div>
-                                                            <div class="css_td">1,586,700</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div class="col-sm-4 col-xs-4">
-                                                <div class="css_table">
-                                                    <div class="css_thead">
-                                                        <div class="css_tr center">
-                                                            <div class="css_th width-20">付款方式</div>
-                                                            <div class="css_th width-10">付款金額</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="css_tbody">
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">5,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">33,000</div>
-                                                        </div>
-                                                        <div class="css_tr">
-                                                            <div class="css_td">10:付現</div>
-                                                            <div class="css_td">2,000</div>
-                                                        </div>
-                                                    </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-1 col-sm-1">
-                                <div class="row">
-                                    <div class="right-menu-co">
-                                        <ul>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">結帳還原</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">重開發票</button>
-                                            </li>
-                                            <li>
-                                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                        role="button">修改付款方式</button>
-                                            </li>
-                                            <li class="text-left">
-                                                <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                <span class="lbl margin-5">分發票</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+        <div class="col-xs-12">
+            <!--標題-->
+            <div class="titleInfo">
+                <div class="titleInfo-head">
+                    <p class="titleInfo-title">In House</p>
+                </div>
+            </div>
+            <div class="col-xs-11">
+                <div class="row no-margin-right">
+                    <!--住客歷史來訪table-->
+                    <table id="PMS0310030_InHouse-table" style="height: 200px;"></table>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail"
+                                        role="button">明細</button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <!-------- /.tabPage -------->
             </div>
         </div>
         <div class="clearfix"></div>
-    </div> <!-- /.col-sm-12 -->
+        <div class="space-6"></div>
 
+
+        <div class="col-xs-12">
+            <!--標題-->
+            <div class="titleInfo">
+                <div class="titleInfo-head">
+                    <p class="titleInfo-title">Check Out</p>
+                </div>
+            </div>
+            <div class="col-xs-11">
+                <div class="row no-margin-right">
+                    <!--預約來館資料table-->
+                    <table id="PMS0310030_Co-table" style="height: 400px;"></table>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail"
+                                        role="button">明細</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">退房還原</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+
+    </div>
+
+
+
+    <!--  cashier 彈出視窗內容-->
+    <%- include cashier_module/cashier_Btn_1.ejs %>
+    <!--  /.End 彈出視窗內容 -->
 
 </div>
+<!-- /.page-content -->
 
-</body>
-
-<script>
-    $(function() {
-
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            height: auto
-        });
-    });
-
-    <!-- ********* dataGrid ********* -->
-
-    // 在館住客資料 dataGrid
-    $('#PMS0310030-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/PMS0310030.json',
-        method: 'get',
-        columns: [[
-            {field: 'roomNum', title: '房號', width: 50},
-            {field: 'num', title: '序號', width: 50},
-            {field: 'ledgerStatus', title: '帳狀況', width: 70},
-            {field: 'ciDate', title: 'C/I日期', width: 100},
-            {field: 'guestNum', title: '住客編號', width: 100},
-            {field: 'housingDate', title: '住房時間', width: 70},
-            {field: 'historyNum', title: '歷史編號', width: 180},
-            {field: 'fullName', title: 'Full Name', width: 100},
-            {field: 'guestType', title: '住客類別', width: 100},
-            {field: 'gender', title: '性別', width: 50},
-            {field: 'publicLedger', title: '公帳號', width: 100},
-            {field: 'bookingNum', title: '訂房卡號', width: 100},
-            {field: 'originalCiDate', title: '原訂C/I日', width: 100},
-            {field: 'prepareCiDate', title: '預計C/I日', width: 100},
-            {field: 'totalAmount', title: '已結帳總金額', width: 100}
-        ]]
-    });
-
-    // 退房住客資料 dataGrid
-    $('#quitPMS0310030-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/quitPMS0310030.json',
-        method: 'get',
-        columns: [[
-            {field: 'roomNum', title: '房號', width: 50},
-            {field: 'num', title: '序號', width: 50},
-            {field: 'ledgerStatus', title: '帳狀況', width: 70},
-            {field: 'ciDate', title: '實際C/I日期', width: 100},
-            {field: 'guestNum', title: '住客編號', width: 100},
-            {field: 'housingDate', title: '住房時間', width: 70},
-            {field: 'historyNum', title: '歷史編號', width: 180},
-            {field: 'fullName', title: '姓名', width: 100},
-            {field: 'guestType', title: '住客類別', width: 100},
-            {field: 'gender', title: '性別', width: 50},
-            {field: 'publicLedger', title: '公帳號', width: 100},
-            {field: 'bookingNum', title: '訂房卡號', width: 100},
-            {field: 'realCiDate', title: '實際C/O日', width: 100},
-            {field: 'originalCiDate', title: '原訂預計C/O日', width: 100},
-            {field: 'prepareCiDate', title: '預計預計C/O日', width: 100},
-        ]]
-    });
-
-    // 住客帳資料 dataGrid
-    $('#PMS0310030-customer-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/PMS0310030-customer.json',
-        method: 'get',
-        columns: [[
-            {field: 'reset', title: '還原', width: 40},
-            {field: 'num', title: '序號', width: 50},
-            {field: 'payRoom', title: '結帳廳別', width: 100},
-            {field: 'payDate', title: '結帳日期', width: 100},
-            {field: 'payPerson', title: '結帳者', width: 100},
-            {field: 'payTime', title: '結帳時間', width: 70},
-            {field: 'payClass', title: '結帳班別', width: 70},
-            {field: 'payNum', title: '結帳單號', width: 150},
-            {field: 'payTotal', title: '結帳金額', width: 100},
-            {field: 'invoice', title: '發票號碼', width: 150},
-        ]]
-    });
-
-    // 住客明細資料 dataGrid
-    $('#PMS0310030-customerDetail').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/PMS0310030-customerDetail.json',
-        method: 'get',
-        columns: [[
-            {field: 'consumeDate', title: '消費日期', width: 100},
-            {field: 'office', title: '入帳廳別', width: 100},
-            {field: 'class', title: '入帳班別', width: 100},
-            {field: 'billDate', title: '帳單日期', width: 100},
-            {field: 'billCode', title: '消費代號', width: 200},
-            {field: 'billNum', title: '消費數量', width: 70},
-            {field: 'billTotal', title: '消費總額', width: 70}
-        ]]
-    });
-
-    //    // 彈出　公帳號
-//    $(document).on('click', ".cashierSetting-btn", function (e) {
-//        e.preventDefault();
-//        var dialog = $("#cashierSettingDialog").removeClass('hide').dialog({
-//            modal: true,
-//            title: "公帳號",
-//            title_html: true,
-//            width: 1000,
-//            maxwidth: 1920,
-////                height: $(window).height(),
-////                autoOpen: true,
-//            dialogClass: "test",
-//            resizable: true
-//        });
-//    });
-//    $('#cashierRule-table').datagrid({
-//        singleSelect: true,
-//        collapsible: true,
-//        // 從json 撈
-//        url: '../../jsonData/cashier.json',
-//        method: 'get',
-//        columns: [[
-//            {field: 'ruleCode', title: '規則代號', width: 100},
-//            {field: 'ruleName', title: '規則名稱', width: 200},
-//            {field: 'importDate', title: '輸入日', width: 150},
-//            {field: 'importStaff', title: '輸入者', width: 100},
-//            {field: 'lastModifyDate', title: '最後異動日', width: 150},
-//            {field: 'lastModifyStaff', title: '最後異動者', width: 100}
-//        ]]
-//    });
-</script>
-</html>
+<!--  cashier共用 initial js -->
+<%- include cashier_module/cashier_includeJs.ejs %>
+<!--  /.End cashier共用 initial js  -->

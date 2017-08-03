@@ -50,7 +50,4 @@ module.exports = function(app  ) {
     //交辦事項(靜態)
     app.get('/PMS0120070', reservationCrtl.getPMS0120070);
 
-    //出鈉　已結帳處理
-    app.get('/PMS0310030', reservationCrtl.getPMS0310030);
-
 };

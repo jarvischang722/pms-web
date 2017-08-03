@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830110'] 查詢是否列印過資料-->
+    <dao name="QRY_AREAPNT_COD_A6HFD_PRINT_DT_COUNT">
+        <statement><![CDATA[
+                select count(*) as count from a6hfd_print_dt where hotel_cod = ? and areapnt_cod = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">areapnt_cod</parameter>
+    </dao>
+</root>

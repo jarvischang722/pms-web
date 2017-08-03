@@ -3,21 +3,21 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
-var isUserEdit = true;
-var gb_onceEffectFlag = true;
-var ga_colorAry = [];
+var isUserEdit = true; //是否為修改或是連動修改
+var ga_colorAry = [];  //
 /**
  * datagrid 轉接器與call
  * @param vm
  * @constructor
+ * TODO 這個Class 之後要搬到另一個檔案 2017/07/26
  */
-var AdapterDatagrid = function(vm){
-
-    if(_.isUndefined(vm.tempExecData)){
-        console.error(  new Error("method 'tempExecData' not defined."));
+var AdapterDatagrid = function (vm) {
+    if (_.isUndefined(vm.tempExecData)) {
+        console.error(new Error("method 'tempExecData' not defined."));
     }
     this.tempExecData = vm.tempExecData;
 };
+
 
 var EZfieldClass = {
     //根據欄位屬性組Datagrid屬性資料
@@ -56,11 +56,11 @@ var EZfieldClass = {
             dataType = 'combogrid';
         }
 
-        var tmpFieldObj  = fieldAttrObj;
+        var tmpFieldObj = fieldAttrObj;
 
-        tmpFieldObj.field =  fieldAttrObj.ui_field_name.toLowerCase();
+        tmpFieldObj.field = fieldAttrObj.ui_field_name.toLowerCase();
         tmpFieldObj.title = fieldAttrObj.ui_display_name;
-        tmpFieldObj.sortable= true;
+        tmpFieldObj.sortable = true;
 
 
         tmpFieldObj.editor = {
@@ -72,7 +72,7 @@ var EZfieldClass = {
             }
         };
 
-        //長度
+        /** 長度限制  **/
         var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
         var maxLength = fieldAttrObj.ui_field_length;
         if (fieldAttrObj.ui_type != "select") {   //combobox因text內容有長有短，所以排除此長度驗證
@@ -83,24 +83,31 @@ var EZfieldClass = {
             tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
         }
 
+        /** 必填欄位需更換背景顏色**/
         tmpFieldObj.styler = function () {
             if (fieldAttrObj.requirable == "Y") {
                 return 'background-color:rgb(198, 242, 217);';
             }
         };
 
-        // Formatter 顯示資料
+        /** Formatter 顯示  **/
         if (dataType == "datebox") {
             var dateFunc = function (date) {
-                return moment(date).format("YYYY/MM/DD");
+                if (date != "" && !_.isUndefined(date)) {
+                    return moment(date).format("YYYY/MM/DD");
+                }
+                else {
+                    return new moment().format("YYYY/MM/DD");
+                }
+
             };
 
             var dateParserFunc = function (date) {
-                if (date != "") {
+                if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
                 else {
-                    return "";
+                    return new Date();
                 }
             };
 
@@ -111,18 +118,29 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onSelect = function (date) {
-                    onChange_Action(fieldAttrObj, "", date, dgName);
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    onChangeAction(fieldAttrObj, "", date, ls_dgName);
                 };
             }
 
         } else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date, row) {
-                return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                if (date != "" && !_.isUndefined(date)) {
+                    return moment(date).format("YYYY/MM/DD HH:mm:ss");
+                }
+                else {
+                    return moment().format("YYYY/MM/DD HH:mm:ss");
+                }
             };
 
             var datetimeFuncParser = function (date) {
-                return new Date(Date.parse(date));
+                if (date != "" && !_.isUndefined(date)) {
+                    return new Date(Date.parse(date));
+                }
+                else {
+                    return new Date();
+                }
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
@@ -157,21 +175,24 @@ var EZfieldClass = {
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
-                        onChange_Action(fieldAttrObj, oldValue, newValue, dgName);
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
             }
-        } else if (dataType == "checkbox") {
+        } else if (fieldAttrObj.ui_type == "checkbox") {
+
             tmpFieldObj.formatter = function (val, row, index) {
                 var displayName = fieldAttrObj.selectData[1];
                 var fieldName = val == 'Y' ? displayName.Y : displayName.N;
                 return fieldName;
             };
+
         } else if (fieldAttrObj.ui_type == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
 
-                if(_.isUndefined(index)){
+                if (_.isUndefined(index)) {
                     return;
                 }
 
@@ -188,7 +209,7 @@ var EZfieldClass = {
                         disabled: disabled
                     });
                 }
-                else{
+                else {
                     ga_colorAry[index].color = color_val;
                 }
 
@@ -218,7 +239,7 @@ var EZfieldClass = {
 
                 if (isUserEdit) {
                     if (fieldAttrObj.rule_func_name != "") {
-                        onChange_Action(fieldAttrObj, oldValue, newValue, ls_dgName);
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
             };
@@ -244,10 +265,13 @@ var EZfieldClass = {
                     return val;
                 }
             };
-        } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
-            tmpFieldObj.editor.options.idField = 'field';
-            tmpFieldObj.editor.options.textField = 'title';
-            tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
+        } else if (dataType == "combogrid") {
+            //參數設定於各對照擋的Rule
+            tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
+            tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
+            tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
+            tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
         }
 
         return tmpFieldObj;
@@ -255,15 +279,28 @@ var EZfieldClass = {
 
 };
 
-// onchange執行時，檢查規則
-function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
-    if (newValue != oldValue) {
+
+/**
+ *onchange執行時，檢查規則
+ * @param fieldAttrObj
+ * @param oldValue
+ * @param newValue
+ * @param dgName
+ */
+function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
+
+    if (newValue != oldValue && !_.isUndefined(newValue)) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+        console.log(selectDataRow);
+        if (selectDataRow.createRow == "Y") {
+            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
+        }
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
-            rowData: JSON.parse(JSON.stringify(selectDataRow)),
+            rowData: selectDataRow,
             newValue: newValue,
             oldValue: oldValue
         };
@@ -296,7 +333,6 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
                 isUserEdit = false;
                 $('#' + dgName).datagrid('endEdit', indexRow);
                 $('#' + dgName).datagrid('updateRow', {
@@ -307,10 +343,24 @@ function onChange_Action(fieldAttrObj, oldValue, newValue, dgName) {
                 $('#' + dgName).datagrid('beginEdit', indexRow);
                 isUserEdit = true;
             }
+
+            if (!result.isModifiable) {
+                var la_readonlyFields = _.uniq(result.readonlyFields);
+                _.each(la_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
+            }
         });
     }
 }
 
+/** 組件事件綁定 **/
+
+//顏色選擇器
 $(document).on("change", "#colorWell", function (event) {
     var updateRow = {};
     var li_index = $(this).closest("tr").attr("datagrid-row-index");
@@ -323,6 +373,69 @@ $(document).on("change", "#colorWell", function (event) {
     lo_row.color_num = color_cod;
     /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
     adpterDg.tempExecData(lo_row);
+});
+
+//Checkbox onchange事件
+$(document).on('change', ".dg-checkbox-change", function (event) {
+    var li_index = $(this).parents("tr[id^='datagrid']").attr("datagrid-row-index");
+    var ls_dgName = $('.datagrid-f').attr('id');
+    var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
+    var ui_field_name = "";
+    $(this).parents("td").each(function () {
+        if ($(this).attr("field") && $(this).attr("field") != "") {
+            ui_field_name = $(this).attr("field");
+        }
+    });
+    var lo_columnOption = $("#" + ls_dgName).datagrid("getColumnOption", ui_field_name);
+    var selectData = lo_columnOption.selectData || [];
+    var oldVal = $(this).val();
+    var newVal = "";
+    _.each(selectData[0], function (val) {
+        if (val != oldVal) {
+            newVal = val;
+        }
+    });
+
+    var updateData = {};
+    updateData[ui_field_name] = newVal;
+
+
+    $('#' + ls_dgName).datagrid('updateRow', {
+        index: li_index,
+        row: updateData
+    });
+
+    $('#' + ls_dgName).datagrid('beginEdit', li_index);
+    onChangeAction(lo_columnOption,oldVal,newVal,ls_dgName);
+
+});
+
+/** 套件組件覆寫 **/
+$.extend($.fn.datagrid.defaults.editors, {
+    checkbox: {
+        init: function (container, options) {
+            var ls_dgName = $('.datagrid-f').attr('id');
+            var li_index = $("#"+ls_dgName).datagrid("getRowIndex",$("#"+ls_dgName).datagrid("getSelected"));
+            var rowData = $("#"+ls_dgName).datagrid("getRows")[li_index];
+            var field_name = $(container.context.outerHTML).attr("field");
+            var val = rowData[field_name];
+            var checked = options.on == val ? 'checked' :'';
+            var input = $('<input type="checkbox" class="dg-checkbox-change"  '+checked+' onchange="">').appendTo(container);
+            return input;
+        },
+        destroy: function (target) {
+            $(target).remove();
+        },
+        getValue: function (target) {
+            return $(target).val();
+        },
+        setValue: function (target, value) {
+            $(target).val(value);
+        },
+        resize: function (target, width) {
+            $(target)._outerWidth(width);
+        }
+    }
 });
 
 

@@ -50,7 +50,7 @@ module.exports = {
             }
 
             result.modifiedRowData = singleRowData;
-            callback(err, result)
+            callback(err, result);
         });
 
     },
@@ -60,7 +60,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(postData.rowData.end_dat == null || postData.rowData.end_dat == '') callback(lo_error, lo_result);   //如沒資料就跳過規則判斷
+        if(postData.rowData.end_dat == null || postData.rowData.end_dat == '') return; //如沒資料就跳過規則判斷
 
         var startDate = postData.newValue;
         var endDate = postData.rowData.end_dat;
@@ -72,6 +72,7 @@ module.exports = {
             lo_result.success = false;
             lo_error.errorMsg = "開始日期不能大於結束日期";
             lo_error.errorCod = "1111";
+            postData.rowData.begin_dat = "";
             lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
         }
@@ -82,7 +83,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(postData.rowData.begin_dat == null || postData.rowData.begin_dat == '') callback(lo_error, lo_result);   //如沒資料就跳過規則判斷
+        if(postData.rowData.begin_dat == null || postData.rowData.begin_dat == '') return; //如沒資料就跳過規則判斷
 
         var startDate = postData.rowData.begin_dat;
         var endDate = postData.newValue;
@@ -94,6 +95,7 @@ module.exports = {
             lo_result.success = false;
             lo_error.errorMsg = "結束日期不能小於開始日期";
             lo_error.errorCod = "1111";
+            postData.rowData.end_dat = "";
             lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
         }
