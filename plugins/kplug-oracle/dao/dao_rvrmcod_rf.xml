@@ -3,12 +3,8 @@
     <!--  -->
     <dao name="QRY_RVRMCOD_RF">
         <statement><![CDATA[
-			select rvrm.ATHENA_ID,rvrm.HOTEL_COD,rvrm.room_cod, rvrm.room_sna, rvrm.room_nam, rvrm.room_qnt, rvrm.room_amt, rvrm.serv_amt, rvrm.begin_dat,
-			 rvrm.end_dat, rvrm.room_typ, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) room_typ_nam
-			from rvrmcod_rf rvrm
-            inner join room_cod_order ord on rvrm.athena_id = ord.athena_id and rvrm.room_cod = ord.room_cod and rvrm.hotel_cod = ord.hotel_cod
-            left join room_rf rm on rvrm.athena_id = rm.athena_id and rvrm.room_typ = rm.room_typ
-            where trim(rvrm.athena_id) = trim(:athena_id) and trim(rvrm.hotel_cod) = trim(:hotel_cod)
+            select * from rvrmcod_rf
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>

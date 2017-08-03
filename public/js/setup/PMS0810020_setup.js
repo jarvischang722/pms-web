@@ -58,28 +58,13 @@ Vue.component("field-multi-lang-dialog-tmp", {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
         openFieldMultiLangDialog: function () {
             this.showMultiLangDialog = true;
-            // var width = 300;
-            // var height = (this.sys_locales.length + 1) * 40 + 100;
-            // var dialog = $("#fieldMultiLangTmpDialog").dialog({
-            //     autoOpen: false,
-            //     modal: true,
-            //     title: fieldName,
-            //     height: height,
-            //     width: width,
-            //     resizable: false,
-            //     buttons: "#fieldMultiDialogBtns"
-            // });
-            //
-            // dialog.dialog("open");
         },
         closeFieldMultiLangDialog: function () {
             this.showMultiLangDialog = false;
-            // $("#fieldMultiLangTmpDialog").dialog("close");
         },
         saveFieldMultiLang: function () {
 
@@ -143,7 +128,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         };
     },
-    create: function () {
+    created: function () {
         var self = this;
         vmHub.$on('tempExecData', function (row) {
             self.tempExecData(row);
@@ -801,6 +786,7 @@ var vm = new Vue({
                 data: dgData
             });
         },
+
         //顯示DataGrid
         showDataGrid: function () {
 
@@ -847,6 +833,7 @@ var vm = new Vue({
                 }
             });
         },
+
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
@@ -1021,6 +1008,7 @@ var vm = new Vue({
             });
 
         },
+
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
             var self = this;
@@ -1106,6 +1094,7 @@ var vm = new Vue({
                 });
             }
         },
+
         //打開單檔dialog
         showSingleGridDialog: function () {
             this.initDatePicker();
@@ -1126,6 +1115,7 @@ var vm = new Vue({
             // 給 dialog "內容"高 值
             $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
+
         //關閉單檔dialog
         closeSingleGridDialog: function () {
             vm.editingRow = {};
