@@ -725,10 +725,56 @@
         ]]
     });
 
+    // 排房明細
+    $('#townList-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/townList-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'rmNo', title: 'Rm. No.', width: 70},
+            {field: 'rmType', title: 'Rm. Type', width: 70},
+            {field: 'rmSta', title: 'Rm. Sta.', width: 70},
+            {field: 'hkSta', title: 'HK Sta.', width: 70},
+            {field: 'oos', title: 'OOS', width: 70},
+            {field: 'assign', title: 'Assign', width: 100},
+            {field: 'name', title: 'Full Name', width: 100},
+            {field: 'ciDate', title: 'C/I Date', width: 100},
+            {field: 'coDate', title: 'C/O Date', width: 100},
+            {field: 'rmRemark', title: 'Rm. Remark', width: 150},
+        ]]
+    });
+
+
     //顯示排房明細
-    $(document).ready(function () {
+    $(function () {
         $('.showCardDetail').click(function () {
             $(".cardDetail-table").toggle().css('height','auto');
+        });
+    });
+    //排房選中active
+    $(function(){
+        $('.townBlock').click(function(){
+            $('.townBlock').removeClass("active");
+            $(this).addClass("active");
+        });
+    });
+    //排房切換
+    $(function(){
+        $('.town-list-btn').hide();
+        $('.town-grap').hide();
+        $('.town-list-btn').click(function(){
+            $('.town-list-btn').hide();
+            $('.town-graphics-btn').show();
+            $('.town-grap').hide();
+            $('.town-table').show();
+        });
+        $('.town-graphics-btn').click(function(){
+            $('.town-graphics-btn').hide();
+            $('.town-table').hide();
+            $('.town-grap').show();
+            $('.town-list-btn').show();
         });
     });
 </script>

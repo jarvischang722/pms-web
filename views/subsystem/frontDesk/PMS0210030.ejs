@@ -81,12 +81,6 @@
                                                 <input type="text" class="input-medium medium-c1"/>
                                             </div>
                                         </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label class="pull-left">Assign Rmks/RM Features</label>
-                                                <textarea class="input-medium medium-c1 pull-left input-hCol2 marginLeft-5" placeholder=""></textarea>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -108,10 +102,15 @@
 
                         <div class="col-xs-12">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-11">
+                                <div class="col-xs-12 col-sm-12">
                                     <div class="">
-
-                                        <div class="col-sm-6 no-padding-left">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label class="pull-left">Assign Rmks/RM Features</label>
+                                                <textarea class="input-medium width-263 pull-left input-hCol2 marginLeft-5" placeholder=""></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 no-padding-left">
                                             <div class="checkbox float-right open-cardDetail">
                                                 <label class="no-padding-left">
                                                     <input name="showCardDetail" value="showCardDetail" type="checkbox"
@@ -132,6 +131,19 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <!-- #section:elements.tab.position -->
+                                            <div class="select-group">
+                                                <button class="btn btn-info btn-white town-list-btn">
+                                                    List
+                                                </button>
+                                                <button class="btn btn-info btn-white town-graphics-btn">
+                                                    Graphics
+                                                </button>
+                                            </div>
+                                            <label class="margin-5">
+                                                <input type="checkbox"
+                                                       class="ace"/>
+                                                <span class="lbl"> 排除住人及修理 </span>
+                                            </label>
                                             <div class="select-group">
                                                 <div class="btn-group">
                                                     <button data-toggle="dropdown"
@@ -254,7 +266,12 @@
                                                 <div class="tab-content padding-8">
                                                     <div id="All" class="tab-pane in active"
                                                          style="position: relative; ">
-                                                        <div class="townPage">
+                                                        <div class="townPage town-table">
+                                                            <div class="townRow">
+                                                                <table id="townList-table"></table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="townPage town-grap">
                                                             <div class="townRow">
                                                                 <div class="townBlock">
                                                                     <div class="head">
@@ -2524,33 +2541,36 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="col-xs-1 col-sm-1">
+                                            <div class="row">
+                                                <div class="right-menu-co">
+                                                    <ul>
+                                                        <li>
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button">Room Assign</button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button">Auto Assign</button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button">Pax List</button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button">Exit</button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- /section:elements.tab.position -->
                                     </div><!-- /.col col-sm-6-->
 
                                     <!--<a href="#">-->
                                     <!--<img src="../assets/images/townHouse.png" style="max-width: 100%;"/>-->
                                     <!--</a>-->
-                                </div>
-                                <div class="col-xs-1 col-sm-1">
-                                    <div class="row">
-                                        <div class="right-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">自動排房</button>
-                                                </li>
-                                                <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">修改住客名單</button>
-                                                </li>
-                                                <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">離開</button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
