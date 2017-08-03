@@ -4236,6 +4236,17 @@ span.triangle-text {
   margin-left: 86px;
 }
 
+/* line 1633, ../sass/_bacchusMain.sass */
+.townBlock.active {
+  border: 5px solid red;
+  padding: 1px !important;
+}
+
+/* line 1637, ../sass/_bacchusMain.sass */
+.roomAssign .select-group {
+  display: inline;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {
