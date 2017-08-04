@@ -98,9 +98,9 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
-                else {
-                    return new moment().format("YYYY/MM/DD");
-                }
+
+                return new moment().format("YYYY/MM/DD");
+
 
             };
 
@@ -108,9 +108,9 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-                else {
-                    return new Date();
-                }
+
+                return new Date();
+
             };
 
             tmpFieldObj.formatter = dateFunc;
@@ -131,18 +131,18 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD HH:mm:ss");
                 }
-                else {
-                    return moment().format("YYYY/MM/DD HH:mm:ss");
-                }
+
+                return moment().format("YYYY/MM/DD HH:mm:ss");
+
             };
 
             var datetimeFuncParser = function (date) {
                 if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-                else {
-                    return new Date();
-                }
+
+                return new Date();
+
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
@@ -221,7 +221,7 @@ var EZfieldClass = {
                     ga_colorAry[index].color = color_val;
                 }
 
-                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' style='width:100%' value='" + ga_colorAry[index].color + "'>";
+                return "<input type='color' " + ga_colorAry.disabled + " data-field='" + tmpFieldObj.field + "' data-dgname='" + dgName + "' id='colorWell' class='dg_colorPicker_class spectrumColor' style='width:100%' value='" + ga_colorAry[index].color + "'> <input type='hidden' class='textbox-value'  value='" + ga_colorAry[index].color + "'>";
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
@@ -270,9 +270,9 @@ var EZfieldClass = {
                     var min = lo_val.substring(2, 4);
                     return hour + ":" + min;
                 }
-                else {
-                    return val;
-                }
+
+                return val;
+
             };
         } else if (dataType == "combogrid") {
             //參數設定於各對照擋的Rule
@@ -349,8 +349,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                if (_.isUndefined(effectValues.length)) {
-                    isUserEdit = false;
+                isUserEdit = false;
+                if (!_.isArray(effectValues) && _.size(result.effectValues) > 0) {
+
                     $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
@@ -360,7 +361,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $('#' + dgName).datagrid('beginEdit', indexRow);
 
                 } else {
-                    isUserEdit = false;
                     _.each(effectValues, function (item, index) {
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
@@ -369,6 +369,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         });
                         adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                     });
+
                 }
 
                 isUserEdit = true;
@@ -410,7 +411,7 @@ $(document).on("change", "#colorWell", function (event) {
 $(document).on('change', ".dg-checkbox-change", function (event) {
     var li_index = $(this).parents("tr[id^='datagrid']").attr("datagrid-row-index");
     var ls_dgName = $('.datagrid-f').attr('id');
-    var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
+    var lo_rowData = $("#" + ls_dgName).datagrid('getEditingRowData');
     var ui_field_name = "";
     $(this).parents("td").each(function () {
         if ($(this).attr("field") && $(this).attr("field") != "") {
@@ -430,7 +431,6 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
     var updateData = {};
     updateData[ui_field_name] = newVal;
 
-
     $('#' + ls_dgName).datagrid('updateRow', {
         index: li_index,
         row: updateData
@@ -442,6 +442,33 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
 });
 
 /** 套件組件覆寫 **/
+$.extend($.fn.datagrid.methods, {
+    /**
+     * 獲取目前編輯中Row的資料，雖datagrid 有'getSelected' method 可用
+     * 但是還未送出新的值有些會不取到，故寫這個方法獲取
+     * @return rowData {Object} : 回傳編輯中的Row
+     */
+    getEditingRowData: function (event) {
+
+        var dgName = $(event[0].outerHTML).attr("id");
+        var editingIdx = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
+        var cols = $("#" + dgName).datagrid("getColumnFields");
+        var rowData = $('#' + dgName).datagrid('getSelected');
+        var $row = $("table[class='datagrid-btable']").find("tr[datagrid-row-index='" + editingIdx + "']");
+        _.each(cols, function (field_name) {
+            if ($row.find("td[field='" + field_name + "']").length == 1) {
+                if ($row.find("td[field='" + field_name + "']").find(".textbox-value").length > 0) {
+                    rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim();
+                } else if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").length > 0) {
+                    rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim();
+                }
+            }
+        });
+
+        return rowData;
+    }
+});
+
 $.extend($.fn.datagrid.defaults.editors, {
     checkbox: {
         init: function (container, options) {

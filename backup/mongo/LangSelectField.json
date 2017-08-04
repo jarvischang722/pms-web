@@ -1,0 +1,110 @@
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2c5"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "客戶代號", 
+    "hint_zh_TW" : "客戶代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2c6"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "客戶名稱", 
+    "hint_zh_TW" : "客戶名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2c7"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "cust_typ", 
+    "ui_display_name_zh_TW" : "客戶類別", 
+    "hint_zh_TW" : "客戶類別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2c8"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "deposit_nos", 
+    "ui_display_name_zh_TW" : "訂金編號", 
+    "hint_zh_TW" : "訂金編號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2c9"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "客戶姓名", 
+    "hint_zh_TW" : "客戶姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2ca"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "BANLANCE_AMT", 
+    "ui_display_name_zh_TW" : "帳戶餘額", 
+    "hint_zh_TW" : "帳戶餘額", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2cb"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "UNIINV_STA", 
+    "ui_display_name_zh_TW" : "發票開立方式", 
+    "hint_zh_TW" : "發票開立方式", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2cc"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "ID_COD", 
+    "ui_display_name_zh_TW" : "身份證字號", 
+    "hint_zh_TW" : "身份證字號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2cd"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "HAND_NOS", 
+    "ui_display_name_zh_TW" : "手工單號", 
+    "hint_zh_TW" : "手工單號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5983c97db746b633bcb0b2ce"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "depositnos_select", 
+    "ui_field_name" : "type1_nam", 
+    "ui_display_name_zh_TW" : "訂金大類", 
+    "hint_zh_TW" : "訂金大類", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}

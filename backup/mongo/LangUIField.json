@@ -3024,17 +3024,6 @@
     "hint_en" : "Customer id"
 }
 { 
-    "_id" : ObjectId("593e37b88315bf47ec910d46"), 
-    "prg_id" : "PMS0830090", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "cust_nam", 
-    "ui_display_name_zh_TW" : "客戶名稱", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
     "_id" : ObjectId("593e37b88315bf47ec910d47"), 
     "prg_id" : "PMS0830090", 
     "page_id" : NumberInt(1), 
@@ -3044,17 +3033,6 @@
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Deposit Nos.", 
     "hint_en" : "Deposit number"
-}
-{ 
-    "_id" : ObjectId("593e37b88315bf47ec910d48"), 
-    "prg_id" : "PMS0830090", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "deposit_nam", 
-    "ui_display_name_zh_TW" : "訂金姓名", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d49"), 
@@ -3154,17 +3132,6 @@
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Deposit Nos.", 
     "hint_en" : "Deposit number"
-}
-{ 
-    "_id" : ObjectId("593e37b88315bf47ec910d53"), 
-    "prg_id" : "PMS0830090", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "deposit_nam", 
-    "ui_display_name_zh_TW" : "訂金姓名", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d54"), 

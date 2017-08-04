@@ -26,4 +26,7 @@ module.exports = function(app  ) {
     app.post('/api/getGroupMdlPros', middles, systCrtl.getGroupMdlPros);
     app.post("/api/uploadFile", middles, systCrtl.uploadFile);
 
+    /** 取得異動紀錄　**/
+    app.post("/api/getSetupPrgChangeLog", middles, systCrtl.getSetupPrgChangeLog);　
+
 };

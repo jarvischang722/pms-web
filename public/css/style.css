@@ -4281,6 +4281,11 @@ span.triangle-text {
   display: inline;
 }
 
+/* line 1661, ../sass/_bacchusMain.sass */
+.margin-right-5 {
+  margin-right: 5px;
+}
+
 /*------  共用區public ------ */
 /* line 2, ../sass/modules/_public.sass */
 .float-left, .pull-left {

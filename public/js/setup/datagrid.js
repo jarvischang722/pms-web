@@ -107,7 +107,9 @@ var vm = new Vue({
         multiLangEditIndex: undefined,
         tmpCUD: {},
         saving: false,
-        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", ""))
+        sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
+        openChangeLogDialog: false,
+        allChangeLogList: []
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -485,6 +487,12 @@ var vm = new Vue({
                 var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
                 return existIdx;
             }
+        },
+        loadChangeLog: function () {
+            this.openChangeLogDialog = true;
+            $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
+                vm.allChangeLogList = result.allChangeLogList;
+            })
         }
     }
 });
