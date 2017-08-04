@@ -205,26 +205,22 @@ var vm = new Vue({
             console.log(gb_isUserEdit4ClickCell);
 
             if (vm.editIndex != index) {
-                if (gb_isUserEdit4ClickCell) {
+                if (this.endEditing() && gb_isUserEdit4ClickCell) {
                     gb_isUserEdit4ClickCell = false;
-
-
-                    if (this.endEditing()) {
-                        $('#prg_dg').datagrid('selectRow', index)
-                            .datagrid('beginEdit', index);
-                        var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
-                        if (ed) {
-                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                        }
-                        vm.editIndex = index;
-                    } else {
-                        setTimeout(function () {
-                            $('#prg_dg').datagrid('selectRow', vm.editIndex);
-                        }, 0);
+                    $('#prg_dg').datagrid('selectRow', index)
+                        .datagrid('beginEdit', index);
+                    var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
+                    if (ed) {
+                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                     }
-                    gb_isUserEdit4EndEdit = true;
-                    gb_isUserEdit4ClickCell = true; //SAM20170804 先讓大家能用，連動再處理
+                    vm.editIndex = index;
+                } else {
+                    gb_isUserEdit4ClickCell = false;
+                    setTimeout(function () {
+                        $('#prg_dg').datagrid('selectRow', vm.editIndex);
+                    }, 0);
                 }
+                gb_isUserEdit4EndEdit = true;
             }
         },
         //結束編輯
