@@ -15,10 +15,10 @@ DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
-    vm.editingRow = row;
-    vm.editStatus = true;
-    vm.fetchSingleData(row, function (success) {
-        vm.showSingleGridDialog();
+    PMS0830100VM.editingRow = row;
+    PMS0830100VM.editStatus = true;
+    PMS0830100VM.fetchSingleData(row, function (success) {
+        PMS0830100VM.showSingleGridDialog();
     });
 };
 /*** Class End  ***/
@@ -240,8 +240,6 @@ Vue.component('single-grid-pms0830100-tmp', {
             stayField.sortable = false;
             stayField.halign = "center";
 
-            console.table(columnsData, ["ui_type"]);
-
             var insCol = [restField, stayField];
             _.each(columnsData, function (eachCol, colIdx) {
                 eachCol.align = "center";
@@ -385,6 +383,7 @@ Vue.component('single-grid-pms0830100-tmp', {
 
         //關閉
         emitCloseGridDialog: function () {
+            this.dtEditIndex = undefined;
             this.$emit('close-single-grid-dialog');
         },
 
@@ -466,6 +465,15 @@ Vue.component('single-grid-pms0830100-tmp', {
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
             var self = this;
+
+            if(!_.isUndefined(rowData.day_sta_color)){
+
+                var lo_day_sta = $('#dt_dg').datagrid('getSelected').day_sta;
+                console.log(lo_day_sta);
+
+                delete rowData["day_sta_color"];
+            }
+
             rowData["mnRowData"] = this.singleData;
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
@@ -513,18 +521,18 @@ Vue.component('single-grid-pms0830100-tmp', {
             }
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            vm.tmpCud.dt_deleteData.push(delRow);
+            PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
                 page_id: 2,
-                deleteData: vm.tmpCud.dt_deleteData
+                deleteData: PMS0830100VM.tmpCud.dt_deleteData
             }, function (result) {
                 if (result.success) {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 } else {
-                    vm.tmpCud.deleteData = _.without(vm.tmpCud.deleteData, delRow);  //刪除在裡面的暫存
-                    vm.tmpCud.dt_deleteData = _.without(vm.tmpCud.dt_deleteData, delRow);  //刪除在裡面的暫存
+                    PMS0830100VM.tmpCud.deleteData = _.without(PMS0830100VM.tmpCud.deleteData, delRow);  //刪除在裡面的暫存
+                    PMS0830100VM.tmpCud.dt_deleteData = _.without(PMS0830100VM.tmpCud.dt_deleteData, delRow);  //刪除在裡面的暫存
                     self.endDtEditing();
                     alert(result.errorMsg);
                 }
@@ -535,7 +543,7 @@ Vue.component('single-grid-pms0830100-tmp', {
 });
 
 
-var vm = new Vue({
+var PMS0830100VM = new Vue({
     el: '#GSApp',
     mounted: function () {
         var self = this;
@@ -587,10 +595,10 @@ var vm = new Vue({
         loadDataGridByPrgID: function (callback) {
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
-                vm.pageOneDataGridRows = result.dataGridRows;
-                vm.pageOneFieldData = result.fieldData;
-                vm.showCheckboxDG();
-                vm.showDataGrid();
+                PMS0830100VM.pageOneDataGridRows = result.dataGridRows;
+                PMS0830100VM.pageOneFieldData = result.fieldData;
+                PMS0830100VM.showCheckboxDG();
+                PMS0830100VM.showDataGrid();
                 callback(result.success);
             });
         },
@@ -601,14 +609,14 @@ var vm = new Vue({
             this.dgIns = new DatagridRmSingleGridClass();
             this.dgIns.init(prg_id, 'PMS0830100_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
-            vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
+            PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
 
         //取得使用者資料
         fetchUserInfo: function () {
             $.post('/api/getUserInfo', function (result) {
                 if (result.success) {
-                    vm.userInfo = result.userInfo;
+                    PMS0830100VM.userInfo = result.userInfo;
                 }
             });
         },
@@ -632,13 +640,13 @@ var vm = new Vue({
 
         //新增按鈕Event
         appendRow: function () {
-            vm.initTmpCUD();
-            vm.createStatus = true;
-            vm.singleData = {};
+            PMS0830100VM.initTmpCUD();
+            PMS0830100VM.createStatus = true;
+            PMS0830100VM.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
-                    vm.singleData = result.defaultValues;
-                    vm.showSingleGridDialog();
+                    PMS0830100VM.singleData = result.defaultValues;
+                    PMS0830100VM.showSingleGridDialog();
                     vmHub.$emit('showDtDataGrid', []);
                 } else {
                     alert(result.errorMsg);
@@ -648,7 +656,7 @@ var vm = new Vue({
 
         //dg row刪除
         removeRow: function () {
-            vm.tmpCud.deleteData = [];
+            PMS0830100VM.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
                 $.messager.alert("Warning", 'Check at least one item');
@@ -659,13 +667,13 @@ var vm = new Vue({
                     //刪除前檢查
 
                     _.each(checkRows, function (row) {
-                        vm.tmpCud.deleteData.push(row);
+                        PMS0830100VM.tmpCud.deleteData.push(row);
                     });
 
                     $.post("/api/deleteFuncRule", {
                         page_id: 1,
                         prg_id: prg_id,
-                        deleteData: vm.tmpCud.deleteData
+                        deleteData: PMS0830100VM.tmpCud.deleteData
                     }, function (result) {
                         if (result.success) {
                             //刪除Row
@@ -673,8 +681,8 @@ var vm = new Vue({
                                 var DelIndex = $('#PMS0830100_dg').datagrid('getRowIndex', row);
                                 $('#PMS0830100_dg').datagrid('deleteRow', DelIndex);
                             });
-                            vm.showCheckboxDG($("#PMS0830100_dg").datagrid("getRows"));
-                            vm.doSaveCUD();
+                            PMS0830100VM.showCheckboxDG($("#PMS0830100_dg").datagrid("getRows"));
+                            PMS0830100VM.doSaveCUD();
                         } else {
                             alert(result.errorMsg);
                         }
@@ -689,11 +697,11 @@ var vm = new Vue({
         doSaveCUD: function (callback) {
             var self = this;
             waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+            var params = _.extend({prg_id: prg_id}, PMS0830100VM.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
-                    vm.initTmpCUD();
-                    vm.loadDataGridByPrgID(function (success) {
+                    PMS0830100VM.initTmpCUD();
+                    PMS0830100VM.loadDataGridByPrgID(function (success) {
                         callback(success);
                     });
                     alert('save success!');
@@ -708,44 +716,48 @@ var vm = new Vue({
 
         },
 
+        tempExecData: function(rowData){
+            vmHub.$emit("tempExecData", rowData);
+        },
+
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
-                vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+                PMS0830100VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 //page2  datagrid 欄位屬性
                 if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
                     $("#dt_dg_DIV").show();
-                    vm.pageTwoDataGridFieldData = fieldData[_.findIndex(fieldData, {ui_type: 'grid'})].datagridFields || [];
-                    vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
+                    PMS0830100VM.pageTwoDataGridFieldData = fieldData[_.findIndex(fieldData, {ui_type: 'grid'})].datagridFields || [];
+                    PMS0830100VM.dtMultiLangField = _.filter(PMS0830100VM.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
 
 
-                    vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
+                    vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: PMS0830100VM.dtMultiLangField});
                 }
             });
         },
 
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
-            vm.initTmpCUD();
-            vm.editStatus = true;
-            vm.editingRow = editingRow;
+            PMS0830100VM.initTmpCUD();
+            PMS0830100VM.editStatus = true;
+            PMS0830100VM.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
                 if (result.success) {
-                    vm.singleData = result.rowData;
-                    vm.originData = _.clone(result.rowData);
-                    vm.modificableForData = result.modificable || true;
-                    vm.dtData = dtData;
+                    PMS0830100VM.singleData = result.rowData;
+                    PMS0830100VM.originData = _.clone(result.rowData);
+                    PMS0830100VM.modificableForData = result.modificable || true;
+                    PMS0830100VM.dtData = dtData;
                     vmHub.$emit('showDtDataGrid', dtData);
                     callback(true);
 
                 } else {
-                    vm.singleData = {};
+                    PMS0830100VM.singleData = {};
                     callback(false);
                 }
 
@@ -802,10 +814,10 @@ var vm = new Vue({
 
         //關閉單檔dialog
         closeSingleGridDialog: function () {
-            vm.editingRow = {};
-            vm.singleData = {};
-            vm.editStatus = false;
-            vm.initTmpCUD();
+            PMS0830100VM.editingRow = {};
+            PMS0830100VM.singleData = {};
+            PMS0830100VM.editStatus = false;
+            PMS0830100VM.initTmpCUD();
             $("#singleGridPMS0830100").dialog('close');
         }
 
@@ -821,3 +833,5 @@ Vue.filter("showDropdownDisplayName", function (val) {
     console.log(val);
     console.log(selectData);
 });
+
+var adpterDg = new AdapterDatagrid(PMS0830100VM);

@@ -39,4 +39,24 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0830100'] 入帳消費項目代號、入帳服務費代號 -->
+    <dao name="QRY_HFD_REST_DT_ITEM_NOS">
+        <statement><![CDATA[
+            select item_nos as display, item_sna as value from service_rf a
+            inner join servtype_rf b
+            on a.athena_id = b.athena_id and a.hotel_cod = b.hotel_cod and a.serv_typ = b.serv_typ
+            where a.athena_id = :athena_id and trim(a.hotel_cod) = trim(:hotel_cod)
+            and a.account_sta = 'Y'
+            and a.system_typ = 'HFD'
+            and a.data_typ = 'N'
+            and a.income_sta = 'Y'
+            and a.serv_typ <> '98'
+            and a.item_nos not in ( 's999', 's998')
+            and b.use_typ in ('1', '2');
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

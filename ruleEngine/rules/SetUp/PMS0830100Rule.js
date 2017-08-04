@@ -51,6 +51,24 @@ module.exports = {
         }
     },
 
+    chkHfdrestdtDaysta: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            day_sta: postData.rowData.day_sta
+        };
+
+        queryAgent.query("QRY_DAY_STA_COLOR", lo_params, function (err, getResult) {
+            if (!err) {
+                var color = colorCodToHex(getResult.color_num);
+                postData.rowData.day_sta_color = "#" + color;
+                lo_result.effectValues = postData.rowData;
+                callback(null, lo_result);
+            }
+        });
+    },
+
     r_PMS0830100_save: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let li_seq_nos = 0;
@@ -67,3 +85,31 @@ module.exports = {
 
 
 };
+
+//反轉成16進位
+function colorCodToHex(colorCod) {
+    if (_.isUndefined(colorCod)) {
+        colorCod = 0;
+    }
+    colorCod = Number(colorCod);
+    var lo_rgb = colorCodToRgb(colorCod);
+    return rgbToHex(lo_rgb.r, lo_rgb.g, lo_rgb.b);
+}
+
+//反轉成RGB
+function colorCodToRgb(colorCod) {
+    colorCod = Number(colorCod);
+    var lo_color = {r: 0, g: 0, b: 0};
+    var remainder = Math.floor(colorCod % 65536);
+    lo_color.b = Math.floor(colorCod / 65536);
+    lo_color.g = Math.floor(remainder / 256);
+    remainder = Math.floor(colorCod % 256);
+    lo_color.r = remainder;
+    return lo_color;
+
+}
+
+//RGB 轉 16進位色碼
+function rgbToHex(r, g, b) {
+    return (r < 16 ? "0" + r.toString(16).toUpperCase() : r.toString(16).toUpperCase()) + (g < 16 ? "0" + g.toString(16).toUpperCase() : g.toString(16).toUpperCase()) + (b < 16 ? "0" + b.toString(16).toUpperCase() : b.toString(16).toUpperCase());
+}
