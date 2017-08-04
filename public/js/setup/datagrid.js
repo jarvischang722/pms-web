@@ -4,9 +4,9 @@
 var prg_id = gs_prg_id;
 var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
-var gb_isUserEdit4EndEdit;
+var gb_isUserEdit4EndEdit = true;
 var gb_isUserEdit4chkTmpCudExistData;
-var gb_isUserEdit4tempExecData;
+var gb_isUserEdit4tempExecData= true;
 
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
