@@ -199,9 +199,13 @@ var vm = new Vue({
         },
         //按下一個Row
         onClickCell: function (index, field) {
+            console.log("按下一個Row");
+            console.log(gb_isUserEdit4ClickCell);
+
             if (vm.editIndex != index) {
                 if (gb_isUserEdit4ClickCell) {
                     gb_isUserEdit4ClickCell = false;
+                    gb_isUserEdit4EndEdit = true;
                     if (this.endEditing()) {
                         $('#prg_dg').datagrid('selectRow', index)
                             .datagrid('beginEdit', index);
@@ -215,12 +219,14 @@ var vm = new Vue({
                             $('#prg_dg').datagrid('selectRow', vm.editIndex);
                         }, 0);
                     }
-                    gb_isUserEdit4EndEdit = true;
+
                 }
             }
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
+            console.log("結束編輯");
+            console.log(gb_isUserEdit4EndEdit);
             if (gb_isUserEdit4EndEdit) {
                 gb_isUserEdit4EndEdit = false;
                 gb_isUserEdit4chkTmpCudExistData = true;
@@ -446,6 +452,9 @@ var vm = new Vue({
 
         //將資料放入暫存
         tempExecData: function (rowData) {
+            console.log("將資料放入暫存");
+            console.log(gb_isUserEdit4tempExecData);
+
             if (gb_isUserEdit4tempExecData) {
                 gb_isUserEdit4tempExecData = false;
                 var dataType = rowData.createRow == 'Y'
@@ -462,6 +471,8 @@ var vm = new Vue({
         },
         // 檢查暫存是否有資料
         chkTmpCudExistData: function (rowData, dataType) {
+            console.log("檢查暫存是否有資料");
+            console.log(gb_isUserEdit4chkTmpCudExistData);
             if (gb_isUserEdit4chkTmpCudExistData) {
                 gb_isUserEdit4chkTmpCudExistData = false;
                 gb_isUserEdit4tempExecData = true;
