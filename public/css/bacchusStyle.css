@@ -1125,7 +1125,7 @@ input[type="datetime-local"] {
 /* townHouse.html */
 /* line 179, ../sass/bacchusStyle.sass */
 .room-special {
-  margin: 0;
+  margin-bottom: 15px;
 }
 /* line 181, ../sass/bacchusStyle.sass */
 .room-special .spec-title {
@@ -1276,7 +1276,6 @@ input[type="datetime-local"] {
 .house-noDetail .house-num {
   margin: 0 auto;
   text-align: center;
-  min-width: 80px;
   max-width: 100%;
   max-height: 100%;
   line-height: 70px;
@@ -1287,7 +1286,12 @@ input[type="datetime-local"] {
   font-weight: bolder;
   border-radius: 10px;
 }
-/* line 282, ../sass/bacchusStyle.sass */
+/* line 280, ../sass/bacchusStyle.sass */
+.house-noDetail .house-info {
+  width: 21%;
+  display: inline-block;
+}
+/* line 283, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .quantityTip {
   min-width: 140px;
   max-width: 100%;
@@ -1295,11 +1299,11 @@ input[type="datetime-local"] {
   max-height: 100%;
   line-height: 25px;
 }
-/* line 288, ../sass/bacchusStyle.sass */
+/* line 289, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .quantityTip .quantityTip-txt, .house-noDetail .house-info .quantityTip .quantityTip-icon {
   display: inline;
 }
-/* line 290, ../sass/bacchusStyle.sass */
+/* line 291, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .quantityTip .quantityTip-txt {
   min-width: 100px;
   max-width: 100%;
@@ -1312,63 +1316,63 @@ input[type="datetime-local"] {
   border-radius: 5px;
   font-size: 14px;
 }
-/* line 301, ../sass/bacchusStyle.sass */
+/* line 302, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .quantityTip .quantityTip-txt span {
   line-height: 25px;
   height: 25px;
   color: #fff;
   font-weight: bold;
 }
-/* line 308, ../sass/bacchusStyle.sass */
+/* line 309, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .quantityTip .quantityTip-icon {
   margin: 0 0 0 10px;
 }
-/* line 311, ../sass/bacchusStyle.sass */
+/* line 312, ../sass/bacchusStyle.sass */
 .house-noDetail .house-info .middle span.lbl {
   font-size: 13px;
   min-width: 120px;
   max-width: 100%;
 }
 
-/* line 318, ../sass/bacchusStyle.sass */
+/* line 319, ../sass/bacchusStyle.sass */
 .dialog-center {
   margin: 0 auto;
   vertical-align: middle;
   text-align: center;
 }
 
-/* line 322, ../sass/bacchusStyle.sass */
+/* line 323, ../sass/bacchusStyle.sass */
 .companyInfo {
   display: none;
 }
 
-/* line 325, ../sass/bacchusStyle.sass */
+/* line 326, ../sass/bacchusStyle.sass */
 .Img100 img {
   width: 100%;
   height: auto;
 }
 
-/* line 330, ../sass/bacchusStyle.sass */
+/* line 331, ../sass/bacchusStyle.sass */
 .flexTable {
   height: 300px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* line 335, ../sass/bacchusStyle.sass */
+/* line 336, ../sass/bacchusStyle.sass */
 .flexTable2 {
   height: 300px;
   margin: 0 auto;
 }
 
-/* line 340, ../sass/bacchusStyle.sass */
+/* line 341, ../sass/bacchusStyle.sass */
 .flexTable3 {
   height: 300px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-/* line 346, ../sass/bacchusStyle.sass */
+/* line 347, ../sass/bacchusStyle.sass */
 .btn-save {
   margin: 10px 0 0 0;
   padding: 7px 20px;
@@ -1376,13 +1380,13 @@ input[type="datetime-local"] {
   color: #fff;
   border: none;
 }
-/* line 352, ../sass/bacchusStyle.sass */
+/* line 353, ../sass/bacchusStyle.sass */
 .btn-save:hover {
   opacity: 0.8;
 }
 
 /* manageSetting.html */
-/* line 357, ../sass/bacchusStyle.sass */
+/* line 358, ../sass/bacchusStyle.sass */
 .settingSingleWidth span.title {
   min-width: 100px;
   max-width: 100%;
@@ -1390,7 +1394,7 @@ input[type="datetime-local"] {
 }
 
 /* settingRole.html */
-/* line 364, ../sass/bacchusStyle.sass */
+/* line 365, ../sass/bacchusStyle.sass */
 .settingRole .choiceLine {
   width: 10%;
   text-align: center;
@@ -1399,64 +1403,64 @@ input[type="datetime-local"] {
 }
 
 /* settingAccControl.html */
-/* line 372, ../sass/bacchusStyle.sass */
+/* line 373, ../sass/bacchusStyle.sass */
 .starSearch {
   display: block;
   margin: 0 0 40px 0;
 }
-/* line 375, ../sass/bacchusStyle.sass */
+/* line 376, ../sass/bacchusStyle.sass */
 .starSearch .nav-search {
   left: 0;
 }
-/* line 377, ../sass/bacchusStyle.sass */
+/* line 378, ../sass/bacchusStyle.sass */
 .starSearch .nav-search-input {
   display: block;
 }
 
-/* line 380, ../sass/bacchusStyle.sass */
+/* line 381, ../sass/bacchusStyle.sass */
 .checkboxStyle .checkbox {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-/* line 384, ../sass/bacchusStyle.sass */
+/* line 385, ../sass/bacchusStyle.sass */
 .profileInfo .field {
   margin: 10px auto;
 }
-/* line 386, ../sass/bacchusStyle.sass */
+/* line 387, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo {
   position: relative;
 }
-/* line 388, ../sass/bacchusStyle.sass */
+/* line 389, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo table.tableProfile {
   width: 100%;
 }
-/* line 392, ../sass/bacchusStyle.sass */
+/* line 393, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo table.tableProfile td input:active, .profileInfo .blockTwo table.tableProfile td input:focus, .profileInfo .blockTwo table.tableProfile th input:active, .profileInfo .blockTwo table.tableProfile th input:focus {
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   border-right: 1px solid #eee;
   border-left: 2px solid #87B87F;
 }
-/* line 397, ../sass/bacchusStyle.sass */
+/* line 398, ../sass/bacchusStyle.sass */
 .profileInfo .blockTwo .blockPlus {
   cursor: pointer;
   margin: 0 0 10px 10px;
 }
 
 /* settingAccManage.html */
-/* line 403, ../sass/bacchusStyle.sass */
+/* line 404, ../sass/bacchusStyle.sass */
 .addNewStyle .addNewAcc-form {
   width: 100px;
   text-align: right;
   margin: 10px 20px 15px auto;
 }
-/* line 407, ../sass/bacchusStyle.sass */
+/* line 408, ../sass/bacchusStyle.sass */
 .addNewStyle .modal-body {
   text-align: left;
 }
 
-/* line 409, ../sass/bacchusStyle.sass */
+/* line 410, ../sass/bacchusStyle.sass */
 .deleteAddAccount {
   cursor: pointer;
   margin-left: 10px;
@@ -1466,46 +1470,46 @@ input[type="datetime-local"] {
 }
 
 /*----- reservation-01.html ----- */
-/* line 417, ../sass/bacchusStyle.sass */
+/* line 418, ../sass/bacchusStyle.sass */
 .optionBtn {
   margin: 0 5px !important;
   padding: 5px 30px;
 }
 
-/* line 421, ../sass/bacchusStyle.sass */
+/* line 422, ../sass/bacchusStyle.sass */
 .companyInfo {
   display: none;
 }
 
-/* line 423, ../sass/bacchusStyle.sass */
+/* line 424, ../sass/bacchusStyle.sass */
 .nav-search-input {
   display: none;
 }
 
 @media screen and (max-width: 1280px) {
-  /* line 428, ../sass/bacchusStyle.sass */
+  /* line 429, ../sass/bacchusStyle.sass */
   .intCounterRight {
     display: none;
   }
 
-  /* line 430, ../sass/bacchusStyle.sass */
+  /* line 431, ../sass/bacchusStyle.sass */
   .intCounterleft {
     position: relative;
   }
 
-  /* line 432, ../sass/bacchusStyle.sass */
+  /* line 433, ../sass/bacchusStyle.sass */
   .show-intCounterRight {
     float: right;
     display: block;
     color: #70a0c1;
   }
-  /* line 435, ../sass/bacchusStyle.sass */
+  /* line 436, ../sass/bacchusStyle.sass */
   .show-intCounterRight i {
     border: 1px solid #8fbcd9;
     padding: 3px 10px;
     cursor: pointer;
   }
-  /* line 441, ../sass/bacchusStyle.sass */
+  /* line 442, ../sass/bacchusStyle.sass */
   .show-intCounterRight span {
     margin: 0 0 0 2px;
     font-size: 14px;
