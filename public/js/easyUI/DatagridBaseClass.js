@@ -20,17 +20,26 @@ function DatagridBaseClass() {
     this.fieldsData = [];
     this.editIndex = undefined;
 
-    //datagrid 初始化
-    this.init = function (prg_id, dgName, columns, fieldsData) {
-
+    /**
+     * datagrid 初始化
+     * @param prg_id {String} : 程式編號
+     * @param dgName {String} : datagrid Table name
+     * @param columns {Array} : 給datagrid讀取的欄位
+     * @param fieldsData {Array} : 程式所有欄位資訊
+     * @param options {Object} : 選項
+     */
+    this.init = function (prg_id, dgName, columns, fieldsData, options) {
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+        if (!options) {
+            options = {};
+        }
         $('#' + dgName).datagrid({
             columns: [columns],
             remoteSort: false,
-            singleSelect: true,
+            singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: true,
             checkOnSelect: true,
             width: "100%",
@@ -39,7 +48,7 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn
+            onSortColumn: this.doSortColumn,
         }).datagrid('columnMoving');
     };
 
@@ -60,7 +69,6 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
-        console.log(self.dgName);
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)

@@ -100,11 +100,11 @@ exports.getSelectOptions = function (params, selRow, callback) {
     } else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (result) {
-                if(!_.isNull(result)) {
-                    callback(result.selectOptions);
+            ruleAgent[selRow.rule_func_name](params, function (result, data) {
+                if (_.isNull(result)) {
+                    callback(data.selectOptions);
                 }
-                else{
+                else {
                     callback([]);
                 }
             });
@@ -141,7 +141,7 @@ exports.handleClickUiRow = function (postData, session, callback) {
         return dtField.rule_func_name != "";
     });
 
-    if(funcField.length != 0) {
+    if (funcField.length != 0) {
         _.each(funcField, function (dtField, Idx) {
             ruleAgent[dtField.rule_func_name](postData, session, function (err, result) {
                 if (Idx + 1 == funcField.length) {
@@ -150,7 +150,7 @@ exports.handleClickUiRow = function (postData, session, callback) {
             });
         });
     }
-    else{
+    else {
         callback(null, "");
     }
 };
@@ -210,8 +210,8 @@ exports.handleAddFuncRule = function (postData, session, callback) {
 };
 
 //TODO: 小良Rule完成後可刪
-exports.getKeyNos = function(postData, session, callback){
-    queryAgent.query("QRY_MAX_KEY_NOS", "",  function(err, getResult){
+exports.getKeyNos = function (postData, session, callback) {
+    queryAgent.query("QRY_MAX_KEY_NOS", "", function (err, getResult) {
         let lo_result = new ReturnClass();
         lo_result.defaultValues = {key_nos: getResult.max_key_nos};
         callback(null, lo_result);

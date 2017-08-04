@@ -19874,3 +19874,715 @@
         "new" : "N"
     }
 }
+{ 
+    "_id" : ObjectId("59828d7adfb27c753c37b706"), 
+    "ins_dat" : {
+        "new" : "2017-08-03 09:54:03", 
+        "old" : ""
+    }, 
+    "athena_id" : {
+        "new" : "1", 
+        "old" : ""
+    }, 
+    "upd_dat" : {
+        "new" : "2017-08-03 09:54:03", 
+        "old" : ""
+    }, 
+    "ins_usr" : {
+        "new" : "a16010", 
+        "old" : ""
+    }, 
+    "view_seq" : {
+        "new" : "6", 
+        "old" : ""
+    }, 
+    "table_name" : "hfd_use_rf", 
+    "hotel_cod" : {
+        "new" : "02  ", 
+        "old" : ""
+    }, 
+    "item_cod" : {
+        "new" : "AA  ", 
+        "old" : ""
+    }, 
+    "action" : "insert", 
+    "item_nam" : {
+        "new" : "AA", 
+        "old" : ""
+    }, 
+    "sys_default" : {
+        "new" : "N", 
+        "old" : ""
+    }, 
+    "co_notice" : {
+        "new" : "N", 
+        "old" : ""
+    }, 
+    "upd_usr" : {
+        "new" : "a16010", 
+        "old" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "event_time" : "2017-08-03 09:54:03"
+}
+{ 
+    "_id" : ObjectId("59828d7adfb27c753c37b707"), 
+    "ins_dat" : {
+        "new" : "2017-08-03 09:53:51", 
+        "old" : ""
+    }, 
+    "athena_id" : {
+        "new" : "1", 
+        "old" : ""
+    }, 
+    "upd_dat" : {
+        "new" : "2017-08-03 09:53:51", 
+        "old" : ""
+    }, 
+    "status_cod" : {
+        "new" : "N ", 
+        "old" : ""
+    }, 
+    "ins_usr" : {
+        "new" : "a16010", 
+        "old" : ""
+    }, 
+    "action_cod" : {
+        "new" : "add  ", 
+        "old" : ""
+    }, 
+    "end_dat" : {
+        "new" : "2017-08-04 00:00:00", 
+        "old" : ""
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "begin_dat" : {
+        "new" : "2017-08-03 00:00:00", 
+        "old" : ""
+    }, 
+    "hotel_cod" : {
+        "new" : "02  ", 
+        "old" : ""
+    }, 
+    "key_nos" : {
+        "new" : "3", 
+        "old" : ""
+    }, 
+    "item_cod" : {
+        "new" : "AA  ", 
+        "old" : ""
+    }, 
+    "action" : "insert", 
+    "upd_usr" : {
+        "new" : "a16010", 
+        "old" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "event_time" : "2017-08-03 09:53:51", 
+    "item_qnt" : {
+        "new" : "1", 
+        "old" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5982cfd3fc1dfb6a7a604a11"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "table_name" : "holiday_kind_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:25:06"
+    }, 
+    "color_num" : {
+        "old" : "", 
+        "new" : "13447753"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-08-03 15:25:06", 
+    "day_sta" : {
+        "old" : "", 
+        "new" : "x"
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "sys_default" : {
+        "old" : "", 
+        "new" : "N"
+    }, 
+    "day_nam" : {
+        "old" : "", 
+        "new" : "x"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:25:06"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5982d027fc1dfb6a7a604a14"), 
+    "table_name" : "holiday_kind_rf", 
+    "color_num" : {
+        "old" : "13447753", 
+        "new" : "5767264"
+    }, 
+    "action" : "update", 
+    "event_time" : "2017-08-03 15:26:31", 
+    "user" : "a16009", 
+    "key" : {
+        "day_sta" : "x", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5982d1d3fc1dfb6a7a604a1e"), 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "begin_dat" : {
+        "old" : "", 
+        "new" : "2017-08-08 00:00:00"
+    }, 
+    "event_nam" : {
+        "old" : "", 
+        "new" : "123"
+    }, 
+    "end_dat" : {
+        "old" : "", 
+        "new" : "2017-08-25 00:00:00"
+    }, 
+    "view_seq" : {
+        "old" : "", 
+        "new" : "12"
+    }, 
+    "table_name" : "hfd_daily_event", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:33:39"
+    }, 
+    "action" : "insert", 
+    "key_nos" : {
+        "old" : "", 
+        "new" : "33"
+    }, 
+    "event_time" : "2017-08-03 15:33:39", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16009"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:33:39"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16009", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5982d3b5fc1dfb6a7a604a31"), 
+    "table_name" : "hkmtype_rf", 
+    "action" : "update", 
+    "event_time" : "2017-08-03 15:41:41", 
+    "user" : "a16009", 
+    "item_nos" : {
+        "old" : "1004", 
+        "new" : "1007"
+    }, 
+    "key" : {
+        "middle_typ" : "dsa ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5982d3bafc1dfb6a7a604a33"), 
+    "serv_nos" : {
+        "old" : "1004", 
+        "new" : "1010"
+    }, 
+    "table_name" : "hkmtype_rf", 
+    "action" : "update", 
+    "event_time" : "2017-08-03 15:41:46", 
+    "user" : "a16009", 
+    "key" : {
+        "middle_typ" : "1   ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}
+{ 
+    "_id" : ObjectId("5982d7f8fc1dfb6a7a604b1c"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "BED4"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "item_qnt" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "begin_dat" : {
+        "old" : "", 
+        "new" : "2017-08-01 00:00:00"
+    }, 
+    "end_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 00:00:00"
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:59:32"
+    }, 
+    "action" : "insert", 
+    "key_nos" : {
+        "old" : "", 
+        "new" : "3"
+    }, 
+    "event_time" : "2017-08-03 15:59:32", 
+    "status_cod" : {
+        "old" : "", 
+        "new" : "N "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "action_cod" : {
+        "old" : "", 
+        "new" : "add  "
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 15:59:32"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5982d812fc1dfb6a7a604b22"), 
+    "item_cod" : {
+        "old" : "", 
+        "new" : "BED3"
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "item_qnt" : {
+        "old" : "", 
+        "new" : "2"
+    }, 
+    "begin_dat" : {
+        "old" : "", 
+        "new" : "2017-08-01 00:00:00"
+    }, 
+    "end_dat" : {
+        "old" : "", 
+        "new" : "2017-08-31 00:00:00"
+    }, 
+    "table_name" : "hfd_use_dt", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:00:07"
+    }, 
+    "action" : "insert", 
+    "key_nos" : {
+        "old" : "", 
+        "new" : "4"
+    }, 
+    "event_time" : "2017-08-03 16:00:07", 
+    "status_cod" : {
+        "old" : "", 
+        "new" : "N "
+    }, 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "action_cod" : {
+        "old" : "", 
+        "new" : "add  "
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:00:07"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5982dabefc1dfb6a7a604b34"), 
+    "seq_nos" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "stay_item_nos" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "over_amt" : {
+        "old" : "", 
+        "new" : "1.00000"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "begin_dat" : {
+        "old" : "", 
+        "new" : "2017-08-01 00:00:00"
+    }, 
+    "item_nos" : {
+        "old" : "", 
+        "new" : "1   "
+    }, 
+    "end_dat" : {
+        "old" : "", 
+        "new" : "2017-08-31 00:00:00"
+    }, 
+    "free_tim" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "over_tim" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "stay_free_tim" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "stay_over_tim" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:11:30"
+    }, 
+    "table_name" : "hfd_rest_dt", 
+    "action" : "insert", 
+    "day_sta" : {
+        "old" : "", 
+        "new" : "N"
+    }, 
+    "event_time" : "2017-08-03 16:11:30", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a16010"
+    }, 
+    "stay_over_amt" : {
+        "old" : "", 
+        "new" : "1.00000"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:11:30"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a16010", 
+    "key" : {
+
+    }, 
+    "room_cod" : {
+        "old" : "", 
+        "new" : "DRK "
+    }
+}
+{ 
+    "_id" : ObjectId("5982daccfc1dfb6a7a604b36"), 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "desc_rmk" : {
+        "old" : "超豪華", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_rest_mn", 
+    "ins_dat" : {
+        "old" : "2017-08-03 15:02:17", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-08-03 16:11:56", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-08-03 16:11:44", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "key" : {
+        "athena_id" : "1", 
+        "hotel_cod" : "02  ", 
+        "room_cod" : "DRK "
+    }, 
+    "room_cod" : {
+        "old" : "DRK ", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5982daccfc1dfb6a7a604b37"), 
+    "seq_nos" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "stay_item_nos" : {
+        "old" : "1   ", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "over_amt" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "begin_dat" : {
+        "old" : "2017-08-01 00:00:00", 
+        "new" : ""
+    }, 
+    "item_nos" : {
+        "old" : "1   ", 
+        "new" : ""
+    }, 
+    "end_dat" : {
+        "old" : "2017-08-31 00:00:00", 
+        "new" : ""
+    }, 
+    "free_tim" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "stay_over_tim" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "stay_free_tim" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "over_tim" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "ins_dat" : {
+        "old" : "2017-08-03 16:11:30", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_rest_dt", 
+    "action" : "delete", 
+    "day_sta" : {
+        "old" : "N", 
+        "new" : ""
+    }, 
+    "event_time" : "2017-08-03 16:11:56", 
+    "ins_usr" : {
+        "old" : "a16010", 
+        "new" : ""
+    }, 
+    "stay_over_amt" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-08-03 16:11:30", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a16010", 
+    "key" : {
+        "athena_id" : "1", 
+        "hotel_cod" : "02  ", 
+        "room_cod" : "DRK "
+    }, 
+    "room_cod" : {
+        "old" : "DRK ", 
+        "new" : ""
+    }
+}
+{ 
+    "_id" : ObjectId("5982db82fc1dfb6a7a604b43"), 
+    "confirm_cod" : {
+        "old" : "", 
+        "new" : "Jun                                                         "
+    }, 
+    "upd_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "subject" : {
+        "old" : "", 
+        "new" : "[[%%FullName%%]]恭喜恭喜"
+    }, 
+    "athena_id" : {
+        "old" : "", 
+        "new" : "1"
+    }, 
+    "content" : {
+        "old" : "", 
+        "new" : "hello [[%%FullName%%]], 貴公司[[%%ReservationComp%%]]\n你的訂房卡 ：[[%%ReservationNo%%]]\n叫你們[[%%ContactMan%%]]給我出來"
+    }, 
+    "use_cod" : {
+        "old" : "", 
+        "new" : "HRMAIL"
+    }, 
+    "table_name" : "hfd_order_confirm_rf", 
+    "ins_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:14:58"
+    }, 
+    "action" : "insert", 
+    "event_time" : "2017-08-03 16:14:58", 
+    "ins_usr" : {
+        "old" : "", 
+        "new" : "a14017"
+    }, 
+    "upd_dat" : {
+        "old" : "", 
+        "new" : "2017-08-03 16:14:58"
+    }, 
+    "hotel_cod" : {
+        "old" : "", 
+        "new" : "02  "
+    }, 
+    "user" : "a14017", 
+    "key" : {
+
+    }
+}
+{ 
+    "_id" : ObjectId("5982ddacfc1dfb6a7a604b4a"), 
+    "confirm_cod" : {
+        "old" : "會計格式                                                        ", 
+        "new" : ""
+    }, 
+    "upd_usr" : {
+        "old" : "a14017", 
+        "new" : ""
+    }, 
+    "subject" : {
+        "old" : "[[%%聯絡人%%]]  權益告知", 
+        "new" : ""
+    }, 
+    "athena_id" : {
+        "old" : "1", 
+        "new" : ""
+    }, 
+    "content" : {
+        "old" : "[[%%聯絡人%%]] 您好！\n貴公司[[%%公司名稱%%]] \n訂房公司真的是吼 [[%%訂房公司%%]]", 
+        "new" : ""
+    }, 
+    "use_cod" : {
+        "old" : "0001  ", 
+        "new" : ""
+    }, 
+    "table_name" : "hfd_order_confirm_rf", 
+    "ins_dat" : {
+        "old" : "2017-06-18 00:00:00", 
+        "new" : ""
+    }, 
+    "action" : "delete", 
+    "event_time" : "2017-08-03 16:24:12", 
+    "ins_usr" : {
+        "old" : "a14017", 
+        "new" : ""
+    }, 
+    "upd_dat" : {
+        "old" : "2017-06-19 19:27:29", 
+        "new" : ""
+    }, 
+    "hotel_cod" : {
+        "old" : "02  ", 
+        "new" : ""
+    }, 
+    "user" : "a14017", 
+    "key" : {
+        "confirm_cod" : "會計格式                                                        ", 
+        "athena_id" : "1", 
+        "hotel_cod" : "02  "
+    }
+}

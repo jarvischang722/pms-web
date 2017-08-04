@@ -54,6 +54,8 @@ var EZfieldClass = {
             dataType = 'timespinner';
         } else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
+        } else{
+            dataType = 'textbox';
         }
 
         var tmpFieldObj = fieldAttrObj;
@@ -184,8 +186,14 @@ var EZfieldClass = {
         } else if (fieldAttrObj.ui_type == "checkbox") {
 
             tmpFieldObj.formatter = function (val, row, index) {
-                var displayName = fieldAttrObj.selectData[1];
-                var fieldName = val == 'Y' ? displayName.Y : displayName.N;
+                var lo_checkboxVal = fieldAttrObj.selectData[1];
+                if (_.isUndefined(lo_checkboxVal)) {
+                    lo_checkboxVal = {
+                        Y: 'Y',
+                        N: 'N'
+                    };
+                }
+                var fieldName = val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
                 return fieldName;
             };
 
@@ -265,10 +273,13 @@ var EZfieldClass = {
                     return val;
                 }
             };
-        } else if (dataType == "combogrid") {  //SAM:目前正在實做中，目前都沒用到
-            tmpFieldObj.editor.options.idField = 'field';
-            tmpFieldObj.editor.options.textField = 'title';
-            tmpFieldObj.editor.options.columns = fieldAttrObj.selectData;
+        } else if (dataType == "combogrid") {
+            //參數設定於各對照擋的Rule
+            tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
+            tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
+            tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
+            tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
+            tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
         }
 
         return tmpFieldObj;
@@ -287,6 +298,7 @@ var EZfieldClass = {
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
     if (newValue != oldValue && !_.isUndefined(newValue)) {
+        var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $.extend({}, selectDataRow);
@@ -304,6 +316,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             rowData: selectDataRow,
             editData: editRowData,
             allRows: allRows,
+            allRowData: JSON.parse(JSON.stringify(allDataRow)),
             newValue: newValue,
             oldValue: oldValue
         };
@@ -336,14 +349,28 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                isUserEdit = false;
-                $('#' + dgName).datagrid('endEdit', indexRow);
-                $('#' + dgName).datagrid('updateRow', {
-                    index: indexRow,
-                    row: effectValues
-                });
+                if (_.isUndefined(effectValues.length)) {
+                    isUserEdit = false;
+                    $('#' + dgName).datagrid('endEdit', indexRow);
+                    $('#' + dgName).datagrid('updateRow', {
+                        index: indexRow,
+                        row: effectValues
+                    });
 
-                $('#' + dgName).datagrid('beginEdit', indexRow);
+                    $('#' + dgName).datagrid('beginEdit', indexRow);
+
+                } else {
+                    isUserEdit = false;
+                    _.each(effectValues, function (item, index) {
+                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
+                        $('#' + dgName).datagrid('updateRow', {
+                            index: indexRow,
+                            row: item
+                        });
+                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                    });
+                }
+
                 isUserEdit = true;
             }
 
@@ -375,7 +402,8 @@ $(document).on("change", "#colorWell", function (event) {
     var lo_row = $('#' + ls_dgName).datagrid('getRows')[li_index];
     lo_row.color_num = color_cod;
     /** 有用到這隻的必須要 new Adapter 實體讓這隻程式與原本的js 串接 **/
-    adpterDg.tempExecData(lo_row);
+
+    //adpterDg.tempExecData(lo_row); //此部分會造成顏色切換一次就塞一次暫存的Array，造成違反唯一鍵值 韻仁 2017/08/03
 });
 
 //Checkbox onchange事件

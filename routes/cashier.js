@@ -20,5 +20,11 @@ module.exports = function(app  ) {
     //出鈉　已結帳處理(靜態)
     app.get('/PMS0310030', cashierCrtl.getPMS0310030);
 
+    //取得收入小分類
+    app.post('/api/getStypeRf', cashierCrtl.getStypeRf);
 
+    //
+    app.post('/api/getRouteDtByRouteCod', cashierCrtl.getRouteDtByRouteCod);
+    //
+    app.post('/api/doSavePMS0830080', cashierCrtl.doSavePMS0830080);
 };

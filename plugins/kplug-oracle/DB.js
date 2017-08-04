@@ -30,7 +30,6 @@ var daoList = [];
 var months = {};
 var daoPool = {};
 var daoPath = path.join(__dirname, './dao/', 'service_dao.xml');
-
 var daoDoc = XMLUtil.createDocument(daoPath);
 var list = XMLUtil.getNodeList(daoDoc, "*//sql-source");
 var daoList = [];
@@ -40,6 +39,9 @@ list.forEach(function (source) {
     //console.log("load dao:" + XMLUtil.getAttr(source, "path"));
 });
 console.log("Complete the dao loading.");
+
+// return all CLOBs as Strings
+oracledb.fetchAsString = [ oracledb.CLOB ];
 
 function DB() {
 

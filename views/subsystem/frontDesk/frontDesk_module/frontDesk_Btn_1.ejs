@@ -604,12 +604,12 @@
     </div>
     <!-- /.點擊待檢查 彈出視窗 -->
 
-    <!-- lost found 彈出視窗 -->
+    <!-- lost found(多筆) 彈出視窗 -->
     <div id="lost-found-page" class="hide padding-5 lost-found-wrap">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
-                    <div class="col-xs-10 col-sm-10">
+                    <div class="col-xs-11 col-sm-11">
                         <div class="search-content">
                             <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
                             <div class="search-co">
@@ -704,27 +704,14 @@
                             <table id="lostFound-table"></table>
                         </div><!--main-content-data-->
                         <div class="clearfix"></div>
-
                     </div>
-                    <div class="col-xs-2 col-sm-2">
+                    <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
+
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">查詢
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">清除查詢
-                                        </button>
-                                    </li>
-                                </ul>
-                                <br>
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
                                                 role="button">新增
                                         </button>
                                     </li>
@@ -790,211 +777,255 @@
     </div>
     <!-- /.lost found -->
 
-    <!-- 失物明細 彈出視窗 -->
+    <!-- lost found(單筆) 彈出視窗 -->
     <div id="lost-found-modify" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>編號</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                </div>
-                                <br>
-                                <div class="clearfix"></div>
-                                <div class="grid-item">
-                                    <label>遺失日期</label>
-                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>遺失時間</label>
-                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>狀態</label>
-                                    <input type="time" class="input-medium medium-c1" placeholder="" disabled/>
-                                </div>
-
-                            </div>
-                            <!--<div class="space-custom-5"></div>-->
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>遺失者</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label></label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
-                                    <button class="btn btn-primary btn-white">查詢住客</button>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>遺失物品</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="(可記載顏色、大小 ...等特徵)"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>C/O日期</label>
-                                    <input type="date" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>房號</label>
-                                    <input type="text" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>遺失處</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>遺失備註</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="grid">
-                                <div class="clearfix"></div>
-                                <div class="grid-item">
-                                    <label>拾獲日期</label>
-                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>拾獲時間</label>
-                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
-                                </div>
-                            </div>
-                            <!--<div class="space-custom-5"></div>-->
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>拾獲者</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label></label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="" disabled/>
-                                    <button class="btn btn-primary btn-white">查詢住客</button>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>拾獲物品</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="(可記載顏色、大小 ...等特徵)"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>C/O日期</label>
-                                    <input type="date" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>房號</label>
-                                    <input type="text" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>拾獲處</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>拾獲備註</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <div class="grid">
-                                <div class="clearfix"></div>
-                                <div class="grid-item">
-                                    <label>領回日期</label>
-                                    <input type="date" class="input-medium medium-c1" placeholder="2017/06/19"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>領回時間</label>
-                                    <input type="time" class="input-medium medium-c1" placeholder=": :"/>
-                                </div>
-                            </div>
-                            <!--<div class="space-custom-5"></div>-->
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>領回者</label>
-                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label></label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="" disabled/>
-                                    <button class="btn btn-primary btn-white">查詢住客</button>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>身分證字號</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>C/O日期</label>
-                                    <input type="date" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>房號</label>
-                                    <input type="text" class="input-medium resvCard" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>領回備註</label>
-                                    <input type="text" class="input-medium   resvCard-col2" placeholder="請記載聯絡方式"/>
-                                </div>
-                            </div>
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <!--** lost **-->
+                                <!--1-->
                                 <div class="grid">
-                                    <div class="clearfix"></div>
                                     <div class="grid-item">
-                                        <label>輸入者</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="2017/06/19"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>輸入日</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder=": :"/>
+                                        <label>編號</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                     </div>
                                 </div>
+                                <!--2-->
                                 <div class="grid">
-                                    <div class="clearfix"></div>
                                     <div class="grid-item">
-                                        <label>最後異動者</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                        <label>遺失日期</label>
+                                        <input type="date" class="input-medium resvCard-date" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>最後異動日</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder=": :"/>
+                                        <label>遺失時間</label>
+                                        <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>狀態</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="" disabled/>
                                     </div>
                                 </div>
-                        </div><!--main-content-data-->
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>遺失者</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label></label>
+                                        <input type="text" class="input-medium resvCard-col2Spec1" placeholder="" disabled/>
+                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2">查詢住客</button>
+                                    </div>
+                                </div>
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="pull-left">
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>遺失物品</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>遺失處</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>遺失備註</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pull-left">
+                                        <div class="horizTable-outer" style="margin-left: 94px;">
+                                            <table class="css_table horizTable">
+                                                <thead class="css_thead">
+                                                <tr class="css_tr">
+                                                    <th class="css_th" style="width:50%;">C/O日期</th>
+                                                    <th class="css_th" style="width:50%;">房號</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="css_tbody">
+                                                <tr class="css_tr">
+                                                    <td class="css_td">2015/11/13</td>
+                                                    <td class="css_td">0223</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="border-double1"></div>
+
+                                <!--** found **-->
+                                <!--5-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>拾獲日期</label>
+                                        <input type="date" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>拾獲時間</label>
+                                        <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                </div>
+                                <!--6-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>拾獲者</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label></label>
+                                        <input type="text" class="input-medium resvCard-col2Spec1" placeholder="" disabled/>
+                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2">查詢住客</button>
+                                    </div>
+                                </div>
+                                <!--7-->
+                                <div class="grid">
+                                    <div class="pull-left">
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>拾獲物品</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>拾獲處</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>拾獲備註</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pull-left">
+                                        <div class="horizTable-outer" style="margin-left: 94px;">
+                                            <table class="css_table horizTable">
+                                                <thead class="css_thead">
+                                                <tr class="css_tr">
+                                                    <th class="css_th" style="width:50%;">C/O日期</th>
+                                                    <th class="css_th" style="width:50%;">房號</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="css_tbody">
+                                                <tr class="css_tr">
+                                                    <td class="css_td">2015/11/13</td>
+                                                    <td class="css_td">0223</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="border-double1"></div>
+
+                                <!--** get Back **-->
+                                <!--8-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>領回日期</label>
+                                        <input type="date" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>領回時間</label>
+                                        <input type="time" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                </div>
+                                <!--9-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>領回者</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="Simon Cowll" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label></label>
+                                        <input type="text" class="input-medium resvCard-col2Spec1" placeholder="" disabled/>
+                                        <button class="btn btn-sm btn-primary btn-white btn-sm-font2">查詢住客</button>
+                                    </div>
+                                </div>
+                                <!--10-->
+                                <div class="grid">
+                                    <div class="pull-left">
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>身分證字號</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="(可記載顏色、大小...等特徵)"/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>領回備註</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="請記載聯絡方式"/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>輸入者</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>輸入日期</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                            </div>
+                                        </div>
+                                        <div class="gird">
+                                            <div class="grid-item">
+                                                <label>最後異動者</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="0000/00/00" disabled/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>最後異動日</label>
+                                                <input type="text" class="input-medium resvCard" placeholder="0000/00/00" disabled/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pull-left">
+                                        <div class="horizTable-outer" style="margin-left: 94px;">
+                                            <table class="css_table horizTable">
+                                                <thead class="css_thead">
+                                                <tr class="css_tr">
+                                                    <th class="css_th" style="width:50%;">C/O日期</th>
+                                                    <th class="css_th" style="width:50%;">房號</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="css_tbody">
+                                                <tr class="css_tr">
+                                                    <td class="css_td">2015/11/13</td>
+                                                    <td class="css_td">0223</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
                     </div>
-                </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">遺失者領回</button>
+                                    </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">Resolved</button>
@@ -1063,7 +1094,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <button class="btn btn-primary btn-white btn-defaultWidth  foCnt_bedSetting"
-                                            role="button">bedSetting</button>
+                                            role="button">Bed Setting</button>
                                 </div>
                             </div>
                         </div>
@@ -1127,7 +1158,7 @@
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>住客類別</label>
+                                        <label>市場類別</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="一般住客"/>
                                     </div>
                                 </div>
@@ -1333,7 +1364,7 @@
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>住客類別</label>
+                                        <label>市場類別</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="一般散客"/>
                                     </div>
                                 </div>
@@ -2000,7 +2031,7 @@
                                         <input type="text" class="input-medium medium-c1-col2v2" placeholder="0933554劉書雲" disabled/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>住客類別</label>
+                                        <label>市場類別</label>
                                         <input type="text" class="input-medium medium-c1" placeholder="01:T/A-GRP" disabled/>
                                     </div>
                                 </div>
@@ -2206,12 +2237,12 @@
                                             <div class="grid-item foCntRadio">
                                                 <label class="pull-left">拆併床狀態</label>
                                                 <div class="searchRadio pull-left">
-                                        <span class="radio">
-                                          <label class="checkbox-width" style="width: auto;">
-                                              <input name="form-field-checkbox" type="radio" class="ace" checked>
-                                              <span class="lbl">拆床</span>
-                                          </label>
-                                        </span>
+                                                    <span class="radio">
+                                                      <label class="checkbox-width" style="width: auto;">
+                                                          <input name="form-field-checkbox" type="radio" class="ace" checked>
+                                                          <span class="lbl">拆床</span>
+                                                      </label>
+                                                    </span>
                                                 </div>
                                                 <div class="searchRadio pull-left">
                                         <span class="radio">
@@ -2916,7 +2947,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Pay Master</button>
+                                                role="button">Post Master</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -3446,7 +3477,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Pay Master</button>
+                                                role="button">Post Master</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -3664,13 +3695,13 @@
                                         <label>住客序號</label>
                                         <input type="text" class="input-medium medium-c1" placeholder="" />
                                     </div>
-                                    <div class="grid-item">
-                                        <label>Alert Sta.</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="N">N:未傳達</option>
-                                            <option value="Y">Y:已傳送</option>
-                                        </select>
-                                    </div>
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>Alert Sta.</label>-->
+                                        <!--<select class="input-medium medium-c1">-->
+                                            <!--<option value="N">N:未傳達</option>-->
+                                            <!--<option value="Y">Y:已傳送</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
                                 </div>
                                 <!--3-->
                                 <div class="grid">

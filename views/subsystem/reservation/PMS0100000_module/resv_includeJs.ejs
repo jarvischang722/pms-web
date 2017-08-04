@@ -739,6 +739,21 @@
             });
         });
 
+        // rateCode_extraAdult
+        $(document).on('click', ".rateCode_extraAdult", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateCode_extraAdult-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Extra Adult",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // PMS01200070 彈出 交辦事項單筆 resv_tracessingle-1
         $(document).on('click', ".resv_tracesSingle-1", function (e) {
             e.preventDefault();
@@ -894,7 +909,7 @@
                 {field: 'rebate', title: '折扣', width: 100, align:'right'},
                 {field: 'rebateCreditor', title: '折扣債權人', width: 100},
                 {field: 'consumption', title: '總消費額', width: 100, align:'right'},
-                {field: 'guestCategory', title: '住客類別', width: 100},
+                {field: 'guestCategory', title: '市場類別', width: 100},
                 {field: 'proxyCompany', title: '代訂公司', width: 100},
                 {field: 'hall', title: '館別', width: 100},
                 {field: 'remark', title: '備註', width: 100}
@@ -1094,7 +1109,7 @@
                 {field: 'firstName', title: 'First Name', width: 60},
                 {field: 'lastName', title: 'Last Name', width: 60},
                 {field: 'valHousing', title: '計價房種', width: 60},
-                {field: 'guestCategory', title: '住客類別', width: 60},
+                {field: 'guestCategory', title: '市場類別', width: 60},
                 {field: 'publicAccount', title: '公帳號', width: 60},
                 {field: 'officalCard', title: '官網卡號', width: 60},
                 {field: 'addDate', title: '輸入日期', width: 60},
@@ -1189,26 +1204,6 @@
 
         });
 
-        // setRateCode rateCode-查詢結果 dataGrid
-        $('#lostFound-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation_lostFound.json',
-            method: 'get',
-            columns: [[
-                {field: 'choose', title: '選擇', width: 50},
-                {field: 'LfCode', title: '編號', width: 50},
-                {field: 'LfState', title: '狀態', width: 100},
-                {field: 'LfDate', title: '遺失日期', width: 100},
-                {field: 'LfTime', title: '遺失時間', width: 100},
-                {field: 'LfThings', title: '遺失物品', width: 200},
-                {field: 'LfName', title: '遺失者', width: 100},
-                {field: 'LfPlace', title: '移師處', width: 100},
-            ]]
-
-        });
-
         // PMS0120070 resv_traces 交辦事項(前面的checkbox) dataGrid
         $('#dgCheckbox-table').datagrid({
             singleSelect: true,
@@ -1219,9 +1214,51 @@
             columns: [[
                 {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
             ]]
-
         });
     });
+
+    // profile messages (同PMS0210130 多筆) dataGrid
+    $('#resvProfile_message-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/front_message.json',
+        method: 'get',
+        columns: [[
+            {field: 'room', title: 'Room', width: 80,align:"right"},
+            {field: 'fullName', title: 'Full Name', width: 150},
+            {field: 'date', title: 'Date', width: 80},
+            {field: 'time', title: 'Time', width: 80},
+            {field: 'from', title: 'From', width: 80},
+            {field: 'at', title: 'At', width: 80},
+            {field: 'replyTo', title: 'Reply to', width: 80},
+            {field: 'message', title: 'Message', width: 150},
+            {field: 'status', title: 'Status', width: 80},
+            {field: 'addedBy', title: 'Added By', width: 80},
+            {field: 'updby', title: 'Upd by', width: 80},
+            {field: 'updDate', title: 'Upd Date', width: 80}
+        ]]
+    });
+
+    // profile resvProfile_lostFound (同綜合櫃檯 profile 多筆) dataGrid
+    $('#resvProfile_lostFound-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/reservation_lostFound.json',
+        method: 'get',
+        columns: [[
+            {field: 'choose', title: '選擇', width: 50},
+            {field: 'LfCode', title: '編號', width: 50},
+            {field: 'LfState', title: '狀態', width: 100},
+            {field: 'LfDate', title: '遺失日期', width: 100},
+            {field: 'LfTime', title: '遺失時間', width: 100},
+            {field: 'LfThings', title: '遺失物品', width: 200},
+            {field: 'LfName', title: '遺失者', width: 100},
+            {field: 'LfPlace', title: '遺失處', width: 100},
+        ]]
+    });
+
 
     $(function() {
 

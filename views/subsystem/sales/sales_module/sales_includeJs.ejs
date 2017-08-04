@@ -469,13 +469,33 @@
             columns: [[
                 {field: 'clerkNum', title: 'Sales Id', width: 100},
                 {field: 'clerkName', title: 'Name', width: 100},
-                {field: 'ifStaff', title: 'Employee', width: 100},
-                {field: 'status', title: 'Status', width: 100},
-                {field: 'disabledYear', title: 'Stop Date', width: 100},
                 {field: 'clerkTeam', title: 'Team', width: 100},
                 {field: 'hotelBusiness', title: 'Hotel', width: 100},
                 {field: 'foodBusiness', title: 'F&B', width: 100},
-                {field: 'memberBusiness', title: 'Membership', width: 100}
+                {field: 'memberBusiness', title: 'Membership', width: 100},
+                {field: 'addDate', title: 'Add Date', width: 100},
+                {field: 'addBy', title: 'Add By', width: 100},
+                {field: 'updDate', title: 'Upd Date', width: 100},
+                {field: 'updBy', title: 'Upd By', width: 100}
+            ]]
+
+        });
+
+        // PMS0620010 業務員資料維護-單筆 dataGrid
+        $('#sales_clerkSGL-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_clerkSGL.json',
+            method: 'get',
+            columns: [[
+                {field: 'classCod', title: 'Class_cod', width: 100},
+                {field: 'startDat', title: 'Start_dat', width: 100},
+                {field: 'endDat', title: 'End_dat', width: 100},
+                {field: 'insUsr', title: 'Ins_usr', width: 100},
+                {field: 'insDat', title: 'Ins_dat', width: 100},
+                {field: 'updUsr', title: 'Upd_usr', width: 100},
+                {field: 'updDat', title: 'Upd_dat', width: 100}
             ]]
 
         });
