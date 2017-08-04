@@ -98,9 +98,9 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD");
                 }
-                
-                    return new moment().format("YYYY/MM/DD");
-                
+
+                return new moment().format("YYYY/MM/DD");
+
 
             };
 
@@ -108,9 +108,9 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-                
-                    return new Date();
-                
+
+                return new Date();
+
             };
 
             tmpFieldObj.formatter = dateFunc;
@@ -131,18 +131,18 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD HH:mm:ss");
                 }
-                
-                    return moment().format("YYYY/MM/DD HH:mm:ss");
-                
+
+                return moment().format("YYYY/MM/DD HH:mm:ss");
+
             };
 
             var datetimeFuncParser = function (date) {
                 if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-                
-                    return new Date();
-                
+
+                return new Date();
+
             };
             tmpFieldObj.formatter = datetimeFunc;
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
@@ -269,9 +269,9 @@ var EZfieldClass = {
                     var min = lo_val.substring(2, 4);
                     return hour + ":" + min;
                 }
-                
-                    return val;
-                
+
+                return val;
+
             };
         } else if (dataType == "combogrid") {
             //參數設定於各對照擋的Rule
@@ -351,12 +351,12 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
                 isUserEdit = false;
-                if ( !_.isArray(effectValues) && _.size(effectValues)>0) {
+                if (!_.isArray(effectValues) && _.size(result.effectValues) > 0) {
 
                     $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
-                        row: _.extend( $('#' + dgName).datagrid('getEditingRowData'),effectValues)
+                        row: effectValues
                     });
 
                     $('#' + dgName).datagrid('beginEdit', indexRow);
@@ -445,13 +445,13 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
 });
 
 /** 套件組件覆寫 **/
-$.extend($.fn.datagrid.methods,{
+$.extend($.fn.datagrid.methods, {
     /**
      * 獲取目前編輯中Row的資料，雖datagrid 有'getSelected' method 可用
      * 但是還未送出新的值有些會不取到，故寫這個方法獲取
      * @return rowData {Object} : 回傳編輯中的Row
      */
-    getEditingRowData: function(event){
+    getEditingRowData: function (event) {
 
         var dgName = $(event[0].outerHTML).attr("id");
         var editingIdx = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
@@ -469,7 +469,7 @@ $.extend($.fn.datagrid.methods,{
         });
 
         return rowData;
-     }
+    }
 });
 
 $.extend($.fn.datagrid.defaults.editors, {
