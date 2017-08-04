@@ -207,7 +207,8 @@ var vm = new Vue({
             if (vm.editIndex != index) {
                 if (gb_isUserEdit4ClickCell) {
                     gb_isUserEdit4ClickCell = false;
-                    gb_isUserEdit4EndEdit = true;
+
+
                     if (this.endEditing()) {
                         $('#prg_dg').datagrid('selectRow', index)
                             .datagrid('beginEdit', index);
@@ -221,7 +222,8 @@ var vm = new Vue({
                             $('#prg_dg').datagrid('selectRow', vm.editIndex);
                         }, 0);
                     }
-
+                    gb_isUserEdit4EndEdit = true;
+                    gb_isUserEdit4ClickCell = true; //SAM20170804 先讓大家能用，連動再處理
                 }
             }
         },
