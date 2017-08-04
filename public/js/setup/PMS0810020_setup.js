@@ -128,7 +128,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         };
     },
-    create: function () {
+    created: function () {
         var self = this;
         vmHub.$on('tempExecData', function (row) {
             self.tempExecData(row);

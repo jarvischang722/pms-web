@@ -202,46 +202,18 @@
         <!-- ********* PMS0310030 dataGrid ********* -->
 
         // 在館住客資料 dataGrid
-        $('#PMS0310030-table').datagrid({
+        $('#PMS0310030_InHouse-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/PMS0310030.json',
+            url: '/jsonData/PMS0310030_InHouse.json',
             method: 'get',
             columns: [[
                 {field: 'roomNum', title: '房號', width: 50},
                 {field: 'num', title: '序號', width: 50},
                 {field: 'ledgerStatus', title: '帳狀況', width: 70},
                 {field: 'ciDate', title: 'C/I日期', width: 100},
-                {field: 'guestNum', title: '住客編號', width: 100},
-                {field: 'housingDate', title: '住房時間', width: 70},
-                {field: 'historyNum', title: '歷史編號', width: 180},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'guestType', title: '市場類別', width: 100},
-                {field: 'gender', title: '性別', width: 50},
-                {field: 'publicLedger', title: '公帳號', width: 100},
-                {field: 'bookingNum', title: '訂房卡號', width: 100},
-                {field: 'originalCiDate', title: '原訂C/I日', width: 100},
-                {field: 'prepareCiDate', title: '預計C/I日', width: 100},
-                {field: 'totalAmount', title: '已結帳總金額', width: 100}
-            ]]
-        });
-
-        // 退房住客資料 dataGrid
-        $('#quitPMS0310030-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/quitPMS0310030.json',
-            method: 'get',
-            columns: [[
-                {field: 'roomNum', title: '房號', width: 50},
-                {field: 'num', title: '序號', width: 50},
-                {field: 'ledgerStatus', title: '帳狀況', width: 70},
-                {field: 'ciDate', title: '實際C/I日期', width: 100},
-                {field: 'guestNum', title: '住客編號', width: 100},
-                {field: 'housingDate', title: '住房時間', width: 70},
-                {field: 'historyNum', title: '歷史編號', width: 180},
+                {field: 'housingDate', title: 'CI Time', width: 70},
                 {field: 'fullName', title: '姓名', width: 100},
                 {field: 'guestType', title: '市場類別', width: 100},
                 {field: 'gender', title: '性別', width: 50},
@@ -250,6 +222,43 @@
                 {field: 'realCiDate', title: '實際C/O日', width: 100},
                 {field: 'originalCiDate', title: '原訂預計C/O日', width: 100},
                 {field: 'prepareCiDate', title: '預計預計C/O日', width: 100},
+                {field: 'totalAmount', title: '已結帳總金額', width: 100},
+                {field: 'despositCode', title: '訂金代號', width: 100},
+                {field: 'companyName', title: '公司名稱', width: 100},
+                {field: 'resvCompany', title: '訂房公司', width: 100},
+                {field: 'publicAcc', title: '是否為公帳號', width: 100},
+                {field: 'virtualAcc', title: '是否為虛擬帳', width: 100},
+                {field: 'roomRmks', title: '客房備註', width: 100}
+            ]]
+        });
+
+        // 退房住客資料 dataGrid
+        $('#PMS0310030_Co-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0310030_Co.json',
+            method: 'get',
+            columns: [[
+                {field: 'roomNum', title: '房號', width: 50},
+                {field: 'num', title: '序號', width: 50},
+                {field: 'ledgerStatus', title: '帳狀況', width: 70},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'housingDate', title: '住房時間', width: 70},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'guestType', title: '市場類別', width: 100},
+                {field: 'gender', title: '性別', width: 50},
+                {field: 'publicLedger', title: '公帳號', width: 100},
+                {field: 'bookingNum', title: '訂房卡號', width: 100},
+                {field: 'originalCiDate', title: '原訂C/I日', width: 100},
+                {field: 'prepareCiDate', title: '預計C/I日', width: 100},
+                {field: 'totalAmount', title: '已結帳總金額', width: 100},
+                {field: 'despositCode', title: '訂金代號', width: 100},
+                {field: 'companyName', title: '公司名稱', width: 100},
+                {field: 'resvCompany', title: '訂房公司', width: 100},
+                {field: 'publicAcc', title: '是否為公帳號', width: 100},
+                {field: 'virtualAcc', title: '是否為虛擬帳', width: 100},
+                {field: 'roomRmks', title: '客房備註', width: 100}
             ]]
         });
 
@@ -270,7 +279,7 @@
                 {field: 'payClass', title: '結帳班別', width: 70},
                 {field: 'payNum', title: '結帳單號', width: 150},
                 {field: 'payTotal', title: '結帳金額', width: 100},
-                {field: 'invoice', title: '發票號碼', width: 150},
+                {field: 'invoice', title: '發票號碼', width: 150}
             ]]
         });
 

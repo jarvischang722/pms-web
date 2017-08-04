@@ -233,10 +233,81 @@ Vue.component('text-select-grid-dialog-tmp', {
     template: "#chooseDataDialogTmp",
     data: function () {
         return {
+            fieldNameConditionTmp: [],
+            updateFieldNameTmp: [],
             isFistData: false,
             isLastData: false,
             dtEditIndex: undefined
         };
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('showTextDataGrid', function (result) {
+            self.showTextDataGrid(result);
+        });
+    },
+    methods: {
+        //顯示點選textgrid跳出來的視窗
+        showTextDataGrid: function (result) {
+            var self = this;
+            var textDataGrid = result.showDataGrid;
+            var updateFieldName = result.updateFieldNameTmp;
+            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            this.fieldNameConditionTmp = [];
+
+            delete textDataGrid ['errorMsg'];
+            var columnsData = [];
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+                return textDataGrid[key];
+            });
+
+            for (var col in textDataGrid[0]) {
+                _.each(fieldNameChangeLanguage, function (name, field) {
+                    if (col == field) {
+                        columnsData.push({
+                            type: 'textbox',
+                            field: col,
+                            title: name,
+                            width: 200,
+                            align: "left"
+                        });
+                        self.fieldNameConditionTmp.push({value: field, display: name});
+                    }
+                });
+            }
+
+            $('#chooseGrid').datagrid({
+                columns: [columnsData],
+                singleSelect: true,
+                data: textDataGridArray,
+                width: 500
+            }).datagrid('columnMoving');
+            self.updateFieldNameTmp = updateFieldName;
+        },
+        //將選擇到的資料帶回Page2
+        chooseDataBackGridSingle: function () {
+            var self = this;
+            var selectTable = $('#chooseGrid').datagrid('getSelected');
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
+
+            _.each(selectTable, function (selectValue, selectField) {
+                _.each(updateFieldName, function (updateValue, updateField) {
+                    if (selectField == updateValue) {
+                        chooseData[updateField] = selectValue;
+                    }
+                });
+            });
+            vmHub.$emit('updateBackSelectData', chooseData);
+            $("#dataTextGridDialog").dialog('close');
+        },
+        txtSearchChangeText: function (keyContent) {
+            var allData = $('#chooseGrid').datagrid('getData');
+            var selectFieldName = $('#cbSelect').val();
+            var dataGrid = _.filter(allData.rows, function (row) {
+                return row;
+            });
+        }
     }
 });
 
@@ -244,7 +315,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectTextGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -265,7 +336,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 this.isFistData = true;
                 this.isLastData = false;
                 if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1)
-                    this.isLastData = true;
+                    {this.isLastData = true;}
 
             } else if ($("#dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
@@ -287,7 +358,14 @@ Vue.component('sigle-grid-dialog-tmp', {
         vmHub.$on('tempExecData', function (row) {
             self.tempExecData(row);
         });
+        vmHub.$on('updateBackSelectData', function (chooseData) {
+            console.log(chooseData);
+            console.log(self.singleData);
+            _.each(Object.keys(chooseData), function (key) {
 
+                self.singleData[key] = chooseData[key] || "";
+            });
+        });
     },
 
     methods: {
@@ -344,16 +422,24 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
         },
+        //跳窗選擇多欄位
+        chkClickTextGrid: function (fields) {
+            if (fields.ui_type == "textgrid") {
+                var params = {
+                    prg_id: prg_id,
+                    fields: fields,
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                };
 
-        chkClickTextGrid: function (ui_field_name, rule_func_name, ui_type) {
-            //alert(ui_field_name +"," +rule_func_name +"," + ui_type);
-
-            if (ui_type == "textgrid") {
-
-                vm.showTextGridDialog();
+                $.post("/api/selectGridData", params, function (result) {
+                    if (result != null) {
+                        vm.selectTextGridData = result.showDataGrid;
+                        vmHub.$emit('showTextDataGrid', result);
+                        vm.showTextGridDialog();
+                    }
+                });
             }
         },
-
         //到第一筆
         toFirstData: function () {
             this.isFistData = true;
@@ -815,6 +901,7 @@ var vm = new Vue({
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
                 vm.showDataGrid();
+                console.log(result);
                 callback(result.success);
             });
         },

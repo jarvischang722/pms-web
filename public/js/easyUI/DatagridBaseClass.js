@@ -20,9 +20,15 @@ function DatagridBaseClass() {
     this.fieldsData = [];
     this.editIndex = undefined;
 
-    //datagrid 初始化
+    /**
+     * datagrid 初始化
+     * @param prg_id {String} : 程式編號
+     * @param dgName {String} : datagrid Table name
+     * @param columns {Array} : 給datagrid讀取的欄位
+     * @param fieldsData {Array} : 程式所有欄位資訊
+     * @param options {Object} : 選項
+     */
     this.init = function (prg_id, dgName, columns, fieldsData, options) {
-        console.log(options);
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.columns = columns;

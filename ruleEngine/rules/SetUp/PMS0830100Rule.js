@@ -23,7 +23,7 @@ module.exports = {
             if (!err) {
                 let lo_result = new ReturnClass();
                 lo_result.selectOptions = getResult;
-                callback(lo_result);
+                callback(null, lo_result);
             }
         });
 
