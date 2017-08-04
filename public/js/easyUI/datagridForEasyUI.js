@@ -245,8 +245,9 @@ var EZfieldClass = {
                     }
                 }
 
-                if (isUserEdit) {
-                    if (fieldAttrObj.rule_func_name != "") {
+
+                if (fieldAttrObj.rule_func_name != "") {
+                    if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
@@ -281,10 +282,8 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
         }
-
         return tmpFieldObj;
     }
-
 };
 
 
@@ -297,11 +296,10 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-
-    if (newValue != oldValue && !_.isUndefined(newValue)) {
+    if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
-        var indexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
-        var selectDataRow = $("#" + dgName).datagrid('getEditingRowData');
+        var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $.extend({}, selectDataRow);
         var allRows = $("#" + dgName).datagrid("getRows");
 
@@ -314,7 +312,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
-            rowData: $("#" + dgName).datagrid('getSelected'),
+            rowData: selectDataRow,
             editData: editRowData,
             allRows: allRows,
             allRowData: JSON.parse(JSON.stringify(allDataRow)),
@@ -322,6 +320,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
+        isUserEdit = false;
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
@@ -408,10 +407,8 @@ $(document).on("change", "#colorWell", function (event) {
     //adpterDg.tempExecData(lo_row); //此部分會造成顏色切換一次就塞一次暫存的Array，造成違反唯一鍵值 韻仁 2017/08/03
 });
 
-
 //Checkbox onchange事件
 $(document).on('change', ".dg-checkbox-change", function (event) {
-
     var li_index = $(this).parents("tr[id^='datagrid']").attr("datagrid-row-index");
     var ls_dgName = $('.datagrid-f').attr('id');
     var lo_rowData = $("#" + ls_dgName).datagrid('getEditingRowData');
