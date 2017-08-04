@@ -36,7 +36,7 @@ var EZfieldClass = {
     fieldConvEzAttr: function (fieldAttrObj, dgName) {
 
         var dataType = "";
-        if (fieldAttrObj.ui_type == "text" ) {
+        if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
         } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
@@ -54,7 +54,7 @@ var EZfieldClass = {
             dataType = 'timespinner';
         } else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
-        } else{
+        } else {
             dataType = 'textbox';
         }
 
@@ -245,8 +245,9 @@ var EZfieldClass = {
                     }
                 }
 
-                if (isUserEdit) {
-                    if (fieldAttrObj.rule_func_name != "") {
+
+                if (fieldAttrObj.rule_func_name != "") {
+                    if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
@@ -281,10 +282,8 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
         }
-
         return tmpFieldObj;
     }
-
 };
 
 
@@ -297,7 +296,7 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    if (newValue != oldValue && !_.isUndefined(newValue)) {
+    if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
@@ -321,6 +320,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
+        isUserEdit = false;
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息

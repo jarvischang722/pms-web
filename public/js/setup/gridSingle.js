@@ -259,7 +259,6 @@ Vue.component('text-select-grid-dialog-tmp', {
             this.fieldNameConditionTmp = [];
             this.fieldConditionTmp = [];
             this.gridData = [];
-
             delete textDataGrid ['errorMsg'];
             var columnsData = [];
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
