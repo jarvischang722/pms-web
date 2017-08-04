@@ -310,7 +310,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         }
         editRowData[fieldAttrObj.ui_field_name] = newValue;
 
-        console.log(selectDataRow);
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
@@ -352,7 +351,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
                 isUserEdit = false;
-                if ( !_.isArray(effectValues)) {
+                if ( !_.isArray(effectValues) && _.size(effectValues)>0) {
+
                     $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
@@ -366,7 +366,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
-                            row: _.extend($('#' + dgName).datagrid('getRows')[indexRow],item)
+                            row: item
                         });
                         adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                     });
@@ -430,14 +430,10 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
             newVal = val;
         }
     });
-    console.log(selectData[0]);
-console.log(oldVal);
-console.log(newVal);
-    var updateData = lo_rowData;
+
+    var updateData = {};
     updateData[ui_field_name] = newVal;
 
-    console.log(li_index);
-    console.log(updateData);
     $('#' + ls_dgName).datagrid('updateRow', {
         index: li_index,
         row: updateData
