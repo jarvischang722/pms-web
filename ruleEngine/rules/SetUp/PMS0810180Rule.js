@@ -81,6 +81,14 @@ module.exports = {
             ccust_nam: "cust_nam"
         };
 
+        var fieldNameChangeLanguage = {
+            show_cod: "客戶代號",
+            cust_cod: "客戶編號",
+            cust_nam: "客戶名稱",
+            contract1_rmk:"連絡電話",
+            status_cod : "狀態"
+        };
+
         if (ui_field_name != "") {
             selectDSFunc.push(
                 function (callback) {
@@ -92,6 +100,7 @@ module.exports = {
                         dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
+                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
                             callback(null, result);
                         });
                     });

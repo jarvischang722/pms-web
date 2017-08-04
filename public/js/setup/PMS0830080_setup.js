@@ -293,13 +293,14 @@ var PMS0830080VM = new Vue({
             $("#PMS0830080Dialog").dialog('close');
         },
         doSave: function () {
-
+            var self = this;
             this.combineSQLData();
             console.log(this.tmpCUD);
             $.post("/api/doSavePMS0830080",this.tmpCUD,function(result){
                 if(result.success){
                     PMS0830080VM.initTmpCUD();
                     alert("save success!");
+                    self.getRouteData();
                 }else{
                     alert("save error!");
                 }

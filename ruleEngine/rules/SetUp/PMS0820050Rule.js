@@ -182,10 +182,9 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
         queryAgent.query("R_PMS0820050_ADD", lo_params, function(err, result){
-            lo_result.defaultValues = {view_seq: result.view_seq};
+            lo_result.defaultValues = {view_seq: result.view_seq + 1};
             callback(lo_error, lo_result);
         });
-
 
     }
 };

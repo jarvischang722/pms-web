@@ -41,5 +41,17 @@
 
     </dao>
 
+    <!-- 取得公司所有成員 -->
+    <dao name="QRY_ALL_USER_WITH_COMP">
+        <statement><![CDATA[
+         SELECT USR_ID,USR_CNAME FROM "HTCE7"."S99_USER"
+        where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
+        ]]> </statement>
+
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">cmp_id</parameter>
+        <!--<parameter type="string" kind="3">cashier_cod</parameter>-->
+
+    </dao>
 
 </root>

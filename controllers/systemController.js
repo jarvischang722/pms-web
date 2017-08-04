@@ -12,6 +12,7 @@ var roleSvc = require("../services/RoleFuncService");
 var dbSvc = require("../services/DbTableService");
 var langSvc = require("../services/LangService");
 var uploadSvc = require("../services/uploadService");
+var logSvc = require("../services/LogService");
 /**
  * 首頁
  */
@@ -176,4 +177,15 @@ exports.uploadFile = function (req, res) {
     uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {
         res.json({success: uploadResult.success, errorMsg: err, rtnData: uploadResult.rtnData});
     });
+};
+
+/**
+ * 抓取異動紀錄
+ * @param req
+ * @param res
+ */
+exports.getSetupPrgChangeLog = function (req, res) {
+    logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
+        res.json({success: false, errorMsg: '', allChangeLogList: allChangeLogList});
+    })
 };

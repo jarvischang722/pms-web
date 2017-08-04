@@ -66,7 +66,6 @@
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
-        <statement test="_v(param.cshow_cod)"><![CDATA[and show_cod = :cshow_cod]]></statement>
     </dao>
 
     <!--[PMS0830090] 顯示cshow_cod跳出訊息的選擇客戶代號 -->
