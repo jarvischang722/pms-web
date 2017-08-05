@@ -105,7 +105,7 @@ Vue.component('single-grid-pms0810190-tmp', {
     }
 });
 
-var  vm = new Vue({
+var vm = new Vue({
     el: '#PMS0810190App',
     data: {
         dgIns: {},
@@ -118,8 +118,8 @@ var  vm = new Vue({
         pageTwoFieldData: [],
         useCodList: [],
         isCreateStatus: false,  //新增狀態
-        isEditStatus: true,     //編輯狀態
-        isDeleteStatus: true,     //刪除狀態
+        isEditStatus: false,     //編輯狀態
+        isDeleteStatus: false,     //刪除狀態
         isAddAfterSave: false,   //新增後繼續修增
         isLeaveAfterSave: false, //儲存後關閉視窗
         isContentFormatOK: true,// 內容格式是否正確
@@ -132,7 +132,8 @@ var  vm = new Vue({
             editData: [],
             deleteData: []
         },
-        editingRow: {} //編輯中的那筆RowData
+        editingRow: {}, //編輯中的那筆RowData
+        editingIdx : -1
 
     },
     mounted: function () {
@@ -145,6 +146,9 @@ var  vm = new Vue({
         pageOneFieldData: function () {
             this.initDataGrid();
             this.dgIns.loadDgData(this.pageOneDataGridRows);
+        },
+        editingRow: function(editingRow){
+            this.editIndex = $("#" + gs_dgName).datagrid('getRowIndex', editingRow);
         }
 
     },
@@ -164,12 +168,12 @@ var  vm = new Vue({
         },
         initDataGrid: function () {
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData,'PMS0810190_dg'));
+            this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
                 .done(function (response) {
-                    var  result = response;
+                    var result = response;
                     vm.pageTwoFieldData = result.fieldData;
                     vm.useCodList = _.findWhere(vm.pageTwoFieldData, {ui_field_name: 'use_cod'}).selectData;
                 })
@@ -180,7 +184,7 @@ var  vm = new Vue({
         getOrderConfirm: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .done(function (response) {
-                    var  result = response;
+                    var result = response;
                     vm.pageOneDataGridRows = result.dataGridRows;
                     vm.pageOneFieldData = result.fieldData;
                     vm.showCheckboxDG();
@@ -210,7 +214,7 @@ var  vm = new Vue({
             vm.isEditStatus = true;
             vm.isCreateStatus = false;
             vm.isDeleteStatus = false;
-            vm.editingRow["prg_id"] = vm.prg_id;
+            vm.editingRow["prg_id"] = gs_prg_id;
             $.post('/api/singlePageRowDataQuery', vm.editingRow, function (result) {
                 if (result.success) {
                     vm.showSingleGridDialog();
@@ -240,20 +244,22 @@ var  vm = new Vue({
         removeMultiData: function () {
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                $.messager.alert("Warning", 'Check at least one item');
+                alert('Check at least one item.');
                 return;
             }
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
-                    _.each(checkRows, function (row) {
-                        var DelIndex = $('#' + gs_dgName).datagrid('getRowIndex', row);
-                        $('#' + gs_dgName).datagrid('deleteRow', DelIndex);
-                        vm.tmpCUD.deleteData.push(row);
-                    });
-                    vm.doSave();
+            if (confirm("Are you sure delete those data?")) {
+                //刪除前檢查
+                _.each(checkRows, function (row) {
+                    var DelIndex = $('#' + gs_dgName).datagrid('getRowIndex', row);
+                    $('#' + gs_dgName).datagrid('deleteRow', DelIndex);
+                    vm.tmpCUD.deleteData.push(row);
+                });
+                if (vm.tmpCUD.deleteData.length > 0) {
+                    vm.isDeleteStatus = true;
                 }
-            });
+                vm.showCheckboxDG();
+                vm.doSave();
+            }
         },
         toAddAfterSave: function () {
             this.isAddAfterSave = true;
@@ -267,13 +273,13 @@ var  vm = new Vue({
         doCheckContentFormat: function () {
             var _this = this;
             _.each(this.lo_formatError, function (errStatus, currentType) {
-                var  valContent = _this.singleData[currentType] || "";
-                var  openReg = new RegExp(/\[\[\%\%/, "g");
-                var  closeReg = new RegExp(/\%\%\]\]/, "g");
-                var  openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
-                var  closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
-                var  reg = new RegExp(/\[\[\%\%(ReservationNo|ContactMan|FullName|CompName|ReservationComp)\%\%\]\]/, "g");
-                var  regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
+                var valContent = _this.singleData[currentType] || "";
+                var openReg = new RegExp(/\[\[\%\%/, "g");
+                var closeReg = new RegExp(/\%\%\]\]/, "g");
+                var openMatchNum = valContent.match(openReg) ? valContent.match(openReg).length : 0;
+                var closeMatchNum = valContent.match(closeReg) ? valContent.match(closeReg).length : 0;
+                var reg = new RegExp(/\[\[\%\%(ReservationNo|ContactMan|FullName|CompName|ReservationComp)\%\%\]\]/, "g");
+                var regNum = valContent.match(reg) ? valContent.match(reg).length : 0;
 
                 if (openMatchNum == closeMatchNum && regNum == openMatchNum) {
                     _this.lo_formatError[currentType] = false;
@@ -285,8 +291,9 @@ var  vm = new Vue({
         },
         doVerify: function () {
             var isContFmtOK = true;
-            var  checkField = ["confirm_cod", "subject", "content", "use_cod"];
+            var checkField = ["confirm_cod", "subject", "content", "use_cod"];
             _.each(checkField, function (fieldName) {
+
                 if (isContFmtOK && (_.isUndefined(vm.singleData[fieldName]) || _.isEmpty(vm.singleData[fieldName].trim()))) {
                     var field = _.findWhere(vm.pageTwoFieldData, {ui_field_name: fieldName});
                     alert("[ " + field.ui_display_name + " ] is requirable !");
@@ -303,18 +310,26 @@ var  vm = new Vue({
         },
         doSave: function () {
 
-            if (!this.doVerify()) {
+            if (!this.isDeleteStatus && !this.doVerify()) {
                 return;
             }
-            if (this.isCreateStatus) {
-                this.tmpCUD.createData = [this.singleData];
-            } else if (this.isEditStatus) {
-                this.tmpCUD.editData = [this.singleData];
+
+            if (!this.isDeleteStatus) {
+                if (this.isCreateStatus) {
+                    this.tmpCUD.createData = [this.singleData];
+                } else if (this.isEditStatus) {
+                    this.tmpCUD.editData = [this.singleData];
+                }
+            } else{
+                this.isCreateStatus = false;
+                this.isEditStatus = false;
             }
+
 
             $.post('/api/saveGridSingleData', _.extend({prg_id: this.prg_id}, this.tmpCUD))
                 .done(function (response) {
                     if (response.success) {
+                        vm.getOrderConfirm();
                         if (vm.isCreateStatus) {
                             if (vm.isAddAfterSave) {
                                 vm.addData();
@@ -330,19 +345,7 @@ var  vm = new Vue({
                         //判斷刪除完下一筆要抓哪一筆顯示
                         if (vm.isDeleteStatus) {
 
-                            var nowRowIndex = $("#" + gs_dgName).datagrid('getRowIndex', vm.editingRow);
-                            vm.pageOneDataGridRows.splice(nowRowIndex, 1); //刪除暫存
-                            if (vm.pageOneDataGridRows.length == 0) {
-                                vm.closeSingleGridDialog();
-                            } else {
-
-                                var nextIndex = vm.pageOneDataGridRows.length - 1 == nowRowIndex
-                                    ? vm.pageOneDataGridRows.length - 1
-                                    : nowRowIndex;
-                                vm.editingRow = vm.pageOneDataGridRows[nextIndex];
-                                vm.fetchSingleData();
-                            }
-
+                            vm.closeSingleGridDialog();
                         }
 
                         vm.getOrderConfirm();
@@ -358,9 +361,9 @@ var  vm = new Vue({
             this.isAddAfterSave = false;
             this.isLeaveAfterSave = false;
             this.dialogVisible = true;
-            var  maxHeight = document.documentElement.clientHeight - 30; //browser 高度 - 70功能列
-            var  height = 550; // 預設一個row 高度
-            var  dialog = $("#singleGridPMS0810190").dialog({
+            var maxHeight = document.documentElement.clientHeight - 30; //browser 高度 - 70功能列
+            var height = 550; // 預設一個row 高度
+            var dialog = $("#singleGridPMS0810190").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),
