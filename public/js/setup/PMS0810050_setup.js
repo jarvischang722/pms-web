@@ -19,15 +19,19 @@ var vueMain = new Vue({
         dgInsPickUp: {}, //接機的dg
         dgInsDropOff: {},  //送機的dg
         dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsDropOff 取得
-        trafficData: {} //交通接駁資料
+        trafficData: {}, //交通接駁資料
+        pickUpFields: [],
+        dropOffFields: []
     },
     watch: {
         gs_active: function (active) {
+
             if (active == 'pickup') {
                 this.dgIns = this.dgInsPickUp;
             } else {
                 this.dgIns = this.dgInsDropOff;
             }
+            waitingDialog.hide();
         },
         trafficData: function (newObj) {
             this.dgInsPickUp.loadDgData(newObj.arrive_rf);
@@ -40,8 +44,10 @@ var vueMain = new Vue({
         fetchDgFieldData: function () {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 vueMain.prgFieldDataAttr = result.fieldData;
-                vueMain.createDatagrid(result.fieldData);
+                vueMain.combineFieldAttr(result.fieldData);
+                vueMain.createDatagrid();
                 vueMain.fetchTrafficData();
+                waitingDialog.hide();
             });
         },
         //抓取資料
@@ -50,13 +56,14 @@ var vueMain = new Vue({
                 vueMain.trafficData = result.trafficData;
             });
         },
-        //顯示資料
-        createDatagrid: function (fieldData) {
+        combineFieldAttr: function (fieldData) {
+            var _this = this;
+            this.pickUpFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
+            this.dropOffFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
 
-            var columns = EZfieldClass.combineFieldOption(fieldData);
-            _.each(columns, function (field, fIdx) {
+            _.each(_this.pickUpFields, function (field, fIdx) {
                 if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(columns[fIdx].editor)) {
+                    if (_.isUndefined(_this.pickUpFields [fIdx].editor)) {
                         field.editor = {};
                     }
                     field.editor.options = {off: 'N', on: 'Y'};
@@ -66,18 +73,25 @@ var vueMain = new Vue({
                     };
                 }
             });
-            var pickupField = _.where(columns, {"grid_field_name": 'hfd_arrive_rf'});
-            var dropoffField = _.where(columns, {"grid_field_name": 'hfd_leave_rf'});
-
-            //接機
+            _.each(_this.dropOffFields, function (field, fIdx) {
+                if (field.ui_type == 'checkbox') {
+                    if (_.isUndefined(_this.dropOffFields[fIdx].editor)) {
+                        field.editor = {};
+                    }
+                    field.editor.options = {off: 'N', on: 'Y'};
+                    field.formatter = function (val, row, index) {
+                        var checked = val == 'Y' ? "checked" : "";
+                        return "<input type='checkbox' " + checked + ">";
+                    };
+                }
+            });
+        },
+        //顯示資料
+        createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', pickupField);
-
-            //送機
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields);
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', dropoffField);
-
-            //將接機instance 指向dgIns
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields);
             this.dgIns = this.dgInsPickUp;
 
         },
@@ -107,19 +121,19 @@ var vueMain = new Vue({
                 waitingDialog.show('Saving...');
                 // console.log("===== 儲存資料 =====");
                 // console.log(params);
-                axios.post('/api/execSQLProcess', params)
-                    .then(function (response) {
+                $.post('/api/execSQLProcess', params)
+                    .done(function (response) {
                         vueMain.saving = false;
                         waitingDialog.hide();
-                        if (response.data.success) {
+                        if (response.success) {
                             self.dgIns.initTmpCUD();
                             $("#gridEdit").val(null);
                             alert('save success!');
                         } else {
-                            alert(response.data.errorMsg);
+                            alert(response.errorMsg);
                         }
                     })
-                    .catch(function (error) {
+                    .fail(function (error) {
                         vueMain.saving = false;
                         waitingDialog.hide();
                         console.log(error);
@@ -140,6 +154,7 @@ $(function () {
                 vueMain.gs_active = 'pickup';
             } else {
                 vueMain.gs_active = 'dropoff';
+
             }
         }
     });

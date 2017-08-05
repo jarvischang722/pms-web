@@ -1,501 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ../../common/head %>
-<%- include ../../common/importFiles %>
+<div>
+    <div class="page-header"></div><!-- /.page-header -->
 
-
-<body class="no-skin" id="app">
-
-<!-- #section:basics/navbar.layout -->
-<%- include ../../common/navbar.ejs %>
-<!-- include header.html -->
-<script type="text/javascript">
-    var global_using_prg_id = ""; //目前使用中的程式
-
-
-    $(function () {
-        //選第一個對照檔
-        $("#settingUl li").first().find("a").click();
-
-    })
-
-    //網頁讀取
-    function loadSettingPage(prg_id) {
-
-//        $("#controlReservationTab01").load('/mainSetUp/' + prg_id);
-        //TODO 需改成用load的方式
-        var iframe = document.getElementById('proIframe');
-        iframe.src = '/mainSetUp/' + prg_id;
-    }
-
-    // 判斷iframe 大小
-    function resizeIframe(obj) {
-        obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-    }
-
-</script>
-<!-- /section:basics/navbar.layout -->
-<div class="main-container ace-save-state" id="main-container" style="margin-top: 35px;">
-
-        <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
-
-            <%- include('../../common/moduleMenu',{current_subsys_id:'PMS0600000',pro_id:''}) %>
-
-        <div class="companyInfo">
-            <img src="/images/athena_log.png"/>
+    <div class="row">
+        <div class="col-xs-12">
+            <label id="prg_Id" class="prg_idLbH3">PMS0620040</label>
         </div>
-        <!-- /section:basics/sidebar.layout.minimize -->
-    </div>
-
-    <!-- /section:basics/sidebar -->
-
-    <div class="main-content">
-        <div class="main-content-inner">
-
-            <%- include('../../common/subsysMenu',{current_subsys_id:'PMS0600000',pro_id:''}) %>
-            <div class="page-content">
-                <div class="">
-                    <div class="page-header">
-                    </div><!-- /.page-header -->
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <label id="prg_Id" class="prg_idLbH3">PMS0620040</label>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="row">
-                            <div class="col-xs-12">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row no-margin-right">
-                                        <div class="search-content">
-                                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                                            <div class="search-co">
-                                                <div class="search-co-h">
-                                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                                    <span>搜尋</span>
-                                                    <div class="row search-right-btn">
-                                                        <div class="right-btn-menu-co">
-                                                            <ul>
-                                                                <li>
-                                                                    <i class="fa fa-chevron-down show-search-detail"></i>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="search-co-content col-xs-12">
-                                                        <div class="col-sm-4">
-
-                                                        </div>
-                                                        <div class="col-sm-4">
-
-                                                        </div>
-                                                        <div class="col-sm-4">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                                        <div class="row search-footer-btn">
-                                                            <div class="footer-btn-menu-co">
-                                                                <ul>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="查詢"
-                                                                             style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                             title="清除" style="padding: 0 0 5px 0;">
-                                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>  <!-- /.footer-btn-menu-co -->
-                                                        </div> <!-- /.search-footer-btn -->
-
-
-                                                        <div class="grid width-95">
-                                                            <div class="grid-item block-table">
-                                                                <label>Co. Id</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">A1231</option>
-                                                                    <option value="2">a2322</option>
-                                                                    <option value="3">A0003</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Status</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">Normal</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table pull-left">
-                                                                <label>Co. Name</label>
-                                                                <select class="input-medium medium-c3-col4">
-                                                                    <option value="1">人人公司</option>
-                                                                    <option value="2">No</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="searchCheckbox pull-left">
-                                                                <span class="checkbox">
-                                                                  <label class="checkbox-width">
-                                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                                                      <span class="lbl">Keyword</span>
-                                                                  </label>
-                                                              </span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Co. Type</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">簽約公司</option>
-                                                                    <option value="2">非簽約公司</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Contract</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">已簽約</option>
-                                                                    <option value="2">洽談中</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Region</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">北區</option>
-                                                                    <option value="2">中區</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Sales Rap</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">陳瑞克</option>
-                                                                    <option value="2">黃大企</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="grid-item block-table">
-                                                                <label>Industry</label>
-                                                                <select id="" class="input-medium medium-search-col2">
-                                                                    <option value="1">資訊業</option>
-                                                                    <option value="2">製造業</option>
-                                                                </select>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                </div> <!-- row-->
-                                            </div> <!-- /.search-co -->
-                                        </div> <!-- /.row  search-content-->
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div> <!-- /.col-sm-12 -->
-                            <div class="clearfix"></div>
-                            <div class="col-xs-12">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row no-margin-right">
-                                        <!-- 拜訪計畫 dataGrid -->
-                                        <table id="NewVisitResult-table"></table>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
                                     </div>
                                 </div>
-                                <div class="col-xs-1 col-sm-1">
-                                    <div class="row">
-                                        <div class="right-menu-co">
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth NewVisitRecord"
-                                                            role="button">新增拜訪紀錄</button>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                                         title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
                                                 </li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- /.col-sm-12 -->
-                            <div class="clearfix"></div>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
 
-                    </div>
-                    <!-- 新增拜訪記錄 彈出視窗-->
-                    <div id="NewVisitRecord-page" class="hide">
-                        <div class="col-sm-12 NewVisitRecord-wrap">
-                            <!--todo no-margin-right-->
-                            <div class="row" >
-                                <div class="borderFrame2">
-                                    <div class="col-sm-11 col-xs-11">
-                                        <div class="row">
-                                            <div class="grid">
-                                                <div class="tab-block grid-item">
-                                                    <label>拜訪方式</label>
-                                                    <select class="input-medium medium-c3-sm">
-                                                        <option value="1">電訪</option>
-                                                        <option value="2">親訪</option>
-                                                    </select>
-                                                </div>
-                                                <div class="tab-block grid-item">
-                                                    <label>拜訪日期</label>
-                                                    <input type="date" class="input-medium medium-c3"/>
-                                                </div>
-                                                <div class="tab-block grid-item">
-                                                    <label>拜訪狀態</label>
-                                                    <select class="input-medium medium-c3-sm">
-                                                        <option value="1">預定拜訪</option>
-                                                        <option value="2">親訪</option>
-                                                    </select>
-                                                </div>
-                                                <div class="tab-block grid-item">
-                                                    <label>主旨</label>
-                                                    <input type="text" class="input-medium medium-c3-sm"/>
-                                                </div>
-                                            </div>
+                                    <div class="grid width-95">
+                                        <div class="grid-item">
+                                            <label>Co. Id</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">A1231</option>
+                                                <option value="2">a2322</option>
+                                                <option value="3">A0003</option>
+                                            </select>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-1 col-xs-1">
-                                    <div class="row no-margin-right">
-                                        <div class="right-menu-co">
-                                            <ul>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">setting</button></li>
-                                            </ul>
+                                        <div class="grid-item">
+                                            <label>Status</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">Normal</option>
+                                                <option value="2">No</option>
+                                            </select>
                                         </div>
+                                        <div class="grid-item">
+                                            <label>Co. Name</label>
+                                            <select class="input-medium medium-c3-col4">
+                                                <option value="1">人人公司</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="searchCheckbox pull-left">
+                                            <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                  <span class="lbl">Keyword</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="grid-item">
+                                            <label>Co. Type</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">簽約公司</option>
+                                                <option value="2">非簽約公司</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Contract</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">已簽約</option>
+                                                <option value="2">洽談中</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Region</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">北區</option>
+                                                <option value="2">中區</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Sales Rap</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">陳瑞克</option>
+                                                <option value="2">黃大企</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Industry</label>
+                                            <select id="" class="input-medium medium-search-col2">
+                                                <option value="1">資訊業</option>
+                                                <option value="2">製造業</option>
+                                            </select>
+                                        </div>
+
                                     </div>
-                                </div>
+
                                     <div class="clearfix"></div>
                                 </div>
-                            </div>
-                            <div class="space-6"></div>
-                            <div class="clearfix"></div>
-                            <div class="row">
-                                <div class="col-sm-11 col-xs-11">
-                                    <div class="row">
-                                        <div class="col-sm-5 col-xs-5">
-                                            <table id="NewVisitRecord-table"></table>
-                                        </div>
-                                        <div class="col-sm-7 col-xs-7">
-                                            <div class="row">
-                                                <div class="content">
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>Co. Id</label>
-                                                            <select class="input-medium popWindow-s1-col2">
-                                                                <option value="1">A1231</option>
-                                                                <option value="2">a2322</option>
-                                                                <option value="3">A0003</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>Co. Name</label>
-                                                            <select id="" class="input-medium popWindow-s1-col2">
-                                                                <option value="1">人人公司</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>Status</label>
-                                                            <select class="input-medium popWindow-s1">
-                                                                <option value="1">Normal</option>
-                                                                <option value="2">No</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="tab-block grid-item">
-                                                            <label>Co. Type</label>
-                                                            <select id="" class="input-medium popWindow-s1">
-                                                                <option value="1">已簽約</option>
-                                                                <option value="2">簽約公司</option>
-                                                                <option value="3">非簽約公司</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>拜訪方式</label>
-                                                            <select class="input-medium popWindow-s1">
-                                                                <option value="1">電訪</option>
-                                                                <option value="2">親訪</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="tab-block grid-item">
-                                                            <label>預計拜訪</label>
-                                                            <input type="date" class="input-medium popWindow-s1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>拜訪狀態</label>
-                                                            <select id="" class="input-medium popWindow-s1">
-                                                                <option value="1">預定拜訪</option>
-                                                                <option value="2">已拜訪</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="tab-block grid-item">
-                                                            <label>客戶反應</label>
-                                                            <input type="text" class="input-medium popWindow-s1" />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>實際拜訪日</label>
-                                                            <input type="date" class="input-medium popWindow-s1"/>
-                                                        </div>
-                                                        <div class="tab-block grid-item">
-                                                            <label>交通費</label>
-                                                            <input type="text" class="input-medium popWindow-s1 text-right" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>主旨</label>
-                                                            <input type="text" class="input-medium popWindow-s1-col2" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid">
-                                                        <div class="tab-block grid-item">
-                                                            <label>資料寄發紀錄</label>
-                                                            <select class="input-medium popWindow-s1-col2">
-                                                                <option value="-1"></option>
-                                                                <option value="1">y</option>
-                                                                <option value="2">n</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="textFrame">
-                                                        <div class="grid">
-                                                            <label class="pull-left">內容</label>
-                                                            <textarea class="contentInput pull-left" rows="4" placeholder="談合約其貢獻數字及房價等級定義"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1 col-xs-1">
-
-                                    <div class="row no-margin-right">
-                                        <div class="right-menu-co">
-                                            <ul>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">First</button></li>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous</button></li>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next</button></li>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last</button></li>
-                                            </ul>
-                                            <ul class="newVisitOther-btn">
-                                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete</button></li>
-                                                <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button></li>
-                                                <li><button class="btn btn-danger btn-white btn-defaultWidth" role="button">Exit</button></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.新增拜訪記錄 彈出視窗-->
-
-
-                </div><!-- /.roomNumPlanPage -->
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div>
             </div>
-        </div>
-    </div><!-- /.main-content -->
-    <%- include ../../common/footer %>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
 
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-    </a>
-</div><!-- /.main-container -->
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- 拜訪計畫 dataGrid -->
+                    <table id="NewVisitResult-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth NewVisitRecord"
+                                        role="button">新增拜訪紀錄</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+    </div>
 
-<!-- basic scripts -->
+    <!--  業務 彈出視窗內容(jing)-->
+    <%- include sales_module/sales_Btn_1.ejs %>
+    <!--  /.End 業務 彈出視窗內容 -->
+</div><!-- /.page-content -->
 
-
-</body>
-
-<script type="text/javascript">
-    $(function (){
-
-        // 彈出拜訪記錄
-        $(document).on('click', ".NewVisit", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVisit-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出新增拜訪記錄
-        $(document).on('click', ".NewVisitRecord", function (e) {
-            e.preventDefault();
-            var dialog = $("#NewVisitRecord-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-
-        //  新增拜訪查詢
-        $('#NewVisitResult-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/bsCompany_newVisit.json',
-            method:'get',
-            columns:[[
-                {field:'clerkNum',title:'Choose',width:60},
-                {field:'clerkName',title:'Co. Id',width:80},
-                {field:'ifStaff',title:'Co. Name',width:180},
-                {field:'status',title:'Status',width:50},
-                {field:'subject',title:'Contract',width:70},
-                {field:'disabledYear',title:'Co. Type',width:60},
-                {field:'clerkTeam',title:'Category',width:70},
-                {field:'hotelBusiness',title:'Region',width:70},
-                {field:'memberBusiness',title:'Industry',width:60}
-            ]]
-
-        });
-
-        //  新增拜訪編輯
-        $('#NewVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/bsCompany_newVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'VisitNum',title:'Co. Id',width:60},
-                {field:'VisitName',title:'Co. Name',width:170},
-                {field:'VisitStatus',title:'Status',width:50},
-                {field:'VisitContract',title:'Contract',width:60},
-                {field:'visitMethod',title:'Method',width:60},
-                {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
-                {field:'visitPurpose',title:'Purpose',width:70},
-                {field:'visitDocuments',title:'Documents',width:80},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60}
-            ]]
-
-        });
-    });
-</script>
-</html>
+<!--  業務 initial js -->
+<%- include sales_module/sales_includeJs.ejs %>
+<!--  /.End 業務 initial js  -->

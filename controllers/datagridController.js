@@ -1,9 +1,10 @@
 /**
  * Created by Jun on 2017/2/10.
  */
-var datagridSVC = require("../services/datagridService");
+var datagridSVC = require("../services/DatagridService");
+var dataRuleSVC = require("../services/DataRuleService");
 var _ = require("underscore");
-var commonTools = require("../utils/commonTools");
+var commonTools = require("../utils/CommonTools");
 
 /**
  * 取得datagrid資料
@@ -26,11 +27,6 @@ exports.prgDataGridDataQuery = function (req, res) {
     }
 
     datagridSVC.fetchPrgDataGrid(req.session, prg_id, function (err, dataGridRows, fieldData) {
-
-        _.each(fieldData, function (field, fIdx) {
-            fieldData[fIdx]["ui_display_name"] = req.__('program')[prg_id][field["ui_field_name"].toLowerCase()] || "";
-        });
-
         returnData.dataGridRows = dataGridRows;
         returnData.fieldData = fieldData;
         res.json(returnData);

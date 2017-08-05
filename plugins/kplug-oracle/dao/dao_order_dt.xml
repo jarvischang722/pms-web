@@ -5,7 +5,7 @@
         <statement><![CDATA[
               SELECT COUNT(*) AS order_dt_count FROM
               ORDER_DT WHERE
-              ATHENA_ID = trim(:athena_id) AND trim(HOTEL_COD) = trim(:hotel_cod) AND  ORDER_STA = 'N' AND CI_DAT >= to_date(trim(:belong_dat), 'YYYY/MM/DD') AND INSTR( CHARACTER_RMK, ''''|| trim(:character_cod) || '''' ) > 0 AND ROWNUM <= 1
+              ATHENA_ID = trim(:athena_id) AND trim(HOTEL_COD) = trim(:hotel_cod) AND  ORDER_STA = 'N' AND CI_DAT >= to_date(trim(:belong_dat), 'YYYY/MM/DD') AND INSTR( trim(CHARACTER_RMK), ''''|| trim(:character_cod) || '''' ) > 0 AND ROWNUM <= 1
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>

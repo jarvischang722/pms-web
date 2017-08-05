@@ -1,0 +1,85 @@
+<div class="holidayDateSet">
+    <div class="page-header">
+    </div><!-- /.page-header -->
+    <div class="col-xs-12">
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="tabbable tabs-left">
+                <div class="tab-content">
+                    <div id="holidayDateSetTaTab01" class="tab-pane in active">
+                        <div class="col-sm-12 col-xs-12 holidayDateSet-content">
+                            <div class="row">
+                                <div class="col-sm-11 col-xs-11">
+                                    <div class="row">
+                                        <div class="grid holidayDateGrid">
+                                            <div class="grid-item holidayDateSelect">
+                                                <label class="float-left"><%= __("program")["PMS0810070"]["session_nam"] %></label>
+                                                <select class="input-small float-left" name="color_scheme"
+                                                        id="color_scheme">
+                                                </select>
+                                                <div class="datePin01 float-left" style="background: #000;"></div>
+                                            </div>
+                                            <div class="grid-item time-daterange">
+                                                <label class="float-left"><%= __("program")["PMS0810070"]["date"] %></label>
+                                                <div class="input-daterange input-group float-left">
+                                                    <input type="text" class="input-sm form-control" name="start"/>
+                                                    <span class="input-group-addon">
+                                                                    <i class="fa fa-exchange"></i>
+                                                                </span>
+                                                    <input type="text" class="input-sm form-control" name="end"/>
+                                                </div>
+                                            </div> <!-- grid-item -->
+                                            <div class="grid-item weekDate">
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["sun_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["mon_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["tue_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["wed_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["thu_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["fri_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["sat_nam"] %></span>
+                                                <span class="choiceDay"><%= __("program")["PMS0810070"]["allDay_nam"] %></span>
+                                            </div>
+                                        </div>
+                                        <div class="space-6"></div>
+                                        <!--// 日期列表-->
+                                        <!-- 套件:http://www.bootstrap-year-calendar.com/#Examples/Full example -->
+                                        <div class="calendar-list"></div>
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth holiday-btn"
+                                                            id="BTN_Save"
+                                                            role="button"><%= __("SystemCommon")["Save"] %></button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- /.col-sm-12 -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div><!-- /.roomNumPlanPage -->
+
+
+<script type="text/javascript">
+    var gs_prg_id = '<%= prg_id %>';
+</script>
+<script src="/js/setup/PMS0810070_setup.js"></script>

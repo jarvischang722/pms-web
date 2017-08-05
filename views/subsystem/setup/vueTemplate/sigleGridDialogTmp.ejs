@@ -13,7 +13,7 @@
                                            v-if="field.visiable == 'Y'">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
-                                            {{field.ui_display_name}}
+                                            {{field.ui_field_name}}
                                         </a>
                                         <span v-else>{{field.ui_display_name}} </span>
                                     </label>
@@ -24,12 +24,14 @@
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
                                     <input v-model="singleData[field.ui_field_name]"
-
                                            v-if="field.visiable == 'Y' &&
-                                            (field.ui_type == 'text' ||
-                                              field.ui_type == 'number' ||
-                                               field.ui_type == 'date' ||
-                                                 field.ui_type == 'datetime'    )"
+                                                                                    (field.ui_type == 'text' ||
+                                                                                      field.ui_type == 'number' ||
+                                                                                      field.ui_type == 'date' ||
+                                                                                       field.ui_type == 'datetime' ||
+                                                                                       field.ui_type == 'percent'  ||
+                                                                                     field.ui_type == 'time' ||
+                                                                                     field.ui_type == 'textgrid')"
                                            type="text"
                                            class="numStyle-none"
                                            :class="{'input_sta_required' : field.requirable == 'Y' ,date_picker: field.ui_type == 'date' ,  date_timepicker : field.ui_type == 'datetime' }"
@@ -37,16 +39,37 @@
                                            :required="field.requirable == 'Y'"
                                            :min="0"
                                            :maxlength="field.ui_field_length"
-                                           :disabled="field.modificable == 'N'"
+                                           :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                           @click="chkClickTextGrid(field)"
                                         >
 
+                                    <!--  label -->
+                                    <label
+                                           :style="{width:field.label_width + 'px'}"
+                                           class="numStyle-none"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'label'"
+                                           :maxlength="field.ui_field_length"
+                                    >
+                                        {{singleData[field.ui_field_name]}}
+                                    </label>
 
-
+                                    <!--  checkbox -->
+                                    <input v-model="singleData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                           type="checkbox"
+                                           class="numStyle-none"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :required="field.requirable == 'Y'"
+                                           :maxlength="field.ui_field_length"
+                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                           @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                    >
 
                                     <!-- 下拉選單 -->
                                     <select v-model="singleData[field.ui_field_name]"
-                                            :disabled="field.modificable == 'N'"
+                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                             :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                             :class="{'input_sta_required' : field.requirable == 'Y' }"
                                             v-if="field.visiable == 'Y' && field.ui_type == 'select'">
@@ -63,8 +86,7 @@
 
                             <!-- DT 的datagrid -->
                             <div id="dt_dg_DIV" style="display: none;">
-                                <table class="easyui-datagrid" id="dt_dg"
-                                       style="width:100%;height:auto;">
+                                <table class="easyui-datagrid" id="dt_dg" style="width:100%;height:auto;">
                                 </table>
 
                                 <div id="tb" style="height:auto" class="dataGrid-toolBar01">

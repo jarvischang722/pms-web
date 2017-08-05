@@ -231,14 +231,13 @@
                                                                         <ul>
                                                                             <li>
                                                                                 <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                                     title="查詢"
-                                                                                     style="padding: 0 0 5px 0;">
+                                                                                     title="查詢">
                                                                                     <div class="icon-reStyle icon-co-14"></div>
                                                                                 </div>
                                                                             </li>
                                                                             <li>
                                                                                 <div class="" data-rel="tooltip" data-placement="bottom"
-                                                                                     title="清除" style="padding: 0 0 5px 0;">
+                                                                                     title="清除">
                                                                                     <div class="icon-reStyle icon-co-11"></div>
                                                                                 </div>
                                                                             </li>
@@ -247,28 +246,20 @@
                                                                 </div> <!-- /.search-footer-btn -->
                                                                 <div class="grid width-95">
                                                                     <div class="grid-item">
-                                                                        <div class="block-table">
-                                                                            <label>大類</label>
-                                                                            <input type="text" class="input-n"/>
-                                                                        </div>
+                                                                        <label>大類</label>
+                                                                        <input type="text" class="input-sm"/>
                                                                     </div>
                                                                     <div class="grid-item">
-                                                                        <div class="block-table">
-                                                                            <label>小類</label>
-                                                                            <input type="text" class="input-sm"/>
-                                                                        </div>
+                                                                        <label>小類</label>
+                                                                        <input type="text" class="input-sm"/>
                                                                     </div>
                                                                     <div class="grid-item">
-                                                                        <div class="block-table">
-                                                                            <label>mange response with </label>
-                                                                            <input type="text" class="input-n"/>
-                                                                        </div>
+                                                                        <label>mange response with </label>
+                                                                        <input type="text" class="input-sm"/>
                                                                     </div>
                                                                     <div class="grid-item">
-                                                                        <div class="block-table">
-                                                                            <label>假日房別</label>
-                                                                            <input type="text" class="input-sm"/>
-                                                                        </div>
+                                                                        <label>假日房別</label>
+                                                                        <input type="text" class="input-sm"/>
                                                                     </div>
                                                                 </div>
 
@@ -294,7 +285,7 @@
                                                 <div class="right-menu-co">
                                                     <ul>
                                                         <li>
-                                                            <button id="ins-btn" @click="switchToCreateStatus"
+                                                            <button id="ins-btn" @click="addRow"
                                                                     class="btn btn-primary btn-white btn-defaultWidth"  onclick="getDgRow();"
                                                                     role="button"><%= __("program")["PMS0810010"]["btn_insert"] %> </button>
                                                         </li>

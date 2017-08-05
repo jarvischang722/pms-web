@@ -9,12 +9,20 @@ $close-color: #dc5034
 $open-close-color: #f2af00
 $open-text-color: #fff
 $holiday-color: #FECAE4
+$disable-color: #c1c1c1
 $date-color: #DAEAFC
 $orangeTag: #FDDDCC
 $orange2Tag: #E7B296
 $greenTag: #E2EFDC
 $yellowTag: #FEFC38
 $subTreeColor: #3334A6
+
+$grayTag: #e2e2e2
+$redTxt: #dc5034
+$darkRedTxt: #a1402a
+$greenTxt: #7ab800
+$blueBg: #3d48a6
+
 // height
 $lineHeight18: 18px
 
@@ -114,7 +122,7 @@ $switchLeft:      23px       //  39px
     background: $holiday-color
   &.dateColor
     background: $date-color
-    padding: 3px
+    //padding: 3px //使用padding 會跑版
   &.orangeTag
     background: $orangeTag !important
   &.orange2Tag
@@ -154,6 +162,38 @@ $switchLeft:      23px       //  39px
       margin: auto 5px auto auto
   .no-data
     height: 20px
+  // 專案訂房
+  &.themeTableTwo
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    //padding-left: 3px
+    //padding-right: 3px
+    //td
+    //  padding-left: 3px
+    //  padding-right: 3px
+    //.td-first
+    //  padding-left: 3px
+    .tbodyRight
+      .numeric
+        text-align: right
+    .redTxt
+      color: $redTxt
+    .darkRedTxt
+      color: $darkRedTxt
+    .greenTxt
+      color: $greenTxt
+    .grayBg
+      background: $grayTag
+      td,th
+        background: $grayTag
+    .yellowBg
+      background: $yellowTag !important
+    .blueBg
+      background: $blueBg
+      color: #fff
+
+
 // tooltip
 $wrapper-color: #fff  //#fff
 $wrapper-bg-color: #825C26 //#1496bb
@@ -340,6 +380,8 @@ $translate-distance: $switch-width
   background-color: $greenTag !important
 .yellowTag
   background-color: $yellowTag !important
+.disable-color
+  background-color: $disable-color !important
 
 
 
@@ -357,6 +399,12 @@ $ca-height: 30px
 .ca-headerTitle
   .ca-headerIcon
     margin: auto auto auto 5px
+    i
+      cursor: pointer
+  .caSelect, .caIcon
+    margin: 2px
+    display: inline-block
+    vertical-align: middle
 //connact jquery.fixheadertable.js →→ tableProp.thead[index]
 .td-first
   position: relative
@@ -387,6 +435,12 @@ $ca-height: 30px
   padding-left: 5px
   padding-right: 5px
   padding-bottom: 1px
+.roomNumTip2
+  position: absolute
+  right: 0
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
 
 // tree child style
 .subTree-s
@@ -398,3 +452,17 @@ $ca-height: 30px
   color: #3a67df !important
 table.treetable span.indenter
   width: auto
+
+// tree icon display:none
+
+.treeIconDisplay table.treetable tr.collapsed span.indenter a
+  display: none !important
+
+// Ｑ:第一行的colspan有問題 S:做一個假的清除height
+.hidden-firstTr
+  visibility: hidden
+  height: 0 !important
+  td
+    height: 0 !important
+.hidden-firstTd
+  height: 0 !important

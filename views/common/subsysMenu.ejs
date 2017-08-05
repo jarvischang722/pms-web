@@ -1,70 +1,30 @@
-<script>
-    function toSubsys(subsys_id){
-        doCookieSetup('current_subsys_id',subsys_id)
-    }
-</script>
 <div class="col-xs-12 top-sec-ul breadcrumbs-fixed">
+    <!-- Subsystem menu  -->
     <div class="top-ul">
         <ul id="subsysUl">
-            <% var la_quickMenu = []; %>
-            <% session.user.subsysMenu.forEach(function(sysItem){ %>
-            <%
-                var activeClass = "";
-                var subsys_url = "";
-                if (current_subsys_id == sysItem.subsys_id) {
-                    activeClass = 'active-01';
-                    la_quickMenu = sysItem.quickMenu || [];
-                }
-
-                switch (sysItem.subsys_id) {
-                    case 'PMS0100000':
-                        subsys_url = '/subsystem/reservation'
-                        break;
-                    case 'PMS0200000':
-                        subsys_url = '/subsystem/reception'
-                        break;
-                    case 'PMS0300000':
-                        subsys_url = '/subsystem/cashier'
-                        break;
-                    case 'PMS0400000':
-                        subsys_url = '/subsystem/housekeeping'
-                        break;
-                    case 'PMS0500000':
-                        subsys_url = '/subsystem/night_check'
-                        break;
-                    case 'PMS0600000':
-                        subsys_url = '/subsystem/sales'
-                        break;
-                    case 'PMS0700000':
-                        subsys_url = '/subsystem/report'
-                        break;
-                    case 'PMS0800000':
-                        subsys_url = '/subsystem/setup'
-                        break;
-                    case 'PMS0900000':
-                        subsys_url = '/subsystem/customize_setup'
-                        break;
-                }
-            %>
-            <li class="<%= activeClass %>" onclick="toSubsys('<%=sysItem.subsys_id%>')">
-                <a href="<%= subsys_url %>" style="color:#FFFFFF;">
-                    <%= sysItem["subsys_nam_" + session.locale] != "" ? sysItem["subsys_nam_" + session.locale] :sysItem.subsys_nam %>
-                </a>
+            <li v-for="subsysItem in subsysMenu"
+                :class="{active_01: usingSubsysID == subsysItem.subsys_id}"
+                @click.prevent="changeSubsys(subsysItem.subsys_id)">
+                    {{
+                        subsysItem["subsys_nam_" + locale] != ""
+                        ? subsysItem["subsys_nam_" + locale]
+                        :subsysItem.subsys_nam
+                    }}
             </li>
-            <% }) %>
+
         </ul>
-    </div> <!-- /.top-ul -->
+    </div>
+
     <!-- Quick menu  -->
     <div class="secondMenu-ul secondMenuClick ">
         <ul id="quickMenuUl">
-            <% la_quickMenu.forEach(function(quick){ %>
-            <% var active = quick.pro_id == pro_id ? 'activeThis' : "" %>
-            <li onclick="loadProgram('<%= quick.pro_url %>')" class="<%= active %>">
-                <%= quick["pro_name_" + session.locale] %>
+            <li v-for="quick in quickMenu"
+                @click="loadMainProcess(quick.pro_id)"
+                :class="{activeThis:quick.pro_id == usingPrgID}" >
+                {{ quick["pro_name_" + locale] }} 
             </li>
-            <% }) %>
         </ul>
-    </div> <!-- /.secondMenuUl -->
-
-
+    </div>
 </div>
+
+

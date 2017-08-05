@@ -7,11 +7,11 @@ var moment = require("moment");
 var async = require("async");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir+"/ruleEngine/";
-var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
+var ruleRootPath = appRootDir + "/ruleEngine/";
+var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath+"/returnClass");
-var ErrorClass = require(ruleRootPath+"/errorClass");
+var ReturnClass = require(ruleRootPath + "/returnClass");
+var ErrorClass = require(ruleRootPath + "/errorClass");
 
 
 module.exports = {
@@ -82,7 +82,7 @@ module.exports = {
         var end_dat = singleRowData.end_dat || "";
         var result = new ReturnClass();
         var error = null;
-        return  callback(error, result);  //TODO 暫時先不判斷
+        return callback(error, result);  //TODO 暫時先不判斷
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
             queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id}, function (err, data) {
 
@@ -100,7 +100,7 @@ module.exports = {
                         error.errorCod = "1111";
                     }
                     //2)
-                    if (begin_dat.diff(belong_dat, "days") < 0 ) {
+                    if (begin_dat.diff(belong_dat, "days") < 0) {
                         if (!error) {
                             error = new ErrorClass();
                         }
@@ -208,20 +208,16 @@ module.exports = {
 
     },
     /**
-     * 房間小類儲存時:
+     * 房間小類儲存前檢查:
      *  新增、修改:
      *      1.檢查相同房型的開始結束日期不可重疊
      *      2.將房型名稱、簡稱,update到相同房型代號不同開始日期的房型資料【原理:相同房型代號,其名稱、簡稱都要相同,但因為會分年份,所以會有很多筆】
      *      3.若房型在房型排序檔不存在時新增一筆,同時UPDATE新的排序方式到房型排序對照檔
-     *  刪除:
-     *     1.如果刪除的房型是同房型最後一筆,則房型排序檔也一併刪除
-     *      (1)檢查是否是同房型最後一筆
-     *      (2)如果是,則delete from room_cod_order where athena_id = ? and room_cod = ?
      * @param postData
      * @param session
      * @param callback {Function} :
      */
-    r_rvrmcod_rf_save: function (postData, session, callback) {
+    r_rvrmcod_rf_ins_save: function (postData, session, callback) {
         try {
             var userInfo = session.user;
             var saveResult = new ReturnClass();
@@ -236,13 +232,14 @@ module.exports = {
                     if (createData.length > 0) {
                         var createSubFunc = [];
                         _.each(createData, function (c_data) {
+                            c_data = _.extend(c_data, commandRules.getCreateCommonDefaultDataRule(session));
                             createSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
                                         function (callback) {
                                             queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
                                                 var thisRuleErr = null;
-                                                if (Number(data.cover_count || 0) > 0) {
+                                                if (Number(data.cover_count || 0) > 1) {
                                                     thisRuleErr = "相同房型的開始結束日期不可重疊";
                                                 }
                                                 callback(thisRuleErr, []);
@@ -273,25 +270,15 @@ module.exports = {
                                                     var tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
-                                                    if (Number(data.room_count) > 0) {
-                                                        //更新room_cod_order
-                                                        tmpObj["function"] = "2";
-                                                        tmpObj["condition"] = [{
-                                                            key: 'athena_id',
-                                                            operation: "=",
-                                                            value: userInfo.athena_id
-                                                        }, {
-                                                            key: 'room_cod',
-                                                            operation: "=",
-                                                            value: c_data.room_cod
-                                                        }];
-
-                                                    } else {
+                                                    if (Number(data.room_count) == 0) {
                                                         //新增room_cod_order
                                                         tmpObj["function"] = "1";
-
+                                                        tmpObj["view_seq"] = 0;
+                                                        tmpObj["wrs_sort_cod"] = 0;
                                                     }
+
                                                     tmpObj = _.extend(tmpObj, c_data);
+
                                                     tmpExtendExecDataArrSet.push(tmpObj);
                                                 }
 
@@ -326,6 +313,7 @@ module.exports = {
                         var editSubFunc = [];
 
                         _.each(editData, function (e_data) {
+                            e_data = _.extend(e_data, commandRules.getCreateCommonDefaultDataRule(session));
                             editSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
@@ -361,26 +349,15 @@ module.exports = {
                                                     var tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
-                                                    if (Number(data.room_count) > 0) {
-                                                        //更新room_cod_order
-                                                        tmpObj["function"] = "2";
-                                                        tmpObj["condition"] = [{
-                                                            key: 'athena_id',
-                                                            operation: "=",
-                                                            value: userInfo.athena_id
-                                                        }, {
-                                                            key: 'room_cod',
-                                                            operation: "=",
-                                                            value: e_data.room_cod
-                                                        }];
-
-                                                    } else {
+                                                    if (Number(data.room_count) == 0) {
                                                         //新增room_cod_order
                                                         tmpObj["function"] = "1";
-
+                                                        tmpObj["view_seq"] = 0;
+                                                        tmpObj["wrs_sort_cod"] = 0;
+                                                        tmpObj = _.extend(tmpObj, e_data);
+                                                        tmpExtendExecDataArrSet.push(tmpObj);
                                                     }
-                                                    tmpObj = _.extend(tmpObj, e_data);
-                                                    tmpExtendExecDataArrSet.push(tmpObj);
+
                                                 }
                                                 callback(null, tmpExtendExecDataArrSet);
                                             });
@@ -460,100 +437,6 @@ module.exports = {
             saveError.errorCod = "1111";
             saveResult.success = false;
             callback(saveError, saveResult);
-        }
-
-    },
-    /**
-     * 房間小類儲存前檢查:
-     *  新增、修改:
-     *      1.檢查相同房型的開始結束日期不可重疊
-     *      2.將房型名稱、簡稱,update到相同房型代號不同開始日期的房型資料【原理:相同房型代號,其名稱、簡稱都要相同,但因為會分年份,所以會有很多筆】
-     *      3.若房型在房型排序檔不存在時新增一筆,同時UPDATE新的排序方式到房型排序對照檔
-     * @param postData
-     * @param session
-     * @param callback {Function} :
-     */
-    r_rvrmcod_rf_ins_save: function (postData, session, callback) {
-        try {
-
-            var chkResult = new ReturnClass();
-            var chkError = null;
-            var params = postData["singleRowData"] || {};
-            var userInfo = session.user;
-            async.waterfall([
-                function (callback) {
-                    queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", params, function (err, data) {
-                        var thisRuleErr = null;
-                        if (Number(data.cover_count || 0) > 0) {
-                            thisRuleErr = "相同房型的開始結束日期不可重疊";
-                        }
-                        callback(thisRuleErr, chkResult);
-                    });
-                },
-                function (result, callback) {
-                    chkResult.extendExecDataArrSet.push({
-                        function: '2',
-                        table_name: 'rvrmcod_rf',
-                        condition: [{
-                            key: 'athena_id',
-                            operation: "=",
-                            value: userInfo.athena_id
-                        }, {
-                            key: 'room_cod',
-                            operation: "=",
-                            value: params.room_cod
-                        }],
-                        room_nam: params.room_name || "",
-                        room_sna: params.room_sna || ""
-                    });
-
-                    callback(null, chkResult.extendExecDataArrSet);
-                },
-                function (extendExecDataArrSet, callback) {
-                    queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", params, function (err, data) {
-                        if (!err && data) {
-                            var tmpObj = {
-                                table_name: 'room_cod_order'
-                            };
-                            if (Number(data.room_count) > 0) {
-                                //更新room_cod_order
-                                tmpObj["function"] = "2";
-                                tmpObj["condition"] = [{
-                                    key: 'athena_id',
-                                    operation: "=",
-                                    value: userInfo.athena_id
-                                }, {
-                                    key: 'room_cod',
-                                    operation: "=",
-                                    value: params.room_cod
-                                }];
-
-                            } else {
-                                //新增room_cod_order
-                                tmpObj["function"] = "1";
-
-                            }
-
-                            chkResult.extendExecDataArrSet.push(tmpObj);
-                        }
-
-                        callback(err, chkResult.extendExecDataArrSet);
-                    });
-                }
-            ], function (err, result) {
-                if (err) {
-                    chkError = new ErrorClass();
-                    chkError.errorMsg = err;
-                    chkError.errorCod = "1111";
-                }
-                callback(chkError, chkResult);
-            });
-        } catch (err) {
-            chkError = new ErrorClass();
-            chkError.errorMsg = err;
-            chkError.errorCod = "1111";
-            chkResult.success = false;
-            callback(chkError, chkResult);
         }
     },
     /**
@@ -684,6 +567,13 @@ module.exports = {
         if (!_.isUndefined(singleRowData.room_amt) && typeof Number(singleRowData.room_amt) === "number") {
             result.effectValues["serv_amt"] = Math.floor(Number(singleRowData.room_amt) * 0.1);
         }
+        callback(error, result);
+    },
+    r_rvrmcod_rf_add: function (postData, session, callback) {
+        var result = new ReturnClass();
+        var error = null;
+        result.defaultValues["rest_tim"] = 0; //到鐘時間
+        result.defaultValues["pre_alram_min"] = 0;  //休息到鐘提醒分鐘數
         callback(error, result);
     }
 };

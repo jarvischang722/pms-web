@@ -36,6 +36,10 @@
   width: 15% !important
 .width-20
   width: 20% !important
+.width-30
+  width: 30% !important
+.width-61
+  width: 61% !important
 
 .pointer
   cursor: pointer
@@ -101,12 +105,18 @@ a
   color: $light-green !important
 .orange
   color: $orange !important
+.fontBrown
+  color: $fontBrown !important
 .orange2
   color: $orange2 !important
 .light-orange
   color: $light-orange !important
+.font-yellow
+  color: $fontYellow !important
 .purple
   color: $purple !important
+.dark-purple
+  color: $dark-purple !important
 .pink
   color: $pink !important
 .pink2
@@ -115,6 +125,10 @@ a
   color: $brown !important
 .grey
   color: $grey !important
+.bgLGrey
+  background: $light-grey !important
+.bgTGreen
+  background: $t-green !important
 .light-grey
   color: $light-grey !important
 .orangeBlock1
@@ -163,6 +177,13 @@ $medium-c3-card: 212px
       +input-s1(120px)
   &.medium-c1-col2
     +input-s1(488px)
+    //todo resvRoomTyprBtn2
+  &.medium-c1-col2v2
+    +input-s1(434px)
+  &.medium-c1-col2v2Remark
+    +input-s1(407px)
+  &.medium-c1-Full
+    +input-s1(702px)
   &.medium-c2
     +input-s1(179px)
     @media screen and (min-width: 768px) and (max-width: 1030px)
@@ -212,28 +233,66 @@ $medium-c3-card: 212px
     +input-s1(695px)
   &.popWindow-s1
     +input-s1(155px)
+  &.popWindow-s1Remark
+    +input-s1(128px)
+    // resv_gProfile
+  &.popWindow-s2
+    +input-s1(138px)
   &.popWindow-s1-col2
     +input-s1(414px)
+  &.popWindow-s1-col2v2
+    +input-s1(418px)
+  &.popWindow-s1v2
+    +input-s1(115px)
+  &.popWindow-s1v2-col2
+    +input-s1(227px)
+  &.popWindow-s1v2-lg
+    +input-s1(339px)
+  &.popWindow-s1v2-col2RM
+    +input-s1(200px)
+  &.popWindow-s1v2-keyword
+    +input-s1(460px)
+  &.popWindow-s1v2-col4
+    +input-s1(562px)
+  &.popWindow-s1v2-col4Key
+    +input-s1(485px)
+  &.popWindow-s1v2-col4RM
+    +input-s1(535px)
   &.resvCard
     +input-s1(103px)
+    //住客帳維護 單筆
+  &.resvCardSpec1
+    +input-s1(203px)
   &.resvCard-date
     +input-s1(135px)
   &.resvCardRemark
     +input-s1(77px)
   &.resvCard-col2
-    +input-s1(308px)
+    +input-s1(310px)
   &.resvCard-col3
     +input-s1(719px)
   &.resvCard-col2Spec1
     +input-s1(250px)
   &.resvCard-col2Remark
     +input-s1(283px)
+  &.resvCard-col2Remark2
+    +input-s1(265px)
   &.resvCard-fullRemark
     +input-s1(698px)
   &.resvCard-col3-fullRemark
     +input-s1(490px)
+  &.resvCard-xs
+    +input-s1(40px)
+  &.resvCard-2xs
+    +input-s1(26.7px)
+  &.resvCard-sm
+    +input-s1(81px)
+  &.ca-select
+    +input-s1(65px)
   &.checkMail
     +input-s1(530px)
+  &.large-c1
+    +input-s1(210px)
 .input-hMedium
   height: $inputHeight-medium !important
 .input-hCol2
@@ -290,7 +349,9 @@ input.numStyle-none
 // input border-radius
 input[type="text"],
 input[type="number"],
-input[type="date"]
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"]
   border-radius: 5px !important
 
 //建立margin 迴圈
@@ -336,5 +397,102 @@ input[type="date"]
 .remarkInput
   width: 85%
   margin-left: 5px
+.remarkInput-75
+  width: 75%
+  margin-left: 5px
+  margin-right: 5px
+.remarkInput-45
+  width: 45.4%
+  margin-left: 5px
+  margin-right: 5px
+.remarkInput-79
+  width: 79.4%
+  margin-left: 5px
+  margin-right: 5px
 .border-raduis-5
   border-radius: 5px
+.extendGrid
+  position: relative
+  .extendIcon
+    position: absolute
+    padding: 0 5px
+    border-radius: 10px
+    background: $light-green
+    right: 8px
+    top: -37px
+    cursor: pointer
+    &:hover
+      background: $green
+    &.activeBg
+      background: $green
+    i
+      color: #fff
+      font-weight: bold
+      -webkit-transform: rotate(0deg)
+      -webkit-animation: outAnimation 1s
+      &.active
+        -webkit-animation: inAnimation 1s
+        -webkit-transform: rotate(180deg)
+      @-webkit-keyframes inAnimation
+        0%
+          -webkit-transform: rotate(-135deg)
+        100%
+          -webkit-transform: rotate(180deg)
+      @-webkit-keyframes outAnimation
+        0%
+          -webkit-transform: rotate(45deg)
+        100%
+          -webkit-transform: rotate(360deg)
+
+  .extendContent
+    display: none
+
+.totalMiddle
+  display: inline-block
+  vertical-align: middle
+
+.searchCheckbox
+  margin-right: 5px
+  .checkbox
+    margin: 3px auto 0 auto
+    label
+      padding-left: 10px
+      .lbl
+        &:before
+          margin-right: 3px
+  &.msgCheck
+    .checkbox
+      margin: 0 108px auto 5px
+      .checkbox-width
+        width: auto
+//scroll-bar style
+// https://codepen.io/kqlambert/pen/tbJCD?editors=1100
+//::-webkit-scrollbar
+//  width: .4em
+//  height: .4em
+//  overflow: visible
+//  border-radius: 4px
+
+
+//::-webkit-scrollbar-track
+//  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
+//  border-radius: 10px
+
+
+//::-webkit-scrollbar-thumb
+//  background: rgba(0,0,0,.2)
+//  overflow: visible
+//  border-radius: 4px
+
+//.cover-bar
+//  position: absolute
+//  background: #fff
+//  height: 100%
+//  top: 0
+//  right: 0
+//  width: .4em
+//  -webkit-transition: all .5s
+//  opacity: 1
+//.scroll-bar-wrap:hover .cover-bar
+//  opacity: 0
+//  -webkit-transition: all .5s

@@ -55,6 +55,9 @@ a
   @media screen and (max-width: 1030px)
     font-size: 12px
 /*-- optionSystem --/
+@mixin optionCircle($w:150px,$h:150px)
+  width: $w
+  height: $h
 .optionSystem
   .banner
     width: 100%
@@ -64,33 +67,53 @@ a
     line-height: $lineHeight22
   // optionSystem hover text
   .system-block-all
-    margin: 50px 0 0 0
-  .system-block
-    margin: 0 0 0 30px
     display: inline-block
-  .imgWrap
-    position: relative
-    display: inline-block
-    margin: 0 15px 0 0
-    span.text-content
-      background: rgba(0,0,0,0.5)
-      color: white
-      cursor: pointer
-      display: table
-      height: 150px
-      position: absolute
-      left: 0
-      top: 0
-      width: 150px
-      border-radius: 150px
-      opacity: 0
-    span.text-content span
-      display: table-cell
-      text-align: center
-      vertical-align: middle
-    &:hover .text-content
-      visibility: visible
-      opacity: 1
+    .system-block
+      display: inline-block
+      .imgWrap
+        +optionCircle
+        position: relative
+        display: inline-block
+        margin: 0 15px 0 0
+        .circle-bg
+          +optionCircle
+          +border-radius(50%)
+          border: 0px solid #000000
+          background: #438EB9
+          font-size: 36px
+          color: #fff
+          display: inline-block
+          padding: 49px 10px 0px 10px
+          text-align: center
+          vertical-align: top
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          &.circle-bg-blue
+            background: #438EB9
+          &.circle-bg-orange
+            background: $orange
+          &.circle-bg-green
+            background: $green
+        span.text-content
+          +optionCircle
+          background: rgba(0,0,0,0.5)
+          color: white
+          cursor: pointer
+          display: table
+          position: absolute
+          left: 0
+          top: 0
+          border-radius: 150px
+          opacity: 0
+          .optionTip
+            display: table-cell
+            text-align: center
+            vertical-align: middle
+        &:hover .text-content
+          visibility: visible
+          opacity: 1
+
 
 /*-- footer --*/
 .bacchus-footer
@@ -116,30 +139,32 @@ a
       margin-bottom: 5px !important
       width: 100%
       li
-        font-size: $font-16
+        font-size: $font-14
         background: #ffbb22
         color: #fff
         //padding: 5px 20px //edit 符合1024
-        padding: 3px 10px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
         text-align: center
         display: inline-block
         box-sizing: border-box
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #ffc666
-      li.active-01
-        background: #D15B47
+        &.active_01
+          background: #D15B47
 
   .secondMenu-ul
     margin: 5px 0 5px 10px
     ul
       margin-left: 0 !important
       li
-        //margin: 0 0 10px 0
         //padding: 3px 20px  //edit 符合1024
-        padding: 5px
+        padding: 3px 5px
         //min-width: 100px //edit 符合1024
         min-width: 80px
         max-width: 100%
@@ -148,6 +173,9 @@ a
         box-sizing: border-box
         color: #555
         cursor: pointer
+        margin-right: 4px
+        &:last-child
+          margin-right: 0
         &:hover
           background: #c6c6c6
           color: #fff
@@ -169,7 +197,7 @@ a
         &:hover
           background: #c6c6c6
           color: #fff
-      a.active-01
+      a.active_01
         background: #888
         color: #fff
     .icon-2-style
@@ -178,7 +206,7 @@ a
       //margin: 0 10px 3px //edit 符合1024
       margin: 0 3px
 
-/*-- top-sec-menu --*/
+/*-- standard-table --*/
 .standard-table
   width: 100%
   border-collapse: collapse
@@ -214,7 +242,7 @@ a
       margin: 5px auto
   .authRadio
     margin-right: 2px
-    //height: 11px
+  //height: 11px
   .tree-body
     padding: 5px
   .author-navbar
@@ -234,6 +262,7 @@ a
     max-height: 100%
     overflow: auto
     width: 100%
+
 /*-- singleGridDialogTmp 新增權限 --*/
 #singleGridDialog
   position: relative
@@ -270,10 +299,11 @@ a
     position: fixed
     bottom: 50px
 
+
 /*-- 訂房確認書 email --*/
 .reserveCheckMail
   .block-item
-    margin: 10px auto
+    //margin: 10px auto
     vertical-align: middle
     label, .spaceColon, input,button,textarea
       display: inline-block
@@ -288,8 +318,8 @@ a
       width: 15px
       text-align: center
       min-width: 15px
-    input
-      height: 30px
+    //input
+      //height: 30px
     button
       margin-left: 10px
     .block-item-content
@@ -304,7 +334,7 @@ a
       .tip
         position: absolute
         right: 0
-        bottom: -20px
+        bottom: -30px
         font-size: 0.85em
         color: #ff625f
 
@@ -318,6 +348,7 @@ a
     margin: 10px auto
     ul
       display: inline
+      margin-left: 0
       li
         display: inline
         margin: 0
@@ -328,6 +359,7 @@ a
 .search-content
   position: relative
   padding: 0 0 15px 0
+  //margin-left: 5px
   .search-co
     position: relative
     height: auto
@@ -363,11 +395,10 @@ a
                 border-radius: 32px
                 margin: 0 auto 4px auto
                 box-shadow: 2px 2px 3px rgba(20%,20%,40%,0.5)
-
     .search-co-content
       text-align: left
       border-collapse: collapse
-      .block-table
+      .grid-item
         label
           margin: 0 5px 0 0
           text-align: right
@@ -389,7 +420,7 @@ a
           padding: 3px 5px 4px 5px
           box-sizing: border-box
           cursor: pointer
-          //margin-top: -1px
+      //margin-top: -1px
       .search-footer-btn
         position: absolute
         right: 20px
@@ -415,7 +446,7 @@ a
         padding-top: 10px
         padding-bottom: 10px
         .search-footer-btn
-          top: -5px
+          top: -10px
       .searchCheckbox
         .checkbox
           margin: 3px auto 0 auto
@@ -425,13 +456,6 @@ a
               &:before
                 margin-right: 3px
 
-    .search-co-btn
-      background: #555
-      border: none
-      color: #fff
-      padding: 5px 20px
-      &:hover
-        background: #9b9b9b
 
 /*-- colorPicker 修改(假日類別設定) --*/
 .spectrumColor
@@ -442,6 +466,7 @@ a
   padding: 0 10px 0 5px
   box-sizing: border-box
   margin-left: -15px
+
 /*-- 訂房特殊版型 日期 --*/
 @mixin datePin($bk: #5367ff)
   background: $bk //#5367ff
@@ -483,7 +508,7 @@ a
             &:hover
               background: rgba(67, 142, 185, .7)
               border: 1px solid rgba(67, 142, 185, .7)
-              //color: #888
+      //color: #888
       .holidayDateSelect
         .datePin01
           +datePin($bk: #5367ff)
@@ -562,8 +587,8 @@ a
     .marginB-c1
       margin-bottom: 10px
   .bs-contribution-content
-    //.tab-block
-      //margin: 5px auto
+  //.tab-block
+    //margin: 5px auto
   .bs-changeRecord
     +bsCompany-content
     margin: 10px auto
@@ -586,6 +611,7 @@ a
       .txt
         margin: auto 5px
 
+
 //ho-修改業務員表格
 .ChangeBusiness-wrap
   .input-medium.medium-c1
@@ -604,7 +630,7 @@ a
     text-align: right
     margin-right: 5px
     margin-bottom: 0
-    //vertical-align: text-top
+  //vertical-align: text-top
   .single
     width: 600px
   .checkboxGrid
@@ -671,11 +697,11 @@ input[type="radio"], input[type="checkbox"]
     label
       &.checkLabel
         width: 40px
-  //查詢結果表格
+//查詢結果表格
 .result-panel-body
   td
     padding: 3px !important
-  //新增拜訪編輯
+//新增拜訪編輯
 .NewVisitRecord-wrap
   margin: 10px 0
 .newVisit-textarea
@@ -768,16 +794,26 @@ ul.newVisitOther-btn
   .contentInput
     width: 78.5%
     margin-left: 3px
+  .textArea-w1
+    width: 414px
+    margin-left: 3px
 //reservationRoomType.ejs 右上列資料
 .resvTabs-topTxt
   position: absolute
-  right: 15px
-  top: 10px
+  right: 0
+  //top: 10px
   z-index: 2
   .resvTabs-content
     span
-      padding-left: 15px
-      padding-right: 15px
+      padding-left: 5px
+      padding-right: 5px
+      &.subCon
+        font-weight: bold
+      &.subCon
+        color: #8A8A8A
+        min-width: 40px
+        max-width: 100%
+
 // reservationRoomType.ejs 訂房卡table資料
 // margin-left: 25px 看html-->min-width
 .resvCard-data
@@ -785,12 +821,842 @@ ul.newVisitOther-btn
   span
     padding-right: 20px
 
-//Ho-鎖控
-.blcokSetting
-  .block-table
+// 訂房卡 changeLog
+.resv-changeRecord
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item
+      width: 23%
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+// 訂房卡 Memo
+.resv-memo
+  +bsCompany-content
+  margin: 5px auto
+  border-left: 2px solid #D15B47
+  border-bottom: 1px solid #eee
+  &:first-child
+    margin: 0 auto 5px auto
+  .grid
+    .grid-item-1
+      width: 30%
+      height: auto
+    .grid-item-2
+      height: auto
+    .grid-item-left
+      //width: 12.6%
+      float: left
+    .grid-item-right
+      float: left
+      width: 80%
+    .changeRecord-txt2
+      word-break: break-all
+      word-wrap: break-word
+
+// PMS0110000 訂房卡 分帳規則
+.rulesOfSeparation
+  //position: relative
+  max-height: 600px
+  overflow: auto
+  .counterRow
+    //margin: 0 auto
+    .counterBlock
+      float: left
+      margin: 0 1px 1px 0
+      border: 2px solid #fff
+      position: relative
+      padding: 5px
+      //min-width: 100%
+      //min-height: 100%
+      width: 129px
+      height: 55px
+      line-height: 23px
+      box-sizing: border-box
+      background: #c0d6ee
+      color: #000
+      cursor: pointer
+      @include color-bk
+      &:hover
+        opacity: 0.6
+      .head
+        .left
+          position: absolute
+          top: 5px
+          left: 5px
+        .right
+          position: absolute
+          top: 5px
+          right: 5px
+        .txt-lg
+          font-weight: bold
+          font-size: 18px
+          line-height: 18px
+      .content
+        position: absolute
+        top: 25px
+        left: 5px
+        span
+          width: 103px
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          display: inline-block
+          vertical-align: top
+      .content-sub
+        .left
+          position: absolute
+          top: 45px
+          left: 5px
+      .foot
+        position: absolute
+        bottom: 5px
+        left: 5px
+        .red-tip
+          span
+            color: #ff0000
+      //font-weight: bold
+      //font-size: 14px
+      .foot-right
+        position: absolute
+        bottom: 5px
+        right: 5px
+        span
+          color: #D15B47
+
+// PMS0210020 綜合櫃檯
+.foCounter
+  .counterPage
+    //position: relative
+    max-height: 600px
+    overflow: auto
+    .counterRow
+      //margin: 0 auto
+      .counterBlock
+        float: left
+        margin: 0 1px 1px 0
+        border: 1px solid #fff
+        position: relative
+        padding: 5px
+        //min-width: 100%
+        //min-height: 100%
+        width: 129px
+        height: 74px
+        line-height: 23px
+        box-sizing: border-box
+        background: #c0d6ee
+        color: #000
+        font-size: 11px
+        cursor: pointer
+        @include color-bk
+        &:hover
+          opacity: 0.6
+        .head
+          .left
+            position: absolute
+            top: 5px
+            left: 5px
+          .right
+            position: absolute
+            top: 5px
+            right: 5px
+          .txt-lg
+            font-weight: bold
+            font-size: 18px
+            line-height: 18px
+        .content
+          position: absolute
+          top: 25px
+          left: 5px
+        .content-sub
+          .left
+            position: absolute
+            top: 45px
+            left: 5px
+        .foot
+          position: absolute
+          bottom: 5px
+          left: 5px
+          .red-tip
+            span
+              color: #ff0000
+        //font-weight: bold
+        //font-size: 14px
+        .foot-right
+          position: absolute
+          bottom: 5px
+          right: 5px
+          span
+            color: #D15B47
+
+  .counter-right
+    min-height: 200px
+    max-height: 100%
+    overflow-y: auto
     label
-      width: 120px !important
+      font-size: 9px
+
+  // int_counter floorPlan-table
+  .floorPlan-table
+    table
+      border: 1px solid #a0a8b4
+      width: 100%
+      th,td
+        border: 1px solid #a0a8b4
+        padding-left: 2px
+      tr
+        th
+          background: #c0d6ee
+        td
+          word-break: break-all
+          .moreInfo
+            background: #bfbfbf
+            border: none
+            float: right
+            height: 20px
+          .float-left
+            float: left
+          .float-right
+            float: right
+          &.roomNum
+            box-sizing: border-box
+            font-size: 1.5em
+            font-style: italic
+            font-weight: bold
+            color: #DD5A43
+            border: 2px solid #DD5A43
+    .customInfo-table
+      width: 100%
+      .table-left,.table-right
+        float: left
+      .table-left
+        width: 25%
+        margin: 0 3% 0 0
+      .table-right
+        width: 72%
+    .fav
+      table
+        width: 100%
+        th
+          width: 20%
+        td
+          width: 80%
+
+  //.show-intCounterRight
+  //  display: none
+  .intCounterRight
+    display: none
+  .intCounterleft
+    position: relative
+  .show-intCounterRight
+    float: right
+    display: block
+    i
+      border: 1px solid #8fbcd9
+      padding: 3px 10px
+      cursor: pointer
+    color: #70a0c1
+    //line-height: 1.42857143
+    span
+      margin: 0 0 0 2px
+      font-size: 14px
+      line-height: 2
+
+
+//Ho-鎖控
 .bloch-btn-single
   margin-bottom: 137px
-.blcokSetting-heading
+.blockSetting-heading
   font-size: 16px
+
+//ho改holidayDateSet
+.holidayDateSet .holidayDateSet-content .holidayDateGrid .weekDate .choiceDay:active
+  background-color: #438EB9
+  color: #fff
+
+//ho 接送機
+.resvBtn-group
+  margin-top: 30px
+.reservation-pickUp-wrap .right-menu-co
+  margin-top: 30px
+
+//ho批次修改
+.input-medium.medium-c5
+  width: 300px
+  max-width: 100%
+  height: 25px
+
+//ho訂房卡列印、列印預覽
+.print-preview-content
+  .main-content-data
+    width: 650px
+    margin: 20px auto 0 auto
+.print-preview-content
+  border: 1px solid blue
+  margin: 15px
+  display: inline-block
+  padding: 0 15px
+  padding-bottom: 20px
+  h4
+    text-align: center
+  .grid-item
+    width: 48%
+    text-align: center
+    label
+      width: 90px
+    span
+      display: inline-block
+      width: 160px
+      text-align: left
+      margin-top: 5px
+.grid-border
+  border: 1px solid #000
+  width: 100%
+  display: inline-block
+.grid-item.grid-item3
+  width: auto
+  text-align: left
+  span
+    display: inline
+.print-preview-container
+  .horizTable-outer
+    overflow-x: hidden
+    border-top: 1px solid #000
+    padding: 10px 0
+    border-bottom: 1px solid #000
+    margin-bottom: 20px
+.preview-textBox
+  width: 80%
+  margin: 0px auto
+.signal-select
+  width: 95%
+  margin: 31px auto 0 auto
+#reservationDialog-confirm-print,
+#reservationDialog-print
+  overflow-y: hidden
+.preview-textBox
+  p
+    font-size: 14px
+.en-text
+  line-height: 1.4
+.printTableSec
+  margin-top: 20px
+.confirm-preview-content
+  .main-content-data
+    width: 80%
+    margin: 20px auto 0 auto
+.confirm-preview-content
+  border: 1px solid blue
+  margin: 15px
+  display: inline-block
+  padding: 0 15px
+  padding-bottom: 20px
+.preview-textBox
+  .grid-item
+    margin: auto 10px 0 auto
+.rvType-top
+  width: 360px
+  margin: 0 auto
+  margin-top: 15px
+  .right-menu-co
+    vertical-align: top
+    display: inline-block
+    margin-left: 20px
+    li
+      margin-left: 2px
+      display: inline-block
+      padding: 0
+      button
+        padding: 3px 11px
+    li:first-child
+      padding: 0
+.rvType-grid
+  display: inline-block
+  select
+    border-radius: 5px
+.rvType-w1
+  width: 170px
+  max-width: 100%
+  height: 25px
+.rvType-code
+  background-color: #82b9ae
+  color: #fff
+.rvType-table-container
+  margin-top: 10px
+
+//ho changeRecords表格
+.dropdown-select
+  margin-bottom: 15px
+  .btn-group
+    .btn
+      .caret
+        margin-top: 0
+.table-temporarily
+  width: 500px
+  margin-bottom: 15px
+  .horizTable-outer .css_table.horizTable td,
+  .horizTable-outer .css_table.horizTable th
+    padding: 6px
+  .horizTable-outer .css_table .css_th
+    background: linear-gradient(#eee, #c4c4c4 )
+
+//ho 房號訂房首頁
+.plan-btn-group
+  text-align: center
+  width: 300px
+  margin: 0 0 4px 0
+  ul
+    margin-left: 0
+    margin-bottom: 0
+    li
+      list-style: none
+      display: inline
+      button
+        border: 0
+      span
+        font-weight: bold
+.btn-inlineWidth
+  width: 19%
+  padding: 3px 9px
+  font-size: 12px
+  padding-left: 0
+  padding-right: 0
+  white-space: normal
+.roomPlan-btn
+  margin-top: 42px
+.roomPlan-table
+//min-width: 100%
+.empty-color
+  background: #e3efdb !important
+.room-color
+  background: #ffe5d5 !important
+.name-color
+  background: #e3efdb !important
+  text-align: center
+.datecolor
+  background: #DAEAFC !important
+//.roomPlanTable
+.room-table-container
+  overflow-y: auto
+  display: block
+  .roomPlan-table
+    .ca-center
+      i
+        margin-top: 7px
+        margin-left: 5px
+    .room-color
+      i
+        margin-left: 4px
+        padding: 0
+.roomPlan-Num
+  position: absolute
+  right: 4%
+  border-left: 1px solid #888
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
+.roomPlan-Num2
+  //position: absolute
+  //right: calc(100% - 79%)
+  border-left: 1px solid #888
+  padding-left: 5px
+  padding-right: 5px
+  padding-bottom: 1px
+th.dateColor
+  text-align: center
+.roomPlanTable.fancyTable tbody tr td .datecolor
+  background-color: #DAEAFC !important
+.roomPlanTable td,
+.roomPlanTable th
+  //min-width: 30px
+  white-space: nowrap
+.roomPlanTable thead:first-child
+  min-width: 200px
+.fancyTable.roomPlanTable tbody tr td
+  background-color: #DAEAFC
+  color: #262c31
+
+//ho 其他聯絡人彈出視窗
+.otherContact-box
+  margin-top: 20px
+  font-size: 14px
+.otherContact-insideBtn
+  margin-top: 70px
+
+//.message-lbl
+//  position: relative
+//  display: inline-block
+//  margin: 0
+//  line-height: 20px
+//  min-height: 18px
+//  width: 100px
+//  font-weight: normal
+//  cursor: pointer
+
+.message-wrap .checkbox
+  display: inline-block
+.message-wrap .checkbox label input[type=checkbox].ace + .lbl
+  width: 100px
+.marginLeft-57
+  margin-left: 57px
+.marginLeft-93
+  margin-left: 93px
+.marginLeft-30
+  margin-left: 30px
+.marginBottom-10
+  margin-bottom: 10px
+.input-medium.input-fourlb
+  width: 419px
+.input-medium.input-fourlb2
+  width: 395px
+.text-top
+  vertical-align: top !important
+.input-h70
+  height: 70px !important
+.input-medium.medium-157
+  width: 157px
+  max-width: 100%
+  height: 25px
+.suggestion-wrap-mid label
+  width: 55px
+  text-align: right
+  margin-right: 0
+.input-medium.resvCard-xxs
+  width: 23px
+  max-width: 100%
+  height: 25px
+.sug-btn
+  margin-bottom: 10px
+.input-medium.medium-c4
+  width: 176px
+  max-width: 100%
+  height: 25px
+.input-medium.input-spc-2
+  width: 455px
+  max-width: 100%
+  height: 25px
+  height: 25px
+.input-medium.input-more-1
+  width: 431px
+  max-width: 100%
+  height: 25px
+  height: 25px
+.input-medium.input-spc-3
+  width: 349px
+  max-width: 100%
+  height: 25px
+input[type="datetime-local"]
+  font-size: 10px
+.input-hCol35
+  height: 35px !important
+.suggestion-btnGroup
+  width: 70%
+  margin: 20px auto 0 auto
+.th-h30
+  height: 40px
+.roomNum-wrap
+  border-top: 1px solid #778899
+  height: 19px
+  margin-bottom: 0
+  //display: table-cell
+  .roomNum-text
+    margin-left: -23%
+    i
+      padding-right: 0 !important
+//.month-wrap
+//  padding: 3px 0
+.room-Num-Right
+  border-left: 1px solid #778899
+//display: inline-block
+////height: 30px
+//padding-right: 3px
+.room-Num-Left
+  display: inline-block
+//height: 30px
+span.roomNum-text
+  //vertical-align: sub
+  padding-left: 3px
+.roomPlanTable .height-fntThead
+  padding-bottom: 0px !important
+////ho 備品表格td寬度
+.input-medium.resvCard-xxs
+  width: 27px
+  height: 18px
+//td div.triangle-box
+//  width: 100%
+//  line-height: 20px
+//  background: mediumaquamarine
+//  -webkit-clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
+//  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
+
+//ho-表格td長六角形
+td div.triangle-box
+  width: 80%
+  height: 19px
+  /* margin-left: 18px; */
+  margin: 0px auto
+  color: #000
+  position: relative
+  background-color: #f8cbac !important
+
+td div.triangle-box:before,
+td div.triangle-box:after
+  content: ""
+  border-style: solid
+  border-width: 0
+  height: 19px
+  position: absolute
+  width: 0
+  border-color: transparent #f8cbac
+
+
+td div.triangle-box:before
+  left: -10px
+  border-width: 9px 10px 9px 0px
+
+td div.triangle-box:after
+  right: -10px
+  border-width: 9px 0 9px 10px
+
+//ho-分帳規則
+.cashierSetting-btn-wrap
+  margin-top: 10px
+
+.rules-notice
+  color: red
+.rules-wrap
+  margin-bottom: 30px
+//.rules-wrap .counterRow .counterBlock
+//  //background: #8080ff
+.purple-text
+  color: #DD5A43 !important
+
+.cashierSetting-left
+  &.css_table
+    .css_td
+      background: #e6e6ff
+      &.active
+        background: #fff !important
+        color: #000 !important
+span
+  &.triangle-text
+    width: 100%
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+.month-wrap
+  width: 90%
+  margin: 0 auto
+  padding: 5px 0
+.roomPlanTable
+  .col-xs-6
+    text-align: center
+    display: inline-table
+
+.cashier-top-wrap
+  margin: 15px 15px
+  padding-top: 10px
+
+.rulesOfSeparation
+  .counterBlock
+    span
+      width: 70px
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+      display: inline-block
+
+//Lost&found
+.lost-found-wrap
+  .grid-item
+    label
+      width: 120px
+//pbx
+.pbx-clean-box
+  //width: 360px
+  padding-top: 7px
+  fieldset
+    display: block
+    //height: 300px
+    border: 1px solid #000
+    padding: 12px
+    legend
+      width: auto
+      border-bottom: 0px
+      margin-bottom: 3px
+  hr
+    clear: both
+.green-box
+  width: 70px
+  height: 25px
+  border-radius: 5px
+  float: right
+  background: green
+  margin-left: 5px
+  border: 1px solid #D5D5D5
+.single-grid
+  width: 300px
+.pbxPhone-box
+  margin-top: 14px
+  .grid
+    width: 70%
+    margin: 0 auto
+    button
+      width: 100%
+      margin-bottom: 11px
+//L&F
+.lf-btn-box
+  ul
+    li
+      button
+        margin-bottom: 5px
+.lf-more-topWrap
+  margin-bottom: 5px
+
+//已結帳處理
+.historyLedger-wrap
+  .historyLedger-details-btn
+    margin-top: 30px
+  .reserveShopInfo
+    .title
+      color: blue
+      font-weight: bold
+      font-size: 14px
+.input-medium.medium-c1-410
+  width: 410px
+  max-width: 100%
+  height: 25px
+.input-medium.medium-xs-82
+  width: 82px
+  max-width: 100%
+  height: 25px
+//彈出視窗 PM 設定公帳號
+.paSetting-wrap
+  border-bottom: 1px solid #0063ae
+  margin-bottom: 12px
+  .grid
+    button
+      width: 25% !important
+.paChoosed-wrap
+  select
+    border-color: #8aafce
+    color: #537c9f !important
+    margin-bottom: 5px
+.paBuild-wrap
+  .main-content-data
+    margin-top: 15px
+    .pa-auto-btn
+      width: 15%
+//異動紀錄
+.input-medium.width-122
+  width: 122px
+  max-width: 100%
+  height: 25px
+.input-medium.width-263
+  width: 257px
+  max-width: 100%
+  height: 25px
+.custab
+  border: 0px solid #ccc
+  padding: 5px
+  margin: 2% 0
+  box-shadow: 3px 3px 2px #ccc
+  thead
+    tr
+      background: #549bdb !important
+      background-image: none
+      color: #fff
+      th
+        border: 1px solid #fff !important
+  tbody
+    tr
+      &:nth-child(odd)
+        background-color: #d2ddf1
+      &:nth-child(even)
+        background-color: #f3f3f7
+      td
+        border: 1px solid #fff !important
+        color: #000
+.grayBg
+  background: #EEEEEE !important
+//排房作業
+.qt1
+  background: #b94db3
+.qt2
+  background: #a0563d
+//夜核
+.ttrial-table
+  margin-top: 20px
+  thead
+    border-top: 2px solid #000
+    border-bottom: 2px solid #000
+    tr
+      background: #fff !important
+      background-image: none !important
+      th
+        border-bottom: 0
+        &.ttrial-th
+          span + span
+            margin-left: 10px
+  tbody
+    tr
+      &:nth-of-type(odd)
+        background: #F0F3F5
+      td
+        &.ttrial-price
+          span
+            display: inline-block
+            width: 49px
+            text-align: right
+        .test
+          margin-left: 30px
+.lineHeight17
+  line-height: 1.7
+.ttrial-noice
+  font-size: 14px
+  margin-left: 86px
+
+// 大標樣式
+.titleInfo
+  //border: 1px solid #eee
+  .titleInfo-head
+    padding-top: 5px
+    padding-bottom: 0
+    border-bottom: 1px solid #eee
+    margin: 5px auto
+    .titleInfo-title
+      font-size: $font-lg
+    p
+      margin-bottom: 0
+  .textarea-title
+    margin: 10px auto
+
+
+// 陰影
+.div_shadow
+  +box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
+
+//排房active
+.townBlock
+  &.active
+    border: 5px solid red
+    padding: 1px !important
+.roomAssign
+  .select-group
+    display: inline
+.margin-right-5
+  margin-right: 5px

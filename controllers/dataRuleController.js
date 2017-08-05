@@ -1,8 +1,8 @@
 /**
  * Created by Jun on 2017/3/7.
  */
-var ruleSVC = require("../services/dataRuleService");
-var commonTools = require("../utils/commonTools");
+var ruleSVC = require("../services/DataRuleService");
+var commonTools = require("../utils/CommonTools");
 
 /**
  * 欄位規則檢查
@@ -10,10 +10,10 @@ var commonTools = require("../utils/commonTools");
 exports.chkFieldRule = function (req, res) {
 
     /** req.body :
-         prg_id         : 程式代號
-         validateField  : 要驗證的欄位
-         singleRowData  : 此筆明細全部資料
-         rule_func_name : 欄位規則函數
+     prg_id         : 程式代號
+     validateField  : 要驗證的欄位
+     singleRowData  : 此筆明細全部資料
+     rule_func_name : 欄位規則函數
      **/
     ruleSVC.handleBlurUiField(req.body, req.session, function (err, result) {
 
@@ -21,6 +21,12 @@ exports.chkFieldRule = function (req, res) {
 
     });
 
+};
+
+exports.chkDtFieldRule = function (req, res) {
+    ruleSVC.handleClickUiRow(req.body, req.session, function(err, result){
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
 };
 
 /**
@@ -47,6 +53,13 @@ exports.editFuncRule = function (req, res) {
  */
 exports.deleteFuncRule = function (req, res) {
     ruleSVC.handleDeleteFuncRule(req.body, req.session, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
+//TODO: 小良Rule完成後可刪
+exports.getKeyNos = function(req, res){
+    ruleSVC.getKeyNos(req.body, req.session, function(err, result){
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
 };

@@ -26,7 +26,7 @@
     }
 </style>
 <script type="text/x-template" id="fieldMultiLangDialogTmp">
-    <div id="fieldMultiLangTmpDialog" style="display: none;">
+    <el-dialog :title="" :visible.sync="showMultiLangDialog" size="tiny">
 
         <table class="langTable" style="margin-top: 20px" align="center">
 
@@ -35,26 +35,18 @@
                 <td> {{locale.name}}</td>
                 <td>
 
-                    <!--<input v-model="fieldMultiLang[locale.lang][editingLangField]" data-locale="{{locale.lang}}"-->
-                           <!--:id="editingLangField"-->
-                           <!--value="{{multiLangContentList | filterLocaleContent locale.lang editingLangField}}"-->
-                           <!--class="multi_lang_input">-->
+                    <input :data-locale="locale.lang"
+                           :id="editingLangField"
+                           :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) "
+                           class="multi_lang_input">
                 </td>
             </tr>
             </tbody>
         </table>
-    </div>
-    <div class="col-sm-12 col-xs-12 center" id="fieldMultiDialogBtns" style="display: none;">
-        <div class="singleRelative">
-            <div class="singleBtnBottom">
-                <button class="btn btn-primary btn-white" @click="saveFieldMultiLang">
-                    <%= __("SystemCommon").OK %>
-                </button>
-                <button class="btn btn-primary btn-white" @click="closeFieldMultiLangDialog">
-                    <%= __("SystemCommon").Cancel %>
-                </button>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="closeFieldMultiLangDialog"><%= __("SystemCommon").Cancel %></el-button>
+            <el-button type="primary" @click="saveFieldMultiLang">  <%= __("SystemCommon").OK %> </el-button>
+        </span>
+
+    </el-dialog>
 </script>

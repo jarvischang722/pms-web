@@ -6,9 +6,13 @@
         <statement><![CDATA[
           select type, rv_typ, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr, athena_id, hotel_cod
           from rvtyp_dt
-          where athena_id = :athena_id and type = :type
+          where trim(athena_id) = trim(:athena_id)
+          and trim(hotel_cod) = trim(:hotel_cod)
+          and type = :type
+
         ]]></statement>
         <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="int" kind="3">hotel_cod</parameter>
         <parameter type="int" kind="3">type</parameter>
     </dao>
 

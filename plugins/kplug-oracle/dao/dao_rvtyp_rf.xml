@@ -6,10 +6,11 @@
         <statement><![CDATA[
             select  athena_id, hotel_cod ,type, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr
             from rvtyp_rf
-            where athena_id = ?
+            where athena_id = ? and trim(hotel_cod) = ?
         ]]></statement>
 
         <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="int" kind="1">hotel_cod</parameter>
     </dao>
 
     <!-- 取得訂房分類資料-->
@@ -17,10 +18,11 @@
         <statement><![CDATA[
             select  athena_id, hotel_cod ,type, typ_nam, ins_dat, ins_usr, upd_dat, upd_usr
             from rvtyp_rf
-            where athena_id = ? and  type = ?
+            where athena_id = ? and  trim(hotel_cod) = ? and type = ?
         ]]></statement>
 
         <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="int" kind="1">hotel_cod</parameter>
         <parameter type="int" kind="1">type</parameter>
     </dao>
 

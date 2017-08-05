@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="/css/easyUI/easyui.css">
 <link rel="stylesheet" type="text/css" href="/css/easyUI/icon.css">
 <link rel="stylesheet" type="text/css" href="/css/easyUI/demo.css">
+<!-- 多選chosen -->
+<link rel="stylesheet" href="/css/chosen/chosen.css" />
+
 <!-- color picker 套件 -->
 <link rel="stylesheet" type="text/css" href="/css/spectrum/spectrum.css">
 <link rel="stylesheet" type="text/css" href="/css/spectrum/docs/docs.css">
@@ -29,6 +32,12 @@
 <link rel="stylesheet" href="/css/remodal.css">
 <link rel="stylesheet" href="/css/remodal-default-theme.css">
 
+<!-- dropzone 圖片上傳套件  -->
+<link rel="stylesheet" href="/css/dropzone/dropzone.css">
+
+<!-- jsTree -->
+<link rel="stylesheet" href="/css/jsTree/jsTree.min.css">
+
 <!-- 自定義style 擺最後 -->
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/bacchusStyle.css">
@@ -44,12 +53,12 @@
 <script src="/js/bootstrap/bootstrap.js"></script>
 <script src="/js/ace.js"></script>
 <script src="/js/ace.sidebar.js"></script>
-
 <!-- socket.io -->
 <script src="/js/socket.io.js"></script>
 
 <!-- boostrap modal -->
 <script src="/js/modal-dialog.js"></script>
+
 
 <!-- Load i18n 語系內容-->
 <%-include i18nLang.ejs%>
@@ -63,11 +72,21 @@
 <script src="/js/jquery/jquery.js"></script>
 <script type="text/javascript" src="/js/easyUI/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/js/easyUI/columns-ext.js"></script>
-
+<script>
+    //remodal 套件全域變數設定, 需放在remodal.js套件前
+    window.REMODAL_GLOBALS = {
+        DEFAULTS: {
+            hashTracking: false  //打開modal 時網址不出現 hash #
+        }
+    };
+</script>
 <script type="text/javascript" src="/js/remodal.min.js"></script>
 
+<!-- 多選chosen -->
+<script src="/js/chosen/chosen.jquery.js"></script>
 <!-- vue 套件 -->
 <script src="/js/vue/vue.min.js"></script>
+<script src="/js/vue/vee-validate.min.js"></script>
 <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
 <!-- Element JS for Vue.js  -->
 <script src="/js/element_ui/element.js"></script>
@@ -76,14 +95,16 @@
 <script src="/js/element_ui/locales/zh_TW.js"></script>
 <script src="/js/element_ui/locales/ja.js"></script>
 <script src="/js/element_ui/locales/ko.js"></script>
+
+
 <script>
-     var ls_locale = '<%=session.locale%>';
-    ELEMENT.locale(ELEMENT.lang[ls_locale.replace("_","")])
+     var gs_locale = '<%=session.locale%>';
+    ELEMENT.locale(ELEMENT.lang[gs_locale.replace("_","")])
 </script>
 <!-- 驗證easyUI 欄位自訂義規則 -->
-<script  type="text/javascript" src="/js/easyUI/extendValidation.js" ></script>
+<script type="text/javascript" src="/js/easyUI/extendValidation.js" ></script>
 
-<script  type="text/javascript" src="/js/easyUI/datagridForEasyUI.js" ></script>
+<script type="text/javascript" src="/js/easyUI/datagridForEasyUI.js" ></script>
 
 
 <!-- underscore 套件 -->
@@ -113,15 +134,18 @@
 <!-- 全頁日曆 -->
 <script src="/js/bs-calendar/bootstrap-year-calendar.min.js"></script>
 
-<!-- 警式視窗彈出 -->
-<script src="/js/gritter/jquery.gritter.min.js"></script>
-<!--fixTable-->
-<script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
+<!--treeTable-->
 <script type="text/javascript" src="/js/tree/jquery.treetable-ajax-persist.js"></script>
 <script type="text/javascript" src="/js/tree/jquery.treetable-3.0.0.js"></script>
 <script type="text/javascript" src="/js/tree/persist-min.js"></script>
+<!--fixTable-->
+<script type="text/javascript" src="/js/fixTable/jquery.fixedheadertable.js"></script>
 
+<!-- 警式視窗彈出 -->
+<script src="/js/gritter/jquery.gritter.min.js"></script>
 
+<!-- 多選chosen -->
+<script src="/js/chosen/chosen.jquery.js"></script>
 <!-- datagrid 類別 -->
 <script type="text/javascript" src="/js/easyUI/DatagridBaseClass.js"></script>
 
@@ -129,6 +153,12 @@
 <script src="/js/axios/axios.min.js"></script>
 
 <!-- easyui diolg 預設z-index 9000  會影響到element ui -->
+
+<!-- dropzone 上傳圖片套件 -->
+<script src="/js/dropzone/dropzone.js"></script>
+
+<!-- jsTree -->
+<script src="/js/tree/jstree.min.js"></script>
 <style>
      .panel.window {
           z-index: 1500 !important;

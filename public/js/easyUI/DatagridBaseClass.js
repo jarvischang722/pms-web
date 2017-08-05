@@ -17,30 +17,41 @@ function DatagridBaseClass() {
     this.dgName = "";
     this.prg_id = "";
     this.page_id = 1;
-    this.fieldData = [];
+    this.fieldsData = [];
     this.editIndex = undefined;
 
-    //datagrid 初始化
-    this.init = function (prg_id, dgName, columns) {
+    /**
+     * datagrid 初始化
+     * @param prg_id {String} : 程式編號
+     * @param dgName {String} : datagrid Table name
+     * @param columns {Array} : 給datagrid讀取的欄位
+     * @param fieldsData {Array} : 程式所有欄位資訊
+     * @param options {Object} : 選項
+     */
+    this.init = function (prg_id, dgName, columns, fieldsData, options) {
         self.prg_id = prg_id;
         self.dgName = dgName;
         self.columns = columns;
+        self.fieldsData = fieldsData;
+        if (!options) {
+            options = {};
+        }
         $('#' + dgName).datagrid({
             columns: [columns],
             remoteSort: false,
-            singleSelect: true,
+            singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: true,
             checkOnSelect: true,
             width: "100%",
             onClickCell: this.onClickCell,
+            onClickRow: this.onClickRow,
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
-            onResizeColumn: this.doSaveColumnFields  //當欄位時寬度異動時
-            // onSortColumn: function () {
-            //     $("#dgCheckbox").datagrid('uncheckAll');
-            // }
+            onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
+            onSortColumn: this.doSortColumn,
         }).datagrid('columnMoving');
     };
+
 
     /**
      * 新刪修暫存容器 初始化
@@ -86,7 +97,7 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
-    //結束編輯
+//結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         row = self.filterRowData(row);
@@ -121,10 +132,25 @@ function DatagridBaseClass() {
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
             return true;
-        } 
-            return false;
-        
+        }
+        return false;
+
     };
+
+    /**
+     * 排序觸發事件
+     */
+    this.doSortColumn = function () {
+    };
+
+    /**
+     * 按下Row 事件
+     * @param index {Number}
+     * @param row  {Object}
+     */
+    this.onClickRow = function (index, row) {
+    };
+
 
     /**
      * 新增一個Row
@@ -188,16 +214,8 @@ function DatagridBaseClass() {
 
         _.each(allField, function (field, fIdx) {
             var currentColumOption = $('#' + self.dgName).datagrid("getColumnOption", field);
-            var ui_type = currentColumOption.ui_type;
-            var columnOption = {
-                "prg_id": prg_id,
-                "ui_field_name": field,
-                "ui_type": ui_type,
-                "col_seq": fIdx,
-                "visiable": "Y"
-            };
-            columnOption = _.extend(columnOption, currentColumOption);
-            saveField.push(columnOption);
+            currentColumOption.col_seq = fIdx;
+            saveField.push(_.extend(currentColumOption));
         });
 
         $.post("/api/saveFieldOptionByUser", {
@@ -212,9 +230,12 @@ function DatagridBaseClass() {
      * @param rowData 要處理的那筆資料
      */
     this.doTmpExecData = function (rowData) {
+
+
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
-        var keyVals = _.pluck(_.where(this.columns, {keyable: 'Y'}), "field");
+        var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
+
         var condKey = {};
         _.each(keyVals, function (field_name) {
             condKey[field_name] = rowData[field_name] || "";

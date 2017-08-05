@@ -1,0 +1,680 @@
+<html lang="en">
+<head>
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div class="col-xs-11 col-sm-11">
+            <table id="cashierRule-table" style="height: 300px; display: inline;"></table>
+        </div>
+        <div class="col-xs-1 col-sm-1">
+            <div class="row">
+                <div class="right-menu-co">
+                    <ul>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth cashierSetting-btn"
+                                    role="button">Add</button>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">Modify</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+<!-- 分帳規則 cashierSettingDialog 彈出視窗 -->
+<div id="cashierSettingDialog" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+
+            <div class="row">
+                <div class="main-content-data borderFrame cashier-top-wrap">
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>規則代號</label>
+                            <input type="text" class="input-medium resvCard" placeholder="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>規則名稱</label>
+                            <input type="text" class="input-medium resvCard-col2" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-11 col-sm-11">
+                    <div class="main-content-data">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="row">
+                                        <div class="horizTable-outer">
+                                            <table class="css_table horizTable center table-lg cashierSetting-left">
+                                                <thead class="css_thead">
+                                                <tr class="css_tr">
+                                                    <th class="css_th center" style="min-width:130px;">Folio No.</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="css_tbody">
+                                                <tr class="css_tr">
+                                                    <td class="css_td active">1</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">2</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">3</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">4</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">5</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">6</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">7</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">8</td>
+                                                </tr>
+                                                <tr class="css_tr">
+                                                    <td class="css_td">9</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-10 col-sm-10">
+                                    <div class="row">
+                                        <div class="main-content-data borderFrame">
+                                            <div class="rulesOfSeparation rules-wrap">
+                                                <div class="counterRow">
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">0801</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>333</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">0802</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <span>444</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <span>其他收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">101</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>客房收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">102</span>
+                                                            <span class="right purple-text">丟公帳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>其他收入-客房</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">103</span>
+                                                            <span class="right purple-text">丟公帳</span>
+
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>服務費收入-客房</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock active">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">104</span>
+                                                            <span class="right purple-text">丟公帳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>預估早餐拆帳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">105</span>
+                                                            <span class="right purple-text">丟公帳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>預估套裝假期拆帳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1801</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>沿著捷運旅行</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1903</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>LLL</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1904</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>JJJ</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1905</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>NNN</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1A</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>1收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1B</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>B收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1C</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>C收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">1D</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>D收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">2</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>2收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">20</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>dde</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">201</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>食品</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">202</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>飲料</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">203</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>租金</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">204</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>服務費收入-餐廳</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">205</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>其他收入</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">206</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>餐飲折 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">211</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>預估轉收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">301</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>藝品賣店收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">401</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>電話費收入-國內</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">402</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>電話費收入-國際</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">403</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>電話費收入-市內</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">501</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>門票收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">502</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>遊樂活動券收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">601</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>會員入會費收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">602</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>健身俱樂部收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">701</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>果嶺費收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">702</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>球場租車收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">703</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>球場租桿收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">704</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>球場代收保險費 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">705</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>球場租鞋收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">706</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>加洞果嶺費 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">707</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>陪走收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">708</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>清潔費 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">709</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>球具收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">710</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>出發台收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">711</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>代收桿弟費 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="counterBlock">
+                                                        <div class="head">
+                                                            <span class="left txt-lg">801</span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="content">
+                                                            <i class="fa fa-check red"></i>
+                                                            <span>洗衣收入 </span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div><!--main-content-data-->
+                                        <div class="clearfix"></div>
+                                        <div class="col-sm-12" style="display: none">
+                                            <span class="rules-notice">
+                                                在畫面上點選小分類時: <br>
+                                             點選一下:入帳時將此小分類的帳一致左測所選的帳夾編號內 <br>
+                                             點選二下:入帳時將此小分類的帳移至[公帳號]內的左測所選的帳夾編號
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--main-content-data-->
+
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">離開</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">移至公帳號</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.分帳規則 cashierSettingDialog -->
+
+
+</body>
+
+<script>
+    // 彈出　公帳號
+    $(document).on('click', ".cashierSetting-btn", function (e) {
+        e.preventDefault();
+        var dialog = $("#cashierSettingDialog").removeClass('hide').dialog({
+            modal: true,
+            title: "公帳號",
+            title_html: true,
+            width: 1000,
+            maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+    });
+    $('#cashierRule-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '../../jsonData/cashier.json',
+        method: 'get',
+        columns: [[
+            {field: 'ruleCode', title: '規則代號', width: 100},
+            {field: 'ruleName', title: '規則名稱', width: 200},
+            {field: 'importDate', title: '輸入日', width: 150},
+            {field: 'importStaff', title: '輸入者', width: 100},
+            {field: 'lastModifyDate', title: '最後異動日', width: 150},
+            {field: 'lastModifyStaff', title: '最後異動者', width: 100}
+        ]]
+    });
+</script>
+</html>

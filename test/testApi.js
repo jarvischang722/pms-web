@@ -1,10 +1,10 @@
 /**
  * Created by Jun Chang on 2017/2/14.
  */
-var tools = require("../utils/commonTools");
+var tools = require("../utils/CommonTools");
 var moment = require("moment");
 var sysConf = require("../configs/SystemConfig");
-var dgSvc = require("../services/datagridService");
+var dgSvc = require("../services/DatagridService");
 
 
 

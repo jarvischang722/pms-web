@@ -20,10 +20,9 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
-            source_grp: postData.singleRowData.source_grp
+            status_cod: postData.singleRowData.status_cod
         };
 
-        var createSubFunc = [];
         var isDeleteRow = false;
 
         isDeleteRow = postData.singleRowData.default_sta.trim() == "Y" ? false : true;
@@ -37,7 +36,7 @@ module.exports = {
                         lo_error.errorCod = "1111";
                     }
                 }
-            })
+            });
         } else {
             lo_result.success = false;
             lo_error = new ErrorClass();
@@ -49,23 +48,35 @@ module.exports = {
     //為了checkbox所有資料中只能預設一個或一定要一個勾選(有問題)
     chkContractstatusrfDefaultsta: function (postData, session, callback) {
         //var allGridData =$('#prg_dg').datagrid('getData');
-        var allGridData =document.getElementById('prg_dg').datagrid('getData');
+        var allGridData =postData.allRowData;
+        var updateRows=[];
         var count = 0;
         var lo_result = new ReturnClass();
         var lo_error = null;
-        if(allGridData) {
-            $.each(allGridData.rows,function (index,item) {
-                count +=1;
-            })
+        if(postData.newValue == "Y") {
+            _.each(allGridData,function (item,index) {
+                if(item.default_sta == "Y")
+                    count +=1;
+            });
         }
 
         if(count >1){
-            lo_result.success = false;
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = "預設狀態只能勾選一筆";
-            lo_error.errorCod = "1111";
+
+            _.each(allGridData,function (item,index) {
+                if(item.default_sta == "Y" && item.status_cod != postData.rowData.status_cod){
+                    //allGridData[index]["default_sta"]= "N";
+                    item.default_sta= "N";
+                    item.rowindex = index;  //SAM2017727:因不想全部資料都更新，所以要知道他第幾筆資料
+                    updateRows.push(item);
+                }
+            });
+
+            lo_result.success = true;
+            lo_result.effectValues = updateRows;
 
         }else if(count == 0){
+            postData.rowData["default_sta"]= postData.oldValue;
+            lo_result.effectValues = postData.rowData;
             lo_result.success = false;
             lo_error = new ErrorClass();
             lo_error.errorMsg = "預設狀態要勾選一筆";
@@ -74,4 +85,4 @@ module.exports = {
 
         callback(lo_error,lo_result);
     }
-}
+};

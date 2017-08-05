@@ -1,0 +1,1120 @@
+<!--接送機介面-->
+<div id="reservationDialog-pickUp" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12 reservation-pickUp-wrap">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <!-------- tabPage -------->
+                    <div class="easyui-tabs easyUi-custom1" style="overflow-y: auto;">
+                        <div title="接機" class="padding-tabs">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="">
+                                    <div class="row no-margin-right">
+                                        <!-- 接機 table -->
+                                        <table id="resvPickUp-table" style="width: 100%; height: 155px;"></table>
+
+                                        <div class="space-6"></div>
+
+                                        <div class="main-content-data">
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>連絡人</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                                </div>
+
+                                                <div class="grid-item">
+                                                    <label>電話一</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>電話二</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+
+                                            </div>
+                                            <!--<div class="space-custom-5"></div>-->
+
+                                            <div class="grid">
+
+                                                <div class="grid-item">
+                                                    <label>Transfer Type</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>指定住客</label>
+                                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
+                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
+                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                                    <!--<option value="">WWW</option>-->
+                                                    <!--</select>-->
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>大人數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>小孩數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>嬰兒數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>日期</label>
+                                                    <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>班次</label>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="">CX531</option>
+                                                        <option value="">CX555</option>
+                                                    </select>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>時間</label>
+                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>備註</label>
+                                                    <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>輸入者</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>輸入日</label>
+                                                    <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>最後異動者</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>最後異動日</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                            </div>
+
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div title="送機" class="padding-tabs">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="">
+                                    <div class="row no-margin-right">
+                                        <!-- 送機 table -->
+                                        <table id="resvDropOff-table" style="width: 100%; height: 155px;"></table>
+
+                                        <div class="space-6"></div>
+
+                                        <div class="main-content-data">
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>連絡人</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                                </div>
+
+                                                <div class="grid-item">
+                                                    <label>電話一</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>電話二</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+
+                                            </div>
+                                            <!--<div class="space-custom-5"></div>-->
+
+                                            <div class="grid">
+
+                                                <div class="grid-item">
+                                                    <label>Transfer Type</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>指定住客</label>
+                                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
+                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
+                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                                    <!--<option value="">WWW</option>-->
+                                                    <!--</select>-->
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>大人數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>小孩數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>嬰兒數</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>日期</label>
+                                                    <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>班次</label>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="">CX531</option>
+                                                        <option value="">CX555</option>
+                                                    </select>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>時間</label>
+                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>備註</label>
+                                                    <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                    <span class="moreClick">...</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>輸入者</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>輸入日</label>
+                                                    <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                            </div>
+
+                                            <div class="grid">
+                                                <div class="grid-item">
+                                                    <label>最後異動者</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                                <div class="grid-item">
+                                                    <label>最後異動日</label>
+                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                </div>
+                                            </div>
+
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <!-------- /.tabPage -------->
+
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Add
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">Delete
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<!--批次修改介面-->
+<div id="reservationDialog-batch" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-10 col-sm-10">
+
+                    <div class="main-content-data">
+
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>修改欄位</label>
+                                <select class="input-medium medium-c5">
+                                    <option value="">C/I 日期</option>
+                                    <option value="">C/O 日期</option>
+                                    <option value="">房價代號</option>
+                                    <option value="">計價房種</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>備註</label>
+                                <input type="date" class="input-medium medium-c5" placeholder=""/>
+                            </div>
+                        </div>
+
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row">
+                            <!--content-col-4-->
+                            <div class="main-content-data">
+                                <div>
+                                    <!--批次修改table-->
+                                    <table id="resvBatch-table" style="height: 200px;"></table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                </div>
+                <div class="col-xs-2 col-sm-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">修改
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">離開
+                                    </button>
+                                </li>
+                                <div class="resvBtn-group">
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">反向選取
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全選
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下取消選取
+                                        </button>
+                                    </li>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<!--訂房卡列印頁面-->
+<div id="reservationDialog-print" class="hide padding-5" style="top: 250 !important;">
+    <div class="reservation-print">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-10 col-sm-10">
+
+                    <div class="main-content-data signal-select">
+
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>訂房卡格式</label>
+                                <select class="input-medium medium-c5">
+                                    <option value="">訂房卡</option>
+                                    <option value="">訂房卡1</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div><!--main-content-data-->
+
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                </div>
+                <div class="col-xs-2 col-sm-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">列印
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth print-preview-btn"
+                                            role="button">預覽列印
+                                    </button>
+                                </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<!--預覽列印頁面-->
+<div id="reservationDialog-print-preview" class="hide padding-5" style="top: 0 !important;">
+    <div class="print-preview-container">
+        <div class="print-preview-content">
+            <h4>訂房卡</h4>
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="main-content-data preview-textBox">
+                        <!--1-->
+                        <div class="grid">
+                            <div class="grid-border">
+                                <div class="grid-item">
+                                    <label>Full Name:</label>
+                                    <span>黃小芷</span>
+                                </div>
+                                <div class="grid-item">
+                                    <label>訂房卡號:</label>
+                                    <span>00286301</span>
+                                </div>
+                            </div>
+                            <div class="grid-item">
+                                <label>公司名稱:</label>
+                                <span>美麗華國際旅行社</span>
+                            </div>
+                            <div class="grid-item">
+                                <label>代訂公司:</label>
+                                <span>一般散客</span>
+                            </div>
+                            <div class="grid-item">
+                                <label>連絡人:</label>
+                                <span>黃小芷</span>
+                            </div>
+                        </div>
+                        <!--2-->
+                        <div class="grid">
+                                <div class="grid-item">
+                                    <label>連絡方式 1:</label>
+                                    <span>行動電話0900265487</span>
+                                </div>
+                                <div class="grid-item">
+                                    <label>2:</label>
+                                    <span>住家電話</span>
+                                </div>
+                            <div class="grid-item">
+                                <label>3:</label>
+                                <span></span>
+                            </div>
+                            <div class="grid-item">
+                                <label>4:</label>
+                                <span></span>
+                            </div>
+                        </div>
+                        <!--3-->
+                        <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂房來源:</label>
+                                    <span>電話訂房</span>
+                                </div>
+                                <div class="grid-item">
+                                    <label>市場類別:</label>
+                                    <span>網路訂房-官網</span>
+                                </div>
+                            <div class="grid-item">
+                                <label>人數:</label>
+                                <span>8(大人0、小孩0、嬰兒0)</span>
+                            </div>
+                            <div class="grid-item grid-item3">
+                                <label>已收訂金:</label>
+                                <span>0</span>
+                            </div>
+                            <div class="grid-item grid-item3">
+                                <label>訂金代號:</label>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                        <div class="main-content-data">
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable">
+                                    <thead class="css_thead">
+                                    <tr class="css_tr">
+                                        <th class="css_th" style="min-width:100px;">C/I</th>
+                                        <th class="css_th" style="min-width:80px;">C/O</th>
+                                        <th class="css_th" style="min-width:80px;">房價代號</th>
+                                        <th class="css_th" style="min-width:80px;">計價房種</th>
+                                        <th class="css_th" style="min-width:60px;">使用房種</th>
+                                        <th class="css_th" style="min-width:50px;">間數</th>
+                                        <th class="css_th" style="min-width:80px;">房價</th>
+                                        <th class="css_th" style="min-width:100px;">服務費</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                    <tr class="css_tr">
+                                        <td class="css_td">2016/07/12</td>
+                                        <td class="css_td">2016/07/13</td>
+                                        <td class="css_td">網路訂房</td>
+                                        <td class="css_td text-right">C大西洋</td>
+                                        <td class="css_td text-right">C大西洋</td>
+                                        <td class="css_td text-right">1</td>
+                                        <td class="css_td text-right">4500</td>
+                                        <td class="css_td">0</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">2016/07/12</td>
+                                        <td class="css_td">2016/07/13</td>
+                                        <td class="css_td">網路訂房</td>
+                                        <td class="css_td text-right">C大西洋</td>
+                                        <td class="css_td text-right">C大西洋</td>
+                                        <td class="css_td text-right">1</td>
+                                        <td class="css_td text-right">4500</td>
+                                        <td class="css_td">0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div><!--main-content-data-->
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="grid">
+                            <div class="grid-item">
+                                <label>備註：</label>
+                                <span></span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 訂房確認書頁面 彈出視窗 -->
+<div id="resv_BtnPage04-message" class="hide padding-5" style="">
+
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="main-content-data">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>Type</label>
+                                <!--popWindow-s1-col2-->
+                                <select class="input-medium medium-c5">
+                                    <option value="">1.訂房確認書_103五月版</option>
+                                    <option value="">2.訂房確認書_103六月版</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="space-32"></div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage13"
+                                        role="button">Fax</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth confirm-print-btn"
+                                        role="button">Printing</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage12"
+                                        role="button">E-mail</button>
+                            </div>
+                        </div>
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth confirm-print-preview-btn"
+                                            role="button">預覽
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">取消
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.訂房確認書頁面 option -->
+
+<!--訂房確認書頁面- 列印 -->
+<div id="reservationDialog-confirm-print" class="hide padding-5"  style="top: 0 !important;">
+    <div class="space-20"></div>
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-2">
+                <button class="btn btn-primary btn-white btn-defaultWidth"
+                        role="button">Print</button>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn btn-primary btn-white btn-defaultWidth"
+                        role="button">Cancel</button>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!--訂房確認書-預覽列印頁面-->
+
+
+<div id="reservationDialog-confirm-preview" class="hide padding-5" style="top: 0 !important;">
+    <div class="confirm-preview-container">
+        <div class="confirm-preview-content">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="main-content-data preview-textBox">
+                       <p>致torick tsai 您好，<br>
+                           感謝您及貴公司對hotel se7en taichung fuxin的支持與愛護！您的訂房相關訊息如下<br>
+                       </p>
+                        <p class="en-text">
+                            thank you for choosing hotel se7en taichung fuxin as your residence. we would like to
+                            confirm your reservation as the following details.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="main-content-data">
+                        <div class="horizTable-outer">
+                            <table class="css_table horizTable">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <td class="css_td" style="min-width:100px;">旅客名稱 guest name</td>
+                                    <td class="css_td" style="min-width:120px;">rick tsai</td>
+                                    <td class="css_td" style="min-width:150px;">訂房代號 confirmation no.</td>
+                                    <td class="css_td" style="min-width:120px;">00288001</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">行動電話</td>
+                                    <td class="css_td">583252</td>
+                                    <td class="css_td">住家電話2</td>
+                                    <td class="css_td text-right"> </td>
+                                </tr>
+                                </thead>
+                            </table>
+                            <table class="css_table horizTable printTableSec">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <td class="css_td" style="min-width:100px;">入住日期<br>arrival date</td>
+                                    <td class="css_td" style="min-width:100px;">退房日期<br>departure date</td>
+                                    <td class="css_td" style="min-width:92px;">房型<br>room type</td>
+                                    <td class="css_td" style="min-width:80px;">間數<br>room</td>
+                                    <td class="css_td" style="min-width:92px;">房價<br>room rate</td>
+                                    <td class="css_td" style="min-width:80px;">房晚<br>night</td>
+                                </tr>
+                                </thead>
+                                <tbody class="css_tbody">
+                                <tr class="css_tr">
+                                    <td class="css_td">2016/04/23</td>
+                                    <td class="css_td">2016/04/24</td>
+                                    <td class="css_td">STD</td>
+                                    <td class="css_td text-right">1</td>
+                                    <td class="css_td text-right">18,125,041</td>
+                                    <td class="css_td text-right">1</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="print-remark">
+                                    <label>備註 remark</label>
+                                    <span></span>
+                            </div>
+                        </div>
+
+                    </div><!--main-content-data-->
+                    <div class="main-content-data preview-textBox">
+                        <p>-上述房價包含10%服務費、5%稅金及免費早餐<br>
+                            the above rate includes 10% service charge,5% tax and complimentary breakfast.
+                        </p>
+                        <div class="horizTable-outer">
+                            <table class="css_table horizTable">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <td class="css_td" style="min-width:150px;height: 70px">總房間費用 <br>total room charge</td>
+                                    <td class="css_td" style="min-width:125px;">18,125,041</td>
+                                    <td class="css_td" style="min-width:150px;">應付訂單金額 <br>deposite</td>
+                                    <td class="css_td" style="min-width:125px;">0</td>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--rv Type-->
+<div id="reservationDialog-rvType" class="hide padding-5" style="top: 0 !important;">
+    <div class="rvType-container">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="rvType-top">
+
+                        <div class="grid">
+                            <div class="rvType-grid">
+                                <label>狀態</label>
+                                <select class="input-medium rvType-w1 qq" placeholder="">
+                                    <option  class="rvType-code" value="" selected="sele    cted" hidden>代號 - 說明</option>
+                                    <option value="">1 - 新訂單</option>
+                                    <option value="">2 - 與客人初次確認</option>
+                                    <option value="">3 - 訂單確認完畢</option>
+                                    <option value="">4 - 與客人二次確認</option>
+                                    <option value="">5 - 待回覆</option>
+                                </select>
+                            </div>
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">確定</button></li>
+                                    <li><button class="btn btn-primary btn-white btn-defaultWidth" role="button">取消</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<div class="clearfix"></div>
+        <div class="rvType-table-container">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="main-content-data">
+                        <div>
+                            <!--批次修改table-->
+                            <table id="rvTpye-table" style="height: 200px;"></table>
+                        </div>
+                    </div><!--main-content-data-->
+
+                </div><!--main-content-data-->
+            </div>
+        </div>
+            </div>
+    </div>
+
+<!--預授權-彈出視窗-->
+<div id="authorizeDialog" class="hide padding-5" style="top: 200px !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="main-content-data">
+                        <div class="horizTable-outer">
+                            <table class="css_table horizTable">
+                                <thead class="css_thead">
+                                <tr class="css_tr">
+                                    <th class="css_th" style="min-width:30px;">S.N.</th>
+                                    <th class="css_th" style="min-width:80px;">Date</th>
+                                    <th class="css_th" style="min-width:70px;">Payment</th>
+                                    <th class="css_th" style="min-width:100px;">C.C. No.</th>
+                                    <th class="css_th" style="min-width:70px;">Exp. Date</th>
+                                    <th class="css_th" style="min-width:70px;">Amount</th>
+                                    <th class="css_th" style="min-width:100px;">Approve No.</th>
+                                    <th class="css_th" style="min-width:100px;">Added Date</th>
+                                    <th class="css_th" style="min-width:80px;">Added By</th>
+                                    <th class="css_th" style="min-width:100px;">Upd Date</th>
+                                    <th class="css_th" style="min-width:70px;">Upd by</th>
+                                </tr>
+                                </thead>
+                                <tbody class="css_tbody">
+                                <tr class="css_tr">
+                                    <td class="css_td">1</td>
+                                    <td class="css_td">2017/6/30</td>
+                                    <td class="css_td">VISA</td>
+                                    <td class="css_td">4563236512544587</td>
+                                    <td class="css_td text-right">11/25</td>
+                                    <td class="css_td text-right">5000</td>
+                                    <td class="css_td text-right">000562</td>
+                                    <td class="css_td">2017/6/30</td>
+                                    <td class="css_td">AMY</td>
+                                    <td class="css_td">2017/6/30</td>
+                                    <td class="css_td">AMY</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">MSATER</td>
+                                    <td class="css_td">5485214369854587</td>
+                                    <td class="css_td text-right">2/22</td>
+                                    <td class="css_td text-right">2000</td>
+                                    <td class="css_td text-right">001254</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">MSATER</td>
+                                    <td class="css_td">5485214369854587</td>
+                                    <td class="css_td text-right">2/22</td>
+                                    <td class="css_td text-right">2000</td>
+                                    <td class="css_td text-right">001254</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">MSATER</td>
+                                    <td class="css_td">5485214369854587</td>
+                                    <td class="css_td text-right">2/22</td>
+                                    <td class="css_td text-right">2000</td>
+                                    <td class="css_td text-right">001254</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                </tr>
+                                <tr class="css_tr">
+                                    <td class="css_td">2</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">MSATER</td>
+                                    <td class="css_td">5485214369854587</td>
+                                    <td class="css_td text-right">2/22</td>
+                                    <td class="css_td text-right">2000</td>
+                                    <td class="css_td text-right">001254</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                    <td class="css_td">2017/7/1</td>
+                                    <td class="css_td">CHRIS</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div><!--main-content-data-->
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Add</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Edit</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Delete</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="clearfix"></div>
+</div>
+
+    <!--航空卡號-彈出視窗-->
+    <div id="air-numDialog" class="air-numDialog hide padding-5" style="top: 200px !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable">
+                                    <thead class="css_thead">
+                                    <tr class="css_tr">
+                                        <th class="css_th" style="min-width:30px;">S.N.</th>
+                                        <th class="css_th" style="min-width:80px;">Airline</th>
+                                        <th class="css_th" style="min-width:100px;">Card No.</th>
+                                        <th class="css_th" style="min-width:100px;">Added Date</th>
+                                        <th class="css_th" style="min-width:100px;">Added By</th>
+                                        <th class="css_th" style="min-width:100px;">Upd Date</th>
+                                        <th class="css_th" style="min-width:100px;">Upd by</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                    <tr class="css_tr">
+                                        <td class="css_td">1</td>
+                                        <td class="css_td">CX</td>
+                                        <td class="css_td">1556455336</td>
+                                        <td class="css_td">2017/6/21</td>
+                                        <td class="css_td text-right">amy</td>
+                                        <td class="css_td text-right">2017/6/21</td>
+                                        <td class="css_td text-right">amy</td>
+                                    </tr>
+                                    <tr class="css_tr">
+                                        <td class="css_td">2</td>
+                                        <td class="css_td">BR</td>
+                                        <td class="css_td">3311142855</td>
+                                        <td class="css_td">2017/6/22</td>
+                                        <td class="css_td text-right">amy</td>
+                                        <td class="css_td text-right">2017/6/22</td>
+                                        <td class="css_td text-right">amy</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div><!--main-content-data-->
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Add</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Edit</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Delete</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <!--航空哩程-彈出視窗-->
+        <div id="aviationMile-Dialog" class="hide padding-5" style="top: 200px !important;">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-11 col-sm-11">
+                            <div class="main-content-data">
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr">
+                                            <th class="css_th" style="min-width:30px;">S.N.</th>
+                                            <th class="css_th" style="min-width:80px;">Airline</th>
+                                            <th class="css_th" style="min-width:100px;">Card No.</th>
+                                            <th class="css_th" style="min-width:100px;">Added Date</th>
+                                            <th class="css_th" style="min-width:100px;">Added By</th>
+                                            <th class="css_th" style="min-width:100px;">Upd Date</th>
+                                            <th class="css_th" style="min-width:100px;">Upd by</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">1</td>
+                                            <td class="css_td">CX</td>
+                                            <td class="css_td">1556455336</td>
+                                            <td class="css_td">2017/6/21</td>
+                                            <td class="css_td text-right">amy</td>
+                                            <td class="css_td text-right">2017/6/21</td>
+                                            <td class="css_td text-right">amy</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">2</td>
+                                            <td class="css_td">BR</td>
+                                            <td class="css_td">3311142855</td>
+                                            <td class="css_td">2017/6/22</td>
+                                            <td class="css_td text-right">amy</td>
+                                            <td class="css_td text-right">2017/6/22</td>
+                                            <td class="css_td text-right">amy</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div><!--main-content-data-->
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="row">
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Add</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Edit</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Delete</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                    role="button">Exit</button>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+
+            <!--公帳號-彈出視窗-->
+            <div id="publiceAccountDialog" class="hide padding-5" style="top: 200px !important;">
+                <div class="businessCompanyData">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="main-content-data">
+                                    <div class="horizTable-outer">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>PM</label>
+                                                <input type="text" class="input-medium medium-c3" placeholder="正常">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Auto</label>
+                                                <select name="" id="" class="input-medium medium-c3">
+                                                    <option value="">OK</option>
+                                                    <option value="">NOT OK</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>PM No.</label>
+                                                <input type="text" class="input-medium medium-c3" placeholder="G001">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Choose</label>
+                                                <select name="" id="" class="input-medium medium-c3">
+                                                    <option value="">Exit</option>
+                                                    <option value="">ABC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div><!--main-content-data-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+

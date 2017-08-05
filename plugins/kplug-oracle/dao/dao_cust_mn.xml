@@ -44,6 +44,38 @@
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">contract_sta</parameter>
+        <parameter type="string" kind="1">status_cod</parameter>
+    </dao>
+
+    <!--[PMS0810180] 顯示ashow_cod跳出訊息的欄位資料 -->
+    <dao name="QRY_CUST_MN_FOR_ASHOW_COD">
+        <statement><![CDATA[
+            select  show_cod, cust_nam, contact1_rmk, status_cod,cust_cod  from cust_mn
+            where status_cod='N'  and cust_typ='N' and athena_id =?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+
+    </dao>
+
+    <!--[PMS0810180] 顯示cshow_cod跳出訊息的欄位資料 -->
+    <dao name="QRY_CUST_MN_FOR_CSHOW_COD">
+        <statement><![CDATA[
+            select show_cod, cust_nam, contact1_rmk, status_cod,cust_cod  from cust_mn
+            where status_cod='N'  and cust_typ='N' and athena_id =?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
+
+    <!--[PMS0830090] 顯示cshow_cod跳出訊息的選擇客戶代號 -->
+    <dao name="QRY_CUSTMN_DEPOSIT_NOS">
+        <statement><![CDATA[
+              select show_cod ,cust_nam ,cust_typ
+               from cust_mn where athena_id = ? and show_cod = ? and status_cod <> 'D'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">show_cod</parameter>
     </dao>
 </root>

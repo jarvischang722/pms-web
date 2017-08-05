@@ -60,86 +60,100 @@ module.exports = {
         var lo_error = null;
         var params = {
             athena_id: session.user.athena_id,
-            source_typ: postData.singleRowData.source_typ.trim()
+            source_typ: postData.singleRowData.source_typ
         };
 
         var createSubFunc = [];
         var isDeleteRow = false;
+        var error_message = '';
 
-            createSubFunc.push(
-                function (callback) {
-                    async.waterfall([
+        createSubFunc.push(
+            function (callback) {
+                async.waterfall([
                         function (callback) {
                             var modifySta = postData.singleRowData.modify_sta.trim();
                             if (modifySta == "N") {
                                 isDeleteRow = false;
-                                callback(null, isDeleteRow);
+                                error_message = '系統預設，不能刪除';
                             } else {
                                 isDeleteRow = true;
-                                callback(null, isDeleteRow);
+                            }
+                            callback(null, isDeleteRow);
+                        },
+                        function (data, callback) {
+                            if (data) {
+                                queryAgent.query("GET_ORDER_MN.SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
+                                    if (!err) {
+                                        if (guestData.source_count > 0) {
+                                            isDeleteRow = false;
+                                            error_message = '已經有使用到此類別，不能刪除';
+                                        } else {
+                                            isDeleteRow = true;
+                                        }
+                                        callback(null, isDeleteRow);
+                                    } else {
+                                        callback(err, []);
+                                    }
+                                })
+                            }
+                            else {
+                                callback(null, data);
                             }
                         },
                         function (data, callback) {
-                            queryAgent.query("GET_ORDER_MN.SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                                if (!err) {
-                                    if (data == true) {
+                            if (data) {
+                                queryAgent.query("GET_GW_CUST_RF.DEFAULT_SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
+                                    if (!err) {
                                         if (guestData.source_count > 0) {
                                             isDeleteRow = false;
-                                            callback(null, isDeleteRow);
+                                            error_message = '已經有使用到此類別，不能刪除';
                                         } else {
                                             isDeleteRow = true;
-                                            callback(null, isDeleteRow);
                                         }
+                                        callback(null, isDeleteRow);
                                     } else {
-                                        callback(null, data);
+                                        callback(err, []);
                                     }
-                                } else {
-                                    callback(err, []);
-                                }
-                            })
-                        }, function (data, callback) {
-                            queryAgent.query("GET_GW_CUST_RF.DEFAULT_SOURCE_TYP_COUNT".toUpperCase(), params, function (err, guestData) {
-                                if (!err) {
-                                    if (data == true) {
-                                        if (guestData.guest_count > 0) {
-                                            isDeleteRow = false;
-                                            callback(null, isDeleteRow);
-                                        } else {
-                                            isDeleteRow = true;
-                                            callback(null, isDeleteRow);
-                                        }
-                                    } else {
-                                        callback(null, data);
-                                    }
-                                } else {
-                                    callback(err, []);
-                                }
-                            })
-                        }
-                        // , function (data, callback) {
-                        //
-                        // }
-                    ], function (errMsg, result) {
+                                })
+                            }
+                            else {
+                                callback(null, data);
+                            }
+                        }],
+                    function (errMsg, result) {
                         if (errMsg == null) {
-
                             if (result == false) {
                                 lo_error = new ErrorClass();
                                 lo_result.success = false;
                                 lo_error.errorCod = "1111";
-                                lo_error.errorMsg = "已經有使用到此類別，不能刪除";
+                                lo_error.errorMsg = error_message;
                             }
-
                             callback(lo_error, lo_result);
-
                         } else {
                             callback(lo_error, lo_result);
                         }
                     })
-                }
-            );
+            }
+        );
 
-            async.parallel(createSubFunc, function (err, result) {
-                callback(err, result);
-            })
+        async.parallel(createSubFunc, function (err, result) {
+            callback(err, result);
+        })
+    },
+    PMS0810110_source_grp: function () {
+
+        var options = new Object;
+
+        options.panelWidth = '200';
+        options.idField = 'value';
+        options.textField = 'value';
+
+        var columns = [[
+            {field:'display',title:'群組代號',width:100},
+            {field:'value',title:'群組名稱',width:100}]];
+
+        options.columns = columns;
+
+        return options;
     }
 }

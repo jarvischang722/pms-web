@@ -20,10 +20,10 @@ var app = express();// initail express
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var ios = require('socket.io-express-session');
-var dbSvc = require("./services/dbTableService");
+var dbSvc = require("./services/DbTableService");
 var dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 var mongoAgent = require("./plugins/mongodb");
-var tbSVC = require("./services/dbTableService");
+var tbSVC = require("./services/DbTableService");
 var _ = require("underscore");
 
 
@@ -66,8 +66,13 @@ app.set('port', process.env.PORT || port);
 
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
+
+//Sam:暫時為了post擴充可傳的資料量，做修改 20170705
+app.use(bodyParser.json({limit: "10mb"}));
+app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10000}));
+
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
@@ -93,7 +98,11 @@ var sessionMiddleware = session({
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, next);
+    sessionMiddleware(socket.request, socket.request.res, function () {
+        socket.session = socket.request.session;
+        socket.session.id = socket.request.sessionID;
+        next();
+    });
 });
 
 app.use(sessionMiddleware);

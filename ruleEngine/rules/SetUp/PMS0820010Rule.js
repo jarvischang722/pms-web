@@ -37,6 +37,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var isDeleteRow = false;
+        var error_message = '';
 
         var params = {
             athena_id: session.user.athena_id,
@@ -46,64 +47,79 @@ module.exports = {
 
         async.waterfall([
             function (callback) {
-                //房間設定
-                queryAgent.query("CHK_ROOM_MN_ISEXIST_CHARACTER_COD", params, function (err, guestData) {
-                    if (!err) {
-                        if (guestData.character_cod_count > 0) {
-                            isDeleteRow = false;
-                            callback(null, isDeleteRow);
-                        } else {
-                            isDeleteRow = true;
-                            callback(null, isDeleteRow);
-                        }
-                    } else {
-                        callback(err, lo_result);
-                    }
-                })
+                var lb_isDefault = postData.singleRowData.sys_default == "Y" ? false:true;
+                if (lb_isDefault == false) {
+                    isDeleteRow = false;
+                    error_message = '系統預設，不能刪除';
+                } else {
+                    isDeleteRow = true;
+                }
+                callback(null, isDeleteRow);
             },
             function (deleteResult, callback) {
-                //查詢滾房租日
-                queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: params.athena_id}, function (err, getResult) {
-                    if (getResult) {
-                        var belong_dat = getResult.belong_dat;
-                        params.belong_dat = belong_dat.trim();
-                        queryAgent.query("CHK_ORDER_DT_ISEXIST", params, function (err, chkResult) {
-                            if (chkResult) {
-                                if (chkResult.order_dt_count > 0) {
-                                    isDeleteRow = false;
-                                    callback(null, isDeleteRow);
-                                } else {
-                                    if (isDeleteRow && deleteResult)
-                                        isDeleteRow = true;
-                                    else {
-                                        isDeleteRow = false;
+                if(deleteResult) {
+                    //房間設定
+                    queryAgent.query("CHK_ROOM_MN_ISEXIST_CHARACTER_COD", params, function (err, guestData) {
+                        if (!err) {
+                            if (guestData.character_cod_count > 0) {
+                                isDeleteRow = false;
+                                error_message = '房間設定已使用,不可刪除';
+                            } else {
+                                isDeleteRow = true;
+                            }
+                            callback(null, isDeleteRow);
+                        } else {
+                            callback(err, lo_result);
+                        }
+                    })
+                }else {
+                    callback(null, deleteResult);
+                }
+            },
+            function (deleteResult, callback) {
+                if(deleteResult) {
+                    //查詢滾房租日
+                    queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: params.athena_id}, function (err, getResult) {
+                        if (!err) {
+                            if (getResult) {
+                                var belong_dat = getResult.belong_dat;
+                                params.belong_dat = belong_dat.trim();
+                                queryAgent.query("CHK_ORDER_DT_ISEXIST", params, function (err, chkResult) {
+                                    if (chkResult) {
+                                        if (chkResult.order_dt_count > 0) {
+                                            isDeleteRow = false;
+                                            error_message = '訂房卡已使用,不可刪除';
+                                        } else {
+                                            isDeleteRow = true;
+                                        }
+                                        callback(null, isDeleteRow);
                                     }
-                                    callback(null, isDeleteRow);
-                                }
-                            }
-                            else {
-                                callback(null, deleteResult);
+                                    else {
+                                        callback(null, deleteResult);
+                                    }
+                                })
+                            } else {
+                                callback(err, deleteResult);
                             }
 
-
-                        })
-                    } else {
-                        callback(err, deleteResult);
-                    }
-                });
+                        } else {
+                            callback(err, lo_result);
+                        }
+                    })
+                }
+                else {
+                    callback(null, deleteResult);
+                }
             }
         ], function (errMsg, result) {
             if (errMsg == null) {
-
                 if (result == false) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
                     lo_error.errorCod = "1111";
-                    lo_error.errorMsg = "房間設定已使用,不可刪除";
+                    lo_error.errorMsg = error_message;
                 }
-
                 callback(lo_error, lo_result);
-
             } else {
                 callback(lo_error, lo_result);
             }

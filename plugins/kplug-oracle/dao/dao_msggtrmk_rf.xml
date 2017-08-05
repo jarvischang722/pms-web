@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820060'] 取得多筆留言紀錄 -->
+    <dao name="QRY_MSGGTRMK_RF">
+        <statement><![CDATA[
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod,ins_dat,ins_usr,upd_dat,upd_usr
+            from msggtrmk_rf
+             where athena_id = ? and trim(hotel_cod) = trim(?)
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0820060'] 取得單筆留言紀錄 -->
+    <dao name="QRY_SINGLE_MSGGTRMK_RF">
+        <statement><![CDATA[
+            select rmk_cod,msg_tax1,msg_tax2,msg_tax3,msg_tax4,athena_id,hotel_cod,ins_dat,ins_usr,upd_dat,upd_usr
+            from msggtrmk_rf
+             where athena_id = ? and trim(hotel_cod) = trim(?) and rmk_cod = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">rmk_cod</parameter>
+    </dao>
+</root>

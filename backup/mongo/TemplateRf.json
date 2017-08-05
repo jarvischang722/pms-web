@@ -1,0 +1,681 @@
+{ 
+    "_id" : ObjectId("58c4f338323a15276c3aa2df"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "special", 
+    "table_name" : "rvrmcod_rf", 
+    "rule_func_name" : "qry_single_rvrmcod_rf", 
+    "lock_table" : "rvrmcod_rf", 
+    "lock_type" : "table"
+}
+{ 
+    "_id" : ObjectId("58d39b0ed0f7d32d9101f51b"), 
+    "prg_id" : "PMS0810130", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "rvtyp_rf", 
+    "rule_func_name" : "QRY_RVTYPE_FIND_ONE_TYPE", 
+    "lock_table" : "rvtyp_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c46"), 
+    "prg_id" : "PMS0810080", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "guest_grp_rf", 
+    "lock_table" : "guest_grp_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "qry_guest_grp_rf", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c47"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "rvrmcod_rf", 
+    "lock_table" : "rvrmcod_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "QRY_RVRMCOD_RF"
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c48"), 
+    "prg_id" : "PMS0810010", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ROOM_RF", 
+    "lock_table" : "ROOM_RF", 
+    "lock_type" : "table", 
+    "rule_func_name" : "QRY_ROOM_RF"
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c49"), 
+    "prg_id" : "PMS0810040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "state_rf", 
+    "lock_table" : "state_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "QRY_STATE_RF", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c4a"), 
+    "prg_id" : "PMS0810130", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "rvtyp_rf", 
+    "lock_table" : "rvtyp_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "QRY_RVTYPE_RF"
+}
+{ 
+    "_id" : ObjectId("58dcc9bec13d1b0b51645c4b"), 
+    "prg_id" : "PMS0810130", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "table_name" : "rvtyp_dt", 
+    "lock_table" : "rvtyp_dt", 
+    "lock_type" : "table", 
+    "rule_func_name" : "QRY_SINGLE_RVTYP_DT"
+}
+{ 
+    "_id" : ObjectId("58edf848b51fc62120b87356"), 
+    "prg_id" : "PMS0810090", 
+    "page_id" : NumberInt(1), 
+    "rule_func_name" : "qry_guest_rf", 
+    "table_name" : "guest_rf", 
+    "lock_table" : "guest_rf", 
+    "lock_type" : "table", 
+    "template_id" : "datagrid", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58edf8c8b51fc62120b87357"), 
+    "prg_id" : "PMS0810100", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_source_grp_rf", 
+    "table_name" : "source_grp_rf", 
+    "lock_table" : "source_grp_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58f46876f94137207340d044"), 
+    "prg_id" : "PMS0810120", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_rvdiscpers_rf", 
+    "table_name" : "rvdiscpers_rf", 
+    "lock_table" : "rvdiscpers_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("58f6c236524856395c84002b"), 
+    "prg_id" : "PMS0810160", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_rvcancel_rf", 
+    "table_name" : "rvcancel_rf", 
+    "lock_table" : "rvcancel_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58f70e57b51fc63a80ff05f3"), 
+    "prg_id" : "PMS0810110", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "source_rf", 
+    "lock_table" : "source_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "qry_source_rf", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("58f70e68b51fc63a80ff05f4"), 
+    "prg_id" : "PMS0810140", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_foc_rf", 
+    "table_name" : "foc_rf", 
+    "lock_table" : "foc_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("58f70e7bb51fc63a80ff05f5"), 
+    "prg_id" : "PMS0810200", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_hfd_todo_list_rf", 
+    "table_name" : "hfd_todo_list_rf", 
+    "lock_table" : "hfd_todo_list_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("590ae95a65ff672008651a28"), 
+    "prg_id" : "PMS0830060", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_hc_adjrmk_rf", 
+    "table_name" : "hc_adjrmk_rf", 
+    "lock_table" : "hc_adjrmk_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("590c3cb265ff672008651a37"), 
+    "prg_id" : "PMS0860050", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_ps_visit_rf", 
+    "table_name" : "ps_visit_rf", 
+    "lock_table" : "ps_visit_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5913bdafda977306b4e33e6c"), 
+    "prg_id" : "PMS0860020", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_business_rf", 
+    "table_name" : "business_rf", 
+    "lock_table" : "business_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("591402b3da977306b4e33e79"), 
+    "prg_id" : "PMS0860040", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_remark_typ_rf", 
+    "table_name" : "remark_typ_rf", 
+    "lock_table" : "remark_typ_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("59158b5fda977306b4e33e87"), 
+    "prg_id" : "PMS0810220", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_hfd_transport_rf", 
+    "table_name" : "hfd_transport_rf", 
+    "lock_table" : "hfd_transport_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("5914383d2448c031ac1ef266"), 
+    "prg_id" : "PMS0830020", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_Serv_type_rf", 
+    "table_name" : "servtype_rf", 
+    "lock_table" : "servtype_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("59198acb52485637dc3f5d27"), 
+    "prg_id" : "PMS0860010", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_cust_type_rf", 
+    "table_name" : "cust_type_rf", 
+    "lock_table" : "cust_type_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : null
+}
+{ 
+    "_id" : ObjectId("591ad57b3911413e5c43690d"), 
+    "prg_id" : "PMS0810170", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_holiday_kind_rf", 
+    "table_name" : "holiday_kind_rf", 
+    "lock_table" : "holiday_kind_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("591adaa93911413e5c43691f"), 
+    "prg_id" : "PMS0810210", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_hfd_daily_event", 
+    "table_name" : "hfd_daily_event", 
+    "lock_table" : "hfd_daily_event", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("591eaa573911413e5c436933"), 
+    "prg_id" : "PMS0810060", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_Hfd_Live_cod_rf", 
+    "table_name" : "hfd_livecod_rf", 
+    "lock_table" : "hfd_livecod_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5923f2ab4cc7e705089b9763"), 
+    "prg_id" : "PMS0860070", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_contract_status_rf", 
+    "table_name" : "contract_status_rf", 
+    "lock_table" : "contract_status_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5923f31fd199901d9183f9d6"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "hfd_arrive_rf", 
+    "table_name" : "hfd_arrive_rf", 
+    "rule_func_name" : "qry_hfd_arrive_rf", 
+    "lock_table" : "hfd_arrive_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("5923f31fd199901d9183f9d7"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "hfd_leave_rf", 
+    "table_name" : "hfd_leave_rf", 
+    "rule_func_name" : "qry_hfd_leave_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("592545b64cc7e705089b9780"), 
+    "prg_id" : "CMM0110010", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_contact_rf", 
+    "table_name" : "contact_rf", 
+    "lock_table" : "contact_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("592545d94cc7e705089b9781"), 
+    "prg_id" : "CMM0110020", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_address_rf", 
+    "table_name" : "address_rf", 
+    "lock_table" : "address_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("592567fe4cc7e705089b97a5"), 
+    "prg_id" : "PMS0810030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_cntry_rf", 
+    "table_name" : "cntry_rf", 
+    "lock_table" : "cntry_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5925ac67f560481d404bc57a"), 
+    "prg_id" : "PMS0820010", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_character_rf", 
+    "table_name" : "character_rf", 
+    "lock_table" : "character_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("5931337b6e646b21a86afa54"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "hfd_guarentee_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "rule_func_name" : "qry_Hfd_Guarentee_rf", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5931339c6e646b21a86afa55"), 
+    "prg_id" : "PMS0810150", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "hfd_guarentee_rf", 
+    "lock_table" : "hfd_guarentee_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "qry_Hfd_Guarentee_rf_Single", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("593220256e646b21a86afa7d"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "gw_cust_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "rule_func_name" : "qry_gw_cust_rf", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5932206a6e646b21a86afa7e"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "gw_cust_rf", 
+    "lock_table" : "gw_cust_rf", 
+    "lock_type" : "table", 
+    "rule_func_name" : "qry_single_gw_cust_rf", 
+    "hotel_cod" : "NULL"
+}
+{ 
+    "_id" : ObjectId("593226da6e646b21a86afaa1"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_msggtrmk_rf", 
+    "table_name" : "msggtrmk_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("593226fe6e646b21a86afaa2"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "rule_func_name" : "qry_single_msggtrmk_rf", 
+    "table_name" : "msggtrmk_rf", 
+    "lock_table" : "msggtrmk_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("59421683d199903ddcd88318"), 
+    "prg_id" : "PMS0810190", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hfd_order_confirm_rf", 
+    "rule_func_name" : "QRY_HFD_ORDER_CONFIRM_RF", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("59421683d199903ddcd88319"), 
+    "prg_id" : "PMS0810190", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hfd_order_confirm_rf", 
+    "rule_func_name" : "QRY_HFD_ORDER_CONFIRM_RF", 
+    "lock_table" : "hfd_order_confirm_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("594a368b4a8b672498df6055"), 
+    "prg_id" : "PMS0830110", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "rule_func_name" : "qry_a6hfd_areapnt_rf", 
+    "table_name" : "a6hfd_areapnt_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("594a36b54a8b672498df6056"), 
+    "prg_id" : "PMS0830110", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "rule_func_name" : "qry_single_a6hfd_areapnt_rf", 
+    "table_name" : "a6hfd_areapnt_rf", 
+    "lock_table" : "a6hfd_areapnt_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("5954b7d5f295e82f187cf58d"), 
+    "prg_id" : "PMS0810070", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "rule_func_name" : "", 
+    "table_name" : "holiday_rf", 
+    "lock_table" : "holiday_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("596c33101ce4521c686b38dd"), 
+    "prg_id" : "PMS0840010", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "hkmtype_rf", 
+    "rule_func_name" : "QRY_HKMTYPE_RF", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("596c33101ce4521c686b38de"), 
+    "prg_id" : "PMS0840010", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "hkmtype_rf", 
+    "rule_func_name" : "QRY_SINGLE_HKMTYPE_RF", 
+    "lock_table" : "hkmtype_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("596c33101ce4521c686b38df"), 
+    "prg_id" : "PMS0840010", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "table_name" : "hkstype_rf", 
+    "rule_func_name" : "QRY_HKSTYPE_RF", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("596dbcb61ce45229ec04673a"), 
+    "prg_id" : "PMS0820050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : "", 
+    "template_id" : "datagrid", 
+    "table_name" : "hfd_use_rf", 
+    "rule_func_name" : "qry_hfd_use_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("596dbcb61ce45229ec04673b"), 
+    "prg_id" : "PMS0820050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : "", 
+    "template_id" : "gridsingle", 
+    "table_name" : "hfd_use_rf", 
+    "rule_func_name" : "qry_single_hfd_use_rf", 
+    "lock_table" : "hfd_use_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("596dbcb61ce45229ec04673c"), 
+    "prg_id" : "PMS0820050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : "", 
+    "template_id" : "datagrid", 
+    "table_name" : "hfd_use_dt", 
+    "rule_func_name" : "qry_hfd_use_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("596ec76fd199900da00c7209"), 
+    "prg_id" : "PMS0820030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hfd_room_color_rf", 
+    "rule_func_name" : "QRY_HFD_ROOM_COLOR_RF", 
+    "lock_table" : "hfd_room_color_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("59769ff3d7826628c0a3ca5c"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "master_rf", 
+    "rule_func_name" : "qry_master_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("59769ff3d7826628c0a3ca5d"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "master_rf", 
+    "rule_func_name" : "qry_single_master_rf", 
+    "lock_table" : "master_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("5977ea3ed7826628c0a3ca8b"), 
+    "prg_id" : "PMS0840030", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "hkproduct_rf", 
+    "rule_func_name" : "qry_hkproduct_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("5977ea3ed7826628c0a3ca8c"), 
+    "prg_id" : "PMS0840030", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "table_name" : "hkproduct_rf", 
+    "rule_func_name" : "qry_single_hkproduct_rf", 
+    "lock_table" : "hkproduct_rf", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("597952791ce4522c786a5dbf"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : "", 
+    "template_id" : "datagrid", 
+    "table_name" : "cashier_rf", 
+    "rule_func_name" : "qry_Cashier_rf", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5979527a1ce4522c786a5dc0"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : "", 
+    "template_id" : "gridsingle", 
+    "table_name" : "cashier_rf", 
+    "rule_func_name" : "QRY_CASHIER_RF_SINGLE", 
+    "lock_table" : "cashier_rf", 
+    "lock_type" : "row", 
+    "hotel_cod" : "hotel_cod", 
+    "lock_key" : "cashier_cod"
+}
+{ 
+    "_id" : ObjectId("597af4b3f6341e843b1bbcdf"), 
+    "prg_id" : "PMS0830080", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "route_mn", 
+    "rule_func_name" : "qry_route_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("597af4b3f6341e843b1bbce0"), 
+    "prg_id" : "PMS0830080", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "special", 
+    "table_name" : "route_mn", 
+    "rule_func_name" : "qry_single_route_mn", 
+    "lock_table" : "route_mn", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("597ec0a8818df4286420c1eb"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hfd_rest_mn", 
+    "rule_func_name" : "qry_hfd_rest_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("597ec0a8818df4286420c1ec"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "table_name" : "hfd_rest_mn", 
+    "rule_func_name" : "qry_single_hfd_rest_mn", 
+    "lock_table" : "hfd_rest_mn", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("597ec0a8818df4286420c1ed"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "hfd_rest_dt", 
+    "rule_func_name" : "qry_hfd_rest_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}

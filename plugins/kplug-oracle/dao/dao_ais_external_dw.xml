@@ -11,4 +11,15 @@
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
     </dao>
+
+    <!-- ['PMS0810180'] 取得通路代號-->
+    <dao name="QRY_GW_CUST_RF_AGENT_NO">
+        <statement><![CDATA[
+               select code  as value, code_nam as display
+               from ais_external_dw
+               where dw_nam = 'd_gw_cust_rf_agent_no' and lang_cod = pg_ais.sf_lang_cod(pg_ais.sf_language(0)) and athena_id = ? order by sort_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 </root>

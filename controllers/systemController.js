@@ -4,19 +4,22 @@
 
 var _ = require("underscore");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/roleFuncService");
+var roleFuncSvc = require("../services/RoleFuncService");
 var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/roleFuncService");
-var dbSvc = require("../services/dbTableService");
-var langSvc = require("../services/langService");
+var roleSvc = require("../services/RoleFuncService");
+var dbSvc = require("../services/DbTableService");
+var langSvc = require("../services/LangService");
+var uploadSvc = require("../services/uploadService");
+var logSvc = require("../services/LogService");
 /**
  * 首頁
  */
 exports.index = function (req, res) {
     res.render("mainIndex");
 };
+
 
 /**
  * 系統別選擇
@@ -49,7 +52,6 @@ exports.systemOption = function (req, res) {
                 });
 
             });
-
             res.render('system/systemOption', {sysList: sysRows});
         });
 
@@ -68,8 +70,9 @@ exports.changeHotelCod = function (req, res) {
             hotelInfo = hotel;
         }
     });
-    req.session.user["fun_hotel_cod"] = hotelInfo.hotel_cod;
-    req.session.user["fun_hotel_name"] = hotelInfo.hotel_nam;
+    req.session.user["hotel_cod"] = hotelInfo.hotel_cod.trim();
+    req.session.user["fun_hotel_cod"] = hotelInfo.hotel_cod.trim();
+    req.session.user["fun_hotel_name"] = hotelInfo.hotel_nam.trim();
     req.session.user["athena_id"] = hotelInfo.athena_id;
     roleFuncSvc.updateUserPurview(req, function (err) {
         res.json({success: err == null, errorMsg: err});
@@ -111,7 +114,7 @@ exports.housekeeping = function (req, res) {
  * 夜核
  */
 exports.night_check = function (req, res) {
-    res.render('subsystem/night_check/index');
+    res.render('subsystem/nightAudit/index');
 };
 
 /**
@@ -138,8 +141,8 @@ exports.setup = function (req, res) {
 /**
  * 自訂
  */
-exports.customize_setup = function (req, res) {
-    res.render('subsystem/customize_setup');
+exports.ownMenu = function (req, res) {
+    res.render('subsystem/ownMenu');
 };
 
 /**
@@ -167,4 +170,22 @@ exports.execSQLProcess = function (req, res) {
     dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
         res.json({success: success, errorMsg: err});
     });
+};
+
+// 上傳檔案
+exports.uploadFile = function (req, res) {
+    uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {
+        res.json({success: uploadResult.success, errorMsg: err, rtnData: uploadResult.rtnData});
+    });
+};
+
+/**
+ * 抓取異動紀錄
+ * @param req
+ * @param res
+ */
+exports.getSetupPrgChangeLog = function (req, res) {
+    logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
+        res.json({success: false, errorMsg: '', allChangeLogList: allChangeLogList});
+    })
 };
