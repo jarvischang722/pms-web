@@ -23,8 +23,7 @@ exports.monitor = function (req, res) {
             request.get({url: "http://localhost:8888/login", timeout: 20000}, function (err, response, body) {
                 callback(err, body);
             });
-                callback(err, body);
-            })
+
         }
     ], function (err, results) {
         if (err) {

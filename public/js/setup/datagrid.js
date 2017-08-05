@@ -205,8 +205,10 @@ var vm = new Vue({
             console.log(gb_isUserEdit4ClickCell);
 
             if (vm.editIndex != index) {
+
                 if (this.endEditing() && gb_isUserEdit4ClickCell) {
                     gb_isUserEdit4ClickCell = false;
+                    gb_isUserEdit4EndEdit = true;
                     $('#prg_dg').datagrid('selectRow', index)
                         .datagrid('beginEdit', index);
                     var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
@@ -216,11 +218,13 @@ var vm = new Vue({
                     vm.editIndex = index;
                 } else {
                     gb_isUserEdit4ClickCell = false;
+                    gb_isUserEdit4EndEdit = true;
+
                     setTimeout(function () {
                         $('#prg_dg').datagrid('selectRow', vm.editIndex);
                     }, 0);
                 }
-                gb_isUserEdit4EndEdit = true;
+                gb_isUserEdit4ClickCell = true;
             }
         },
         //結束編輯
@@ -266,6 +270,7 @@ var vm = new Vue({
                         }
                     });
                 }
+                gb_isUserEdit4EndEdit = true;
                 this.tempExecData(row);
             }
         },
@@ -467,6 +472,7 @@ var vm = new Vue({
                 this.tmpCUD[dataType].push(rowData);
                 $("#gridEdit").val(this.tmpCUD);
                 gb_isUserEdit4ClickCell = true;
+                gb_isUserEdit4tempExecData = true;
             }
         },
         // 檢查暫存是否有資料
@@ -484,6 +490,7 @@ var vm = new Vue({
                 //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
                 var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
                 return existIdx;
+                gb_isUserEdit4chkTmpCudExistData = true;
             }
         },
         loadChangeLog: function () {
