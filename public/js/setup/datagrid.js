@@ -315,7 +315,10 @@ var vm = new Vue({
             }
 
             if (delRow.createRow == 'Y') {    //如果刪除此次新建的資料，則直接刪除即可。
-                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow))
+                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                vm.tmpCUD.createData = _.without(vm.tmpCUD.createData, delRow);  //SAM 20170805刪除新增資料
+                vm.endEditing();
+                vm.editIndex = undefined;
             }
             else {
                 vm.tmpCUD.deleteData.push(delRow);
@@ -327,6 +330,7 @@ var vm = new Vue({
                 }, function (result) {
                     if (result.success) {
                         $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                        vm.editIndex = undefined;//SAM
                     } else {
                         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                         vm.endEditing();
