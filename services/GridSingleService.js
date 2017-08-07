@@ -1212,7 +1212,7 @@ function changeValueFormat4Save(value, ui_type) {
     } else if (ui_type == "percent") {
         valueTemp = parseFloat(value) / 100;
     } else if (ui_type == "checkbox") {
-        if (value.toUpperCase() == "TRUE") {
+        if (value.toUpperCase() == "TRUE" || value.toUpperCase() == "Y") {
             valueTemp = "Y";
         } else {
             valueTemp = "N";
