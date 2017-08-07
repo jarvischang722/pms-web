@@ -112,5 +112,29 @@ module.exports = {
         } else {
             callback(null, result);
         }
+    },
+    //通路代號只能有一筆(跳訊息+清除資料)
+    chkGwcustrfAgentno : function (postData, session, callback) {
+        var lo_error = null;
+        var lo_result = new ReturnClass();
+        params = {
+          athena_id : postData.singleRowData.athena_id,
+          agent_no : postData.singleRowData.agent_no
+        };
+
+        queryAgent.query("QRY_GW_CUST_RF_COUNT".toUpperCase(), params, function (err, result) {
+            if (result) {
+                if (result.agentnocount > 0) {
+                    lo_result.success = true;
+
+                    postData.singleRowData.agent_no = "";
+                    lo_result.effectValues = postData.singleRowData;
+
+                    lo_result.showAlert = true;
+                    lo_result.alertMsg = "一個通路代號只能一筆，不可重複";
+                }
+                callback(lo_error, lo_result);
+            }
+        });
     }
 }
