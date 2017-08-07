@@ -159,13 +159,10 @@ Vue.component('single-grid-pms0830100-tmp', {
         chkFieldRule: function (ui_field_name, rule_func_name) {
 
             var self = this;
-            var la_originData = [this.$parent.originData];
-            var la_singleData = [this.singleData];
+            var lo_singleData = this.singleData;
 
-            var la_diff = _.difference(la_originData, la_singleData);
-            // 判斷資料是否有異動
-            if (la_diff.length != 0) {
-                this.isUpdate = true;
+            if(_.isUndefined(lo_singleData.room_cod)){
+                return false;
             }
 
             if (!_.isEmpty(rule_func_name.trim())) {
@@ -173,18 +170,10 @@ Vue.component('single-grid-pms0830100-tmp', {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
                     validateField: ui_field_name,
-                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                    singleRowData: lo_singleData
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
-                        //連動帶回的值
-                        if (!_.isUndefined(result.effectValues)) {
-                            var effectValues = result.effectValues;
-                            _.each(Object.keys(effectValues), function (key) {
-                                self.singleData[key] = effectValues[key] || "";
-                            });
-                        }
-
                         //是否要show出訊息
                         if (result.showAlert) {
                             alert(result.alertMsg);
@@ -203,10 +192,14 @@ Vue.component('single-grid-pms0830100-tmp', {
                                 }
                             }
                         }
-
-
                     } else {
                         alert(result.errorMsg);
+                    }
+
+                    //連動帶回的值
+                    if (!_.isUndefined(result.effectValues.room_cod)) {
+                        var effectValues = result.effectValues;
+                        self.singleData["room_cod"] = effectValues["room_cod"];
                     }
 
                 });
@@ -427,7 +420,6 @@ Vue.component('single-grid-pms0830100-tmp', {
                 //先驗證有無欄位沒驗證過的
                 this.$emit('do-save-cud', function (success) {
                     if (success) {
-
                         //儲存後離開
                         if (saveAfterAction == "closeDialog") {
                             self.singleData = {};
@@ -469,7 +461,6 @@ Vue.component('single-grid-pms0830100-tmp', {
             if(!_.isUndefined(rowData.day_sta_color)){
 
                 var lo_day_sta = $('#dt_dg').datagrid('getSelected').day_sta;
-                console.log(lo_day_sta);
 
                 delete rowData["day_sta_color"];
             }
@@ -642,6 +633,7 @@ var PMS0830100VM = new Vue({
         appendRow: function () {
             PMS0830100VM.initTmpCUD();
             PMS0830100VM.createStatus = true;
+            PMS0830100VM.editStatus = false;
             PMS0830100VM.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
@@ -733,7 +725,6 @@ var PMS0830100VM = new Vue({
                     PMS0830100VM.dtMultiLangField = _.filter(PMS0830100VM.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
-
 
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: PMS0830100VM.dtMultiLangField});
                 }

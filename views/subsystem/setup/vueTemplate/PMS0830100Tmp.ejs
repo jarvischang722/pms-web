@@ -59,29 +59,17 @@
                                         </el-date-picker>
                                     </template>
 
-
                                     <!-- 下拉選單 -->
-                                    <span class="dropdown margin-adjust" align="left"
-                                          :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'">
-                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                class="btn btn-default btn-white dropdown-toggle btn-height"
-                                                style="text-align: left!important;"
-                                                type="button"
-                                                data-toggle="dropdown">
-                                                {{ showDropdownDisplayName(singleData[field.ui_field_name] , field.selectData) }}
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation" v-for="opt in field.selectData">
-                                                <a @click.prevent="singleData[field.ui_field_name] = opt.value">
-                                                    {{opt.display}}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </span>
+                                    <select v-model="singleData[field.ui_field_name]"
+                                            @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                            :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                            v-if="field.visiable == 'Y' && field.ui_type == 'select'">
+                                        <option v-for="opt in field.selectData" :value="opt.value">
+                                            {{opt.display}}
+                                        </option>
+                                    </select>
 
                                     <input type="hidden"
                                            v-model="singleData[field.ui_field_name]"
