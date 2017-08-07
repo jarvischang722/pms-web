@@ -4,9 +4,9 @@
 var prg_id = gs_prg_id;
 var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
-var gb_isUserEdit4EndEdit;
+var gb_isUserEdit4EndEdit = true;
 var gb_isUserEdit4chkTmpCudExistData;
-var gb_isUserEdit4tempExecData;
+var gb_isUserEdit4tempExecData= true;
 
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
@@ -205,8 +205,10 @@ var vm = new Vue({
             console.log(gb_isUserEdit4ClickCell);
 
             if (vm.editIndex != index) {
+
                 if (this.endEditing() && gb_isUserEdit4ClickCell) {
                     gb_isUserEdit4ClickCell = false;
+                    gb_isUserEdit4EndEdit = true;
                     $('#prg_dg').datagrid('selectRow', index)
                         .datagrid('beginEdit', index);
                     var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
@@ -216,11 +218,13 @@ var vm = new Vue({
                     vm.editIndex = index;
                 } else {
                     gb_isUserEdit4ClickCell = false;
+                    gb_isUserEdit4EndEdit = true;
+
                     setTimeout(function () {
                         $('#prg_dg').datagrid('selectRow', vm.editIndex);
                     }, 0);
                 }
-                gb_isUserEdit4EndEdit = true;
+                gb_isUserEdit4ClickCell = true;
             }
         },
         //結束編輯
@@ -266,6 +270,7 @@ var vm = new Vue({
                         }
                     });
                 }
+                gb_isUserEdit4EndEdit = true;
                 this.tempExecData(row);
             }
         },
@@ -310,7 +315,10 @@ var vm = new Vue({
             }
 
             if (delRow.createRow == 'Y') {    //如果刪除此次新建的資料，則直接刪除即可。
-                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow))
+                $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                vm.tmpCUD.createData = _.without(vm.tmpCUD.createData, delRow);  //SAM 20170805刪除新增資料
+                vm.endEditing();
+                vm.editIndex = undefined;
             }
             else {
                 vm.tmpCUD.deleteData.push(delRow);
@@ -322,6 +330,7 @@ var vm = new Vue({
                 }, function (result) {
                     if (result.success) {
                         $('#prg_dg').datagrid('deleteRow', $('#prg_dg').datagrid('getRowIndex', delRow));
+                        vm.editIndex = undefined;//SAM
                     } else {
                         vm.tmpCUD.deleteData = _.without(vm.tmpCUD.deleteData, delRow);  //刪除在裡面的暫存
                         vm.endEditing();
@@ -467,6 +476,7 @@ var vm = new Vue({
                 this.tmpCUD[dataType].push(rowData);
                 $("#gridEdit").val(this.tmpCUD);
                 gb_isUserEdit4ClickCell = true;
+                gb_isUserEdit4tempExecData = true;
             }
         },
         // 檢查暫存是否有資料
@@ -484,6 +494,7 @@ var vm = new Vue({
                 //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
                 var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
                 return existIdx;
+                gb_isUserEdit4chkTmpCudExistData = true;
             }
         },
         loadChangeLog: function () {
