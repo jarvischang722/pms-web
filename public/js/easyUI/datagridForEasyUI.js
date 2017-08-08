@@ -298,18 +298,19 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
     if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
-        var indexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
 
-        if (selectDataRow.createRow == "Y") {
-            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
-        }
+        // if (selectDataRow.createRow == "Y") {
+        //     selectDataRow[fieldAttrObj.ui_field_name] = newValue;
+        // }
 
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
+            rowIndex: indexRow,
             rowData: selectDataRow,
             editRowData: editRowData,
             allRowData: JSON.parse(JSON.stringify(allDataRow)),

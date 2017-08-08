@@ -267,9 +267,9 @@ Vue.component('single-grid-pms0830100-tmp', {
                     //當欄位時寬度異動時
                     self.doSaveColumnFields();
                 },
-                onClickCell: self.onClickDtCell
+                // onClickCell: self.onClickDtCell
 
-                // onClickRow: self.onClickDtRow
+                onClickRow: self.onClickDtRow
 
 
             }).datagrid('columnMoving');
@@ -284,15 +284,16 @@ Vue.component('single-grid-pms0830100-tmp', {
             }
         },
 
-        onClickDtCell: function (index, field) {
+        onClickDtRow: function (index, field) {
             if (this.dtEditIndex != index) {
                 if (this.endDtEditing()) {
                     $("#dt_dg").datagrid('selectRow', index).datagrid('beginEdit', index);
-
-                    var ed = $("#dt_dg").datagrid('getEditor', {index: index, field: field});
-                    if (ed) {
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                    }
+                    // $("#dt_dg").datagrid("beginEdit", index);
+                    //
+                    // var ed = $("#dt_dg").datagrid('getEditor', {index: index, field: field});
+                    // if (ed) {
+                    //     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                    // }
                     this.dtEditIndex = index;
                 } else {
                     setTimeout(function () {
