@@ -47,6 +47,9 @@ module.exports = function(app  ) {
     //櫃檯備品iframe(靜態)
     app.get('/counterSupplies-Table_1', reservationCrtl.getResv_counterSuppliesTable);
 
+    //櫃檯備品iframe(靜態)
+    app.get('/resv_ratePlanTable', reservationCrtl.getResv_ratePlanTable);
+
     //交辦事項(靜態)
     app.get('/PMS0120070', reservationCrtl.getPMS0120070);
 

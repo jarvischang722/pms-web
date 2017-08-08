@@ -89,6 +89,12 @@ exports.getResv_counterSuppliesTable = function (req, res) {
     res.render("subsystem/reservation/PMS0100000_module/counterSupplies-Table_1");
 };
 /**
+ * ratePlan iframe(靜態)
+ */
+exports.getResv_ratePlanTable = function (req, res) {
+    res.render("subsystem/reservation/PMS0100000_module/resv_ratePlanTable");
+};
+/**
  * 交辦事項(靜態)
  */
 exports.getPMS0120070 = function (req, res) {

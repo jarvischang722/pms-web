@@ -10,6 +10,13 @@
 
 
         $('[data-rel=tooltip]').tooltip();
+
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
+        });
+
+
         /***
          * PMS0210020 綜合櫃檯
          */

@@ -784,7 +784,7 @@
             });
         });
 
-//       L&F點選... 彈出視窗
+        // L&F點選... 彈出視窗
         $(document).on('click', ".lfMore", function (e) {
             e.preventDefault();
             var dialog = $("#lfMore-page").removeClass('hide').dialog({
@@ -798,7 +798,7 @@
                 resizable: true
             });
         });
-// 彈出 PM
+        // 彈出 PM
         $(document).on('click', ".publiceAccountSetting-btn", function (e) {
             e.preventDefault();
             var dialog = $("#publiceAccountSetting-Dialog").removeClass('hide').dialog({
@@ -856,6 +856,22 @@
                 width: 900,
                 maxwidth: 1920,
 //                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 ratePlan內容
+        $(document).on('click', ".resv_ratePlanBtn", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_ratePlanBtn-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Rste Plan",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -1147,7 +1163,7 @@
             method: 'get',
             columns: [[
                 {field: 'rateCode', title: 'Rate Code', width: 80},
-                {field: 'rateName', title: 'Rate Name', width: 80},
+                {field: 'rateName', title: 'Rate Name', width: 150},
                 {field: 'rmType', title: 'RM Type', width: 100},
                 {field: 'arrival', title: 'Ａrrival', width: 80},
                 {field: 'departure', title: 'Departure', width: 80},
