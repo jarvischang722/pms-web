@@ -2760,83 +2760,6 @@
     "hint_en" : "Modified By"
 }
 { 
-    "_id" : ObjectId("593e37b78315bf47ec910d27"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "product_nos", 
-    "ui_display_name_zh_TW" : "代號", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Message Code", 
-    "hint_en" : "Frequently used message code"
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d28"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "product_nam", 
-    "ui_display_name_zh_TW" : "名稱", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d29"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "unit_typ", 
-    "ui_display_name_zh_TW" : "單位", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d2a"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "unit_amt", 
-    "ui_display_name_zh_TW" : "單價", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d2b"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "use_sta", 
-    "ui_display_name_zh_TW" : "使用狀態", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d2c"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "goods_cod", 
-    "ui_display_name_zh_TW" : "貨品代號", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d2d"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(2), 
-    "template_id" : "gridsingle", 
-    "ui_field_name" : "inv_sta", 
-    "ui_display_name_zh_TW" : "是否扣庫存", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
     "_id" : ObjectId("593e37b78315bf47ec910d2e"), 
     "prg_id" : "PMS0820060", 
     "page_id" : NumberInt(2), 
@@ -5344,7 +5267,7 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "item_qnt", 
-    "ui_display_name_zh_TW" : "庫存設定或使用數", 
+    "ui_display_name_zh_TW" : "庫存數", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Quantity", 
     "hint_en" : "Available quantity"
@@ -6817,4 +6740,59 @@
     "hint_zh_TW" : "最後異動者", 
     "ui_display_name_en" : "Modified By", 
     "hint_en" : "Modified By"
+}
+{ 
+    "_id" : ObjectId("5982d2e2b746b633bcb0b2b2"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "rmk_cod", 
+    "ui_display_name_zh_TW" : "代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Message Code", 
+    "hint_en" : "Frequently used message code"
+}
+{ 
+    "_id" : ObjectId("5982d2fbb746b633bcb0b2b3"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax1", 
+    "ui_display_name_zh_TW" : "留言內容1", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5982d308b746b633bcb0b2b4"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax2", 
+    "ui_display_name_zh_TW" : "留言內容2", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5982d317b746b633bcb0b2b5"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax3", 
+    "ui_display_name_zh_TW" : "留言內容3", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("5982d324b746b633bcb0b2b6"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax4", 
+    "ui_display_name_zh_TW" : "留言內容4", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
 }

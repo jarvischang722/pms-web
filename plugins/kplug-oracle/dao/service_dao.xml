@@ -35,6 +35,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_hfd_livecod_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_order_confirm_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_pickup_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_rest_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hfd_rest_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_todo_list_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_transport_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hfd_use_dt.xml"/>
