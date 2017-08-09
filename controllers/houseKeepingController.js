@@ -13,3 +13,9 @@ var roleSvc = require("../services/RoleFuncService");
 exports.getPMS0410050 = function (req, res) {
     res.render("subsystem/housekeeping/PMS0410050");
 };
+/**
+ * 房務入帳
+ */
+exports.getPMS0410020 = function (req, res) {
+    res.render("subsystem/housekeeping/PMS0410020");
+};
