@@ -16,7 +16,7 @@
     <!-- ['PMS0830100'] 取得假日類別 -->
     <dao name="QRY_HFD_REST_DT_DAYSTA">
         <statement><![CDATA[
-            select day_sta, day_nam from holiday_kind_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+            select day_sta as value, day_nam as display from holiday_kind_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="int" kind="3">athena_id</parameter>

@@ -88,19 +88,27 @@ module.exports = {
         }
     },
 
-    r_PMS0830100_save: function (postData, session, callback) {
+    QRY_HFD_REST_DT_SEQ_NOS: function (postData, session, callback) {
         let lo_result = new ReturnClass();
-        let li_seq_nos = 0;
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
 
-        _.each(postData, function (lo_ary, key) {
-            if (key == "dt_createData" || key == "dt_updateData") {
-                _.each(lo_ary, function (eachAry, Idx) {
-                    li_seq_nos++;
-                    postData[key][Idx].seq_nos = li_seq_nos;
-                });
+        queryAgent.query("QRY_HFD_REST_DT_SEQ_NOS", lo_params, function(err, getResult){
+            let li_max_seq_nos = getResult.max_seq_nos || 0;
+            if(!err){
+                lo_result.defaultValues = {seq_nos: li_max_seq_nos};
             }
+            else{
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err;
+                lo_error.errorCod = "1111";
+                lo_result.success = false;
+            }
+            callback(lo_error, lo_result);
         });
-        callback(null, lo_result);
     },
 
     chkHfdrestmnRoomcod: function (postData, session, callback) {

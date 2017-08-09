@@ -11,4 +11,14 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
+
+    <!-- ['PMS0830100'] 取明細的欄位seq_nos -->
+    <dao name="QRY_HFD_REST_DT_SEQ_NOS">
+        <statement><![CDATA[
+           select MAX(seq_nos)+1 as max_seq_nos from hfd_rest_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>

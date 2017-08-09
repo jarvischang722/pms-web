@@ -209,7 +209,7 @@ Vue.component('single-grid-pms0830100-tmp', {
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
             var self = this;
-            var columnsData = EZfieldClass.combineFieldOption(this.pageTwoDataGridFieldData, 'dt_dg');
+            var columnsData = EZfieldClass.combineFieldOption(PMS0830100VM.pageTwoDataGridFieldData, 'dt_dg');
             var firstCol = [];
             var secondCol = [];
 
@@ -601,7 +601,7 @@ var PMS0830100VM = new Vue({
             this.dgIns = new DatagridRmSingleGridClass();
             this.dgIns.init(prg_id, 'PMS0830100_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
-            PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
+            // PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
 
         //取得使用者資料
@@ -741,8 +741,8 @@ var PMS0830100VM = new Vue({
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
                 if (result.success) {
+                    PMS0830100VM.pageTwoDataGridFieldData = result.dtFieldData;
                     PMS0830100VM.singleData = result.rowData;
-                    PMS0830100VM.originData = _.clone(result.rowData);
                     PMS0830100VM.modificableForData = result.modificable || true;
                     PMS0830100VM.dtData = dtData;
                     vmHub.$emit('showDtDataGrid', dtData);

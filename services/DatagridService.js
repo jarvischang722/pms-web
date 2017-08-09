@@ -850,7 +850,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     var addRuleFunc = "";  //按下新增按鈕的規則
     var addTypeSelect = "";  //帶預設值
     var prg_id = postData["prg_id"];
-    var page_id = postData["page_id"] || 1;
+    var page_id = Number(postData["page_id"]) || 1;
     async.waterfall([
         //抓取規則
         function (callback) {
