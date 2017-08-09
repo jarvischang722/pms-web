@@ -3533,6 +3533,96 @@ span.triangle-text {
   margin-right: 5px;
 }
 
+/* line 1665, ../sass/_bacchusMain.sass */
+.hk-boxs-wrap {
+  height: 600px;
+  overflow: auto;
+}
+/* line 1669, ../sass/_bacchusMain.sass */
+.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
+  float: left;
+  margin: 0 5px 5px 0;
+  padding: 6px;
+  width: 85px;
+  height: 85px;
+  box-sizing: border-box;
+  background: #a6caf0;
+  color: #000;
+  font-size: 10px;
+  cursor: pointer;
+  border: 1px solid #616161;
+  border-radius: 7px;
+}
+/* line 1682, ../sass/_bacchusMain.sass */
+.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
+  opacity: 0.6;
+}
+
+/* line 1684, ../sass/_bacchusMain.sass */
+.hk-back-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* line 1689, ../sass/_bacchusMain.sass */
+.hk-boxsMid .hk-MidBoxsBlock {
+  padding: 6px;
+  width: 85px;
+  height: 85px;
+  box-sizing: border-box;
+  color: #000;
+  font-size: 10px;
+  cursor: pointer;
+  border: 1px solid #616161;
+  border-radius: 7px;
+  margin: 5px auto;
+  background: #c0dcc0;
+}
+/* line 1701, ../sass/_bacchusMain.sass */
+.hk-boxsMid .hk-MidBoxsBlock:hover {
+  opacity: 0.6;
+}
+/* line 1703, ../sass/_bacchusMain.sass */
+.hk-boxsMid .hk-MidBoxsBlock.active {
+  background: green;
+  color: #fff;
+}
+
+/* line 1706, ../sass/_bacchusMain.sass */
+.hk-boxs-container {
+  background: #c0dcc0;
+  border: 1px solid;
+}
+
+/* line 1709, ../sass/_bacchusMain.sass */
+.margin-top20 {
+  margin-top: 20px;
+}
+
+/* line 1711, ../sass/_bacchusMain.sass */
+.hk-posting-frist {
+  height: 618px;
+  padding: 20px 12px;
+  border: 1px solid #000;
+}
+/* line 1715, ../sass/_bacchusMain.sass */
+.hk-posting-frist .hk-foot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 16px;
+  padding: 3px 10px;
+}
+
+/* line 1721, ../sass/_bacchusMain.sass */
+.hk-footer {
+  color: blue;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
