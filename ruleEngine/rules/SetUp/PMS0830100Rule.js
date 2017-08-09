@@ -141,7 +141,7 @@ module.exports = {
                 let lb_chkEndDat = chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, postData.editRowData.end_dat);
                 let li_curIdx = Number(postData.rowIndex);
 
-                if (lb_chkBeginDat && lb_chkEndDat && postData.editRowData.day_sta == eachRowData.day_sta) {
+                if ((lb_chkBeginDat || lb_chkEndDat) && postData.editRowData.day_sta == eachRowData.day_sta) {
 
                     ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.begin_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
                         "與 第[" + (index + 1) + "]行 開始日["+ ls_eachRowBeginDat +"]結束日["+ ls_eachRowEndDat +"]假日類別["+ eachRowData.day_sta +"] 日期重疊";
