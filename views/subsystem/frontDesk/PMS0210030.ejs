@@ -62,10 +62,19 @@
                                                 <label>RV.NO.</label>
                                                 <input type="text" class="input-medium medium-c1"/>
                                             </div>
-
+                                        </div>
+                                        <div class="grid">
                                             <div class="grid-item">
                                                 <label>RM Features</label>
                                                 <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>Status</label>
+                                                <select class="input-medium medium-c1">
+                                                    <option value="1">Assigned</option>
+                                                    <option value="2">Unassign</option>
+                                                    <option value="3">All</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -2517,11 +2526,15 @@
                                                     role="button">Assign</button>
                                         </li>
                                         <li>
+                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                    role="button">Unassign</button>
+                                        </li>
+                                        <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth"
                                                     role="button">Auto Assign</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
                                                     role="button">Pax List</button>
                                         </li>
                                         <li>
