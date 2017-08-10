@@ -1689,6 +1689,7 @@ a {
 .top-sec-ul .top-ul ul li:hover {
   background: #ffc666;
 }
+/* line 158, ../sass/_bacchusMain.sass */
 .top-sec-ul .top-ul ul li.active_01 {
   background: #D15B47;
 }
@@ -2555,14 +2556,33 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-brown {
   background: #dcbe88;
 }
+/* line 25, ../sass/modules/_mixin.sass */
 .rulesOfSeparation .counterRow .counterBlock.cb-blueGreen {
   background: #06eed5;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-grayGreen {
   background: #aac077;
 }
+.rulesOfSeparation .counterRow .counterBlock.cb-brown {
+  background: #19647E;
+}
+.rulesOfSeparation .counterRow .counterBlock.cb-darkGreen {
+  background: #00542f;
+}
+.rulesOfSeparation .counterRow .counterBlock.cb-sexyYellow {
+  background: #848009;
+}
+.rulesOfSeparation .counterRow .counterBlock.cb-sexyGreen {
+  background: #556b2f;
+}
+.rulesOfSeparation .counterRow .counterBlock.cb-sexyRed {
+  background: rgba(255, 33, 95, 0.77);
+}
 .rulesOfSeparation .counterRow .counterBlock.cb-default {
   background: #c0d6ee;
+}
+.rulesOfSeparation .counterRow .counterBlock.cd-sexyPurple {
+  background: #4B3F72 !important;
 }
 .rulesOfSeparation .counterRow .counterBlock.active {
   border: 2px solid #ff0000;
@@ -2663,8 +2683,26 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock.cb-grayGreen {
   background: #aac077;
 }
+.foCounter .counterPage .counterRow .counterBlock.cb-brown {
+  background: #19647E;
+}
+.foCounter .counterPage .counterRow .counterBlock.cb-darkGreen {
+  background: #00542f;
+}
+.foCounter .counterPage .counterRow .counterBlock.cb-sexyYellow {
+  background: #848009;
+}
+.foCounter .counterPage .counterRow .counterBlock.cb-sexyGreen {
+  background: #556b2f;
+}
+.foCounter .counterPage .counterRow .counterBlock.cb-sexyRed {
+  background: rgba(255, 33, 95, 0.77);
+}
 .foCounter .counterPage .counterRow .counterBlock.cb-default {
   background: #c0d6ee;
+}
+.foCounter .counterPage .counterRow .counterBlock.cd-sexyPurple {
+  background: #4B3F72 !important;
 }
 .foCounter .counterPage .counterRow .counterBlock.active {
   border: 2px solid #ff0000;
@@ -3080,6 +3118,7 @@ th.dateColor {
   min-width: 200px;
 }
 
+/* line 1288, ../sass/_bacchusMain.sass */
 .fancyTable.roomPlanTable tbody tr td {
   background-color: #DAEAFC;
   color: #262c31;
@@ -3340,6 +3379,7 @@ span.triangle-text {
   border-bottom: 0px;
   margin-bottom: 3px;
 }
+/* line 1501, ../sass/_bacchusMain.sass */
 .pbx-clean-box hr {
   clear: both;
 }
@@ -3604,11 +3644,9 @@ span.triangle-text {
   border: 1px solid #000;
 }
 .hk-posting-frist .hk-foot {
-  position: absolute;
-  right: 0;
-  bottom: 0;
   font-size: 16px;
   padding: 3px 10px;
+  text-align: right;
 }
 
 .hk-footer {
@@ -3616,6 +3654,50 @@ span.triangle-text {
   font-size: 18px;
   margin-top: 10px;
   margin-left: 20px;
+}
+
+.list-grap-tab {
+  width: 70px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+.hk-table-container .counterPage .counterRow .counterBlock {
+  color: #fff;
+}
+.hk-table-container .counterPage .counterRow .counterBlock .content-sub {
+  position: absolute;
+  bottom: 2px;
+  left: 57px;
+  font-size: 14px;
+}
+.hk-table-container .counterPage .counterRow .counterBlock .content {
+  position: absolute;
+  top: 23px;
+  font-size: 16px;
+  left: 47px;
+}
+
+.hk-grap-wrap .panel {
+  padding-left: 5px;
+}
+
+.width-48 {
+  width: 48% !important;
+}
+
+.width-4 {
+  width: 4% !important;
+}
+
+.marginLeft-27 {
+  margin-left: 27px;
+}
+
+.businessCompanyData .main-content-data .hk-posting-frist label {
+  width: 70px;
+  text-align: right;
+  margin-right: 0;
 }
 
 /*------  共用區public ------ */
@@ -4170,6 +4252,11 @@ a {
 }
 .input-medium.resvCard-2xs {
   width: 26.7px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-xlxl {
+  width: 140px;
   max-width: 100%;
   height: 25px;
 }
