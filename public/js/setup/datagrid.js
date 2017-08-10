@@ -166,7 +166,7 @@ var vm = new Vue({
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
             if (hasMultiLangField) {
-                columnsData.push({
+                columnsData.unshift({
                     type: 'textbox',
                     title: "Multi Lang",
                     field: "langAction",

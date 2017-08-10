@@ -145,12 +145,12 @@ module.exports = {
         var options = new Object;
 
         options.panelWidth = '200';
-        options.idField = 'value';
-        options.textField = 'value';
+        options.idField = 'display';
+        options.textField = 'display';
 
         var columns = [[
-            {field:'display',title:'群組代號',width:100},
-            {field:'value',title:'群組名稱',width:100}]];
+            {field:'value',title:'群組代號',width:100},
+            {field:'display',title:'群組名稱',width:100}]];
 
         options.columns = columns;
 

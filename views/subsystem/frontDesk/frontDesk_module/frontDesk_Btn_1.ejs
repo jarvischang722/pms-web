@@ -604,178 +604,6 @@
     </div>
     <!-- /.點擊待檢查 彈出視窗 -->
 
-    <!-- lost found(多筆) 彈出視窗 -->
-    <div id="lost-found-page" class="hide padding-5 lost-found-wrap">
-        <div class="businessCompanyData">
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-11 col-sm-11">
-                        <div class="search-content">
-                            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                            <div class="search-co">
-                                <div class="search-co-h">
-                                    <i class="ace-icon fa fa-search search-icon"></i>
-                                    <span>搜尋</span>
-                                    <div class="row search-right-btn">
-                                        <div class="right-btn-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <i class="fa fa-chevron-down show-search-detail"></i>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="search-co-content col-xs-12">
-                                        <div class="col-sm-4">
-
-                                        </div>
-                                        <div class="col-sm-4">
-
-                                        </div>
-                                        <div class="col-sm-4">
-
-                                        </div>
-                                    </div>
-                                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                        <div class="row search-footer-btn">
-                                            <div class="footer-btn-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                            <div class="icon-reStyle icon-co-14"></div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                            <div class="icon-reStyle icon-co-11"></div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>  <!-- /.footer-btn-menu-co -->
-                                        </div> <!-- /.search-footer-btn -->
-                                        <div class="width-95">
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>編號</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>報失/拾獲/領回日期</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="date">
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>報失/拾獲物品</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>報失/食或地點</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>報失/拾獲/領回者</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>狀態</label>
-                                                    <input class="input-medium popWindow-s1-col2" type="text" placeholder="'1','2','3','4','5'">
-                                                    <span class="moreClick bs-company-totalMain lfMore">...</span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div> <!-- row-->
-                            </div> <!-- /.search-co -->
-                        </div> <!-- /.row  search-content-->
-                        <div class="main-content-data">
-                            <table id="lostFound-table"></table>
-                        </div><!--main-content-data-->
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="col-xs-1 col-sm-1">
-                        <div class="row">
-                            <div class="right-menu-co">
-
-                                <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
-                                                role="button">新增
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">新增報失
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">新增拾獲
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
-                                                role="button">修改
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" disabled>拾獲
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">刪除
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" disabled>遺失者領回
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" disabled>拾獲者領回
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" >批次拾獲者領回
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" >以下全選
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button" >以下全不選
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <!-- /.lost found -->
 
     <!-- lost found(單筆) 彈出視窗 -->
     <div id="lost-found-modify" class="hide padding-5">
@@ -1089,7 +917,7 @@
                                             role="button">Message</button>
                                 </div>
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth lost-found-btn"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resvLostFound"
                                             role="button">Lost&found</button>
                                 </div>
                                 <div class="col-xs-4">
@@ -2931,7 +2759,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Room C/O</button>
+                                                role="button">Group C/O</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -3461,7 +3289,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Room C/O</button>
+                                                role="button">Group C/O</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
