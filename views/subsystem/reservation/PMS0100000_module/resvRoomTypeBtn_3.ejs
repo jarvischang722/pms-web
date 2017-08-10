@@ -343,7 +343,7 @@
                         <div class="grid">
                             <div class="grid-item">
                                 <label>Fax No.</label>
-                                <input class="input-medium popWindow-s1-col2" />
+                                <input type="text" class="input-medium popWindow-s1-col2" />
                             </div>
                         </div>
 
@@ -1526,8 +1526,6 @@
 <!-- 住客歷史 lost&Found 彈出視窗 -->
 <div id="resvLostFound-message" class="hide padding-5" style="top: 0 !important;">
 
-
-
     <div class="businessCompanyData">
         <!--標題-->
         <div class="titleInfo">
@@ -1539,7 +1537,7 @@
             <div class="row">
                 <div class="col-xs-11 col-sm-11">
                     <div class="main-content-data">
-                        <table id="resvProfile_lostFound-table"></table>
+                        <table id="resvProfile_lostFound-table" style="height: 300px;"></table>
                     </div><!--main-content-data-->
                     <div class="clearfix"></div>
                 </div>
@@ -1550,32 +1548,17 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增
+                                            role="button">Add
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增報失
+                                            role="button">Edit
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增拾獲
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">修改
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button" disabled>拾獲
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">刪除
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">Delete
                                     </button>
                                 </li>
                                 <li>
@@ -1590,11 +1573,6 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button" >批次拾獲者領回
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button" >以下全選
                                     </button>
                                 </li>
@@ -1602,6 +1580,18 @@
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button" >以下全不選
                                     </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">列印明細</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
                                 </li>
                             </ul>
                         </div>
@@ -1859,22 +1849,7 @@
                 </div>
                 <div class="col-xs-1 col-sm-1">
                     <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">列印明細</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Save</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Exit</button>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -2156,3 +2131,635 @@
     </div>
 </div>
 <!-- /.PMS0120070 交辦事項(單筆) edit 彈出視窗 -->
+
+<!--PMS0110010 訂房卡 resv_depoisits 彈出視窗-->
+<div id="resv_depoisits-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+
+                    <div class="main-content-data">
+
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>日期</label>
+                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="2017/07/21" disabled>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>廳別</label>
+                                <select class="input-medium popWindow-s1-col2">
+                                    <option value="1">FO:櫃檯</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>班別</label>
+                                <select class="input-medium popWindow-s1-col2">
+                                    <option value="1">Ａ:早班</option>
+                                    <option value="1">Ｂ:晚班</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>使用者</label>
+                                <input type="text" class="input-medium popWindow-s1-col2" placeholder="cio">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>密碼</label>
+                                <input type="password" class="input-medium popWindow-s1-col2" placeholder="">
+                            </div>
+                        </div>
+
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisitsStep2"
+                                            role="button">確定
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">取消
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.訂房卡 resv_depoisits -->
+
+<!--PMS0110010 訂房卡 resv_depoisitsStep2 彈出視窗-->
+<div id="resv_depoisitsStep2-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+
+                    <div class="main-content-data">
+
+                        <div class="grid">
+                            <div class="grid-item foCntRadio">
+                                <label class="pull-left lineHeight24">設定方式</label>
+                                <div class="searchRadio pull-left lineHeight24">
+                                    <span class="radio">
+                                      <label class="checkbox-width" style="width: auto;">
+                                          <input name="form-field-checkbox" type="radio" class="ace" checked="">
+                                          <span class="lbl">新增訂金編號</span>
+                                      </label>
+                                    </span>
+                                </div>
+                                <div class="searchRadio pull-left lineHeight24">
+                                        <span class="radio">
+                                          <label class="checkbox-width" style="width: auto;">
+                                              <input name="form-field-checkbox" type="radio" class="ace" checked="">
+                                              <span class="lbl">指定訂金編號</span>
+                                          </label>
+                                        </span>
+                                </div>
+                            </div>
+
+
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金編號</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2RM" placeholder="" disabled>
+                                    <span class="moreClick">...</span>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Full Name</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金餘額</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2 text-right" placeholder="" disabled>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisitsStep3A"
+                                            role="button">設定(新增)
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisitsStep3B"
+                                            role="button">設定(指定)
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Esc
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.訂房卡 resv_depoisits -->
+
+<!--PMS0110010 訂房卡 resv_depoisitsStep3A 彈出視窗-->
+<div id="resv_depoisitsStep3A-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="main-content-data borderFrame">
+
+                            <!--1-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金編號</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>訂金狀態</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="N:使用中" disabled/>
+                                </div>
+                            </div>
+
+                            <!--2-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>組別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="1" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>建立館別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="02:行車平安" disabled/>
+                                </div>
+                            </div>
+
+                            <!--3-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金大類</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="01:客房訂金"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>訂金類別</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="2:多次使用"/>
+                                </div>
+                            </div>
+
+                            <!--4-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Full Name</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="rick chen"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>發票開立方式</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="N:後開"/>
+                                </div>
+                            </div>
+
+                            <!--5-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>First Name</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="chen"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>生日</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+
+                            <!--6-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Last Name</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="rick"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>電話</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <!--7-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>到期日</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="未設定"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>身份證號</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <!--8-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label class="pull-left">備註</label>
+                                    <textarea class="input-medium resvCard-fullRemark input-hCol2 pull-left marginLeft-5" placeholder="pick guy"></textarea>
+                                    <span class="moreClick pull-left marginLeft-5">...</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisitsStep4A"
+                                            role="button">Save
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">放棄
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.訂房卡 resv_depoisits -->
+
+<!--PMS0110010 訂房卡 resv_depoisitsStep4A 彈出視窗-->
+<div id="resv_depoisitsStep4A-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+
+                        <div class="main-content-data borderFrame">
+
+                            <!--1-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金編號</label>
+                                    <span class="verifyVal">0000052AAA</span>
+                                </div>
+                            </div>
+
+                            <!--2-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>First Name</label>
+                                    <span class="verifyVal">chen</span>
+                                </div>
+                            </div>
+
+                            <!--3-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Last Name</label>
+                                    <span class="verifyVal">rick</span>
+                                </div>
+                            </div>
+
+                            <!--4-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Full Name</label>
+                                    <span class="verifyVal">rick chen</span>
+                                </div>
+                            </div>
+                            <div class="border-double1"></div>
+                            <!--5-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>日期</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="2017/06/21" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>廳別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="FO:櫃檯" disabled/>
+                                </div>
+                            </div>
+
+
+                            <!--6-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>手工單號</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>班別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="A" disabled/>
+                                </div>
+                            </div>
+
+                            <!--7-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>金額</label>
+                                    <input type="text" class="input-medium resvCard-col2 text-right" placeholder="0"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>付款方式</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <!--8-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label class="pull-left">備註</label>
+                                    <textarea class="input-medium resvCard-fullRemark input-hCol2 pull-left marginLeft-5" placeholder="pick guy"></textarea>
+                                    <span class="moreClick pull-left marginLeft-5">...</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisitsStep5A"
+                                            role="button">Save
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">放棄
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.訂房卡 resv_depoisits -->
+
+<!--PMS0110010 訂房卡 resv_depoisitsStep5A 彈出視窗-->
+<div id="resv_depoisitsStep5A-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="main-content-data borderFrame">
+
+                            <!--1-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金編號</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>訂金狀態</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="N:使用中" disabled/>
+                                </div>
+                            </div>
+
+                            <!--2-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>組別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="1" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>建立館別</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="02:行車平安" disabled/>
+                                </div>
+                            </div>
+
+                            <!--3-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂金大類</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="01:客房訂金"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>訂金類別</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="2:多次使用"/>
+                                </div>
+                            </div>
+
+                            <!--4-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Full Name</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="rick chen"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>發票開立方式</label>
+                                    <input type="text" class="input-medium resvCard-col2 input_sta_required" placeholder="N:後開"/>
+                                </div>
+                            </div>
+
+                            <!--5-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>First Name</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="chen"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>生日</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+
+                            <!--6-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Last Name</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="rick"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>電話</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <!--7-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>到期日</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder="未設定"/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>身份證號</label>
+                                    <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                </div>
+                            </div>
+
+                            <!--8-->
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label class="pull-left">備註</label>
+                                    <textarea class="input-medium resvCard-fullRemark input-hCol2 pull-left marginLeft-5" placeholder="pick guy"></textarea>
+                                    <span class="moreClick pull-left marginLeft-5">...</span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div><!--main-content-data-->
+                        <div class="space-4"></div>
+                        <table id="resv_depositStep5A-table" style="height: 200px; width: 100%;"></table>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">放棄
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.訂房卡 resv_depoisits -->
+
+<!-- PMS0110010 訂房卡 resv_depoisitsStep3B -->
+<div id="resv_depoisitsStep3B-message" class="hide padding-5 lost-found-wrap" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12 paSetting-wrap paChoosed-wrap">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+
+                    <div class="main-content-data">
+
+                        <div class="grid">
+                            <select  class="input-medium popWindow-s1">
+                                <option value="">訂金編號</option>
+                                <option value="">訂金編號</option>
+                            </select>
+                        </div>
+                    </div><!--main-content-data-->
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+
+                    <div class="main-content-data">
+                        <table id="resv_depositStep3B" style="height: 200px; width: 100%;"></table>
+                    </div><!--main-content-data-->
+
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /訂房卡 resv_depoisits -->
+
+<!-- resv_amenitiesIny 彈出視窗 -->
+<div id="resv_amenitiesIny-message" class="hide padding-5" style="top: 0 !important;">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <iframe src="./../resv_amenitiesIframe" style="width: 100%; min-height: 245px;" frameborder="0" scrolling="0"></iframe>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_amenitiesDetail"
+                                        role="button">Details</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+
+</div>
+<!-- /.End resv_amenitiesIny 彈出視窗 -->
+]
+
+<!-- resv_amenitiesDetail 彈出視窗 -->
+<div id="resv_amenitiesDetail-message" class="hide padding-5 lost-found-wrap" style="top: 0 !important;">
+    <div class="businessCompanyData">
+        <div class="clearfix"></div>
+        <div class="col-xs-12 col-sm-12">
+            <div class="main-content-data">
+                <table id="resv_amenitiesDetail-table" style="height: 200px; width: 100%;"></table>
+            </div><!--main-content-data-->
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /resv_amenitiesDetail -->

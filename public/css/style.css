@@ -75,6 +75,9 @@
 .grid-item.foCntRadio .searchRadio .radio label .lbl:before {
   margin-right: 3px;
 }
+.grid-item .verifyVal {
+  border-bottom: 1px solid #333;
+}
 
 .grid-item-input {
   width: 100px;
@@ -1686,6 +1689,7 @@ a {
 .top-sec-ul .top-ul ul li:hover {
   background: #ffc666;
 }
+/* line 158, ../sass/_bacchusMain.sass */
 .top-sec-ul .top-ul ul li.active_01 {
   background: #D15B47;
 }
@@ -1904,7 +1908,7 @@ a {
 /*-- 搜尋列表 -- */
 .search-content {
   position: relative;
-  padding: 0 0 15px 0;
+  padding: 0 0 5px 0;
 }
 .search-content .search-co {
   position: relative;
@@ -2335,18 +2339,6 @@ ul.newVisitOther-btn {
   width: 600px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  .businessCompanyData .main-content-data .medium-c1 {
-    width: 120px;
-    max-width: 100%;
-    height: 25px;
-  }
-  .businessCompanyData .main-content-data .input-spc-1 {
-    width: 349px;
-    max-width: 100%;
-    height: 25px;
-  }
-}
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 -- */
 .easyUi-custom1 .tabs-header {
   background: #fff;
@@ -2564,11 +2556,12 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-brown {
   background: #dcbe88;
 }
+/* line 25, ../sass/modules/_mixin.sass */
 .rulesOfSeparation .counterRow .counterBlock.cb-blueGreen {
   background: #06eed5;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-grayGreen {
-  background: #008148;
+  background: #aac077;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-sexyBlue {
   background: #19647E;
@@ -2688,7 +2681,7 @@ ul.newVisitOther-btn {
   background: #06eed5;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-grayGreen {
-  background: #008148;
+  background: #aac077;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-sexyBlue {
   background: #19647E;
@@ -3125,9 +3118,14 @@ th.dateColor {
   min-width: 200px;
 }
 
+/* line 1288, ../sass/_bacchusMain.sass */
 .fancyTable.roomPlanTable tbody tr td {
   background-color: #DAEAFC;
   color: #262c31;
+}
+
+.fancyTable.bg-white tbody tr td {
+  background-color: #fff;
 }
 
 .otherContact-box {
@@ -3381,6 +3379,7 @@ span.triangle-text {
   border-bottom: 0px;
   margin-bottom: 3px;
 }
+/* line 1501, ../sass/_bacchusMain.sass */
 .pbx-clean-box hr {
   clear: both;
 }
@@ -3549,7 +3548,6 @@ span.triangle-text {
 }
 
 .titleInfo .titleInfo-head {
-  padding-top: 5px;
   padding-bottom: 0;
   border-bottom: 1px solid #eee;
   margin: 5px auto;
@@ -3561,13 +3559,12 @@ span.triangle-text {
   margin-bottom: 0;
 }
 .titleInfo .textarea-title {
-  margin: 10px auto;
+  margin: 5px auto;
 }
 
 .div_shadow {
-  -moz-box-shadow: inset 3px 4px 20px 0px #8F8888, 5px 5px 5px 1px #707070;
-  -webkit-box-shadow: inset 3px 4px 20px 0px #8F8888, 5px 5px 5px 1px #707070;
-  box-shadow: inset 3px 4px 20px 0px #8F8888, 5px 5px 5px 1px #707070;
+  border: 1px solid #8aafce;
+  box-shadow: 3px 3px 2px #ccc;
 }
 
 .townBlock.active {
@@ -3998,13 +3995,6 @@ a {
   max-width: 100%;
   height: 25px;
 }
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  .input-medium.medium-c1 {
-    width: 120px;
-    max-width: 100%;
-    height: 25px;
-  }
-}
 .input-medium.medium-c1-col2 {
   width: 488px;
   max-width: 100%;
@@ -4029,13 +4019,6 @@ a {
   width: 179px;
   max-width: 100%;
   height: 25px;
-}
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  .input-medium.medium-c2 {
-    width: 134px;
-    max-width: 100%;
-    height: 25px;
-  }
 }
 .input-medium.medium-c3-sm {
   width: 104px;
@@ -4154,6 +4137,11 @@ a {
 }
 .input-medium.popWindow-s1-col2 {
   width: 414px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.popWindow-s1-col2RM {
+  width: 387px;
   max-width: 100%;
   height: 25px;
 }
@@ -4306,25 +4294,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  .input-spc-1 {
-    width: 349px;
-    max-width: 100%;
-    height: 25px;
-  }
-}
 
 .input-spc-key {
   width: 466px;
   max-width: 100%;
   height: 25px;
-}
-@media screen and (min-width: 768px) and (max-width: 1030px) {
-  .input-spc-key {
-    width: 376px;
-    max-width: 100%;
-    height: 25px;
-  }
 }
 
 .input-mLeft-1 {
@@ -4506,6 +4480,13 @@ input[type="datetime-local"] {
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
+}
+
+.text-right {
+  text-align: right !important;
+}
+.text-right .numeric {
+  text-align: right !important;
 }
 
 /*-------------- responsive -------------- */

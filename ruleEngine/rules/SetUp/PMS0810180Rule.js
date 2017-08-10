@@ -81,6 +81,14 @@ module.exports = {
             ccust_nam: "cust_nam"
         };
 
+        var fieldNameChangeLanguage = {
+            show_cod: "客戶代號",
+            cust_cod: "客戶編號",
+            cust_nam: "客戶名稱",
+            contract1_rmk:"連絡電話",
+            status_cod : "狀態"
+        };
+
         if (ui_field_name != "") {
             selectDSFunc.push(
                 function (callback) {
@@ -92,6 +100,7 @@ module.exports = {
                         dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
+                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
                             callback(null, result);
                         });
                     });
@@ -103,5 +112,29 @@ module.exports = {
         } else {
             callback(null, result);
         }
+    },
+    //通路代號只能有一筆(跳訊息+清除資料)
+    chkGwcustrfAgentno : function (postData, session, callback) {
+        var lo_error = null;
+        var lo_result = new ReturnClass();
+        params = {
+          athena_id : postData.singleRowData.athena_id,
+          agent_no : postData.singleRowData.agent_no
+        };
+
+        queryAgent.query("QRY_GW_CUST_RF_COUNT".toUpperCase(), params, function (err, result) {
+            if (result) {
+                if (result.agentnocount > 0) {
+                    lo_result.success = true;
+
+                    postData.singleRowData.agent_no = "";
+                    lo_result.effectValues = postData.singleRowData;
+
+                    lo_result.showAlert = true;
+                    lo_result.alertMsg = "一個通路代號只能一筆，不可重複";
+                }
+                callback(lo_error, lo_result);
+            }
+        });
     }
 }

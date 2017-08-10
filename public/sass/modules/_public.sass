@@ -173,8 +173,8 @@ $medium-c3-card: 212px
 .input-medium
   &.medium-c1
     +input-s1(165px)
-    @media screen and (min-width: 768px) and (max-width: 1030px)
-      +input-s1(120px)
+    //@media screen and (min-width: 768px) and (max-width: 1030px)
+    //  +input-s1(120px)
   &.medium-c1-col2
     +input-s1(488px)
     //todo resvRoomTyprBtn2
@@ -186,8 +186,8 @@ $medium-c3-card: 212px
     +input-s1(702px)
   &.medium-c2
     +input-s1(179px)
-    @media screen and (min-width: 768px) and (max-width: 1030px)
-      +input-s1(134px)
+    //@media screen and (min-width: 768px) and (max-width: 1030px)
+    //  +input-s1(134px)
   &.medium-c3-sm
     +input-s1(104px)
   &.medium-c3
@@ -240,6 +240,8 @@ $medium-c3-card: 212px
     +input-s1(138px)
   &.popWindow-s1-col2
     +input-s1(414px)
+  &.popWindow-s1-col2RM
+    +input-s1(387px)
   &.popWindow-s1-col2v2
     +input-s1(418px)
   &.popWindow-s1v2
@@ -301,12 +303,12 @@ $medium-c3-card: 212px
   height: ($inputHeight-medium*2)+5 !important
 .input-spc-1
   +input-s1
-  @media screen and (min-width: 768px) and (max-width: 1030px)
-    +input-s1(349px)
+  //@media screen and (min-width: 768px) and (max-width: 1030px)
+  //  +input-s1(349px)
 .input-spc-key
   +input-s1(466px)
-  @media screen and (min-width: 768px) and (max-width: 1030px)
-    +input-s1(376px)
+  //@media screen and (min-width: 768px) and (max-width: 1030px)
+  //  +input-s1(376px)
 .input-mLeft-1
   margin-left: 28px
 
@@ -467,6 +469,11 @@ input[type="datetime-local"]
       margin: 0 108px auto 5px
       .checkbox-width
         width: auto
+
+.text-right
+  text-align: right!important
+  .numeric
+    text-align: right!important
 //scroll-bar style
 // https://codepen.io/kqlambert/pen/tbJCD?editors=1100
 //::-webkit-scrollbar
