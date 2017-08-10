@@ -245,13 +245,13 @@ Vue.component('text-select-grid-dialog-tmp', {
     },
     created: function () {
         var self = this;
-        vmHub.$on('showTextDataGrid', function (result) {
-            self.showTextDataGrid(result);
+        vmHub.$on('showPopUpDataGrid', function (result) {
+            self.showPopUpDataGrid(result);
         });
     },
     methods: {
         //顯示點選textgrid跳出來的視窗
-        showTextDataGrid: function (result) {
+        showPopUpDataGrid: function (result) {
             var self = this;
             var textDataGrid = result.showDataGrid;
             var updateFieldName = result.updateFieldNameTmp;
@@ -304,7 +304,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             });
             vmHub.$emit('updateBackSelectData', chooseData);
-            $("#dataTextGridDialog").dialog('close');
+            $("#dataPopUpGridDialog").dialog('close');
         },
         txtSearchChangeText: function (keyContent) {
             var allData = this.gridData;
@@ -325,7 +325,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectTextGridData', 'updateBackSelectData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -433,19 +433,19 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
         },
         //跳窗選擇多欄位
-        chkClickTextGrid: function (fields) {
-            if (fields.ui_type == "textgrid") {
+        chkClickPopUpGrid: function (fields) {
+            if (fields.ui_type == "popupgrid") {
                 var params = {
                     prg_id: prg_id,
                     fields: fields,
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
 
-                $.post("/api/selectGridData", params, function (result) {
+                $.post("/api/popUpGridData", params, function (result) {
                     if (result != null) {
-                        vm.selectTextGridData = result.showDataGrid;
-                        vmHub.$emit('showTextDataGrid', result);
-                        vm.showTextGridDialog();
+                        vm.selectPopUpGridData = result.showDataGrid;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        vm.showPopUpGridDialog();
                     }
                 });
             }
@@ -1192,7 +1192,7 @@ var vm = new Vue({
             });
         },
         //顯示textgrid跳窗訊息
-        showTextGridDialog: function () {
+        showPopUpGridDialog: function () {
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
@@ -1200,7 +1200,7 @@ var vm = new Vue({
                 //加上 dt 高度
                 height += this.dtData.length * 35 + 130;
             }
-            var dialog = $("#dataTextGridDialog").dialog({
+            var dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),

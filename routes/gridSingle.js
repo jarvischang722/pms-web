@@ -20,7 +20,7 @@ module.exports = function(app ) {
     app.post('/api/saveGridSingleData',middles, sgCrtl.saveGridSingleData);
 
     //取得跳窗頁面資料(用在跳窗選擇資料後可帶回資料到欄位)
-    app.post('/api/selectGridData',middles, sgCrtl.selectGridData);
+    app.post('/api/popUpGridData',middles, sgCrtl.popUpGridData);
 
 
 };

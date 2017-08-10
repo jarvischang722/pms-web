@@ -58,8 +58,8 @@ exports.saveGridSingleData = function (req, res) {
 /**
  * 取得跳窗頁面上的資料
  */
-exports.selectGridData = function (req, res) {
-    singleGridSVC.handleSelectTextGridData(req.session, req.body, function (err, result) {
+exports.popUpGridData = function (req, res) {
+    singleGridSVC.handlePopUpGridData(req.session, req.body, function (err, result) {
         res.json(commonTools.mergeRtnErrResultJson(err,result));
     });
 };
