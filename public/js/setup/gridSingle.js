@@ -250,7 +250,7 @@ Vue.component('text-select-grid-dialog-tmp', {
         });
     },
     methods: {
-        //顯示點選textgrid跳出來的視窗
+        //顯示點選popupgrid跳出來的視窗
         showPopUpDataGrid: function (result) {
             var self = this;
             var textDataGrid = result.showDataGrid;

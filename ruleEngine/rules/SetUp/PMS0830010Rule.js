@@ -14,50 +14,37 @@ var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
 var selOptLib = require("../SelectOptionsLib");
-var mongoAgent = require(appRootDir + '/plugins/mongodb');
 
 module.exports = {
     chkCashierrfCashiercod: function (postData, session, callback) {
-        var userInfo = session.user;
-        var prg_id = postData.prg_id;
-        // var ui_field_name = _.isUndefined(postData.fields) ? "": postData.fields.ui_field_name;
-        var ui_field_name = "";
-        var params = postData.singleRowData.cashier_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
-
-        var selectDSFunc = [];
-        var result = new ReturnClass();
-        var updateFieldName = {
-            acashier_cod: "cashier_cod",
-            ausr_cname: "usr_cname"
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            cmp_id: session.user.cmp_id
         };
 
-        var fieldNameChangeLanguage = {
-            cashier_cod: "出納員代號",
-            usr_cname: "出納員名稱"
+        let ui_field_name = _.isUndefined(postData.fields) ? "": postData.fields.ui_field_name;
+        let result = new ReturnClass();
+        let updateFieldName = {
+            cashier_cod: "value",
+            cashier_nam: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "出納員代號",
+            display: "出納員名稱"
         };
 
         if(ui_field_name != "") {
-            selectDSFunc.push(
-                function (callback) {
-                    mongoAgent.UI_Type_Select.findOne({
-                        page_id: 2,
-                        prg_id: prg_id,
-                        ui_field_name: ui_field_name
-                    }).exec(function (err, selRow) {
-                        selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
-                            result.effectValues.showDataGrid = selectData;
-                            result.effectValues.updateFieldNameTmp = updateFieldName;
-                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
-                            callback(null, result);
-                        });
-                    });
+            queryAgent.queryList("QRY_CASHIER_RF_CASHIER_COD", lo_params, 0, 0, function(err, getResult){
+                if(!err){
+                    result.effectValues.showDataGrid = getResult;
+                    result.effectValues.updateFieldNameTmp = updateFieldName;
+                    result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(null, [result]);
                 }
-            );
-            async.parallel(selectDSFunc, function (err, result) {
-                callback(err, result);
             });
-        }else {
+        }
+        else {
             callback(null, result);
         }
     },
@@ -83,7 +70,7 @@ module.exports = {
     qryUseShiftOpen: function (params, callback) {
         queryAgent.query("QRY_USE_SHIFT_OPEN", params, function (err, getResult) {
             if (_.isNull(getResult.use_shift_open) || getResult.use_shift_open == "Y") {
-                getResult.use_shift_open = "N";
+                getResult.use_shift_open = "Y";
             }
             callback(err, getResult.use_shift_open);
         });
