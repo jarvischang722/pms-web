@@ -603,7 +603,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             }).length > 0 ? true : false;
 
             if (hasMultiLangField) {
-                columnsData.push({
+                columnsData.unshift({
                     type: 'textbox',
                     title: "Multi Lang",
                     field: "langAction",
@@ -676,6 +676,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 rowData: dtRow
             };
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
+                console.log(chkResult);
                 if (chkResult.success) {
                     //是否要show出訊息
                     if (chkResult.showAlert) {
@@ -784,6 +785,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 page_id: 2,
                 deleteData: vm.tmpCud.dt_deleteData
             }, function (result) {
+                console.log(result  );
                 if (result.success) {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 } else {
