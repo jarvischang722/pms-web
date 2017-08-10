@@ -443,6 +443,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.popWindow-s1-col2RM {
+  width: 387px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.popWindow-s1-col2v2 {
   width: 418px;
   max-width: 100%;
@@ -773,6 +778,13 @@ input[type="datetime-local"] {
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
+}
+
+.text-right {
+  text-align: right !important;
+}
+.text-right .numeric {
+  text-align: right !important;
 }
 
 .lang {

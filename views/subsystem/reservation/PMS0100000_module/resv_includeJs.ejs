@@ -209,7 +209,7 @@
                 modal: true,
                 title: "櫃檯用品",
                 title_html: true,
-                width: 1000,
+                width: 700,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -233,6 +233,39 @@
                 resizable: true
             });
         });
+
+        // 彈出 櫃檯備品主選單Btn resv_amenitiesIny
+        $(document).on('click', ".resv_amenitiesIny", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_amenitiesIny-message").removeClass('hide').dialog({
+                modal: true,
+                title: "櫃檯用品可用數",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 櫃檯備品主選單Btn resv_amenitiesDetail
+        $(document).on('click', ".resv_amenitiesDetail", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_amenitiesDetail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "櫃檯備品資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
         // 彈出 預授權
         $(document).on('click', ".authorize-btn", function (e) {
@@ -500,7 +533,6 @@
             });
         });
 
-
         // 彈出 住客歷史分類
         $(document).on('click', ".classified-btn", function (e) {
             e.preventDefault();
@@ -646,6 +678,7 @@
                 resizable: true
             });
         });
+
         // 點擊 彈出 清掃房間
         $(document).on('click', ".editClean-btn", function (e) {
             e.preventDefault();
@@ -677,6 +710,7 @@
                 resizable: true
             });
         });
+
         // 彈出 pbx視窗
         $(document).on('click', ".pbx-btn", function (e) {
             e.preventDefault();
@@ -708,7 +742,6 @@
                 resizable: true
             });
         });
-
 
         // 彈出setRateCode (Type:NOR)
         $(document).on('click', ".setRateCode-1", function (e) {
@@ -799,6 +832,7 @@
                 resizable: true
             });
         });
+
         // 彈出 PM
         $(document).on('click', ".publiceAccountSetting-btn", function (e) {
             e.preventDefault();
@@ -878,6 +912,105 @@
                 resizable: true
             });
         });
+
+        // 彈出 訂房卡 resv_depoisits(開班登入)
+        $(document).on('click', ".resv_depoisits", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisits-message").removeClass('hide').dialog({
+                modal: true,
+                title: "開班登入",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                minheight: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡 resv_depoisitsStep2(設定訂金編號01)
+        $(document).on('click', ".resv_depoisitsStep2", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisitsStep2-message").removeClass('hide').dialog({
+                modal: true,
+                title: "設定訂金編號",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                minheight: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡 resv_depoisitsStep3A(訂金編號新增)
+        $(document).on('click', ".resv_depoisitsStep3A", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisitsStep3A-message").removeClass('hide').dialog({
+                modal: true,
+                title: "訂金編號新增",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡 resv_depoisitsStep4A(入帳)
+        $(document).on('click', ".resv_depoisitsStep4A", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisitsStep4A-message").removeClass('hide').dialog({
+                modal: true,
+                title: "入帳:[0000052AAA]",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡 resv_depoisitsStep4A(入帳)
+        $(document).on('click', ".resv_depoisitsStep5A", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisitsStep5A-message").removeClass('hide').dialog({
+                modal: true,
+                title: "德安資訊有限公司-訂金帳戶資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 訂房卡 resv_depoisitsStep3B(訂金編號)
+        $(document).on('click', ".resv_depoisitsStep3B", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_depoisitsStep3B-message").removeClass('hide').dialog({
+                modal: true,
+                title: "共有50筆資料",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -932,7 +1065,6 @@
                 {field: 'remark', title: '備註', width: 100}
             ]]
         });
-
 
         // 住客歷史 anniversary dataGrid
         $('#resv_anniversary-table').datagrid({
@@ -1276,6 +1408,66 @@
         ]]
     });
 
+    // 訂房卡 resv_depoisitsStep3B(訂金編號) dataGrid
+    $('#resv_depositStep3B').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/resv_depositStep3B.json',
+        method: 'get',
+        columns: [[
+            {field: 'depositNum', title: '訂金編號', width: 100},
+            {field: 'customName', title: '客戶姓名', width: 100},
+            {field: 'accBalance', title: '帳戶餘額', width: 100, align:'right'},
+            {field: 'invoiceOpen', title: '發票開立方式', width: 150},
+            {field: 'IdCardNum', title: '身分證字號', width: 150}
+        ]]
+    });
+
+    // 訂房卡 resv_depoisitsStep5A(訂金帳戶資料) dataGrid
+    $('#resv_depositStep5A-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/resv_depositStep5A.json',
+        method: 'get',
+        columns: [[
+
+            {field: 'dateNO', title: '日期', width: 100},
+            {field: 'office', title: '廳別', width: 100},
+            {field: 'singleNum', title: '單號', width: 100},
+            {field: 'status', title: '狀態', width: 150},
+            {field: 'deposit', title: '存入', width: 150, align:'right'},
+            {field: 'expenditure', title: '支出', width: 150, align:'right'},
+            {field: 'remark', title: '備註', width: 150}
+        ]]
+    });
+
+    // 櫃檯備品-詳細資料 resv_amenitiesDetail dataGrid
+    $('#resv_amenitiesDetail-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/resv_amenitiesDetail.json',
+        method: 'get',
+        columns: [[
+
+            {field: 'dataSource', title: '資料來源', width: 100},
+            {field: 'className', title: '類別名稱', width: 100},
+            {field: 'startDate', title: '使用開始日期', width: 100},
+            {field: 'endDate', title: '使用結業日期', width: 150},
+            {field: 'useNum', title: '使用數', width: 100, align:'right'},
+            {field: 'stockNum', title: '佔庫存數', width: 100, align:'right'},
+            {field: 'resvNo', title: '訂房卡號', width: 100},
+            {field: 'roomNo', title: '房號', width: 60},
+            {field: 'groupNo', title: '團號', width: 100},
+            {field: 'fullName', title: 'Full Name', width: 100},
+            {field: 'resvCompany', title: '訂房公司', width: 100},
+            {field: 'companyName', title: '公司名稱', width: 100},
+            {field: 'ciDate', title: 'C/I日期', width: 100},
+            {field: 'coDate', title: 'C/O日期', width: 100}
+        ]]
+    });
 
     $(function() {
 
@@ -1295,6 +1487,9 @@
 
 //      依房型訂房
         $('#resRoomPlan-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 20, everyColumnsAddWith: 0 });
+
+//      櫃檯備品
+        $('#amenities-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 60, everyColumnsAddWith: 0 });
 
 //      依房號訂房
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });

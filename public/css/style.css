@@ -75,6 +75,9 @@
 .grid-item.foCntRadio .searchRadio .radio label .lbl:before {
   margin-right: 3px;
 }
+.grid-item .verifyVal {
+  border-bottom: 1px solid #333;
+}
 
 .grid-item-input {
   width: 100px;
@@ -3082,6 +3085,10 @@ th.dateColor {
   color: #262c31;
 }
 
+.fancyTable.bg-white tbody tr td {
+  background-color: #fff;
+}
+
 .otherContact-box {
   margin-top: 20px;
   font-size: 14px;
@@ -3533,12 +3540,10 @@ span.triangle-text {
   margin-right: 5px;
 }
 
-/* line 1665, ../sass/_bacchusMain.sass */
 .hk-boxs-wrap {
   height: 600px;
   overflow: auto;
 }
-/* line 1669, ../sass/_bacchusMain.sass */
 .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
   float: left;
   margin: 0 5px 5px 0;
@@ -3553,19 +3558,16 @@ span.triangle-text {
   border: 1px solid #616161;
   border-radius: 7px;
 }
-/* line 1682, ../sass/_bacchusMain.sass */
 .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
   opacity: 0.6;
 }
 
-/* line 1684, ../sass/_bacchusMain.sass */
 .hk-back-btn {
   position: absolute;
   bottom: 0;
   right: 0;
 }
 
-/* line 1689, ../sass/_bacchusMain.sass */
 .hk-boxsMid .hk-MidBoxsBlock {
   padding: 6px;
   width: 85px;
@@ -3579,34 +3581,28 @@ span.triangle-text {
   margin: 5px auto;
   background: #c0dcc0;
 }
-/* line 1701, ../sass/_bacchusMain.sass */
 .hk-boxsMid .hk-MidBoxsBlock:hover {
   opacity: 0.6;
 }
-/* line 1703, ../sass/_bacchusMain.sass */
 .hk-boxsMid .hk-MidBoxsBlock.active {
   background: green;
   color: #fff;
 }
 
-/* line 1706, ../sass/_bacchusMain.sass */
 .hk-boxs-container {
   background: #c0dcc0;
   border: 1px solid;
 }
 
-/* line 1709, ../sass/_bacchusMain.sass */
 .margin-top20 {
   margin-top: 20px;
 }
 
-/* line 1711, ../sass/_bacchusMain.sass */
 .hk-posting-frist {
   height: 618px;
   padding: 20px 12px;
   border: 1px solid #000;
 }
-/* line 1715, ../sass/_bacchusMain.sass */
 .hk-posting-frist .hk-foot {
   position: absolute;
   right: 0;
@@ -3615,7 +3611,6 @@ span.triangle-text {
   padding: 3px 10px;
 }
 
-/* line 1721, ../sass/_bacchusMain.sass */
 .hk-footer {
   color: blue;
   font-size: 18px;
@@ -4063,6 +4058,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.popWindow-s1-col2RM {
+  width: 387px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.popWindow-s1-col2v2 {
   width: 418px;
   max-width: 100%;
@@ -4393,6 +4393,13 @@ input[type="datetime-local"] {
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
+}
+
+.text-right {
+  text-align: right !important;
+}
+.text-right .numeric {
+  text-align: right !important;
 }
 
 /*-------------- responsive -------------- */
