@@ -460,11 +460,12 @@
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
-                                        <label>訂房來源</label>
+                                        <label>預收款</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
+
                                     <div class="grid-item">
-                                        <label>預收款</label>
+                                        <label>訂金餘額</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                 </div>
@@ -475,11 +476,11 @@
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>市場類別</label>
+                                        <label>代收代支</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>代收代支</label>
+                                        <label>未結帳總額</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                 </div>
@@ -488,7 +489,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>入住日期</label>
-                                        <input type="text" class="input-medium resvCard-col2" placeholder=""/>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="" disabled/>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂金編號</label>
@@ -496,7 +497,7 @@
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
-                                        <label>訂金餘額</label>
+                                        <label>已結帳總額</label>
                                         <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                 </div>
@@ -511,21 +512,13 @@
                                         <input type="text" class="input-medium resvCardRemark" placeholder=""/>
                                         <span class="moreClick">...</span>
                                     </div>
-                                    <div class="grid-item">
-                                        <label>未結帳總額</label>
-                                        <input type="text" class="input-medium resvCard" placeholder=""/>
-                                    </div>
                                 </div>
                                 <!--7-->
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客房備註</label>
-                                        <input type="text" class="input-medium resvCard-col3-fullRemark" placeholder=""/>
+                                        <input type="text" class="input-medium resvCard-fullRemark" placeholder=""/>
                                         <span class="moreClick">...</span>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>已結帳總額</label>
-                                        <input type="text" class="input-medium resvCard" placeholder=""/>
                                     </div>
                                 </div>
                                 <!--7-->
@@ -551,7 +544,7 @@
                                 </div>
                             </div>
                             <div class="easyui-tabs easyUi-custom1" style="min-height: 0; height: 380px !important; overflow-y: auto;">
-                                <div title="1($25,000)" class="padding-tabs">
+                                <div title="1美麗華旅行社($25,000)" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <!-- 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 table -->
@@ -560,7 +553,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div title="2($1,000)" class="padding-tabs">
+                                <div title="2美麗信大飯店($1,000)" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <!-- 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl02 table -->
@@ -569,15 +562,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div title="3($35,000)" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12"></div>
-                                </div>
-                                <!--<i class="fa fa-plus"></i>-->
-                                <div title="4($5,000)" class="padding-tabs"></div>
-                                <div title="5($35,000)" class="padding-tabs"></div>
-                                <div title="6($5,000)" class="padding-tabs"></div>
-                                <div title="7($5,000)" class="padding-tabs"></div>
-                                <div title="8($45,000)" class="padding-tabs"></div>
+
                                 <!--<div title="9($25,000)" class="padding-tabs"></div>-->
                                 <div title="<i class='fa fa-plus blue'></i>" class=""></div>
                             </div>
@@ -603,7 +588,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Transfer</button>
+                                                role="button">Move To</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -779,16 +764,188 @@
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="main-content-data">
-                            <table id="PMS0310030-customer-table" style="height: 200px; width: 100%;"></table>
+
+                            <!-------- tabPage -------->
+                            <div class="easyui-tabs easyUi-custom1" style="min-height: 0; height: 380px !important; overflow-y: auto;">
+                                <div title="Folio Detail" class="padding-tabs">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="row">
+                                            <table id="PMS0310030-customer-table" style="height: 200px; width: 100%;"></table>
+
+                                            <div class="space-6"></div>
+                                                <div class="col-xs-6">
+                                                    <div class="row">
+                                                        <div class="css_table">
+                                                            <div class="css_thead">
+                                                                <div class="css_tr center">
+                                                                    <div class="css_th width-20">中分類代號</div>
+                                                                    <div class="css_th width-10">消費金額</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="css_tbody">
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">5,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">1,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">500,000</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="row">
+                                                        <div class="css_table">
+                                                            <div class="css_thead">
+                                                                <div class="css_tr center">
+                                                                    <div class="css_th width-20">付款方式</div>
+                                                                    <div class="css_th width-10">付款金額</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="css_tbody">
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">5,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">33,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">2,000</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div title="Settled Detail" class="padding-tabs">
+                                    <div class="businessCompanyData">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="row main-content-data">
+                                                <table id="PMS0310030-customerDetail" style="height: 200px; width: 100%;"></table>
+                                            </div><!--main-content-data-->
+
+                                            <div class="clearfix"></div>
+                                            <div class="space-6"></div>
+                                            <div class="row main-content-data">
+                                                <div class="col-xs-4">
+                                                    <div class="row">
+                                                        <div class="css_table">
+                                                            <div class="css_thead">
+                                                                <div class="css_tr center">
+                                                                    <div class="css_th width-20">中分類代號</div>
+                                                                    <div class="css_th width-10">消費金額</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="css_tbody">
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">5,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">1,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">PKG:Package</div>
+                                                                    <div class="css_td">500,000</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <div class="row">
+                                                        <div class="css_table">
+                                                            <div class="css_thead">
+                                                                <div class="css_tr center">
+                                                                    <div class="css_th width-20">發票號碼</div>
+                                                                    <div class="css_th width-10">發票金額</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="css_tbody">
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">JF00000301</div>
+                                                                    <div class="css_td">5,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">QWE123456789</div>
+                                                                    <div class="css_td">1,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">RRT89</div>
+                                                                    <div class="css_td">1,586,700</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <div class="row">
+                                                        <div class="css_table">
+                                                            <div class="css_thead">
+                                                                <div class="css_tr center">
+                                                                    <div class="css_th width-20">付款方式</div>
+                                                                    <div class="css_th width-10">付款金額</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="css_tbody">
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">5,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">33,000</div>
+                                                                </div>
+                                                                <div class="css_tr">
+                                                                    <div class="css_td">10:付現</div>
+                                                                    <div class="css_td">2,000</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--main-content-data-->
+
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <!-------- /.tabPage -------->
+
+
                         </div><!--main-content-data-->
                     </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
-                                <ul>
+                                <ul style="margin-top: 252px;">
+                                    <!--<li>-->
+                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail02"-->
+                                                <!--role="button">明細</button>-->
+                                    <!--</li>-->
+
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth cashierHistLedger_Detail02"
-                                                role="button">明細</button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">發票明細</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">付款明細</button>
                                     </li>
                                 </ul>
                             </div>
@@ -797,57 +954,6 @@
                 </div>
 
                 <div class="clearfix"></div>
-                <div class="space-6"></div>
-                <div class="row">
-                    <div class="col-xs-5">
-                        <div class="css_table">
-                            <div class="css_thead">
-                                <div class="css_tr center">
-                                    <div class="css_th width-20">中分類代號</div>
-                                    <div class="css_th width-10">消費金額</div>
-                                </div>
-                            </div>
-                            <div class="css_tbody">
-                                <div class="css_tr">
-                                    <div class="css_td">PKG:Package</div>
-                                    <div class="css_td">5,000</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">PKG:Package</div>
-                                    <div class="css_td">1,000</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">PKG:Package</div>
-                                    <div class="css_td">500,000</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-offset-1 col-xs-5">
-                        <div class="css_table">
-                            <div class="css_thead">
-                                <div class="css_tr center">
-                                    <div class="css_th width-20">付款方式</div>
-                                    <div class="css_th width-10">付款金額</div>
-                                </div>
-                            </div>
-                            <div class="css_tbody">
-                                <div class="css_tr">
-                                    <div class="css_td">10:付現</div>
-                                    <div class="css_td">5,000</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">10:付現</div>
-                                    <div class="css_td">33,000</div>
-                                </div>
-                                <div class="css_tr">
-                                    <div class="css_td">10:付現</div>
-                                    <div class="css_td">2,000</div>
-                                </div>
-                            </div>
-                    </div>
-                    </div>
-                </div>
             </div>
             <div class="clearfix"></div>
         </div>

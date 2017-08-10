@@ -10,6 +10,13 @@
 
 
         $('[data-rel=tooltip]').tooltip();
+
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
+        });
+
+
         /***
          * PMS0210020 綜合櫃檯
          */
@@ -52,22 +59,6 @@
             var dialog = $("#foCnt_dayUse-message").removeClass('hide').dialog({
                 modal: true,
                 title: "Day Use",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 lost found
-        $(document).on('click', ".lost-found-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#lost-found-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Lost & Found",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,

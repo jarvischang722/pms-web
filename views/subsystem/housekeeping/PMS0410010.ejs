@@ -1,12 +1,12 @@
 <!--page-content-->
 <div>
     <div class="page-header"></div><!-- /.page-header -->
-<!-- FO Counter Page-->
+    <!-- FO Counter Page-->
     <div class="row">
         <!-- search content -->
         <div class="col-xs-12">
-            <!--<div class="col-xs-11">-->
-                <!--<div class="row no-margin-right">-->
+            <div class="col-xs-11">
+                <div class="row no-margin-right">
                     <div class="search-content">
                         <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
                         <div class="search-co">
@@ -55,23 +55,31 @@
                                     <div class="width-95">
                                         <div class="grid">
                                             <div class="grid-item">
-                                                <label>房型</label>
-                                                <input type="text" class="input-medium medium-c1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>房狀</label>
-                                                <input type="text" class="input-medium medium-c1"/>
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>特色</label>
-                                                <input type="text" class="input-medium medium-c1"/>
-                                            </div>
-                                            <div class="grid-item">
                                                 <label>房號</label>
                                                 <input type="text" class="input-medium medium-c1"/>
                                             </div>
                                             <div class="grid-item">
-                                                <label>住客</label>
+                                                <label>房間狀況</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>清掃狀況</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>排房狀況</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>房型</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>勿擾</label>
+                                                <input type="text" class="input-medium medium-c1"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>瑕疵房</label>
                                                 <input type="text" class="input-medium medium-c1"/>
                                             </div>
                                         </div>
@@ -82,8 +90,8 @@
                             </div> <!-- row-->
                         </div> <!-- /.search-co -->
                     </div> <!-- /.row  search-content-->
-                <!--</div>-->
-            <!--</div>-->
+                </div>
+            </div>
         </div>
         <div class="clearfix"></div>
 
@@ -97,11 +105,17 @@
                         <div class="row">
                             <!-- 左側圖表上排資訊　-->
                             <div class="select-group">
+                                <div class="list-grap-tab no-padding">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth hk-list-btn">
+                                        List
+                                    </button>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth hk-graphics-btn">
+                                        Graphics
+                                    </button>
+                                </div>
                                 <div class="status-btn">
                                     <img src="/images/intCounter/zoom-out.png" class="zoomOut pointer"/>
                                     <img src="/images/intCounter/zoom-in.png" class="zoomIn pointer" style="display: none;"/>
-                                    <img src="/images/intCounter/unlink.png"/>
-                                    <img src="/images/intCounter/alarm.png"/>
                                     <img src="/images/intCounter/note.png"/>
                                 </div>
                                 <div class="show-intCounterRight">
@@ -147,6 +161,8 @@
                                     </div>
                                     <div class="status-tip cb-purple"><label>OD: </label><span>5</span>
                                     </div>
+                                    <div class="status-tip cb-sexyRed"><label>OOS: </label><span>20</span>
+                                    </div>
                                     <div class="status-tip cb-green"><label>DOC: </label><span>11</span>
                                     </div>
                                     <div class="status-tip cb-pink"><label>DOD: </label><span>5</span></div>
@@ -168,54 +184,58 @@
                             </div>
                             <div class="clearfix"></div>
                             <!-- 左側圖表內容　-->
-                            <%- include frontDesk_module/PMS0210020_table.ejs %>
+                            <div class="hk-grap-wrap">
+                                <%- include housekeeping_module/PMS0410010_table.ejs %>
+                            </div>
                             <!--  /.End 左側圖表內容 -->
                             <div class="clearfix"></div>
                         </div>
                         <!-- /section:elements.tab.position -->
                     </div><!-- /.col col-sm-6-->
 
-                    <div class="intCounterRight col-xs-5 " style="display:none;">
+                    <div class="intCounterRight col-xs-5" style="display:none;padding-left: 5px;">
                         <div class="row no-margin-left floorPlan-table">
                             <table>
                                 <tr>
                                     <td class="roomNum text-center" rowspan="2" colspan="2" style="width: 20%;">
-                                        317
+                                        101
                                     </td>
                                     <th style="width: 16%;">Rm Type</th>
                                     <th style="width: 16%;">Rm Status</th>
                                     <th style="width: 16%;">HK Status</th>
+                                    <th style="width: 16%;">Inspect</th>
                                     <th style="width: 16%;">Assign</th>
                                     <th style="width: 16%;">DND</th>
                                 </tr>
                                 <tr>
                                     <td>STD</td>
-                                    <td>O/OOS</td>
-                                    <td>C</td>
-                                    <td>Y</td>
-                                    <td>Y</td>
+                                    <td>V/OOS</td>
+                                    <td>C/D</td>
+                                    <td>Y/N</td>
+                                    <td>Y/N</td>
+                                    <td>Y/N</td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">RM Features</th>
-                                    <td colspan="5">Inside view</td>
+                                    <th colspan="2">房間備註</th>
+                                    <td colspan="6"></td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">RM Rmks</th>
-                                    <td colspan="5">king size bed</td>
+                                    <th colspan="2">OOS Reason</th>
+                                    <td colspan="6"></td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">OS Reason</th>
-                                    <td colspan="5"></td>
+                                    <th colspan="2"> OOO Reason</th>
+                                    <td colspan="6"></td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">Full Name</th>
+                                    <th colspan="2">住客姓名</th>
                                     <td colspan="2">RICK CHEN
                                         <button class="moreInfo reservationDialog-2">
                                             <i class="fa fa-icon fa-ellipsis-h"></i>
                                         </button>
                                     </td>
-                                    <th>RV. No.</th>
-                                    <td colspan="2">
+                                    <th>訂房卡號</th>
+                                    <td colspan="3">
                                         002251401
                                         <button class="moreInfo reservationDialog-1">
                                             <i class="fa fa-icon fa-ellipsis-h"></i>
@@ -223,102 +243,33 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">CI Date</th>
+                                    <th colspan="2">入住日期</th>
                                     <td colspan="2">2017/2/1</td>
-                                    <th>CO Date</th>
-                                    <td colspan="2">2017/2/2</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">C/O Alert</th>
-                                    <td colspan="5">GUI:23598233</td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">RV Rmk.</th>
-                                    <td colspan="5">separate bill</td>
+                                    <th>退房日期</th>
+                                    <td colspan="3">2017/2/2</td>
                                 </tr>
                             </table>
                             <div class="space-6"></div>
-
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>GUEST</th>
-                                    <th>Folio Stas.</th>
-                                    <th>Sex</th>
-                                    <th>BALANCE</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
+                            <table class="">
                                 <tbody>
                                 <tr>
-                                    <td>
-                                        <i class="fa fa-exclamation red"></i>
-                                    </td>
-                                    <td>Rick Chen</td>
-                                    <td>O</td>
-                                    <td>M</td>
-                                    <td class="text-right">5,300</td>
-                                    <td>
-                                        <button class="moreInfo foCnt_prePayment">
-                                            Billing
-                                        </button>
-                                    </td>
+                                    <td rowspan="3" style="width: 18%;">房控狀態</td>
+                                    <td style="width: 26%;">Power</td>
+                                    <td style="width: 26%;">冷氣</td>
+                                    <td style="width: 26%;">房門勿擾</td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <!--<i class="fa fa-exclamation red"></i>-->
-                                    </td>
-                                    <td>Janet Jackson</td>
-                                    <td>C</td>
-                                    <td>F</td>
-                                    <td class="text-right">0</td>
-                                    <td>
-                                        <button class="moreInfo foCnt_prePayment">
-                                            Billing
-                                        </button>
-                                    </td>
+                                    <td>房門</td>
+                                    <td>防盜器</td>
+                                    <td>房間清潔</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">最後更新</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <div class="space-4"></div>
-
-                            <div>
-                                <span class="orangeBlock1">Traces</span>
-                                <span class="orangeBlock1">pick up</span>
-                            </div>
                             <div class="space-6"></div>
 
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th style="width: 20%;">房號</th>
-                                    <th style="width: 80%;">住客姓名</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>101</td>
-                                        <td>王大明</td>
-                                    </tr>
-                                    <tr>
-                                        <td>102</td>
-                                        <td>李大同</td>
-                                    </tr>
-                                    <tr>
-                                        <td>103</td>
-                                        <td>陳小華</td>
-                                    </tr>
-                                    <tr>
-                                        <td>104</td>
-                                        <td>張三</td>
-                                    </tr>
-                                    <tr>
-                                        <td>105</td>
-                                        <td>李四</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div><!-- /.intCounterRight -->
                     <div class="clearfix"></div>
@@ -332,55 +283,35 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details"
-                                        role="button">Details</button>
+                                        role="button">清掃</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn"
-                                        role="button">Walk in</button>
+                                        role="button">清掃樓層</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse"
-                                        role="button">Day use</button>
+                                        role="button">修理</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth foCnt_deposits"
-                                        role="button">Deposit</button>
+                                        role="button">修理樓層</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Wake up</button>
+                                        role="button">刪除修理</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth groups_admit"
-                                        role="button">Group</button>
+                                        role="button">瑕疵房</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth foCnt_editCoDate"
-                                        role="button">C/O Date</button>
+                                        role="button">參觀</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Rate Chg.</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Room Chg.</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth clean-btn"
-                                        role="button">Clean</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Extra Room</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
-                                        role="button">Reservation</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth PMS0120010Option"
-                                        role="button">Option</button>
+                                        role="button">刪除參觀</button>
                             </li>
                         </ul>
                     </div>
@@ -389,27 +320,106 @@
         </div>
     </div>
 
-    <!--  接待 彈出視窗內容(jing)-->
-    <%- include frontDesk_module/frontDesk_Btn_1.ejs %>
-    <!--  /.End 接待 彈出視窗內容 -->
-
-    <!--  依房型訂房 彈出視窗內容-->
-    <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_1 %>
-    <!--  /.End 彈出視窗內容 -->
-
-    <!--  依房型訂房 彈出視窗內容(ho 新增)-->
-    <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_2 %>
-    <!--  /.End 彈出視窗內容(ho 新增) -->
-
-    <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
-    <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_3 %>
-    <!--  /.End 彈出視窗內容 -->
 </div>
 <!-- /.page-content -->
 
-<!--  接待共用 initial js -->
-<%- include frontDesk_module/frontDesk_includeJs.ejs %>
-<!--  /.End 接待共用 initial js  -->
+<script>
+    /* 點選右上箭頭選擇觀看右邊表格 */
+    function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
+        $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
+//            $('.intCounterLeft .chooseCount').css('width','8%');
+        $('.intCounterLeft .resultCount').css('max-width', maxW);
+        $('.intCounterRight').css('display', disToggle1);
+        $('.fa-angle-left').css('display', disToggle2);
+        $('.fa-angle-right').css('display', disToggle1);
+    }
+
+    $(".show-intCounterRight > .fa-angle-left").click(function () {
+        foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+    });
+    $(".show-intCounterRight > .fa-angle-right").click(function () {
+        foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+    });
+    /* 點選右上箭頭選擇觀看右邊表格 End */
+
+    /* 點選左上放大鏡選擇觀看內容多寡 */
+    function zoomInOut(width, height, disToggle1, disToggle2) {
+        $('.counterBlock').css('width', width).css('height', height);
+        $('.counterBlock > .head > .right >.counterPrice').css('display', disToggle1);
+        $('.counterBlock > .content').css('display', disToggle1);
+        $('.counterBlock > .content-sub').css('display', disToggle1);
+        $('.zoomOut').css('display', disToggle1);
+        $('.zoomIn').css('display', disToggle2);
+    }
+
+    $(document).on('click', ".zoomOut", function () {
+        zoomInOut('70px', '33px', 'none', 'inline-block');
+    });
+    $(document).on('click', ".zoomIn", function () {
+        zoomInOut('129px', '74px', 'inline-block', 'none');
+    });
+    /* 點選左上放大鏡選擇觀看內容多寡 End */
+
+    //顯示排房明細
+    $(function () {
+        $('.showCardDetail').click(function () {
+            $(".cardDetail-table").toggle().css('height','auto');
+        });
+    });
+    //排房選中active
+    $(function(){
+        $('.counterBlock').click(function(){
+            $('.counterBlock').removeClass("active");
+            $(this).addClass("active");
+        });
+    });
+
+    //房務管理切換
+
+    $(function(){
+        $('.hk-list-btn').hide();
+        $('.hk-table-container').hide();
+
+        $('.hk-list-btn').click(function(){
+            $('.hk-list-btn').hide();
+            $('.hk-graphics-btn').show();
+            $('.hk-table-container').hide();
+            $('.hk-dataList-container').show();
+        });
+        $('.hk-graphics-btn').click(function(){
+            $('.hk-graphics-btn').hide();
+            $('.hk-dataList-container').hide();
+            $('.hk-table-container').show();
+            $('.hk-list-btn').show();
+        });
+    });
+
+    $('#hk-PMS0410010-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/hk-PMS0410010-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'rmNo', title: 'Rm.No.', width: 70},
+            {field: 'rmType', title: 'Rm.Type', width: 70},
+            {field: 'rmSta', title: 'Rm.Sta', width: 70},
+            {field: 'hkSta', title: 'HK Sta.', width: 70},
+            {field: 'inspect', title: 'Inspect', width: 70},
+            {field: 'oos', title: 'OOS', width: 70},
+            {field: 'dnd', title: 'DND', width: 70},
+            {field: 'assign', title: 'Assign', width: 70},
+            {field: 'fullName', title: 'Full Name', width: 100},
+            {field: 'ciDate', title: 'C/I Date', width: 100},
+            {field: 'coDate', title: 'C/O Date', width: 100},
+            {field: 'oosR', title: 'OOS Reason', width: 100},
+            {field: 'repair', title: 'Repair(Show RM) Reason', width: 170},
+            {field: 'rm', title: 'Rm.Remark', width: 70}
+        ]]
+    });
+</script>
+
+
 
 
 <!--  業務 -->
