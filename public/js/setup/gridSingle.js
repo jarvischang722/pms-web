@@ -816,7 +816,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-            rowData.key_nos = this.key_nos;
+            if(dataType == 'Y') rowData.key_nos = this.key_nos; //新增時才取新的key_nos
+
             this.tmpCud[dataType].push(rowData);
         },
 
