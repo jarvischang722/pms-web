@@ -50,4 +50,16 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="1">agent_no</parameter>
     </dao>
+
+    <!-- [PMS0810180] 單筆項目-->
+    <dao name="QRY_GW_CUST_RF_COUNT">
+        <statement><![CDATA[
+             select count(*) as agentnocount
+              from gw_cust_rf
+              where athena_id = ? and trim(agent_no) = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">agent_no</parameter>
+    </dao>
 </root>

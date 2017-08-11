@@ -53,6 +53,12 @@
                                 <%= __("SystemCommon").Save %>
                             </button>
                         </li>
+                        <li>
+                            <button @click="loadChangeLog" class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("SystemCommon").ChangeLog %>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -67,6 +73,46 @@
             :prg-field-data-attr="prgFieldDataAttr">
     </multi-lang-dialog-tmp>
 
+    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false" :visible.sync="openChangeLogDialog" size="large" >
+
+        <div class="col-xs-12">
+            <div class="col-sm-12 col-xs-12">
+                <div class="row">
+                    <table class="table custab">
+                        <thead>
+                        <tr>
+                            <th class="width-15 text-center">Time</th>
+                            <th class="width-10 text-center">User</th>
+                            <th class="width-15 text-center">Action Type</th>
+                            <th class="width-20 text-center">Description MN</th>
+                        </tr>
+                        </thead>
+                        <tr v-for="logData in allChangeLogList">
+                            <td>{{logData.event_time}}</td>
+                            <td>{{logData.user}}</td>
+                            <td><span v-for="keyData in logData.keys">{{keyData}}<br></span></td>
+                            <td>
+                                <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}</div>
+                                <span v-for="mnData in logData.desc_mn">
+                                    {{mnData.field_name}} :
+                                    {{mnData.oldVal}}
+                                    <span v-if="logData.action == 'update'"> →  </span>
+                                    {{mnData.newVal}}
+                                    <br>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+        <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">確定</el-button>
+         </span>
+    </el-dialog>
 
 </div>
 <div type="hidden" id="gridEdit" name="gridEdit"></div>

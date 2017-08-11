@@ -175,7 +175,6 @@ module.exports = {
             callback(lo_error, lo_result);
         });
 
-
     }
 };
 

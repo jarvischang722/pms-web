@@ -22,37 +22,34 @@ module.exports = {
      * @param session
      * @param callback
      */
+    qry_key_nos: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        lo_result.defaultValues = commandRules.getCreateCommonDefaultDataRule(session);
+
+        var lo_max_key_nos = 0;
+        for(i = 0; i < postData.gridDataInfo.rows.length; i++) {
+            var lo_current_key_nos = Number(postData.gridDataInfo.rows[i].key_nos);
+            if(lo_current_key_nos > lo_max_key_nos)
+                lo_max_key_nos = lo_current_key_nos;
+        }
+
+        lo_result.defaultValues.key_nos = lo_max_key_nos += 1;
+
+        callback(lo_error, lo_result);
+    },
     chk_hfd_daily_event_ins: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var userInfo = session.user;
+        var lo_result = new ReturnClass();
+        var lo_error = null;
         var singleRowData = postData["singleRowData"];
-        var queryXML = '<dao >' +
-            '<statement><![CDATA[ SELECT max(key_nos) + 1 as key_nos ' +
-            'FROM hfd_daily_event  WHERE athena_id = ' + userInfo.athena_id + ' and hotel_cod = ' + userInfo.fun_hotel_cod +
-            ']]></statement>' +
-            '</dao>';
-        queryAgent.query({xml: queryXML}, {}, function (err, data) {
 
-            if (err) {
-                error = new ErrorClass();
-                result.success = false;
-                error.errorMsg = err;
-                error.errorCod = "1111";
-                return callback(error, result);
-            }
+        if (_.isUndefined(singleRowData["end_dat"]) || _.isEmpty(singleRowData["end_dat"])) {
+            singleRowData["end_dat"] = singleRowData["begin_dat"];
+        }
 
-            var key_nos = data.key_nos ? data.key_nos : 1;
-            singleRowData["key_nos"] = key_nos;
-
-            if (_.isUndefined(singleRowData["end_dat"]) || _.isEmpty(singleRowData["end_dat"])) {
-                singleRowData["end_dat"] = singleRowData["begin_dat"];
-            }
-
-            result.modifiedRowData = singleRowData;
-            callback(err, result);
-        });
-
+        lo_result.modifiedRowData = singleRowData;
+        callback(lo_error, lo_result);
     },
     //Sam:確認開始日期小於結束日期
     chk_begin_day_correct : function (postData, session, callback) {

@@ -68,20 +68,14 @@ module.exports = function (io) {
         socket.on("checkSessionExist", function () {
 
             var chkSessionInterval = setInterval(function () {
+                let lastTimes = moment(socket.request.session.cookie._expires).diff(moment(), "seconds");
 
-                mongoAgent.Sessions.findOne({_id: socket.request.session.id}, function (err, sessionData) {
-                    let lastTimes = -1;
-                    if (!err && sessionData) {
-                        lastTimes = moment(sessionData.expires).diff(moment(), "seconds");
-                    }
-                    if (lastTimes < 0) {
-                        clearInterval(chkSessionInterval);
-                        socket.emit("sessionStatus", {exist: false});
-                    } else {
-                        socket.emit("sessionTimeLeft", {timeLeft: lastTimes});
-                    }
-
-                });
+                if (lastTimes < 0) {
+                    clearInterval(chkSessionInterval);
+                    socket.emit("sessionStatus", {exist: false});
+                } else {
+                    socket.emit("sessionTimeLeft", {timeLeft: lastTimes});
+                }
 
             }, 1000);
 
@@ -172,9 +166,9 @@ module.exports = function (io) {
         ga_lockPrgIDList = _.filter(ga_lockPrgIDList, function (data) {
             if (!_.isUndefined(lockingPrgID)) {
                 return _.findIndex(ga_lockPrgIDList, {socket_id, lockingPrgID}) == -1;
-            } 
-                return _.findIndex(ga_lockPrgIDList, {socket_id}) == -1;
-            
+            }
+            return _.findIndex(ga_lockPrgIDList, {socket_id}) == -1;
+
         });
 
     }

@@ -44,8 +44,6 @@
       "begin_dat": "開始日期(英文)",
       "end_dat": "結束日期(英文)",
       "select_dat": "選擇日期(英文)",
-      "begin_dat": "開始日期(英文)",
-      "end_dat": "結束日期(英文)",
       "uploadWebSite": "上傳官網(英文)",
       "uploadRoomTpyePic": "上傳正圖(英文)",
       "genRoomTypeStock": "產生庫存(英文)",
@@ -143,11 +141,12 @@
     "Last": "Last",
     "Add_after_save": "Add after save",
     "Leave_after_save": "Leave after save",
-    "Leave": "Leave",
+    "Leave": "Exit",
     "Login": "Login",
     "Logout": "Logout",
     "Loading": "Loading",
-    "ProgramID": "Program ID"
+    "ProgramID": "Program ID",
+    "ChangeLog" : "Change Log"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",

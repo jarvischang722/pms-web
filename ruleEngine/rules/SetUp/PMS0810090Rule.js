@@ -19,17 +19,17 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         if (guestNewValue == "G") {
-            postData.rowData.rcard_prtrent = "N";
+            postData.selectRowNewData.rcard_prtrent = "N";
             lo_result.success = true;
-            postData.rowData.guest_way = guestNewValue;
-            lo_result.effectValues = postData.rowData;
+            postData.selectRowNewData.guest_way = guestNewValue;
+            lo_result.effectValues = postData.selectRowNewData;
 
             callback(lo_error, lo_result);
         } else {
-            postData.rowData.rcard_prtrent = "Y";
+            postData.selectRowNewData.rcard_prtrent = "Y";
             lo_result.success = true;
-            postData.rowData.guest_way = guestNewValue;
-            lo_result.effectValues = postData.rowData;
+            postData.selectRowNewData.guest_way = guestNewValue;
+            lo_result.effectValues = postData.selectRowNewData;
 
             callback(lo_error, lo_result);
         }

@@ -229,12 +229,15 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
 });
 
+//跳窗將資料選回去單筆欄位
 Vue.component('text-select-grid-dialog-tmp', {
     template: "#chooseDataDialogTmp",
     data: function () {
         return {
             fieldNameConditionTmp: [],
+            gridColumns: [],
             updateFieldNameTmp: [],
+            gridData:[],
             isFistData: false,
             isLastData: false,
             dtEditIndex: undefined
@@ -254,7 +257,8 @@ Vue.component('text-select-grid-dialog-tmp', {
             var updateFieldName = result.updateFieldNameTmp;
             var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
             this.fieldNameConditionTmp = [];
-
+            this.fieldConditionTmp = [];
+            this.gridData = [];
             delete textDataGrid ['errorMsg'];
             var columnsData = [];
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
@@ -272,10 +276,11 @@ Vue.component('text-select-grid-dialog-tmp', {
                             align: "left"
                         });
                         self.fieldNameConditionTmp.push({value: field, display: name});
+                        self.fieldConditionTmp.push({value: field});
                     }
                 });
             }
-
+            self.gridData = textDataGridArray;
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
                 singleSelect: true,
@@ -302,11 +307,16 @@ Vue.component('text-select-grid-dialog-tmp', {
             $("#dataTextGridDialog").dialog('close');
         },
         txtSearchChangeText: function (keyContent) {
-            var allData = $('#chooseGrid').datagrid('getData');
+            var allData = this.gridData;
             var selectFieldName = $('#cbSelect').val();
-            var dataGrid = _.filter(allData.rows, function (row) {
-                return row;
+            var selectCondition = $('#txtSelectCondition').val();
+
+            var dataGrid = _.filter(allData, function (row) {
+                if(row[selectFieldName].includes(selectCondition))
+                    return row;
             });
+            $('#chooseGrid').datagrid('loadData',dataGrid);
+            console.log(dataGrid);
         }
     }
 });
@@ -593,7 +603,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             }).length > 0 ? true : false;
 
             if (hasMultiLangField) {
-                columnsData.push({
+                columnsData.unshift({
                     type: 'textbox',
                     title: "Multi Lang",
                     field: "langAction",
@@ -664,7 +674,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         onClickDtRow: function (index, dtRow) {
             var lo_params = {
                 dtField: this.pageTwoDataGridFieldData,
-                editData: dtRow
+                rowData: dtRow
             };
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
                 if (chkResult.success) {
@@ -807,10 +817,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-
-            if(dataType == "dt_createData" && prg_id == "PMS0820050"){
+            if(dataType == 'dt_createData' && prg_id == "PMS0820050") {
                 rowData.key_nos = this.key_nos;
-            }
+            } //新增時才取新的key_nos
 
             this.tmpCud[dataType].push(rowData);
         },

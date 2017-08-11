@@ -80,5 +80,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_route_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_route_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_stype_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_a6hfd_print_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ghist_prefer_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_ghist_prefer_dt.xml"/>
     </sql-sources>
 </struts-config>

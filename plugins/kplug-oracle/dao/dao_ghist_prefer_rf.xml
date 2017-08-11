@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0820010'] 取得多筆-->
+    <dao name="QRY_GHIST_PREFER_RF">
+        <statement><![CDATA[
+        select athena_id, prefer_cod, prefer_nam, view_seq, ins_dat, ins_usr, upd_dat, upd_usr from ghist_prefer_rf where athena_id = :athena_id order by view_seq,prefer_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+    </dao>
+</root>

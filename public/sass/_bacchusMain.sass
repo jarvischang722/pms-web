@@ -115,6 +115,9 @@ a
           opacity: 1
 
 
+//system 改版二
+
+
 /*-- footer --*/
 .bacchus-footer
   padding-top: 220px
@@ -358,7 +361,7 @@ a
 /*-- 搜尋列表 --*/
 .search-content
   position: relative
-  padding: 0 0 15px 0
+  padding: 0 0 5px 0 //0 0 15px 0
   //margin-left: 5px
   .search-co
     position: relative
@@ -420,7 +423,7 @@ a
           padding: 3px 5px 4px 5px
           box-sizing: border-box
           cursor: pointer
-          //margin-top: -1px
+      //margin-top: -1px
       .search-footer-btn
         position: absolute
         right: 20px
@@ -508,7 +511,7 @@ a
             &:hover
               background: rgba(67, 142, 185, .7)
               border: 1px solid rgba(67, 142, 185, .7)
-              //color: #888
+      //color: #888
       .holidayDateSelect
         .datePin01
           +datePin($bk: #5367ff)
@@ -587,8 +590,8 @@ a
     .marginB-c1
       margin-bottom: 10px
   .bs-contribution-content
-    //.tab-block
-      //margin: 5px auto
+  //.tab-block
+    //margin: 5px auto
   .bs-changeRecord
     +bsCompany-content
     margin: 10px auto
@@ -630,7 +633,7 @@ a
     text-align: right
     margin-right: 5px
     margin-bottom: 0
-    //vertical-align: text-top
+  //vertical-align: text-top
   .single
     width: 600px
   .checkboxGrid
@@ -722,10 +725,10 @@ ul.newVisitOther-btn
 @media screen and (min-width: 768px) and (max-width: 1030px)
   .businessCompanyData
     .main-content-data
-      .medium-c1
-        +input-s1(120px)
-      .input-spc-1
-        +input-s1(349px)
+      //.medium-c1
+      //  +input-s1(120px)
+      //.input-spc-1
+      //  +input-s1(349px)
 
 /*-- 商務公司資料編輯 修改easyUI dataGrid 樣式 --*/
 .easyUi-custom1
@@ -1238,7 +1241,7 @@ ul.newVisitOther-btn
 .roomPlan-btn
   margin-top: 42px
 .roomPlan-table
-  //min-width: 100%
+//min-width: 100%
 .empty-color
   background: #e3efdb !important
 .room-color
@@ -1288,6 +1291,8 @@ th.dateColor
 .fancyTable.roomPlanTable tbody tr td
   background-color: #DAEAFC
   color: #262c31
+.fancyTable.bg-white tbody tr td
+  background-color: #fff
 
 //ho 其他聯絡人彈出視窗
 .otherContact-box
@@ -1380,12 +1385,12 @@ input[type="datetime-local"]
 //  padding: 3px 0
 .room-Num-Right
   border-left: 1px solid #778899
-  //display: inline-block
-  ////height: 30px
-  //padding-right: 3px
+//display: inline-block
+////height: 30px
+//padding-right: 3px
 .room-Num-Left
   display: inline-block
-  //height: 30px
+//height: 30px
 span.roomNum-text
   //vertical-align: sub
   padding-left: 3px
@@ -1406,7 +1411,7 @@ span.roomNum-text
 td div.triangle-box
   width: 80%
   height: 19px
-  /* margin-left: 18px; */
+  /* margin-left: 18px */
   margin: 0px auto
   color: #000
   position: relative
@@ -1634,7 +1639,7 @@ span
 .titleInfo
   //border: 1px solid #eee
   .titleInfo-head
-    padding-top: 5px
+    //padding-top: 5px
     padding-bottom: 0
     border-bottom: 1px solid #eee
     margin: 5px auto
@@ -1643,12 +1648,14 @@ span
     p
       margin-bottom: 0
   .textarea-title
-    margin: 10px auto
+    margin: 5px auto
 
 
 // 陰影
 .div_shadow
-  +box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
+  border: 1px solid #8aafce
+  box-shadow: 3px 3px 2px #ccc
+  //+box-shadow(inset 3px 4px 20px 0px #8F8888,5px 5px 5px 1px #707070)
 
 //排房active
 .townBlock
@@ -1658,3 +1665,102 @@ span
 .roomAssign
   .select-group
     display: inline
+.margin-right-5
+  margin-right: 5px
+
+//房務入帳
+.hk-boxs-wrap
+  height: 450px
+  overflow: auto
+  .hk-boxsRow
+    .hk-boxsBlock
+      float: left
+      margin: 0 5px 5px 0
+      padding: 6px
+      width: 85px
+      height: 85px
+      box-sizing: border-box
+      background: #a6caf0
+      color: #000
+      font-size: 10px
+      cursor: pointer
+      border: 1px solid #616161
+      border-radius: 7px
+      &:hover
+        opacity: 0.6
+.hk-back-btn
+  position: absolute
+  bottom: 0
+  right: 0
+.hk-boxsMid
+  .hk-MidBoxsBlock
+    padding: 6px
+    width: 85px
+    height: 85px
+    box-sizing: border-box
+    color: #000
+    font-size: 10px
+    cursor: pointer
+    border: 1px solid #616161
+    border-radius: 7px
+    margin: 5px  auto
+    background: #c0dcc0
+    &:hover
+      opacity: 0.6
+    &.active
+      background: green
+      color: #fff
+.hk-boxs-container
+  background: #c0dcc0
+  border: 1px solid
+.margin-top20
+  margin-top: 20px
+.hk-posting-frist
+  height: 468px
+  padding: 20px 12px
+  border: 1px solid #000
+  .hk-foot
+    font-size: 16px
+    padding: 3px 10px
+    text-align: right
+.hk-footer
+  color: blue
+  font-size: 18px
+  margin-top: 10px
+  margin-left: 20px
+//房務管理
+.list-grap-tab
+  width: 70px
+  margin-top: 3px
+  display: inline-block
+.hk-table-container
+  .counterPage
+    .counterRow
+      .counterBlock
+        color: #fff
+        .content-sub
+          position: absolute
+          bottom: 2px
+          left: 57px
+          font-size: 14px
+        .content
+          position: absolute
+          top: 23px
+          font-size: 16px
+          left: 47px
+.hk-grap-wrap
+  .panel
+    padding-left: 5px
+.width-48
+  width: 48% !important
+.width-4
+  width: 4% !important
+.marginLeft-27
+  margin-left: 27px
+.businessCompanyData
+  .main-content-data
+    .hk-posting-frist
+      label
+        width: 70px
+        text-align: right
+        margin-right: 0

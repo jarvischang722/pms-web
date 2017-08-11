@@ -151,7 +151,7 @@ exports.handleClickUiRow = function (postData, session, callback) {
         });
     }
     else {
-        callback(null, "");
+        callback(null, new ReturnClass());
     }
 };
 
@@ -177,7 +177,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
                 lo_initField[name] = session.user.athena_id;
             }
             else if(name == "hotel_cod"){
-                lo_initField[name] = session.user.fun_hotel_cod;
+                lo_initField[name] = session.user.hotel_cod;
             }
             else{
                 lo_initField[name] = "";
