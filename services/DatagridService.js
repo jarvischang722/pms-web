@@ -220,9 +220,9 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                     //讀取selectgrid的設定參數
-                    if(field.ui_type == 'selectgrid'){
-                         var func_name = prg_id + '_' + field.ui_field_name;
-                         fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
+                    if (field.ui_type == 'selectgrid') {
+                        var func_name = prg_id + '_' + field.ui_field_name;
+                        fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
                     }
 
                     selectDSFunc.push(
@@ -629,7 +629,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     exec_seq++;
 
                     /** 刪除多語系 **/
-                    if(la_multiLangFields.length > 0){
+                    if (la_multiLangFields.length > 0) {
                         var ls_langTable = la_multiLangFields[0].multi_lang_table;
                         var langDel = {"function": "0"};
                         langDel["table_name"] = ls_langTable;
@@ -780,16 +780,35 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     callback(null, '0400');
                 });
 
+            },
+            //抓取特殊的交易代碼
+            function (data, callback) {
+                mongoAgent.TransactionRf.findOne({
+                    prg_id: prg_id,
+                    page_id:1,
+                    tab_page_id: 1,
+                    template_id: 'datagrid',
+                    func_id: '0500'
+                }, function (err, transData) {
+                    if (err) {
+                        console.error(err);
+                        return callback(err, false);
+                    }
+                    if (transData) {
+                        callback(null, transData.trans_code || "BAC03009010000");
+                    } else {
+                        callback(null, "BAC03009010000");
+                    }
+                });
             }
-        ], function (err, result) {
+        ], function (err, trans_code) {
 
             if (err) {
                 return callback(err, false);
             }
-            //抓取對應的table
 
             var apiParams = {
-                "REVE-CODE": "BAC03009010000",
+                "REVE-CODE": trans_code,
                 "program_id": prg_id,
                 "user": userInfo.usr_id,
                 "count": Object.keys(savaExecDatas).length,

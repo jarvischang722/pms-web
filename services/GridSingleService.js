@@ -60,7 +60,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                         la_fields[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
-                                }else{
+                                } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
 
@@ -266,7 +266,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
                                 page_id: 2,
-                                template_id:'datagrid'
+                                template_id: 'datagrid'
                             }, function (err, grid) {
                                 callback(err, grid);
                             });
@@ -291,7 +291,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 });
                                 lo_dtData = dtDataList;
 
-                                fetchDataGridFieldAttr(go_dataGridField, lo_dtData, function(result){
+                                fetchDataGridFieldAttr(go_dataGridField, lo_dtData, function (result) {
                                     callback(err, dtDataList);
                                 });
 
@@ -342,7 +342,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
         }
     );
 
-    function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback){
+    function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback) {
         var selectDSFunc = [];
         _.each(lo_dataGridField, function (field, fIdx) {
             var attrName = field.attr_func_name;
@@ -1069,49 +1069,61 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //打API 儲存
     function doSaveDataByAPI(chk_result, callback) {
-
-        var apiParams = {
-            "REVE-CODE": "BAC03009010000",
-            "program_id": prg_id,
-            "user": userInfo.usr_id,
-            "table_name": mainTableName,
-            "count": Object.keys(savaExecDatas).length,
-            "exec_data": savaExecDatas
-        };
-        // console.dir(apiParams);
-        // callback(null, {success:true});
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-            var log_id = moment().format("YYYYMMDDHHmmss");
-            var err = null;
-            if (apiErr || !data) {
-                chk_result.success = false;
-                err = {};
-                err.errorMsg = apiErr;
-            } else if (data["RETN-CODE"] != "0000") {
-                chk_result.success = false;
-                err = {};
-                console.error(data["RETN-CODE-DESC"]);
-                err.errorMsg = "save error!";
+        mongoAgent.TransactionRf.findOne({
+            prg_id: prg_id,
+            page_id: 2,
+            tab_page_id: 1,
+            template_id: 'gridsingle',
+            func_id: '0500'
+        }, function (err, transData) {
+            if (err) {
+                console.error(err);
+                return callback(err, false);
             }
 
-            //寄出exceptionMail
-            if (!chk_result.success) {
-                mailSvc.sendExceptionMail({
+            var apiParams = {
+                "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
+                "program_id": prg_id,
+                "user": userInfo.usr_id,
+                "table_name": mainTableName,
+                "count": Object.keys(savaExecDatas).length,
+                "exec_data": savaExecDatas
+            };
+            // console.dir(apiParams);
+            // callback(null, {success:true});
+            tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                var log_id = moment().format("YYYYMMDDHHmmss");
+                var err = null;
+                if (apiErr || !data) {
+                    chk_result.success = false;
+                    err = {};
+                    err.errorMsg = apiErr;
+                } else if (data["RETN-CODE"] != "0000") {
+                    chk_result.success = false;
+                    err = {};
+                    console.error(data["RETN-CODE-DESC"]);
+                    err.errorMsg = "save error!";
+                }
+
+                //寄出exceptionMail
+                if (!chk_result.success) {
+                    mailSvc.sendExceptionMail({
+                        log_id: log_id,
+                        exceptionType: "execSQL",
+                        errorMsg: err.errorMsg
+                    });
+                }
+                //log 紀錄
+                logSvc.recordLogAPI({
                     log_id: log_id,
-                    exceptionType: "execSQL",
-                    errorMsg: err.errorMsg
+                    success: chk_result.success,
+                    prg_id: prg_id,
+                    api_prg_code: '0300901000',
+                    req_content: apiParams,
+                    res_content: data
                 });
-            }
-            //log 紀錄
-            logSvc.recordLogAPI({
-                log_id: log_id,
-                success: chk_result.success,
-                prg_id: prg_id,
-                api_prg_code: '0300901000',
-                req_content: apiParams,
-                res_content: data
+                callback(err, chk_result);
             });
-            callback(err, chk_result);
         });
     }
 
@@ -1141,7 +1153,7 @@ exports.handleSelectTextGridData = function (session, postData, callback) {
     var ruleName = postData.fields.rule_func_name;
 
     ruleAgent[ruleName](postData, session, function (err, result) {
-        callback(err,result[0].effectValues);
+        callback(err, result[0].effectValues);
     });
 };
 
