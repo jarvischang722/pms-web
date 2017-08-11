@@ -616,15 +616,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 });
             }
 
-            //TODO: 小良Rule完成後可刪
-            if (prg_id == "PMS0820050") {
-                $.post("/api/getKeyNos", function (getResult) {
-                    if (getResult) {
-                        self.key_nos = getResult.defaultValues.key_nos;
-                    }
-                });
-            };
-
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [columnsData],
@@ -765,7 +756,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
                     $("#dt_dg").datagrid('selectRow', self.dtEditIndex)
                         .datagrid('beginEdit', self.dtEditIndex);
-                    self.key_nos++; //TODO: 小良加上rule後可刪除
                 });
             }
         },
@@ -817,9 +807,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-            if(dataType == 'dt_createData' && prg_id == "PMS0820050") {
-                rowData.key_nos = this.key_nos;
-            } //新增時才取新的key_nos
 
             this.tmpCud[dataType].push(rowData);
         },
