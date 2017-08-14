@@ -151,7 +151,7 @@ exports.handleClickUiRow = function (postData, session, callback) {
         });
     }
     else {
-        callback(null, "");
+        callback(null, new ReturnClass());
     }
 };
 

@@ -679,3 +679,62 @@
     "lock_type" : "", 
     "hotel_cod" : ""
 }
+{ 
+    "_id" : ObjectId("598a6fd640a1f156037333ef"), 
+    "prg_id" : "PMS0820070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ghist_prefer_rf", 
+    "rule_func_name" : "qry_ghist_prefer_rf", 
+    "lock_table" : "ghist_prefer_rf", 
+    "lock_type" : "table"
+}
+{ 
+    "_id" : ObjectId("598ad72db746b64e2c220c83"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hc_adjfolio_mn", 
+    "rule_func_name" : "qry_hc_adjfolio_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("598ad72db746b64e2c220c84"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hc_adjfolio_mn", 
+    "rule_func_name" : "qry_single_hc_adjfolio_mn", 
+    "lock_table" : "hc_adjfolio_mn", 
+    "lock_type" : "table", 
+    "hotel_cod" : "hotel_cod"
+}
+{ 
+    "_id" : ObjectId("598ad72db746b64e2c220c85"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "hc_adjfolio_dt", 
+    "rule_func_name" : "qry_hc_adjfolio_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}
+{ 
+    "_id" : ObjectId("598ad72db746b64e2c220c86"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "special", 
+    "table_name" : "hc_adjfolio_dt2", 
+    "rule_func_name" : "qry_hc_adjfolio_dt2", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : ""
+}

@@ -593,7 +593,7 @@
     "_id" : ObjectId("593133c26e646b21a86afa56"), 
     "prg_id" : "PMS0810150", 
     "func_id" : "0200", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "qry_dp_req_default", 
     "page_id" : NumberInt(1)
 }
 { 
@@ -684,14 +684,14 @@
     "_id" : ObjectId("594a36da4a8b672498df6058"), 
     "prg_id" : "PMS0830110", 
     "func_id" : "0200", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "qry_areapnt_sta_default", 
     "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("594a36de4a8b672498df6059"), 
     "prg_id" : "PMS0830110", 
     "func_id" : "0300", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "chkA6hfdareapntrfIsexistA6hfdprintdt", 
     "page_id" : NumberInt(1)
 }
 { 
@@ -919,5 +919,90 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0400", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598a6cd230731c202c4ff891"), 
+    "prg_id" : "PMS0830100", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "QRY_HFD_REST_DT_SEQ_NOS"
+}
+{ 
+    "_id" : ObjectId("598a708040a1f156037333f1"), 
+    "prg_id" : "PMS0820070", 
+    "func_id" : "0200", 
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("598a708a40a1f156037333f2"), 
+    "prg_id" : "PMS0820070", 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_ghist_prefer_rf_del", 
+    "page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("598a709340a1f156037333f3"), 
+    "prg_id" : "PMS0820070", 
+    "func_id" : "0400", 
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c6c"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(100), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c6d"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(200), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c6e"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(300), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c6f"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(400), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c70"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(200), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c71"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(300), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("598ad6e0b746b64e2c220c72"), 
+    "prg_id" : "PMS0830070", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(400), 
     "rule_func_name" : ""
 }

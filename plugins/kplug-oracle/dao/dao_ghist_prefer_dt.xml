@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 取得交通接駁紀錄-->
+    <dao name="QRY_GHIST_PREFER_RF_COUNT">
+        <statement><![CDATA[
+            select count(*) as use_count from ghist_prefer_dt where athena_id = :athena_id and trim(prefer_cod) = trim(:prefer_cod) and rownum = 1
+        ]]></statement>
+
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">prefer_cod</parameter>
+    </dao>
+</root>

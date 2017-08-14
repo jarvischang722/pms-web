@@ -896,7 +896,7 @@
     "tab_page_id" : NumberInt(1), 
     "ui_field_name" : "item_nos", 
     "ui_display_name" : "item_sna", 
-    "rule_func_name" : "qryHfdrestdtItemnos", 
+    "rule_func_name" : "QRY_HFD_REST_DT_ITEM_NOS", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -909,7 +909,7 @@
     "tab_page_id" : NumberInt(1), 
     "ui_field_name" : "stay_item_nos", 
     "ui_display_name" : "item_sna", 
-    "rule_func_name" : "qryHfdrestdtStayitemnos", 
+    "rule_func_name" : "QRY_HFD_REST_DT_ITEM_NOS", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -922,9 +922,46 @@
     "tab_page_id" : NumberInt(1), 
     "ui_field_name" : "day_sta", 
     "ui_display_name" : "day_nam", 
-    "rule_func_name" : "qryHfdrestdtDaysta", 
+    "rule_func_name" : "QRY_HFD_REST_DT_DAYSTA", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("598a70ea40a1f156037333f4"), 
+    "prg_id" : "PMS0820070", 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "view_seq", 
+    "rule_func_name" : "", 
+    "defaultVal" : "99999", 
+    "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("598ad782b746b64e2c220caa"), 
+    "prg_id" : "PMS0830070", 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "item_nos", 
+    "ui_display_name" : "item_sna", 
+    "rule_func_name" : "qry_hc_adjfolio_dt2_item_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("598bca11726c3e34cca32581"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "cashier_cod", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "chkCashierrfCashiercod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""

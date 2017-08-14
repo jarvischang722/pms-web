@@ -209,8 +209,8 @@ function bindDayClickEvent() {
         var ls_rtnDate = [];
         var day_counter = 0;
         if (ls_date == "All") {
-            ls_start_date = gs_calendar_year + "/01/01";
-            ls_end_date = gs_calendar_year + "/12/31";
+            ls_start_date = $("input[name='start']").val();
+            ls_end_date = $("input[name='end']").val();
 
             var li_diffDay = moment(ls_end_date).diff(moment(ls_start_date), "days") + 1;
             waitingDialog.show("Loading...");

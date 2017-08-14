@@ -27,6 +27,15 @@ module.exports = {
             callback(lo_error, lo_result);
         }
     },
+    qry_dp_req_default: function(postData, session, callback){
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        lo_result.defaultValues.dp_req = "N";
+        lo_result.defaultValues.dp_rat = "0";
+        lo_result.defaultValues.cc_req = "N";
+        lo_result.defaultValues.use_sta = "Y";
+        callback(lo_error, lo_result);
+    },
     //新增儲存時驗證dp_req(需收訂金)
     r_svr2msg_rf_ins_save: function (postData, session, callback) {
         var dpreqTemp = postData.singleRowData.dp_req;
@@ -95,7 +104,7 @@ module.exports = {
         var params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.fun_hotel_cod,
-            free_typ: postData.singleRowData.guarentee_typ
+            guarentee_typ: postData.singleRowData.guarentee_typ
         };
 
         if (!_.isEmpty(postData.singleRowData.guarentee_typ.trim())) {
