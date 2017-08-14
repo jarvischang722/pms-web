@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830070'] 明細的明細虛擬帳單項目 -->
+    <dao name="QRY_HC_ADJFOLIO_DT">
+        <statement><![CDATA[
+               select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
+               from hc_adjfolio_dt2
+               where athena_id = ? and hotel_cod = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+</root>

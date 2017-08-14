@@ -61,3 +61,16 @@ exports.doSavePMS0830080 = function (req ,res) {
         res.json({success:success,errorMsg:errorMsg});
     });
 };
+
+/**
+ * 取得虛擬帳單項目設定>單筆
+ */
+exports.qryPMS0830070SingleMn = function (req, res) {
+    queryAgent.queryList("QRY_SINGLE_HC_ADJFOLIO_MN", {
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod,
+        route_cod: req.body.adjfolio_cod
+    }, 0, 0, function (err, routeDtList) {
+        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    });
+};
