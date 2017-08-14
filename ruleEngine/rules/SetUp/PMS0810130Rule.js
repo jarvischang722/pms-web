@@ -38,7 +38,6 @@ module.exports = {
                 lo_error.errorMsg = "最多只能設定10筆";
                 lo_error.errorCod = "1111";
             }
-
             callback(lo_error, lo_result);
         });
 
@@ -80,7 +79,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var singleRowData = postData.singleRowData || {};
-        var type_cod = singleRowData.type;
+        var type_cod = singleRowData.mnRowData.type;
         var params = {};
         params["athena_id"] = session.user.athena_id;
         params["rv_typ"] = postData.singleRowData.rv_typ;
