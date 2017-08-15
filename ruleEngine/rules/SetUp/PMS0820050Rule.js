@@ -19,6 +19,7 @@ module.exports = {
         postData.field.modificable = postData.singleRowData.sys_default == "Y" ? "N" : "Y";
         callback(null, [postData.field]);
     },
+
     chk_hfd_use_dt_begin_end_dat: function (postData, session, callback) {
         let ls_rentCalDat;
         let la_dtData = _.clone(postData.allRows);
@@ -61,11 +62,17 @@ module.exports = {
             let lo_endDat = "";
             rent_cal_dat = new Date(rent_cal_dat);
 
-            if (!_.isUndefined(postData.editData.begin_dat)) {
-                lo_beginDat = moment(new Date(postData.editData.begin_dat));
+            try {
+                if (postData.editData.begin_dat != "" && !_.isUndefined(postData.editData.begin_dat)) {
+                    lo_beginDat = moment(new Date(postData.editData.begin_dat));
+                }
+                if (postData.editData.end_dat != "" && !_.isUndefined(postData.editData.end_dat)) {
+                    lo_endDat = moment(new Date(postData.editData.end_dat));
+                }
             }
-            if (!_.isUndefined(postData.editData.end_dat)) {
-                lo_endDat = moment(new Date(postData.editData.end_dat));
+            catch(ex){
+                lo_beginDat = "";
+                lo_endDat = "";
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
