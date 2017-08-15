@@ -1,0 +1,33 @@
+[{"id":"tw","text":"台灣",
+  "state" : { "opened" : true },
+  "children":[
+    {"id":"mid_tw","text":"中部",
+      "state" : { "selected" : true },
+      "children":[
+        {"id":"mid_tw1","text":"苗栗"},
+        {"id":"mid_tw2","text":"台中"},
+        {"id":"mid_tw3","text":"彰化"},
+        {"id":"mid_tw4","text":"雲林"}
+    ]},
+    {"id":"s_tw","text":"南部",
+      "children":[
+        {"id":"s_tw1","text":"嘉義"},
+        {"id":"s_tw2","text":"台南"},
+        {"id":"s_tw3","text":"高雄"},
+        {"id":"s_tw4","text":"屏東"}
+      ]},
+    {"id":"n_tw","text":"北部",
+      "children":[
+        {"id":"n_tw1","text":"基隆"},
+        {"id":"n_tw2","text":"台北"},
+        {"id":"n_tw3","text":"桃園"},
+        {"id":"n_tw4","text":"新竹"}
+      ]},
+    {"id":"e_tw","text":"東部",
+      "children":[
+        {"id":"e_tw1","text":"宜蘭"},
+        {"id":"e_tw2","text":"花蓮"},
+        {"id":"e_tw3","text":"台東"}
+      ]}
+  ]
+}]
