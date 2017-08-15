@@ -1050,6 +1050,7 @@ var vm = new Vue({
         doSaveCUD: function (callback) {
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+            console.log(vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
@@ -1057,6 +1058,7 @@ var vm = new Vue({
                     vm.loadDataGridByPrgID(function (success) {
                         callback(success);
                     });
+                    console.log(vm.tmpCud);
                     alert('save success!');
                 } else {
                     alert(result.errorMsg);

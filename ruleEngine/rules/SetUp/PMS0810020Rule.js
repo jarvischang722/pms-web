@@ -2,16 +2,16 @@
  * Created by Jun on 2017/3/30.
  * 房間小類對照檔
  */
-var _ = require("underscore");
-var moment = require("moment");
-var async = require("async");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir + "/ruleEngine/";
-var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath + "/returnClass");
-var ErrorClass = require(ruleRootPath + "/errorClass");
+let _ = require("underscore");
+let moment = require("moment");
+let async = require("async");
+let path = require('path');
+let appRootDir = path.dirname(require.main.filename);
+let ruleRootPath = appRootDir + "/ruleEngine/";
+let queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+let commandRules = require("./../CommonRule");
+let ReturnClass = require(ruleRootPath + "/returnClass");
+let ErrorClass = require(ruleRootPath + "/errorClass");
 
 
 module.exports = {
@@ -22,9 +22,9 @@ module.exports = {
      * @param callback {Function}  :
      */
     // chk_guest_grp_rf_is_exist_rvrmcod_rf: function (postData, session, callback) {
-    //     var result = new ReturnClass();
-    //     var error = null;
-    //     var params = {
+    //     let result = new ReturnClass();
+    //     let error = null;
+    //     let params = {
     //         athena_id: session.user.athena_id,
     //         room_typ: postData.singleRowData.room_typ || ""
     //     }
@@ -47,14 +47,15 @@ module.exports = {
      * @param callback {Function}  :
      */
     chk_edit_rvrmcod_rf: function (postData, session, callback) {
-        var singleRowData = postData.singleRowData;
-        var athena_id = session.user.athena_id;
-        var end_dat = moment(new Date(singleRowData.end_dat));
-        var result = new ReturnClass();
-        var error = null;
-        queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id}, function (err, data) {
+        let singleRowData = postData.singleRowData;
+        let athena_id = session.user.athena_id;
+        let hotel_cod = session.user.hotel_cod;
+        let end_dat = moment(new Date(singleRowData.end_dat));
+        let result = new ReturnClass();
+        let error = null;
+        queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id, hotel_cod: hotel_cod}, function (err, data) {
             if (data) {
-                var belong_dat = moment(new Date(data.belong_dat));
+                let belong_dat = moment(new Date(data.belong_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
                     result.success = false;
                     error = new ErrorClass();
@@ -76,18 +77,22 @@ module.exports = {
      * @param callback {Function} :
      */
     chk_rvrmcod_rf_begin_end_dat: function (postData, session, callback) {
-        var singleRowData = postData.singleRowData;
-        var athena_id = session.user.athena_id;
-        var begin_dat = singleRowData.begin_dat || "";
-        var end_dat = singleRowData.end_dat || "";
-        var result = new ReturnClass();
-        var error = null;
+        let singleRowData = postData.singleRowData;
+        let athena_id = session.user.athena_id;
+        let hotel_cod = session.user.hotel_cod;
+        let begin_dat = singleRowData.begin_dat || "";
+        let end_dat = singleRowData.end_dat || "";
+        let result = new ReturnClass();
+        let error = null;
         return callback(error, result);  //TODO 暫時先不判斷
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
-            queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id}, function (err, data) {
+            queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {
+                athena_id: athena_id,
+                hotel_cod: hotel_cod
+            }, function (err, data) {
 
                 if (data) {
-                    var belong_dat = moment(new Date(data.belong_dat));
+                    let belong_dat = moment(new Date(data.belong_dat));
                     begin_dat = moment(new Date(begin_dat));
                     end_dat = moment(new Date(end_dat));
                     //1)
@@ -134,12 +139,12 @@ module.exports = {
      * @param callback {Function} :
      */
     qry_rvrmcod_rf_old_room_cod: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var singleRowData = postData.singleRowData;
-        var athena_id = session.user.athena_id;
+        let result = new ReturnClass();
+        let error = null;
+        let singleRowData = postData.singleRowData;
         queryAgent.query("QRY_RVRMCOD_RF_OLD_ROOM_COD", {
-            athena_id: athena_id,
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
             room_cod: singleRowData.room_cod
         }, function (err, room_data) {
             if (!err && room_data) {
@@ -151,25 +156,36 @@ module.exports = {
 
     },
     /**
-     * 比較已經有打過的相同房型的資料在table中,房型類別要一樣,不能改成不一樣,不一樣時提示訊息
-     * 訊息:庫存已有此房型,不能刪除
+     * 1.當資料對應期間庫存rminv_dt中有此房型時,要限制無法執行刪除資料。
+     訊息:庫存已有此房型,不能刪除
+     * 2.上傳官網,不能刪除
+     訊息:上傳官網,不能刪除
      * @param postData
      * @param session
      * @param callback {Function} :
      */
     chk_rvrmcod_rf_is_exist_rminv_dt: function (postData, session, callback) {
-        var delDataRows = postData.deleteData || [];  //欲刪除的整筆資料
-        var delResult = new ReturnClass();
-        var delError = null;
-        var delFuncs = [];
+        let delDataRows = postData.deleteData || [];  //欲刪除的整筆資料
+        let delResult = new ReturnClass();
+        let delError = null;
+        let delFuncs = [];
         try {
             _.each(delDataRows, function (delDR) {
                 delFuncs.push(
                     function (callback) {
-                        var params = {
+                        let params = {
+                            hotel_cod: session.hotel_cod,
                             athena_id: session.user.athena_id,
                             room_cod: delDR.room_cod || ""
                         };
+
+                        if (!_.isUndefined(delDR.upload_sta) && delDR.upload_sta == "Y") {
+                            delError = new ErrorClass();
+                            delError.errorMsg = "上傳官網,不能刪除";
+                            delError.errorCod = '1111';
+                            return callback(delError, delResult);
+                        }
+
                         queryAgent.query("CHK_RVRMCOD_RF_IS_EXIST_RMINV_DT", params, function (err, data) {
                             if (!err) {
                                 if (data.room_count > 0) {
@@ -219,18 +235,18 @@ module.exports = {
      */
     r_rvrmcod_rf_ins_save: function (postData, session, callback) {
         try {
-            var userInfo = session.user;
-            var saveResult = new ReturnClass();
-            var saveError = null;
-            var tmpExtendExecDataArrSet = [];
-            var deleteData = postData["deleteData"] || [];
-            var createData = postData["createData"] || [];
-            var editData = postData["editData"] || [];
+            let userInfo = session.user;
+            let saveResult = new ReturnClass();
+            let saveError = null;
+            let tmpExtendExecDataArrSet = [];
+            let deleteData = postData["deleteData"] || [];
+            let createData = postData["createData"] || [];
+            let editData = postData["editData"] || [];
             async.parallel([
                 //新增
                 function (callback) {
                     if (createData.length > 0) {
-                        var createSubFunc = [];
+                        let createSubFunc = [];
                         _.each(createData, function (c_data) {
                             c_data = _.extend(c_data, commandRules.getCreateCommonDefaultDataRule(session));
                             createSubFunc.push(
@@ -238,7 +254,7 @@ module.exports = {
                                     async.waterfall([
                                         function (callback) {
                                             queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
-                                                var thisRuleErr = null;
+                                                let thisRuleErr = null;
                                                 if (Number(data.cover_count || 0) > 1) {
                                                     thisRuleErr = "相同房型的開始結束日期不可重疊";
                                                 }
@@ -254,10 +270,15 @@ module.exports = {
                                                     operation: "=",
                                                     value: userInfo.athena_id
                                                 }, {
-                                                    key: 'room_cod',
+                                                    key: 'hotel_cod',
                                                     operation: "=",
-                                                    value: c_data.room_cod
-                                                }],
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: c_data.room_cod
+                                                    }],
                                                 room_nam: c_data.room_name || "",
                                                 room_sna: c_data.room_sna || ""
                                             });
@@ -267,7 +288,7 @@ module.exports = {
                                         function (data, callback) {
                                             queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", c_data, function (err, data) {
                                                 if (!err && data) {
-                                                    var tmpObj = {
+                                                    let tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
                                                     if (Number(data.room_count) == 0) {
@@ -310,7 +331,7 @@ module.exports = {
                 //修改
                 function (callback) {
                     if (editData.length > 0) {
-                        var editSubFunc = [];
+                        let editSubFunc = [];
 
                         _.each(editData, function (e_data) {
                             e_data = _.extend(e_data, commandRules.getCreateCommonDefaultDataRule(session));
@@ -346,7 +367,7 @@ module.exports = {
                                         function (data, callback) {
                                             queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", e_data, function (err, data) {
                                                 if (!err && data) {
-                                                    var tmpObj = {
+                                                    let tmpObj = {
                                                         table_name: 'room_cod_order'
                                                     };
                                                     if (Number(data.room_count) == 0) {
@@ -386,7 +407,7 @@ module.exports = {
                 //刪除
                 function (callback) {
                     if (deleteData.length > 0) {
-                        var deleteSubFunc = [];
+                        let deleteSubFunc = [];
                         _.each(deleteData, function (d_data) {
                             deleteSubFunc.push(
                                 function (callback) {
@@ -450,13 +471,12 @@ module.exports = {
      * @param callback {Function} :
      */
     r_rvrmcod_rf_del_save: function (postData, session, callback) {
+        let chkResult = new ReturnClass();
+        let chkError = null;
+        let params = postData["singleRowData"] || {};
+        let userInfo = session.user;
+
         try {
-
-            var chkResult = new ReturnClass();
-            var chkError = null;
-            var params = postData["singleRowData"] || {};
-            var userInfo = session.user;
-
             queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, data) {
                 if (err) {
                     chkError = new ErrorClass();
@@ -465,7 +485,7 @@ module.exports = {
                     chkResult.success = false;
                 }
 
-                if (!err && Number(data.room_count) > 0) {
+                if (!err && Number(data.room_count) == 1) {
                     chkResult.extendExecDataArrSet.push({
                         function: '0',
                         table_name: 'room_cod_order',
@@ -474,10 +494,15 @@ module.exports = {
                             operation: "=",
                             value: userInfo.athena_id
                         }, {
-                            key: 'room_cod',
+                            key: 'hotel_cod',
                             operation: "=",
-                            value: params.room_cod
-                        }]
+                            value: userInfo.hotel_cod
+                        }
+                            , {
+                                key: 'room_cod',
+                                operation: "=",
+                                value: params.room_cod
+                            }]
                     });
                 }
 
@@ -500,11 +525,11 @@ module.exports = {
      * @param callback {Function} :
      */
     chk_rvrmcod_rf_room_nam: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var singleRowData = postData.singleRowData;
-        var athena_id = session.user.athena_id;
-        var params = {
+        let result = new ReturnClass();
+        let error = null;
+        let singleRowData = postData.singleRowData;
+        let athena_id = session.user.athena_id;
+        let params = {
             athena_id: athena_id,
             room_cod: singleRowData.room_cod.trim(),
             begin_dat: moment(new Date(singleRowData.begin_dat)).format("YYYY/MM/DD")
@@ -533,11 +558,11 @@ module.exports = {
      * @param callback {Function} :
      */
     chk_rvrmcod_rf_room_sna: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var singleRowData = postData.singleRowData;
-        var athena_id = session.user.athena_id;
-        var params = {
+        let result = new ReturnClass();
+        let error = null;
+        let singleRowData = postData.singleRowData;
+        let athena_id = session.user.athena_id;
+        let params = {
             athena_id: athena_id,
             room_cod: singleRowData.room_cod.trim(),
             begin_dat: moment(new Date(singleRowData.begin_dat)).format("YYYY/MM/DD")
@@ -561,19 +586,60 @@ module.exports = {
      * @param callback {Function} :
      */
     modifyRoomPriceAfterToService: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
-        var singleRowData = postData.singleRowData;
+        let result = new ReturnClass();
+        let error = null;
+        let singleRowData = postData.singleRowData;
         if (!_.isUndefined(singleRowData.room_amt) && typeof Number(singleRowData.room_amt) === "number") {
             result.effectValues["serv_amt"] = Math.floor(Number(singleRowData.room_amt) * 0.1);
         }
         callback(error, result);
     },
     r_rvrmcod_rf_add: function (postData, session, callback) {
-        var result = new ReturnClass();
-        var error = null;
+        let result = new ReturnClass();
+        let error = null;
         result.defaultValues["rest_tim"] = 0; //到鐘時間
         result.defaultValues["pre_alram_min"] = 0;  //休息到鐘提醒分鐘數
         callback(error, result);
+    },
+    /**
+     * 比較已經有打過的相同房型的資料在table中,房型類別要一樣,不能改成不一樣,不一樣時提示訊息
+     訊息:房型類別不可修改
+     如果沒有已經打過的資料,就不用比較
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    chk_rvrmcod_rf_room_typ: function (postData, session, callback) {
+        let ruleResult = new ReturnClass();
+        let chkError = null;
+        let singleRowData = postData.singleRowData;
+        let userInfo = session.user;
+        let params = {
+            hotel_cod: userInfo.hotel_cod,
+            athena_id: userInfo.athena_id,
+            room_cod: singleRowData.room_cod,
+            begin_dat: moment(singleRowData.begin_dat).format("YYYY/MM/DD")
+        };
+        queryAgent.query("CHK_RVRMCOD_RF_ROOM_TYP", params, function (err, room) {
+            if (err) {
+                console.error(err);
+                chkError = new ErrorClass();
+                chkError.errorMsg = err;
+                chkError.errorCod = "1111";
+            } else {
+
+                if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
+
+                    ruleResult.showAlert = true;
+                    ruleResult.alertMsg = "房型類別不可修改";
+                    ruleResult.effectValues = {
+                        room_typ: room.room_typ
+                    };
+
+                }
+            }
+            callback(chkError, ruleResult);
+        });
+
     }
 };
