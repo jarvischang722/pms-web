@@ -1,15 +1,20 @@
-<script src="/js/setup/PMS0860030_setup.js"></script>
 <!--page-content-->
 <div id="app">
+    <div class="col-xs-12">
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
+    </div>
+    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
     <div class="page-header"></div><!-- /.page-header -->
-<!-- 區域別設定 Page-->
+    <!-- 區域別設定 Page-->
     <div class="row">
         <div class="col-xs-12">
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
+
+                <div id="areaTree" class="demo"></div>
                 <div class="row no-margin-right">
-                    <div id="areaTree" class="demo">
-                    </div>
 
                 </div>
             </div>
@@ -27,7 +32,7 @@
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
-                                        role="button">Modify</button>
+                                        role="button">Edit</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -46,3 +51,5 @@
     </div>
 </div><!-- /.page-content -->
 
+<%- include ../../../common/importFiles.ejs %>
+<script src="/js/setup/PMS0860030_setup.js"></script>

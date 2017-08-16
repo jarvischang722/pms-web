@@ -204,13 +204,18 @@ var vm = new Vue({
             console.log("按下一個Row");
             console.log(gb_isUserEdit4ClickCell);
 
+
             if (vm.editIndex != index) {
 
                 if (this.endEditing() && gb_isUserEdit4ClickCell) {
+
                     gb_isUserEdit4ClickCell = false;
                     gb_isUserEdit4EndEdit = true;
-                    $('#prg_dg').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
+
+
+
+                    $('#prg_dg').datagrid('selectRow', index).datagrid('beginEdit', index);
+                    // console.log($("#prg_dg").datagrid("getRows")[index]);
                     var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
                     if (ed) {
                         ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();

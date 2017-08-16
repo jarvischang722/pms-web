@@ -301,6 +301,7 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
+    return false;
     if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
