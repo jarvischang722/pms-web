@@ -265,7 +265,21 @@
             });
         });
 
-
+// 彈出 接待 單筆
+        $(document).on('click', ".fdCheckIn", function (e) {
+            e.preventDefault();
+            var dialog = $("#fdCheckIn-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Message Detail",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         // 櫃檯備品 screen小於1280縮小
 //        var $window = $(window),
 //            $ul = $('ul.nav');
@@ -737,6 +751,31 @@
         ]]
     });
 
+    // 接待單筆
+    $('#fd-checkIn-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/fd-checkIn-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'CO', title: '選擇', width: 40},
+            {field: 'scan', title: '掃描', width: 40},
+            {field: 'rem', title: '提醒', width: 40},
+            {field: 'money', title: '指定訂金', width: 70,align:"right"},
+            {field: 'phone', title: '電話機語言', width: 80},
+            {field: 'clean', title: '清掃狀態', width: 70},
+            {field: 'roomNum', title: '房號', width: 70},
+            {field: 'vip', title: 'VIP', width: 70},
+            {field: 'name', title: '住客姓名', width: 100},
+            {field: 'inDate', title: '入住日期', width: 100},
+            {field: 'outDate', title: '退房日期', width: 100},
+            {field: 'code', title: '房價代號', width: 100},
+            {field: 'useRoom', title: '使用房種', width: 100},
+            {field: 'roomPrice', title: '房價', width: 100,align:"right"},
+            {field: 'roomType', title: '排房房種', width: 100}
+        ]]
+    });
 
     //顯示排房明細
     $(function () {
