@@ -2,11 +2,6 @@
 <div>
     <div class="page-header"></div><!-- /.page-header -->
     <div class="row">
-        <div class="col-xs-12">
-            <label id="prg_Id" class="prg_idLbH3">PMS0610010</label>
-        </div>
-        <div class="clearfix"></div>
-
 
         <div class="col-xs-12">
             <div class="search-content">
@@ -27,18 +22,21 @@
                     </div>
                     <div class="row">
                         <div class="search-co-content col-xs-12">
-                            <div class="col-sm-4">
-
+                            <div class="width-95" style="padding-top: 10px; padding-bottom: 5px;">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>公司編號</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                        <span class="moreClick">...</span>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>狀態</label>
+                                        <input type="text" class="input-medium medium-c1"/>
+                                        <span class="moreClick">...</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                            <div class="col-sm-4">
-
-                            </div>
-                        </div>
-                        <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                            <div class="row search-footer-btn">
+                            <div class="row search-footer-btn" style="top: -10px;">
                                 <div class="footer-btn-menu-co">
                                     <ul>
                                         <li>
@@ -56,31 +54,22 @@
                                     </ul>
                                 </div>  <!-- /.footer-btn-menu-co -->
                             </div> <!-- /.search-footer-btn -->
+                        </div>
+                        <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
                             <div class="width-95">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司編號</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                        <span class="moreClick">...</span>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>狀態</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                        <span class="moreClick">...</span>
-                                    </div>
-                                </div>
+
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label classs="">公司名稱</label>
                                         <input type="text" class="input-medium input-spc-1"/>
                                     </div>
                                     <div class="searchCheckbox pull-left">
-                                                <span class="checkbox">
-                                                  <label class="checkbox-width">
-                                                      <input name="form-field-checkbox" type="checkbox" class="ace" >
-                                                      <span class="lbl">關鍵字</span>
-                                                  </label>
-                                              </span>
+                                                    <span class="checkbox">
+                                                      <label class="checkbox-width">
+                                                          <input name="form-field-checkbox" type="checkbox" class="ace" >
+                                                          <span class="lbl">關鍵字</span>
+                                                      </label>
+                                                  </span>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -194,16 +183,8 @@
                                         role="button">Edit</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">變更客戶狀態為正常</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">變更客戶狀態為黑名單</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">變更客戶狀態為潛力</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-statusChg"
+                                        role="button">Status chg.</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"

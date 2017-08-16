@@ -10,16 +10,152 @@
 
         $('[data-rel=tooltip]').tooltip();
 
-        /***
-         * PMS0320010 外幣匯兌
-         */
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
+        });
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.btn-group').find('.dpShowValue').text(this.innerHTML);
+        });
 
-        // 彈出 外匯匯兌單筆 Add
-        $(document).on('click', ".cashier_FXDialog-add", function (e) {
+        /***
+         * PMS0410010 房間
+         */
+        /* 點選右上箭頭選擇觀看右邊表格 */
+        function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
+            $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
+//            $('.intCounterLeft .chooseCount').css('width','8%');
+            $('.intCounterLeft .resultCount').css('max-width', maxW);
+            $('.intCounterRight').css('display', disToggle1);
+            $('.fa-angle-left').css('display', disToggle2);
+            $('.fa-angle-right').css('display', disToggle1);
+        }
+
+        $(".show-intCounterRight > .fa-angle-left").click(function () {
+            foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+        });
+        $(".show-intCounterRight > .fa-angle-right").click(function () {
+            foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+        });
+        /* 點選右上箭頭選擇觀看右邊表格 End */
+
+        /* 點選左上放大鏡選擇觀看內容多寡 */
+        function zoomInOut(width, height, disToggle1, disToggle2) {
+            $('.counterBlock').css('width', width).css('height', height);
+            $('.counterBlock > .head > .right >.counterPrice').css('display', disToggle1);
+            $('.counterBlock > .content').css('display', disToggle1);
+            $('.counterBlock > .content-sub').css('display', disToggle1);
+            $('.zoomOut').css('display', disToggle1);
+            $('.zoomIn').css('display', disToggle2);
+        }
+
+        $(document).on('click', ".zoomOut", function () {
+            zoomInOut('70px', '33px', 'none', 'inline-block');
+        });
+        $(document).on('click', ".zoomIn", function () {
+            zoomInOut('129px', '74px', 'inline-block', 'none');
+        });
+        /* 點選左上放大鏡選擇觀看內容多寡 End */
+
+        //顯示排房明細
+        $(function () {
+            $('.showCardDetail').click(function () {
+                $(".cardDetail-table").toggle().css('height','auto');
+            });
+        });
+        //排房選中active
+        $(function(){
+            $('.counterBlock').click(function(){
+                $('.counterBlock').removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+
+        //房務管理切換
+
+        $(function(){
+            $('.hk-list-btn').hide();
+            $('.hk-table-container').hide();
+
+            $('.hk-list-btn').click(function(){
+                $('.hk-list-btn').hide();
+                $('.hk-graphics-btn').show();
+                $('.hk-table-container').hide();
+                $('.hk-dataList-container').show();
+            });
+            $('.hk-graphics-btn').click(function(){
+                $('.hk-graphics-btn').hide();
+                $('.hk-dataList-container').hide();
+                $('.hk-table-container').show();
+                $('.hk-list-btn').show();
+            });
+        });
+
+        $('#hk-PMS0410010-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/hk-PMS0410010-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'rmNo', title: 'Rm.No.', width: 70},
+                {field: 'rmType', title: 'Rm.Type', width: 70},
+                {field: 'rmSta', title: 'Rm.Sta', width: 70},
+                {field: 'hkSta', title: 'HK Sta.', width: 70},
+                {field: 'inspect', title: 'Inspect', width: 70},
+                {field: 'oos', title: 'OOS', width: 70},
+                {field: 'dnd', title: 'DND', width: 70},
+                {field: 'assign', title: 'Assign', width: 70},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'ciDate', title: 'C/I Date', width: 100},
+                {field: 'coDate', title: 'C/O Date', width: 100},
+                {field: 'oosR', title: 'OOS Reason', width: 100},
+                {field: 'repair', title: 'Repair(Show RM) Reason', width: 170},
+                {field: 'rm', title: 'Rm.Remark', width: 70}
+            ]]
+        });
+
+//.end
+
+
+
+        $(document).ready(function(){
+            //選中的增加active
+            $(".hk-MidBoxsBlock").click(function() {
+                $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
+                $(this).addClass('active');
+            });
+
+            //隱藏顯示
+            $(".hk-mian-content").hide();
+            $(".hk-mian-content-2").hide();
+            $(".hk-midNav-2").hide();
+
+            $(".hk-mid-1").click(function() {
+                $(".hk-mian-content").show();
+                $(".hk-mian-content-2").hide();
+            });
+            $(".hk-mid-2").click(function() {
+                $(".hk-mian-content").hide();
+                $(".hk-midNav-1").hide();
+                $(".hk-midNav-2").show();
+            });
+            $(".hk-mid2-1").click(function() {
+                $(".hk-mian-content-2").show();
+            });
+            $(".hk-back-nav").click(function() {
+                $(".hk-midNav-2").hide();
+                $(".hk-midNav-1").show();
+            });
+        });
+
+        // 彈出房務入帳主檔
+        $(document).on('click', ".hk-posting-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#cashier_FXDialog-add-message").removeClass('hide').dialog({
+            var dialog = $("#hk-postion-page").removeClass('hide').dialog({
                 modal: true,
-                title: "外匯匯兌單筆Add",
+                title: "房務入帳主檔",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -30,33 +166,97 @@
             });
         });
 
-        /***
-         * dataGrid
-         */
-        // 外幣匯兌 cashier_FX-table dataGrid
-        $('#cashier_FX-table').datagrid({
+        // 彈出detail
+        $(document).on('click', ".hk-detail-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#hk-detail-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Detail",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 房務入帳table
+        $('#PMS0410020-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_FX.json',
+            url: '/jsonData/PMS0410020-table.json',
             method: 'get',
             columns: [[
-                {field: 'exchangeMemoNo', title: '水單號碼', width: 100},
-                {field: 'exchangeMemoSDate', title: '水單產生日', width: 80},
-                {field: 'exchangeMemoStatus', title: '水單狀態', width: 60},
-                {field: 'travelName', title: '旅客姓名', width: 60},
-                {field: 'class', title: '班別', width: 40},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'idCard', title: '身分證/護照', width: 100},
-                {field: 'exchangeType', title: '兌換種類', width: 60},
-                {field: 'currency', title: '幣別', width: 60},
-                {field: 'foreignCurrencyAmount', title: '外幣金額', width: 80,align: 'right'},
-                {field: 'exchangeAmount', title: '兌換金額', width: 100,align: 'right'},
-                {field: 'banknote', title: '支/鈔票號碼', width: 160},
-                {field: 'updDate', title: '修改日期', width: 130}
+                {field: 'rmNo', title: 'Rm. No.', width: 70},
+                {field: 'name', title: 'Full Name', width: 100},
+                {field: 'fs', title: 'Folio Status', width: 100},
+                {field: 'coDate', title: 'C/O Date', width: 100},
+                {field: 'ciDate', title: 'C/I Date', width: 100},
+                {field: 'ciTime', title: 'C/I Time', width: 70},
+                {field: 'mini', title: 'Mini Bar Amt.',align:'right', width: 100},
             ]]
         });
 
+        // postion-table
+        $('#postion-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/postion-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'check', title: '', width: 22},
+                {field: 'thing', title: '消費項目', width: 70},
+                {field: 'num', title: '數量', width: 40},
+                {field: 'price', title: '單價',align:'right', width: 50},
+                {field: 'pay', title: '消費金額',align:'right', width: 60},
+                {field: 'se', title: '服務費',align:'right', width: 50}
+            ]]
+        });
+
+        $('#hk-details-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/hk-details-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'thing', title: '消費項目', width: 100},
+                {field: 'num', title: '數量', width: 70},
+                {field: 'price', title: '單價',align:'right', width: 70},
+                {field: 'originMoney', title: '原銷售金額',align:'right', width: 100},
+                {field: 'realityseMoney', title: '實際銷售金額',align:'right', width: 100},
+                {field: 'originService', title: '原服務費',align:'right', width: 100},
+                {field: 'realityseService', title: '實際服務費',align:'right', width: 70}
+            ]]
+        });
+
+        $('#hk-detailsFrist-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/hk-detailsFrist-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'consumeDate', title: '消費日期', width: 100},
+                {field: 'enterTime', title: '入帳時間', width: 70},
+                {field: 'enterMan', title: '入帳者',align:'right', width: 70},
+                {field: 'smallClassify', title: '小分類',align:'right', width: 100},
+                {field: 'consumeMoney', title: '消費金額',align:'right', width: 70},
+                {field: 'serviceMoney', title: '服務費',align:'right', width: 70},
+                {field: 'total', title: '小計',align:'right', width: 70},
+                {field: 'consumeCode', title: '消費單號', width: 70},
+                {field: 'serviceCode', title: '服務費單號', width: 100},
+                {field: 'rmk', title: '備註', width: 100},
+                {field: 'addDate', title: '新增日', width: 70},
+                {field: 'addMan', title: '新增者', width: 70},
+                {field: 'lastDate', title: '最後異動日', width: 100},
+                {field: 'lastMan', title: '最後異動者', width: 70}
+            ]]
+        });
 
     });
 </script>

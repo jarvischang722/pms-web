@@ -41,7 +41,6 @@
             url: '/jsonData/resv_gProfile.json',
             method: 'get',
             columns: [[
-                {field: 'option', title: '選擇', width: 80},
                 {field: 'historyNO', title: '歷史編號', width: 80},
                 {field: 'personID', title: '身份證字號', width: 100},
                 {field: 'fullName', title: 'Full Nmae', width: 80},
@@ -57,6 +56,19 @@
 
         });
 
+        // PMS0210010 住客歷史多筆資料(checkbox)
+        $('#resv_gProfile_dg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_gProfile_dg.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+
+        });
         // 彈出 住客歷史 Lost&Found
         $(document).on('click', ".resvLostFound", function (e) {
             e.preventDefault();
@@ -1632,7 +1644,5 @@
             addRemoveLinks: true,
             method: 'post'
         });
-
-
 
 </script>
