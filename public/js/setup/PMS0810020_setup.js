@@ -204,11 +204,8 @@ Vue.component('single-grid-pms0810020-tmp', {
                 $.post('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
                         //連動帶回的值
-                        if (!_.isUndefined(result.effectValues)) {
-                            var effectValues = result.effectValues;
-                            _.each(Object.keys(effectValues), function (key) {
-                                self.singleData[key] = effectValues[key] || "";
-                            });
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData =  _.extend(self.singleData , result.effectValues);
                         }
 
                         //是否要show出訊息

@@ -1642,6 +1642,109 @@ a {
   opacity: 1;
 }
 
+.boxy {
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+}
+.boxy:after {
+  content: "";
+  display: table;
+}
+
+.inner-item:before {
+  content: "";
+  display: table;
+}
+
+.boxy:after {
+  clear: both;
+}
+
+.inner-item {
+  width: 100%;
+  height: 100%;
+  background: #aaaaaa;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+  margin: 20px;
+  box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.4s ease-in-out;
+}
+
+.sub {
+  position: absolute;
+  background: rgba(244, 130, 34, 0.8);
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-in-out;
+  -webkit-transform: scale(0);
+}
+
+.inner-item h3 {
+  position: relative;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 35px;
+  margin: 0 30px;
+  padding: 58px 0 0 0;
+  height: 100px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 1px #fff, 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.sub p {
+  color: #fff;
+  padding: 10px 5px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-top: 5px solid rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-in-out 0.8s;
+}
+.sub p a {
+  display: block;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding-top: 7px;
+  font-family: Arial, sans-serif;
+  text-decoration: none;
+}
+.sub p a:hover {
+  color: #adddea;
+  padding: 5px;
+  border-radius: 101px;
+  border: 2px solid #BA611D;
+  background-color: rgba(186, 97, 29, 0.1);
+}
+
+.inner-item:hover {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.inner-item:hover .sub {
+  -webkit-transform: scale(1);
+  opacity: 1;
+}
+.inner-item:hover .sub p {
+  opacity: 1;
+}
+
 /*-- footer -- */
 .bacchus-footer {
   padding-top: 220px;
@@ -1689,7 +1792,6 @@ a {
 .top-sec-ul .top-ul ul li:hover {
   background: #ffc666;
 }
-/* line 158, ../sass/_bacchusMain.sass */
 .top-sec-ul .top-ul ul li.active_01 {
   background: #D15B47;
 }
@@ -2556,12 +2658,11 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock.cb-brown {
   background: #dcbe88;
 }
-/* line 25, ../sass/modules/_mixin.sass */
 .rulesOfSeparation .counterRow .counterBlock.cb-blueGreen {
   background: #06eed5;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-grayGreen {
-  background: #aac077;
+  background: #008148;
 }
 .rulesOfSeparation .counterRow .counterBlock.cb-sexyBlue {
   background: #19647E;
@@ -2681,7 +2782,7 @@ ul.newVisitOther-btn {
   background: #06eed5;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-grayGreen {
-  background: #aac077;
+  background: #008148;
 }
 .foCounter .counterPage .counterRow .counterBlock.cb-sexyBlue {
   background: #19647E;
@@ -3118,7 +3219,6 @@ th.dateColor {
   min-width: 200px;
 }
 
-/* line 1288, ../sass/_bacchusMain.sass */
 .fancyTable.roomPlanTable tbody tr td {
   background-color: #DAEAFC;
   color: #262c31;
@@ -3278,7 +3378,7 @@ span.roomNum-text {
 td div.triangle-box {
   width: 80%;
   height: 19px;
-  /* margin-left: 18px; */
+  /* margin-left: 18px */
   margin: 0px auto;
   color: #000;
   position: relative;
@@ -3379,7 +3479,6 @@ span.triangle-text {
   border-bottom: 0px;
   margin-bottom: 3px;
 }
-/* line 1501, ../sass/_bacchusMain.sass */
 .pbx-clean-box hr {
   clear: both;
 }
@@ -3581,7 +3680,7 @@ span.triangle-text {
 }
 
 .hk-boxs-wrap {
-  height: 600px;
+  height: 450px;
   overflow: auto;
 }
 .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
@@ -3639,7 +3738,7 @@ span.triangle-text {
 }
 
 .hk-posting-frist {
-  height: 618px;
+  height: 468px;
   padding: 20px 12px;
   border: 1px solid #000;
 }

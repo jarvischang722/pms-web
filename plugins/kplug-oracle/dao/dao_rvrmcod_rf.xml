@@ -46,8 +46,9 @@
                from rvrmcod_rf
                where athena_id = :athena_id
                and trim(hotel_cod) = trim(:hotel_cod)
-               and room_cod = :room_cod
+               and trim(room_cod)  = trim(:room_cod)
                and rownum = 1
+
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
@@ -155,5 +156,21 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="date" kind="3">rent_cal_dat</parameter>
+    </dao>
+
+    <dao name="CHK_RVRMCOD_RF_ROOM_TYP">
+        <statement><![CDATA[
+            select room_typ
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_cod) = trim(:room_cod)
+            and begin_dat <> to_date(:begin_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
 </root>
