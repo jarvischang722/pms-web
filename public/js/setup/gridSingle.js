@@ -526,8 +526,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
-console.log(this.isEditingForFieldRule);
-console.log(this.isVerified);
+
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {
                 var self = this;
                 var targetRowAfterDelete = {}; //刪除後要指向的資料

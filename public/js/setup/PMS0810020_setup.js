@@ -356,7 +356,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             //先驗證有無欄位沒驗證過的
             this.$emit('do-save-cud', function (success) {
-
+                self.fetchRoomCodOrder();
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
@@ -658,7 +658,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         //房型庫存最大日期
         showRoomTypeMaxStockDate: function () {
             var self = this;
-            $.post("/api/showRoomTypeMaxStockDate", function (result) {
+            $.post("/api/getRoomTypeMaxStockDate", function (result) {
                 self.maxRmStock = moment(result.max_batch_dat).format("YYYY/MM/DD");
             });
         },
