@@ -3642,6 +3642,18 @@ span.triangle-text {
   color: #000;
 }
 
+.fixHeadTable table {
+  width: 100%;
+  table-layout: fixed;
+}
+.fixHeadTable .tbl-content {
+  overflow-x: auto;
+  margin-top: 0px;
+}
+.fixHeadTable .tbl-content td {
+  padding-left: 5px;
+}
+
 .grayBg {
   background: #EEEEEE !important;
 }
@@ -3682,46 +3694,54 @@ span.triangle-text {
 .ttrial-table tbody tr td .test {
   margin-left: 30px;
 }
-.ttrial-table .lineHeight17 {
+
+.lineHeight17 {
   line-height: 1.7;
 }
-.ttrial-table .ttrial-noice {
+
+.ttrial-noice {
   font-size: 14px;
   margin-left: 86px;
 }
-.ttrial-table .titleInfo .titleInfo-head {
+
+.titleInfo .titleInfo-head {
   padding-bottom: 0;
   border-bottom: 1px solid #eee;
   margin: 5px auto;
 }
-.ttrial-table .titleInfo .titleInfo-head .titleInfo-title {
+.titleInfo .titleInfo-head .titleInfo-title {
   font-size: 1.2em;
 }
-.ttrial-table .titleInfo .titleInfo-head p {
+.titleInfo .titleInfo-head p {
   margin-bottom: 0;
 }
-.ttrial-table .titleInfo .textarea-title {
+.titleInfo .textarea-title {
   margin: 5px auto;
 }
-.ttrial-table .div_shadow {
+
+.div_shadow {
   border: 1px solid #8aafce;
   box-shadow: 3px 3px 2px #ccc;
 }
-.ttrial-table .townBlock.active {
+
+.townBlock.active {
   border: 5px solid red;
   padding: 1px !important;
 }
-.ttrial-table .roomAssign .select-group {
+
+.roomAssign .select-group {
   display: inline;
 }
-.ttrial-table .margin-right-5 {
+
+.margin-right-5 {
   margin-right: 5px;
 }
-.ttrial-table .hk-boxs-wrap {
+
+.hk-boxs-wrap {
   height: 450px;
   overflow: auto;
 }
-.ttrial-table .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
+.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
   float: left;
   margin: 0 5px 5px 0;
   padding: 6px;
@@ -3735,15 +3755,17 @@ span.triangle-text {
   border: 1px solid #616161;
   border-radius: 7px;
 }
-.ttrial-table .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
+.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
   opacity: 0.6;
 }
-.ttrial-table .hk-back-btn {
+
+.hk-back-btn {
   position: absolute;
   bottom: 0;
   right: 0;
 }
-.ttrial-table .hk-boxsMid .hk-MidBoxsBlock {
+
+.hk-boxsMid .hk-MidBoxsBlock {
   padding: 6px;
   width: 85px;
   height: 85px;
@@ -3756,88 +3778,85 @@ span.triangle-text {
   margin: 5px auto;
   background: #c0dcc0;
 }
-.ttrial-table .hk-boxsMid .hk-MidBoxsBlock:hover {
+.hk-boxsMid .hk-MidBoxsBlock:hover {
   opacity: 0.6;
 }
-.ttrial-table .hk-boxsMid .hk-MidBoxsBlock.active {
+.hk-boxsMid .hk-MidBoxsBlock.active {
   background: green;
   color: #fff;
 }
-.ttrial-table .hk-boxs-container {
+
+.hk-boxs-container {
   background: #c0dcc0;
   border: 1px solid;
 }
-.ttrial-table .margin-top20 {
+
+.margin-top20 {
   margin-top: 20px;
 }
-.ttrial-table .hk-posting-frist {
+
+.hk-posting-frist {
   height: 468px;
   padding: 20px 12px;
   border: 1px solid #000;
 }
-.ttrial-table .hk-posting-frist .hk-foot {
+.hk-posting-frist .hk-foot {
   font-size: 16px;
   padding: 3px 10px;
   text-align: right;
 }
-.ttrial-table .hk-footer {
+
+.hk-footer {
   color: blue;
   font-size: 18px;
   margin-top: 10px;
   margin-left: 20px;
 }
-.ttrial-table .list-grap-tab {
+
+.list-grap-tab {
   width: 70px;
   margin-top: 3px;
   display: inline-block;
 }
-.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock {
+
+.hk-table-container .counterPage .counterRow .counterBlock {
   color: #fff;
 }
-.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock .content-sub {
+.hk-table-container .counterPage .counterRow .counterBlock .content-sub {
   position: absolute;
   bottom: 2px;
   left: 57px;
   font-size: 14px;
 }
-.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock .content {
+.hk-table-container .counterPage .counterRow .counterBlock .content {
   position: absolute;
   top: 23px;
   font-size: 16px;
   left: 47px;
 }
-.ttrial-table .hk-grap-wrap .panel {
+
+.hk-grap-wrap .panel {
   padding-left: 5px;
 }
-.ttrial-table .width-48 {
+
+.width-48 {
   width: 48% !important;
 }
-.ttrial-table .width-4 {
+
+.width-4 {
   width: 4% !important;
 }
-.ttrial-table .marginLeft-27 {
+
+.marginLeft-27 {
   margin-left: 27px;
 }
-.ttrial-table .businessCompanyData .main-content-data .hk-posting-frist label {
+
+.businessCompanyData .main-content-data .hk-posting-frist label {
   width: 70px;
   text-align: right;
   margin-right: 0;
 }
 
-.ttttable {
-  color: #000000;
-}
-.ttttable table {
-  width: 100%;
-  table-layout: fixed;
-}
-.ttttable .tbl-content {
-  height: 300px;
-  overflow-x: auto;
-  margin-top: 0px;
-}
-
-/* for custom scrollbar for webkit browser */
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
