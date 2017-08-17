@@ -3831,6 +3831,16 @@ span.triangle-text {
   width: 100%;
   table-layout: fixed;
 }
+.ttttable table th {
+  padding: 20px 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.ttttable table td {
+  padding: 15px;
+  font-weight: 300;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+}
 .ttttable .tbl-header {
   background-color: rgba(255, 255, 255, 0.3);
 }
