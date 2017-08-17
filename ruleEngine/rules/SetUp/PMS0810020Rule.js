@@ -172,7 +172,6 @@ module.exports = {
         let delFuncs = [];
         try {
             _.each(delDataRows, function (delDR) {
-                console.log(delDR.upload_sta);
                 delFuncs.push(
                     function (callback) {
                         let params = {
@@ -430,42 +429,6 @@ module.exports = {
                         callback(null, 'edit');
                     }
 
-                },
-                //刪除
-                function (callback) {
-                    if (deleteData.length > 0) {
-                        let deleteSubFunc = [];
-                        _.each(deleteData, function (d_data) {
-                            deleteSubFunc.push(
-                                function (callback) {
-                                    queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, data) {
-                                        if (Number(data.room_count) == 1) {
-                                            tmpExtendExecDataArrSet.push({
-                                                function: '0',
-                                                table_name: 'room_cod_order',
-                                                condition: [{
-                                                    key: 'athena_id',
-                                                    operation: "=",
-                                                    value: userInfo.athena_id
-                                                }, {
-                                                    key: 'room_cod',
-                                                    operation: "=",
-                                                    value: deleteData.room_cod
-                                                }]
-                                            });
-                                        }
-                                    });
-                                }
-                            );
-
-                            async.parallel(deleteSubFunc, function (err, result) {
-                                callback(err, tmpExtendExecDataArrSet);
-                            });
-                        });
-
-                    } else {
-                        callback(null, 'delete');
-                    }
                 }
             ], function (err, result) {
 
@@ -505,7 +468,6 @@ module.exports = {
         let userInfo = session.user;
 
         try {
-
             async.waterfall([
                 function (cb) {
                     self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function(err, lo_checkResult){

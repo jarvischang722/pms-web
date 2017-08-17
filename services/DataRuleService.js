@@ -283,7 +283,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                     if (err) {
                         lo_result.success = false;
                     }
-
+                    lo_result.extendExecDataArrSet = result[0].extendExecDataArrSet;
                     callback(err, lo_result);
                 });
 
