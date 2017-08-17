@@ -476,12 +476,12 @@ module.exports = {
         let chkError = null;
         let params = postData["singleRowData"] || {};
         let userInfo = session.user;
-
+        params["begin_dat"] = moment(params["begin_dat"] ).format("YYYY/MM/DD");
         try {
             queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, data) {
                 if (err) {
                     chkError = new ErrorClass();
-                    chkError.errorMsg = err;
+                    chkError.errorMsg = err.message;
                     chkError.errorCod = "1111";
                     chkResult.success = false;
                 }
