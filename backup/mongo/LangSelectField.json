@@ -108,3 +108,25 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("598bc9ae726c3e34cca3257f"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "s99_user_select", 
+    "ui_field_name" : "cashier_cod", 
+    "ui_display_name_zh_TW" : "出納員代號", 
+    "hint_zh_TW" : "出納員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("598bc9ae726c3e34cca32580"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "s99_user_select", 
+    "ui_field_name" : "cashier_nam", 
+    "ui_display_name_zh_TW" : "出納員名稱", 
+    "hint_zh_TW" : "出納員名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}

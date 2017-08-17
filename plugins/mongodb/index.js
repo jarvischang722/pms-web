@@ -30,6 +30,7 @@ require("./models/mongoose/LogsAPI");
 require("./models/mongoose/Sessions");
 require("./models/mongoose/LangUIField");
 require("./models/mongoose/SettingHistory");
+require("./models/mongoose/TransactionRf");
 
 
 exports.DatagridFunction = mongoose.model("DatagridFunction");
@@ -44,3 +45,4 @@ exports.LogsAPI = mongoose.model("LogsAPI");
 exports.Sessions = mongoose.model("Sessions");
 exports.LangUIField = mongoose.model("LangUIField");
 exports.SettingHistory = mongoose.model("SettingHistory");
+exports.TransactionRf = mongoose.model("TransactionRf");

@@ -1,0 +1,862 @@
+
+    <!-- 房務入帳Page-->
+    <div class="row">
+        <div class="col-xs-12">
+            <!--<div class="col-sm-11 col-xs-11">-->
+                <!--<div class="row no-margin-right">-->
+                    <div class="search-content">
+                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>搜尋</span>
+                                <div class="row search-right-btn">
+                                    <div class="right-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-chevron-down show-search-detail"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12">
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                </div>
+                                <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <!--1-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Rm No.</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>RV. No.</label>
+                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--2-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Full Name</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--3-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>C/I Date</label>
+                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>C/O Date</label>
+                                                <input type="date" class="input-medium popWindow-s1" placeholder="">
+                                            </div>
+                                        </div>
+                                        <!--4-->
+
+                                        <!--5-->
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Folio Status</label>
+                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                <!--</div>-->
+            <!--</div>-->
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <!--<div class="blockSetting-heading">查詢結果</div>-->
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <!-- 房務入帳-table dataGrid -->
+                    <table id="PMS0410020-table"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth hk-posting-btn"
+                                        role="button">Posting</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth hk-detail-btn"
+                                        role="button">Details</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+    </div>
+    <!-- /.房務入帳Page -->
+
+    <!-- hk-postion 彈出視窗 -->
+    <div id="hk-postion-page" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12 main-content-data">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 hk-posting-frist">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="label-spc-2">房號</label>
+                                <input type="text" class="input-medium resvCard-xlxl" placeholder="314">
+                                -
+                                <input type="text" class="input-medium resvCard-2xs" placeholder="2">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="label-spc-2">C/I日期</label>
+                                <input type="date" class="input-medium rateCode-s1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="label-spc-2">住客姓名</label>
+                                <input type="text" class="input-medium rateCode-s1" placeholder="李懷遠">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="label-spc-2">備註</label>
+                                <input type="text" class="input-medium rateCode-s1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="label-spc-2">帳單備註</label>
+                                <input type="text" class="input-medium rateCode-s1" placeholder="">
+                            </div>
+                        </div>
+                        <!-- 房務入帳-table dataGrid -->
+                        <div class="margin-top20">
+                            <table id="postion-table"></table>
+                        </div>
+                        <hr>
+                        <div class="hk-foot">
+                            <span>總計：2,000</span>
+                            <span class="marginLeft-5">22</span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="width-10 float-left">
+                        <div class="hk-boxs-wrap row">
+                            <div class="hk-boxsRow hk-boxsMid hk-midNav-1">
+                                <div class="hk-MidBoxsBlock hk-mid-1">
+                                    <div class="head">
+                                        <span class="left txt-lg">D01</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="content">
+                                        <span>乾洗收入</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="hk-MidBoxsBlock hk-mid-2">
+                                    <div class="head">
+                                        <span class="left txt-lg">W01</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="content">
+                                        <span>水洗收入</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="hk-boxsRow hk-boxsMid hk-midNav-2">
+                                <div class="hk-MidBoxsBlock hk-mid2-1">
+                                    <div class="head">
+                                        <span class="left txt-lg">S06</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="content">
+                                        <span>洗褲子收入</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="hk-MidBoxsBlock hk-mid2-2">
+                                    <div class="head">
+                                        <span class="left txt-lg">Q01</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="content">
+                                        <span>洗襯衫收入</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="hk-MidBoxsBlock hk-mid2-3">
+                                    <div class="head">
+                                        <span class="left txt-lg">T01</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="content">
+                                        <span>洗內衣收入</span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="width-48 float-left no-padding-left">
+                        <div class="tab-content padding-8 hk-boxs-container">
+                            <div id="All" class="tab-pane in active"
+                                 style="position: relative; ">
+                                <div class="hk-boxs-wrap">
+                                    <div class="hk-boxsRow hk-mian-content">
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="hk-boxsRow hk-mian-content-2">
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="hk-boxsBlock">
+                                            <div class="head">
+                                                <span class="left txt-lg">W001</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="content">
+                                                <span>牛仔褲</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="hk-back-btn-wrap">
+                                        <div class="col-xs-3 col-sm-3 hk-back-btn">
+                                            <div class="row">
+                                                <div class="right-menu-co">
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth hk-back-nav"
+                                                            role="button" >Back
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="width-4 float-left marginLeft-27">
+                        <div class="row">
+                            <div class="right-menu-co">
+
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
+                                                role="button">數量＋
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">數量－
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">金額修改
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth lf-modify-btn"
+                                                role="button">刪除
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">補單
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">存檔
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-xs-10 hk-footer">
+            <div class="row">
+                <span>入帳類別：03</span>
+                <span class="marginLeft-30">洗衣項目</span>
+            </div>
+        </div>
+    </div>
+    <!-- /.hk-postion -->
+
+    <!-- hk-detail 彈出視窗 -->
+    <div id="hk-detail-page" class="hide padding-5" style="top: 100px !important;">
+        <div class="businessCompanyData">
+            <!--標題-->
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+
+                            <div class="main-content-data borderFrame">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房號</label>
+                                        <input type="text" class="input-medium resvCardRemark" placeholder="2205">
+                                        -
+                                        <input type="text" class="input-medium resvCardRemark" placeholder="住客序號">                                    </div><div class="grid-item">
+                                        <label>公帳號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="5566" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住客帳狀態</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="O:開帳" />
+                                    </div>
+                                </div>
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>住客姓名</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="RICK" />
+                                    </div><div class="grid-item">
+                                        <label>訂房卡號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="1233" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂房來源</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="web" />
+                                    </div>
+                                </div>
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂房公司</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="google" />
+                                    </div><div class="grid-item">
+                                        <label>入住日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>市場類別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="china" />
+                                    </div>
+                                </div>
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>公司名稱</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="墨墨" />
+                                    </div><div class="grid-item">
+                                        <label>預計退房日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>消費總額</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="5,000" />
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Voided</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">補單</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <!---->
+            <div class="col-xs-12 margin-top20">
+                <div class="row">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="row no-margin-right">
+                            <!-- message front_message-table dataGrid -->
+                            <table id="hk-detailsFrist-table" style="width:879px;height:100px;"></table>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="col-xs-12 margin-top20">
+                <div class="row">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="row no-margin-right">
+                            <!-- message front_message-table dataGrid -->
+                            <table id="hk-details-table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+
+            <div class="clearfix"></div>
+            <!--<div class="space-4"></div>-->
+        </div>
+    </div>
+    <!-- /.hk-detail -->
+
+<script>
+
+    $(document).ready(function(){
+        //選中的增加active
+        $(".hk-MidBoxsBlock").click(function() {
+            $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        //隱藏顯示
+        $(".hk-mian-content").hide();
+        $(".hk-mian-content-2").hide();
+        $(".hk-midNav-2").hide();
+
+        $(".hk-mid-1").click(function() {
+            $(".hk-mian-content").show();
+            $(".hk-mian-content-2").hide();
+        });
+        $(".hk-mid-2").click(function() {
+            $(".hk-mian-content").hide();
+            $(".hk-midNav-1").hide();
+            $(".hk-midNav-2").show();
+        });
+        $(".hk-mid2-1").click(function() {
+            $(".hk-mian-content-2").show();
+        });
+        $(".hk-back-nav").click(function() {
+            $(".hk-midNav-2").hide();
+            $(".hk-midNav-1").show();
+        });
+    });
+
+    // 彈出房務入帳主檔
+    $(document).on('click', ".hk-posting-btn", function (e) {
+        e.preventDefault();
+        var dialog = $("#hk-postion-page").removeClass('hide').dialog({
+            modal: true,
+            title: "房務入帳主檔",
+            title_html: true,
+            width: 1000,
+            maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+    });
+
+    // 彈出detail
+    $(document).on('click', ".hk-detail-btn", function (e) {
+        e.preventDefault();
+        var dialog = $("#hk-detail-page").removeClass('hide').dialog({
+            modal: true,
+            title: "Detail",
+            title_html: true,
+            width: 1000,
+            maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+    });
+
+    // 房務入帳table
+    $('#PMS0410020-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/PMS0410020-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'rmNo', title: 'Rm. No.', width: 70},
+            {field: 'name', title: 'Full Name', width: 100},
+            {field: 'fs', title: 'Folio Status', width: 100},
+            {field: 'coDate', title: 'C/O Date', width: 100},
+            {field: 'ciDate', title: 'C/I Date', width: 100},
+            {field: 'ciTime', title: 'C/I Time', width: 70},
+            {field: 'mini', title: 'Mini Bar Amt.',align:'right', width: 100},
+        ]]
+    });
+
+    // postion-table
+    $('#postion-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/postion-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'check', title: '', width: 22},
+            {field: 'thing', title: '消費項目', width: 70},
+            {field: 'num', title: '數量', width: 40},
+            {field: 'price', title: '單價',align:'right', width: 50},
+            {field: 'pay', title: '消費金額',align:'right', width: 60},
+            {field: 'se', title: '服務費',align:'right', width: 50}
+        ]]
+    });
+
+    $('#hk-details-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/hk-details-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'thing', title: '消費項目', width: 100},
+            {field: 'num', title: '數量', width: 70},
+            {field: 'price', title: '單價',align:'right', width: 70},
+            {field: 'originMoney', title: '原銷售金額',align:'right', width: 100},
+            {field: 'realityseMoney', title: '實際銷售金額',align:'right', width: 100},
+            {field: 'originService', title: '原服務費',align:'right', width: 100},
+            {field: 'realityseService', title: '實際服務費',align:'right', width: 70}
+        ]]
+    });
+
+    $('#hk-detailsFrist-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/hk-detailsFrist-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'consumeDate', title: '消費日期', width: 100},
+            {field: 'enterTime', title: '入帳時間', width: 70},
+            {field: 'enterMan', title: '入帳者',align:'right', width: 70},
+            {field: 'smallClassify', title: '小分類',align:'right', width: 100},
+            {field: 'consumeMoney', title: '消費金額',align:'right', width: 70},
+            {field: 'serviceMoney', title: '服務費',align:'right', width: 70},
+            {field: 'total', title: '小計',align:'right', width: 70},
+            {field: 'consumeCode', title: '消費單號', width: 70},　
+            {field: 'serviceCode', title: '服務費單號', width: 100},　
+            {field: 'rmk', title: '備註', width: 100},　
+            {field: 'addDate', title: '新增日', width: 70},　
+            {field: 'addMan', title: '新增者', width: 70},　
+            {field: 'lastDate', title: '最後異動日', width: 100},　
+            {field: 'lastMan', title: '最後異動者', width: 70}　
+        ]]
+    });
+</script>

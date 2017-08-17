@@ -124,7 +124,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             end_dat: '',
             isUpdate: false,
             isSort: false,
-            previewList: []
+            previewList: [],
 
         };
     },
@@ -204,11 +204,8 @@ Vue.component('single-grid-pms0810020-tmp', {
                 $.post('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
                         //連動帶回的值
-                        if (!_.isUndefined(result.effectValues)) {
-                            var effectValues = result.effectValues;
-                            _.each(Object.keys(effectValues), function (key) {
-                                self.singleData[key] = effectValues[key] || "";
-                            });
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
                         }
 
                         //是否要show出訊息
@@ -359,7 +356,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             //先驗證有無欄位沒驗證過的
             this.$emit('do-save-cud', function (success) {
-
+                self.fetchRoomCodOrder();
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
@@ -478,7 +475,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                                 if (self.$parent.displayFileList.length != 0) {
                                     self.execUploadRoomTypePic(lo_params);
                                 }
-                                else{
+                                else {
                                     alert("無圖片可上傳");
                                 }
                                 self.isUpdate = false;
@@ -491,7 +488,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 if (self.$parent.displayFileList.length != 0) {
                     self.execUploadRoomTypePic(lo_params);
                 }
-                else{
+                else {
                     alert("無圖片可上傳");
                 }
             }
@@ -535,6 +532,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         // 執行顯示庫存dialog
         execShowRoomTypeStock: function () {
+            this.showRoomTypeMaxStockDate();
             this.dialogRmTypeStockVisible = true;
             this.reset_qnt = false;
             this.begin_dat = this.$parent.singleData.begin_dat;
@@ -648,6 +646,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 waitingDialog.hide();
                 if (result.success) {
                     self.dialogRmTypeStockVisible = false;
+                    self.showRoomTypeMaxStockDate();
                     alert('save success!');
                 } else {
                     alert(result.errorMsg);
@@ -656,7 +655,13 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
-
+        //房型庫存最大日期
+        showRoomTypeMaxStockDate: function () {
+            var self = this;
+            $.post("/api/getRoomTypeMaxStockDate", function (result) {
+                self.maxRmStock = moment(result.max_batch_dat).format("YYYY/MM/DD");
+            });
+        },
         // 圖片change事件
         fileChange: function (file, fileList) {
             this.$parent.uploadFileList.push(file);
@@ -911,7 +916,7 @@ var vm = new Vue({
         },
 
         // 執行圖片上傳
-        execFileUpload: function(fd, callback){
+        execFileUpload: function (fd, callback) {
             var self = this;
             $.ajax({
                 type: 'POST',
@@ -1035,7 +1040,7 @@ var vm = new Vue({
         },
 
         // 取房型圖片
-        getRoomTypePic: function(callback){
+        getRoomTypePic: function (callback) {
             var params = {
                 room_cod: vm.singleData.room_cod,
                 begin_dat: vm.singleData.begin_dat

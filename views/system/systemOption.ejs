@@ -37,10 +37,24 @@
                                             <!--circle-bg-blue   :藍色
                                                 circle-bg-orange :橘色
                                                 circle-bg-green  :綠色-->
-                                            <div class="circle-bg" title="<%= sys["sys_name_" + session.locale] %>">
-                                                <%= sys["sys_name_" + session.locale] %>
-                                            </div>
-
+                                            <!-- 共用系統 -->
+                                            <% if(sys.sys_id == 'CMM0000000'){ %>
+                                                <div class="circle-bg circle-bg-orange"
+                                                     title="<%= sys["sys_name_" + session.locale] %>">
+                                                    CMM
+                                                </div>
+                                            <!-- PMS系統 -->
+                                            <% }else if(sys.sys_id == 'PMS0000000'){ %>
+                                                <div class="circle-bg " title="<%= sys["sys_name_" + session.locale] %>">
+                                                    PMS
+                                                </div>
+                                            <!-- 客服系統 -->
+                                            <% }else if(sys.sys_id == 'SER0000000'){ %>
+                                                <div class="circle-bg  circle-bg-green"
+                                                     title="<%= sys["sys_name_" + session.locale] %>">
+                                                    SRV
+                                                </div>
+                                            <% } %>
                                             <span class="text-content">
                                                 <span class="optionTip"><%= sys["sys_name_" + session.locale] %></span>
                                             </span>
@@ -65,7 +79,7 @@
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
-</div><!-- /.main-container -->
+</div>
 
 </body>
 </html>

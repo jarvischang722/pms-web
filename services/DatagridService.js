@@ -220,9 +220,9 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                     //讀取selectgrid的設定參數
-                    if(field.ui_type == 'selectgrid'){
-                         var func_name = prg_id + '_' + field.ui_field_name;
-                         fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
+                    if (field.ui_type == 'selectgrid') {
+                        var func_name = prg_id + '_' + field.ui_field_name;
+                        fieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
                     }
 
                     selectDSFunc.push(
@@ -629,7 +629,7 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                     exec_seq++;
 
                     /** 刪除多語系 **/
-                    if(la_multiLangFields.length > 0){
+                    if (la_multiLangFields.length > 0) {
                         var ls_langTable = la_multiLangFields[0].multi_lang_table;
                         var langDel = {"function": "0"};
                         langDel["table_name"] = ls_langTable;
@@ -781,55 +781,65 @@ exports.doSaveDataGrid = function (postData, session, callback) {
                 });
 
             }
-        ], function (err, result) {
-
+        ], function (err, results) {
             if (err) {
                 return callback(err, false);
             }
-            //抓取對應的table
-
-            var apiParams = {
-                "REVE-CODE": "BAC03009010000",
-                "program_id": prg_id,
-                "user": userInfo.usr_id,
-                "count": Object.keys(savaExecDatas).length,
-                "exec_data": savaExecDatas
-            };
-
-            tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-                var success = true;
-                var errMsg = null;
-                var log_id = moment().format("YYYYMMDDHHmmss");
-                if (apiErr || !data) {
-                    chkResult.success = false;
-                    errMsg = apiErr;
-                }
-                else if (data["RETN-CODE"] != "0000") {
-                    chkResult.success = false;
-                    errMsg = data["RETN-CODE-DESC"];
+            //抓取特殊的交易代碼
+            mongoAgent.TransactionRf.findOne({
+                prg_id: prg_id,
+                page_id: 1,
+                tab_page_id: 1,
+                template_id: 'datagrid',
+                func_id: '0500'
+            }, function (errTrans, transData) {
+                if (errTrans) {
+                    return callback(errTrans, false);
                 }
 
-                //寄出exceptionMail
-                if (!chkResult.success) {
-                    mailSvc.sendExceptionMail({
+                var apiParams = {
+                    "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
+                    "program_id": prg_id,
+                    "user": userInfo.usr_id,
+                    "count": Object.keys(savaExecDatas).length,
+                    "exec_data": savaExecDatas
+                };
+
+                tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                    var success = true;
+                    var errMsg = null;
+                    var log_id = moment().format("YYYYMMDDHHmmss");
+                    if (apiErr || !data) {
+                        chkResult.success = false;
+                        errMsg = apiErr;
+                    }
+                    else if (data["RETN-CODE"] != "0000") {
+                        chkResult.success = false;
+                        errMsg = data["RETN-CODE-DESC"];
+                    }
+
+                    //寄出exceptionMail
+                    if (!chkResult.success) {
+                        mailSvc.sendExceptionMail({
+                            log_id: log_id,
+                            exceptionType: "execSQL",
+                            errorMsg: errMsg
+                        });
+                    }
+
+                    logSvc.recordLogAPI({
+                        success: chkResult.success,
                         log_id: log_id,
-                        exceptionType: "execSQL",
-                        errorMsg: errMsg
+                        prg_id: prg_id,
+                        api_prg_code: '0300901000',
+                        req_content: apiParams,
+                        res_content: data
                     });
-                }
-
-                logSvc.recordLogAPI({
-                    success: chkResult.success,
-                    log_id: log_id,
-                    prg_id: prg_id,
-                    api_prg_code: '0300901000',
-                    req_content: apiParams,
-                    res_content: data
+                    callback(errMsg, chkResult);
                 });
-                callback(errMsg, chkResult);
+
+
             });
-
-
         });
     }
 

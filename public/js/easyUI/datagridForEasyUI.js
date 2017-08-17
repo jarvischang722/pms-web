@@ -264,14 +264,19 @@ var EZfieldClass = {
             }
         } else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
-                var lo_val = String(val);
-                if (lo_val.indexOf(":") == "-1") {
-                    var hour = lo_val.substring(0, 2);
-                    var min = lo_val.substring(2, 4);
-                    return hour + ":" + min;
-                }
+                if(!_.isNull(val)){
+                    var lo_val = String(val);
+                    if (lo_val.indexOf(":") == "-1") {
+                        var hour = lo_val.substring(0, 2);
+                        var min = lo_val.substring(2, 4);
 
-                return val;
+                        return hour + ":" + min;
+                    }
+                    return val;
+                }
+                else{
+                    return "";
+                }
 
             };
         } else if (dataType == "combogrid") {
