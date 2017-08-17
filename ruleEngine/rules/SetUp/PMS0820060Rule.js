@@ -2,16 +2,16 @@
  * Created by a14020 on 2017/6/20.
  */
 
-var _ = require("underscore");
-var moment = require("moment");
-var async = require("async");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var ruleRootPath = appRootDir + "/ruleEngine/";
-var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
-var commandRules = require("./../CommonRule");
-var ReturnClass = require(ruleRootPath + "/returnClass");
-var ErrorClass = require(ruleRootPath + "/errorClass");
+let _ = require("underscore");
+let moment = require("moment");
+let async = require("async");
+let path = require('path');
+let appRootDir = path.dirname(require.main.filename);
+let ruleRootPath = appRootDir + "/ruleEngine/";
+let queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+let commandRules = require("./../CommonRule");
+let ReturnClass = require(ruleRootPath + "/returnClass");
+let ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     chkMsggtrmkrfMsgLin2: function (field, userInfo, callback) {

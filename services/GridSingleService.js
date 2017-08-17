@@ -67,7 +67,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                         la_fields[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
-                                }else{
+                                } else {
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 }
 
@@ -273,7 +273,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             mongoAgent.TemplateRf.findOne({
                                 prg_id: prg_id,
                                 page_id: 2,
-                                template_id:'datagrid'
+                                template_id: 'datagrid'
                             }, function (err, grid) {
                                 callback(err, grid);
                             });
@@ -298,7 +298,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 });
                                 lo_dtData = dtDataList;
 
-                                fetchDataGridFieldAttr(go_dataGridField, lo_dtData, function(result){
+                                fetchDataGridFieldAttr(go_dataGridField, lo_dtData, function (result) {
                                     callback(err, dtDataList);
                                 });
 
@@ -349,7 +349,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
         }
     );
 
-    function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback){
+    function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback) {
         var selectDSFunc = [];
         _.each(lo_dataGridField, function (field, fIdx) {
             var attrName = field.attr_func_name;
@@ -446,6 +446,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         getTableName,       //(1)撈取要異動的table name
         getDtTableName,     //(2)取得DT要異動的table name
         getPrgField,        //(3)取得此程式的欄位
+        filterDuplicateData,//()去除重複暫存資料
         chkDtDeleteRule,    //(4)DT 刪除資料規則檢查
         combineDtDeleteExecData,//(5)組合DT 刪除檢查
         chkRuleBeforeSave,  //(6)資料儲存前檢查
@@ -569,6 +570,26 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     }
 
+    // 去除重複的暫存
+    function filterDuplicateData(fields, callback) {
+        _.each(createData, function (data, idx) {
+            let keys = tools.combineKeys(data, _.pluck(la_keyFields, 'ui_field_name'), false);
+            let targetIdx = _.findIndex(createData, keys);
+            if (targetIdx > -1 && idx > targetIdx) {
+                delete createData[targetIdx];
+            }
+        });
+        _.each(dt_createData, function (data, idx) {
+            let keys = tools.combineKeys(data, _.pluck(la_dtkeyFields, 'ui_field_name'), false);
+            let targetIdx = _.findIndex(dt_createData, keys);
+            if (targetIdx > -1 && idx > targetIdx) {
+                delete dt_createData[targetIdx];
+            }
+        });
+        createData = _.compact(createData);
+        dt_createData = _.compact(dt_createData);
+        callback(null, "done");
+    }
 
     //DT 刪除資料規則檢查
     function chkDtDeleteRule(fields, callback) {
@@ -1076,49 +1097,61 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //打API 儲存
     function doSaveDataByAPI(chk_result, callback) {
-
-        var apiParams = {
-            "REVE-CODE": "BAC03009010000",
-            "program_id": prg_id,
-            "user": userInfo.usr_id,
-            "table_name": mainTableName,
-            "count": Object.keys(savaExecDatas).length,
-            "exec_data": savaExecDatas
-        };
-        // console.dir(apiParams);
-        // callback(null, {success:true});
-        tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
-            var log_id = moment().format("YYYYMMDDHHmmss");
-            var err = null;
-            if (apiErr || !data) {
-                chk_result.success = false;
-                err = {};
-                err.errorMsg = apiErr;
-            } else if (data["RETN-CODE"] != "0000") {
-                chk_result.success = false;
-                err = {};
-                console.error(data["RETN-CODE-DESC"]);
-                err.errorMsg = "save error!";
+        mongoAgent.TransactionRf.findOne({
+            prg_id: prg_id,
+            page_id: 2,
+            tab_page_id: 1,
+            template_id: 'gridsingle',
+            func_id: '0500'
+        }, function (err, transData) {
+            if (err) {
+                console.error(err);
+                return callback(err, false);
             }
 
-            //寄出exceptionMail
-            if (!chk_result.success) {
-                mailSvc.sendExceptionMail({
+            var apiParams = {
+                "REVE-CODE": transData ? transData.trans_code || "BAC03009010000" : "BAC03009010000",
+                "program_id": prg_id,
+                "user": userInfo.usr_id,
+                "table_name": mainTableName,
+                "count": Object.keys(savaExecDatas).length,
+                "exec_data": savaExecDatas
+            };
+            // console.dir(apiParams);
+            // callback(null, {success:true});
+            tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+                var log_id = moment().format("YYYYMMDDHHmmss");
+                var err = null;
+                if (apiErr || !data) {
+                    chk_result.success = false;
+                    err = {};
+                    err.errorMsg = apiErr;
+                } else if (data["RETN-CODE"] != "0000") {
+                    chk_result.success = false;
+                    err = {};
+                    console.error(data["RETN-CODE-DESC"]);
+                    err.errorMsg = "save error!";
+                }
+
+                //寄出exceptionMail
+                if (!chk_result.success) {
+                    mailSvc.sendExceptionMail({
+                        log_id: log_id,
+                        exceptionType: "execSQL",
+                        errorMsg: err.errorMsg
+                    });
+                }
+                //log 紀錄
+                logSvc.recordLogAPI({
                     log_id: log_id,
-                    exceptionType: "execSQL",
-                    errorMsg: err.errorMsg
+                    success: chk_result.success,
+                    prg_id: prg_id,
+                    api_prg_code: '0300901000',
+                    req_content: apiParams,
+                    res_content: data
                 });
-            }
-            //log 紀錄
-            logSvc.recordLogAPI({
-                log_id: log_id,
-                success: chk_result.success,
-                prg_id: prg_id,
-                api_prg_code: '0300901000',
-                req_content: apiParams,
-                res_content: data
+                callback(err, chk_result);
             });
-            callback(err, chk_result);
         });
     }
 
@@ -1148,7 +1181,7 @@ exports.handlePopUpGridData = function (session, postData, callback) {
     var ruleName = postData.fields.rule_func_name;
 
     ruleAgent[ruleName](postData, session, function (err, result) {
-        callback(err,result[0].effectValues);
+        callback(err, result[0].effectValues);
     });
 };
 

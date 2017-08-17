@@ -10,17 +10,16 @@ var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 
 var la_compare  =  [1,2,3,4,5,6,7,8,9,10];
 var la_targetCompar = [];
-queryAgent.queryList("QRY_RVTYPE_RF_BY_ATHENA_ID",{athena_id:1001002},0,0,function(err,rvtypList){
+var list = [{a:1,b:2},{a:1,c:5},{a:2},{a:3},{a:4},{a:3},{a:2}];
 
-    if(rvtypList.length >0 && rvtypList.length < 10){
-        la_targetCompar = _.pluck(rvtypList,"type");
-        var diff = _.difference(la_compare,la_targetCompar);
-        console.log(diff);
-
-    }else{
-        console.log("大於10");
+_.each(list,function(d ,idx){
+    let targetIdx = _.findIndex(list,{a:d.a});
+    console.log("=======");
+    console.log(idx);
+    console.log(targetIdx);
+    if(targetIdx > -1 && idx > targetIdx){
+        delete list[targetIdx];
     }
-
-
-
 })
+// var ttt  = _.compact(la_compare);
+console.log(_.compact(list));

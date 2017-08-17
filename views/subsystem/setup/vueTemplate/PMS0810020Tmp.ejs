@@ -81,7 +81,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation" v-for="opt in field.selectData">
+                                            <li role="presentation" v-for="opt in field.selectData" @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                 <a @click.prevent="singleData[field.ui_field_name] = opt.value">
                                                     {{opt.display}}
                                                 </a>
