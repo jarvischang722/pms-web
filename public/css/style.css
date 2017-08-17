@@ -1842,6 +1842,45 @@ a {
   background: #888;
   color: #fff;
 }
+.top-sec-ul .secondMenu-ul ul .exLinkIcon i {
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+.top-sec-ul .secondMenu-ul ul .exLinkIcon i:hover {
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  animation: exLinkIcon_Active 1.2s;
+}
+@keyframes exLinkIcon_Active {
+  0% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  25% {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  50% {
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+  100% {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
 .top-sec-ul .secondMenu-ul .icon-2-style {
   width: 12px;
   height: 12px;
@@ -3581,8 +3620,8 @@ span.triangle-text {
 .custab {
   border: 0px solid #ccc;
   padding: 5px;
-  margin: 2% 0;
   box-shadow: 3px 3px 2px #ccc;
+  position: relative;
 }
 .custab thead tr {
   background: #549bdb !important;
@@ -3643,54 +3682,46 @@ span.triangle-text {
 .ttrial-table tbody tr td .test {
   margin-left: 30px;
 }
-
-.lineHeight17 {
+.ttrial-table .lineHeight17 {
   line-height: 1.7;
 }
-
-.ttrial-noice {
+.ttrial-table .ttrial-noice {
   font-size: 14px;
   margin-left: 86px;
 }
-
-.titleInfo .titleInfo-head {
+.ttrial-table .titleInfo .titleInfo-head {
   padding-bottom: 0;
   border-bottom: 1px solid #eee;
   margin: 5px auto;
 }
-.titleInfo .titleInfo-head .titleInfo-title {
+.ttrial-table .titleInfo .titleInfo-head .titleInfo-title {
   font-size: 1.2em;
 }
-.titleInfo .titleInfo-head p {
+.ttrial-table .titleInfo .titleInfo-head p {
   margin-bottom: 0;
 }
-.titleInfo .textarea-title {
+.ttrial-table .titleInfo .textarea-title {
   margin: 5px auto;
 }
-
-.div_shadow {
+.ttrial-table .div_shadow {
   border: 1px solid #8aafce;
   box-shadow: 3px 3px 2px #ccc;
 }
-
-.townBlock.active {
+.ttrial-table .townBlock.active {
   border: 5px solid red;
   padding: 1px !important;
 }
-
-.roomAssign .select-group {
+.ttrial-table .roomAssign .select-group {
   display: inline;
 }
-
-.margin-right-5 {
+.ttrial-table .margin-right-5 {
   margin-right: 5px;
 }
-
-.hk-boxs-wrap {
+.ttrial-table .hk-boxs-wrap {
   height: 450px;
   overflow: auto;
 }
-.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
+.ttrial-table .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock {
   float: left;
   margin: 0 5px 5px 0;
   padding: 6px;
@@ -3704,17 +3735,15 @@ span.triangle-text {
   border: 1px solid #616161;
   border-radius: 7px;
 }
-.hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
+.ttrial-table .hk-boxs-wrap .hk-boxsRow .hk-boxsBlock:hover {
   opacity: 0.6;
 }
-
-.hk-back-btn {
+.ttrial-table .hk-back-btn {
   position: absolute;
   bottom: 0;
   right: 0;
 }
-
-.hk-boxsMid .hk-MidBoxsBlock {
+.ttrial-table .hk-boxsMid .hk-MidBoxsBlock {
   padding: 6px;
   width: 85px;
   height: 85px;
@@ -3727,85 +3756,92 @@ span.triangle-text {
   margin: 5px auto;
   background: #c0dcc0;
 }
-.hk-boxsMid .hk-MidBoxsBlock:hover {
+.ttrial-table .hk-boxsMid .hk-MidBoxsBlock:hover {
   opacity: 0.6;
 }
-.hk-boxsMid .hk-MidBoxsBlock.active {
+.ttrial-table .hk-boxsMid .hk-MidBoxsBlock.active {
   background: green;
   color: #fff;
 }
-
-.hk-boxs-container {
+.ttrial-table .hk-boxs-container {
   background: #c0dcc0;
   border: 1px solid;
 }
-
-.margin-top20 {
+.ttrial-table .margin-top20 {
   margin-top: 20px;
 }
-
-.hk-posting-frist {
+.ttrial-table .hk-posting-frist {
   height: 468px;
   padding: 20px 12px;
   border: 1px solid #000;
 }
-.hk-posting-frist .hk-foot {
+.ttrial-table .hk-posting-frist .hk-foot {
   font-size: 16px;
   padding: 3px 10px;
   text-align: right;
 }
-
-.hk-footer {
+.ttrial-table .hk-footer {
   color: blue;
   font-size: 18px;
   margin-top: 10px;
   margin-left: 20px;
 }
-
-.list-grap-tab {
+.ttrial-table .list-grap-tab {
   width: 70px;
   margin-top: 3px;
   display: inline-block;
 }
-
-.hk-table-container .counterPage .counterRow .counterBlock {
+.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock {
   color: #fff;
 }
-.hk-table-container .counterPage .counterRow .counterBlock .content-sub {
+.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock .content-sub {
   position: absolute;
   bottom: 2px;
   left: 57px;
   font-size: 14px;
 }
-.hk-table-container .counterPage .counterRow .counterBlock .content {
+.ttrial-table .hk-table-container .counterPage .counterRow .counterBlock .content {
   position: absolute;
   top: 23px;
   font-size: 16px;
   left: 47px;
 }
-
-.hk-grap-wrap .panel {
+.ttrial-table .hk-grap-wrap .panel {
   padding-left: 5px;
 }
-
-.width-48 {
+.ttrial-table .width-48 {
   width: 48% !important;
 }
-
-.width-4 {
+.ttrial-table .width-4 {
   width: 4% !important;
 }
-
-.marginLeft-27 {
+.ttrial-table .marginLeft-27 {
   margin-left: 27px;
 }
-
-.businessCompanyData .main-content-data .hk-posting-frist label {
+.ttrial-table .businessCompanyData .main-content-data .hk-posting-frist label {
   width: 70px;
   text-align: right;
   margin-right: 0;
 }
 
+.ttttable {
+  color: #000000;
+}
+.ttttable table {
+  width: 100%;
+  table-layout: fixed;
+}
+.ttttable .tbl-header {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.ttttable .tbl-content {
+  height: 300px;
+  overflow-x: auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* for custom scrollbar for webkit browser */
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;

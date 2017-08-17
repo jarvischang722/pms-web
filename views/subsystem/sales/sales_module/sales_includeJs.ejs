@@ -198,6 +198,21 @@
             });
         });
 
+        // PMS0620010 業務員指派
+        $(document).on('click', ".sales_assign", function (e) {
+            e.preventDefault();
+            var dialog = $("#sales_assign-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Sales Assign",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         /***
          * PMS0620040
          */
@@ -515,6 +530,34 @@
 
         });
 
+        // PMS0620010 業務員指派 dataGrid
+        $('#sales_assign-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_assign.json',
+            method: 'get',
+            columns: [[
+                {field: 'accNo', title: 'Acc.No.', width: 80},
+                {field: 'accName', title: 'Acc.Name', width: 100},
+                {field: 'status', title: 'Status', width: 60},
+                {field: 'accType', title: 'Acc. Type', width: 80},
+                {field: 'area', title: 'Area', width: 80},
+                {field: 'industry', title: 'Industry', width: 80},
+                {field: 'sales', title: 'Sales', width: 100}
+            ]]
+        });
+        // PMS0620010 業務員指派(前面的checkbox) dataGrid
+        $('#sales_assignChk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_assignChk.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+        });
         /***
          * PMS0620040 datagrid
          */
@@ -540,11 +583,11 @@
         });
 
         // PMS0620040 新增拜訪查詢(checkbox)
-        $('#newVisitResult_dg-table').datagrid({
+        $('#newVisitResult_Chk-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/bsCompany_newVisitResult_dg.json',
+            url: '/jsonData/bsCompany_newVisitResult_Chk.json',
             method: 'get',
             method: 'get',
             columns: [[
