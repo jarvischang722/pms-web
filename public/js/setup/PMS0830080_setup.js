@@ -74,8 +74,7 @@ var Pms0830080Comp = Vue.extend({
             var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: this.activeSmallTyp.trim()});
             if (accountIdx > -1) {
                 var account = "account" + String(accountIdx);
-                console.log(this.accounts["account" + activeAccount]);
-                this.accounts["account" + activeAccount][accountIdx].master_sta = this.accounts["account" + activeAccount][accountIdx].master_sta == "Y" ? "N" : "Y";
+                this.accounts["account" + activeAccount][accountIdx].master_sta = "Y";
 
             } else {
                 this.accounts["account" + activeAccount].push({
@@ -87,7 +86,6 @@ var Pms0830080Comp = Vue.extend({
             }
         },
         toggleAccount: function (small_typ, master_sta) {
-
             this.checkRouteCodAndName();
             this.activeSmallTyp = small_typ;
             var selectedAcc = this.checkOtherAccSelected(small_typ);
@@ -295,7 +293,6 @@ var PMS0830080VM = new Vue({
         doSave: function () {
             var self = this;
             this.combineSQLData();
-            console.log(this.tmpCUD);
             $.post("/api/doSavePMS0830080",this.tmpCUD,function(result){
                 if(result.success){
                     PMS0830080VM.initTmpCUD();
@@ -324,9 +321,11 @@ var PMS0830080VM = new Vue({
                     if (existIdx == -1) {
                         PMS0830080VM.tmpCUD.dt_createData.push(type);
                     } else {
-                        if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
-                            PMS0830080VM.tmpCUD.dt_updateData.push(type);
-                        }
+                        PMS0830080VM.tmpCUD.dt_updateData.push(type);
+                        //判斷無效先拿掉，type與la_oriRouteDtList都一樣。
+                        // if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
+                        //
+                        // }
 
                     }
                 });
