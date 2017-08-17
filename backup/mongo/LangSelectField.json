@@ -130,3 +130,58 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("598c281540a1f1560373340b"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "客戶編號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("598c282040a1f1560373340c"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "cust_nam", 
+    "ui_display_name_zh_TW" : "客戶名稱", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("598c283340a1f1560373340d"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "contact1_rmk", 
+    "ui_display_name_zh_TW" : "連絡電話", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("598c283e40a1f1560373340e"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("598c284640a1f1560373340f"), 
+    "prg_id" : "PMS0810180", 
+    "page_id" : NumberInt(2), 
+    "select_id" : "cust_select", 
+    "ui_field_name" : "cust_cod", 
+    "ui_display_name_zh_TW" : "客戶代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
