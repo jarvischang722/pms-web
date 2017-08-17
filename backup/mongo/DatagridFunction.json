@@ -16,7 +16,7 @@
     "_id" : ObjectId("58c5177f323a15276c3aa3cc"), 
     "prg_id" : "PMS0810020", 
     "func_id" : "0300", 
-    "rule_func_name" : "chk_rvrmcod_rf_is_exist_rminv_dt", 
+    "rule_func_name" : "r_rvrmcod_rf_del_save", 
     "page_id" : NumberInt(1)
 }
 { 

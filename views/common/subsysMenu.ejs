@@ -21,7 +21,19 @@
             <li v-for="quick in quickMenu"
                 @click="loadMainProcess(quick.pro_id)"
                 :class="{activeThis:quick.pro_id == usingPrgID}" >
-                {{ quick["pro_name_" + locale] }} 
+                <!--
+                    https://stackoverflow.com/questions/13579730/can-i-animate-multiple-css-transform-properties-separately-using-keyframe-animat
+                    animate transform keyframes
+                -->
+
+                <!--會另彈新一頁的icon-->
+                <span class="exLinkIcon">
+                    <i class="fa fa-external-link" ></i>
+                </span>
+                <span >
+                    {{ quick["pro_name_" + locale] }}
+                </span>
+
             </li>
         </ul>
     </div>

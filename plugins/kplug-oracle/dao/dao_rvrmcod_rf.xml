@@ -173,4 +173,17 @@
         <parameter type="string" kind="3">room_cod</parameter>
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
+
+    <!-- 房型庫存最大日期 -->
+    <dao name="QRY_RMINV_MN_MAX_BATCH_DAT">
+        <statement><![CDATA[
+            SELECT MAX(BATCH_DAT) as max_batch_dat
+            FROM RMINV_MN
+            WHERE athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
