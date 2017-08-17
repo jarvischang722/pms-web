@@ -92,7 +92,7 @@
                             </table>
                         </div>
                         <div class="tbl-content">
-                            <table class="custab">
+                            <table class=" custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                 <tr v-for="logData in allChangeLogList">
@@ -114,7 +114,18 @@
                             </table>
                         </div>
                     </div>
+<script>
+    console.log('Browser name:'+navigator.userAgent);
+    //判斷如果不是window 不執行
+    if(navigator.userAgent.indexOf("Window") !=-1){
+        $(window).on("load resize ", function() {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right':scrollWidth+7});
+        }).resize();
+    }
+    // /.end 判斷如果不是window不執行
 
+</script>
                     <div class="clearfix"></div>
                 </div>
             </div>

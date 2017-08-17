@@ -187,16 +187,6 @@ $(function () {
     //                        )
     // /.end 抓取瀏覽器&OS資訊
 
-    //判斷如果不是window 不執行
-    if(navigator.userAgent.indexOf("Window") != -1){
-        alert("@_@");
-        $(window).on("load resize ", function() {
-            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-            $('.tbl-header').css({'padding-right':scrollWidth+7});
-        }).resize();
-    }
-    // /.end 判斷如果不是window不執行
-
 });
 
 
