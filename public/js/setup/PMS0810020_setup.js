@@ -434,6 +434,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             }
                         });
                     }
+                    self.$parent.loadSingleGridPageField();
                 });
             }
             else {
