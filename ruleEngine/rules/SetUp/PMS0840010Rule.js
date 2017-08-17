@@ -32,27 +32,30 @@ module.exports = {
             middle_typ: postData.createData[0].middle_typ
         };
 
-        var li_totalCreateDT = postData.dt_createData.length;
-        var li_dt_counter = 0;
-        _.each(postData.dt_createData, function (eachDT) {
-            li_dt_counter++;
-            lo_params.small_typ = eachDT.small_typ;
-            queryAgent.queryList("CHK_HKMTYPE_RF_INS", lo_params, 0, 0, function (err, chkResult) {
-                if (chkResult.length > 0) {
-                    lo_result.success = false;
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = "小分類『" + eachDT.small_typ + "』 已被中分類『" + chkResult[0].middle_typ.trim() + "』使用,不允許新增";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, lo_result);
-                    return false;
-                }
-                if (li_dt_counter == li_totalCreateDT) {
-                    callback(lo_error, lo_result);
-                }
-
+        if(postData.dt_createData != null)
+        {
+            var li_totalCreateDT = postData.dt_createData.length;
+            var li_dt_counter = 0;
+            _.each(postData.dt_createData, function (eachDT) {
+                lo_params.small_typ = eachDT.small_typ;
+                queryAgent.queryList("CHK_HKMTYPE_RF_INS", lo_params, 0, 0, function (err, chkResult) {
+                    if (chkResult.length > 0) {
+                        lo_result.success = false;
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = "小分類『" + eachDT.small_typ + "』 已被中分類『" + chkResult[0].middle_typ.trim() + "』使用,不允許新增";
+                        lo_error.errorCod = "1111";
+                        callback(lo_error, lo_result);
+                        return false;
+                    }
+                    li_dt_counter++;
+                    if (li_dt_counter == li_totalCreateDT) {
+                        callback(lo_error, lo_result);
+                    }
+                });
             });
-        });
-
+        }
+        else
+            callback(lo_error, lo_result);
     },
     /**
      * 1.中分類已被使用，則不可刪除
