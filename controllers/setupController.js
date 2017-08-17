@@ -92,3 +92,12 @@ exports.getPMS0830080 = function (req, res) {
 exports.getPMS0860030 = function (req, res) {
     res.render("subsystem/setup/PMS0860030");
 };
+
+/**
+ * 取得庫存最大日期
+ */
+exports.getRoomTypeMaxStockDate = function (req, res) {
+    queryAgent.query("QRY_RMINV_MN_MAX_BATCH_DAT", req.session.user, function (err, data) {
+        res.json({success: !_.isNull(err), errorMsg: err, max_batch_dat: data.max_batch_dat});
+    });
+};
