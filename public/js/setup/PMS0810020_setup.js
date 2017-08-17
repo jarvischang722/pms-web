@@ -842,11 +842,13 @@ var vm = new Vue({
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
+            console.log(vm.tmpCud);
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             // console.log("===Save params===");
             // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
+                console.log(result);
                 if (result.success) {
 
                     if (self.uploadFileList.length != 0) {

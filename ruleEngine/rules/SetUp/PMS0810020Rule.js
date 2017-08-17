@@ -172,6 +172,7 @@ module.exports = {
         let delFuncs = [];
         try {
             _.each(delDataRows, function (delDR) {
+                console.log(delDR.upload_sta);
                 delFuncs.push(
                     function (callback) {
                         let params = {
@@ -184,6 +185,7 @@ module.exports = {
                             delError = new ErrorClass();
                             delError.errorMsg = "上傳官網,不能刪除";
                             delError.errorCod = '1111';
+                            delResult.success = false;
                             return callback(delError, delResult);
                         }
 
@@ -235,10 +237,10 @@ module.exports = {
      * @param callback {Function} :
      */
     r_rvrmcod_rf_ins_save: function (postData, session, callback) {
+        let saveResult = new ReturnClass();
+        let saveError = null;
         try {
             let userInfo = session.user;
-            let saveResult = new ReturnClass();
-            let saveError = null;
             let tmpExtendExecDataArrSet = [];
             let deleteData = postData["deleteData"] || [];
             let createData = postData["createData"] || [];
@@ -286,6 +288,7 @@ module.exports = {
 
                                             callback(null, tmpExtendExecDataArrSet);
                                         },
+                                        // 新增房型排序
                                         function (data, callback) {
                                             queryAgent.query("CHK_ROOM_COD_ORDER_IS_EXIST_BY_ROOMCOD", c_data, function (err, data) {
                                                 if (!err && data) {
@@ -297,13 +300,36 @@ module.exports = {
                                                         tmpObj["function"] = "1";
                                                         tmpObj["view_seq"] = 0;
                                                         tmpObj["wrs_sort_cod"] = 0;
+                                                        tmpObj = _.extend(tmpObj, c_data);
+
+                                                        tmpExtendExecDataArrSet.push(tmpObj);
                                                     }
 
-                                                    tmpObj = _.extend(tmpObj, c_data);
 
-                                                    tmpExtendExecDataArrSet.push(tmpObj);
                                                 }
 
+                                                callback(err, tmpExtendExecDataArrSet);
+                                            });
+                                        },
+                                        // 檢查wrs_normal_pic
+                                        function (data, callback) {
+                                            queryAgent.query("CHK_WRS_NORMAL_PIC_IS_EXIST_BY_ROOM_COD", c_data, function (err, data) {
+                                                if (!err && data) {
+                                                    let tmpObj = {
+                                                        table_name: "wrs_normal_pic"
+                                                    };
+                                                    if (Number(data.pic_count) == 0) {
+                                                        //新增wrs_normal_pic
+                                                        tmpObj["function"] = "1";
+                                                        tmpObj["sys_cod"] = "HFD";
+                                                        tmpObj["pic_cod"] = "";
+                                                        tmpObj["upload_sta"] = "N";
+
+                                                        tmpObj = _.extend(tmpObj, c_data);
+
+                                                        tmpExtendExecDataArrSet.push(tmpObj);
+                                                    }
+                                                }
                                                 callback(err, tmpExtendExecDataArrSet);
                                             });
                                         }
@@ -464,7 +490,7 @@ module.exports = {
     /**
      * 房間小類儲存前檢查:
      *  刪除:
-     *     1.如果刪除的房型是同房型最後一筆,則房型排序檔也一併刪除
+     *     1.如果刪除的房型是同房型最後一筆,則房型排序檔、房型圖片也一併刪除
      *      (1)檢查是否是同房型最後一筆
      *      (2)如果是,則delete from room_cod_order where athena_id = ? and room_cod = ?
      * @param postData
@@ -472,43 +498,92 @@ module.exports = {
      * @param callback {Function} :
      */
     r_rvrmcod_rf_del_save: function (postData, session, callback) {
+        let self = this;
         let chkResult = new ReturnClass();
         let chkError = null;
         let params = postData["singleRowData"] || {};
         let userInfo = session.user;
 
         try {
-            queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, data) {
-                if (err) {
-                    chkError = new ErrorClass();
-                    chkError.errorMsg = err;
-                    chkError.errorCod = "1111";
-                    chkResult.success = false;
-                }
 
-                if (!err && Number(data.room_count) == 1) {
-                    chkResult.extendExecDataArrSet.push({
-                        function: '0',
-                        table_name: 'room_cod_order',
-                        condition: [{
-                            key: 'athena_id',
-                            operation: "=",
-                            value: userInfo.athena_id
-                        }, {
-                            key: 'hotel_cod',
-                            operation: "=",
-                            value: userInfo.hotel_cod
+            async.waterfall([
+                function (cb) {
+                    self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function(err, lo_checkResult){
+                        if(lo_checkResult.success && !err){
+                            cb(null, "chk success");
                         }
-                            , {
-                                key: 'room_cod',
-                                operation: "=",
-                                value: params.room_cod
-                            }]
+                        else{
+                            cb(err, lo_checkResult);
+                        }
+                    });
+                },
+                function (lo_checkResult, cb){
+                    let lo_params = {
+                        athena_id: params.athena_id,
+                        hotel_cod: params.hotel_cod,
+                        room_cod: params.room_cod
+                    };
+                    queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", lo_params, function (err, data) {
+                        if (err) {
+                            cb(new ErrorClass(), null);
+                        }
+
+                        if (!err && Number(data.room_count) == 1) {
+                            // 房型排序
+                            chkResult.extendExecDataArrSet.push({
+                                function: '0',
+                                table_name: 'room_cod_order',
+                                condition: [{
+                                    key: 'athena_id',
+                                    operation: "=",
+                                    value: userInfo.athena_id
+                                }, {
+                                    key: 'hotel_cod',
+                                    operation: "=",
+                                    value: userInfo.hotel_cod
+                                }
+                                    , {
+                                        key: 'room_cod',
+                                        operation: "=",
+                                        value: params.room_cod
+                                    }]
+                            });
+
+                            // 房型圖片
+                            chkResult.extendExecDataArrSet.push({
+                                function: '0',
+                                table_name: 'wrs_normal_pic',
+                                condition: [{
+                                    key: 'athena_id',
+                                    operation: "=",
+                                    value: userInfo.athena_id
+                                }, {
+                                    key: 'hotel_cod',
+                                    operation: "=",
+                                    value: userInfo.hotel_cod
+                                }
+                                    , {
+                                        key: 'room_cod',
+                                        operation: "=",
+                                        value: params.room_cod
+                                    }]
+                            });
+                        }
+                        cb(chkError, chkResult);
                     });
                 }
-
+            ], function(err, result){
+                if(err){
+                    chkError = new ErrorClass();
+                    chkError.errorCod = "1111";
+                    chkError.errorMsg = err.errorMsg;
+                    chkResult.success = false;
+                }
                 callback(chkError, chkResult);
             });
+
+
+
         } catch (err) {
             chkError = new ErrorClass();
             chkError.errorMsg = err;

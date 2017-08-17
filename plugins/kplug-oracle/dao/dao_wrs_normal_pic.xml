@@ -15,4 +15,15 @@
         <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
 
+    <!--PMS0810020 房型設定 取得多筆 -->
+    <dao name="CHK_WRS_NORMAL_PIC_IS_EXIST_BY_ROOM_COD">
+        <statement><![CDATA[
+        select count(*) as pic_count from wrs_normal_pic where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(room_cod) = trim(:room_cod)
+
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
+
 </root>
