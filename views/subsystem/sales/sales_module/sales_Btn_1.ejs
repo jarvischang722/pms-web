@@ -194,11 +194,11 @@
                                                         <input type="text" class="input-medium addedBy" disabled="disabled" placeholder="2015 0101 12:30" />
                                                     </div>
                                                     <div class="tab-block grid-item">
-                                                        <label class="label-spc">Updated Date</label>
+                                                        <label class="label-spc">Upd Date</label>
                                                         <input type="date" class="input-medium addedDate" disabled="disabled" />
                                                     </div>
                                                     <div class="tab-block grid-item">
-                                                        <label class="label-spc">Updated by</label>
+                                                        <label class="label-spc">Upd by</label>
                                                         <input type="text" class="input-medium addedBy" disabled="disabled" />
                                                     </div>
                                                 </div>
@@ -735,19 +735,7 @@
                                 </select>
                             </div>
                             <div class="clearfix"></div>
-                            <!-- 狀態變更  -->
-                            <table class="easyui-datagrid" title=""  style="height: 200px;"
-                                   data-options="singleSelect:true,collapsible:true,url:'/jsonData/bsCompany_data1.json',method:'get'">
-                                <thead>
-                                <tr>
-                                    <th data-options="field:'sort',width:50">序</th>
-                                    <th data-options="field:'num',width:50">代碼</th>
-                                    <th data-options="field:'status',width:80">狀態</th>
-                                    <th data-options="field:'editPerson',width:80">異動者</th>
-                                    <th data-options="field:'editDate',width:150">異動日期</th>
-                                </tr>
-                                </thead>
-                            </table>
+
                         </div>
                     </div>
                 </div>
@@ -757,11 +745,11 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">確定</button>
+                                            role="button">Save</button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            role="button">取消</button>
+                                            role="button">Exit</button>
                                 </li>
                             </ul>
                         </div>
@@ -1255,6 +1243,51 @@
         <div class="clearfix"></div>
     </div>
     <!-- /.PMS0610010 異動紀錄 -->
+
+    <!-- PMS0610010 Status chg. 彈出視窗 -->
+    <div id="bs-company-statusChg-message" class="hide padding-5">
+        <div class="col-sm-12 col-xs-12">
+            <div class="businessCompanyData">
+                <div class="col-sm-10 col-xs-10">
+                    <div class="row billInfo no-margin-right">
+                        <div class="content">
+
+                            <div class="space-6"></div>
+
+                            <div class="grid-item">
+                                <label>Status</label>
+                                <select class="input-medium medium-c1">
+                                    <option value="1">Delete</option>
+                                    <option value="2">Normal</option>
+                                    <option value="3">Black</option>
+                                    <option value="4">Potential</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Save</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.PMS0610010 Status chg. -->
     <!--/***
         * PMS0620010
     */-->
@@ -1496,6 +1529,135 @@
         </div>
     </div>
     <!-- /.PMS0620010 業務員修改 彈出視窗-->
+
+    <!-- PMS0620010 業務員指派 彈出視窗 resv_ratePlanBtn -->
+    <div id="sales_assign-message" class="hide padding-5" style="top: 0;">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="search-content">
+                    <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+                    <div class="search-co">
+                        <div class="search-co-h">
+                            <i class="ace-icon fa fa-search search-icon"></i>
+                            <span>Search</span>
+                        </div>
+                        <div class="row">
+                            <div class="search-co-content col-xs-12 rece-search-detail">
+                                <div class="row search-footer-btn">
+                                    <div class="footer-btn-menu-co">
+                                        <ul>
+                                            <li>
+                                                <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                    <div class="icon-reStyle icon-co-14"></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                    <div class="icon-reStyle icon-co-11"></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>  <!-- /.footer-btn-menu-co -->
+                                </div> <!-- /.search-footer-btn -->
+                                <div class="width-95">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>Account No.</label>
+                                            <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Status</label>
+                                            <select id="" class="input-medium popWindow-s1">
+                                                <option value="1">STD</option>
+                                                <option value="2">SUP</option>
+                                                <option value="3">DXK</option>
+                                                <option value="4">DXT</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="searchCheckbox pull-left">
+                                            <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                                  <span class="lbl">更動未來訂房卡</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>Account Name</label>
+                                            <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>Area</label>
+                                            <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Industry</label>
+                                            <select id="" class="input-medium popWindow-s1">
+                                                <option value="1">STD</option>
+                                                <option value="2">SUP</option>
+                                                <option value="3">DXK</option>
+                                                <option value="4">DXT</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>Account Type</label>
+                                            <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>Sales</label>
+                                            <input type="text" class="input-medium popWindow-s1" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div> <!-- row-->
+                    </div> <!-- /.search-co -->
+                </div> <!-- /.row  search-content-->
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-12">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
+                        <!--假的checkbox table-->
+                        <div style="float:left; min-width: 30px; max-width: 3%;">
+                            <table id="sales_assignChk-table"></table>
+                        </div>
+                        <!-- PMS0620010 業務員指派 dataGrid -->
+                        <table id="sales_assign-table"></table>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Assign</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+    <!-- /.PMS0620010 業務員指派 彈出視窗 -->
 
     <!-- PMS0620010 Change Log 彈出視窗-->
     <div id="PMS0620010changeLog-page" class="hide">
@@ -1893,11 +2055,11 @@
 
                                     <div class="grid">
                                         <div class="tab-block grid-item">
-                                            <label>Updated Date</label>
+                                            <label>Upd Date</label>
                                             <input type="date" class="input-medium popWindow-s1" disabled/>
                                         </div>
                                         <div class="tab-block grid-item">
-                                            <label>Updated By</label>
+                                            <label>Upd By</label>
                                             <input type="text" class="input-medium popWindow-s1" disabled />
                                         </div>
                                     </div>

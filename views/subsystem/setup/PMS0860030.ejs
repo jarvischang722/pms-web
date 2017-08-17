@@ -6,47 +6,10 @@
         <div class="col-xs-12">
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
-                <div class="row no-margin-right">
-                    <div id="areaTree" class="demo">
-                        <ul>
-                            <li data-jstree='{ "opened" : true }'>Root
-                                <ul>
-                                    <li data-jstree='{ "selected" : true }'>中部
-                                        <ul>
-                                            <li>苗栗</li>
-                                            <li>台中</li>
-                                            <li>彰化</li>
-                                            <li>雲林</li>
-                                        </ul>
-                                    </li>
-                                    <li>南部
-                                        <ul>
-                                            <li>嘉義</li>
-                                            <li>台南</li>
-                                            <li>高雄</li>
-                                            <li>屏東</li>
-                                        </ul>
-                                    </li>
-                                    <li>北部
-                                        <ul>
-                                            <li>基隆</li>
-                                            <li>台北</li>
-                                            <li>桃園</li>
-                                            <li>新竹</li>
-                                        </ul>
-                                    </li>
-                                    <li>東部
-                                        <ul>
-                                            <li>宜蘭</li>
-                                            <li>花蓮</li>
-                                            <li>台東</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
 
+                <div class="row no-margin-right">
+
+                    <div id="areaTree"></div>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
@@ -63,7 +26,7 @@
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
-                                        role="button">Modify</button>
+                                        role="button">Edit</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -113,7 +76,22 @@
                 "animation" : 0,
 //                'force_text' : true,
                 "themes" : { "stripes" : true },
-                "check_callback" : true
+                //不可多選
+                "multiple" : false,
+                "check_callback" : true,
+                'data' : {
+                    "url" : "/jsonData/areaTree.json",
+                    "dataType" : "json" // needed only if you do not supply JSON headers
+                }
+            },
+            "checkbox" : {
+                "keep_selected_style" : true
+//                "visible":true
+            },
+            "dnd" : {
+                "dnd" : true,
+                "drag_selection" : true,
+                "check_while_dragging" : true
             },
             "types" : {
                     "#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
@@ -121,6 +99,23 @@
                     "default" : {"icon" : "/images/icon/taiwan.png",  "valid_children" : ["default","file"] },
                     "file" : { "icon" : "fa fa-user", "valid_children" : [] }
                 },
-            "plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
+            "plugins" : [  "dnd", "search", "state", "types", "wholerow","checkbox" ]
         });
+
+    var form_data ={};
+    $(document).on("dnd_stop.vakata", function ( e, data) {
+       console.log(data);
+
+
+    })
+
+    //tree change时事件
+    $('#areaTree').on("changed.jstree", function (e, data) {
+        console.log("The selected nodes are:");
+        console.log(data.node.id);  //选择的node id
+        console.log(data.node.text);  //选择的node text
+        form_data.ay = data.node.text;
+        form_data.ay_id = data.node.id;
+    });
+
 </script>
