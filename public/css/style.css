@@ -3799,6 +3799,87 @@ span.triangle-text {
   margin-right: 0;
 }
 
+.redbox {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: sub;
+  border: 1px solid;
+}
+
+.bg-red {
+  background: red;
+  color: #fff;
+}
+
+.bg-green {
+  background: green;
+  color: #fff;
+}
+
+.bg-blue {
+  background: #01ffff;
+}
+
+.bg-yellow {
+  background: yellow;
+}
+
+.bg-gray {
+  background: gray;
+}
+
+.checkbox-header {
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
+}
+.checkbox-header .checkbox label input[type=checkbox].ace + .lbl {
+  margin: 0;
+}
+.checkbox-header label {
+  display: inline-block !important;
+}
+
+.bigBox label {
+  width: 146px !important;
+}
+
+.cleanCheckbox-right {
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: -1px;
+}
+.cleanCheckbox-right .cc-right {
+  width: 100px;
+  display: inline-block;
+}
+.cleanCheckbox-right .cc-right-down {
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.clean-table-container {
+  margin-left: 10px;
+  margin-top: 20px;
+  display: inline-block;
+}
+.clean-table-container .clean-table-wrap {
+  height: 250px;
+  overflow: auto;
+}
+.clean-table-container .clean-text-box {
+  text-align: right;
+  margin-right: 11px;
+}
+
+.footer-textbox-wrap {
+  margin-top: 30px;
+}
+
+.blue-text {
+  color: blue;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
