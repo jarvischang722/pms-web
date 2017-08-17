@@ -830,7 +830,7 @@ var vm = new Vue({
                                 $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
                             });
                             vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
-                            vm.doSaveCUD();
+                            vm.doSaveCUD(function(){});
                         } else {
                             alert(result.errorMsg);
                         }

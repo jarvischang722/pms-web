@@ -80,14 +80,7 @@
     "prg_id" : "PMS0810020", 
     "page_id" : NumberInt(2), 
     "func_id" : "0300", 
-    "rule_func_name" : "chk_rvrmcod_rf_is_exist_rminv_dt"
-}
-{ 
-    "_id" : ObjectId("58e454add357e2037e2aa07d"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0531", 
-    "rule_func_name" : "chk_rvrmcod_rf_is_exist_rminv_dt"
+    "rule_func_name" : "r_rvrmcod_rf_del_save"
 }
 { 
     "_id" : ObjectId("59590afff57a0b3362f9e252"), 

@@ -466,7 +466,7 @@ module.exports = {
         let chkError = null;
         let params = postData["singleRowData"] || {};
         let userInfo = session.user;
-
+        params["begin_dat"] = moment(params["begin_dat"] ).format("YYYY/MM/DD");
         try {
             async.waterfall([
                 function (cb) {
@@ -538,14 +538,11 @@ module.exports = {
                 if(err){
                     chkError = new ErrorClass();
                     chkError.errorCod = "1111";
-                    chkError.errorMsg = err.errorMsg;
+                    chkError.errorMsg = err.message;
                     chkResult.success = false;
                 }
                 callback(chkError, chkResult);
             });
-
-
-
         } catch (err) {
             chkError = new ErrorClass();
             chkError.errorMsg = err;

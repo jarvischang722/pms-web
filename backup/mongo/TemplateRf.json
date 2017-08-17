@@ -738,3 +738,15 @@
     "lock_type" : "", 
     "hotel_cod" : ""
 }
+{ 
+    "_id" : ObjectId("59914fc9726c3e21a87f7c4c"), 
+    "prg_id" : "PMS0860030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "special", 
+    "table_name" : "area_cod_kvrf", 
+    "rule_func_name" : "qry_area_cod_kvrf", 
+    "lock_table" : "area_cod_kvrf", 
+    "lock_type" : "table", 
+    "hotel_cod" : ""
+}
