@@ -15,7 +15,8 @@ var vm = new Vue({
         this.loadDataGridByPrgID();
     },
     data: {
-        userInfo: ""
+        userInfo: "",
+        treeData: {}
     },
     methods: {
         //取得使用者資料
@@ -38,35 +39,93 @@ var vm = new Vue({
 
         // 初始化jstree
         initAreaTree: function () {
-            var lo_root = _.findWhere(vm.pageOneDataGridRows, {parent_cod: "ROOT"});
-            var tree = new Tree(lo_root);
-            this.convertDataGridRows2TreeData(tree, lo_root.area_cod);
+            this.convertDataGridRows2TreeData();
+            this.createTree();
         },
 
         // 將資料轉換成jstree格式
-        convertDataGridRows2TreeData: function (tree, ls_parent_area_cod) {
-
+        convertDataGridRows2TreeData: function () {
             var self = this;
-            var la_children = _.where(vm.pageOneDataGridRows, {parent_cod: ls_parent_area_cod});
+            var lo_root = _.where(vm.pageOneDataGridRows, {parent_cod: "ROOT"});
+            this.treeData = new Tree(lo_root[0]);
 
-            if (!_.isEmpty(la_children)) {
-                _.each(la_children, function (lo_children) {
-                    tree.add(lo_children, ls_parent_area_cod);
-                    console.log(tree);
-                    self.convertDataGridRows2TreeData(tree, lo_children.area_cod);
-                });
-            }
+            _.each(vm.pageOneDataGridRows, function (eachRow, Idx) {
+                if (eachRow.parent_cod != "ROOT") {
+                    var lo_parentNode = getKeyValues(self.treeData.root, eachRow.parent_cod);
 
+                    var lo_child = new Node(eachRow);
+                    if (_.isNull(lo_parentNode)) {
+                        self.treeData.root.children.push(lo_child);
+                    }
+                    else {
+                        lo_parentNode.children.push(lo_child);
+                    }
+                }
+            });
 
+            this.treeData = JSON.stringify(this.treeData);
+            this.treeData = JSON.parse(this.treeData);
+            // console.log(this.treeData);
+
+        },
+        createTree: function(){
+            // areaTree demo
+            $('#areaTree').jstree({
+                "core": {
+                    "animation": 0,
+                    "themes": {"stripes": true},
+                    //不可多選
+                    "multiple": false,
+                    "check_callback": true,
+                    "data": vm.treeData.root
+                    // 'data' : {
+                    //     "url" : "/jsonData/areaTree.json",
+                    //     "dataType" : "json" // needed only if you do not supply JSON headers
+                    // }
+                },
+                "checkbox": {
+                    "keep_selected_style": true
+                },
+                "dnd": {
+                    "dnd": true,
+                    "drag_selection": true,
+                    "check_while_dragging": true
+                },
+                "types": {
+                    "#": {"max_children": 1, "max_depth": 4, "valid_children": ["root"]},
+                    "root": {"icon": "/images/icon/taiwan.png", "valid_children": ["default"]},
+                    "default": {"icon": "/images/icon/taiwan.png", "valid_children": ["default", "file"]},
+                    "file": {"icon": "fa fa-user", "valid_children": []}
+                },
+                "plugins": ["dnd", "search", "state", "types", "wholerow", "checkbox"]
+            });
         }
     }
 });
 
+function getKeyValues(lo_node, val) {
+    var lo_parentNode = null;
+    if (lo_node.children.length != 0) {
+        lo_parentNode = _.findWhere(lo_node.children, {id: val});
+        if (_.isUndefined(lo_parentNode)) {
+            _.each(lo_node.children, function(lo_child_node){
+                if(lo_child_node.children.length != 0){
+                    lo_parentNode = getKeyValues(lo_child_node, val);
+                }
+            });
+        }
+    }
+
+    if(_.isUndefined(lo_parentNode)){
+        lo_parentNode = null;
+    }
+
+    return lo_parentNode;
+}
 
 function Node(rowData) {
     this.id = rowData.area_cod;
     this.text = rowData.area_nam;
-    this.parent = null;
     this.children = [];
 }
 
@@ -74,33 +133,6 @@ function Tree(rowData) {
     var node = new Node(rowData);
     this.root = node;
 }
-
-Tree.prototype.add = function (rowData, ls_parent_area_cod) {
-    var lo_child = new Node(rowData);
-
-    var parent = this.findById(this.root, ls_parent_area_cod);
-
-    if (parent) {
-        parent.children.push(lo_child);
-        lo_child.parent = parent;
-    }
-    else {
-        throw new Error("Cannot add node to a non-existent parent.");
-    }
-};
-
-Tree.prototype.findById = function (data, id) {
-
-    var arr = _.filter(data, function(obj) {
-        if(_.isUndefined(obj.children)){
-            return "";
-        }
-        else{
-            return _.some(obj.children, {id: id});
-        }
-    });
-    console.log(arr);
-};
 
 var jsonData = [
     {
@@ -145,36 +177,8 @@ var jsonData = [
     }
 ];
 
-// areaTree demo
-$('#areaTree').jstree({
-    "core": {
-        "animation": 0,
-        "themes": {"stripes": true},
-        //不可多選
-        "multiple": false,
-        "check_callback": true,
-        "data": jsonData
-        // 'data' : {
-        //     "url" : "/jsonData/areaTree.json",
-        //     "dataType" : "json" // needed only if you do not supply JSON headers
-        // }
-    },
-    "checkbox": {
-        "keep_selected_style": true
-    },
-    "dnd": {
-        "dnd": true,
-        "drag_selection": true,
-        "check_while_dragging": true
-    },
-    "types": {
-        "#": {"max_children": 1, "max_depth": 4, "valid_children": ["root"]},
-        "root": {"icon": "/images/icon/taiwan.png", "valid_children": ["default"]},
-        "default": {"icon": "/images/icon/taiwan.png", "valid_children": ["default", "file"]},
-        "file": {"icon": "fa fa-user", "valid_children": []}
-    },
-    "plugins": ["dnd", "search", "state", "types", "wholerow", "checkbox"]
-});
+// var aryTest = getKeyValues(jsonData, "id", 10);
+// console.log(aryTest);
 
 function areaTree_create() {
     var ref = $('#areaTree').jstree(true),
