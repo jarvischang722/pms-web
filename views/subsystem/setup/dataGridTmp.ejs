@@ -115,6 +115,139 @@
                             </table>
                         </div>
                     </div>
+                    <div >
+                            <table class="fixed_headers">
+                                <thead>
+                                    <tr>
+                                        <th class="width-15 text-center">Time</th>
+                                        <th class="width-10 text-center">User</th>
+                                        <th class="width-15 text-center">Action Type</th>
+                                        <th class="width-20 text-center">Description MN</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="">
+                                    <tr v-for="logData in allChangeLogList">
+                                        <td class="width-15">{{logData.event_time}}</td>
+                                        <td class="width-10">{{logData.user}}</td>
+                                        <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span></td>
+                                        <td class="width-20">
+                                            <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}</div>
+                                            <span v-for="mnData in logData.desc_mn">
+                                            {{mnData.field_name}} :
+                                            {{mnData.oldVal}}
+                                            <span v-if="logData.action == 'update'"> →  </span>
+                                            {{mnData.newVal}}
+                                            <br>
+                                        </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <!--// 判斷dialog寬度，給table值(異動紀錄0822)-->
+                    <table class="fixed_headers">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Color</th>
+                            <th>Description</th>
+                            <th>Description</th>
+                            <th>Description</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Apple</td>
+                            <td>Red</td>
+                            <td>These are red.</td>
+                            <td>These are red.</td>
+                            <td>These are red.</td>
+                            <td>These are red.</td>
+                        </tr>
+                        <tr>
+                            <td>Pear</td>
+                            <td>Green</td>
+                            <td>These are green.</td>
+                            <td>These are green.</td>
+                            <td>These are green.</td>
+                            <td>These are green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        <tr>
+                            <td>Grape</td>
+                            <td>Purple / Green</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                            <td>These are purple and green.</td>
+                        </tr>
+                        </tbody>
+                    </table>
                     <div class="clearfix"></div>
                     <script>
                         //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
@@ -146,3 +279,9 @@
 <%- include vueTemplate/multiLangDialogTmp.ejs %>
 
 <script src="/js/setup/datagrid.js"></script>
+
+<script>
+//    $(function () {
+//
+//    })
+</script>

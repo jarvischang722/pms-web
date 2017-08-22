@@ -501,7 +501,18 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
+
+                // 判斷dialog寬度，給table值(異動紀錄0822)
+                var dialogwidth = $(".el-dialog__body .col-xs-12").width();
+                $(".fixed_headers", $(".el-dialog__body .col-xs-12")).width(dialogwidth);
+//                 console.log("dialogwidth:",dialogwidth);
+                $(window).resize(function() {
+                    var dialogwidth = $(".el-dialog__body .col-xs-12").width();
+                    $(".fixed_headers", $(".el-dialog__body .col-xs-12")).width(dialogwidth);
+                });
             })
+
+
         }
     }
 });
