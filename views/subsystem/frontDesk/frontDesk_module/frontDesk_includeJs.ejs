@@ -300,17 +300,18 @@
         function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
             $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
 //            $('.intCounterLeft .chooseCount').css('width','8%');
-            $('.intCounterLeft .resultCount').css('max-width', maxW);
+            $('.intCounterLeft .resultCount').css('max' +
+                '-width', maxW);
             $('.intCounterRight').css('display', disToggle1);
             $('.fa-angle-left').css('display', disToggle2);
             $('.fa-angle-right').css('display', disToggle1);
         }
 
         $(".show-intCounterRight > .fa-angle-left").click(function () {
-            foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+            foCounterMain('col-xs-12', 'col-xs-8', '94%', 'inline-block', 'none'); //old 92%
         });
         $(".show-intCounterRight > .fa-angle-right").click(function () {
-            foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+            foCounterMain('col-xs-8', 'col-xs-12', '95%', 'none', 'inline-block');
         });
         /* 點選右上箭頭選擇觀看右邊表格 End */
 

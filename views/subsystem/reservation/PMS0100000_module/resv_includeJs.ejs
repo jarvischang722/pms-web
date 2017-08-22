@@ -1323,7 +1323,19 @@
             ]]
         });
 
+        // setRateCode rateCode-查詢結果(chk) dataGrid
+        $('#resv_RateCode_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_RateCode_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
 
+        });
         // setRateCode rateCode-查詢結果 dataGrid
         $('#clerkDataGridResult-table').datagrid({
             singleSelect: true,
@@ -1332,15 +1344,12 @@
             url: '/jsonData/reservation_RateCode.json',
             method: 'get',
             columns: [[
-                {field: 'choose', title: '選擇', width: 100},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
-                {field: 'anotherName', title: '別名', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},
                 {field: 'roomChangeChoose', title: '訂房可異動房價', width: 100},
                 {field: 'setTripChoose', title: '為套裝行程', width: 100},
                 {field: 'useDescription', title: '使用說明', width: 200},
-                {field: 'MasterRatecod', title: 'Master Ratecod', width: 100},
                 {field: 'hall', title: '館別', width: 100}
             ]]
 
