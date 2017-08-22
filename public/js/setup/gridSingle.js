@@ -586,6 +586,7 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
 
         },
+
         /**  DT Data grid event**/
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
@@ -610,14 +611,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                         return '<a  href="javascript:void(0)" onclick="editDtMultiLang(' + index + ')">Edit</a>';
                     }
 
-                });
-            }
-            //TODO: 小良Rule完成後可刪
-            if (prg_id == "PMS0820050") {
-                $.post("/api/getKeyNos", function (getResult) {
-                    if (getResult) {
-                        self.key_nos = getResult.defaultValues.key_nos;
-                    }
                 });
             }
 
@@ -673,7 +666,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 rowData: dtRow
             };
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
-                console.log(chkResult);
                 if (chkResult.success) {
                     //是否要show出訊息
                     if (chkResult.showAlert) {
@@ -757,12 +749,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                     if (result.success) {
                         prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
                     }
+
                     $("#dt_dg").datagrid('appendRow', prgDefaultObj);
                     self.dtEditIndex = $("#dt_dg").datagrid('getRows').length - 1;
                     $("#dt_dg").datagrid('selectRow', self.dtEditIndex)
                         .datagrid('beginEdit', self.dtEditIndex);
                 });
-
             }
         },
 
@@ -782,7 +774,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 page_id: 2,
                 deleteData: vm.tmpCud.dt_deleteData
             }, function (result) {
-                console.log(result);
                 if (result.success) {
                     $("#dt_dg").datagrid('deleteRow', $("#dt_dg").datagrid('getRowIndex', delRow));
                 } else {
@@ -798,7 +789,6 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-            var self = this;
             rowData["mnRowData"] = this.singleData;
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
@@ -815,7 +805,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (existIdx > -1) {
                 this.tmpCud[dataType].splice(existIdx, 1);
             }
-            if (dataType == 'Y') rowData.key_nos = this.key_nos; //新增時才取新的key_nos
 
             this.tmpCud[dataType].push(rowData);
         },

@@ -34,6 +34,7 @@ module.exports = {
         lo_result.defaultValues.dp_rat = "0";
         lo_result.defaultValues.cc_req = "N";
         lo_result.defaultValues.use_sta = "Y";
+        lo_result.defaultValues.view_seq = "0";
         callback(lo_error, lo_result);
     },
     //新增儲存時驗證dp_req(需收訂金)

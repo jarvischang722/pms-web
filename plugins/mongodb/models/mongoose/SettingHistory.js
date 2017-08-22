@@ -10,9 +10,10 @@ var SettingHistorySchema = new Schema({
     prg_id: String,      　
     table_name:String,
     action:String,
-    event_time : String,
     key: {},
-    user: String,   　
+    dataOfChanges:{},
+    user: String,
+    event_time : String
 
 }, {collection: "SettingHistory"});
 

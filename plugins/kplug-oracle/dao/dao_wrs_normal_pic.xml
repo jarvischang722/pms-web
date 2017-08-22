@@ -3,10 +3,9 @@
     <!--PMS0810020 房型設定 取得多筆 -->
     <dao name="QRY_PIC_PATH">
         <statement><![CDATA[
-        select pic_PATH into :ls_pic_path
-		from wrs_normal_pic
-		where sys_cod = 'HFD' and athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
-		and room_cod = :room_cod and  begin_dat = to_date(:begin_dat, 'YYYY/MM/DD')
+        select pic_path as pic_path from wrs_normal_pic
+        where sys_cod = 'HFD' and athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        and trim(room_cod) = trim(:room_cod) and begin_dat = to_date(:begin_dat, 'YYYY/MM/DD')
 
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
