@@ -24,20 +24,20 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_create();"
+                                <button class="btn btn-primary btn-white btn-defaultWidth" @click="addNode"
                                         role="button">Add</button>
                             </li>
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth" onclick="areaTree_delete();"
+                                <button class="btn btn-danger btn-white btn-defaultWidth" @click="delNode"
                                         role="button">Delete</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
+                                <button class="btn btn-primary btn-white btn-defaultWidth" @click="renameNode"
                                         role="button">Edit</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Save</button>
+                                        role="button" @click="doSave">Save</button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
