@@ -7,6 +7,7 @@
 var gs_prg_id = $("#prg_id").val();
 var vmHub = new Vue;
 var ga_treeData = [];
+var gs_action = null;
 
 var vm = new Vue({
     el: "#app",
@@ -35,12 +36,12 @@ var vm = new Vue({
                 }
             });
         },
+
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 waitingDialog.hide();
-                // vm.dataGridRows = _.sortBy(result.dataGridRows, "sort_cod");
                 vm.dataGridRows = result.dataGridRows;
                 vm.fieldData = result.fieldData;
                 vm.initAreaTree();
@@ -57,32 +58,10 @@ var vm = new Vue({
         // 將資料轉換成jstree格式
         convertDataGridRows2TreeData: function () {
             var self = this;
-            var lo_root = _.findWhere(vm.dataGridRows, {parent_cod: "ROOT"});
-            this.treeData = new Tree(lo_root);
+            var lo_rootDataRow = _.findWhere(vm.dataGridRows, {parent_cod: "ROOT"});
+            this.treeData = new Tree(lo_rootDataRow);
 
-            var la_childRows = _.where(vm.dataGridRows, {parent_cod: lo_root.area_cod});
-
-            _.each(la_childRows, function(lo_childNode){
-
-            });
-
-            // _.each(vm.dataGridRows, function (eachRow, Idx) {
-            //     if (eachRow.parent_cod != "ROOT") {
-            //         var lo_parentNode = searchNode(self.treeData.root, eachRow.parent_cod);
-            //
-            //         var lo_child = new Node(eachRow);
-            //         if (_.isNull(lo_parentNode)) {
-            //             self.treeData.root.children.push(lo_child);
-            //         }
-            //         else {
-            //             lo_parentNode.children.push(lo_child);
-            //         }
-            //     }
-            // });
-
-            this.treeData = JSON.stringify(this.treeData);
-            this.treeData = JSON.parse(this.treeData);
-
+            searchChildAndInsert(this.treeData.root);
         },
 
         createTree: function () {
@@ -114,29 +93,50 @@ var vm = new Vue({
             });
         },
 
-        tmpCudHandler: function (rowData, type) {
+        tmpCudHandler: function (dgRowData, type, isSort) {
             var self = this;
             var lo_sel_node = this.getSelectedNode();
             lo_sel_node = this.tree.get_node(lo_sel_node);
-            var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
 
+            if (isSort) {
+                var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
+                if (type == "deleteData") {
+                    la_parentNode.children = _.without(la_parentNode.children, dgRowData.area_cod);
+                }
+                if (la_parentNode.children.length != 0) {
+                    _.each(la_parentNode.children, function (lo_childNode, Idx) {
+                        var lo_dgRowData = _.findWhere(self.dataGridRows, {area_cod: lo_childNode});
+                        lo_dgRowData.sort_cod = Idx;
 
-            _.each(la_parentNode.children, function (lo_childNode, Idx) {
-                var lo_dgRowData = _.findWhere(self.dataGridRows, {area_cod: lo_childNode});
-                lo_dgRowData.sort_cod = Idx;
+                        // 清除已在暫存資料
+                        _.each(self.tmpCud, function (obj, key) {
+                            self.tmpCud[key] = _.without(obj, lo_dgRowData);
+                        });
 
+                        if (type == "deleteData") {
+                            self.tmpCud[type].push(dgRowData);
+                            type = "updateData";
+                        }
+                        self.tmpCud[type].push(lo_dgRowData);
+
+                    });
+                }
+                else {
+                    self.tmpCud[type].push(dgRowData);
+                }
+            }
+            else {
                 // 清除已在暫存資料
-                _.each(self.tmpCud, function (obj, key) {
-                    self.tmpCud[key] = _.without(obj, lo_dgRowData);
+                _.each(this.tmpCud, function (obj, key) {
+                    self.tmpCud[key] = _.without(obj, dgRowData);
                 });
-
-                self.tmpCud[type].push(lo_dgRowData);
-            });
+                this.tmpCud[type].push(dgRowData);
+            }
         },
 
         doSave: function () {
             waitingDialog.show('Saving...');
-
+            var self = this;
             var fieldData = [
                 {ui_field_name: 'athena_id', keyable: 'Y'},
                 {ui_field_name: "area_cod", keyable: "Y"}
@@ -152,6 +152,7 @@ var vm = new Vue({
                 .done(function (response) {
                     waitingDialog.hide();
                     if (response.success) {
+                        self.loadDataGridByPrgID();
                         alert('save success!');
                     } else {
                         alert(response.errorMsg);
@@ -179,14 +180,41 @@ var vm = new Vue({
         renameNode: function () {
             var sel = this.getSelectedNode();
             this.tree.edit(sel);
+            gs_action = "rename";
         },
 
         delNode: function () {
-            var sel = this.getSelectedNode();
-            this.tree.delete_node(sel);
+            var lo_selNode = this.getSelectedNode();
+            var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
+
+            this.tmpCudHandler(lo_dgRow, "deleteData", true);
+            this.tree.delete_node(lo_selNode);
         }
     }
 });
+
+function searchChildAndInsert(lo_node) {
+
+    var la_childRows = _.where(vm.dataGridRows, {parent_cod: lo_node.id});
+
+    if (la_childRows.length == 0) {
+        return [];
+    }
+    la_childRows.sort(function (a, b) {
+        return a.sort_cod - b.sort_cod;
+    });
+    _.each(la_childRows, function (lo_childRow) {
+        var lo_childNode = new Node(lo_childRow);
+        if (lo_node.parent_cod == "ROOT") {
+            vm.treeData.root.children.push(lo_childNode);
+            searchChildAndInsert(lo_childNode);
+        }
+        else {
+            lo_node.children.push(lo_childNode);
+            searchChildAndInsert(lo_childNode);
+        }
+    });
+}
 
 function searchNode(lo_node, area_cod) {
     var lo_parentNode = null;
@@ -210,8 +238,9 @@ function searchNode(lo_node, area_cod) {
 
 function Node(rowData) {
     this.id = rowData.area_cod;
-    this.text = rowData.area_nam + rowData.sort_cod;
+    this.text = rowData.area_nam;
     this.sort_cod = rowData.sort_cod;
+    this.parent_cod = rowData.parent_cod;
     this.children = [];
 }
 
@@ -220,11 +249,21 @@ function Tree(rowData) {
     this.root = node;
 }
 
-// tree select时事件
-$('#areaTree').on("select_node.jstree", function (e, data) {
-    // console.log("The selected nodes are:");
-    // console.log(data.node.id);  //选择的node id
-    // console.log(data.node.text);  //选择的node text
+$("#areaTree").on("create_node.jstree", function (e, data) {
+    var lo_node = data.node;
+    var lo_dgRow = vm.dataGridRows[0];
+
+});
+
+$("#areaTree").on("rename_node.jstree", function (e, data) {
+    if (gs_action == "rename") {
+        var lo_node = data.node;
+        var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
+        lo_dgRow.area_nam = lo_node.text;
+
+        vm.tmpCudHandler(lo_dgRow, "updateData", false);
+        gs_action = null;
+    }
 });
 
 // tree move時事件
@@ -235,11 +274,11 @@ $("#areaTree").on("move_node.jstree", function (e, data) {
     var ls_parent = data.parent;
     var li_sort = data.position;
 
-    var lo_dataGrid_row = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
-    lo_dataGrid_row.parent_cod = ls_parent;
-    lo_dataGrid_row.sort_cod = li_sort;
+    var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
+    lo_dgRow.parent_cod = ls_parent;
+    lo_dgRow.sort_cod = li_sort;
 
-    vm.tmpCudHandler(lo_dataGrid_row, "updateData");
+    vm.tmpCudHandler(lo_dgRow, "updateData", true);
 });
 
 

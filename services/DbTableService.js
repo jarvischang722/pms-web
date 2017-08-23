@@ -307,8 +307,6 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
     _.each(tmpCUD.updateData, function (u_data) {
         var tmpEdit = {"function": "2"}; //2  編輯
         tmpEdit["table_name"] = mainTableName;
-        tmpEdit["athena_id"] = userInfo.athena_id;
-        tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
 
         _.each(Object.keys(u_data), function (objKey) {
             tmpEdit[objKey] = u_data[objKey];
@@ -330,6 +328,14 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
                     value: u_data[keyField]
                 });
                 lo_keysData[keyField] = u_data[keyField];
+            }
+
+            if(keyField == "athena_id" || keyField == "hotel_cod"){
+                tmpEdit.condition.push({
+                    key: keyField,
+                    operation: "=",
+                    value: tmpEdit[keyField]
+                });
             }
         });
 
