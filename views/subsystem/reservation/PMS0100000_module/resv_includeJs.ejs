@@ -1022,7 +1022,20 @@
                 resizable: true
             });
         });
-
+        // 彈出 rate info
+        $(document).on('click', ".rateInfo-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateInfo-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Rate Info",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -1490,6 +1503,23 @@
         ]]
     });
 
+    // rateInfo
+    $('#rateInfo-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/rateInfo-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'date', title: '日期', width: 100},
+            {field: 'sDate', title: '服務日期', width: 100},
+            {field: 'item', title: '項目', width: 150},
+            {field: 'price', title: '單價', width: 80, align:'right'},
+            {field: 'amount', title: '數量', width: 50, align:'right'},
+            {field: 'total', title: '小計', width: 70, align:'right'},
+            {field: 'mode', title: '收費方式.', width: 70}
+        ]]
+    });
     $(function() {
 
         // tabs setting
