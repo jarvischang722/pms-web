@@ -19,25 +19,18 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 var Pms0830080Comp = Vue.extend({
     template: '#PMS0830080Tmp',
-    props: ["accounts", "tmpCUD", "editingRow"],
+    props: ["accounts", "tmpCUD", "editingRow","stypeRfList"],
     mounted: function () {
-        this.getStypeRf();
+
     },
     data: function () {
         return {
-            stypeRfList: [],
             activeSmallTyp: ""   //被選中的小分類
 
         };
     },
     methods: {
-        //取得中小分類
-        getStypeRf: function () {
-            var _this = this;
-            $.post('/api/getStypeRf', function (result) {
-                _this.stypeRfList = result.stypeList;
-            });
-        },
+
         checkMasterAccStatus: function (small_typ) {
 
             var activeAccount = String(this.$parent.activeAccount);
@@ -160,7 +153,8 @@ var PMS0830080VM = new Vue({
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: []
-        }
+        },
+        stypeRfList:[]
 
     },
     created: function () {
@@ -171,7 +165,7 @@ var PMS0830080VM = new Vue({
 
     },
     mounted: function () {
-
+        this.getStypeRf();
         this.getRouteData();
     },
     watch: {
@@ -237,6 +231,12 @@ var PMS0830080VM = new Vue({
                 dt_deleteData: []
             };
         },
+        //取得中小分類
+        getStypeRf: function () {
+            $.post('/api/getStypeRf', function (result) {
+                PMS0830080VM.stypeRfList = result.stypeList;
+            });
+        },
         getRouteData: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .done(function (response) {
@@ -254,6 +254,15 @@ var PMS0830080VM = new Vue({
             this.isCreateStatus = true;
             this.isEditStatus = false;
             this.initAccounts();
+
+           _.each( PMS0830080VM.stypeRfList,function(stype){
+               PMS0830080VM.accounts["account1"].push({
+                   folio_nos: '1',
+                   master_sta:  "N",
+                   small_typ: stype.small_typ.trim()
+               });
+           })
+
             this.openRouteDialog();
         },
         delRoutes :function(){
