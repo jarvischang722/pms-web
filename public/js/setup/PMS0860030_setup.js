@@ -78,6 +78,7 @@ var vm = new Vue({
                 lo_rootDataRow.sort_cod = 0;
                 lo_rootDataRow.area_nam = "ROOT";
                 lo_rootDataRow.parent_cod = "ROOT";
+                this.tmpCud.createData.push(lo_rootDataRow);
                 this.treeData = new Tree(lo_rootDataRow);
             }
 
@@ -130,59 +131,23 @@ var vm = new Vue({
             // 去除暫存重複
             _.each(lo_parentNode.children, function (childNode) {
                 _.each(self.tmpCud, function (obj, key) {
-                    self.tmpCud[key] = _.without(obj, {area_cod: childNode});
+                    if (obj.length != 0) {
+                        self.tmpCud[key] = _.without(obj, _.findWhere(obj, {
+                            area_cod: childNode
+                        }));
+                    }
+
                 });
             });
 
-            if (type == "createData") {
-                lo_parentNode.children = _.without(lo_parentNode.children, currNode.id);
-                self.tmpCud[type].push(new rowData(currNode));
-            }
+            var la_children = _.without(lo_parentNode.children, currNode.id);
+            self.tmpCud[type].push(new rowData(currNode));
+            type = "updateData";
 
-
-            return true;
-
-            // if (isSort) {
-            //     var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
-            //     if (type == "deleteData" || type == "createData") {
-            //         if (type == "createData") {
-            //             dgRowData.sort_cod = la_parentNode.children.length;
-            //         }
-            //         la_parentNode.children = _.without(la_parentNode.children, dgRowData.area_cod);
-            //     }
-            //     if (la_parentNode.children.length != 0) {
-            //         _.each(la_parentNode.children, function (lo_childNode, Idx) {
-            //             var lo_dgRowData = _.findWhere(self.dataGridRows, {area_cod: lo_childNode});
-            //             lo_dgRowData.sort_cod = Idx;
-            //
-            //             // 清除已在暫存資料
-            //             _.each(self.tmpCud, function (obj, key) {
-            //                 self.tmpCud[key] = _.without(obj, lo_dgRowData);
-            //             });
-            //
-            //             if (type == "deleteData") {
-            //                 self.tmpCud[type].push(dgRowData);
-            //                 type = "updateData";
-            //             }
-            //             else if (type == "createData") {
-            //                 self.tmpCud[type].push(dgRowData);
-            //                 type = "updateData";
-            //             }
-            //             self.tmpCud[type].push(lo_dgRowData);
-            //
-            //         });
-            //     }
-            //     else {
-            //         self.tmpCud[type].push(dgRowData);
-            //     }
-            // }
-            // else {
-            //     // 清除已在暫存資料
-            //     _.each(this.tmpCud, function (obj, key) {
-            //         self.tmpCud[key] = _.without(obj, dgRowData);
-            //     });
-            //     this.tmpCud[type].push(dgRowData);
-            // }
+            _.each(la_children, function (childNode) {
+                var lo_childNode = self.tree.get_node(childNode);
+                self.tmpCud[type].push(new rowData(lo_childNode));
+            });
         },
 
         doSave: function () {
@@ -237,6 +202,7 @@ var vm = new Vue({
 
         delNode: function () {
             var lo_selNode = this.getSelectedNode();
+            var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
 
             // 更節點不能刪除
@@ -252,7 +218,7 @@ var vm = new Vue({
                     alert(err.errorMsg);
                 }
                 else {
-                    this.tmpCudHandler(lo_dgRow, "deleteData", true);
+                    this.tmpCudHandler(lo_node, "deleteData");
                     this.tree.delete_node(lo_selNode);
                 }
             });
@@ -403,6 +369,7 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
     }
     else if (gs_action == "create") {
         var ls_newAreaCod = genNewAreaCod();
+        vm.maxAreaCod = ls_newAreaCod;
         vm.tree.set_id(lo_node, ls_newAreaCod);
 
         vm.tmpCudHandler(lo_node, "createData");
