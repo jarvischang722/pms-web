@@ -92,6 +92,12 @@ exports.getPMS0830080 = function (req, res) {
 exports.getPMS0860030 = function (req, res) {
     res.render("subsystem/setup/PMS0860030");
 };
+/**
+ * 業務員組別(靜態)
+ */
+exports.getPMS0860060 = function (req, res) {
+    res.render("subsystem/setup/specialTmp/PMS0860060");
+};
 
 /**
  * 取得庫存最大日期

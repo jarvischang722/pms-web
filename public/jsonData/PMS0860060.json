@@ -1,0 +1,9 @@
+{"total":2,
+	"rows":[
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0001","clerkName":"張三"},
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0002","clerkName":"李四"},
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0003","clerkName":"王五"},
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0004","clerkName":"葉六"},
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0005","clerkName":"陳七"},
+	{"checkbox":"<input type='checkbox'>","clerkID":"A0006","clerkName":"呂八"}
+]}

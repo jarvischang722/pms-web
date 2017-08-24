@@ -43,6 +43,9 @@ module.exports = function(app) {
     //區域別(靜態)
     app.get('/PMS0860030', setupCrtl.getPMS0860030);
 
+    //業務員組別(靜態)
+    app.get('/PMS0860060', setupCrtl.getPMS0860060);
+
     //取得庫存最大日期
     app.post('/api/getRoomTypeMaxStockDate', setupCrtl.getRoomTypeMaxStockDate);
 };
