@@ -1,4 +1,3 @@
-<%- include ../../../common/importFiles.ejs %>
 <!--page-content-->
 <div id="app">
     <div class="col-xs-12">
@@ -25,23 +24,23 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" @click="addNode"
-                                        role="button">Add</button>
+                                        role="button"><%= __("SystemCommon").Add %></button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth" @click="delNode"
-                                        role="button">Delete</button>
+                                        role="button"><%= __("SystemCommon").Delete %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" @click="renameNode"
-                                        role="button">Edit</button>
+                                        role="button"><%= __("SystemCommon").Modify %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="doSave">Save</button>
+                                        role="button" @click="doSave"><%= __("SystemCommon").Save %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">異動紀錄</button>
+                                        role="button" style="display:none">異動紀錄</button>
                             </li>
                         </ul>
                     </div>
@@ -52,5 +51,4 @@
     </div>
 </div><!-- /.page-content -->
 
-<%- include ../../../common/importFiles.ejs %>
 <script src="/js/setup/PMS0860030_setup.js"></script>

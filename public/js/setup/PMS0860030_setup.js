@@ -25,7 +25,8 @@ var vm = new Vue({
             createData: [],
             updateData: [],
             deleteData: []
-        }
+        },
+        maxAreaCod: null
     },
     methods: {
         //取得使用者資料
@@ -42,8 +43,10 @@ var vm = new Vue({
             var self = this;
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 waitingDialog.hide();
-                vm.dataGridRows = result.dataGridRows;
+                vm.dataGridRows = _.map(result.dataGridRows, _.clone);
                 vm.fieldData = result.fieldData;
+                self.maxAreaCod = _.sortBy(result.dataGridRows, "area_cod");
+                self.maxAreaCod = self.maxAreaCod[self.maxAreaCod.length - 1].area_cod;
                 vm.initAreaTree();
             });
         },
@@ -100,7 +103,10 @@ var vm = new Vue({
 
             if (isSort) {
                 var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
-                if (type == "deleteData") {
+                if (type == "deleteData" || type == "createData") {
+                    if (type == "createData") {
+                        dgRowData.sort_cod = la_parentNode.children.length;
+                    }
                     la_parentNode.children = _.without(la_parentNode.children, dgRowData.area_cod);
                 }
                 if (la_parentNode.children.length != 0) {
@@ -114,6 +120,10 @@ var vm = new Vue({
                         });
 
                         if (type == "deleteData") {
+                            self.tmpCud[type].push(dgRowData);
+                            type = "updateData";
+                        }
+                        else if (type == "createData") {
                             self.tmpCud[type].push(dgRowData);
                             type = "updateData";
                         }
@@ -172,6 +182,7 @@ var vm = new Vue({
         addNode: function () {
             var sel = this.getSelectedNode();
             sel = this.tree.create_node(sel, {"type": "default"});
+            gs_action = "create";
             if (sel) {
                 this.tree.edit(sel);
             }
@@ -187,8 +198,25 @@ var vm = new Vue({
             var lo_selNode = this.getSelectedNode();
             var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
 
-            this.tmpCudHandler(lo_dgRow, "deleteData", true);
-            this.tree.delete_node(lo_selNode);
+            // 更節點不能刪除
+            if (lo_dgRow.parent_cod == "ROOT") {
+                return false;
+            }
+
+            $.post("/api/handleDataGridDeleteEventRule", {
+                prg_id: gs_prg_id,
+                deleteData: lo_dgRow
+            }, function (err, result) {
+                if (err) {
+                    alert(err.errorMsg);
+                }
+                else {
+                    this.tmpCudHandler(lo_dgRow, "deleteData", true);
+                    this.tree.delete_node(lo_selNode);
+                }
+            });
+
+
         }
     }
 });
@@ -249,19 +277,83 @@ function Tree(rowData) {
     this.root = node;
 }
 
-$("#areaTree").on("create_node.jstree", function (e, data) {
-    var lo_node = data.node;
-    var lo_dgRow = vm.dataGridRows[0];
+function nextChar(c) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
 
-});
+function genNewAreaCod() {
+
+    var ls_firstStr;
+    var li_sortNumber;
+    var ls_newStr;
+    var li_newSortNumber;
+    var ls_rtnAreaCod;
+    var li_maxAreaCod = Number(vm.maxAreaCod);
+
+    // 9999轉英文A1
+    if (li_maxAreaCod >= 9999) {
+        ls_firstStr = "A";
+        li_sortNumber = 1;
+
+        li_newSortNumber = padLeft(li_sortNumber, 3);
+        ls_rtnAreaCod = ls_firstStr + li_newSortNumber;
+    }
+    // 有英文數字
+    else if (_.isNaN(li_maxAreaCod)) {
+        ls_firstStr = vm.maxAreaCod.substr(0, 1);
+        li_sortNumber = Number(vm.maxAreaCod.substr(1, 3));
+
+        if (li_sortNumber >= 999) {
+            li_newSortNumber = 1;
+            ls_newStr = nextChar(ls_firstStr);
+        }
+        else {
+            li_newSortNumber = ++li_sortNumber;
+            ls_newStr = ls_firstStr;
+        }
+
+        li_newSortNumber = padLeft(li_newSortNumber, 3);    // 補0
+        ls_rtnAreaCod = ls_newStr + li_newSortNumber;
+    }
+    // 存數字
+    else {
+        li_newSortNumber = li_maxAreaCod;
+        li_newSortNumber = ++li_newSortNumber;
+        li_newSortNumber = padLeft(li_newSortNumber, 4);
+
+        ls_rtnAreaCod = li_newSortNumber;
+    }
+    return ls_rtnAreaCod;
+}
+
+function padLeft(str, lenght) {
+    if (str.length >= lenght) {
+        return str;
+    }
+    else {
+        return padLeft("0" + str, lenght);
+    }
+}
 
 $("#areaTree").on("rename_node.jstree", function (e, data) {
+    var lo_node = data.node;
+    var lo_dgRow;
     if (gs_action == "rename") {
-        var lo_node = data.node;
-        var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
+        lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
         lo_dgRow.area_nam = lo_node.text;
 
         vm.tmpCudHandler(lo_dgRow, "updateData", false);
+        gs_action = null;
+    }
+    else if (gs_action == "create") {
+        lo_dgRow = vm.dataGridRows[0];
+        var ls_newAreaCod = genNewAreaCod();
+
+        console.log(data);
+        lo_dgRow.area_cod = ls_newAreaCod;
+        lo_dgRow.area_nam = lo_node.text;
+        lo_dgRow.parent_cod = lo_node.parent;
+        vm.tmpCudHandler(lo_dgRow, "createData", true);
         gs_action = null;
     }
 });
