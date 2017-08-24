@@ -63,7 +63,7 @@
               from rvrmcod_rf
               where athena_id = :athena_id
               and trim(hotel_cod) = trim(:hotel_cod)
-              and room_cod =  :room_cod
+              and trim(room_cod) =  trim(:room_cod)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
