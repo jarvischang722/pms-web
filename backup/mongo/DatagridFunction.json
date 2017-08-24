@@ -1006,3 +1006,27 @@
     "func_id" : NumberInt(400), 
     "rule_func_name" : ""
 }
+{ 
+    "_id" : ObjectId("599e4e08726c3e25304de7f7"), 
+    "prg_id" : "PMS0860030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599e4e08726c3e25304de7f8"), 
+    "prg_id" : "PMS0860030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_area_cod_kvrf_is_exist_cust_mn"
+}
+{ 
+    "_id" : ObjectId("599e4e08726c3e25304de7f9"), 
+    "prg_id" : "PMS0860030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : ""
+}

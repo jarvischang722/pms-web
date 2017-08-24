@@ -3929,7 +3929,7 @@
     "modificable" : "I", 
     "requirable" : "Y", 
     "grid_field_name" : "holiday_kind_rf", 
-    "keyable" : "Y", 
+    "keyable" : "", 
     "format_func_name" : "", 
     "rule_func_name" : "", 
     "user_athena_id" : "", 
