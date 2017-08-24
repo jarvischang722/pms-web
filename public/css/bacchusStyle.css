@@ -613,17 +613,6 @@ a {
   margin-left: 28px;
 }
 
-.dateBox-custom1 .textbox {
-  height: 25px;
-  line-height: 20px;
-  border-radius: 0;
-  border: 1px solid #D5D5D3;
-}
-.dateBox-custom1 .combo-arrow {
-  background-color: #dddddd;
-  width: 24px !important;
-}
-
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
@@ -652,14 +641,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"] {
-  border-radius: 5px !important;
 }
 
 .gritter-item-wrapper.gritter-info {
@@ -798,6 +779,15 @@ input[type="datetime-local"] {
 }
 .text-right .numeric {
   text-align: right !important;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
+  background-repeat: no-repeat !important;
+  cursor: pointer;
 }
 
 .lang {

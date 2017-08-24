@@ -51,7 +51,7 @@
                 {field: 'visitNum', title: '來訪次數', width: 60},
                 {field: 'visitDay', title: '來訪天數', width: 60},
                 {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
-                {field: 'getDM', title: '收取DM', width: 60},
+                {field: 'getDM', title: '收取DM', width: 60}
             ]]
 
         });
@@ -278,7 +278,6 @@
             });
         });
 
-
         // 彈出 預授權
         $(document).on('click', ".authorize-btn", function (e) {
             e.preventDefault();
@@ -391,6 +390,7 @@
                 resizable: true
             });
         });
+
         // 彈出 分類別 resv_BtnPage05
         $(document).on('click', ".resv_BtnPage05", function (e) {
             e.preventDefault();
@@ -472,6 +472,7 @@
                 resizable: true
             });
         });
+
         // 彈出 Memo resv_BtnPage09
         $(document).on('click', ".resv_BtnPage09", function (e) {
             e.preventDefault();
@@ -486,6 +487,7 @@
                 resizable: true
             });
         });
+
         // 彈出 訂房確認書log resv_BtnPage14
         $(document).on('click', ".resv_BtnPage14", function (e) {
             e.preventDefault();
@@ -500,6 +502,7 @@
                 resizable: true
             });
         });
+
         // 彈出 分帳規則 resv_BtnPage03
         $(document).on('click', ".resv_BtnPage03", function (e) {
             e.preventDefault();
@@ -1350,7 +1353,7 @@
 
         });
         // setRateCode rateCode-查詢結果 dataGrid
-        $('#clerkDataGridResult-table').datagrid({
+        $('#setRateCode-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
@@ -1398,7 +1401,7 @@
                 {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
             ]]
         });
-    });
+
 
     // profile messages (同PMS0210130 多筆) dataGrid
     $('#resvProfile_message-table').datagrid({
@@ -1520,6 +1523,34 @@
             {field: 'mode', title: '收費方式.', width: 70}
         ]]
     });
+
+    //changeRecords中的dropdown select
+    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+        var $target = $( event.currentTarget );
+
+        $target.closest( '.btn-group' )
+            .find( '[data-bind="label"]' ).text( $target.text() )
+            .end()
+            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+        return false;
+
+    });
+
+//common JS
+    // Resize Table Height
+    var menuHeight1 = $(".navbar-container").height();
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+    console.log('menuHeight1',menuHeight1);
+    console.log('gridTableHt',menuHeight2);
+    height = $(window).height()-menuHeight1-menuHeight2-10;
+    $(".gridTableHt .panel-body").css("height", height);
+    console.log('gridTableHt .panel-body',height);
+    $(window).resize(function() {
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
+    });
+});
     $(function() {
 
         // tabs setting
@@ -1661,20 +1692,6 @@
 
     });
 
-    //changeRecords中的dropdown select
-    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
-
-        var $target = $( event.currentTarget );
-
-        $target.closest( '.btn-group' )
-            .find( '[data-bind="label"]' ).text( $target.text() )
-            .end()
-            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
-
-        return false;
-
-    });
-
     //dropzone 圖片上傳套件選項
     var myDropzone = new Dropzone("#myDropzone",
         {
@@ -1683,5 +1700,4 @@
             addRemoveLinks: true,
             method: 'post'
         });
-
 </script>

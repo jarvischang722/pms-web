@@ -175,8 +175,9 @@
                 modal: true,
                 title: "業務員修改",
                 title_html: true,
-                width: 800,
+                width: 1000,
                 maxwidth: 1920,
+                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -254,8 +255,20 @@
         /***
          * dataGrid
          */
+        // PMS0610010 商務公司主頁(多筆)(checkbox)
+        $('#bs-companyMain_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/bs-companyMain_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
 
-        // PMS0610010 商務公司主頁 dataGrid
+        });
+        // PMS0610010 商務公司主頁(多筆) dataGrid
         $('#bs-companyMain-table').datagrid({
             singleSelect:true,
             collapsible:true,
@@ -276,11 +289,7 @@
                 {field:'accountCode',title:'帳戶所屬代號',width:100},
                 {field:'bill',title:'可簽帳',width:100},
                 {field:'credits',title:'信用額度',width:100},
-                {field:'nowBillingMoney',title:'目前簽帳金額',width:100},
-                {field:'addNewDate',title:'新增日',width:100},
-                {field:'addNewParson',title:'新增者',width:100},
-                {field:'lastChangeDate',title:'最後異動日',width:100},
-                {field:'lastChangePerson',title:'最後異動者',width:100}
+                {field:'nowBillingMoney',title:'目前簽帳金額',width:100}
             ]]
 
         });
@@ -398,9 +407,7 @@
                 {field:'visitWay',title:'拜訪方式',width:70},
                 {field:'visitDate',title:'預定拜訪日',width:100},
                 {field:'visitStatus',title:'拜訪狀態',width:70},
-                {field:'customReflect',title:'客戶反應',width:70},
                 {field:'subject',title:'主旨',width:100},
-                {field:'dataSendRecord',title:'資料寄發記錄',width:100},
                 {field:'contentSum',title:'內容(摘要)',width:170},
                 {field:'realVisitDate',title:'實際拜訪日',width:100},
                 {field:'traffic',title:'交通費',width:70,align:'right'},
@@ -489,7 +496,20 @@
         /***
          * PMS0620010 datagrid
          */
-        // PMS0620010 業務員資料維護-查詢結果 dataGrid
+
+        // PMS0620010 業務員資料維護(checkBox) (checkbox)
+        $('#clerkDataGridResult_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/clerkDataGridResult_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+        });
+        // PMS0620010 業務員資料維護(多筆) dataGrid
         $('#clerkDataGridResult-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -502,11 +522,7 @@
                 {field: 'clerkTeam', title: 'Team', width: 100},
                 {field: 'hotelBusiness', title: 'Hotel', width: 100},
                 {field: 'foodBusiness', title: 'F&B', width: 100},
-                {field: 'memberBusiness', title: 'Membership', width: 100},
-                {field: 'addDate', title: 'Add Date', width: 100},
-                {field: 'addBy', title: 'Add By', width: 100},
-                {field: 'updDate', title: 'Upd Date', width: 100},
-                {field: 'updBy', title: 'Upd By', width: 100}
+                {field: 'memberBusiness', title: 'Membership', width: 100}
             ]]
 
         });
@@ -610,8 +626,8 @@
                 {field:'VisitContract',title:'Contract',width:60},
                 {field:'visitMethod',title:'Method',width:60},
                 {field:'visitPlanned',title:'Planned',width:80},
-                {field:'visitVStatus',title:'Visit Status',width:80},
-                {field:'visitFeedback',title:'Feedback',width:70},
+//                {field:'visitVStatus',title:'Visit Status',width:80},
+//                {field:'visitFeedback',title:'Feedback',width:70},
                 {field:'visitPurpose',title:'Purpose',width:70},
                 {field:'visitDocuments',title:'Documents',width:80},
                 {field:'visitRemarks',title:'Remarks',width:70},
@@ -625,7 +641,19 @@
          * PMS0620050 datagrid
          */
 
-        // PMS0620050 拜訪紀錄查詢結果
+        // PPMS0620050 拜訪紀錄(多筆)(checkBox)
+        $('#sales_visitRecord_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_visitRecord_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+        });
+        // PMS0620050 拜訪紀錄(多筆)
         $('#sales_visitRecord-table').datagrid({
             singleSelect:true,
             collapsible:true,
@@ -633,7 +661,6 @@
             url:'/jsonData/sales_visitRecord.json',
             method:'get',
             columns:[[
-                {field:'choose',title:'Choose',width:60,align:'center'},
                 {field:'coID',title:'Co. Id',width:80},
                 {field:'coName',title:'Co. Name',width:180},
                 {field:'status',title:'Status',width:50},
@@ -684,6 +711,19 @@
 
         });
 
+    });
+
+    // Resize Table Height
+    var menuHeight1 = $(".navbar-container").height();
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+            console.log('menuHeight1',menuHeight1);
+            console.log('gridTableHt',menuHeight2);
+    height = $(window).height()-menuHeight1-menuHeight2-10;
+    $(".gridTableHt .panel-body").css("height", height);
+    console.log('gridTableHt .panel-body',height);
+    $(window).resize(function() {
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
     });
 </script>
 

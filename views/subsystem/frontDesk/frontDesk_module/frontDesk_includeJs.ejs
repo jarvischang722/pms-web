@@ -329,7 +329,7 @@
             zoomInOut('70px', '33px', 'none', 'inline-block');
         });
         $(document).on('click', ".zoomIn", function () {
-            zoomInOut('129px', '74px', 'inline-block', 'none');
+            zoomInOut('127px', '74px', 'inline-block', 'none');
         });
         /* 點選左上放大鏡選擇觀看內容多寡 End */
 
@@ -531,12 +531,33 @@
             ]]
         });
 
-        // CO清單 dataGrid
+        // CO清單 CheckOut dataGrid
         $('#front_coList-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
             url: '/jsonData/front_coList.json',
+            method: 'get',
+            columns: [[
+                {field: 'preCOTime', title: '預計C/O時間', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: '姓名', width: 150},
+                {field: 'custAccStatus', title: '客帳狀態', width: 80},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'ciTime', title: 'C/I時間', width: 60},
+                {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
+                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'coRemark', title: 'C/O備註', width: 250}
+            ]]
+        });
+
+        // CO清單 Inhouse dataGrid
+        $('#front_coListInhouse-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_coListInhouse.json',
             method: 'get',
             columns: [[
                 {field: 'preCOTime', title: '預計C/O時間', width: 80},
@@ -808,19 +829,35 @@
     });
     //排房切換
     $(function(){
-        $('.town-list-btn').hide();
-        $('.town-grap').hide();
-        $('.town-list-btn').click(function(){
+        $('.town-graphics-btn').hide();
+        $('.town-table').hide();
+        $('.roomAssign').on('click', ".town-list-btn", function (e) {
             $('.town-list-btn').hide();
             $('.town-graphics-btn').show();
             $('.town-grap').hide();
             $('.town-table').show();
+            $('#townList-table').datagrid('reload');
         });
-        $('.town-graphics-btn').click(function(){
+        $('.roomAssign').on('click', ".town-graphics-btn", function (e) {
             $('.town-graphics-btn').hide();
             $('.town-table').hide();
             $('.town-grap').show();
             $('.town-list-btn').show();
         });
+    });
+
+
+//common JS
+    // Resize Table Height
+    var menuHeight1 = $(".navbar-container").height();
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+    console.log('menuHeight1',menuHeight1);
+    console.log('gridTableHt',menuHeight2);
+    height = $(window).height()-menuHeight1-menuHeight2-10;
+    $(".gridTableHt .panel-body").css("height", height);
+    console.log('gridTableHt .panel-body',height);
+    $(window).resize(function() {
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
     });
 </script>

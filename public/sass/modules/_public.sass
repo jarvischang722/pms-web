@@ -314,15 +314,15 @@ $medium-c3-card: 212px
 .input-mLeft-1
   margin-left: 28px
 
-.dateBox-custom1
-  .textbox
-    height: $inputHeight-medium
-    line-height: $inputHeight-medium - 5px
-    border-radius: 0
-    border: 1px solid #D5D5D3
-  .combo-arrow
-    background-color: #dddddd
-    width: 24px !important
+//.dateBox-custom1
+//  .textbox
+//    height: $inputHeight-medium
+//    line-height: $inputHeight-medium - 5px
+//    border-radius: 0
+//    border: 1px solid #D5D5D3
+//  .combo-arrow
+//    background-color: #dddddd
+//    width: 24px !important
 .border-block-left
   border-left: 1px solid #dddddd
 .margin-spacing-3
@@ -353,12 +353,12 @@ input.numStyle-none
     margin: 0
 
 // input border-radius
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"]
-  border-radius: 5px !important
+//input[type="text"],
+//input[type="number"],
+//input[type="date"],
+//input[type="time"],
+//input[type="datetime-local"]
+//  border-radius: 5px !important
 
 //建立margin 迴圈
 //$width-number: 40
@@ -509,3 +509,14 @@ input[type="datetime-local"]
 //.scroll-bar-wrap:hover .cover-bar
 //  opacity: 0
 //  -webkit-transition: all .5s
+
+// select NO border-radius
+select
+  //appearance: none
+  -moz-appearance: none
+  -webkit-appearance: none
+  -ms-appearance: none
+  background: url("/images/toggle-collapse-dark.png") 98% 32% !important
+  //background: url("") 95% 32% !important
+  background-repeat: no-repeat !important
+  cursor: pointer

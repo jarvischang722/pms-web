@@ -17,9 +17,6 @@
   vertical-align: middle;
   text-align: right;
 }
-.grid-item select {
-  border-radius: 5px;
-}
 .grid-item .textArea-float {
   margin-left: 5px;
 }
@@ -2132,6 +2129,7 @@ a {
   float: left;
   list-style: none;
   padding: 4px;
+  cursor: pointer;
 }
 .search-content .search-co .search-co-content .search-footer-btn .footer-btn-menu-co ul li div.icon-reStyle {
   width: 28px;
@@ -2353,9 +2351,6 @@ a {
   width: 190px !important;
 }
 
-.businessModify-Left {
-  margin: 19px 0;
-}
 .businessModify-Left .businessModify-head {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -2399,10 +2394,6 @@ input[type="date"] {
 
 input[type="radio"], input[type="checkbox"] {
   margin: 0;
-}
-
-.BusinessModify-Right ul {
-  margin-top: 19px;
 }
 
 .Large-input .input-medium.medium-c1 {
@@ -2791,7 +2782,7 @@ ul.newVisitOther-btn {
   border: 1px solid #fff;
   position: relative;
   padding: 5px;
-  width: 129px;
+  width: 127px;
   height: 74px;
   line-height: 23px;
   box-sizing: border-box;
@@ -3512,6 +3503,14 @@ span.triangle-text {
   width: 120px;
 }
 
+.lf-btn-box ul li button {
+  margin-bottom: 5px;
+}
+
+.lf-more-topWrap {
+  margin-bottom: 5px;
+}
+
 .pbx-clean-box {
   padding-top: 7px;
 }
@@ -3553,14 +3552,6 @@ span.triangle-text {
 .pbxPhone-box .grid button {
   width: 100%;
   margin-bottom: 11px;
-}
-
-.lf-btn-box ul li button {
-  margin-bottom: 5px;
-}
-
-.lf-more-topWrap {
-  margin-bottom: 5px;
 }
 
 .historyLedger-wrap .historyLedger-details-btn {
@@ -4552,17 +4543,6 @@ a {
   margin-left: 28px;
 }
 
-.dateBox-custom1 .textbox {
-  height: 25px;
-  line-height: 20px;
-  border-radius: 0;
-  border: 1px solid #D5D5D3;
-}
-.dateBox-custom1 .combo-arrow {
-  background-color: #dddddd;
-  width: 24px !important;
-}
-
 .border-block-left {
   border-left: 1px solid #dddddd;
 }
@@ -4591,14 +4571,6 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   -moz-appearance: none;
   -webkit-appearance: none;
   margin: 0;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"] {
-  border-radius: 5px !important;
 }
 
 .gritter-item-wrapper.gritter-info {
@@ -4737,6 +4709,15 @@ input[type="datetime-local"] {
 }
 .text-right .numeric {
   text-align: right !important;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
+  background-repeat: no-repeat !important;
+  cursor: pointer;
 }
 
 /*-------------- responsive -------------- */
