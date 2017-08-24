@@ -123,6 +123,12 @@
       "ins_usr": "輸入者",
       "upd_dat": "最後異動日",
       "upd_usr": "最後異動者"
+    },
+    "PMS0830080": {
+      "route_cod": "規則代號",
+      "route_nam": "規則名稱",
+      "is_master": "丟公帳",
+      "to_master": "移至公帳"
     }
   },
   "table_in_use": "%s 使用中",
@@ -146,7 +152,7 @@
     "Logout": "登出",
     "Loading": "讀取中",
     "ProgramID": "程式編號",
-    "ChangeLog" : "異動紀錄"
+    "ChangeLog": "異動紀錄"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
