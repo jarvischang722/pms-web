@@ -30,4 +30,7 @@ module.exports = function (app) {
 
     //住客查詢
     app.get('/PMS0210050', frontDeskCrtl.getPMS0210050);
+
+    //晨呼
+    app.get('/PMS0210120', frontDeskCrtl.getPMS0210120);
 };
