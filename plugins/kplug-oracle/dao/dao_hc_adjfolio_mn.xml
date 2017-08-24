@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0830070'] 多筆虛擬帳單項目 -->
+    <dao name="QRY_HC_ADJFOLIO_MN">
+        <statement><![CDATA[
+              select athena_id, hotel_cod, adjfolio_cod, adjfolio_rmk, ins_dat, ins_usr, upd_dat, upd_usr
+              from hc_adjfolio_mn
+              where athena_id = ? and trim(hotel_cod) = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0830070'] 單筆虛擬帳單項目 -->
+    <dao name="QRY_SINGLE_HC_ADJFOLIO_MN">
+        <statement><![CDATA[
+              select athena_id, hotel_cod, adjfolio_cod, adjfolio_rmk, ins_dat, ins_usr, upd_dat, upd_usr
+              from hc_adjfolio_mn
+              where athena_id = ? and trim(hotel_cod) = ? and trim(adjfolio_cod) = ?
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">adjfolio_cod</parameter>
+    </dao>
+</root>

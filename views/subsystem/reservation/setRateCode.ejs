@@ -131,8 +131,14 @@
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <!-- rateCode-查詢結果 dataGrid -->
-                    <table id="clerkDataGridResult-table"></table>
+                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                        <table id="resv_RateCode_Chk-table"></table>
+                    </div>
+
+                    <div class="gridTableHt">
+                        <!-- rateCode-查詢結果 dataGrid -->
+                        <table id="setRateCode-table"></table>
+                    </div>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
@@ -2049,7 +2055,6 @@
         </div>
     </div>
     <!-- /.rateCode_extraAdult 彈出視窗 -->
-</div>
 
 <!--  訂房卡共用 initial js -->
 <%- include PMS0100000_module/resv_includeJs %>

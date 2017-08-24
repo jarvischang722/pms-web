@@ -29,6 +29,10 @@ function initCalendar() {
         clickDay: clickDay,
         yearChanged: function (e) {
             gs_calendar_year = e.currentYear;
+
+            $("input[name='start']").val(gs_calendar_year + "/01/01");
+            $("input[name='end']").val(gs_calendar_year + "/12/31");
+
             getHolidayDateSet();
         }
     });
@@ -108,6 +112,8 @@ function getHolidayDateSet() {
             go_holidayDate = getResult.dateSetData;
             initDataSource();
             setCalendarDataSource();
+            changeYearSetColor();
+
             waitingDialog.hide();
         })
         .fail(function (err) {
@@ -169,6 +175,16 @@ function setCalendarDataSource() {
     $(".calendar-list").data("calendarYear").setDataSource(ga_dataSource);
 }
 
+function changeYearSetColor(){
+    _.each(ga_tmpCUD, function(obj, key){
+        if(key == "createData" || key == "updateData"){
+            _.each(obj, function(value){
+                chkDataSourceAndEdit(value.batch_dat);
+            });
+        }
+    });
+}
+
 // 產生日期別下拉選單
 function createDateKindSelectOption() {
     $("#color_scheme").html("");
@@ -203,11 +219,12 @@ function bindSelectChangeEvent() {
 // 綁定日期(星期幾)事件 並更新
 function bindDayClickEvent() {
     $(".choiceDay").click(function () {
-        var ls_date = $(this).text().trim();
+        var ls_date = $(this).attr("id");
         var ls_start_date;
         var ls_end_date;
         var ls_rtnDate = [];
         var day_counter = 0;
+
         if (ls_date == "All") {
             ls_start_date = $("input[name='start']").val();
             ls_end_date = $("input[name='end']").val();
@@ -229,8 +246,6 @@ function bindDayClickEvent() {
                 waitingDialog.hide();
                 insertTmpCUD(ls_rtnDate);
             }, 1000);
-
-
         }
         else {
             ls_start_date = $("input[name='start']").val();
@@ -246,26 +261,20 @@ function bindDayClickEvent() {
 
 // 檢查dataSource
 function chkDataSourceAndEdit(ls_date) {
+    var yearStr = moment(ls_date).format("YYYY");
 
-    var monStr = moment(ls_date).format("MMMM");
-    var dayStr = moment(ls_date).format("D");
-    var ls_select_color = $("#color_scheme option:selected").val();
-    var selCSS = ls_select_color + " 0px -4px 0px 0px inset";
-    var monthTable = $("table.month th:contains('" + monStr + "')").closest("table");
-    var selDayTd = $("div.day-content", monthTable).filter(function () {
-        return $(this).text() === dayStr;
-    }).closest("td");
+    if(yearStr == gs_calendar_year) {
+        var monStr = moment(ls_date).format("MMMM");
+        var dayStr = moment(ls_date).format("D");
+        var ls_select_color = $("#color_scheme option:selected").val();
+        var selCSS = ls_select_color + " 0px -4px 0px 0px inset";
+        var monthTable = $("table.month th:contains('" + monStr + "')").closest("table");
+        var selDayTd = $("div.day-content", monthTable).filter(function () {
+            return $(this).text() === dayStr;
+        }).closest("td");
 
-    var rgb = splitRgb(selDayTd.css('box-shadow').replace(/^.*(rgb?\([^)]+\)).*$/, '$1'));
-    var ls_clickDate_color = "#" + colorTool.rgbToHex(parseInt(rgb[1]), parseInt(rgb[2]), parseInt(rgb[3])).toUpperCase();
-
-    // 設定顏色不一樣，直接更新
-    if (ls_select_color != ls_clickDate_color) {
+        //設定顏色
         selDayTd.css('box-shadow', selCSS);
-    }
-    // 設定顏色相同，等於取消
-    else {
-        selDayTd.css('box-shadow', "");
     }
 }
 
@@ -278,6 +287,8 @@ function bindBTN_SaveEvent() {
 
 // 儲存進oracle holiday_rf
 function saveIntoOracleHolidayRf() {
+
+    insertDefalutValueTmpCUD();
 
     var fieldData = [
         {ui_field_name: 'batch_dat', keyable: 'Y'},
@@ -292,7 +303,6 @@ function saveIntoOracleHolidayRf() {
         mainTableName: "holiday_rf"
     };
 
-
     waitingDialog.show('Saving...');
     $.post("/api/execSQLProcess", params)
         .done(function (response) {
@@ -300,8 +310,9 @@ function saveIntoOracleHolidayRf() {
             if (response.success) {
                 alert('save success!');
                 initTmpCUD();
+                getHolidayDateSet();
             } else {
-                alert(response.data.errorMsg);
+                alert(response.errorMsg);
             }
         })
         .fail(function (error) {
@@ -352,4 +363,46 @@ function getDaysBetweenDates(ls_start, ls_end, dayName) {
     }
     return result;
 
+}
+
+// 第一次新增一整年的資料到holiday_rf
+function insertDefalutValueTmpCUD() {
+
+    if(go_holidayDate.length >= 365) return;
+
+    var lo_start_date = moment([gs_calendar_year, 0, 1]);
+    var lo_end_date = moment([gs_calendar_year, 11, 31]);
+    var lo_days = lo_end_date.diff(lo_start_date, 'days');
+    lo_days = lo_days + 1;
+
+    for(var i = 0; i < lo_days; i++){
+
+        var lo_day = moment(gs_calendar_year +"/01/01").add(i, 'day').format("YYYY/MM/DD");
+
+        var dateIsExist = false;
+
+        for(var j = 0; j < ga_tmpCUD["createData"].length; j++){
+            if(lo_day == ga_tmpCUD["createData"][j].batch_dat){
+                dateIsExist = true;
+                break;
+            }
+        }
+
+        if(!dateIsExist){
+            for(var j = 0; j < go_holidayDate.length; j++){
+                if(lo_day == moment(go_holidayDate[j].batch_dat).format("YYYY/MM/DD")){
+                    dateIsExist = true;
+                    break;
+                }
+            }
+        }
+
+        if(!dateIsExist) {
+            var la_dateDT ={
+                "day_sta": "N",
+                "batch_dat": lo_day
+            };
+            ga_tmpCUD["createData"].push(la_dateDT);
+        }
+    }
 }

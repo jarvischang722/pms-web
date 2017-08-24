@@ -423,6 +423,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
     _.each(la_dtCreateData, function (dtCreateData) {
         let tmpCreateData = {"function": "1", "table_name": "route_dt"};
         tmpCreateData = _.extend(tmpCreateData, dtCreateData);
+        tmpCreateData["route_cod"] = lo_mnData.route_cod;
         lo_savaExecDatas[ln_exec_seq] = _.extend(tmpCreateData, ruleAgent.getCreateCommonDefaultDataRule(session));
         ln_exec_seq++;
     });
@@ -441,6 +442,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
                 value: dtUpdData.small_typ
             });
         tmpDtUpdData = _.extend(tmpDtUpdData, dtUpdData);
+        tmpDtUpdData["route_cod"] = lo_mnData.route_cod;
         lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
         ln_exec_seq++;
     });

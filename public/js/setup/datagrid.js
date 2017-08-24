@@ -494,7 +494,7 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
-            })
+            });
         }
     }
 });
