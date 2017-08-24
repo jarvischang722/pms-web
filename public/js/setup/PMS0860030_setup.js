@@ -114,17 +114,29 @@ var vm = new Vue({
             });
         },
 
-        tmpCudHandler: function (currNode, type, isSort) {
+        tmpCudHandler: function (currNode, type) {
             var self = this;
+            var lo_parentNode = this.tree.get_node(this.tree.get_parent(currNode));
 
-            var lo_sel_node = this.getSelectedNode();
-            // lo_sel_node = this.tree.get_node(lo_sel_node);
 
-            if (isSort) {
-                var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
-                if(la_parentNode.children.length != 0){
+            // 取排序
+            if (lo_parentNode.children.length != 0) {
+                _.each(lo_parentNode.children, function (childNode, Idx) {
+                    var lo_childNode = self.tree.get_node(childNode);
+                    lo_childNode.position = Idx;
+                });
+            }
 
-                }
+            // 去除暫存重複
+            _.each(lo_parentNode.children, function (childNode) {
+                _.each(self.tmpCud, function (obj, key) {
+                    self.tmpCud[key] = _.without(obj, {area_cod: childNode});
+                });
+            });
+
+            if (type == "createData") {
+                lo_parentNode.children = _.without(lo_parentNode.children, currNode.id);
+                self.tmpCud[type].push(new rowData(currNode));
             }
 
 
@@ -293,6 +305,13 @@ function searchNode(lo_node, area_cod) {
     return lo_parentNode;
 }
 
+function rowData(node) {
+    this.area_cod = node.id;
+    this.area_nam = node.text;
+    this.sort_cod = node.position;
+    this.parent_cod = node.parent;
+}
+
 function Node(rowData) {
     this.id = rowData.area_cod;
     this.text = rowData.area_nam;
@@ -364,50 +383,40 @@ function padLeft(str, lenght) {
     }
 }
 
+// jstree rename event
 $("#areaTree").on("rename_node.jstree", function (e, data) {
     var lo_node = data.node;
     var lo_dgRow;
+
+    vm.tree.deselect_all();
+    vm.tree.select_node(lo_node);
+
     if (gs_action == "rename") {
         lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
         if (_.isUndefined(lo_dgRow)) {
-            var lo_tmpCreateData = _.findWhere(vm.tmpCud["createData"], {area_cod: lo_node.id});
-            lo_tmpCreateData.area_nam = lo_node.text;
-            vm.tmpCudHandler(lo_tmpCreateData, "createData", true);
+            vm.tmpCudHandler(lo_node, "createData");
         }
         else {
-            lo_dgRow.area_nam = lo_node.text;
-            vm.tmpCudHandler(lo_dgRow, "updateData", false);
+            vm.tmpCudHandler(lo_node, "updateData");
         }
-
-
         gs_action = null;
     }
     else if (gs_action == "create") {
-        lo_dgRow = vm.dataGridRows[0];
         var ls_newAreaCod = genNewAreaCod();
-
         vm.tree.set_id(lo_node, ls_newAreaCod);
-        lo_dgRow.area_cod = ls_newAreaCod;
-        lo_dgRow.area_nam = lo_node.text;
-        lo_dgRow.parent_cod = lo_node.parent;
-        vm.tmpCudHandler(lo_dgRow, "createData", true);
+
+        vm.tmpCudHandler(lo_node, "createData");
         gs_action = null;
     }
 });
 
-// tree move時事件
+// tree move event
 $("#areaTree").on("move_node.jstree", function (e, data) {
-    $('#areaTree').jstree("deselect_all");
-    $('#areaTree').jstree('select_node', data.node);
     var lo_node = data.node;
-    var ls_parent = data.parent;
-    var li_sort = data.position;
+    vm.tree.deselect_all();
+    vm.tree.select_node(lo_node);
 
-    var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
-    lo_dgRow.parent_cod = ls_parent;
-    lo_dgRow.sort_cod = li_sort;
-
-    vm.tmpCudHandler(lo_dgRow, "updateData", true);
+    vm.tmpCudHandler(lo_node, "updateData");
 });
 
 
