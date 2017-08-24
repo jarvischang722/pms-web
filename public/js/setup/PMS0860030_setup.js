@@ -45,8 +45,14 @@ var vm = new Vue({
                 waitingDialog.hide();
                 vm.dataGridRows = _.map(result.dataGridRows, _.clone);
                 vm.fieldData = result.fieldData;
-                self.maxAreaCod = _.sortBy(result.dataGridRows, "area_cod");
-                self.maxAreaCod = self.maxAreaCod[self.maxAreaCod.length - 1].area_cod;
+                if (vm.dataGridRows.length != 0) {
+                    self.maxAreaCod = _.sortBy(result.dataGridRows, "area_cod");
+                    self.maxAreaCod = self.maxAreaCod[self.maxAreaCod.length - 1].area_cod;
+                }
+                else {
+                    self.maxAreaCod = "0000";
+                }
+
                 vm.initAreaTree();
             });
         },
@@ -61,8 +67,20 @@ var vm = new Vue({
         // 將資料轉換成jstree格式
         convertDataGridRows2TreeData: function () {
             var self = this;
-            var lo_rootDataRow = _.findWhere(vm.dataGridRows, {parent_cod: "ROOT"});
-            this.treeData = new Tree(lo_rootDataRow);
+            var lo_rootDataRow = {};
+
+            if (vm.dataGridRows.length != 0) {
+                lo_rootDataRow = _.findWhere(vm.dataGridRows, {parent_cod: "ROOT"});
+                this.treeData = new Tree(lo_rootDataRow);
+            }
+            else {
+                lo_rootDataRow.area_cod = "0000";
+                lo_rootDataRow.sort_cod = 0;
+                lo_rootDataRow.area_nam = "ROOT";
+                lo_rootDataRow.parent_cod = "ROOT";
+                this.treeData = new Tree(lo_rootDataRow);
+            }
+
 
             searchChildAndInsert(this.treeData.root);
         },
@@ -96,52 +114,63 @@ var vm = new Vue({
             });
         },
 
-        tmpCudHandler: function (dgRowData, type, isSort) {
+        tmpCudHandler: function (currNode, type, isSort) {
             var self = this;
+
             var lo_sel_node = this.getSelectedNode();
-            lo_sel_node = this.tree.get_node(lo_sel_node);
+            // lo_sel_node = this.tree.get_node(lo_sel_node);
 
             if (isSort) {
                 var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
-                if (type == "deleteData" || type == "createData") {
-                    if (type == "createData") {
-                        dgRowData.sort_cod = la_parentNode.children.length;
-                    }
-                    la_parentNode.children = _.without(la_parentNode.children, dgRowData.area_cod);
-                }
-                if (la_parentNode.children.length != 0) {
-                    _.each(la_parentNode.children, function (lo_childNode, Idx) {
-                        var lo_dgRowData = _.findWhere(self.dataGridRows, {area_cod: lo_childNode});
-                        lo_dgRowData.sort_cod = Idx;
+                if(la_parentNode.children.length != 0){
 
-                        // 清除已在暫存資料
-                        _.each(self.tmpCud, function (obj, key) {
-                            self.tmpCud[key] = _.without(obj, lo_dgRowData);
-                        });
-
-                        if (type == "deleteData") {
-                            self.tmpCud[type].push(dgRowData);
-                            type = "updateData";
-                        }
-                        else if (type == "createData") {
-                            self.tmpCud[type].push(dgRowData);
-                            type = "updateData";
-                        }
-                        self.tmpCud[type].push(lo_dgRowData);
-
-                    });
-                }
-                else {
-                    self.tmpCud[type].push(dgRowData);
                 }
             }
-            else {
-                // 清除已在暫存資料
-                _.each(this.tmpCud, function (obj, key) {
-                    self.tmpCud[key] = _.without(obj, dgRowData);
-                });
-                this.tmpCud[type].push(dgRowData);
-            }
+
+
+            return true;
+
+            // if (isSort) {
+            //     var la_parentNode = this.tree.get_node(this.tree.get_parent(lo_sel_node));
+            //     if (type == "deleteData" || type == "createData") {
+            //         if (type == "createData") {
+            //             dgRowData.sort_cod = la_parentNode.children.length;
+            //         }
+            //         la_parentNode.children = _.without(la_parentNode.children, dgRowData.area_cod);
+            //     }
+            //     if (la_parentNode.children.length != 0) {
+            //         _.each(la_parentNode.children, function (lo_childNode, Idx) {
+            //             var lo_dgRowData = _.findWhere(self.dataGridRows, {area_cod: lo_childNode});
+            //             lo_dgRowData.sort_cod = Idx;
+            //
+            //             // 清除已在暫存資料
+            //             _.each(self.tmpCud, function (obj, key) {
+            //                 self.tmpCud[key] = _.without(obj, lo_dgRowData);
+            //             });
+            //
+            //             if (type == "deleteData") {
+            //                 self.tmpCud[type].push(dgRowData);
+            //                 type = "updateData";
+            //             }
+            //             else if (type == "createData") {
+            //                 self.tmpCud[type].push(dgRowData);
+            //                 type = "updateData";
+            //             }
+            //             self.tmpCud[type].push(lo_dgRowData);
+            //
+            //         });
+            //     }
+            //     else {
+            //         self.tmpCud[type].push(dgRowData);
+            //     }
+            // }
+            // else {
+            //     // 清除已在暫存資料
+            //     _.each(this.tmpCud, function (obj, key) {
+            //         self.tmpCud[key] = _.without(obj, dgRowData);
+            //     });
+            //     this.tmpCud[type].push(dgRowData);
+            // }
         },
 
         doSave: function () {
@@ -340,16 +369,24 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
     var lo_dgRow;
     if (gs_action == "rename") {
         lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
-        lo_dgRow.area_nam = lo_node.text;
+        if (_.isUndefined(lo_dgRow)) {
+            var lo_tmpCreateData = _.findWhere(vm.tmpCud["createData"], {area_cod: lo_node.id});
+            lo_tmpCreateData.area_nam = lo_node.text;
+            vm.tmpCudHandler(lo_tmpCreateData, "createData", true);
+        }
+        else {
+            lo_dgRow.area_nam = lo_node.text;
+            vm.tmpCudHandler(lo_dgRow, "updateData", false);
+        }
 
-        vm.tmpCudHandler(lo_dgRow, "updateData", false);
+
         gs_action = null;
     }
     else if (gs_action == "create") {
         lo_dgRow = vm.dataGridRows[0];
         var ls_newAreaCod = genNewAreaCod();
 
-        console.log(data);
+        vm.tree.set_id(lo_node, ls_newAreaCod);
         lo_dgRow.area_cod = ls_newAreaCod;
         lo_dgRow.area_nam = lo_node.text;
         lo_dgRow.parent_cod = lo_node.parent;
