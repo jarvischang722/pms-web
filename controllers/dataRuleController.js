@@ -57,10 +57,3 @@ exports.deleteFuncRule = function (req, res) {
     });
 };
 
-//TODO: 小良Rule完成後可刪
-exports.getKeyNos = function(req, res){
-    ruleSVC.getKeyNos(req.body, req.session, function(err, result){
-        res.json(commonTools.mergeRtnErrResultJson(err, result));
-    });
-};
-

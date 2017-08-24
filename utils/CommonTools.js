@@ -154,7 +154,7 @@ function convUtcToDate(lo_data, fieldAttrs) {
             if (fieldName == 'ins_dat' || fieldName == 'upd_dat') {
                 lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
             }
-            else if (patternDat.test(fieldName)){
+            else if (patternDat.test(fieldName)) {
                 lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
             }
         }
@@ -168,16 +168,37 @@ function convUtcToDate(lo_data, fieldAttrs) {
  * @param notTrimObject
  * @return Object
  */
-exports.trimObjectAllVal = function(notTrimObject){
-    _.each(notTrimObject,function(data,idx){
-        _.each(data,function(d,key){
-            if(typeof d === 'string'){
-                notTrimObject[idx][key] =  d.trim();
-            }else{
-                notTrimObject[idx][key] =  d;
+exports.trimObjectAllVal = function (notTrimObject) {
+    _.each(notTrimObject, function (data, idx) {
+        _.each(data, function (d, key) {
+            if (typeof d === 'string') {
+                notTrimObject[idx][key] = d.trim();
+            } else {
+                notTrimObject[idx][key] = d;
             }
         });
 
     })
     return notTrimObject;
+};
+
+/**
+ * 組合key值
+ * @param obj {Object} : 資料
+ * @param keys {Array} : key name
+ * @param isNeedAthenaID {Boolean} : 是否需要回傳Athena_id & hotel_cod
+ * @return {Object}
+ */
+exports.combineKeys = function (obj, keys, isNeedAthenaID) {
+    let lo_key = {};
+    _.each(keys, function (key) {
+        if (!_.isUndefined(obj[key])) {
+            lo_key[key] = obj[key];
+        }
+    });
+    if (!_.isUndefined(isNeedAthenaID) && !isNeedAthenaID) {
+        delete  lo_key["athena_id"];
+        delete  lo_key["hotel_cod"];
+    }
+    return lo_key;
 };

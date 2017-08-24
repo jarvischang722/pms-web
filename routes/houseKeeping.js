@@ -19,4 +19,7 @@ module.exports = function(app  ) {
 
     //房務管理
     app.get('/PMS0410010', houseKeepingCrtl.getPMS0410010);
+
+    //打掃安排
+    app.get('/PMS0410060', houseKeepingCrtl.getPMS0410060);
 };

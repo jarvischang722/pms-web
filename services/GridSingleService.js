@@ -439,6 +439,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         getTableName,       //(1)撈取要異動的table name
         getDtTableName,     //(2)取得DT要異動的table name
         getPrgField,        //(3)取得此程式的欄位
+        filterDuplicateData,//()去除重複暫存資料
         chkDtDeleteRule,    //(4)DT 刪除資料規則檢查
         combineDtDeleteExecData,//(5)組合DT 刪除檢查
         chkRuleBeforeSave,  //(6)資料儲存前檢查
@@ -562,6 +563,26 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     }
 
+    // 去除重複的暫存
+    function filterDuplicateData(fields, callback) {
+        _.each(createData, function (data, idx) {
+            let keys = tools.combineKeys(data, _.pluck(la_keyFields, 'ui_field_name'), false);
+            let targetIdx = _.findIndex(createData, keys);
+            if (targetIdx > -1 && idx > targetIdx) {
+                delete createData[targetIdx];
+            }
+        });
+        _.each(dt_createData, function (data, idx) {
+            let keys = tools.combineKeys(data, _.pluck(la_dtkeyFields, 'ui_field_name'), false);
+            let targetIdx = _.findIndex(dt_createData, keys);
+            if (targetIdx > -1 && idx > targetIdx) {
+                delete dt_createData[targetIdx];
+            }
+        });
+        createData = _.compact(createData);
+        dt_createData = _.compact(dt_createData);
+        callback(null, "done");
+    }
 
     //DT 刪除資料規則檢查
     function chkDtDeleteRule(fields, callback) {

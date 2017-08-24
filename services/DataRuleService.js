@@ -209,15 +209,6 @@ exports.handleAddFuncRule = function (postData, session, callback) {
 
 };
 
-//TODO: 小良Rule完成後可刪
-exports.getKeyNos = function (postData, session, callback) {
-    queryAgent.query("QRY_MAX_KEY_NOS", "", function (err, getResult) {
-        let lo_result = new ReturnClass();
-        lo_result.defaultValues = {key_nos: getResult.max_key_nos};
-        callback(null, lo_result);
-    });
-}
-
 /**
  * 按下編輯按鈕
  * @param postData

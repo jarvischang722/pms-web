@@ -24,7 +24,5 @@ module.exports = function (app) {
     //刪除功能規則
     app.post('/api/deleteFuncRule', middles, ruleCrtl.deleteFuncRule);
 
-    //TODO: 小良Rule完成後可刪
-    app.post('/api/getKeyNos', middles, ruleCrtl.getKeyNos);
 };
 

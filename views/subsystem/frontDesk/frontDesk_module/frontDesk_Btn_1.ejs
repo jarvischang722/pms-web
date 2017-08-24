@@ -1,3 +1,134 @@
+
+<!-- 接待單筆 彈出視窗 -->
+<div id="fdCheckIn-page" class="hide padding-5 lost-found-wrap">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+
+                    <div class="main-content-data borderFrame">
+
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>訂房公司</label>
+                                <input class="input-medium popWindow-s2" placeholder="" type="text">
+                            </div>
+                            <div class="grid-item">
+                                <label>訂房卡號</label>
+                                <input class="input-medium popWindow-s2" type="text" placeholder="" >
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>公司名稱</label>
+                                <input class="input-medium popWindow-s2" type="text" placeholder="" >
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>公帳號</label>
+                                    <select class="input-medium popWindow-s2">
+                                        <option value="">Y:有 G01</option>
+                                        <option value="">N:無</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>團號</label>
+                                <input class="input-medium popWindow-s2" placeholder="" type="text">
+                            </div>
+                            <div class="grid-item">
+                                <label>訂金編號</label>
+                                <input class="input-medium popWindow-s2" type="text" placeholder="" >
+                                <span class="moreClick bs-company-totalMain">...</span>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label class="pull-left">訂房備註</label>
+                                <textarea class="input-medium pull-left medium-c1-col2v2Remark marginLeft-5" placeholder="" style="height: 50px;"></textarea>
+                                <span class="moreClick pull-left marginLeft-5">...</span>
+                            </div>
+                        </div>
+                    </div><!--main-content-data-->
+
+                    <div class="space-4"></div>
+                    <div class="main-content-data">
+                        <div style="float:left; min-width: 30px; max-width: 3%;">
+                            <table id="fd-checkIn_Chk-table"></table>
+                        </div>
+                        <table id="fd-checkIn-table" style="height: 200px;"></table>
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Select All
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Unselect All
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Check In
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Check In P.M.
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Reservations
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Pax List
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Room Assign
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">Room Release
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">E Signature
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /接待單筆 彈出視窗 -->
+
     <!-- PM 彈出視窗 -->
     <div id="publiceAccountSetting-Dialog" class="hide padding-5 lost-found-wrap">
         <div class="businessCompanyData">
@@ -1995,7 +2126,7 @@
                         <div class="search-co">
                             <div class="search-co-h">
                                 <i class="ace-icon fa fa-search search-icon"></i>
-                                <span>搜尋</span>
+                                <span>Search</span>
                                 <div class="row search-right-btn">
                                     <div class="right-btn-menu-co">
                                         <ul>
@@ -2786,7 +2917,7 @@
                                                 role="button">Rate Chg.</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_prePayment"
                                                 role="button">Advance Folio</button>
                                     </li>
                                     <li>
@@ -3316,7 +3447,7 @@
                                                 role="button">Rate Chg.</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_prePayment"
                                                 role="button">Advance Folio</button>
                                     </li>
                                     <li>

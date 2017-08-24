@@ -140,6 +140,21 @@
                 resizable: true
             });
         });
+
+        // PMS0610010 彈出 Status chg.
+        $(document).on('click', ".bs-company-statusChg", function (e) {
+            e.preventDefault();
+            var dialog = $("#bs-company-statusChg-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Status chg.",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 //        $('.easyUi-custom1').css("height","100px");
 
         // tabs setting
@@ -183,6 +198,21 @@
             });
         });
 
+        // PMS0620010 業務員指派
+        $(document).on('click', ".sales_assign", function (e) {
+            e.preventDefault();
+            var dialog = $("#sales_assign-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Sales Assign",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         /***
          * PMS0620040
          */
@@ -233,11 +263,11 @@
             url:'/jsonData/bsCompany_companyMain.json',
             method:'get',
             columns:[[
-                {field:'companyNum',title:'公司編號',width:100},
-                {field:'companyName',title:'公司名稱',width:100},
-                {field:'status',title:'狀態',width:100},
-                {field:'sort',title:'種類',width:100},
-                {field:'dealStatus',title:'合約狀態',width:100},
+                {field:'companyNum',title:'公司編號',width:80},
+                {field:'companyName',title:'公司名稱',width:250},
+                {field:'status',title:'狀態',width:80},
+                {field:'sort',title:'種類',width:80},
+                {field:'dealStatus',title:'合約狀態',width:80},
                 {field:'uniformNum',title:'統一編號',width:100},
                 {field:'connection',title:'聯絡人',width:100},
                 {field:'sales',title:'業務員',width:100},
@@ -500,6 +530,34 @@
 
         });
 
+        // PMS0620010 業務員指派 dataGrid
+        $('#sales_assign-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_assign.json',
+            method: 'get',
+            columns: [[
+                {field: 'accNo', title: 'Acc.No.', width: 80},
+                {field: 'accName', title: 'Acc.Name', width: 100},
+                {field: 'status', title: 'Status', width: 60},
+                {field: 'accType', title: 'Acc. Type', width: 80},
+                {field: 'area', title: 'Area', width: 80},
+                {field: 'industry', title: 'Industry', width: 80},
+                {field: 'sales', title: 'Sales', width: 100}
+            ]]
+        });
+        // PMS0620010 業務員指派(前面的checkbox) dataGrid
+        $('#sales_assignChk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_assignChk.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+        });
         /***
          * PMS0620040 datagrid
          */
@@ -512,15 +570,28 @@
             url: '/jsonData/bsCompany_newVisit.json',
             method: 'get',
             columns: [[
-                {field: 'clerkNum', title: 'Choose', width: 60},
                 {field: 'clerkName', title: 'Co. Id', width: 80},
-                {field: 'ifStaff', title: 'Co. Name', width: 180},
+                {field: 'ifStaff', title: 'Co. Name', width: 250},
                 {field: 'status', title: 'Status', width: 50},
                 {field: 'subject', title: 'Contract', width: 70},
                 {field: 'disabledYear', title: 'Co. Type', width: 60},
                 {field: 'clerkTeam', title: 'Category', width: 70},
                 {field: 'hotelBusiness', title: 'Region', width: 70},
                 {field: 'memberBusiness', title: 'Industry', width: 60}
+            ]]
+
+        });
+
+        // PMS0620040 新增拜訪查詢(checkbox)
+        $('#newVisitResult_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/bsCompany_newVisitResult_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
             ]]
 
         });
