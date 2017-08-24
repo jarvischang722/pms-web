@@ -396,6 +396,19 @@
 
         });
 
+        // PMS0610010 其他備註 (checkbox)
+        $('#sales_visitRecordSingle_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_visitRecordSingle_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+
+        });
         // PMS0610010 拜訪紀錄 dataGrid
         $('#visitRecord-table').datagrid({
             singleSelect:true,
@@ -410,14 +423,22 @@
                 {field:'subject',title:'主旨',width:100},
                 {field:'contentSum',title:'內容(摘要)',width:170},
                 {field:'realVisitDate',title:'實際拜訪日',width:100},
-                {field:'traffic',title:'交通費',width:70,align:'right'},
-                {field:'addNewDate',title:'新增日',width:100},
-                {field:'addNewParson',title:'新增者',width:100},
-                {field:'lastChangeDate',title:'最後異動日',width:100},
-                {field:'lastChangePerson',title:'最後異動者',width:100}
+                {field:'traffic',title:'交通費',width:70,align:'right'}
             ]]
         });
+        // PMS0610010 其他備註 (checkbox)
+        $('#sales_otherRemarks_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/sales_otherRemarks_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
 
+        });
         // PMS0610010 其他備註 dataGrid
         $('#otherRemarks-table').datagrid({
             singleSelect:true,
@@ -427,11 +448,7 @@
             method:'get',
             columns:[[
                 {field:'category',title:'備註類別',width:80},
-                {field:'content',title:'備註內容',width:500},
-                {field:'addNewDate',title:'新增日',width:100},
-                {field:'addNewParson',title:'新增者',width:100},
-                {field:'lastChangeDate',title:'最後異動日',width:100},
-                {field:'lastChangePerson',title:'最後異動者',width:100}
+                {field:'content',title:'備註內容',width:500}
             ]]
 
         });
@@ -519,6 +536,7 @@
             columns: [[
                 {field: 'clerkNum', title: 'Sales Id', width: 100},
                 {field: 'clerkName', title: 'Name', width: 100},
+                {field: 'clerkStatus', title: 'Status', width: 100},
                 {field: 'clerkTeam', title: 'Team', width: 100},
                 {field: 'hotelBusiness', title: 'Hotel', width: 100},
                 {field: 'foodBusiness', title: 'F&B', width: 100},
@@ -673,11 +691,7 @@
                 {field:'documents',title:'Documents',width:70},
                 {field:'visitRemarks',title:'Remarks',width:70},
                 {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60,align:'right'},
-                {field:'addedDate',title:'Added Date',width:60},
-                {field:'addedBy',title:'Added By',width:60},
-                {field:'updatedDate',title:'Updated Date',width:60},
-                {field:'updatedBy',title:'Updated By',width:60},
+                {field:'visitExpense',title:'Expense',width:60,align:'right'}
             ]]
 
         });

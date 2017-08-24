@@ -9,29 +9,10 @@
                         <div class="search-co-h">
                             <i class="ace-icon fa fa-search search-icon"></i>
                             <span>Search</span>
-                            <div class="row search-right-btn">
-                                <div class="right-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <i class="fa fa-chevron-down show-search-detail"></i>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="search-co-content col-xs-12">
-                                <div class="col-sm-4">
 
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                            </div>
-                            <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                            <div class="search-co-content col-xs-12 rece-search-detail">
                                 <div class="row search-footer-btn">
                                     <div class="footer-btn-menu-co">
                                         <ul>
@@ -70,6 +51,7 @@
                         </div> <!-- row-->
                     </div> <!-- /.search-co -->
                 </div> <!-- /.row  search-content-->
+
                 <div class="navy-line"></div>
                 <div class="col-xs-11 col-sm-11">
                     <div class="space-4"></div>
@@ -114,9 +96,14 @@
                 <div class="navy-line"></div>
 
                 <div class="col-xs-11 col-sm-11">
-                    <div class="space-4"></div>
                     <div class="main-content-data">
-                        <table id="morningSingle-table" style="height: 200px;"></table>
+                        <!--<div class="gridTableHt">-->
+                            <div style="float:left; min-width: 30px; max-width: 3%;">
+                                <table id="front_morningSingle_Chk-table"></table>
+                            </div>
+                            <!-- 晨呼table(單筆) dataGrid -->
+                            <table id="morningSingle-table" style="height: 200px;"></table>
+                        <!--</div>-->
                     </div><!--main-content-data-->
                     <div class="clearfix"></div>
 
@@ -126,13 +113,13 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">刪除
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">Delete
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">存檔
+                                            role="button">Save
                                     </button>
                                 </li>
                                 <li>
@@ -142,7 +129,7 @@
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">離開
+                                            role="button">Exit
                                     </button>
                                 </li>
                             </ul>

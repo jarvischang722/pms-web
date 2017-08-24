@@ -400,12 +400,12 @@
                                         <div class="row">
                                             <div class="col-xs-11 col-sm-11">
                                                 <div class="row no-margin-right">
-                                                    <!--<div class="col-xs-12 col-sm-12">-->
-                                                    <!--<div class="row no-margin-right">-->
+                                                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                                                        <table id="sales_visitRecordSingle_Chk-table"></table>
+                                                    </div>
                                                     <!-- 拜訪紀錄 dataGrid -->
                                                     <table id="visitRecord-table" style="height: 310px;"></table>
-                                                    <!--</div>-->
-                                                    <!--</div>-->
+
                                                     <div class="clearfix"></div>
                                                 </div>
                                             </div>
@@ -438,6 +438,10 @@
                                         <div class="row">
                                             <div class="col-xs-11 col-sm-11">
                                                 <div class="row no-margin-right">
+                                                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                                                        <table id="sales_otherRemarks_Chk-table"></table>
+                                                    </div>
+
                                                     <!-- 其他備註 dataGrid -->
                                                     <table id="otherRemarks-table" style="height: 310px;"></table>
                                                     <div class="clearfix"></div>
@@ -598,8 +602,8 @@
                                             role="button">Exit</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">公司關聯圖</button>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" style="border: 1px solid  #888; box-shadow: 5px 3px #eee;"
+                                            role="button"><span style="color: #888;">公司關聯圖</span></button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth bs-company-stateChange"
@@ -1290,7 +1294,7 @@
                                     </select>
                                 </div>
                                 <div class="tab-block grid-item">
-                                    <label>Sataus chg.</label>
+                                    <label>Status</label>
                                     <select id="" class="input-medium medium-c1">
                                         <option value="1">All</option>
                                         <option value="2">Q:離職</option>
@@ -1397,7 +1401,7 @@
                                                         <table class="css_table horizTable" style="width:100%;">
                                                             <thead class="css_thead">
                                                             <tr class="css_tr">
-                                                                <th class="css_th" style="width:50%;">管別</th>
+                                                                <th class="css_th" style="width:50%;">館別</th>
                                                                 <th class="css_th" style="width:25%;">狀態</th>
                                                                 <th class="css_th" style="width:25%;">停用年月</th>
                                                             </tr>
