@@ -300,17 +300,18 @@
         function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
             $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
 //            $('.intCounterLeft .chooseCount').css('width','8%');
-            $('.intCounterLeft .resultCount').css('max-width', maxW);
+            $('.intCounterLeft .resultCount').css('max' +
+                '-width', maxW);
             $('.intCounterRight').css('display', disToggle1);
             $('.fa-angle-left').css('display', disToggle2);
             $('.fa-angle-right').css('display', disToggle1);
         }
 
         $(".show-intCounterRight > .fa-angle-left").click(function () {
-            foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+            foCounterMain('col-xs-12', 'col-xs-8', '94%', 'inline-block', 'none'); //old 92%
         });
         $(".show-intCounterRight > .fa-angle-right").click(function () {
-            foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+            foCounterMain('col-xs-8', 'col-xs-12', '95%', 'none', 'inline-block');
         });
         /* 點選右上箭頭選擇觀看右邊表格 End */
 
@@ -328,7 +329,7 @@
             zoomInOut('70px', '33px', 'none', 'inline-block');
         });
         $(document).on('click', ".zoomIn", function () {
-            zoomInOut('129px', '74px', 'inline-block', 'none');
+            zoomInOut('127px', '74px', 'inline-block', 'none');
         });
         /* 點選左上放大鏡選擇觀看內容多寡 End */
 
@@ -530,12 +531,33 @@
             ]]
         });
 
-        // CO清單 dataGrid
+        // CO清單 CheckOut dataGrid
         $('#front_coList-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
             url: '/jsonData/front_coList.json',
+            method: 'get',
+            columns: [[
+                {field: 'preCOTime', title: '預計C/O時間', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: '姓名', width: 150},
+                {field: 'custAccStatus', title: '客帳狀態', width: 80},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'ciTime', title: 'C/I時間', width: 60},
+                {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
+                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'coRemark', title: 'C/O備註', width: 250}
+            ]]
+        });
+
+        // CO清單 Inhouse dataGrid
+        $('#front_coListInhouse-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_coListInhouse.json',
             method: 'get',
             columns: [[
                 {field: 'preCOTime', title: '預計C/O時間', width: 80},
@@ -666,6 +688,22 @@
         });
     });
 
+    //    新增晨呼
+    $(document).on('click', ".addMorning-btn", function (e) {
+        e.preventDefault();
+        var dialog = $("#addMorning-page").removeClass('hide').dialog({
+            modal: true,
+            title: "新增晨呼",
+            title_html: true,
+            width: 700,
+            maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+    });
+
     // 排房作業
     $('#roomDetail-table').datagrid({
         singleSelect: true,
@@ -792,6 +830,69 @@
         ]]
     });
 
+    // PMS0210120 晨呼table(checkbox)
+    $('#front_morningCall_Chk-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/front_morningCall_Chk.json',
+        method: 'get',
+        method: 'get',
+        columns: [[
+            {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+        ]]
+
+    });
+    // 晨呼table
+    $('#morningCallTable').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/morningCallTable.json',
+        method: 'get',
+        columns: [[
+//            {field: 'box', title: '', width: 30},
+            {field: 'roomNum', title: '房號', width: 70},
+            {field: 'name', title: '住客姓名', width: 100},
+            {field: 'callDate', title: '晨呼日期', width: 100},
+            {field: 'callTime', title: '晨呼時間', width: 100},
+            {field: 'callState', title: '晨呼狀態', width: 100},
+            {field: 'addDate', title: '新增日', width: 100},
+            {field: 'addBy', title: '新增者', width: 100},
+            {field: 'lastDate', title: '最後異動日', width: 100},
+            {field: 'lastGuy', title: '最後異動者', width: 100},
+        ]]
+    });
+
+    // PMS0210120 晨呼table 單筆(checkbox)
+    $('#front_morningSingle_Chk-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/front_morningSingle_Chk.json',
+        method: 'get',
+        method: 'get',
+        columns: [[
+            {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+        ]]
+
+    });
+    // 晨呼 單筆 table
+    $('#morningSingle-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/morningCallTable.json',
+        method: 'get',
+        columns: [[
+//            {field: 'box', title: '', width: 30},
+            {field: 'roomNum', title: '房號', width: 70},
+            {field: 'name', title: '住客姓名', width: 100},
+            {field: 'callDate', title: '晨呼日期', width: 100},
+            {field: 'callTime', title: '晨呼時間', width: 100}
+        ]]
+    });
+
     //顯示排房明細
     $(function () {
         $('.showCardDetail').click(function () {
@@ -807,19 +908,35 @@
     });
     //排房切換
     $(function(){
-        $('.town-list-btn').hide();
-        $('.town-grap').hide();
-        $('.town-list-btn').click(function(){
+        $('.town-graphics-btn').hide();
+        $('.town-table').hide();
+        $('.roomAssign').on('click', ".town-list-btn", function (e) {
             $('.town-list-btn').hide();
             $('.town-graphics-btn').show();
             $('.town-grap').hide();
             $('.town-table').show();
+            $('#townList-table').datagrid('reload');
         });
-        $('.town-graphics-btn').click(function(){
+        $('.roomAssign').on('click', ".town-graphics-btn", function (e) {
             $('.town-graphics-btn').hide();
             $('.town-table').hide();
             $('.town-grap').show();
             $('.town-list-btn').show();
         });
+    });
+
+
+//common JS
+    // Resize Table Height
+    var menuHeight1 = $(".navbar-container").height();
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+    console.log('menuHeight1',menuHeight1);
+    console.log('gridTableHt',menuHeight2);
+    height = $(window).height()-menuHeight1-menuHeight2-10;
+    $(".gridTableHt .panel-body").css("height", height);
+    console.log('gridTableHt .panel-body',height);
+    $(window).resize(function() {
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
     });
 </script>

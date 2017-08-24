@@ -496,6 +496,8 @@ var vm = new Vue({
             $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             })
+
+
         }
     }
 });
