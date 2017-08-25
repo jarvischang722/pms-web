@@ -101,3 +101,10 @@ exports.getRoomTypeMaxStockDate = function (req, res) {
         res.json({success: !_.isNull(err), errorMsg: err, max_batch_dat: data.max_batch_dat});
     });
 };
+
+/**
+ * 取得程式搜尋欄位
+ */
+exports.getSearchUIFields = function(req,res){
+
+};
