@@ -109,7 +109,9 @@ var vm = new Vue({
         saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+        searchFields :[], //搜尋的欄位
+        searchCond:{}   //搜尋條件
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -155,6 +157,8 @@ var vm = new Vue({
             // waitingDialog.show();
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
+                console.log(result.searchFields);
+                vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
             });

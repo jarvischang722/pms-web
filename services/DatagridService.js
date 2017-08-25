@@ -222,7 +222,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         },
         // 7)撈取搜尋欄位
         function (data, callback) {
-            fieldAttrSvc.getAllUIPageFieldAttr({prg_id: prg_id, page_id: 3}, userInfo, function (err, fields) {
+            fieldAttrSvc.getAllUIPageFieldAttr({prg_id: prg_id, page_id: 3}, userInfo, function ( fields) {
                 la_searchFields = fields;
                 callback(null, fields);
             });

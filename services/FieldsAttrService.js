@@ -26,7 +26,7 @@ exports.getAllUIPageFieldAttr = function (params, userInfo,callback) {
         row_seq: 1,
         col_seq: 1
     }).exec(function (err, fields) {
-        filterSpecField(fields, userInfo, function (filteredFields) {
+        filterSpecField(fields, userInfo, function (err,filteredFields) {
             callback(filteredFields);
         });
     });
