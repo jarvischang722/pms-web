@@ -68,6 +68,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_s99_user.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_sales_class_kvrf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_sales_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_service_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_servtype_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_session.xml"/>

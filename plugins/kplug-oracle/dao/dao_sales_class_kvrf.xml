@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0860060] 取得多筆-->
+    <dao name="QRY_SALES_CLASS_KVRF">
+        <statement><![CDATA[
+        select class_cod, class_nam, trim(parent_cod) as parent_cod, sort_cod, level_nos, ins_dat, ins_usr, upd_dat, upd_usr, athena_id
+        from sales_class_kvrf where athena_id = :athena_id
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+    </dao>
+
+
+</root>

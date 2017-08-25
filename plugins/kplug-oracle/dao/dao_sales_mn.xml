@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [PMS0860060] 取得業務員多筆-->
+    <dao name="QRY_SALES_MN">
+        <statement><![CDATA[
+        SELECT SALES_COD, SALES_NAM, HOTEL_SALES, BQ_SALES, MEMBER_SALES FROM  SALES_MN
+        WHERE ATHENA_ID = :athena_id AND trim(CLASS_COD) = trim(:class_cod) ORDER BY SALES_COD
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">class_cod</parameter>
+    </dao>
+
+    <!-- [PMS0860060]
+         未於業務員資料中指定者可刪除
+         訊息:業務員資料維護已使用,不可刪除 -->
+    <dao name="CHK_SALES_CLASS_ISEXIST">
+        <statement><![CDATA[
+        SELECT SALES_COD, SALES_NAM, HOTEL_SALES, BQ_SALES, MEMBER_SALES FROM  SALES_MN
+        WHERE ATHENA_ID = :athena_id AND trim(CLASS_COD) = trim(:class_cod) ORDER BY SALES_COD
+        ]]></statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">class_cod</parameter>
+    </dao>
+
+</root>
