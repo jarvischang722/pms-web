@@ -43,7 +43,18 @@ var vm = new Vue({
             var self = this;
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 waitingDialog.hide();
-                vm.dataGridRows = _.map(result.dataGridRows, _.clone);
+                vm.dataGridRows = _.map(result.dataGridRows, function (obj) {
+                    if (obj.area_cod.trim() != "ROOT") {
+                        var li_area_cod = Number(obj.area_cod);
+                        if (_.isNaN(li_area_cod)) {
+                            obj.area_cod = padLeft(obj.area_cod, 3);
+                        }
+                        else{
+                            obj.area_cod = padLeft(obj.area_cod, 4);
+                        }
+                    }
+                    return _.clone(obj);
+                });
                 vm.fieldData = result.fieldData;
                 if (vm.dataGridRows.length != 0) {
                     result.dataGridRows = _.without(result.dataGridRows, _.findWhere(result.dataGridRows, {area_cod: "ROOT"}));
@@ -71,14 +82,14 @@ var vm = new Vue({
             var lo_rootDataRow = {};
 
             var lo_rootNode = _.findWhere(vm.dataGridRows, {area_cod: "ROOT"});
-            if(_.isUndefined(lo_rootNode)){
+            if (_.isUndefined(lo_rootNode)) {
                 lo_rootDataRow.area_cod = "ROOT";
                 lo_rootDataRow.sort_cod = 0;
                 lo_rootDataRow.area_nam = "ROOT";
                 lo_rootDataRow.parent_cod = "#";
                 this.treeData = new Tree(lo_rootDataRow);
             }
-            else{
+            else {
                 this.treeData = new Tree(lo_rootNode);
             }
 
@@ -98,9 +109,9 @@ var vm = new Vue({
                     "data": vm.treeData.root
                 },
                 "checkbox": {
-                    "keep_selected_style" : true,
-                    "whole_node" : false,
-                    "tie_selection":false               // 選取時，false只會選到父節點，不會選到子結點
+                    "keep_selected_style": true,
+                    "whole_node": false,
+                    "tie_selection": false               // 選取時，false只會選到父節點，不會選到子結點
                 },
                 "dnd": {
                     "dnd": true,
