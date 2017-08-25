@@ -52,6 +52,7 @@
 			"uploadImageBTN": "載入顯示圖檔(英文)",
 			"uploadImageText": "將文字拖曳至此，或<em>點擊上傳</em>(英文)",
 			"uploadImageTip": "只能上傳jpg/png文件，且不超過500kb(英文)",
+			"uploadMsg": "圖片上傳需稍待二分鐘(英文)",
 			"reset_qnt": "一併重整庫存(英文)",
 			"maxRmStock": "房型庫存最大日期(英文)",
 			"roomTypeLabel": "房型圖片(英文)",
