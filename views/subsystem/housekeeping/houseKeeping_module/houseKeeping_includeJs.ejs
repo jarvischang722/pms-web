@@ -33,10 +33,10 @@
         }
 
         $(".show-intCounterRight > .fa-angle-left").click(function () {
-            foCounterMain('col-xs-12', 'col-xs-7', '92%', 'inline-block', 'none');
+            foCounterMain('col-xs-12', 'col-xs-8', '94%', 'inline-block', 'none');
         });
         $(".show-intCounterRight > .fa-angle-right").click(function () {
-            foCounterMain('col-xs-7', 'col-xs-12', '95%', 'none', 'inline-block');
+            foCounterMain('col-xs-8', 'col-xs-12', '95%', 'none', 'inline-block');
         });
         /* 點選右上箭頭選擇觀看右邊表格 End */
 
@@ -54,7 +54,7 @@
             zoomInOut('70px', '33px', 'none', 'inline-block');
         });
         $(document).on('click', ".zoomIn", function () {
-            zoomInOut('129px', '74px', 'inline-block', 'none');
+            zoomInOut('127px', '74px', 'inline-block', 'none');
         });
         /* 點選左上放大鏡選擇觀看內容多寡 End */
 
@@ -73,24 +73,26 @@
         });
 
         //房務管理切換
-
         $(function(){
-            $('.hk-list-btn').hide();
-            $('.hk-table-container').hide();
+            $('.hk-graphics-btn').hide();
+            $('.hk-dataList-container').hide();
 
-            $('.hk-list-btn').click(function(){
+            $('.foCounter').on('click', ".hk-list-btn", function (e) {
                 $('.hk-list-btn').hide();
                 $('.hk-graphics-btn').show();
                 $('.hk-table-container').hide();
                 $('.hk-dataList-container').show();
+                // 解決datagrid 原本隱藏，按了click顯示後資料回不見問題
+                $('#hk-PMS0410010-table').datagrid('reload');
             });
-            $('.hk-graphics-btn').click(function(){
+            $('.foCounter').on('click', ".hk-graphics-btn", function (e) {
                 $('.hk-graphics-btn').hide();
                 $('.hk-dataList-container').hide();
                 $('.hk-table-container').show();
                 $('.hk-list-btn').show();
             });
         });
+        //.End房務管理切換
 
         $('#hk-PMS0410010-table').datagrid({
             singleSelect: true,
@@ -116,11 +118,11 @@
             ]]
         });
 
-//.end
 
 
 
-        $(document).ready(function(){
+
+        $(function(){
             //選中的增加active
             $(".hk-MidBoxsBlock").click(function() {
                 $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
@@ -258,5 +260,18 @@
             ]]
         });
 
+//common JS
+        // Resize Table Height
+        var menuHeight1 = $(".navbar-container").height();
+        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+        console.log('menuHeight1',menuHeight1);
+        console.log('gridTableHt',menuHeight2);
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
+        console.log('gridTableHt .panel-body',height);
+        $(window).resize(function() {
+            height = $(window).height()-menuHeight1-menuHeight2-10;
+            $(".gridTableHt .panel-body").css("height", height);
+        });
     });
 </script>

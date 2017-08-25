@@ -305,6 +305,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             self.deleteStatue = true;
                             self.tmpCud.deleteData = [self.singleData];
                             self.doSaveGrid();
+
                             if (result.showAlert) {
                                 alert(result.alertMsg);
                             }
@@ -434,6 +435,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             }
                         });
                     }
+                    self.$parent.loadSingleGridPageField();
                 });
             }
             else {

@@ -19,25 +19,18 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 var Pms0830080Comp = Vue.extend({
     template: '#PMS0830080Tmp',
-    props: ["accounts", "tmpCUD", "editingRow"],
+    props: ["accounts", "tmpCUD", "editingRow", "stypeRfList"],
     mounted: function () {
-        this.getStypeRf();
+
     },
     data: function () {
         return {
-            stypeRfList: [],
             activeSmallTyp: ""   //被選中的小分類
 
         };
     },
     methods: {
-        //取得中小分類
-        getStypeRf: function () {
-            var _this = this;
-            $.post('/api/getStypeRf', function (result) {
-                _this.stypeRfList = result.stypeList;
-            });
-        },
+
         checkMasterAccStatus: function (small_typ) {
 
             var activeAccount = String(this.$parent.activeAccount);
@@ -47,9 +40,9 @@ var Pms0830080Comp = Vue.extend({
             });
             if (account > -1) {
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
 
         },
         checkSmallTyp: function (small_typ) {
@@ -57,9 +50,9 @@ var Pms0830080Comp = Vue.extend({
             var account = _.findIndex(this.accounts["account" + activeAccount], {small_typ: small_typ.trim()});
             if (account > -1) {
                 return true;
-            } 
-                return false;
-            
+            }
+            return false;
+
 
         },
         toggleMasterAcc: function () {
@@ -68,7 +61,6 @@ var Pms0830080Comp = Vue.extend({
                 alert("Please select a small type.");
                 return;
             }
-            this.checkRouteCodAndName();
             var selectedAcc = this.checkOtherAccSelected(this.activeSmallTyp.trim());
             var activeAccount = String(this.$parent.activeAccount);
             var accountIdx = _.findIndex(this.accounts["account" + activeAccount], {small_typ: this.activeSmallTyp.trim()});
@@ -86,7 +78,7 @@ var Pms0830080Comp = Vue.extend({
             }
         },
         toggleAccount: function (small_typ, master_sta) {
-            this.checkRouteCodAndName();
+            // this.checkRouteCodAndName();
             this.activeSmallTyp = small_typ;
             var selectedAcc = this.checkOtherAccSelected(small_typ);
             var activeAccount = String(this.$parent.activeAccount);
@@ -114,16 +106,6 @@ var Pms0830080Comp = Vue.extend({
                 }
             });
             return selectedAcc;
-        },
-        checkRouteCodAndName: function () {
-            if (_.isEmpty(this.editingRow.route_cod)) {
-                alert("請先輸入規則代號!");
-                return;
-            }
-            if (_.isEmpty(this.editingRow.route_nam)) {
-                alert("請先輸入規則名稱!");
-                return;
-            }
         }
 
 
@@ -160,7 +142,8 @@ var PMS0830080VM = new Vue({
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: []
-        }
+        },
+        stypeRfList: []
 
     },
     created: function () {
@@ -171,7 +154,7 @@ var PMS0830080VM = new Vue({
 
     },
     mounted: function () {
-
+        this.getStypeRf();
         this.getRouteData();
     },
     watch: {
@@ -193,7 +176,7 @@ var PMS0830080VM = new Vue({
             };
         },
         editingRow: {
-            handler(val){
+            handler(val) {
                 if (this.isCreateStatus) {
                     this.tmpCUD.createData = val;
                     this.tmpCUD.updateData = {};
@@ -209,10 +192,10 @@ var PMS0830080VM = new Vue({
     },
     methods: {
         initDataGrid: function () {
-            var colsOption =  [ { field:'ck',checkbox:true }];
-            colsOption = _.union(colsOption,EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830080_dg'));
+            var colsOption = [{field: 'ck', checkbox: true}];
+            colsOption = _.union(colsOption, EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830080_dg'));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, "PMS0830080_dg", colsOption,this.pageOneFieldData, {singleSelect:false} );
+            this.dgIns.init(this.prg_id, "PMS0830080_dg", colsOption, this.pageOneFieldData, {singleSelect: false});
         },
         initAccounts: function () {
             this.accounts = {
@@ -237,10 +220,15 @@ var PMS0830080VM = new Vue({
                 dt_deleteData: []
             };
         },
+        //取得中小分類
+        getStypeRf: function () {
+            $.post('/api/getStypeRf', function (result) {
+                PMS0830080VM.stypeRfList = result.stypeList;
+            });
+        },
         getRouteData: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
                 .done(function (response) {
-                    console.log(response);
                     PMS0830080VM.pageOneDataGridRows = response.dataGridRows;
                     PMS0830080VM.pageOneFieldData = response.fieldData;
                 })
@@ -254,9 +242,19 @@ var PMS0830080VM = new Vue({
             this.isCreateStatus = true;
             this.isEditStatus = false;
             this.initAccounts();
+
+            //預設全部都在第一個帳夾
+            _.each(PMS0830080VM.stypeRfList, function (stype) {
+                PMS0830080VM.accounts["account1"].push({
+                    folio_nos: '1',
+                    master_sta: "N",
+                    small_typ: stype.small_typ.trim()
+                });
+            });
+
             this.openRouteDialog();
         },
-        delRoutes :function(){
+        delRoutes: function () {
             this.tmpCUD.deleteData = $("#PMS0830080_dg").datagrid("getChecked");
             this.doSave();
         },
@@ -276,7 +274,7 @@ var PMS0830080VM = new Vue({
             this.activeAccount = 1;
             var dialog = $("#PMS0830080Dialog").removeClass('hide').dialog({
                 modal: true,
-                title: "公帳號",
+                title: " ",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -291,24 +289,31 @@ var PMS0830080VM = new Vue({
             $("#PMS0830080Dialog").dialog('close');
         },
         doSave: function () {
+
+            if (this.tmpCUD.deleteData.length == 0 && !this.checkRouteCodAndName()) {
+                return;
+            }
             var self = this;
             this.combineSQLData();
-            $.post("/api/doSavePMS0830080",this.tmpCUD,function(result){
-                if(result.success){
+            $.post("/api/doSavePMS0830080", this.tmpCUD, function (result) {
+                if (result.success) {
                     PMS0830080VM.initTmpCUD();
+                    if (PMS0830080VM.isCreateStatus) {
+                        PMS0830080VM.closeRouteDialog();
+                    }
                     alert("save success!");
                     self.getRouteData();
-                }else{
+                } else {
                     alert("save error!");
                 }
 
             });
 
         },
-        combineSQLData: function(){
+        combineSQLData: function () {
             var la_oriRouteDtList = this.routeDtList;
             var allAccData = [];
-            if(this.tmpCUD.deleteData.length == 0){
+            if (this.tmpCUD.deleteData.length == 0) {
                 this.tmpCUD.dt_createData = [];
                 this.tmpCUD.dt_updateData = [];
                 _.each(this.accounts, function (accData) {
@@ -329,14 +334,23 @@ var PMS0830080VM = new Vue({
 
                     }
                 });
-            }else{
+            } else {
                 var tmpDeleteData = this.tmpCUD.deleteData;
                 this.initTmpCUD();
                 this.tmpCUD.deleteData = tmpDeleteData;
             }
+        },
+        checkRouteCodAndName: function () {
+            if (_.isEmpty(this.editingRow.route_cod)) {
+                alert("請先輸入規則代號!");
+                return;
+            }
+            if (_.isEmpty(this.editingRow.route_nam)) {
+                alert("請先輸入規則名稱!");
+                return;
+            }
+            return true;
         }
-
-
 
 
     }

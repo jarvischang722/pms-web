@@ -8,15 +8,15 @@
                     <div class="main-content-data borderFrame cashier-top-wrap">
                         <div class="grid">
                             <div class="grid-item">
-                                <label>規則代號</label>
-                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_cod"
+                                <label><%=__("program.PMS0830080.route_cod")%></label>
+                                <input type="text" maxlength="4" :disabled="$parent.isEditStatus" v-model="editingRow.route_cod"
                                        class="input-medium resvCard">
                             </div>
                         </div>
                         <div class="grid">
                             <div class="grid-item">
-                                <label>規則名稱</label>
-                                <input type="text" :disabled="$parent.isEditStatus" v-model="editingRow.route_nam"
+                                <label><%=__("program.PMS0830080.route_nam")%></label>
+                                <input type="text" maxlength="20" :disabled="$parent.isEditStatus" v-model="editingRow.route_nam"
                                        class="input-medium resvCard-col2">
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                                                 <span class="left txt-lg">{{stype.small_typ}}</span>
                                                                 <span class="right purple-text"
                                                                     v-if="checkMasterAccStatus(stype.small_typ)">
-                                                                    丟公帳
+                                                                    <%=__("program.PMS0830080.is_master")%>
                                                                 </span>
                                                             </div>
                                                             <div class="clearfix"></div>
@@ -109,18 +109,20 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button @click="$parent.doSave" class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存
+                                        <button @click="$parent.doSave" class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                            <%=__("SystemCommon.Save")%>
                                         </button>
                                     </li>
                                     <li>
                                         <button @click="$parent.closeRouteDialog"
-                                                class="btn btn-danger btn-white btn-defaultWidth" role="button">離開
+                                                class="btn btn-danger btn-white btn-defaultWidth" role="button">
+                                            <%=__("SystemCommon.Leave")%>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 @click="toggleMasterAcc"
-                                                role="button">移至公帳號
+                                                role="button"> <%=__("program.PMS0830080.to_master")%>
                                         </button>
                                     </li>
                                 </ul>

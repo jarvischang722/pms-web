@@ -39,4 +39,16 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0830070'] 服務項目 -->
+    <dao name="QRY_HC_ADJFOLIO_DT2_ITEM_NOS">
+        <statement><![CDATA[
+             select item_nos, item_sna, 'false' as checked
+             from service_rf a
+            where a.athena_id = ? and trim(a.hotel_cod) = ? and a.system_typ = 'HFD'
+        ]]>
+        </statement>
+        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
 </root>
