@@ -4,60 +4,52 @@
 <!-- 業務員組別設定 Page-->
     <div class="row">
         <div class="col-xs-12">
+            <div class="col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="col-xs-6">
+                        <div class="row no-margin-right">
+                            <div id="areaTree"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="gridTableHt">
+                                <!-- 業務員組別 dataGrid -->
+                                <table id="PMS0860060-table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="col-xs-5">
-                    <div class="row no-margin-right">
-                        <div id="areaTree"></div>
+            <div class="col-xs-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_create();"
+                                        role="button">Add</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-danger btn-white btn-defaultWidth" onclick="areaTree_delete();"
+                                        role="button">Delete</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
+                                        role="button">Edit</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Save</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">Change Log</button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-xs-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_create();"
-                                            role="button">Add</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" onclick="areaTree_delete();"
-                                            role="button">Delete</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
-                                            role="button">Edit</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Save</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">Change Log</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-5">
-                    <div class="">
-                        <div class="gridTableHt">
-                            <!-- 業務員組別 dataGrid -->
-                            <table id="PMS0860060-table"></table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">變更組別</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
@@ -77,9 +69,11 @@
             url: '/jsonData/PMS0860060.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'clerkID', title: '業務員代號', width: 100},
-                {field: 'clerkName', title: '業務員姓名', width: 150}
+                {field: 'clerkName', title: '業務員姓名', width: 150},
+                {field: 'hotelSales', title: '飯店業務', width: 100},
+                {field: 'restSales', title: '餐飲業務', width: 100},
+                {field: 'memberSales', title: '會員業務', width: 100}
             ]]
 
         });
