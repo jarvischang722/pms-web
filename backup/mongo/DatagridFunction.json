@@ -1030,3 +1030,27 @@
     "func_id" : "0400", 
     "rule_func_name" : ""
 }
+{ 
+    "_id" : ObjectId("599f9167726c3e1074b5a15a"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599f9167726c3e1074b5a15b"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_sales_class_kvrf_is_exist_sales_mn"
+}
+{ 
+    "_id" : ObjectId("599f9167726c3e1074b5a15c"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : ""
+}

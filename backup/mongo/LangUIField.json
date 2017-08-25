@@ -6961,3 +6961,75 @@
     "ui_display_name_en" : "FOC.Trn. Code", 
     "hint_en" : "Free Room RateTransaction Code"
 }
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a152"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "class_nam", 
+    "ui_display_name_zh_TW" : "組別名稱", 
+    "hint_zh_TW" : "組別名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a153"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a154"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a155"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a156"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("599f9099726c3e1074b5a157"), 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
