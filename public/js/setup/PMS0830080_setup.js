@@ -116,6 +116,7 @@ var PMS0830080VM = new Vue({
     el: '#PMS0830080App',
     components: {Pms0830080Comp},
     data: {
+        isSaving:false,
         prg_id: gs_prg_id,
         pageOneDataGridRows: [],
         pageOneFieldData: [],
@@ -174,6 +175,7 @@ var PMS0830080VM = new Vue({
                 account8: _.where(routeDtData, {folio_nos: 8}),
                 account9: _.where(routeDtData, {folio_nos: 9})
             };
+            this.toDefaultAccountOne();
         },
         editingRow: {
             handler(val) {
@@ -242,9 +244,7 @@ var PMS0830080VM = new Vue({
             this.isCreateStatus = true;
             this.isEditStatus = false;
             this.initAccounts();
-
-            //預設全部都在第一個帳夾
-            _.each(PMS0830080VM.stypeRfList, function (stype) {
+            _.each(this.stypeRfList, function (stype) {
                 PMS0830080VM.accounts["account1"].push({
                     folio_nos: '1',
                     master_sta: "N",
@@ -253,6 +253,21 @@ var PMS0830080VM = new Vue({
             });
 
             this.openRouteDialog();
+        },
+        //預設全部都在第一個帳夾
+        toDefaultAccountOne : function(){
+
+            var notAccountSmallTypList = _.reject(PMS0830080VM.stypeRfList, function(d) {
+                return _.findIndex(PMS0830080VM.routeDtList,{small_typ:d.small_typ.trim()}) > -1;
+            });
+            _.each(notAccountSmallTypList, function (stype) {
+                PMS0830080VM.accounts["account1"].push({
+                    folio_nos: '1',
+                    master_sta: "N",
+                    small_typ: stype.small_typ.trim()
+                });
+            });
+
         },
         delRoutes: function () {
             this.tmpCUD.deleteData = $("#PMS0830080_dg").datagrid("getChecked");
@@ -265,6 +280,7 @@ var PMS0830080VM = new Vue({
             $.post('/api/getRouteDtByRouteCod', {route_cod: this.editingRow.route_cod})
                 .done(function (response) {
                     PMS0830080VM.routeDtList = response.routeDtList;
+
                 });
 
             this.openRouteDialog();
@@ -289,13 +305,14 @@ var PMS0830080VM = new Vue({
             $("#PMS0830080Dialog").dialog('close');
         },
         doSave: function () {
-
-            if (this.tmpCUD.deleteData.length == 0 && !this.checkRouteCodAndName()) {
+            var self = this;
+            if (self.tmpCUD.deleteData.length == 0 && !self.checkRouteCodAndName()) {
                 return;
             }
-            var self = this;
-            this.combineSQLData();
+            self.combineSQLData();
+            self.isSaving = true;
             $.post("/api/doSavePMS0830080", this.tmpCUD, function (result) {
+                self.isSaving = false;
                 if (result.success) {
                     PMS0830080VM.initTmpCUD();
                     if (PMS0830080VM.isCreateStatus) {
@@ -326,11 +343,10 @@ var PMS0830080VM = new Vue({
                     if (existIdx == -1) {
                         PMS0830080VM.tmpCUD.dt_createData.push(type);
                     } else {
-                        PMS0830080VM.tmpCUD.dt_updateData.push(type);
                         //判斷無效先拿掉，type與la_oriRouteDtList都一樣。
-                        // if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
-                        //
-                        // }
+                        if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
+                            PMS0830080VM.tmpCUD.dt_updateData.push(type);
+                        }
 
                     }
                 });
