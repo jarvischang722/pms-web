@@ -46,6 +46,7 @@ var vm = new Vue({
                 vm.dataGridRows = _.map(result.dataGridRows, _.clone);
                 vm.fieldData = result.fieldData;
                 if (vm.dataGridRows.length != 0) {
+                    result.dataGridRows = _.without(result.dataGridRows, _.findWhere(result.dataGridRows, {area_cod: "ROOT"}));
                     self.maxAreaCod = _.sortBy(result.dataGridRows, "area_cod");
                     self.maxAreaCod = self.maxAreaCod[self.maxAreaCod.length - 1].area_cod;
                 }
@@ -69,17 +70,16 @@ var vm = new Vue({
             var self = this;
             var lo_rootDataRow = {};
 
-            if (vm.dataGridRows.length != 0) {
-                lo_rootDataRow = _.findWhere(vm.dataGridRows, {parent_cod: "ROOT"});
-                this.treeData = new Tree(lo_rootDataRow);
-            }
-            else {
-                lo_rootDataRow.area_cod = "0000";
+            var lo_rootNode = _.findWhere(vm.dataGridRows, {area_cod: "ROOT"});
+            if(_.isUndefined(lo_rootNode)){
+                lo_rootDataRow.area_cod = "ROOT";
                 lo_rootDataRow.sort_cod = 0;
                 lo_rootDataRow.area_nam = "ROOT";
-                lo_rootDataRow.parent_cod = "ROOT";
-                this.tmpCud.createData.push(lo_rootDataRow);
+                lo_rootDataRow.parent_cod = "#";
                 this.treeData = new Tree(lo_rootDataRow);
+            }
+            else{
+                this.treeData = new Tree(lo_rootNode);
             }
 
 
@@ -98,7 +98,9 @@ var vm = new Vue({
                     "data": vm.treeData.root
                 },
                 "checkbox": {
-                    "keep_selected_style": true
+                    "keep_selected_style" : true,
+                    "whole_node" : false,
+                    "tie_selection":false               // 選取時，false只會選到父節點，不會選到子結點
                 },
                 "dnd": {
                     "dnd": true,
@@ -201,25 +203,27 @@ var vm = new Vue({
         },
 
         delNode: function () {
+            var self = this;
             var lo_selNode = this.getSelectedNode();
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
 
             // 更節點不能刪除
-            if (lo_dgRow.parent_cod == "ROOT") {
+            if (lo_dgRow.parent_cod.trim() == "#") {
                 return false;
             }
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: gs_prg_id,
                 deleteData: lo_dgRow
-            }, function (err, result) {
-                if (err) {
-                    alert(err.errorMsg);
+            }, function (result) {
+                if (result.success) {
+                    self.tmpCudHandler(lo_node, "deleteData");
+                    self.tree.delete_node(lo_selNode);
+
                 }
                 else {
-                    this.tmpCudHandler(lo_node, "deleteData");
-                    this.tree.delete_node(lo_selNode);
+                    alert(result.errorMsg);
                 }
             });
 
@@ -240,14 +244,8 @@ function searchChildAndInsert(lo_node) {
     });
     _.each(la_childRows, function (lo_childRow) {
         var lo_childNode = new Node(lo_childRow);
-        if (lo_node.parent_cod == "ROOT") {
-            vm.treeData.root.children.push(lo_childNode);
-            searchChildAndInsert(lo_childNode);
-        }
-        else {
-            lo_node.children.push(lo_childNode);
-            searchChildAndInsert(lo_childNode);
-        }
+        lo_node.children.push(lo_childNode);
+        searchChildAndInsert(lo_childNode);
     });
 }
 
