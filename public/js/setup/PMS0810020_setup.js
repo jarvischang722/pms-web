@@ -1003,6 +1003,7 @@ var vm = new Vue({
         appendRow: function () {
             vm.initTmpCUD();
             vm.createStatus = true;
+            vm.imageDisplay = false;
             vm.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
