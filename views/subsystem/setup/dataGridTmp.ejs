@@ -32,13 +32,13 @@
                                 <ul>
                                     <li>
                                         <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="查詢">
+                                             title="查詢" @click="fetchDataGridData()">
                                             <div class="icon-reStyle icon-co-14"></div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="清除">
+                                             title="清除" @click="searchCond = {}">
                                             <div class="icon-reStyle icon-co-11"></div>
                                         </div>
                                     </li>
@@ -70,7 +70,6 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        {{searchCond | json}}
                     </div>
                 </div>
             </div>

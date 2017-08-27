@@ -24,8 +24,11 @@ let fieldAttrSvc = require("./FieldsAttrService");
  * @param prg_id
  * @param callback
  */
-exports.fetchPrgDataGrid = function (session, prg_id, callback) {
+exports.fetchPrgDataGrid = function (session, postData, callback) {
+
+    let prg_id = postData.prg_id;
     let userInfo = session.user;
+    let lo_searchCond = postData.searchCond || {}; //搜尋條件
     let page_id = 1;
     let params = {
         user_id: userInfo.usr_id,
@@ -35,6 +38,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
     let dataGridRows = [];
     let fieldData = [];
     let la_searchFields = [];
+    params = _.extend(params, lo_searchCond);
 
     async.waterfall([
         // 1)
@@ -77,6 +81,18 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 });
             } else {
                 callback(null, []);
+            }
+
+        },
+        //  ) 條件過濾
+        function (dataRow, callback) {
+            if (!_.isUndefined(ruleAgent[prg_id + "Filter"])) {
+                ruleAgent[prg_id + "Filter"](dataRow, params, function (dataRow) {
+                    dataGridRows = dataRow;
+                    callback(null, dataRow);
+                });
+            } else {
+                callback(null, dataRow);
             }
 
         },
@@ -222,7 +238,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
         },
         // 7)撈取搜尋欄位
         function (data, callback) {
-            fieldAttrSvc.getAllUIPageFieldAttr({prg_id: prg_id, page_id: 3}, userInfo, function ( fields) {
+            fieldAttrSvc.getAllUIPageFieldAttr({prg_id: prg_id, page_id: 3}, userInfo, function (fields) {
                 la_searchFields = fields;
                 callback(null, fields);
             });

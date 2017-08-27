@@ -26,7 +26,7 @@ exports.prgDataGridDataQuery = function (req, res) {
         return;
     }
 
-    datagridSVC.fetchPrgDataGrid(req.session, prg_id, function (err, dataGridRows, fieldData, la_searchFields) {
+    datagridSVC.fetchPrgDataGrid(req.session, req.body, function (err, dataGridRows, fieldData, la_searchFields) {
         returnData.dataGridRows = dataGridRows;
         returnData.fieldData = fieldData;
         returnData.searchFields = la_searchFields;

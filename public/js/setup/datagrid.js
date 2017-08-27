@@ -155,9 +155,8 @@ var vm = new Vue({
         //抓取顯示資料
         fetchDataGridData: function () {
             // waitingDialog.show();
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            $.post("/api/prgDataGridDataQuery", _.extend({prg_id: prg_id},{searchCond:this.searchCond}), function (result) {
                 waitingDialog.hide();
-                console.log(result.searchFields);
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
