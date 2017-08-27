@@ -42,28 +42,45 @@ module.exports = {
         var dpreqTemp = postData.singleRowData.dp_req;
         var dpratTemp = postData.singleRowData.dp_rat;
 
+        var guarenrmkTmp = postData.singleRowData.guarentee_rmk;  //內容
+        var viewSeqTmp = postData.singleRowData.view_seq;  //排序
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(dpreqTemp == "Y"){
-            if(dpratTemp > 0){
-                callback(lo_error, lo_result);
-            }else {
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = "%需大於0";
-                lo_error.errorCod = "1111";
-                callback(lo_error, lo_result);
-            }
+        if(guarenrmkTmp == "") {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "請輸入內容";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+        }else if (viewSeqTmp == ""){
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "請輸入顯示順序";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+
         }else {
-            if(dpratTemp != 0){
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = "%需為0";
-                lo_error.errorCod = "1111";
-                callback(lo_error, lo_result);
-            }else {
-                callback(lo_error, lo_result);
+            if (dpreqTemp == "Y") {
+                if (dpratTemp > 0) {
+                    callback(lo_error, lo_result);
+                } else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "%需大於0";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                }
+            } else {
+                if (dpratTemp != 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "%需為0";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                } else {
+                    callback(lo_error, lo_result);
+                }
             }
         }
     },
@@ -72,28 +89,46 @@ module.exports = {
         var dpreqTemp = postData.singleRowData.dp_req;
         var dpratTemp = postData.singleRowData.dp_rat;
 
+        var guarenrmkTmp = postData.singleRowData.guarentee_rmk;  //內容
+        var viewSeqTmp = postData.singleRowData.view_seq;  //排序
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(dpreqTemp == "Y"){
-            if(dpratTemp > 0){
-                callback(lo_error, lo_result);
-            }else {
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = "%需大於0";
-                lo_error.errorCod = "1111";
-                callback(lo_error, lo_result);
-            }
+        if(guarenrmkTmp == "") {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "請輸入內容";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+        }else if (viewSeqTmp == ""){
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "請輸入顯示順序";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+
         }else {
-            if(dpratTemp != 0){
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = "%需為0";
-                lo_error.errorCod = "1111";
-                callback(lo_error, lo_result);
-            }else {
-                callback(lo_error, lo_result);
+
+            if (dpreqTemp == "Y") {
+                if (dpratTemp > 0) {
+                    callback(lo_error, lo_result);
+                } else {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "%需大於0";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                }
+            } else {
+                if (dpratTemp != 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "%需為0";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                } else {
+                    callback(lo_error, lo_result);
+                }
             }
         }
     },
