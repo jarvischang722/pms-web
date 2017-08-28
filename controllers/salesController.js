@@ -6,6 +6,7 @@ var fs = require("fs");
 var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 var roleSvc = require("../services/RoleFuncService");
+var ruleAgent = require("../ruleEngine/ruleAgent");
 
 
 //商務公司資料編輯
@@ -25,4 +26,10 @@ exports.getPMS0620040 = function (req, res) {
 //業務 拜訪計畫
 exports.getPMS0620050 = function (req, res) {
     res.render("subsystem/sales/PMS0620050");
+};
+
+exports.qrySalesMn = function(req, res){
+    ruleAgent.qrySalesMn(req.body, req.session, function(err, getResult){
+        res.json({success: _.isNull(err), errorMsg: err, data: getResult.effectValues});
+    });
 };
