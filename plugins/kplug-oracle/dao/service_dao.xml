@@ -5,6 +5,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_address_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_area_cod_kvrf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_bac_role_user.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_business_rf.xml"/>
@@ -83,5 +84,8 @@
         <sql-source base="true" comment="test" key="test" path="dao_a6hfd_print_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_prefer_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ghist_prefer_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_dt2.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_mn.xml"/>
     </sql-sources>
 </struts-config>

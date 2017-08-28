@@ -78,4 +78,17 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">show_cod</parameter>
     </dao>
+
+    <!--[PMS0860030] 查詢商務公司資料數量 -->
+    <dao name="QRY_AREA_COUNT">
+        <statement><![CDATA[
+              select count(*) as areacount from cust_mn
+              where athena_id = :athena_id
+              and trim(area_cod) = trim(:area_cod)
+              and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">area_cod</parameter>
+    </dao>
 </root>

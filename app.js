@@ -182,6 +182,6 @@ function tableUnlockforAllPrg() {
             console.log("Table unlock all program ID.");
         }
 
-    })
+    });
 
 }

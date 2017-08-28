@@ -201,16 +201,16 @@ var vm = new Vue({
         },
         //按下一個Row
         onClickCell: function (index, field) {
-            console.log("按下一個Row");
-            console.log(gb_isUserEdit4ClickCell);
-
             if (vm.editIndex != index) {
 
                 if (this.endEditing() && gb_isUserEdit4ClickCell) {
+
                     gb_isUserEdit4ClickCell = false;
                     gb_isUserEdit4EndEdit = true;
-                    $('#prg_dg').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
+
+
+
+                    $('#prg_dg').datagrid('selectRow', index).datagrid('beginEdit', index);
                     var ed = $('#prg_dg').datagrid('getEditor', {index: index, field: field});
                     if (ed) {
                         ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
@@ -229,8 +229,6 @@ var vm = new Vue({
         },
         //結束編輯
         onEndEdit: function (index, row, changes) {
-            console.log("結束編輯");
-            console.log(gb_isUserEdit4EndEdit);
             if (gb_isUserEdit4EndEdit) {
                 gb_isUserEdit4EndEdit = false;
                 gb_isUserEdit4chkTmpCudExistData = true;
@@ -461,9 +459,6 @@ var vm = new Vue({
 
         //將資料放入暫存
         tempExecData: function (rowData) {
-            console.log("將資料放入暫存");
-            console.log(gb_isUserEdit4tempExecData);
-
             if (gb_isUserEdit4tempExecData) {
                 gb_isUserEdit4tempExecData = false;
                 var dataType = rowData.createRow == 'Y'
@@ -481,8 +476,6 @@ var vm = new Vue({
         },
         // 檢查暫存是否有資料
         chkTmpCudExistData: function (rowData, dataType) {
-            console.log("檢查暫存是否有資料");
-            console.log(gb_isUserEdit4chkTmpCudExistData);
             if (gb_isUserEdit4chkTmpCudExistData) {
                 gb_isUserEdit4chkTmpCudExistData = false;
                 gb_isUserEdit4tempExecData = true;
@@ -501,9 +494,7 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
-            })
-
-
+            });
         }
     }
 });
