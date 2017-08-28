@@ -385,7 +385,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
-            console.log(rule_func_name);
+            // console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
@@ -440,7 +440,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         //跳窗選擇多欄位
         chkClickTextGrid: function (field) {
             this.changeEditingForFieldRule(field.rule_func_name);
-            if (field.ui_type == "textgrid") {
+            if (field.ui_type == "popupgrid") {
                 var params = {
                     prg_id: prg_id,
                     fields: field,
