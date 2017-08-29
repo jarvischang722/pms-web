@@ -49,7 +49,7 @@ var vm = new Vue({
                         if (_.isNaN(li_area_cod)) {
                             obj.area_cod = padLeft(obj.area_cod, 3);
                         }
-                        else{
+                        else {
                             obj.area_cod = padLeft(obj.area_cod, 4);
                         }
                     }
@@ -141,25 +141,26 @@ var vm = new Vue({
                 });
             }
 
-            // 去除暫存重複
             _.each(lo_parentNode.children, function (childNode) {
+                var lo_childNode = self.tree.get_node(childNode);
+                // 去除暫存重複
                 _.each(self.tmpCud, function (obj, key) {
                     if (obj.length != 0) {
                         self.tmpCud[key] = _.without(obj, _.findWhere(obj, {
                             area_cod: childNode
                         }));
                     }
-
                 });
-            });
 
-            var la_children = _.without(lo_parentNode.children, currNode.id);
-            self.tmpCud[type].push(new rowData(currNode));
-            type = "updateData";
-
-            _.each(la_children, function (childNode) {
-                var lo_childNode = self.tree.get_node(childNode);
-                self.tmpCud[type].push(new rowData(lo_childNode));
+                if (lo_childNode.createStatus == "Y") {
+                    self.tmpCud["createData"].push(new rowData(lo_childNode));
+                }
+                if (lo_childNode.updateStatus == "Y") {
+                    self.tmpCud["updateData"].push(new rowData(lo_childNode));
+                }
+                if (lo_childNode.deleteStatus == "Y") {
+                    self.tmpCud["deleteData"].push(new rowData(lo_childNode));
+                }
             });
         },
 
@@ -229,7 +230,8 @@ var vm = new Vue({
                 deleteData: lo_dgRow
             }, function (result) {
                 if (result.success) {
-                    self.tmpCudHandler(lo_node, "deleteData");
+                    lo_node.deleteStatus = "Y";
+                    self.tmpCudHandler(lo_node);
                     self.tree.delete_node(lo_selNode);
 
                 }
@@ -292,6 +294,9 @@ function Node(rowData) {
     this.text = rowData.area_nam;
     this.sort_cod = rowData.sort_cod;
     this.parent_cod = rowData.parent_cod;
+    this.createStatus = "N";
+    this.updateStatus = "N";
+    this.deleteStatus = "N";
     this.children = [];
 }
 
@@ -369,10 +374,12 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
     if (gs_action == "rename") {
         lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_node.id});
         if (_.isUndefined(lo_dgRow)) {
-            vm.tmpCudHandler(lo_node, "createData");
+            lo_node.createStatus = "Y";
+            vm.tmpCudHandler(lo_node);
         }
         else {
-            vm.tmpCudHandler(lo_node, "updateData");
+            lo_node.updateStatus = "Y";
+            vm.tmpCudHandler(lo_node);
         }
         gs_action = null;
     }
@@ -380,8 +387,9 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
         var ls_newAreaCod = genNewAreaCod();
         vm.maxAreaCod = ls_newAreaCod;
         vm.tree.set_id(lo_node, ls_newAreaCod);
+        lo_node.createStatus = "Y";
 
-        vm.tmpCudHandler(lo_node, "createData");
+        vm.tmpCudHandler(lo_node);
         gs_action = null;
     }
 });
@@ -391,8 +399,10 @@ $("#areaTree").on("move_node.jstree", function (e, data) {
     var lo_node = data.node;
     vm.tree.deselect_all();
     vm.tree.select_node(lo_node);
-
-    vm.tmpCudHandler(lo_node, "updateData");
+    if (lo_node.createStatus != "Y") {
+        lo_node.updateStatus = "Y";
+    }
+    vm.tmpCudHandler(lo_node);
 });
 
 
