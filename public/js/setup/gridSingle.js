@@ -406,7 +406,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                     if (result.success) {
                         self.isVerified = true;
-                    }else{
+                    } else {
                         self.isVerified = false;
                         alert(result.errorMsg);
                     }
@@ -857,7 +857,12 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
-        dialogVisible: false
+        dialogVisible: false,
+        searchFields: [], //搜尋的欄位
+        searchFieldsByRow: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
+
+
     },
     watch: {
         editStatus: function (newVal) {
@@ -877,6 +882,9 @@ var vm = new Vue({
                 vm.editStatus = false;
                 vm.createStatus = false;
             }
+        },
+        searchFields:function(newFields){
+            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(this.searchFields, "row_seq"), "row_seq"));
         }
     },
     methods: {
@@ -894,8 +902,9 @@ var vm = new Vue({
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
             //waitingDialog.show("Loading...");
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            $.post("/api/prgDataGridDataQuery", _.extend({prg_id: prg_id}, {searchCond: this.searchCond}), function (result) {
                 waitingDialog.hide();
+                vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();

@@ -111,6 +111,7 @@ var vm = new Vue({
         openChangeLogDialog: false,
         allChangeLogList: [],
         searchFields :[], //搜尋的欄位
+        searchFieldsByRow:[],
         searchCond:{}   //搜尋條件
     },
     watch: {
@@ -118,6 +119,9 @@ var vm = new Vue({
             this.multiLangField = _.filter(this.prgFieldDataAttr, function (field) {
                 return field.multi_lang_table != "";
             });
+        },
+        searchFields:function(newFields){
+            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
         }
     },
     methods: {
@@ -160,6 +164,7 @@ var vm = new Vue({
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
+                console.log( result );
             });
         },
         //顯示資料

@@ -38,7 +38,15 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
     let dataGridRows = [];
     let fieldData = [];
     let la_searchFields = [];
-    params = _.extend(params, lo_searchCond);
+
+    //過濾掉無效條件
+    _.each(lo_searchCond, function (condVal, condKey) {
+        if (_.isArray(condVal) && condVal.length > 0) {
+            params[condKey] = condVal;
+        } else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
+            params[condKey] = condVal;
+        }
+    });
 
     async.waterfall([
         // 1)
@@ -238,7 +246,11 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
         },
         // 7)撈取搜尋欄位
         function (data, callback) {
-            fieldAttrSvc.getAllUIPageFieldAttr({prg_id: prg_id, page_id: 3}, userInfo, function (fields) {
+            fieldAttrSvc.getAllUIPageFieldAttr({
+                prg_id: prg_id,
+                page_id: 3,
+                locale: session.locale
+            }, userInfo, function (err, fields) {
                 la_searchFields = fields;
                 callback(null, fields);
             });

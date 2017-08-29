@@ -21,6 +21,12 @@ var kplugFun = {
             return 0;
         }
         return value * 1;
+    },
+    _arrToStr:function(value){
+        if(_.isArray(value)){
+            value = value.join(",");
+        }
+        return value ;
     }
 };
 
@@ -253,14 +259,18 @@ DB.prototype.queryDao = function (dao, param, cb) {
             sql = sql.replace('?', prefix + parameter.key);
             if (parameter.type == 'likestring') {
                 con[parameter.key] = '%' + param[parameter.key] + '%';
-            } else if (parameter.type == 'date') {
+            } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
                 if (param[parameter.key] instanceof Date) {
                     con[parameter.key] = param[parameter.key];
                 } else {
-                    con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                    con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
                 }
             } else {
                 con[parameter.key] = param[parameter.key];
+            }
+
+            if(_.isArray(param[parameter.key])){
+                con[parameter.key] = param[parameter.key].join(',');
             }
         } else if (parameter.kind == 2) {
             if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
@@ -268,25 +278,26 @@ DB.prototype.queryDao = function (dao, param, cb) {
                 sql = sql.replace('?', prefix + parameter.key);
                 if (parameter.type == 'likestring') {
                     con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date') {
+                } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                        con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
                 }
+
             }
         } else if (parameter.kind == 3) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
                 if (parameter.type == 'likestring') {
                     con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date') {
+                } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                        con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];

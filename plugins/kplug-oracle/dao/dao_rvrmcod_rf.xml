@@ -9,6 +9,10 @@
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="likestring" kind="2" condition="room_cod like ?" >room_cod</parameter>
+        <parameter type="likestring" kind="2" condition="room_nam like ?" >room_nam</parameter>
+        <parameter type="date" kind="2" condition="begin_dat = to_date(?, 'YYYY/MM/DD')">begin_dat</parameter>
+        <parameter type="date" kind="2" condition="end_dat = to_date(?, 'YYYY/MM/DD')">end_dat</parameter>
     </dao>
 
     <!-- 單筆房型資料 -->

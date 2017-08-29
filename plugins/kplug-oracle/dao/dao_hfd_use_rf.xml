@@ -6,11 +6,13 @@
          select athena_id, hotel_cod, item_cod, item_nam, view_seq, sys_default, co_notice, ins_dat, ins_usr, upd_dat, upd_usr,
 (select min(begin_dat) from hfd_use_dt where athena_id = hfd_use_rf.athena_id and hotel_cod = hfd_use_rf.hotel_cod and item_cod = hfd_use_rf.item_cod and action_cod = 'add' ) begin_dat,
 (select max(end_dat) from hfd_use_dt where athena_id = hfd_use_rf.athena_id and hotel_cod = hfd_use_rf.hotel_cod and item_cod = hfd_use_rf.item_cod and action_cod = 'add' ) end_dat
-from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod) order by view_seq, item_cod
+from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="2" condition="item_cod in(:item_cod)">item_cod</parameter>
+        <ORDERBY>order by view_seq, item_cod</ORDERBY>
     </dao>
 
     <!-- ['PMS0820050'] 單筆櫃檯備品庫存 -->
@@ -39,7 +41,7 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
     <!-- ['PMS0820050'] 取得小分類 -->
     <dao name="QRY_HFD_USE_DT_ITEM_COD">
         <statement><![CDATA[
-         select item_cod, item_nam from hfd_use_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by decode(view_seq, -1, 999999, view_seq), item_cod
+         select item_cod, item_nam, item_cod as value, item_nam as display from hfd_use_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by decode(view_seq, -1, 999999, view_seq), item_cod
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
