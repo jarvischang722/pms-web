@@ -148,9 +148,17 @@ var vm = new Vue({
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.treeDataRows, {class_cod: lo_selNode});
 
-            // 更節點不能刪除
+            if(lo_node.createStatus == "Y"){
+                this.tmpCud["createData"] = _.without(this.tmpCud["createData"], _.findWhere(this.tmpCud["createData"], {
+                    class_cod: lo_node.id
+                }));
+                this.tree.delete_node(lo_selNode);
+                return true;
+            }
+
+            // 根節點不能刪除
             if (lo_dgRow.parent_cod.trim() == "#") {
-                return false;
+                return true;
             }
 
             $.post("/api/handleDataGridDeleteEventRule", {
@@ -180,6 +188,9 @@ var vm = new Vue({
                 _.each(lo_parentNode.children, function (childNode, Idx) {
                     var lo_childNode = self.tree.get_node(childNode);
                     lo_childNode.position = Idx;
+                    if(lo_childNode.createStatus == "N" || lo_childNode.deleteStatus == "N"){
+                        lo_childNode.updateStatus = "Y";
+                    }
                 });
             }
 
