@@ -209,7 +209,8 @@ Vue.component('single-grid-pms0830100-tmp', {
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
             var self = this;
-            var columnsData = EZfieldClass.combineFieldOption(PMS0830100VM.pageTwoDataGridFieldData, 'dt_dg');
+            console.log(dtDataGridRows);
+            var columnsData = EZfieldClass.combineFieldOption(this.pageTwoDataGridFieldData, 'dt_dg');
             var firstCol = [];
             var secondCol = [];
 
@@ -250,24 +251,15 @@ Vue.component('single-grid-pms0830100-tmp', {
                 toolbar: '#tb',
                 columns: [firstCol, secondCol],
                 fitColumns: true,
-                collapsible: true,
-                remoteSort: false,
+                // collapsible: true,
+                // remoteSort: false,
                 singleSelect: true,
-                selectOnCheck: true,
-                checkOnSelect: true,
+                // selectOnCheck: true,
+                // checkOnSelect: true,
                 data: dtDataGridRows,
                 onEndEdit: function (index, row, changes) {
                     self.tempExecData(row);
                 },
-                onDropColumn: function () {
-                    //當移動順序欄位時
-                    self.doSaveColumnFields();
-                },
-                onResizeColumn: function () {
-                    //當欄位時寬度異動時
-                    self.doSaveColumnFields();
-                },
-                // onClickCell: self.onClickDtCell
 
                 onClickRow: self.onClickDtRow
 
@@ -288,12 +280,6 @@ Vue.component('single-grid-pms0830100-tmp', {
             if (this.dtEditIndex != index) {
                 if (this.endDtEditing()) {
                     $("#dt_dg").datagrid('selectRow', index).datagrid('beginEdit', index);
-                    // $("#dt_dg").datagrid("beginEdit", index);
-                    //
-                    // var ed = $("#dt_dg").datagrid('getEditor', {index: index, field: field});
-                    // if (ed) {
-                    //     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                    // }
                     this.dtEditIndex = index;
                 } else {
                     setTimeout(function () {
