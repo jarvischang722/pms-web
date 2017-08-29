@@ -52,3 +52,9 @@ exports.getPMS0210030 = function (req, res) {
 exports.getPMS0210050 = function (req, res) {
     res.render("subsystem/frontDesk/PMS0210050");
 };
+/**
+ * 晨呼
+ */
+exports.getPMS0210120 = function (req, res) {
+    res.render("subsystem/frontDesk/PMS0210120");
+};

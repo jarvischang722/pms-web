@@ -61,3 +61,57 @@ exports.doSavePMS0830080 = function (req ,res) {
         res.json({success:success,errorMsg:errorMsg});
     });
 };
+
+/**
+ * 取得虛擬帳單項目設定>單筆
+ */
+exports.qryPMS0830070SingleMn = function (req, res) {
+   var params={
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod,
+        adjfolio_cod: req.body.adjfolio_cod.trim()
+    };
+    queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), params, function (err, routeDt) {
+        res.json({success: true, routeDt: routeDt});
+    });
+};
+
+/**
+ * 取得虛擬帳單項目設定>單筆>DT
+ */
+exports.qryPMS0830070SingleDt = function (req, res) {
+
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT", {
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod
+    }, 0, 0, function (err, routeDtList) {
+        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    });
+};
+
+/**
+ * 取得虛擬帳單項目設定>單筆>DT2
+ */
+exports.qryPMS0830070SingleDt2 = function (req, res) {
+
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", {
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod,
+        seq_nos: req.body.seq_nos
+    }, 0, 0, function (err, routeDtList) {
+        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    });
+};
+
+/**
+ * 取得虛擬帳單項目設定>單筆>DT
+ */
+exports.qryPMS0830070SingleDt4Dt = function (req, res) {
+
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", {
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod
+    }, 0, 0, function (err, routeDtList) {
+        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    });
+};

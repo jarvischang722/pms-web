@@ -2558,7 +2558,7 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "co_notice", 
-    "ui_type" : "text", 
+    "ui_type" : "select", 
     "ui_field_length" : NumberInt(1), 
     "ui_field_num_point" : NumberInt(0), 
     "row_seq" : "5", 
@@ -5925,7 +5925,33 @@
     "attr_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad2"), 
+    "_id" : ObjectId("5993a808726c3e2b74ff2654"), 
+    "user_athena_id" : "", 
+    "user_id" : "", 
+    "athena_id" : "", 
+    "prg_id" : "PMS0860030", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "area_cod_kvrf", 
+    "ui_type" : "grid", 
+    "ui_field_length" : "", 
+    "ui_field_num_point" : "", 
+    "row_seq" : "", 
+    "height" : "", 
+    "col_seq" : "", 
+    "label_width" : "", 
+    "width" : "", 
+    "visiable" : "", 
+    "modificable" : "", 
+    "requirable" : "", 
+    "keyable" : "", 
+    "multi_lang_table" : "", 
+    "format_func_name" : "", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b8f"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -5950,7 +5976,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad3"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b90"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -5975,7 +6001,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad4"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b91"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6000,7 +6026,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad5"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b92"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6025,7 +6051,32 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad6"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b93"), 
+    "user_athena_id" : "", 
+    "user_id" : "", 
+    "athena_id" : "", 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "依日期查詢有效房型(條件是between begin_dat and end_dat)", 
+    "ui_type" : "date", 
+    "ui_field_length" : "", 
+    "ui_field_num_point" : "", 
+    "row_seq" : NumberInt(6), 
+    "height" : NumberInt(25), 
+    "col_seq" : NumberInt(0), 
+    "label_width" : "", 
+    "width" : NumberInt(100), 
+    "visiable" : "Y", 
+    "modificable" : "Y", 
+    "requirable" : "N", 
+    "keyable" : "", 
+    "multi_lang_table" : "", 
+    "format_func_name" : "", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b94"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6050,7 +6101,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad7"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b95"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6075,7 +6126,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad8"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b96"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6100,7 +6151,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ad9"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b97"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6125,7 +6176,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ada"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b98"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6150,7 +6201,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752adb"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b99"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6175,7 +6226,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752adc"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9a"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6200,7 +6251,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752add"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9b"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6215,7 +6266,7 @@
     "height" : NumberInt(25), 
     "col_seq" : NumberInt(1), 
     "label_width" : NumberInt(75), 
-    "width" : NumberInt(435), 
+    "width" : NumberInt(165), 
     "visiable" : "Y", 
     "modificable" : "Y", 
     "requirable" : "Y", 
@@ -6225,7 +6276,7 @@
     "rule_func_name" : "chk_rvrmcod_rf_room_typ"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ade"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9c"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6250,7 +6301,7 @@
     "rule_func_name" : "qry_rvrmcod_rf_old_room_cod"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752adf"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9d"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6275,7 +6326,7 @@
     "rule_func_name" : "chk_rvrmcod_rf_room_nam"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae0"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9e"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6300,7 +6351,7 @@
     "rule_func_name" : "chk_rvrmcod_rf_room_sna"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae1"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0b9f"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6325,7 +6376,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae2"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba0"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6350,7 +6401,7 @@
     "rule_func_name" : "chk_rvrmcod_rf_begin_end_dat"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae3"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba1"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6375,7 +6426,7 @@
     "rule_func_name" : "chk_rvrmcod_rf_begin_end_dat"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae4"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba2"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6400,7 +6451,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae5"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba3"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6425,7 +6476,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae6"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba4"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6450,7 +6501,7 @@
     "rule_func_name" : "modifyRoomPriceAfterToService"
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae7"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba5"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6475,7 +6526,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae8"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba6"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6500,7 +6551,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752ae9"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba7"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6525,7 +6576,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aea"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba8"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6540,7 +6591,7 @@
     "height" : NumberInt(25), 
     "col_seq" : NumberInt(1), 
     "label_width" : NumberInt(75), 
-    "width" : NumberInt(165), 
+    "width" : NumberInt(80), 
     "visiable" : "Y", 
     "modificable" : "Y", 
     "requirable" : "Y", 
@@ -6550,7 +6601,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aeb"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0ba9"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6561,11 +6612,11 @@
     "ui_type" : "number", 
     "ui_field_length" : NumberInt(5), 
     "ui_field_num_point" : NumberInt(0), 
-    "row_seq" : NumberInt(7), 
+    "row_seq" : NumberInt(6), 
     "height" : NumberInt(25), 
-    "col_seq" : NumberInt(1), 
-    "label_width" : NumberInt(75), 
-    "width" : NumberInt(165), 
+    "col_seq" : NumberInt(2), 
+    "label_width" : NumberInt(70), 
+    "width" : NumberInt(80), 
     "visiable" : "Y", 
     "modificable" : "Y", 
     "requirable" : "Y", 
@@ -6575,7 +6626,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aec"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0baa"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6586,11 +6637,11 @@
     "ui_type" : "number", 
     "ui_field_length" : NumberInt(5), 
     "ui_field_num_point" : NumberInt(0), 
-    "row_seq" : NumberInt(8), 
+    "row_seq" : NumberInt(6), 
     "height" : NumberInt(25), 
-    "col_seq" : NumberInt(1), 
-    "label_width" : NumberInt(75), 
-    "width" : NumberInt(165), 
+    "col_seq" : NumberInt(3), 
+    "label_width" : NumberInt(65), 
+    "width" : NumberInt(80), 
     "visiable" : "Y", 
     "modificable" : "Y", 
     "requirable" : "Y", 
@@ -6600,7 +6651,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aed"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0bab"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6625,7 +6676,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aee"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0bac"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6650,7 +6701,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752aef"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0bad"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6675,7 +6726,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752af0"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0bae"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6700,7 +6751,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752af1"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0baf"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6725,7 +6776,7 @@
     "rule_func_name" : ""
 }
 { 
-    "_id" : ObjectId("598c2158d1999020f6752af2"), 
+    "_id" : ObjectId("599ea1f1ccd6dd06342f0bb0"), 
     "user_athena_id" : "", 
     "user_id" : "", 
     "athena_id" : "", 
@@ -6748,4 +6799,58 @@
     "multi_lang_table" : "", 
     "format_func_name" : "", 
     "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599f903a726c3e1074b5a13f"), 
+    "user_athena_id" : "", 
+    "user_id" : "", 
+    "athena_id" : "", 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_class_kvrf", 
+    "ui_type" : "grid", 
+    "ui_field_length" : "", 
+    "ui_field_num_point" : "", 
+    "row_seq" : "", 
+    "height" : "", 
+    "col_seq" : "", 
+    "label_width" : "", 
+    "width" : "", 
+    "visiable" : "", 
+    "modificable" : "", 
+    "requirable" : "", 
+    "keyable" : "", 
+    "multi_lang_table" : "", 
+    "format_func_name" : "", 
+    "rule_func_name" : "", 
+    "attr_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("599f903a726c3e1074b5a140"), 
+    "user_athena_id" : "", 
+    "user_id" : "", 
+    "athena_id" : "", 
+    "prg_id" : "PMS0860060", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_mn", 
+    "ui_type" : "grid", 
+    "ui_field_length" : "", 
+    "ui_field_num_point" : "", 
+    "row_seq" : "", 
+    "height" : "", 
+    "col_seq" : "", 
+    "label_width" : "", 
+    "width" : "", 
+    "visiable" : "", 
+    "modificable" : "", 
+    "requirable" : "", 
+    "keyable" : "", 
+    "multi_lang_table" : "", 
+    "format_func_name" : "", 
+    "rule_func_name" : "", 
+    "attr_func_name" : ""
 }

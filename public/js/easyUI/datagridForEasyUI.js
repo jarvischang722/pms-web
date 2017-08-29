@@ -301,6 +301,7 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
+    return false;
     if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
@@ -468,9 +469,13 @@ $.extend($.fn.datagrid.methods, {
         _.each(cols, function (field_name) {
             if ($row.find("td[field='" + field_name + "']").length == 1) {
                 if ($row.find("td[field='" + field_name + "']").find(".textbox-value").length > 0) {
-                    rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim();
+                    if( $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim() != ""){
+                        rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim();
+                    }
                 } else if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").length > 0) {
-                    rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim();
+                    if( $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim() != ""){
+                        rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim();
+                    }
                 }
             }
         });

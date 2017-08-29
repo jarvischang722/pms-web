@@ -25,3 +25,9 @@ exports.getPMS0410020 = function (req, res) {
 exports.getPMS0410010 = function (req, res) {
     res.render("subsystem/housekeeping/PMS0410010");
 };
+/**
+ * 打掃安排
+ */
+exports.getPMS0410060 = function (req, res) {
+    res.render("subsystem/housekeeping/PMS0410060");
+};

@@ -55,12 +55,4 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
-
-    <!--TODO: 小良Rule完成後可刪-->
-    <dao name="QRY_MAX_KEY_NOS">
-        <statement><![CDATA[
-         select max(key_nos)+1 as max_key_nos from hfd_use_dt
-        ]]>
-        </statement>
-    </dao>
 </root>

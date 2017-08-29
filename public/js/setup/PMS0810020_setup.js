@@ -305,6 +305,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             self.deleteStatue = true;
                             self.tmpCud.deleteData = [self.singleData];
                             self.doSaveGrid();
+
                             if (result.showAlert) {
                                 alert(result.alertMsg);
                             }
@@ -434,6 +435,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                             }
                         });
                     }
+                    self.$parent.loadSingleGridPageField();
                 });
             }
             else {
@@ -828,7 +830,7 @@ var vm = new Vue({
                                 $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
                             });
                             vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
-                            vm.doSaveCUD();
+                            vm.doSaveCUD(function(){});
                         } else {
                             alert(result.errorMsg);
                         }
@@ -1001,6 +1003,7 @@ var vm = new Vue({
         appendRow: function () {
             vm.initTmpCUD();
             vm.createStatus = true;
+            vm.imageDisplay = false;
             vm.singleData = {};
             $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                 if (result.success) {
