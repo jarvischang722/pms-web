@@ -1,4 +1,3 @@
-<%- include ../../../common/importFiles.ejs %>
 <!--page-content-->
 <div id="PMS0860060_body">
     <div class="col-xs-12">
@@ -35,23 +34,23 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" @click="addNode"
-                                        role="button">Add</button>
+                                        role="button"><%= __("SystemCommon").Add %></button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth" @click="delNode"
-                                        role="button">Delete</button>
+                                        role="button"><%= __("SystemCommon").Delete %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth" @click="renameNode"
-                                        role="button">Edit</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth" @click="doSave"
-                                        role="button">Save</button>
+                                        role="button"><%= __("SystemCommon").Modify %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Change Log</button>
+                                        role="button" @click="doSave"><%= __("SystemCommon").Save %></button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" style="display: none;">Change Log</button>
                             </li>
                         </ul>
                     </div>
