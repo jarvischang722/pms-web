@@ -38,6 +38,12 @@ var vm = new Vue({
             });
         },
 
+        initTemCud: function(){
+            this.tmpCud.createData = [];
+            this.tmpCud.updateData = [];
+            this.tmpCud.deleteData = [];
+        },
+
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
@@ -138,6 +144,9 @@ var vm = new Vue({
                 _.each(lo_parentNode.children, function (childNode, Idx) {
                     var lo_childNode = self.tree.get_node(childNode);
                     lo_childNode.position = Idx;
+                    if(lo_childNode.createStatus == "N" || lo_childNode.deleteStatus == "N"){
+                        lo_childNode.updateStatus = "Y";
+                    }
                 });
             }
 
@@ -151,7 +160,6 @@ var vm = new Vue({
                         }));
                     }
                 });
-
                 if (lo_childNode.createStatus == "Y") {
                     self.tmpCud["createData"].push(new rowData(lo_childNode));
                 }
@@ -182,6 +190,7 @@ var vm = new Vue({
                 .done(function (response) {
                     waitingDialog.hide();
                     if (response.success) {
+                        self.initTemCud();
                         self.loadDataGridByPrgID();
                         alert('save success!');
                     } else {
@@ -220,18 +229,33 @@ var vm = new Vue({
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
 
-            // 更節點不能刪除
-            if (lo_dgRow.parent_cod.trim() == "#") {
-                return false;
+            if(lo_node.createStatus == "Y"){
+                this.tmpCud["createData"] = _.without(this.tmpCud["createData"], _.findWhere(this.tmpCud["createData"], {
+                    area_cod: lo_node.id
+                }));
+                this.tree.delete_node(lo_selNode);
+                return true;
             }
+
+            // 根節點不能刪除
+            if (lo_dgRow.parent_cod.trim() == "#") {
+                return true;
+            }
+
+            var la_allDelRowData = searchNode(lo_node, []);
+            la_allDelRowData.push(new rowData(lo_node));
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: gs_prg_id,
-                deleteData: lo_dgRow
+                deleteData: la_allDelRowData
             }, function (result) {
                 if (result.success) {
-                    lo_node.deleteStatus = "Y";
-                    self.tmpCudHandler(lo_node);
+                    _.each(la_allDelRowData, function(delRowData){
+                        var lo_childNode = self.tree.get_node(delRowData.area_cod);
+                        lo_childNode.deleteStatus = "Y";
+                        self.tmpCudHandler(lo_childNode);
+                    });
+
                     self.tree.delete_node(lo_selNode);
 
                 }
@@ -262,24 +286,18 @@ function searchChildAndInsert(lo_node) {
     });
 }
 
-function searchNode(lo_node, area_cod) {
-    var lo_parentNode = null;
+function searchNode(lo_node, la_allNode) {
     if (lo_node.children.length != 0) {
-        lo_parentNode = _.findWhere(lo_node.children, {id: area_cod});
-        if (_.isUndefined(lo_parentNode)) {
-            _.each(lo_node.children, function (lo_child_node) {
-                if (lo_child_node.children.length != 0) {
-                    lo_parentNode = searchNode(lo_child_node, area_cod);
-                }
-            });
-        }
+        _.each(lo_node.children, function (lo_child_node) {
+            var lo_childNode = vm.tree.get_node(lo_child_node);
+            la_allNode.push(new rowData(lo_childNode));
+            if (lo_childNode.children.length != 0) {
+                searchNode(lo_childNode, la_allNode);
+            }
+        });
     }
 
-    if (_.isUndefined(lo_parentNode)) {
-        lo_parentNode = null;
-    }
-
-    return lo_parentNode;
+    return la_allNode;
 }
 
 function rowData(node) {

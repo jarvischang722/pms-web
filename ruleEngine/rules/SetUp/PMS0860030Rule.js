@@ -17,20 +17,27 @@ module.exports = {
     chk_area_cod_kvrf_is_exist_cust_mn: function(postData, session, callback){
         let lo_result = new ReturnClass();
         let lo_error = null;
+        let li_counter = 0;
+        _.each(postData.deleteData, function(delData){
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                area_cod: delData.area_cod
+            };
 
-        let lo_params = {
-            athena_id: session.user.athena_id,
-            area_cod: postData.area_cod
-        };
+            queryAgent.query("QRY_AREA_COUNT", lo_params, function(err, getResult){
+                li_counter++;
+                if(getResult.areacount > 0){
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                }
+                if(li_counter == postData.deleteData.length){
+                    callback(lo_error, lo_result);
+                }
 
-        queryAgent.query("QRY_AREA_COUNT", lo_params, function(err, getResult){
-            if(getResult.areacount > 0){
-                lo_error = new ErrorClass();
-                lo_result.success = false;
-                lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
-                lo_error.errorCod = "1111";
-            }
-            callback(lo_error, lo_result);
+            });
         });
     }
 };
