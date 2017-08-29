@@ -5,8 +5,6 @@
  */
 
 var gs_prg_id = $("#prg_id").val();
-var vmHub = new Vue;
-var ga_treeData = [];
 var gs_action = null;
 
 var vm = new Vue({
@@ -21,7 +19,12 @@ var vm = new Vue({
         dataGridRows: {},
         fieldData: {},
         tree: null,
-        maxClassCod: null
+        maxClassCod: null,
+        tmpCud: {               //新刪修暫存
+            createData: [],
+            updateData: [],
+            deleteData: []
+        }
     },
     methods: {
         //取得使用者資料
@@ -44,7 +47,7 @@ var vm = new Vue({
                         if (_.isNaN(li_class_cod)) {
                             obj.class_cod = padLeft(obj.class_cod, 5);
                         }
-                        else{
+                        else {
                             obj.class_cod = padLeft(obj.class_cod, 6);
                         }
                     }
@@ -155,7 +158,8 @@ var vm = new Vue({
                 deleteData: lo_dgRow
             }, function (result) {
                 if (result.success) {
-                    self.tmpCudHandler(lo_node, "deleteData");
+                    lo_node.deleteStatus = "Y";
+                    self.tmpCudHandler(lo_node);
                     self.tree.delete_node(lo_selNode);
 
                 }
@@ -167,10 +171,9 @@ var vm = new Vue({
 
         },
 
-        tmpCudHandler: function (currNode, type) {
+        tmpCudHandler: function (currNode) {
             var self = this;
             var lo_parentNode = this.tree.get_node(this.tree.get_parent(currNode));
-
 
             // 取排序
             if (lo_parentNode.children.length != 0) {
@@ -180,45 +183,44 @@ var vm = new Vue({
                 });
             }
 
-            // 去除暫存重複
             _.each(lo_parentNode.children, function (childNode) {
+                var lo_childNode = self.tree.get_node(childNode);
+                // 去除暫存重複
                 _.each(self.tmpCud, function (obj, key) {
                     if (obj.length != 0) {
                         self.tmpCud[key] = _.without(obj, _.findWhere(obj, {
                             class_cod: childNode
                         }));
                     }
-
                 });
-            });
 
-            var la_children = _.without(lo_parentNode.children, currNode.id);
-            self.tmpCud[type].push(new rowData(currNode));
-            type = "updateData";
-
-            _.each(la_children, function (childNode) {
-                var lo_childNode = self.tree.get_node(childNode);
-                self.tmpCud[type].push(new rowData(lo_childNode));
+                if(lo_childNode.createStatus == "Y"){
+                    self.tmpCud["createData"].push(new rowData(lo_childNode));
+                }
+                if(lo_childNode.updateStatus == "Y"){
+                    self.tmpCud["updateData"].push(new rowData(lo_childNode));
+                }
+                if(lo_childNode.deleteStatus == "Y"){
+                    self.tmpCud["deleteData"].push(new rowData(lo_childNode));
+                }
             });
         },
 
         doSave: function () {
-            waitingDialog.show('Saving...');
             var self = this;
             var fieldData = [
                 {ui_field_name: 'athena_id', keyable: 'Y'},
-                {ui_field_name: "area_cod", keyable: "Y"}
+                {ui_field_name: 'class_cod', keyable: 'Y'}
             ];
 
             var params = {
                 prg_id: gs_prg_id,
                 tmpCUD: this.tmpCud,
                 fieldData: fieldData,
-                mainTableName: "area_cod_kvrf"
+                mainTableName: "sales_class_kvrf"
             };
             $.post('/api/execSQLProcess', params)
                 .done(function (response) {
-                    waitingDialog.hide();
                     if (response.success) {
                         self.loadDataGridByPrgID();
                         alert('save success!');
@@ -227,7 +229,6 @@ var vm = new Vue({
                     }
                 })
                 .fail(function (error) {
-                    waitingDialog.hide();
                     console.log(error);
                 });
         },
@@ -255,30 +256,36 @@ var vm = new Vue({
                 columns: [[
                     {field: 'sales_cod', title: '業務員代號', width: 100},
                     {field: 'sales_nam', title: '業務員姓名', width: 150},
-                    {field: 'hotel_sales', title: '飯店業務', width: 100, formatter: function(value){
-                        if(value == "Y"){
+                    {
+                        field: 'hotel_sales', title: '飯店業務', width: 100, formatter: function (value) {
+                        if (value == "Y") {
                             return '<input type="checkbox" name="hotel_sales" checked="checked" disabled>';
                         }
-                        else{
+                        else {
                             return '<input type="checkbox" name="hotel_sales" disabled>';
                         }
-                    }},
-                    {field: 'bq_sales', title: '餐飲業務', width: 100, formatter: function(value){
-                        if(value == "Y"){
+                    }
+                    },
+                    {
+                        field: 'bq_sales', title: '餐飲業務', width: 100, formatter: function (value) {
+                        if (value == "Y") {
                             return '<input type="checkbox" name="bq_sales" checked="checked" disabled>';
                         }
-                        else{
+                        else {
                             return '<input type="checkbox" name="bq_sales" disabled>';
                         }
-                    }},
-                    {field: 'member_sales', title: '會員業務', width: 100, formatter: function(value){
-                        if(value == "Y"){
+                    }
+                    },
+                    {
+                        field: 'member_sales', title: '會員業務', width: 100, formatter: function (value) {
+                        if (value == "Y") {
                             return '<input type="checkbox" name="member_sales" checked="checked" disabled>';
                         }
-                        else{
+                        else {
                             return '<input type="checkbox" name="member_sales" disabled>';
                         }
-                    }}
+                    }
+                    }
                 ]]
             });
         }
@@ -287,7 +294,7 @@ var vm = new Vue({
 
 function rowData(node) {
     this.class_cod = node.id;
-    this.area_nam = node.text;
+    this.class_nam = node.text;
     this.sort_cod = node.position;
     this.parent_cod = node.parent;
 }
@@ -297,6 +304,9 @@ function Node(rowData) {
     this.text = rowData.class_nam;
     this.sort_cod = rowData.sort_cod;
     this.parent_cod = rowData.parent_cod;
+    this.createStatus = "N";
+    this.updateStatus = "N";
+    this.deleteStatus = "N";
     this.children = [];
 }
 
@@ -334,20 +344,20 @@ function genNewClassCod() {
     var ls_rtnAreaCod;
     var li_maxClassCod = Number(vm.maxClassCod);
 
-    // 9999轉英文A1
-    if (li_maxClassCod >= 9999) {
+    // 999999轉英文A1
+    if (li_maxClassCod >= 999999) {
         ls_firstStr = "A";
         li_sortNumber = 1;
 
-        li_newSortNumber = padLeft(li_sortNumber, 3);
+        li_newSortNumber = padLeft(li_sortNumber, 5);
         ls_rtnAreaCod = ls_firstStr + li_newSortNumber;
     }
     // 有英文數字
     else if (_.isNaN(li_maxClassCod)) {
         ls_firstStr = vm.maxClassCod.substr(0, 1);
-        li_sortNumber = Number(vm.maxClassCod.substr(1, 3));
+        li_sortNumber = Number(vm.maxClassCod.substr(1, 5));
 
-        if (li_sortNumber >= 999) {
+        if (li_sortNumber >= 99999) {
             li_newSortNumber = 1;
             ls_newStr = nextChar(ls_firstStr);
         }
@@ -356,14 +366,14 @@ function genNewClassCod() {
             ls_newStr = ls_firstStr;
         }
 
-        li_newSortNumber = padLeft(li_newSortNumber, 3);    // 補0
+        li_newSortNumber = padLeft(li_newSortNumber, 5);    // 補0
         ls_rtnAreaCod = ls_newStr + li_newSortNumber;
     }
     // 存數字
     else {
         li_newSortNumber = li_maxClassCod;
         li_newSortNumber = ++li_newSortNumber;
-        li_newSortNumber = padLeft(li_newSortNumber, 4);
+        li_newSortNumber = padLeft(li_newSortNumber, 6);
 
         ls_rtnAreaCod = li_newSortNumber;
     }
@@ -390,10 +400,12 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
     if (gs_action == "rename") {
         lo_dgRow = _.findWhere(vm.treeDataRows, {class_cod: lo_node.id});
         if (_.isUndefined(lo_dgRow)) {
-            vm.tmpCudHandler(lo_node, "createData");
+            lo_node.createStatus = "Y";
+            vm.tmpCudHandler(lo_node);
         }
         else {
-            vm.tmpCudHandler(lo_node, "updateData");
+            lo_node.updateStatus = "Y";
+            vm.tmpCudHandler(lo_node);
         }
         gs_action = null;
     }
@@ -401,8 +413,9 @@ $("#areaTree").on("rename_node.jstree", function (e, data) {
         var ls_newClassCod = genNewClassCod();
         vm.maxClassCod = ls_newClassCod;
         vm.tree.set_id(lo_node, ls_newClassCod);
+        lo_node.createStatus = "Y";
 
-        vm.tmpCudHandler(lo_node, "createData");
+        vm.tmpCudHandler(lo_node);
         gs_action = null;
     }
 });
@@ -412,8 +425,10 @@ $("#areaTree").on("move_node.jstree", function (e, data) {
     var lo_node = data.node;
     vm.tree.deselect_all();
     vm.tree.select_node(lo_node);
-
-    vm.tmpCudHandler(lo_node, "updateData");
+    if(lo_node.createStatus != "Y"){
+        lo_node.updateStatus = "Y";
+    }
+    vm.tmpCudHandler(lo_node);
 });
 
 $("#areaTree").on("select_node.jstree", function (e, data) {
