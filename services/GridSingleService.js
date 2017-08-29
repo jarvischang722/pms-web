@@ -581,9 +581,11 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         });
         _.each(dt_createData, function (data, idx) {
             let keys = tools.combineKeys(data, _.pluck(la_dtkeyFields, 'ui_field_name'), false);
-            let targetIdx = _.findIndex(dt_createData, keys);
-            if (targetIdx > -1 && idx > targetIdx) {
-                delete dt_createData[targetIdx];
+            if(_.hasOwnProperty(keys)){     //for PMS0820050，data無key的欄位，導致判斷錯誤。
+                let targetIdx = _.findIndex(dt_createData, keys);
+                if (targetIdx > -1 && idx > targetIdx) {
+                    delete dt_createData[targetIdx];
+                }
             }
         });
         createData = _.compact(createData);

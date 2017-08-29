@@ -116,6 +116,104 @@ a
 
 
 //system 改版二
+.boxy
+  padding: 0
+  display: inline-block
+  text-align: center
+  width: 150px
+  height: 150px
+  &:after
+    content: ''
+    display: table
+    clear: both
+  &:hover
+    h3
+      opacity: 0
+      transition: all 0.8s ease-in-out
+  .inner-item:before
+    content: ''
+    display: table
+
+  .inner-item
+    width: 100%
+    height: 100%
+    background: #aaaaaa
+    border-radius: 50%
+    overflow: hidden
+    position: relative
+    cursor: default
+    //margin: 20px
+    box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.1)
+    +transition(all 0.4s ease-in-out)
+    &:hover
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 0, 0, 0.1)
+      .sub
+        +transform(scale(1))
+        opacity: 1
+        p
+          opacity: 1
+    h3
+      position: relative
+      color: #fff
+      text-transform: uppercase
+      letter-spacing: 2px
+      font-size: 35px
+      margin: 0 30px
+      padding: 58px 0 0 0
+      height: 100px
+      font-weight: 700
+      text-shadow: 0 0 1px #fff, 0 1px 1px rgba(0, 0, 0, 0.2)
+
+    .sub
+      position: absolute
+      background: rgba(244, 130, 34, 0.8)
+      width: inherit
+      height: inherit
+      border-radius: 50%
+      overflow: hidden
+      opacity: 0
+      +transition(all 0.4s ease-in-out)
+      +transform(scale(0))
+      &.circle-bg-blue
+        background: #438EB9
+      &.circle-bg-orange
+        background: $orange
+      &.circle-bg-green
+        background: $green
+      p
+        color: #fff
+        padding: 10px 5px
+        font-style: normal
+        font-weight: 700
+        text-transform: uppercase
+        font-size: 16px
+        letter-spacing: 1px
+        //margin: 140px 30px
+        position: absolute
+        top: 15%
+        border-top: 5px solid rgba(255, 255, 255, 0.5)
+        opacity: 0
+        +transition(all 0.4s ease-in-out 0.8s)
+    // if 將”a“tab 往前移會變成一個蛋
+    //a
+    //  display: block
+    //  color: rgba(255, 255, 255, 0.7)
+    //  font-style: normal
+    //  font-weight: 700
+    //  text-transform: uppercase
+    //  font-size: 11px
+    //  letter-spacing: 2px
+    //  padding-top: 7px
+    //  text-decoration: none
+    //  &:hover
+    //    color: rgba(173, 221, 234, 1)
+    //    padding: 5px
+    //    border-radius: 101px
+    //    border: 2px solid #BA611D
+    //    background-color: rgba(186, 97, 29, 0.1)
+    //    //text-decoration: none
+
+
 
 
 /*-- footer --*/
@@ -203,6 +301,22 @@ a
       a.active_01
         background: #888
         color: #fff
+      .exLinkIcon
+        i
+          +transition (transform .5s)
+          &:hover
+            //color: $blue
+            +transform(scale(1.2))
+            animation: exLinkIcon_Active 1.2s
+            @keyframes exLinkIcon_Active
+              0%
+                +transform(rotate(0deg))
+              25%
+                +transform(rotate(45deg))
+              50%
+                +transform(rotate(-90deg))
+              100%
+                +transform(rotate(0deg))
     .icon-2-style
       width: 12px
       height: 12px
@@ -436,6 +550,7 @@ a
               float: left
               list-style: none
               padding: 4px
+              cursor: pointer
               div.icon-reStyle
                 width: 28px
                 height: 28px
@@ -620,7 +735,7 @@ a
   .input-medium.medium-c1
     width: 190px !important
 .businessModify-Left
-  margin: 19px 0
+  //margin: 19px 0
   .businessModify-head
     padding-top: 5px
     padding-bottom: 5px
@@ -654,9 +769,6 @@ input[type="date"]
   padding: 1px 3px
 input[type="radio"], input[type="checkbox"]
   margin: 0
-.BusinessModify-Right
-  ul
-    margin-top: 19px
 .Large-input .input-medium.medium-c1
   +input-s1(240px)
 .XLarge-input .input-medium.medium-c1
@@ -956,7 +1068,7 @@ ul.newVisitOther-btn
         padding: 5px
         //min-width: 100%
         //min-height: 100%
-        width: 129px
+        width: 127px
         height: 74px
         line-height: 23px
         box-sizing: border-box
@@ -1041,6 +1153,12 @@ ul.newVisitOther-btn
             font-weight: bold
             color: #DD5A43
             border: 2px solid #DD5A43
+          &.roomBigTitle
+            text-align: center
+            box-sizing: border-box
+            font-size: 1.2em
+            font-weight: bold
+            //color: #555
     .customInfo-table
       width: 100%
       .table-left,.table-right
@@ -1490,6 +1608,14 @@ span
   .grid-item
     label
       width: 120px
+//L&F
+.lf-btn-box
+  ul
+    li
+      button
+        margin-bottom: 5px
+.lf-more-topWrap
+  margin-bottom: 5px
 //pbx
 .pbx-clean-box
   //width: 360px
@@ -1523,14 +1649,7 @@ span
     button
       width: 100%
       margin-bottom: 11px
-//L&F
-.lf-btn-box
-  ul
-    li
-      button
-        margin-bottom: 5px
-.lf-more-topWrap
-  margin-bottom: 5px
+
 
 //已結帳處理
 .historyLedger-wrap
@@ -1578,8 +1697,9 @@ span
 .custab
   border: 0px solid #ccc
   padding: 5px
-  margin: 2% 0
+  //margin: 2% 0
   box-shadow: 3px 3px 2px #ccc
+  position: relative
   thead
     tr
       background: #549bdb !important
@@ -1588,6 +1708,8 @@ span
       th
         border: 1px solid #fff !important
   tbody
+    //position: absolute
+    //overflow-y: scroll
     tr
       &:nth-child(odd)
         background-color: #d2ddf1
@@ -1596,6 +1718,19 @@ span
       td
         border: 1px solid #fff !important
         color: #000
+// table上排固定
+.fixHeadTable
+  table
+    width: 100%
+    table-layout: fixed
+  .tbl-header
+  .tbl-content
+    overflow-x: auto
+    margin-top: 0px
+    td
+      padding-left: 5px
+
+
 .grayBg
   background: #EEEEEE !important
 //排房作業
@@ -1764,3 +1899,64 @@ span
         width: 70px
         text-align: right
         margin-right: 0
+//打掃安排
+.redbox
+  width: 16px
+  height: 16px
+  display: inline-block
+  vertical-align: sub
+  border: 1px solid
+.bg-red
+  background: red
+  color: #fff
+.bg-green
+  background: green
+  color: #fff
+.bg-blue
+  background: #01ffff
+.bg-yellow
+  background: yellow
+.bg-gray
+  background: gray
+.checkbox-header
+  border-bottom: 1px solid
+  padding-bottom: 5px
+  .checkbox label input[type=checkbox].ace + .lbl
+    margin: 0
+  label
+    display: inline-block !important
+.bigBox
+  label
+    width: 146px !important
+.cleanCheckbox-right
+  display: inline-block
+  margin-left: 20px
+  margin-top: -1px
+  .cc-right
+    width: 100px
+    display: inline-block
+  .cc-right-down
+    margin-top: 6px
+    display: inline-block
+.clean-table-container
+  margin-left: 10px
+  margin-top: 20px
+  display: inline-block
+  .clean-table-wrap
+    height: 250px
+    overflow: auto
+  .clean-text-box
+    text-align: right
+    margin-right: 11px
+.footer-textbox-wrap
+  margin-top: 30px
+.blue-text
+  color: blue
+//rateInfo
+.margin-top10
+  margin-top: 10px
+.navy-line
+  margin-top: 10px
+  margin-bottom: 10px
+  border: 0
+  border-top: 1px solid #8aafce

@@ -83,7 +83,7 @@
     <%- include ../sales/sales_module/sales_Btn_1.ejs %>
     <!--  /.End 業務 -->
 
-    <!-- ratePlan 彈出視窗 -->
+    <!-- ratePlan 彈出視窗 備註：無法放在共用會產生抓值回圈，錯誤-->
     <div id="resv_ratePlanBtn-message" class="hide padding-5">
 
         <div class="row">
@@ -95,7 +95,7 @@
                             <div class="search-co">
                                 <div class="search-co-h">
                                     <i class="ace-icon fa fa-search search-icon"></i>
-                                    <span>搜尋</span>
+                                    <span>Search</span>
                                     <!--<div class="row search-right-btn">-->
                                     <!--<div class="right-btn-menu-co">-->
                                     <!--<ul>-->
@@ -198,7 +198,7 @@
             <div class="col-xs-12">
                 <div class="col-sm-11 col-xs-11">
                     <div class="row no-margin-right">
-                        <iframe src="../resv_ratePlanTable" style="width: 100%; min-height: 245px;" frameborder="0" scrolling="0"></iframe>
+                        <iframe src="../resv_ratePlanTable" style="width: 100%; min-height: 450px;" frameborder="0" scrolling="0"></iframe>
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1">
@@ -228,9 +228,11 @@
                         <div style="float:left; min-width: 30px; max-width: 3%;">
                             <table id="dgCheckbox-table"></table>
                         </div>
-                        <!-- 專案訂房 查詢結果 -->
-                        <table id="PMS0110030-dg" style="height: 200px;"></table>
-                        <!-- 專案訂房 查詢結果 -->
+
+                        <div class="gridTableHt">
+                            <!-- 專案訂房 多筆 -->
+                            <table id="PMS0110030-dg" style="height: 200px;"></table>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1">

@@ -9,7 +9,7 @@
                         <div class="search-co">
                             <div class="search-co-h">
                                 <i class="ace-icon fa fa-search search-icon"></i>
-                                <span>搜尋</span>
+                                <span>Search</span>
                                 <div class="row search-right-btn">
                                     <div class="right-btn-menu-co">
                                         <ul>
@@ -102,8 +102,11 @@
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <!-- 房務入帳-table dataGrid -->
-                    <table id="PMS0410020-table"></table>
+
+                    <div class="gridTableHt">
+                        <!-- 房務入帳-table dataGrid -->
+                        <table id="PMS0410020-table"></table>
+                    </div>
                 </div>
             </div>
             <div class="col-xs-1 col-sm-1">
@@ -720,143 +723,15 @@
     </div>
     <!-- /.hk-detail -->
 
-<script>
 
-    $(document).ready(function(){
-        //選中的增加active
-        $(".hk-MidBoxsBlock").click(function() {
-            $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
-            $(this).addClass('active');
-        });
 
-        //隱藏顯示
-        $(".hk-mian-content").hide();
-        $(".hk-mian-content-2").hide();
-        $(".hk-midNav-2").hide();
 
-        $(".hk-mid-1").click(function() {
-            $(".hk-mian-content").show();
-            $(".hk-mian-content-2").hide();
-        });
-        $(".hk-mid-2").click(function() {
-            $(".hk-mian-content").hide();
-            $(".hk-midNav-1").hide();
-            $(".hk-midNav-2").show();
-        });
-        $(".hk-mid2-1").click(function() {
-            $(".hk-mian-content-2").show();
-        });
-        $(".hk-back-nav").click(function() {
-            $(".hk-midNav-2").hide();
-            $(".hk-midNav-1").show();
-        });
-    });
 
-    // 彈出房務入帳主檔
-    $(document).on('click', ".hk-posting-btn", function (e) {
-        e.preventDefault();
-        var dialog = $("#hk-postion-page").removeClass('hide').dialog({
-            modal: true,
-            title: "房務入帳主檔",
-            title_html: true,
-            width: 1000,
-            maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-            dialogClass: "test",
-            resizable: true
-        });
-    });
+<!--  房務共用 initial js -->
+<%- include houseKeeping_module/houseKeeping_includeJs.ejs %>
+<!--  /.End 房務共用 initial js  -->
 
-    // 彈出detail
-    $(document).on('click', ".hk-detail-btn", function (e) {
-        e.preventDefault();
-        var dialog = $("#hk-detail-page").removeClass('hide').dialog({
-            modal: true,
-            title: "Detail",
-            title_html: true,
-            width: 1000,
-            maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-            dialogClass: "test",
-            resizable: true
-        });
-    });
 
-    // 房務入帳table
-    $('#PMS0410020-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/PMS0410020-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'rmNo', title: 'Rm. No.', width: 70},
-            {field: 'name', title: 'Full Name', width: 100},
-            {field: 'fs', title: 'Folio Status', width: 100},
-            {field: 'coDate', title: 'C/O Date', width: 100},
-            {field: 'ciDate', title: 'C/I Date', width: 100},
-            {field: 'ciTime', title: 'C/I Time', width: 70},
-            {field: 'mini', title: 'Mini Bar Amt.',align:'right', width: 100},
-        ]]
-    });
-
-    // postion-table
-    $('#postion-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/postion-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'check', title: '', width: 22},
-            {field: 'thing', title: '消費項目', width: 70},
-            {field: 'num', title: '數量', width: 40},
-            {field: 'price', title: '單價',align:'right', width: 50},
-            {field: 'pay', title: '消費金額',align:'right', width: 60},
-            {field: 'se', title: '服務費',align:'right', width: 50}
-        ]]
-    });
-
-    $('#hk-details-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/hk-details-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'thing', title: '消費項目', width: 100},
-            {field: 'num', title: '數量', width: 70},
-            {field: 'price', title: '單價',align:'right', width: 70},
-            {field: 'originMoney', title: '原銷售金額',align:'right', width: 100},
-            {field: 'realityseMoney', title: '實際銷售金額',align:'right', width: 100},
-            {field: 'originService', title: '原服務費',align:'right', width: 100},
-            {field: 'realityseService', title: '實際服務費',align:'right', width: 70}
-        ]]
-    });
-
-    $('#hk-detailsFrist-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/hk-detailsFrist-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'consumeDate', title: '消費日期', width: 100},
-            {field: 'enterTime', title: '入帳時間', width: 70},
-            {field: 'enterMan', title: '入帳者',align:'right', width: 70},
-            {field: 'smallClassify', title: '小分類',align:'right', width: 100},
-            {field: 'consumeMoney', title: '消費金額',align:'right', width: 70},
-            {field: 'serviceMoney', title: '服務費',align:'right', width: 70},
-            {field: 'total', title: '小計',align:'right', width: 70},
-            {field: 'consumeCode', title: '消費單號', width: 70},　
-            {field: 'serviceCode', title: '服務費單號', width: 100},　
-            {field: 'rmk', title: '備註', width: 100},　
-            {field: 'addDate', title: '新增日', width: 70},　
-            {field: 'addMan', title: '新增者', width: 70},　
-            {field: 'lastDate', title: '最後異動日', width: 100},　
-            {field: 'lastMan', title: '最後異動者', width: 70}　
-        ]]
-    });
-</script>
+<!--  訂房卡共用 initial js -->
+<%- include ../reservation/PMS0100000_module/resv_includeJs.ejs %>
+<!--  /.End 訂房卡共用 initial js  -->

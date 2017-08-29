@@ -307,8 +307,6 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
     _.each(tmpCUD.updateData, function (u_data) {
         var tmpEdit = {"function": "2"}; //2  編輯
         tmpEdit["table_name"] = mainTableName;
-        tmpEdit["athena_id"] = userInfo.athena_id;
-        tmpEdit["hotel_cod"] = userInfo.fun_hotel_cod;
 
         _.each(Object.keys(u_data), function (objKey) {
             tmpEdit[objKey] = u_data[objKey];
@@ -330,6 +328,14 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
                     value: u_data[keyField]
                 });
                 lo_keysData[keyField] = u_data[keyField];
+            }
+
+            if(keyField == "athena_id" || keyField == "hotel_cod"){
+                tmpEdit.condition.push({
+                    key: keyField,
+                    operation: "=",
+                    value: tmpEdit[keyField]
+                });
             }
         });
 
@@ -417,6 +423,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
     _.each(la_dtCreateData, function (dtCreateData) {
         let tmpCreateData = {"function": "1", "table_name": "route_dt"};
         tmpCreateData = _.extend(tmpCreateData, dtCreateData);
+        tmpCreateData["route_cod"] = lo_mnData.route_cod;
         lo_savaExecDatas[ln_exec_seq] = _.extend(tmpCreateData, ruleAgent.getCreateCommonDefaultDataRule(session));
         ln_exec_seq++;
     });
@@ -435,6 +442,7 @@ exports.doSavePMS0830080 = function (session, postData, callback) {
                 value: dtUpdData.small_typ
             });
         tmpDtUpdData = _.extend(tmpDtUpdData, dtUpdData);
+        tmpDtUpdData["route_cod"] = lo_mnData.route_cod;
         lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
         ln_exec_seq++;
     });

@@ -52,6 +52,7 @@
       "uploadImageBTN": "載入顯示圖檔",
       "uploadImageText": "將文字拖曳至此，或<em>點擊上傳</em>",
       "uploadImageTip": "只能上傳jpg/png文件，且不超過500kb",
+      "uploadMsg": "圖片上傳需稍待二分鐘(日文)",
       "reset_qnt": "一併重整庫存",
       "maxRmStock": "房型庫存最大日期",
       "roomTypeLabel": "房型圖片",
@@ -101,9 +102,34 @@
       "allDay_nam": "全部"
     },
     "PMS0820030": {
-      "load_default_color": "讀取預設顏色",
-      "copy_color": "複製顏色",
-      "paste_color": "貼上顏色"
+      "load_default_color": "讀取預設顏色(日)",
+      "copy_color": "複製顏色(日)",
+      "paste_color": "貼上顏色(日)"
+    },
+    "PMS0830100": {
+      "begin_dat": "開始日",
+      "end_dat": "結束日",
+      "day_sta": "假日類別",
+      "free_tim": "緩衝分鐘數",
+      "over_tim": "逾時單位分鐘數",
+      "over_amt": "逾時每單位金額",
+      "item_nos": "消費代號",
+      "stay_free_tim": "緩衝分鐘數",
+      "stay_over_tim": "逾時單位分鐘數",
+      "stay_over_amt": "每單位金額",
+      "stay_item_nos": "消費代號",
+      "rest": "休息",
+      "stay": "住宿",
+      "ins_dat": "輸入日",
+      "ins_usr": "輸入者",
+      "upd_dat": "最後異動日",
+      "upd_usr": "最後異動者"
+    },
+    "PMS0830080": {
+      "route_cod": "規則代號(日)",
+      "route_nam": "規則名稱(日)",
+      "is_master": "丟公帳(日)",
+      "to_master": "移至公帳(日)"
     }
   },
   "table_in_use": "%s 使用中",
@@ -127,7 +153,7 @@
     "Logout": "登出",
     "Loading": "讀取中",
     "ProgramID": "程式編號",
-    "ChangeLog" : "異動紀錄"
+    "ChangeLog": "異動紀錄"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

@@ -41,7 +41,6 @@
             url: '/jsonData/resv_gProfile.json',
             method: 'get',
             columns: [[
-                {field: 'option', title: '選擇', width: 80},
                 {field: 'historyNO', title: '歷史編號', width: 80},
                 {field: 'personID', title: '身份證字號', width: 100},
                 {field: 'fullName', title: 'Full Nmae', width: 80},
@@ -52,11 +51,24 @@
                 {field: 'visitNum', title: '來訪次數', width: 60},
                 {field: 'visitDay', title: '來訪天數', width: 60},
                 {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
-                {field: 'getDM', title: '收取DM', width: 60},
+                {field: 'getDM', title: '收取DM', width: 60}
             ]]
 
         });
 
+        // PMS0210010 住客歷史多筆資料(checkbox)
+        $('#resv_gProfile_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_gProfile_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
+
+        });
         // 彈出 住客歷史 Lost&Found
         $(document).on('click', ".resvLostFound", function (e) {
             e.preventDefault();
@@ -266,7 +278,6 @@
             });
         });
 
-
         // 彈出 預授權
         $(document).on('click', ".authorize-btn", function (e) {
             e.preventDefault();
@@ -379,6 +390,7 @@
                 resizable: true
             });
         });
+
         // 彈出 分類別 resv_BtnPage05
         $(document).on('click', ".resv_BtnPage05", function (e) {
             e.preventDefault();
@@ -460,6 +472,7 @@
                 resizable: true
             });
         });
+
         // 彈出 Memo resv_BtnPage09
         $(document).on('click', ".resv_BtnPage09", function (e) {
             e.preventDefault();
@@ -474,6 +487,7 @@
                 resizable: true
             });
         });
+
         // 彈出 訂房確認書log resv_BtnPage14
         $(document).on('click', ".resv_BtnPage14", function (e) {
             e.preventDefault();
@@ -488,6 +502,7 @@
                 resizable: true
             });
         });
+
         // 彈出 分帳規則 resv_BtnPage03
         $(document).on('click', ".resv_BtnPage03", function (e) {
             e.preventDefault();
@@ -1010,7 +1025,20 @@
                 resizable: true
             });
         });
-
+        // 彈出 rate info
+        $(document).on('click', ".rateInfo-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#rateInfo-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Rate Info",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         <!-- ********* dataGrid ********* -->
 
         // 預約來館資料 dataGrid
@@ -1084,7 +1112,7 @@
                 {field: 'updBy', title: '異動者',width: 75}
             ]]
         });
-        // 管別備註 dataGrid
+        // 館別備註 dataGrid
         $('#reservation_hallRemark-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1311,24 +1339,33 @@
             ]]
         });
 
+        // setRateCode rateCode-查詢結果(chk) dataGrid
+        $('#resv_RateCode_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/resv_RateCode_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
 
+        });
         // setRateCode rateCode-查詢結果 dataGrid
-        $('#clerkDataGridResult-table').datagrid({
+        $('#setRateCode-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
             url: '/jsonData/reservation_RateCode.json',
             method: 'get',
             columns: [[
-                {field: 'choose', title: '選擇', width: 100},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
-                {field: 'anotherName', title: '別名', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},
                 {field: 'roomChangeChoose', title: '訂房可異動房價', width: 100},
                 {field: 'setTripChoose', title: '為套裝行程', width: 100},
                 {field: 'useDescription', title: '使用說明', width: 200},
-                {field: 'MasterRatecod', title: 'Master Ratecod', width: 100},
                 {field: 'hall', title: '館別', width: 100}
             ]]
 
@@ -1364,7 +1401,7 @@
                 {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
             ]]
         });
-    });
+
 
     // profile messages (同PMS0210130 多筆) dataGrid
     $('#resvProfile_message-table').datagrid({
@@ -1469,6 +1506,51 @@
         ]]
     });
 
+    // rateInfo
+    $('#rateInfo-table').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/rateInfo-table.json',
+        method: 'get',
+        columns: [[
+            {field: 'date', title: '日期', width: 100},
+            {field: 'sDate', title: '服務日期', width: 100},
+            {field: 'item', title: '項目', width: 150},
+            {field: 'price', title: '單價', width: 80, align:'right'},
+            {field: 'amount', title: '數量', width: 50, align:'right'},
+            {field: 'total', title: '小計', width: 70, align:'right'},
+            {field: 'mode', title: '收費方式.', width: 70}
+        ]]
+    });
+
+    //changeRecords中的dropdown select
+    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
+        var $target = $( event.currentTarget );
+
+        $target.closest( '.btn-group' )
+            .find( '[data-bind="label"]' ).text( $target.text() )
+            .end()
+            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+
+        return false;
+
+    });
+
+//common JS
+    // Resize Table Height
+    var menuHeight1 = $(".navbar-container").height();
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+    console.log('menuHeight1',menuHeight1);
+    console.log('gridTableHt',menuHeight2);
+    height = $(window).height()-menuHeight1-menuHeight2-10;
+    $(".gridTableHt .panel-body").css("height", height);
+    console.log('gridTableHt .panel-body',height);
+    $(window).resize(function() {
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
+    });
+});
     $(function() {
 
         // tabs setting
@@ -1610,20 +1692,6 @@
 
     });
 
-    //changeRecords中的dropdown select
-    $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
-
-        var $target = $( event.currentTarget );
-
-        $target.closest( '.btn-group' )
-            .find( '[data-bind="label"]' ).text( $target.text() )
-            .end()
-            .children( '.dropdown-toggle' ).dropdown( 'toggle' );
-
-        return false;
-
-    });
-
     //dropzone 圖片上傳套件選項
     var myDropzone = new Dropzone("#myDropzone",
         {
@@ -1632,7 +1700,4 @@
             addRemoveLinks: true,
             method: 'post'
         });
-
-
-
 </script>

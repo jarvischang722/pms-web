@@ -60,7 +60,7 @@ exports.getSetupPrgChangeLog = function (req, callback) {
             queryAgent.queryList("QRY_ALL_USER_WITH_COMP", userInfo, 0, 0, function (err, allUser) {
                 ga_allUser = allUser;
                 callback(err, allUser);
-            })
+            });
         },
         function (allUser, callback) {
             mongoAgent.TemplateRf.find({prg_id: ls_prg_id}, function (err, template) {
@@ -89,13 +89,13 @@ exports.getSetupPrgChangeLog = function (req, callback) {
                 .sort({event_time: -1}).exec(function (err, allLogs) {
 
                 callback(err, allLogs);
-            })
+            });
         },
         function (allLogs, callback) {
             mongoAgent.LangUIField.find({prg_id: ls_prg_id}).exec(function (err, allLangField) {
                 ga_allLangField = allLangField;
                 callback(err, allLogs);
-            })
+            });
         },
         function (allLogs, callback) {
             mongoAgent.UIDatagridField.find({prg_id: ls_prg_id}).exec(function (err, prgFields) {
@@ -111,18 +111,18 @@ exports.getSetupPrgChangeLog = function (req, callback) {
                         field_name = _.findWhere(ga_allLangField, {ui_field_name: field_name})
                             ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name;
                         lo_tmpLog.keys.push(field_name + " : " + val);
-                    })
-                    _.each(logData, function (changeData, field_name) {
-                        if (field_name != '_id' && field_name != 'table_name' && field_name != 'event_time' && field_name != 'user' && field_name != 'action' && field_name != 'key') {
-                            lo_tmpLog.desc_mn.push(
-                                {
-                                    field_name: _.findWhere(ga_allLangField, {ui_field_name: field_name})
-                                        ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name,
-                                    newVal: changeData["new"],
-                                    oldVal: changeData["old"],
-                                });
-                        }
-                    })
+                    });
+                    _.each(logData.dataOfChanges, function (changeData, field_name) {
+
+                        lo_tmpLog.desc_mn.push(
+                            {
+                                field_name: _.findWhere(ga_allLangField, {ui_field_name: field_name})
+                                    ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name,
+                                newVal: changeData["newVal"],
+                                oldVal: changeData["oldVal"]
+                            });
+
+                    });
 
                     finalAllLogs.push(lo_tmpLog);
                 });
@@ -134,6 +134,6 @@ exports.getSetupPrgChangeLog = function (req, callback) {
         }
     ], function (err, finalAllLog) {
         callback(err, finalAllLog);
-    })
+    });
 
 };

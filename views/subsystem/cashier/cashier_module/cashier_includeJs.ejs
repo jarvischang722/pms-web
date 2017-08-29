@@ -152,22 +152,22 @@
             url: '/jsonData/cashier_GstLedgerSgl01.json',
             method: 'get',
             columns: [[
-                {field: 'consumeNum', title: '1.消費單號', width: 120},
+                {field: 'consumeDate', title: '1.消費日期', width: 100},
                 {field: 'consumeItem', title: '消費項目', width: 100},
                 {field: 'quantity', title: '數量', width: 40, align:'right'},
                 {field: 'consumeSum', title: '消費總額', width: 80, align:'right'},
                 {field: 'billingDate', title: '帳單日期', width: 80},
-                {field: 'billingNum', title: '帳單編號', width: 80},
                 {field: 'recordOffice', title: '入帳廳別', width: 80},
-                {field: 'addBy', title: '入帳者', width: 80,align: 'right'},
-                {field: 'addShift', title: '入帳班', width: 100},
-                {field: 'tax', title: '稅別', width: 100,align: 'right'},
-                {field: 'consumeRoom', title: '消費房號', width: 100,align: 'right'},
-                {field: 'liveTransferRm', title: '住掛轉帳備註', width: 20},
+                {field: 'addBy', title: '入帳者', width: 80},
+                {field: 'addShift', title: '入帳班', width: 60},
+                {field: 'consumeRoom', title: '消費房號', width: 60,align: 'right'},
+                {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
                 {field: 'adjustRm', title: '調整備註', width: 160},
                 {field: 'cashierRm', title: '出納備註', width: 160},
                 {field: 'billingRm', title: '帳單備註', width: 160},
-                {field: 'consumeDate', title: '消費日期', width: 160}
+                {field: 'consumeNum', title: '消費單號', width: 120},
+                {field: 'billingNum', title: '帳單編號', width: 100},
+                {field: 'tax', title: '稅別', width: 100,align: 'right'}
             ]]
         });
 
@@ -179,22 +179,22 @@
             url: '/jsonData/cashier_GstLedgerSgl02.json',
             method: 'get',
             columns: [[
-                {field: 'consumeNum', title: '2.消費單號', width: 120},
+                {field: 'consumeDate', title: '2.消費日期', width: 100},
                 {field: 'consumeItem', title: '消費項目', width: 100},
                 {field: 'quantity', title: '數量', width: 40, align:'right'},
                 {field: 'consumeSum', title: '消費總額', width: 80, align:'right'},
                 {field: 'billingDate', title: '帳單日期', width: 80},
-                {field: 'billingNum', title: '帳單編號', width: 80},
                 {field: 'recordOffice', title: '入帳廳別', width: 80},
-                {field: 'addBy', title: '入帳者', width: 80,align: 'right'},
-                {field: 'addShift', title: '入帳班', width: 100},
-                {field: 'tax', title: '稅別', width: 100,align: 'right'},
-                {field: 'consumeRoom', title: '消費房號', width: 100,align: 'right'},
-                {field: 'liveTransferRm', title: '住掛轉帳備註', width: 20},
+                {field: 'addBy', title: '入帳者', width: 80},
+                {field: 'addShift', title: '入帳班', width: 60},
+                {field: 'consumeRoom', title: '消費房號', width: 60,align: 'right'},
+                {field: 'liveTransferRm', title: '住掛轉帳備註', width: 160},
                 {field: 'adjustRm', title: '調整備註', width: 160},
                 {field: 'cashierRm', title: '出納備註', width: 160},
                 {field: 'billingRm', title: '帳單備註', width: 160},
-                {field: 'consumeDate', title: '消費日期', width: 160}
+                {field: 'consumeNum', title: '消費單號', width: 120},
+                {field: 'billingNum', title: '帳單編號', width: 100},
+                {field: 'tax', title: '稅別', width: 100,align: 'right'}
             ]]
         });
 
@@ -302,5 +302,18 @@
         });
 
 
+//common JS
+        // Resize Table Height
+        var menuHeight1 = $(".navbar-container").height();
+        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+        console.log('menuHeight1',menuHeight1);
+        console.log('gridTableHt',menuHeight2);
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
+        console.log('gridTableHt .panel-body',height);
+        $(window).resize(function() {
+            height = $(window).height()-menuHeight1-menuHeight2-10;
+            $(".gridTableHt .panel-body").css("height", height);
+        });
     });
 </script>

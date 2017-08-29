@@ -16,15 +16,13 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
     r_HfduserfViewseqAttr: function (postData, session, callback) {
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-
         postData.field.modificable = postData.singleRowData.sys_default == "Y" ? "N" : "Y";
-        callback(lo_error, [postData.field]);
+        callback(null, [postData.field]);
     },
+
     chk_hfd_use_dt_begin_end_dat: function (postData, session, callback) {
         let ls_rentCalDat;
-        let la_dtData;
+        let la_dtData = _.clone(postData.allRows);
         let lo_result = new ReturnClass();
         let lo_error = null;
         let params = {
@@ -33,7 +31,6 @@ module.exports = {
         };
 
         async.waterfall([
-            qryHfdUseDtData,
             qryRentCalDat,
             chkBeginAndEndDat
         ], function (err, result) {
@@ -42,22 +39,16 @@ module.exports = {
                 lo_result.success = false;
                 lo_error.errorMsg = result;
                 lo_error.errorCod = "1111";
+                if(postData.rowData.createRow == "Y"){
+                    postData.rowData.begin_dat = "";
+                    postData.rowData.end_dat = "";
+                }
                 lo_result.effectValues = postData.rowData;
             }
             callback(lo_error, lo_result);
         });
 
-        function qryHfdUseDtData(cb) {
-            params.item_cod = postData.rowData.item_cod;
-            queryAgent.queryList("qry_hfd_use_dt".toUpperCase(), params, 0, 0, function (err, getResult) {
-                if (getResult) {
-                    la_dtData = getResult;
-                    cb(null, la_dtData);
-                }
-            });
-        }
-
-        function qryRentCalDat(dtData, cb) {
+        function qryRentCalDat(cb) {
             queryAgent.query("QRY_RENT_CAL_DAT".toUpperCase(), params, function (err, getResult) {
                 if (getResult) {
                     ls_rentCalDat = getResult.rent_cal_dat;
@@ -71,11 +62,17 @@ module.exports = {
             let lo_endDat = "";
             rent_cal_dat = new Date(rent_cal_dat);
 
-            if (!_.isUndefined(postData.rowData.begin_dat)) {
-                lo_beginDat = moment(new Date(postData.rowData.begin_dat));
+            try {
+                if (postData.editData.begin_dat != "" && !_.isUndefined(postData.editData.begin_dat)) {
+                    lo_beginDat = moment(new Date(postData.editData.begin_dat));
+                }
+                if (postData.editData.end_dat != "" && !_.isUndefined(postData.editData.end_dat)) {
+                    lo_endDat = moment(new Date(postData.editData.end_dat));
+                }
             }
-            if (!_.isUndefined(postData.rowData.end_dat)) {
-                lo_endDat = moment(new Date(postData.rowData.end_dat));
+            catch(ex){
+                lo_beginDat = "";
+                lo_endDat = "";
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
@@ -101,19 +98,30 @@ module.exports = {
                 let lb_chkBeginDat;
                 let lb_chkEndDat;
                 let ls_repeatMsg;
-                let li_curIdx = _.findIndex(la_dtData, {key_nos: Number(postData.rowData.key_nos)});
-
-                _.each(la_dtData, function (comparDT, compIdx) {
-                    if (comparDT.key_nos != postData.rowData.key_nos) {
-                        lb_chkBeginDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_beginDat);
-                        lb_chkEndDat = chkDateIsBetween(comparDT.begin_dat, comparDT.end_dat, lo_endDat);
-                        if (lb_chkBeginDat && lb_chkEndDat) {
+                let li_curIdx;
+                if(!_.isUndefined(postData.editData.key_nos)){
+                    li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editData.key_nos});
+                }
+                else{
+                    li_curIdx = _.findIndex(la_dtData, postData.editData);
+                }
+                if(!_.isUndefined(postData.allRows)) {
+                    postData.allRows.pop();
+                    _.each(postData.allRows, function (comparDT, compIdx) {
+                        let ls_begin_dat = moment(new Date(comparDT.begin_dat)).format("YYYY-MM-DD");
+                        let ls_end_dat = moment(new Date(comparDT.end_dat)).format("YYYY-MM-DD");
+                        lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat);
+                        lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat);
+                        if (lb_chkBeginDat || lb_chkEndDat) {
                             ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
-                                "與第" + (compIdx + 1) + "行" + moment(comparDT.begin_dat).format("YYYY/MM/DD") + "~" + moment(comparDT.end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
+                                "與第" + (compIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
                             return cb(true, ls_repeatMsg);
                         }
-                    }
-                });
+                    });
+                }
+                else{
+                    cb(false, "");
+                }
             }
             else {
                 cb(false, null);
@@ -162,26 +170,14 @@ module.exports = {
 
     },
 
-    r_HfduserfBegindatAttr: function(postData, session, callback){
-        let lo_result = new ReturnClass();
-        let lo_error = null;
-        let dtData = postData.dtData;
-        let field = postData.field;
-
-        // let begin_dat
-
-
-        callback(lo_error, lo_result);
-    },
-
-    r_pms0820050_add: function(postData, session, callback){
+    r_pms0820050_add: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
         let lo_params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.hotel_cod
         };
-        queryAgent.query("R_PMS0820050_ADD", lo_params, function(err, result){
+        queryAgent.query("R_PMS0820050_ADD", lo_params, function (err, result) {
             lo_result.defaultValues = {view_seq: result.view_seq};
             callback(lo_error, lo_result);
         });
@@ -190,5 +186,5 @@ module.exports = {
 };
 
 function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-    return moment(now_dat).isBetween(begin_dat, end_dat);
+    return now_dat.isBetween(begin_dat, end_dat);
 }
