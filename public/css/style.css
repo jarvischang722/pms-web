@@ -16,6 +16,9 @@
 .grid-item label {
   vertical-align: middle;
   text-align: right;
+  margin-bottom: 0;
+  margin-right: 0;
+  width: 90px;
 }
 .grid-item .textArea-float {
   margin-left: 5px;
@@ -74,6 +77,17 @@
 }
 .grid-item .verifyVal {
   border-bottom: 1px solid #333;
+}
+.grid-item.billCheckbox {
+  height: 25px;
+}
+.grid-item.billCheckbox .checkbox {
+  margin: 2px auto 0 auto;
+}
+.grid-item.billCheckbox .checkbox label {
+  width: 0;
+  min-height: initial;
+  cursor: pointer;
 }
 
 .grid-item-input {
@@ -3940,6 +3954,14 @@ span.triangle-text {
   border-top: 1px solid #8aafce;
 }
 
+.shareRateLeft, .shareRateRight {
+  float: left;
+}
+
+.shareRateRight {
+  margin-left: 20px;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4241,7 +4263,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-col2v2 {
-  width: 434px;
+  width: 433px;
   max-width: 100%;
   height: 25px;
 }

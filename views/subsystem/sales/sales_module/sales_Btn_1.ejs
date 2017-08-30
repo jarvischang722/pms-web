@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
-                            <div class="main-content-data">
+                            <div class="main-content-data borderFrame">
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>公司編號</label>
@@ -16,14 +16,11 @@
 
                                     <div class="grid-item">
                                         <label>合約狀態</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">已簽約</option>
-                                            <option value="2">未簽約</option>
-                                        </select>
+                                        <input type="text" class="input-medium medium-c1" placeholder="已簽約" disabled/>
                                     </div>
                                     <div class="grid-item">
                                         <label>狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="正常"/>
+                                        <input type="text" class="input-medium medium-c1" placeholder="正常" disabled/>
                                     </div>
                                 </div>
                                 <!--<div class="space-custom-5"></div>-->
@@ -35,7 +32,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>公司名稱</label>
-                                        <input type="text" class="input-spc-1" placeholder="德安資訊國際股份有限公司台北分公司"/>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="德安資訊國際股份有限公司台北分公司"/>
                                     </div>
                                 </div>
 
@@ -46,18 +43,18 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>發票抬頭</label>
-                                        <input type="text" class="input-medium input-spc-1" placeholder="德安資訊國際股份有限公司台北分公司"/>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="德安資訊國際股份有限公司台北分公司"/>
                                     </div>
                                 </div>
 
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>業務員</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="陳瑞克"/>
+                                        <input type="text" class="input-medium medium-c1" placeholder="陳瑞克" disabled/>
                                     </div>
                                     <div class="grid-item">
                                         <label>上階公司</label>
-                                        <input type="text" class="input-spc-1" placeholder="23598231 德安資訊國際股份有限公司"/>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="23598231 德安資訊國際股份有限公司"/>
                                         <!--<span class="mainData-tip">(顯示公司編號:公司名稱)</span>-->
                                     </div>
 
@@ -65,29 +62,8 @@
 
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>公司類別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="簽約公司"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>區域別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="北區"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>行業別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="資訊業"/>
-                                    </div>
-
-                                </div>
-
-                                <div class="grid">
-
-                                    <div class="grid-item">
-                                        <label>等級</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
+                                        <label>公司電話</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="02-21766066"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>分帳規則</label>
@@ -96,6 +72,32 @@
                                             <option value="2">02:個人</option>
                                         </select>
                                     </div>
+                                    <div class="grid-item">
+                                        <label>等級</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>傳真電話</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="02-25170886"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>地址</label>
+                                        <input type="text" class="input-medium medium-c1-col2v2Remark" placeholder="台北市松江路309號8樓"/>
+                                        <span class="moreClick sales_addressMore">...</span>
+                                    </div>
+                                    <!--<div class="grid-item">-->
+                                        <!--<label>行業別</label>-->
+                                        <!--<input type="text" class="input-medium input-spc-1" placeholder="資訊業"/>-->
+                                    <!--</div>-->
+
                                 </div>
 
                             </div><!--main-content-data-->
@@ -104,98 +106,6 @@
 
                             <!-------- tabPage -------->
                             <div class="easyui-tabs easyUi-custom1" style="min-height: 0; height: 380px !important; overflow-y: auto;">
-                                <div title="聯絡方式" class="padding-tabs">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="row">
-                                            <!--聯絡方式-->
-                                            <div class="col-xs-12 col-sm-12">
-                                                <div class="row">
-                                                    <div class="billInfo grid">
-                                                        <div class="col-xs-12 col-sm-12">
-                                                            <div class="row billInfo-head">
-                                                                <p class="billInfo-title">聯絡方式</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="content">
-                                                            <div class="grid">
-                                                                <div class="tab-block grid-item">
-                                                                    <label>公司電話</label>
-                                                                    <input type="text" class="input-medium medium-c1" placeholder="02-2176066"/>
-                                                                </div>
-                                                                <div class="tab-block grid-item">
-                                                                    <label>傳真電話</label>
-                                                                    <input type="text" class="input-medium medium-c1" placeholder="02-25170886"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <!--地址-->
-                                            <div class="col-xs-12 col-sm-12">
-                                                <div class="row">
-                                                    <div class="billInfo grid">
-                                                        <div class="col-xs-12 col-sm-12">
-                                                            <div class="row billInfo-head">
-                                                                <p class="billInfo-title">地址</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-11 col-sm-11">
-                                                            <div class="row no-margin-right">
-                                                                <div class="content">
-                                                                    <table class="standard-table">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th class="width-15">地址類別</th>
-                                                                            <th class="width-15">郵遞區號</th>
-                                                                            <th class="width-70">地址</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>公司地址</td>
-                                                                            <td>104</td>
-                                                                            <td>台北市中山區松江路309號8樓 <span class="moreClick contractMoreInfo">...</span></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>帳單地址</td>
-                                                                            <td></td>
-                                                                            <td><span class="moreClick contractMoreInfo">...</span></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>電子郵件</td>
-                                                                            <td class="td-disable"></td>
-                                                                            <td>service@athena.com.tw<span class="moreClick contractMoreInfo">...</span></td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-xs-1 col-sm-1">
-                                                            <div class="row">
-                                                                <div class="right-menu-co">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                                    role="button">複製至</button>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <!--地址-->
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
                                 <div title="相關設定" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
@@ -246,6 +156,21 @@
                                                             <input type="text" class="input-medium bill-input-s2" disabled="disabled" placeholder="23598231:德安資訊國際股份有限公司"/>
                                                         </div>
                                                     </div>
+
+                                                    <div class="grid">
+                                                        <div class="tab-block grid-item">
+                                                            <label>公司類別</label>
+                                                            <input type="text" class="input-medium bill-input-s1" placeholder="簽約公司"/>
+                                                        </div>
+                                                        <div class="tab-block grid-item">
+                                                            <label>區域別</label>
+                                                            <input type="text" class="input-medium bill-input-s1" placeholder="北區"/>
+                                                        </div>
+                                                        <div class="tab-block grid-item">
+                                                            <label>行業別</label>
+                                                            <input type="text" class="input-medium bill-input-s1" placeholder="資訊業"/>
+                                                        </div>
+                                                    </div>
                                                     <div class="grid">
                                                         <div class="tab-block grid-item">
                                                             <label>收取DM</label>
@@ -263,11 +188,11 @@
                                                     <div class="space-6"></div>
                                                     <div class="grid">
                                                         <div class="tab-block grid-item">
-                                                            <label class="label-spc">added Date</label>
+                                                            <label class="label-spc">Add Date</label>
                                                             <input type="text" class="input-medium addedDate" disabled="disabled" placeholder="2015/01/01 12:30:00" />
                                                         </div>
                                                         <div class="tab-block grid-item">
-                                                            <label class="label-spc">added by</label>
+                                                            <label class="label-spc">Add By</label>
                                                             <input type="text" class="input-medium addedBy" disabled="disabled" placeholder="2015 0101 12:30" />
                                                         </div>
                                                         <div class="tab-block grid-item">
@@ -624,16 +549,14 @@
     </div>
 
     <!-- PMS0610010 信用額度變更 彈出視窗 -->
-    <div id="changeCreditLimit-message" class="hide">
+    <div id="changeCreditLimit-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                     <div class="row">
-                        <div class="col-sm-11 col-xs-11">
-                            <div class="row billInfo">
-                                <div class="content grid">
-                                    <div class="clearfix"></div>
-                                    <div class="space-custom-5"></div>
-                                    <div class="tab-block grid-item">
+                        <div class="col-sm-10 col-xs-10">
+                            <div class="row billInfo main-content-data">
+                                <div class="grid">
+                                    <div class="grid-item">
                                         <label>公司關係別</label>
                                         <select class="input-medium medium-c1">
                                             <option value="-1">公司關係別</option>
@@ -641,7 +564,9 @@
                                             <option value="2">2-非關係</option>
                                         </select>
                                     </div>
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
                                         <label>應收帳別</label>
                                         <select class="input-medium medium-c1">
                                             <option value="-1">應收帳別</option>
@@ -649,29 +574,37 @@
                                             <option value="2">Ｓ:非一般</option>
                                         </select>
                                     </div>
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
                                         <label>帳務所屬代號</label>
                                         <select class="input-medium medium-c1">
                                             <option value="1">23598231-德安資訊國際股</option>
                                         </select>
                                     </div>
-                                    <div class="tab-block grid-item billCheckbox" style="width: 263px;">
-                                                  <span class="checkbox">
-                                                      <label>可簽帳</label>
-                                                      <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                          <span class="lbl"></span>
-                                                      </label>
-                                                  </span>
+                                </div>
+                                <div class="grid">
+                                    <div class="tab-block grid-item billCheckbox">
+                                          <span class="checkbox">
+                                              <label>可簽帳</label>
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl"></span>
+                                              </label>
+                                          </span>
                                         <!--<input name="form-field-checkbox" type="checkbox" class="ace">-->
                                         <!--<input type="checkbox" disabled="disabled"/>-->
                                     </div>
 
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class=" grid-item">
                                         <label>信用額度</label>
                                         <input type="number" class="input-medium medium-c1 input_sta_required text-right" />
                                     </div>
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
                                         <label>收款方式</label>
                                         <select class="input-medium medium-c1">
                                             <option value="-1">代號-名稱</option>
@@ -681,21 +614,30 @@
                                             <option value="4">04-月結75天</option>
                                         </select>
                                     </div>
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class=" grid-item">
                                         <label>目前簽帳金額</label>
                                         <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="0"/>
                                     </div>
-                                    <div class="tab-block grid-item">
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
                                         <label>信用額度餘額</label>
                                         <input type="number" class="input-medium medium-c1 text-right" disabled="disabled" placeholder="123"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-1 col-xs-1">
+                        <div class="col-sm-2 col-xs-2">
                             <div class="row">
-                                <button class="btn btn-primary btn-white btn-defaultWidth btn-lg-width"
-                                        role="button">離開</button>
+                                <div class="right-menu-co">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Exit</button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -756,11 +698,11 @@
     <!-- PMS0610010 聯絡方式-更多資訊 彈出視窗 -->
     <div id="contractMoreInfo-message" class="hide padding-5">
         <div class="col-sm-12 col-xs-12">
-            <div class="businessCompanyData">
+            <div class="row businessCompanyData">
                 <div class="col-sm-10 col-xs-10">
                     <div class="row billInfo no-margin-right">
                         <div class="content">
-                            <textarea class="form-control" rows="4"></textarea>
+                            <textarea class="form-control" rows="4" placeholder="台北市中山區松江路309號8F"></textarea>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -771,7 +713,7 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">離開</button>
+                                            role="button">Exit</button>
                                 </li>
                             </ul>
                         </div>
@@ -782,6 +724,70 @@
         <div class="clearfix"></div>
     </div>
     <!-- /.PMS0610010 聯絡方式-更多資訊 -->
+
+    <!-- PMS0610010 主檔 地址moreClick 彈出視窗 -->
+    <div id="sales_addressMore-message" class="hide padding-5">
+        <div class="col-sm-12 col-xs-12">
+            <div class="row usinessCompanyData">
+                <div class="col-sm-10 col-xs-10">
+                    <div class="row no-margin-right">
+                        <table class="standard-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 15%;">地址類別</th>
+                                <th style="width: 15%;">郵遞區號</th>
+                                <th style="width: 58%;">地址</th>
+                                <th style="width: 12%;">主要地址</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>公司地址</td>
+                                <td>104</td>
+                                <td>台北市中山區松江路309號8樓 <span class="moreClick contractMoreInfo">...</span></td>
+                                <td class="text-center"><input type="checkbox" checked /> </td>
+                            </tr>
+                            <tr>
+                                <td>帳單地址</td>
+                                <td></td>
+                                <td><span class="moreClick contractMoreInfo">...</span></td>
+                                <td class="text-center"><input type="checkbox" /> </td>
+                            </tr>
+                            <tr>
+                                <td>電子郵件</td>
+                                <td class="td-disable"></td>
+                                <td>service@athena.com.tw<span class="moreClick contractMoreInfo">...</span></td>
+                                <td class="text-center"><input type="checkbox" /> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">確定</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">複製至</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Exit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.PMS0610010 主檔 地址moreClick -->
 
     <!-- PMS0610010 顯示月份明細 彈出視窗 -->
     <!-- 只要彈出視窗裡面有dataGrid就會讓視窗出現在最下面 -->
@@ -1281,11 +1287,11 @@
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
-                    <div class="col-sm-11 col-xs-11 businessModify-Left">
+                    <div class="col-sm-11 col-xs-1">
 
-                        <div class="ChangeBusiness-wrap borderFrame">
+                        <div class="borderFrame main-content-data">
                             <div class="grid">
-                                <div class="tab-block grid-item">
+                                <div class="grid-item">
                                     <label>Sales Cod</label>
                                     <select id="" class="input-medium medium-c1">
                                         <option value="1">A0001</option>
@@ -1293,7 +1299,7 @@
                                         <option value="3">A0003</option>
                                     </select>
                                 </div>
-                                <div class="tab-block grid-item">
+                                <div class="grid-item">
                                     <label>Status</label>
                                     <select id="" class="input-medium medium-c1">
                                         <option value="1">All</option>
@@ -1301,89 +1307,88 @@
                                         <option value="3">N:在職</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="grid">
-                                <div class="grid-item tab-block">
-                                    <label>Name</label>
-                                    <input type="text" class="input-medium medium-c1-col2" placeholder="張三" />
+
+                                <div class="grid-item checkboxGrid">
+                                    <div class="popCheckbox">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width">
+                                              <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                              <span class="lbl">Hotel</span>
+                                          </label>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="grid">
-                                <div class="tab-block grid-item">
+                                <div class="grid-item">
+                                    <label>Name</label>
+                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="張三" />
+                                </div>
+                                <div class="grid-item checkboxGrid">
+                                    <div class="popCheckbox">
+                                        <span class="checkbox">
+                                          <label class="checkbox-width">
+                                              <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                              <span class="lbl">F&B</span>
+                                          </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
                                     <label>Team</label>
                                     <select id="" class="input-medium medium-c1">
                                         <option value="1">001</option>
                                         <option value="2">002</option>
                                     </select>
                                 </div>
-                                <div class="tab-block grid-item">
+                                <div class="grid-item">
                                     <label>User Id</label>
                                     <select id="" class="input-medium medium-c1">
                                         <option value="1">B0001</option>
                                         <option value="2">B0002</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="grid">
-                                <div class="checkboxGroup">
-                                    <div class="tab-block grid-item checkboxGrid">
-                                        <div class="popCheckbox">
+
+                                <div class="grid-item checkboxGrid">
+                                    <div class="popCheckbox">
                                             <span class="checkbox">
                                               <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl">Hotel</span>
-                                              </label>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="tab-block grid-item checkboxGrid">
-                                        <div class="popCheckbox">
-                                            <span class="checkbox">
-                                              <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                  <span class="lbl">F&B</span>
-                                              </label>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="tab-block grid-item checkboxGrid">
-                                        <div class="popCheckbox">
-                                            <span class="checkbox">
-                                              <label class="checkbox-width">
-                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace" checked>
                                                   <span class="lbl">Membership</span>
                                               </label>
                                             </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="grid">
-                                <div class="tab-block grid-item">
-                                    <label>Ins_dat</label>
-                                    <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                           class="input-medium medium-c1 dateClass SelectDisable" type="date"
-                                           value="2017-05-05" required="" disabled>
+                                <div class="grid-item">
+                                    <label>telephone</label>
+                                    <input class="input-medium medium-c1" type="text" />
                                 </div>
-                                <div class="tab-block grid-item">
-                                    <label>Ins_usr</label>
-                                    <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                        <option value="1">admin</option>
-                                        <option value="2">test</option>
-                                    </select>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Add Date</label>
+                                    <input class="input-medium medium-c1" type="text" placeholder="2017-05-05 10:30:45" disabled/>
+                                    <!--<input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"-->
+                                           <!--class="input-medium medium-c1 dateClass SelectDisable" type="date"-->
+                                           <!--value="2017-05-05" required="" disabled>-->
                                 </div>
-                                <div class="tab-block grid-item">
-                                    <label>Upd_dat</label>
-                                    <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss"
-                                           class="input-medium medium-c1 dateClass SelectDisable" type="date"
-                                           value="2017-05-05" required="" disabled>
+                                <div class="grid-item">
+                                    <label>Add By</label>
+                                    <input class="input-medium medium-c1" type="text" placeholder="admin" disabled/>
                                 </div>
-                                <div class="tab-block grid-item">
-                                    <label>Upd_usr</label>
-                                    <select id="" class="input-medium medium-c1 SelectDisable" disabled>
-                                        <option value="1">admin</option>
-                                        <option value="2">test</option>
-                                    </select>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Upd Date</label>
+                                    <input class="input-medium medium-c1" type="text" placeholder="2017-05-06 10:30:45" disabled/>
+                                </div>
+                                <div class="grid-item">
+                                    <label>Upd By</label>
+                                    <input class="input-medium medium-c1" type="text" placeholder="admin" disabled/>
                                 </div>
                             </div>
                         </div>
@@ -2047,11 +2052,11 @@
                                     <div class="space-6"></div>
                                     <div class="grid">
                                         <div class="tab-block grid-item">
-                                            <label>Added Date</label>
+                                            <label>Add Date</label>
                                             <input type="date" class="input-medium popWindow-s1" disabled/>
                                         </div>
                                         <div class="tab-block grid-item">
-                                            <label>Added By</label>
+                                            <label>Add By</label>
                                             <input type="text" class="input-medium popWindow-s1" disabled />
                                         </div>
                                     </div>
@@ -2093,4 +2098,5 @@
         </div>
     </div>
     <!-- /. PMS0620050 修改拜訪記錄 彈出視窗-->
+
 </div>

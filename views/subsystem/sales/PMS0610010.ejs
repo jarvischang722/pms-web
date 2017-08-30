@@ -189,7 +189,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
                                         role="button">Save As
                                 </button>
                             </li>
@@ -203,9 +203,26 @@
     <!--  業務 彈出視窗內容(jing)-->
     <%- include sales_module/sales_Btn_1.ejs %>
     <!--  /.End 業務 彈出視窗內容 -->
+
+    <!--  依房型訂房 彈出視窗內容-->
+    <%- include  ../reservation/PMS0100000_module/resvRoomTypeBtn_1 %>
+    <!--  /.End 彈出視窗內容 -->
+
+    <!--  依房型訂房 彈出視窗內容(ho 新增)-->
+    <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_2 %>
+    <!--  /.End 彈出視窗內容(ho 新增) -->
+
+    <!--  依房型訂房 彈出視窗內容(jing 新增2)-->
+    <%- include ../reservation/PMS0100000_module/resvRoomTypeBtn_3 %>
+    <!--  /.End 彈出視窗內容 -->
+
 </div><!-- /.page-content -->
 
 <!--  業務 initial js -->
 <%- include sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 initial js  -->
 
+
+<!--  訂房卡共用 initial js -->
+<%- include ../reservation/PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

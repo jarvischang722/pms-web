@@ -62,6 +62,21 @@
             });
         });
 
+        // PMS0610010 彈出 主檔 地址moreClick
+        $(document).on('click', ".sales_addressMore", function (e) {
+            e.preventDefault();
+            var dialog = $("#sales_addressMore-message").removeClass('hide').dialog({
+                modal: true,
+                title: "地址",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // PMS0610010 彈出 顯示月份明細
         $(document).on('click', ".bs-company-displayMonth", function (e) {
             e.preventDefault();
@@ -277,19 +292,16 @@
             method:'get',
             columns:[[
                 {field:'companyNum',title:'公司編號',width:80},
-                {field:'companyName',title:'公司名稱',width:250},
+                {field:'companyName',title:'公司名稱',width:200},
                 {field:'status',title:'狀態',width:80},
-                {field:'sort',title:'種類',width:80},
                 {field:'dealStatus',title:'合約狀態',width:80},
-                {field:'uniformNum',title:'統一編號',width:100},
-                {field:'connection',title:'聯絡人',width:100},
-                {field:'sales',title:'業務員',width:100},
+                {field:'uniformNum',title:'統一編號',width:90},
+                {field:'connection',title:'聯絡人',width:85},
+                {field:'sales',title:'業務員',width:85},
                 {field:'companyTel',title:'公司電話',width:100},
                 {field:'companyFax',title:'公司傳真',width:100},
-                {field:'accountCode',title:'帳戶所屬代號',width:100},
-                {field:'bill',title:'可簽帳',width:100},
-                {field:'credits',title:'信用額度',width:100},
-                {field:'nowBillingMoney',title:'目前簽帳金額',width:100}
+                {field:'credits',title:'信用額度',width:80,align:'right'},
+                {field:'nowBillingMoney',title:'目前簽帳金額',width:80,align:'right'}
             ]]
 
         });
@@ -717,8 +729,8 @@
                 {field:'visitRemarks',title:'Remarks',width:70},
                 {field:'visitActual',title:'Actual',width:80},
                 {field:'visitExpense',title:'Expense',width:60,align:'right'},
-                {field:'addedDate',title:'Added Date',width:60},
-                {field:'addedBy',title:'Added By',width:60},
+                {field:'addDate',title:'Add Date',width:60},
+                {field:'addBy',title:'Add By',width:60},
                 {field:'updatedDate',title:'Updated Date',width:60},
                 {field:'updatedBy',title:'Updated By',width:60},
             ]]

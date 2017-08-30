@@ -249,6 +249,23 @@
         });
 
 
+        // 彈出 綜合櫃檯-option-shareRate Share Rate 單筆
+        $(document).on('click', ".foCnt_shareRate", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_shareRate-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Share Rate",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
         /***
          * PMS0210030 messages
          */
@@ -611,7 +628,7 @@
                 {field: 'replyTo', title: 'Reply to', width: 80},
                 {field: 'message', title: 'Message', width: 150},
                 {field: 'status', title: 'Status', width: 80},
-                {field: 'addedBy', title: 'Added By', width: 80},
+                {field: 'addBy', title: 'Add By', width: 80},
                 {field: 'updby', title: 'Upd by', width: 80},
                 {field: 'updDate', title: 'Upd Date', width: 80}
             ]]
