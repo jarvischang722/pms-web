@@ -36,6 +36,13 @@ var vm = new Vue({
                 }
             });
         },
+
+        initTemCud: function(){
+            this.tmpCud.createData = [];
+            this.tmpCud.updateData = [];
+            this.tmpCud.deleteData = [];
+        },
+
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
@@ -148,6 +155,10 @@ var vm = new Vue({
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.treeDataRows, {class_cod: lo_selNode});
 
+            if(_.isUndefined(lo_dgRow)){
+                return true;
+            }
+
             if(lo_node.createStatus == "Y"){
                 this.tmpCud["createData"] = _.without(this.tmpCud["createData"], _.findWhere(this.tmpCud["createData"], {
                     class_cod: lo_node.id
@@ -156,18 +167,26 @@ var vm = new Vue({
                 return true;
             }
 
+            console.log(lo_dgRow);
             // 根節點不能刪除
             if (lo_dgRow.parent_cod.trim() == "#") {
                 return true;
             }
 
+            var la_allDelRowData = searchNode(lo_node, []);
+            la_allDelRowData.push(new rowData(lo_node));
+
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: gs_prg_id,
-                deleteData: lo_dgRow
+                deleteData: la_allDelRowData
             }, function (result) {
                 if (result.success) {
-                    lo_node.deleteStatus = "Y";
-                    self.tmpCudHandler(lo_node);
+                    _.each(la_allDelRowData, function(delRowData){
+                        var lo_childNode = self.tree.get_node(delRowData.class_cod);
+                        lo_childNode.deleteStatus = "Y";
+                        self.tmpCudHandler(lo_childNode);
+                    });
+
                     self.tree.delete_node(lo_selNode);
 
                 }
@@ -233,6 +252,7 @@ var vm = new Vue({
             $.post('/api/execSQLProcess', params)
                 .done(function (response) {
                     if (response.success) {
+                        self.initTemCud();
                         self.loadDataGridByPrgID();
                         alert('save success!');
                     } else {
@@ -340,6 +360,20 @@ function searchChildAndInsert(lo_node) {
         lo_node.children.push(lo_childNode);
         searchChildAndInsert(lo_childNode);
     });
+}
+
+function searchNode(lo_node, la_allNode) {
+    if (lo_node.children.length != 0) {
+        _.each(lo_node.children, function (lo_child_node) {
+            var lo_childNode = vm.tree.get_node(lo_child_node);
+            la_allNode.push(new rowData(lo_childNode));
+            if (lo_childNode.children.length != 0) {
+                searchNode(lo_childNode, la_allNode);
+            }
+        });
+    }
+
+    return la_allNode;
 }
 
 function nextChar(c) {
