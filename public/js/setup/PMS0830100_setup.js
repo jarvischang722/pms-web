@@ -105,7 +105,8 @@ Vue.component('single-grid-pms0830100-tmp', {
         return {
             tmpCUD: {},
             isFistData: false,
-            isLastData: false
+            isLastData: false,
+            dtDataGridIsCreate: false
         };
     },
     created: function () {
@@ -161,7 +162,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             var self = this;
             var lo_singleData = this.singleData;
 
-            if(_.isUndefined(lo_singleData.room_cod)){
+            if (_.isUndefined(lo_singleData.room_cod)) {
                 return false;
             }
 
@@ -208,9 +209,9 @@ Vue.component('single-grid-pms0830100-tmp', {
 
         //page2 顯示dt的datagrid欄位屬性與資料
         showDtDataGrid: function (dtDataGridRows) {
+
             var self = this;
-            console.log(dtDataGridRows);
-            var columnsData = EZfieldClass.combineFieldOption(this.pageTwoDataGridFieldData, 'dt_dg');
+            var columnsData = EZfieldClass.combineFieldOption(PMS0830100VM.pageTwoDataGridFieldData, 'dt_dg');
             var firstCol = [];
             var secondCol = [];
 
@@ -247,6 +248,11 @@ Vue.component('single-grid-pms0830100-tmp', {
                 }
             });
 
+            if (this.dtDataGridIsCreate) {
+                $("#dt_dg").datagrid("loadData", dtDataGridRows);
+                return true;
+            }
+
             $('#dt_dg').datagrid({
                 toolbar: '#tb',
                 columns: [firstCol, secondCol],
@@ -257,23 +263,25 @@ Vue.component('single-grid-pms0830100-tmp', {
                 // selectOnCheck: true,
                 // checkOnSelect: true,
                 data: dtDataGridRows,
-                onEndEdit: function (index, row, changes) {
+                onEndEdit: function (index, row) {
                     self.tempExecData(row);
                 },
 
                 onClickRow: self.onClickDtRow
 
 
-            }).datagrid('columnMoving');
+            });
 
-            var lo_rest_field = $("[field='rest']", $("#dt_dg_DIV"));
-            var lo_stay_field = $("[field='stay']", $("#dt_dg_DIV"));
-            if (!_.isUndefined(lo_rest_field.attr("rowspan"))) {
-                lo_rest_field.removeAttr("rowspan");
-            }
-            if (!_.isUndefined(lo_stay_field.attr("rowspan"))) {
-                lo_stay_field.removeAttr("rowspan");
-            }
+            this.dtDataGridIsCreate = true;
+            // var lo_rest_field = $("[field='rest']", $("#dt_dg_DIV"));
+            // var lo_stay_field = $("[field='stay']", $("#dt_dg_DIV"));
+            // if (!_.isUndefined(lo_rest_field.attr("rowspan"))) {
+            //     lo_rest_field.removeAttr("rowspan");
+            // }
+            // if (!_.isUndefined(lo_stay_field.attr("rowspan"))) {
+            //     lo_stay_field.removeAttr("rowspan");
+            // }
+
         },
 
         onClickDtRow: function (index, field) {
@@ -445,7 +453,7 @@ Vue.component('single-grid-pms0830100-tmp', {
         tempExecData: function (rowData) {
             var self = this;
 
-            if(!_.isUndefined(rowData.day_sta_color)){
+            if (!_.isUndefined(rowData.day_sta_color)) {
 
                 var lo_day_sta = $('#dt_dg').datagrid('getSelected').day_sta;
 
@@ -695,7 +703,7 @@ var PMS0830100VM = new Vue({
 
         },
 
-        tempExecData: function(rowData){
+        tempExecData: function (rowData) {
             vmHub.$emit("tempExecData", rowData);
         },
 
@@ -703,6 +711,7 @@ var PMS0830100VM = new Vue({
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
+                console.log(fieldData);
                 PMS0830100VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 //page2  datagrid 欄位屬性
@@ -727,6 +736,10 @@ var PMS0830100VM = new Vue({
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 var dtData = result.dtData || [];
                 if (result.success) {
+                    _.each(result.dtFieldData, function (fieldData) {
+                        var lo_fieldData = _.findWhere(PMS0830100VM.pageTwoDataGridFieldData, {ui_field_name: fieldData.ui_field_name});
+                        fieldData.ui_display_name = lo_fieldData.ui_display_name;
+                    });
                     PMS0830100VM.pageTwoDataGridFieldData = result.dtFieldData;
                     PMS0830100VM.singleData = result.rowData;
                     PMS0830100VM.modificableForData = result.modificable || true;
@@ -796,6 +809,7 @@ var PMS0830100VM = new Vue({
             PMS0830100VM.singleData = {};
             PMS0830100VM.editStatus = false;
             PMS0830100VM.initTmpCUD();
+
             $("#singleGridPMS0830100").dialog('close');
         }
 
