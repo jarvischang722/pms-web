@@ -98,5 +98,5 @@ exports.PMS0820050Filter = function(rows,searchCond,callback){
  * @constructor
  */
 exports.PMS0810150Filter = function(rows,searchCond,callback){
-
+    callback(rows);
 };

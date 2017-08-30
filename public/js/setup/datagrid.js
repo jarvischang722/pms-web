@@ -6,7 +6,7 @@ var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
 var gb_isUserEdit4chkTmpCudExistData;
-var gb_isUserEdit4tempExecData= true;
+var gb_isUserEdit4tempExecData = true;
 
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
@@ -110,9 +110,9 @@ var vm = new Vue({
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         openChangeLogDialog: false,
         allChangeLogList: [],
-        searchFields :[], //搜尋的欄位
-        searchFieldsByRow:[],
-        searchCond:{}   //搜尋條件
+        searchFields: [], //搜尋的欄位
+        searchFieldsByRow: [],
+        searchCond: {}   //搜尋條件
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -120,7 +120,7 @@ var vm = new Vue({
                 return field.multi_lang_table != "";
             });
         },
-        searchFields:function(newFields){
+        searchFields: function (newFields) {
             this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
         }
     },
@@ -158,13 +158,14 @@ var vm = new Vue({
         },
         //抓取顯示資料
         fetchDataGridData: function () {
-            // waitingDialog.show();
-            $.post("/api/prgDataGridDataQuery", _.extend({prg_id: prg_id},{searchCond:this.searchCond}), function (result) {
+
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
-                console.log( result );
+
             });
         },
         //顯示資料
@@ -215,7 +216,6 @@ var vm = new Vue({
 
                     gb_isUserEdit4ClickCell = false;
                     gb_isUserEdit4EndEdit = true;
-
 
 
                     $('#prg_dg').datagrid('selectRow', index).datagrid('beginEdit', index);

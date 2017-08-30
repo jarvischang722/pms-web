@@ -21,12 +21,6 @@ var kplugFun = {
             return 0;
         }
         return value * 1;
-    },
-    _arrToStr:function(value){
-        if(_.isArray(value)){
-            value = value.join(",");
-        }
-        return value ;
     }
 };
 
@@ -47,7 +41,7 @@ list.forEach(function (source) {
 console.log("Complete the dao loading.");
 
 // return all CLOBs as Strings
-oracledb.fetchAsString = [ oracledb.CLOB ];
+oracledb.fetchAsString = [oracledb.CLOB];
 
 function DB() {
 
@@ -68,7 +62,7 @@ DB.prototype.create = function (opt) {
     options.forEach(function (option) {
         dbObj.clusters.push(option.id);
         dbObj.debug = option.debug;
-        if(option.maxRows && !isNaN(option.maxRows)){
+        if (option.maxRows && !isNaN(option.maxRows)) {
             dbObj.maxRows = option.maxRows;
         }
     });
@@ -135,6 +129,7 @@ function getConnection(arg1, arg2) {
         cb(err, connection);
     });
 }
+
 DB.prototype.getConnection = getConnection;
 
 DB.prototype.execute = function (sql, param, cb) {
@@ -259,30 +254,27 @@ DB.prototype.queryDao = function (dao, param, cb) {
             sql = sql.replace('?', prefix + parameter.key);
             if (parameter.type == 'likestring') {
                 con[parameter.key] = '%' + param[parameter.key] + '%';
-            } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
+            } else if (parameter.type == 'date') {
                 if (param[parameter.key] instanceof Date) {
                     con[parameter.key] = param[parameter.key];
                 } else {
-                    con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
+                    con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                 }
             } else {
                 con[parameter.key] = param[parameter.key];
             }
 
-            if(_.isArray(param[parameter.key])){
-                con[parameter.key] = param[parameter.key].join(',');
-            }
         } else if (parameter.kind == 2) {
             if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
                 sql += " and " + parameter.condition;
                 sql = sql.replace('?', prefix + parameter.key);
                 if (parameter.type == 'likestring') {
                     con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
+                } else if (parameter.type == 'date') {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
+                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
@@ -293,11 +285,11 @@ DB.prototype.queryDao = function (dao, param, cb) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
                 if (parameter.type == 'likestring') {
                     con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date' || parameter.type == 'datetime'  ) {
+                } else if (parameter.type == 'date') {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] =  moment(new Date(param[parameter.key])).format(parameter.type == 'date' ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm:ss');
+                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
@@ -361,7 +353,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
         console.log("parameters:" + JSON.stringify(condition));
     }
 
-    connection.execute(sqlstring, condition, {maxRows:dbObj.maxRows}, function (err, result) {
+    connection.execute(sqlstring, condition, {maxRows: dbObj.maxRows}, function (err, result) {
         if (err) {
             if (mode == 1) {
                 cb(err, []);

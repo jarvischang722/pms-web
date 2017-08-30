@@ -69,7 +69,7 @@ function filterSpecField(allFields, userInfo, callback) {
     _.each(allFields, function (field, fIdx) {
         //撈取下拉選單資料
         if (_.isEqual(field.ui_type, "select") || _.isEqual(field.ui_type, "multiselect") || _.isEqual(field.ui_type, "checkbox") ||
-            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio") || _.isEqual(field.ui_type, "multiselect")) {
+            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio") ) {
             handleFuncs.push(
                 function (callback) {
                     appendFieldSelectData(field, userInfo, function (err, appendedField) {
