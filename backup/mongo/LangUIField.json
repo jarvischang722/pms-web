@@ -245,7 +245,7 @@
     "prg_id" : "PMS0810030", 
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "conyty_sna", 
+    "ui_field_name" : "contry_sna", 
     "ui_display_name_zh_TW" : "國籍簡稱", 
     "hint_zh_TW" : "國籍簡稱", 
     "ui_display_name_en" : "Abbreviation", 
