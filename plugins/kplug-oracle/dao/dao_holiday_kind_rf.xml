@@ -9,8 +9,29 @@
             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
-        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0830100'] 取得假日類別 -->
+    <dao name="QRY_HFD_REST_DT_DAYSTA">
+        <statement><![CDATA[
+            select day_sta as value, day_nam as display from holiday_kind_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]></statement>
+
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0830100'] 取得假日類別 -->
+    <dao name="QRY_DAY_STA_COLOR">
+        <statement><![CDATA[
+            select color_num from holiday_kind_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(day_sta) = trim(:day_sta)
+        ]]></statement>
+
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">day_sta</parameter>
     </dao>
 
 

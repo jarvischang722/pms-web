@@ -36,7 +36,7 @@ var EZfieldClass = {
     fieldConvEzAttr: function (fieldAttrObj, dgName) {
 
         var dataType = "";
-        if (fieldAttrObj.ui_type == "text") {
+        if (fieldAttrObj.ui_type == "text" ) {
             dataType = 'textbox';
         } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
@@ -310,24 +310,21 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
     if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
-        var indexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
-        var selectDataRow = $("#" + dgName).datagrid('getEditingRowData');
-        var editRowData = $.extend({}, selectDataRow);
-        var allRows = $("#" + dgName).datagrid("getRows");
+        var selectDataRow = $('#' + dgName).datagrid('getSelected');
+        var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
+        var editRowData = $("#" + dgName).datagrid('getEditingRowData');
 
-        if (selectDataRow.createRow == "Y") {
-            selectDataRow[fieldAttrObj.ui_field_name] = newValue;
-        }
-        editRowData[fieldAttrObj.ui_field_name] = newValue;
+        // if (selectDataRow.createRow == "Y") {
+        //     selectDataRow[fieldAttrObj.ui_field_name] = newValue;
+        // }
 
         var postData = {
             prg_id: fieldAttrObj.prg_id,
             rule_func_name: fieldAttrObj.rule_func_name.trim(),
             validateField: fieldAttrObj.ui_field_name,
-            rowData: $("#" + dgName).datagrid('getSelected'),
-            selectRowNewData : selectDataRow,
-            editData: editRowData,
-            allRows: allRows,
+            rowIndex: indexRow,
+            rowData: selectDataRow,
+            editRowData: editRowData,
             allRowData: JSON.parse(JSON.stringify(allDataRow)),
             newValue: newValue,
             oldValue: oldValue
@@ -370,6 +367,13 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         index: indexRow,
                         row: effectValues
                     });
+
+                    if(!_.isUndefined(effectValues.day_sta_color)) {
+                        var col = $("#" + dgName).datagrid('getColumnOption','day_sta');
+                        col.styler = function(){
+                            return 'background-color:' + effectValues.day_sta_color;
+                        };
+                    }
 
                     $('#' + dgName).datagrid('beginEdit', indexRow);
 

@@ -150,11 +150,15 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                             page_id: page_id
                         }).sort({col_seq: 1}).exec(function (err, commonFields) {
                             lo_grid_field.datagridFields = tools.mongoDocToObject(commonFields);
-                            callback(err, commonFields);
+                            fetchDataGridFieldAttr(lo_grid_field.datagridFields, function (result) {
+                                callback(err, commonFields);
+                            });
                         });
                     } else {
                         lo_grid_field.datagridFields = tools.mongoDocToObject(fields);
-                        callback(err, fields);
+                        fetchDataGridFieldAttr(lo_grid_field.datagridFields, function (result) {
+                            callback(err, fields);
+                        });
                     }
 
                 });
@@ -189,7 +193,103 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
         callback(err, la_fields);
     });
 
+    function fetchDataGridFieldAttr(lo_dataGridField, callback) {
+        var selectDSFunc = [];
+        _.each(lo_dataGridField, function (field, fIdx) {
 
+            if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
+
+                //讀取selectgrid的設定參數
+                if(field.ui_type == 'selectgrid'){
+                    var func_name = prg_id + '_' + field.ui_field_name;
+                    lo_dataGridField[fIdx].selectGridOptions = ruleAgent[func_name]();
+                }
+
+                selectDSFunc.push(
+                    function (callback) {
+                        mongoAgent.UI_Type_Select.findOne({
+                            prg_id: prg_id,
+                            ui_field_name: field.ui_field_name
+                        }).exec(function (err, selRow) {
+                            lo_dataGridField[fIdx].selectData = [];
+                            if (selRow) {
+                                selRow = selRow.toObject();
+                                lo_dataGridField[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
+                                lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
+
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                    lo_dataGridField[fIdx].selectData = selectData;
+                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                });
+
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                            }
+                        });
+                    }
+                );
+            }
+
+            var attrName = field.attr_func_name;
+            if (!_.isEmpty(attrName) && lo_dtData.length != 0) {
+                let lo_params = {
+                    field: field,
+                    dtData: lo_dtData
+                }
+                selectDSFunc.push(
+                    function (callback) {
+                        if (field.visiable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, field: result});
+                            }
+                        } else if (field.modificable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        // lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {});
+                            }
+                        } else if (field.requirable == "C") {
+                            if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
+                                ruleAgent[attrName](lo_params, userInfo, function (err, result) {
+                                    if (result) {
+                                        lo_dataGridField[fIdx] = result[0];
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    } else {
+                                        callback(err, {ui_field_idx: fIdx, field: result});
+                                    }
+                                });
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, field: result});
+                            }
+                        } else {
+                            callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
+                        }
+                    }
+                );
+            }
+        });
+
+        async.parallel(selectDSFunc, function (err, result) {
+            callback(err, result);
+        });
+    }
 };
 
 /**
@@ -203,6 +303,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     var userInfo = session.user;
     var lo_rowData = {};
     var lo_dtData = [];
+    let go_dataGridField;
     async.waterfall([
             function (callback) {
                 mongoAgent.TemplateRf.findOne({
@@ -240,7 +341,6 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             },
             //抓取dt datagrid 資料
             function (rowData, callback) {
-                let go_dataGridField;
                 async.waterfall([
                     function (callback) {
                         mongoAgent.UI_PageField.findOne({
@@ -258,9 +358,11 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                             page_id: 2
                         }, function (err, dataGridField) {
                             go_dataGridField = tools.mongoDocToObject(dataGridField);
+
                             callback(err, pageField);
                         });
                     },
+
                     function (pageField, callback) {
                         if (pageField) {
                             mongoAgent.TemplateRf.findOne({
@@ -275,6 +377,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                         }
 
                     },
+
                     function (grid, callback) {
                         if (_.size(grid)) {
                             let params = {};
@@ -325,7 +428,8 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                 });
 
 
-            }, function (result, callback) {
+            },
+            function (result, callback) {
                 mongoAgent.UI_PageField.find({
                     prg_id: prg_id,
                     page_id: 2
@@ -338,6 +442,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
         function (err, result) {
             result["rowData"] = lo_rowData;
             result["dtData"] = lo_dtData;
+            result["dtFieldData"] = go_dataGridField;
             callback(err, result);
         }
     );
@@ -345,6 +450,41 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback) {
         var selectDSFunc = [];
         _.each(lo_dataGridField, function (field, fIdx) {
+
+            if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
+
+                //讀取selectgrid的設定參數
+                if(field.ui_type == 'selectgrid'){
+                    var func_name = prg_id + '_' + field.ui_field_name;
+                    lo_dataGridField[fIdx].selectGridOptions = ruleAgent[func_name]();
+                }
+
+                selectDSFunc.push(
+                    function (callback) {
+                        mongoAgent.UI_Type_Select.findOne({
+                            prg_id: prg_id,
+                            ui_field_name: field.ui_field_name
+                        }).exec(function (err, selRow) {
+                            lo_dataGridField[fIdx].selectData = [];
+                            if (selRow) {
+                                selRow = selRow.toObject();
+                                lo_dataGridField[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                                lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
+                                lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
+
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                    lo_dataGridField[fIdx].selectData = selectData;
+                                    callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                });
+
+                            } else {
+                                callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                            }
+                        });
+                    }
+                );
+            }
+
             var attrName = field.attr_func_name;
             if (!_.isEmpty(attrName) && lo_dtData.length != 0) {
                 let lo_params = {

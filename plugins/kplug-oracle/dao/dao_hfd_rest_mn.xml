@@ -21,4 +21,15 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
     </dao>
+
+    <!-- ['PMS0830100'] 主檔，一個房型只能有一筆 -->
+    <dao name="QRY_REST_MN_COUNT">
+        <statement><![CDATA[
+           select count(*) as restMnCount from hfd_rest_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(room_cod) = trim(:room_cod) and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+    </dao>
 </root>
