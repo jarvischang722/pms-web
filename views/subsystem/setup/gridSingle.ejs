@@ -37,13 +37,14 @@
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                         :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
                                                         :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                        :editable="false"
                                                         placeholder="">
                                         </el-date-picker>
                                     </template>
 
                                     <template v-if="field.ui_type == 'daterange'">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                        format="yyyy/MM/dd" type="daterange"
+                                                        format="yyyy/MM/dd" type="daterange"  :editable="false"
                                                         placeholder="Select date range">
                                         </el-date-picker>
                                     </template>
@@ -52,7 +53,7 @@
                                         <el-radio class="radio"
                                                   v-model="searchCond[field.ui_field_name]"
                                                   v-for="item in field.selectData" :label="item.value">
-                                            {{item.display}}{{item.value}}
+                                            {{item.display}}
                                         </el-radio>
                                     </template>
 
