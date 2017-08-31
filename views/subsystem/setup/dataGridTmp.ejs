@@ -71,11 +71,17 @@
                                         </el-date-picker>
                                     </template>
 
+                                    <template v-if="field.ui_type == 'daterange'">
+                                        <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                        format="yyyy/MM/dd" type="daterange" placeholder="Select date range">
+                                        </el-date-picker>
+                                    </template>
+
                                     <template v-if="field.ui_type == 'radio'">
                                         <el-radio class="radio"
                                                   v-model="searchCond[field.ui_field_name]"
                                                   v-for="item in field.selectData" :label="item.value">
-                                            {{item.display}}
+                                            {{item.display}}{{item.value}}
                                         </el-radio>
                                     </template>
 

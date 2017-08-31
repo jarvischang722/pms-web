@@ -11,7 +11,9 @@ from hfd_use_rf where athena_id = trim(:athena_id) and trim(hotel_cod) = trim(:h
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="string" kind="2" condition="item_cod in(:item_cod)">item_cod</parameter>
+        <!--<parameter type="string" kind="2" condition="item_cod in(:item_cod)">item_cod</parameter>-->
+        <statement test="_v(param.is_visiable) == 'N'"><![CDATA[and NVL( HFD_USE_RF.VIEW_SEQ, 0 ) = -1]]></statement>
+        <statement test="_v(param.is_visiable) == 'Y'"><![CDATA[and NVL( HFD_USE_RF.VIEW_SEQ, 0 ) <> -1]]></statement>
         <ORDERBY>order by view_seq, item_cod</ORDERBY>
     </dao>
 

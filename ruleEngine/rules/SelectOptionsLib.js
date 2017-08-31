@@ -489,15 +489,15 @@ exports.getVisiableOption = function(){
     var lo_optionList = [
         {
             display: "顯示",
-            value: "顯示"
+            value: "Y"
         },
         {
             display: "不顯示",
-            value: "不顯示"
+            value: "N"
         },
         {
             display: "全部",
-            value: "全部"
+            value: "all"
         }
     ];
     return lo_optionList;
