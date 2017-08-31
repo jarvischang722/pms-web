@@ -57,6 +57,54 @@
             });
         });
 
+        // 彈出 綜合櫃檯-Extra Room foCnt_extraRm
+        $(document).on('click', ".foCnt_extraRm", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_extraRm-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Extra Room",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-Rate Chg foCnt_rateChg
+        $(document).on('click', ".foCnt_rateChg", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_rateChg-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Rate Chg",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 綜合櫃檯-Rm Chg foCnt_rmChg
+        $(document).on('click', ".foCnt_rmChg", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_rmChg-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Rm Chg",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 彈出 綜合櫃檯-DayUse foCnt_dayUse
         $(document).on('click', ".foCnt_dayUse", function (e) {
             e.preventDefault();
@@ -267,7 +315,7 @@
 
 
         /***
-         * PMS0210030 messages
+         * PMS0210130 messages
          */
 
         // 彈出 messages 單筆
@@ -286,12 +334,48 @@
             });
         });
 
-// 彈出 接待 單筆
+        // 彈出 接待 單筆
         $(document).on('click', ".fdCheckIn", function (e) {
             e.preventDefault();
             var dialog = $("#fdCheckIn-page").removeClass('hide').dialog({
                 modal: true,
                 title: "Check In",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        /***
+         * PMS0210030 Room Assign
+         */
+
+        // 彈出 Room Assign-auto Assign foCnt_autoAssign
+        $(document).on('click', ".foCnt_autoAssign", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_autoAssign-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Auto Assign",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 Room Assign-auto Assign foCnt_autoAssignSGL
+        $(document).on('click', ".foCnt_autoAssignSGL", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_autoAssignSGL-message").removeClass('hide').dialog({
+                modal: true,
+                title: "[訂房卡號：00481901]自動排房",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -589,6 +673,55 @@
                 {field: 'coRemark', title: 'C/O備註', width: 250}
             ]]
         });
+
+
+        /***
+         * PMS0210030 Room Assign
+         */
+        // auto assign dataGrid
+        $('#foCnt_autoAssign-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_autoAssign.json',
+            method: 'get',
+            columns: [[
+                {field: 'ckbox', title: '<input type="checkbox"/>', width: 40},
+                {field: 'bookingNum', title: '訂房數', width: 60},
+                {field: 'planRoomNum', title: '排房數', width: 60},
+                {field: 'ciNum', title: 'C/I數', width: 60},
+                {field: 'coNum', title: 'C/O數', width: 60},
+                {field: 'rmGrpupNum', title: '房組數', width: 60},
+                {field: 'resvCardNum', title: '訂房卡號', width: 100},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'coDate', title: 'C/O日期', width: 100},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'groupNum', title: '團號', width: 100},
+                {field: 'assignRm', title: '排房備註', width: 150},
+                {field: 'proxyCompany', title: '代訂公司', width: 100},
+            ]]
+        });
+
+
+        // auto assignSGL dataGrid
+        $('#foCnt_autoAssignSGL-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/foCnt_autoAssignSGL.json',
+            method: 'get',
+            columns: [[
+                {field: 'row', title: '排', width: 40},
+                {field: 'roomKind', title: '房種', width: 60},
+                {field: 'rmGrpup', title: '房組', width: 60},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'firstName', title: 'First Name', width: 100},
+                {field: 'lastName', title: 'Last Name', width: 100}
+            ]]
+        });
+
 
         /***
          * PMS0210130 messages
