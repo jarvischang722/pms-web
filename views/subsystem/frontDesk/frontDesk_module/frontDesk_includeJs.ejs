@@ -385,6 +385,22 @@
                 resizable: true
             });
         });
+
+        // 彈出Related RMs
+        $(document).on('click', ".RelatedRms-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#RelatedRms-page").removeClass('hide').dialog({
+                modal: true,
+                title: "Related Rms",
+                title_html: true,
+                width: 900,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
         // 櫃檯備品 screen小於1280縮小
 //        var $window = $(window),
 //            $ul = $('ul.nav');
@@ -1040,6 +1056,28 @@
             {field: 'name', title: '住客姓名', width: 100},
             {field: 'callDate', title: '晨呼日期', width: 100},
             {field: 'callTime', title: '晨呼時間', width: 100}
+        ]]
+    });
+
+    // RelatedRms table
+    $('#relatedRmsTable').datagrid({
+        singleSelect: true,
+        collapsible: true,
+        // 從json 撈
+        url: '/jsonData/relatedRmsTable.json',
+        method: 'get',
+        columns: [[
+//            {field: 'box', title: '', width: 30},
+            {field: 'roomNum', title: '房號', width: 50},
+            {field: 'name', title: 'Full Name', width: 100},
+            {field: 'sex', title: '性別', width: 50},
+            {field: 'nationality', title: '國籍', width: 70},
+            {field: 'bookingRoom', title: '訂房公司名稱', width: 100},
+            {field: 'ciDate', title: 'C/I日期', width: 100},
+            {field: 'ciTime', title: 'C/I時間', width: 100},
+            {field: 'expectCo', title: '預計C/O日期', width: 100},
+            {field: 'bookingNum', title: '訂房卡號', width: 100},
+            {field: 'groupName', title: '團號/團體名稱', width: 100}
         ]]
     });
 
