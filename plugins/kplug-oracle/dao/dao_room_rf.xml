@@ -29,17 +29,13 @@
     </dao>
 
     <!-- 取得房型類別名稱select -->
-    <dao name="QRY_ROOM_RF_ROOM_TYP">
+    <dao name="QRY_RVRMCOD_RF_ROOM_TYP">
         <statement><![CDATA[
-                select DISTINCT rvrm.room_typ value, rtrim(rvrm.room_typ) || ':' || rtrim(rm.room_nam) display
-                from room_rf rm
-                INNER JOIN RVRMCOD_RF rvrm on rvrm.ROOM_TYP = RM.ROOM_TYP
-                where rvrm.athena_id = trim(:athena_id)  and trim(rvrm.hotel_cod) = trim(:hotel_cod)
+                select room_typ as value,room_nam as display from room_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
 
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="string" kind="3">room_cod</parameter>
 
     </dao>
 

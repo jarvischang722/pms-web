@@ -76,14 +76,14 @@ module.exports = {
             getSmallTypData,    // 取dt資料
             chkSmallTypDel      // 檢查dt是否已被使用
         ], function (err, chkResult) {
-            if (!err) {
+            if (err) {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = chkResult;
                 lo_error.errorCod = "1111";
             }
             callback(lo_error, lo_result);
-        })
+        });
 
         function chkMiddleTypDel(cb) {
             let lo_params = {
@@ -93,10 +93,10 @@ module.exports = {
             };
             queryAgent.query("GET_MIDDLE_TYP_COUNT", lo_params, function (err, result) {
                 if (result.middle_typ_count > 0) {
-                    cb(false, "中分類『" + lo_params.middle_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+                    cb(true, "中分類『" + lo_params.middle_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
                 }
                 else {
-                    cb(true, true);
+                    cb(null, "");
                 }
             });
         }
@@ -109,7 +109,12 @@ module.exports = {
             };
             queryAgent.queryList("QRY_HKSTYPE_RF", lo_params, 0, 0, function(err, smallTypResult){
                 if(!err){
-                    cb(true, smallTypResult);
+                    if(smallTypResult.length > 0){
+                        cb(null, smallTypResult);
+                    }
+                    else{
+                        cb(false, []);
+                    }
                 }
             });
         }
@@ -125,11 +130,11 @@ module.exports = {
                 li_counter++;
                 queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
                     if (result.small_typ_count > 0) {
-                        cb(false, "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+                        cb(true, "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
                     }
 
                     if(li_counter == li_smallTyp_count)
-                        cb(true, "success");
+                        cb(null, "success");
                 });
             });
 

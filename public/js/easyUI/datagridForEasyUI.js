@@ -286,6 +286,13 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
+            isUserEdit = true;
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                if (isUserEdit) {
+                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                }
+            };
         }
         return tmpFieldObj;
     }
@@ -301,7 +308,6 @@ var EZfieldClass = {
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
-    return false;
     if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
         var allDataRow = $('#' + dgName).datagrid('getRows');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
