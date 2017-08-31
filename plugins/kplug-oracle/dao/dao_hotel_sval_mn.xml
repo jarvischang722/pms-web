@@ -20,11 +20,12 @@
 
                 select  hotel_cod
                 from  hotel_sval_mn
-                Where  athena_id =? and sys_cod='HFD' AND VAL_RMK= 'contry_cod' And rownum =1
+                Where  athena_id = :athena_id and sys_cod='HFD' AND trim(VAL_RMK) = trim(:contry_cod) And rownum =1
 
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">contry_cod</parameter>
 
     </dao>
 </root>

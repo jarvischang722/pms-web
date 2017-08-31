@@ -151,7 +151,6 @@ function insertTmpCUD(la_dateDT) {
             return moment(holidayDate.batch_dat).format("YYYY/MM/DD") == moment(tmpDate.date).format("YYYY/MM/DD");
         });
 
-
         var dataType = _.isUndefined(dateIsExist) ? "createData" : "updateData";
 
         var chkIndex = _.findIndex(ga_tmpCUD[dataType], function (cudDate) {
@@ -162,7 +161,7 @@ function insertTmpCUD(la_dateDT) {
             ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;
         else {
             ga_tmpCUD[dataType].push({
-                "day_sta": $("#color_scheme option:selected").data("day_sta"),
+                "day_sta": tmpDate.day_sta,
                 "batch_dat": moment(tmpDate.date).format("YYYY/MM/DD")
             });
         }
