@@ -17,7 +17,7 @@ var selOptLib = require("../SelectOptionsLib");
 
 module.exports = {
     chkCashierrfCashiercod: function (postData, session, callback) {
-
+        console.log(postData);
     },
     qryCashierrfUsesta: function (postData, callback) {
         selOptLib.qryCashierrfUsesta(postData, function (err, result) {

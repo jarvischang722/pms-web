@@ -1,7 +1,13 @@
 <!--page-content-->
-<div>
+<div id="PMS0860060_body">
+    <div class="col-xs-12">
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
+    </div>
+    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
     <div class="page-header"></div><!-- /.page-header -->
-<!-- 業務員組別設定 Page-->
+    <!-- 業務員組別設定 Page-->
     <div class="row">
         <div class="col-xs-12">
             <div class="col-xs-11">
@@ -27,24 +33,24 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_create();"
-                                        role="button">Add</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" @click="addNode"
+                                        role="button"><%= __("SystemCommon").Add %></button>
                             </li>
                             <li>
-                                <button class="btn btn-danger btn-white btn-defaultWidth" onclick="areaTree_delete();"
-                                        role="button">Delete</button>
+                                <button class="btn btn-danger btn-white btn-defaultWidth" @click="delNode"
+                                        role="button"><%= __("SystemCommon").Delete %></button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth" onclick="areaTree_rename();"
-                                        role="button">Edit</button>
-                            </li>
-                            <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Save</button>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" @click="renameNode"
+                                        role="button"><%= __("SystemCommon").Modify %></button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">Change Log</button>
+                                        role="button" @click="doSave"><%= __("SystemCommon").Save %></button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" style="display: none;">Change Log</button>
                             </li>
                         </ul>
                     </div>
@@ -56,100 +62,4 @@
     </div>
 </div><!-- /.page-content -->
 
-<script type="text/javascript">
-
-
-    $(function () {
-
-        // PMS0860060 業務員設定(多筆) dataGrid
-        $('#PMS0860060-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/PMS0860060.json',
-            method: 'get',
-            columns: [[
-                {field: 'clerkID', title: '業務員代號', width: 100},
-                {field: 'clerkName', title: '業務員姓名', width: 150},
-                {field: 'hotelSales', title: '飯店業務', width: 100},
-                {field: 'restSales', title: '餐飲業務', width: 100},
-                {field: 'memberSales', title: '會員業務', width: 100}
-            ]]
-
-        });
-
-    })
-    function areaTree_create() {
-        var ref = $('#areaTree').jstree(true),
-            sel = ref.get_selected();
-        if(!sel.length) { return false; }
-        sel = sel[0];
-        sel = ref.create_node(sel, {"type":"file"});
-        if(sel) {
-            ref.edit(sel);
-        }
-    };
-    function areaTree_rename() {
-        var ref = $('#areaTree').jstree(true),
-            sel = ref.get_selected();
-        if(!sel.length) { return false; }
-        sel = sel[0];
-        ref.edit(sel);
-    };
-    function areaTree_delete() {
-        var ref = $('#areaTree').jstree(true),
-            sel = ref.get_selected();
-        if(!sel.length) { return false; }
-        ref.delete_node(sel);
-    };
-    // areaTree demo
-    $('#areaTree').jstree({
-            "core" : {
-                "animation" : 0,
-//                'force_text' : true,
-                "themes" : { "stripes" : true },
-                //不可多選
-                "multiple" : false,
-                "check_callback" : true,
-                'data' : {
-                    "url" : "/jsonData/areaTree.json",
-                    "dataType" : "json" // needed only if you do not supply JSON headers
-                }
-            },
-            "checkbox" : {
-                "keep_selected_style" : true,
-                "whole_node" : false,
-                // 選取時，false只會選到父節點，不會選到子結點
-                "tie_selection":false
-//                "visible":true
-            },
-            "dnd" : {
-                "dnd" : true,
-                "drag_selection" : true,
-                "check_while_dragging" : true
-            },
-            "types" : {
-                    "#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
-                    "root" : { "icon" : "/images/icon/taiwan.png", "valid_children" : ["default"] },
-                    "default" : {"icon" : "/images/icon/taiwan.png",  "valid_children" : ["default","file"] },
-                    "file" : { "icon" : "fa fa-user", "valid_children" : [] }
-                },
-            "plugins" : [  "dnd", "search", "state", "types", "wholerow","checkbox" ]
-        });
-
-    var form_data ={};
-    $(document).on("dnd_stop.vakata", function ( e, data) {
-       console.log(data);
-
-
-    })
-
-    //tree change时事件
-    $('#areaTree').on("changed.jstree", function (e, data) {
-//        console.log("The selected nodes are:");
-//        console.log(data.node.id);  //选择的node id
-//        console.log(data.node.text);  //选择的node text
-        form_data.ay = data.node.text;
-        form_data.ay_id = data.node.id;
-    });
-</script>
+<script src="/js/setup/PMS0860060_setup.js"></script>

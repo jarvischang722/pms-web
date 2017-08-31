@@ -134,10 +134,9 @@ var vm = new Vue({
             });
         },
 
-        tmpCudHandler: function (currNode, type) {
+        tmpCudHandler: function (currNode) {
             var self = this;
             var lo_parentNode = this.tree.get_node(this.tree.get_parent(currNode));
-
 
             // 取排序
             if (lo_parentNode.children.length != 0) {
@@ -228,6 +227,10 @@ var vm = new Vue({
             var lo_selNode = this.getSelectedNode();
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.dataGridRows, {area_cod: lo_selNode});
+
+            if(_.isUndefined(lo_dgRow)){
+                return true;
+            }
 
             if(lo_node.createStatus == "Y"){
                 this.tmpCud["createData"] = _.without(this.tmpCud["createData"], _.findWhere(this.tmpCud["createData"], {

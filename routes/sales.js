@@ -24,5 +24,6 @@ module.exports = function(app  ) {
     //業務 拜訪紀錄
     app.get('/sales/PMS0620050', salesCrtl.getPMS0620050);
 
-
+    //[PMS0860060_業務員組別設定] 取得業務員多筆
+    app.post("/api/sales/qrySalesMn", salesCrtl.qrySalesMn);
 };
