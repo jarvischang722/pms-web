@@ -41,7 +41,7 @@ list.forEach(function (source) {
 console.log("Complete the dao loading.");
 
 // return all CLOBs as Strings
-oracledb.fetchAsString = [ oracledb.CLOB ];
+oracledb.fetchAsString = [oracledb.CLOB];
 
 function DB() {
 
@@ -62,7 +62,7 @@ DB.prototype.create = function (opt) {
     options.forEach(function (option) {
         dbObj.clusters.push(option.id);
         dbObj.debug = option.debug;
-        if(option.maxRows && !isNaN(option.maxRows)){
+        if (option.maxRows && !isNaN(option.maxRows)) {
             dbObj.maxRows = option.maxRows;
         }
     });
@@ -129,6 +129,7 @@ function getConnection(arg1, arg2) {
         cb(err, connection);
     });
 }
+
 DB.prototype.getConnection = getConnection;
 
 DB.prototype.execute = function (sql, param, cb) {
@@ -257,11 +258,12 @@ DB.prototype.queryDao = function (dao, param, cb) {
                 if (param[parameter.key] instanceof Date) {
                     con[parameter.key] = param[parameter.key];
                 } else {
-                    con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                    con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                 }
             } else {
                 con[parameter.key] = param[parameter.key];
             }
+
         } else if (parameter.kind == 2) {
             if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
                 sql += " and " + parameter.condition;
@@ -272,11 +274,12 @@ DB.prototype.queryDao = function (dao, param, cb) {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
                 }
+
             }
         } else if (parameter.kind == 3) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
@@ -286,7 +289,7 @@ DB.prototype.queryDao = function (dao, param, cb) {
                     if (param[parameter.key] instanceof Date) {
                         con[parameter.key] = param[parameter.key];
                     } else {
-                        con[parameter.key] = new moment(param[parameter.key], 'YYYY/MM/DD HH:mm:ss').toDate();
+                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
@@ -350,7 +353,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
         console.log("parameters:" + JSON.stringify(condition));
     }
 
-    connection.execute(sqlstring, condition, {maxRows:dbObj.maxRows}, function (err, result) {
+    connection.execute(sqlstring, condition, {maxRows: dbObj.maxRows}, function (err, result) {
         if (err) {
             if (mode == 1) {
                 cb(err, []);

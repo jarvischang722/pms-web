@@ -2,133 +2,51 @@
  * Created by Jun on 2017/2/10.
  * dataGrid 相關處理
  */
-var config = require("../configs/database");
-var sysConf = require("../configs/SystemConfig");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var mongoAgent = require("../plugins/mongodb");
-var _ = require("underscore");
-var async = require("async");
-var moment = require("moment");
-var i18n = require("i18n");
-var tools = require("../utils/CommonTools");
-var dataRuleSvc = require("./DataRuleService");
-var ruleAgent = require("../ruleEngine/ruleAgent");
-var logSvc = require("./LogService");
-var mailSvc = require("./MailService");
-var langSvc = require("./LangService");
-/**
- * 抓取datagrid 資料
- * @param userInfo
- * @param prg_id
- * @param callback
- */
-exports.fetchPrgDataGridData = function (userInfo, prg_id, callback) {
-    var params = {
-        user_comp_cod: userInfo.user_comp_cod,
-        user_id: userInfo.user_id,
-        fun_comp_cod: userInfo.fun_comp_cod,
-        fun_hotel_cod: userInfo.fun_hotel_cod,
-        athena_id: userInfo.athena_id
-    };
-    var dataGridRows = [];
-    var fieldData = [];
-
-    async.waterfall([
-        // 1)找尋對照檔對應的資料
-        function (callback) {
-            mongoAgent.TemplateDatagrid.findOne({prg_id: prg_id}, function (err, templateRule) {
-                if (err || !templateRule) {
-                    err = "找不到對應的程式編號";
-                }
-
-                callback(err, templateRule.rule_id);
-            });
-        },
-        // 2)找尋對照檔需要用到的Table
-        function (rule_id, callback) {
-            mongoAgent.RuleRf.findOne({rule_id: rule_id, rule_type: 'SQL'}, function (err, ruleData) {
-                if (err || !ruleData) {
-                    err = "找不到對應的資料";
-                    return callback(err, null);
-                }
-
-                callback(err, ruleData.rule);
-
-            });
-        },
-        // 3)撈取對照檔的資料
-        function (sqlTag, callback) {
-            queryAgent.queryList(sqlTag, params, 0, 0, function (err, data) {
-                dataGridRows = data;
-                callback(err, dataGridRows);
-            });
-        },
-        //找尋field 屬性資料
-        function (dataRow, callback) {
-            //先依使用者id 與館別找此PRG_ID有無欄位屬性，若無則抓預設
-            mongoAgent.UIDatagridField.find({
-                user_id: userInfo.usr_id,
-                athena_id: userInfo.athena_id,
-                prg_id: prg_id
-            }).sort({col_seq: 1}).exec(function (err, UserFieldData) {
-                if (err || UserFieldData.length == 0) {
-                    mongoAgent.UIDatagridField.find({
-                        user_id: "",
-                        athena_id: "",
-                        prg_id: prg_id
-                    }).sort({col_seq: 1}).exec(function (err, commonField) {
-                        fieldData = commonField;
-                        callback(err, fieldData);
-                    });
-                } else {
-                    fieldData = UserFieldData;
-                    callback(err, fieldData);
-                }
-            });
-        },
-        function (col, callback) {
-            mongoAgent.UIFieldFormat.find({prg_id: prg_id}, function (err, fmtRows) {
-                if (!err) {
-                    _.each(fieldData, function (field, fIdx) {
-                        fieldData[fIdx] = field.toObject();
-                        var tmpFmt = _.findWhere(fmtRows, {prg_id: prg_id, ui_field_name: field.ui_field_name}) || {};
-                        fieldData[fIdx]["format_func_name"] = _.size(tmpFmt) > 0 ? tmpFmt["format_func_name"] : [];
-                    });
-                }
-
-                callback(err, fieldData);
-            });
-        }
-    ], function (err, result) {
-
-        if (err) {
-            console.error(err);
-        }
-
-
-        callback(err, dataGridRows, fieldData);
-
-    });
-
-
-};
+let config = require("../configs/database");
+let sysConf = require("../configs/SystemConfig");
+let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+let mongoAgent = require("../plugins/mongodb");
+let _ = require("underscore");
+let async = require("async");
+let moment = require("moment");
+let i18n = require("i18n");
+let tools = require("../utils/CommonTools");
+let dataRuleSvc = require("./DataRuleService");
+let ruleAgent = require("../ruleEngine/ruleAgent");
+let logSvc = require("./LogService");
+let mailSvc = require("./MailService");
+let langSvc = require("./LangService");
+let fieldAttrSvc = require("./FieldsAttrService");
 
 /**
- * 取datagrid 資料欄位 (新)
+ * 取datagrid 資料欄位
  * @param session
  * @param prg_id
  * @param callback
  */
-exports.fetchPrgDataGrid = function (session, prg_id, callback) {
-    var userInfo = session.user;
-    var page_id = 1;
-    var params = {
+exports.fetchPrgDataGrid = function (session, postData, callback) {
+
+    let prg_id = postData.prg_id;
+    let userInfo = session.user;
+    let lo_searchCond = postData.searchCond || {}; //搜尋條件
+    let page_id = 1;
+    let params = {
         user_id: userInfo.usr_id,
         athena_id: userInfo.athena_id,
         hotel_cod: userInfo.fun_hotel_cod
     };
-    var dataGridRows = [];
-    var fieldData = [];
+    let dataGridRows = [];
+    let fieldData = [];
+    let la_searchFields = [];
+
+    //過濾掉無效條件
+    _.each(lo_searchCond, function (condVal, condKey) {
+        if (_.isArray(condVal) && condVal.length > 0) {
+            params[condKey] = condVal;
+        } else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
+            params[condKey] = condVal;
+        }
+    });
 
     async.waterfall([
         // 1)
@@ -171,6 +89,18 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 });
             } else {
                 callback(null, []);
+            }
+
+        },
+        //  ) 條件過濾
+        function (dataRow, callback) {
+            if (!_.isUndefined(ruleAgent[prg_id + "Filter"])) {
+                ruleAgent[prg_id + "Filter"](dataRow, params, function (dataRow) {
+                    dataGridRows = dataRow;
+                    callback(null, dataRow);
+                });
+            } else {
+                callback(null, dataRow);
             }
 
         },
@@ -313,6 +243,17 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
                 dataGridRows = Rows;
                 callback(null, dataGridRows);
             });
+        },
+        // 7)撈取搜尋欄位
+        function (data, callback) {
+            fieldAttrSvc.getAllUIPageFieldAttr({
+                prg_id: prg_id,
+                page_id: 3,
+                locale: session.locale
+            }, userInfo, function (err, fields) {
+                la_searchFields = fields;
+                callback(null, fields);
+            });
         }
     ], function (err, result) {
 
@@ -320,7 +261,7 @@ exports.fetchPrgDataGrid = function (session, prg_id, callback) {
             console.error(err);
         }
 
-        callback(err, dataGridRows, fieldData);
+        callback(err, dataGridRows, fieldData, la_searchFields);
 
     });
 

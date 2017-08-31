@@ -5,48 +5,188 @@
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
         </div>
     </div>
-    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
-    <!--<div class="row" style="margin-left: -5px;">-->
-        <div class="col-xs-12">
-            <div class="col-sm-11 col-xs-11">
-                <div class="row no-margin-right">
-                    <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                        <div style="float:left; min-width: 30px; max-width: 3%;">
-                            <table id="dgCheckbox"></table>
+    <!-- 查詢 -->
+    <div class="col-xs-12" v-if="searchFields.length > 0 ">
+        <div class="search-content">
+            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
+            <div class="search-co">
+                <div class="row">
+                    <div class="search-co-content col-xs-12">
+                        <div class="width-95" style="padding-top: 10px;">
+                            <div class="grid">
+                                <div class="grid-item" v-for="field in searchFieldsByRow[0]">
+                                    <label>{{field.ui_display_name}}</label>
+                                    <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
+                                        <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                               class="numStyle-none"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               min="0"
+                                               :required="field.requirable == 'Y'"/>
+                                    </template>
+
+                                    <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
+                                        <el-select v-model="searchCond[field.ui_field_name]"
+                                                   multiple="field.ui_type == 'multiselect'" size="small">
+                                            <el-option v-for="item in field.selectData" :key="item.value"
+                                                       :label="item.display" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+
+                                    <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
+                                        <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                        :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
+                                                        :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                        :editable="false"
+                                                        placeholder="">
+                                        </el-date-picker>
+                                    </template>
+
+                                    <template v-if="field.ui_type == 'daterange'">
+                                        <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                        format="yyyy/MM/dd" type="daterange"  :editable="false"
+                                                        placeholder="Select date range">
+                                        </el-date-picker>
+                                    </template>
+
+                                    <template v-if="field.ui_type == 'radio'">
+                                        <el-radio class="radio"
+                                                  v-model="searchCond[field.ui_field_name]"
+                                                  v-for="item in field.selectData" :label="item.value">
+                                            {{item.display}}
+                                        </el-radio>
+                                    </template>
+
+                                </div>
+                            </div>
+
                         </div>
-                        <div>
-                            <table id="dg"></table>
+                        <div class="row search-footer-btn" style="top: -10px;">
+                            <div class="footer-btn-menu-co">
+                                <ul>
+                                    <li>
+                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                             title="查詢" @click="loadDataGridByPrgID()">
+                                            <div class="icon-reStyle icon-co-14"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                             title="清除" @click="searchCond = {}">
+                                            <div class="icon-reStyle icon-co-11"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div style="border-radius: 100px; border: 1px solid #eee; padding: 3px 6px; margin-top: 1px; box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);">
+                                            <i class="fa fa-chevron-down show-search-detail"
+                                               style="color: #438EB9;"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>  <!-- /.footer-btn-menu-co -->
+                        </div> <!-- /.search-footer-btn -->
+                    </div>
+                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                        <div class="width-95">
+
+                            <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
+                                <template >
+                                    <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
+                                        <label>{{field.ui_display_name}}</label>
+                                        <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
+                                            <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                                   class="numStyle-none"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   min="0"
+                                                   :required="field.requirable == 'Y'"/>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
+                                            <el-select v-model="searchCond[field.ui_field_name]"
+                                                       multiple="field.ui_type == 'multiselect'" size="small">
+                                                <el-option v-for="item in field.selectData" :key="item.value"
+                                                           :label="item.display" :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
+                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                            :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
+                                                            :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                            placeholder="">
+                                            </el-date-picker>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'daterange'">
+                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                            format="yyyy/MM/dd" type="daterange"
+                                                            placeholder="Select date range">
+                                            </el-date-picker>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'radio'">
+                                            <el-radio class="radio"
+                                                      v-model="searchCond[field.ui_field_name]"
+                                                      v-for="item in field.selectData" :label="item.value">
+                                                {{item.display}}{{item.value}}
+                                            </el-radio>
+                                        </template>
+
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
+                </div> <!-- row-->
+            </div> <!-- /.search-co -->
+        </div> <!-- /.row  search-content-->
+    </div>
+    <div class="clearfix"></div>
 
-                </div>
-            </div>
-
-            <div class="col-xs-1 col-sm-1">
-                <div class="row">
-                    <div class="right-menu-co">
-                        <ul>
-                            <li>
-                                <button id="ins-btn" @click="appendRow"
-                                        class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button">
-                                    <%= __("SystemCommon").Add %>
-                                </button>
-                            </li>
-
-                            <li>
-                                <button id="remove-btn" @click="removeRow"
-                                        class="btn btn-danger btn-white btn-defaultWidth"
-                                        role="button">
-                                    <%= __("SystemCommon").Delete %>
-                                </button>
-                            </li>
-                        </ul>
+    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
+    <!--<div class="row" style="margin-left: -5px;">-->
+    <div class="col-xs-12">
+        <div class="col-sm-11 col-xs-11">
+            <div class="row no-margin-right">
+                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
+                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                        <table id="dgCheckbox"></table>
                     </div>
+                    <div>
+                        <table id="dg"></table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xs-1 col-sm-1">
+            <div class="row">
+                <div class="right-menu-co">
+                    <ul>
+                        <li>
+                            <button id="ins-btn" @click="appendRow"
+                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("SystemCommon").Add %>
+                            </button>
+                        </li>
+
+                        <li>
+                            <button id="remove-btn" @click="removeRow"
+                                    class="btn btn-danger btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div> <!-- -->
+        </div>
+    </div> <!-- -->
     <!--</div>-->
     <div class="clearfix"></div>
     <sigle-grid-dialog-tmp
@@ -65,7 +205,7 @@
             :page-one-data-grid-rows="pageOneDataGridRows"
             :tmp-cud="tmpCud"
             :modificable-for-data="modificableForData"
-    :dialog-visible="dialogVisible">
+            :dialog-visible="dialogVisible">
     </sigle-grid-dialog-tmp>
 
     <field-multi-lang-dialog-tmp

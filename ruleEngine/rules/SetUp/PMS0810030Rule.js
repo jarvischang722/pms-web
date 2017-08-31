@@ -19,13 +19,14 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
-            athena_id: session.user.athena_id
+            athena_id: session.user.athena_id,
+            contry_cod:postData.singleRowData.contry_cod
         };
 
-        if (!_.isEmpty(postData.singleRowData.live_cod.trim())) {
+        if (!_.isEmpty(postData.singleRowData.contry_cod.trim())) {
             queryAgent.query("QRY_HOTEL_SVAL_MN_IS_CNTRY_RF_DEL", params, function (err, guestData) {
                 if (!err) {
-                    if (guestData.hotel_cod != "") {
+                    if (guestData != null) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         lo_error.errorMsg = "[" + hotel_cod + "]館-住客歷史參數-本國國籍, 已設定, 不可刪除";
@@ -79,7 +80,7 @@ module.exports = {
             callback(err, result);
         });
     },
-    //選擇國籍代號，如統計代號沒值則從國籍代入(有bug只能第一次)
+    //選擇國籍代號，如統計代號沒值則從國籍代入
     chk_cntry_rf_contry_cod: function (postData, session, callback) {
         var contryCode = postData.newValue;
         var statisticCod = postData.rowData.statistic_cod;

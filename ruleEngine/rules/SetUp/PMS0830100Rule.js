@@ -20,11 +20,14 @@ module.exports = {
             qryRentCalDat,
             qryRoomCod
         ], function (err, getResult) {
-            if (!err) {
-                let lo_result = new ReturnClass();
-                lo_result.selectOptions = getResult;
-                callback(null, lo_result);
+            let lo_result = new ReturnClass();
+            if (err) {
+                console.error(err);
+                lo_result.success = false;
+                return callback(null, lo_result);
             }
+            lo_result.selectOptions = getResult;
+            callback(null, lo_result);
         });
 
         function qryRentCalDat(cb) {

@@ -188,7 +188,6 @@ Vue.component("field-multi-lang-dialog-tmp", {
             $.post("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
                 self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
-                // console.table(JSON.parse(JSON.stringify(self.multiLangContentList)));
             });
         },
         openFieldMultiLangDialog: function (fieldName) {
@@ -316,7 +315,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     return row;
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
-            console.log(dataGrid);
+
         }
     }
 });
@@ -385,7 +384,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
-            console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
@@ -406,7 +404,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                     if (result.success) {
                         self.isVerified = true;
-                    }else{
+                    } else {
                         self.isVerified = false;
                         alert(result.errorMsg);
                     }
@@ -857,7 +855,12 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
-        dialogVisible: false
+        dialogVisible: false,
+        searchFields: [], //搜尋的欄位
+        searchFieldsByRow: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
+
+
     },
     watch: {
         editStatus: function (newVal) {
@@ -877,6 +880,9 @@ var vm = new Vue({
                 vm.editStatus = false;
                 vm.createStatus = false;
             }
+        },
+        searchFields: function (newFields) {
+            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(this.searchFields, "row_seq"), "row_seq"));
         }
     },
     methods: {
@@ -893,9 +899,12 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            //waitingDialog.show("Loading...");
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            if(_.isNull(callback)){
+                callback = function(getresult){};
+            }
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
+                vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
