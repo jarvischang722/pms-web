@@ -715,7 +715,10 @@ var vm = new Vue({
         uploadFileList: [],
         displayFileList: [],
         imageDisplay: true,
-        isLoading: false
+        isLoading: false,
+        searchFields: [], //搜尋的欄位
+        searchFieldsByRow: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
     },
     watch: {
         editStatus: function (newVal) {
@@ -740,6 +743,9 @@ var vm = new Vue({
             if (this.uploadFileList.length != 0) {
                 this.imageDisplay = false;
             }
+        },
+        searchFields:function(newFields){
+            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(this.searchFields, "row_seq"), "row_seq"));
         }
     },
     methods: {
@@ -753,8 +759,10 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            console.log(this.searchCond);
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id,searchCond:this.searchCond}, function (result) {
                 waitingDialog.hide();
+                vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
@@ -1137,7 +1145,6 @@ var vm = new Vue({
 
 
 Vue.filter("showDropdownDisplayName", function (val) {
-    console.log(val);
-    console.log(selectData);
+
 });
 

@@ -86,7 +86,7 @@ var sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。
-    saveUninitialized: false,              //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid
+    saveUninitialized: false,              //是指無論有没有session cookie，每次请求都設置個session cookie ，預設為 connect.sid,
     cookie: {
         maxAge: maxAgeSec * 1000        //單位 毫秒
     },
@@ -95,6 +95,8 @@ var sessionMiddleware = session({
         ttl: maxAgeSec                   //單位 秒
     })
 });
+
+
 
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
