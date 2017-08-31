@@ -899,7 +899,9 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            //waitingDialog.show("Loading...");
+            if(_.isNull(callback)){
+                callback = function(getresult){};
+            }
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;

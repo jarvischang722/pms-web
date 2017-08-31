@@ -9,43 +9,13 @@
     <!-- 查詢 -->
     <div class="col-xs-12" v-if="searchFields.length > 0 ">
         <div class="search-content">
+            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
             <div class="search-co">
-                <div class="search-co-h">
-                    <i class="ace-icon fa fa-search search-icon"></i>
-                    <span>Search</span>
-                    <div class="row search-right-btn">
-                        <div class="right-btn-menu-co">
-                            <ul>
-                                <li>
-                                    <i class="fa fa-chevron-down show-search-detail"></i>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                        <div class="row search-footer-btn">
-                            <div class="footer-btn-menu-co">
-                                <ul>
-                                    <li>
-                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="查詢" @click="fetchDataGridData()">
-                                            <div class="icon-reStyle icon-co-14"></div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="清除" @click="searchCond = {}">
-                                            <div class="icon-reStyle icon-co-11"></div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="width-95">
-                            <div class="grid" v-for="searchFieldList in searchFieldsByRow">
-                                <div class="grid-item" v-for="field in searchFieldList">
+                    <div class="search-co-content col-xs-12">
+                        <div class="width-95" style="padding-top: 10px;">
+                            <div class="grid">
+                                <div class="grid-item" v-for="field in searchFieldsByRow[0]">
                                     <label>{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
@@ -67,13 +37,15 @@
                                     <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                         :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
-                                                        :type="field.ui_type == 'date' ? 'date': 'datetime'" placeholder="">
+                                                        :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                        placeholder="">
                                         </el-date-picker>
                                     </template>
 
                                     <template v-if="field.ui_type == 'daterange'">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                        format="yyyy/MM/dd" type="daterange" placeholder="Select date range">
+                                                        format="yyyy/MM/dd" type="daterange"
+                                                        placeholder="Select date range">
                                         </el-date-picker>
                                     </template>
 
@@ -87,15 +59,91 @@
 
                                 </div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
 
+                        </div>
+                        <div class="row search-footer-btn" style="top: -10px;">
+                            <div class="footer-btn-menu-co">
+                                <ul>
+                                    <li>
+                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                             title="查詢" @click="fetchDataGridData()">
+                                            <div class="icon-reStyle icon-co-14"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="" data-rel="tooltip" data-placement="bottom"
+                                             title="清除" @click="searchCond = {}">
+                                            <div class="icon-reStyle icon-co-11"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div style="border-radius: 100px; border: 1px solid #eee; padding: 3px 6px; margin-top: 1px; box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);">
+                                            <i class="fa fa-chevron-down show-search-detail"
+                                               style="color: #438EB9;"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>  <!-- /.footer-btn-menu-co -->
+                        </div> <!-- /.search-footer-btn -->
+                    </div>
+                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                        <div class="width-95">
+
+                            <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
+                                <template >
+                                    <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
+                                        <label>{{field.ui_display_name}}</label>
+                                        <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
+                                            <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                                   class="numStyle-none"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                   min="0"
+                                                   :required="field.requirable == 'Y'"/>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
+                                            <el-select v-model="searchCond[field.ui_field_name]"
+                                                       multiple="field.ui_type == 'multiselect'" size="small">
+                                                <el-option v-for="item in field.selectData" :key="item.value"
+                                                           :label="item.display" :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
+                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                            :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
+                                                            :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                            placeholder="">
+                                            </el-date-picker>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'daterange'">
+                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                            format="yyyy/MM/dd" type="daterange"
+                                                            placeholder="Select date range">
+                                            </el-date-picker>
+                                        </template>
+
+                                        <template v-if="field.ui_type == 'radio'">
+                                            <el-radio class="radio"
+                                                      v-model="searchCond[field.ui_field_name]"
+                                                      v-for="item in field.selectData" :label="item.value">
+                                                {{item.display}}{{item.value}}
+                                            </el-radio>
+                                        </template>
+
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div> <!-- row-->
+            </div> <!-- /.search-co -->
+        </div> <!-- /.row  search-content-->
     </div>
+    <div class="clearfix"></div>
 
     <div class="col-xs-12" v-show="!isTableLock">
         <div class="col-sm-11 col-xs-11">
@@ -164,7 +212,8 @@
             :prg-field-data-attr="prgFieldDataAttr">
     </multi-lang-dialog-tmp>
 
-    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false" :visible.sync="openChangeLogDialog" size="large" >
+    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+               :visible.sync="openChangeLogDialog" size="large">
 
         <div class="col-xs-12">
             <div class="col-sm-12 col-xs-12">
@@ -189,9 +238,11 @@
                                 <tr v-for="logData in allChangeLogList">
                                     <td class="width-15">{{logData.event_time}}</td>
                                     <td class="width-10">{{logData.user}}</td>
-                                    <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span></td>
+                                    <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                    </td>
                                     <td class="width-20">
-                                        <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}</div>
+                                        <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}
+                                        </div>
                                         <span v-for="mnData in logData.desc_mn">
                                         {{mnData.field_name}} :
                                         {{mnData.oldVal}}
@@ -207,16 +258,16 @@
                     </div>
                     <div class="clearfix"></div>
                     <script>
-//                        console.log(navigator.userAgent);
+                        //                        console.log(navigator.userAgent);
                         //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
                         //0822 有些mac的scrollBar 會推，有些不會(jun會)
-//                        if(navigator.userAgent.indexOf("Window") !=-1){
-                            $(window).on("load resize ", function() {
-                                var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-                                $('.tbl-header').css({'padding-right':'17px'});
-                                var fixHeadTableH = $('.el-dialog__body .col-xs-12').height()-20;
-                            }).resize();
-//                        }
+                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+                        $(window).on("load resize ", function () {
+                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+                            $('.tbl-header').css({'padding-right': '17px'});
+                            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                        }).resize();
+                        //                        }
                         // /.end 判斷如果不是window不執行
 
                     </script>
