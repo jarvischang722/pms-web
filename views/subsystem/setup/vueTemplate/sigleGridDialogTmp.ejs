@@ -37,12 +37,12 @@
                                            :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                           @click="chkClickTextGrid(field)"
+                                           @click="chkClickPopUpGrid(field)"
                                         >
 
                                     <!--  label -->
                                     <label
-                                           :style="{width:field.label_width + 'px'}"
+                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            class="numStyle-none"
                                            v-if="field.visiable == 'Y' && field.ui_type == 'label'"
                                            :maxlength="field.ui_field_length"

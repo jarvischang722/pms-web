@@ -244,13 +244,13 @@ Vue.component('text-select-grid-dialog-tmp', {
     },
     created: function () {
         var self = this;
-        vmHub.$on('showTextDataGrid', function (result) {
-            self.showTextDataGrid(result);
+        vmHub.$on('showPopUpDataGrid', function (result) {
+            self.showPopUpDataGrid(result);
         });
     },
     methods: {
-        //顯示點選textgrid跳出來的視窗
-        showTextDataGrid: function (result) {
+        //顯示點選popupgrid跳出來的視窗
+        showPopUpDataGrid: function (result) {
             var self = this;
             var textDataGrid = result.showDataGrid;
             var updateFieldName = result.updateFieldNameTmp;
@@ -303,7 +303,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             });
             vmHub.$emit('updateBackSelectData', chooseData);
-            $("#dataTextGridDialog").dialog('close');
+            $("#dataPopUpGridDialog").dialog('close');
         },
         txtSearchChangeText: function (keyContent) {
             var allData = this.gridData;
@@ -324,7 +324,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectTextGridData', 'updateBackSelectData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -384,6 +384,7 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
+            console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
@@ -404,7 +405,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
                     if (result.success) {
                         self.isVerified = true;
-                    } else {
+                    }else{
                         self.isVerified = false;
                         alert(result.errorMsg);
                     }
@@ -436,20 +437,20 @@ Vue.component('sigle-grid-dialog-tmp', {
             }
         },
         //跳窗選擇多欄位
-        chkClickTextGrid: function (field) {
+        chkClickPopUpGrid: function (field) {
             this.changeEditingForFieldRule(field.rule_func_name);
-            if (field.ui_type == "textgrid") {
+            if (field.ui_type == "popupgrid") {
                 var params = {
                     prg_id: prg_id,
                     fields: field,
                     singleRowData: JSON.parse(JSON.stringify(this.singleData))
                 };
 
-                $.post("/api/selectGridData", params, function (result) {
+                $.post("/api/popUpGridData", params, function (result) {
                     if (result != null) {
-                        vm.selectTextGridData = result.showDataGrid;
-                        vmHub.$emit('showTextDataGrid', result);
-                        vm.showTextGridDialog();
+                        vm.selectPopUpGridData = result.showDataGrid;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        vm.showPopUpGridDialog();
                     }
                 });
             }
@@ -855,12 +856,7 @@ var vm = new Vue({
         modificableForData: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
-        dialogVisible: false,
-        searchFields: [], //搜尋的欄位
-        searchFieldsByRow: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
-
-
+        dialogVisible: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -880,9 +876,6 @@ var vm = new Vue({
                 vm.editStatus = false;
                 vm.createStatus = false;
             }
-        },
-        searchFields: function (newFields) {
-            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(this.searchFields, "row_seq"), "row_seq"));
         }
     },
     methods: {
@@ -899,12 +892,9 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            if(_.isNull(callback)){
-                callback = function(getresult){};
-            }
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
+            //waitingDialog.show("Loading...");
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
                 waitingDialog.hide();
-                vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
                 vm.showCheckboxDG();
@@ -1188,7 +1178,7 @@ var vm = new Vue({
             });
         },
         //顯示textgrid跳窗訊息
-        showTextGridDialog: function () {
+        showPopUpGridDialog: function () {
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
             var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
@@ -1196,7 +1186,7 @@ var vm = new Vue({
                 //加上 dt 高度
                 height += this.dtData.length * 35 + 130;
             }
-            var dialog = $("#dataTextGridDialog").dialog({
+            var dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
                 height: _.min([maxHeight, height]),

@@ -43,7 +43,14 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
         function (fields, callback) {
             var selectDSFunc = [];
             _.each(la_fields, function (field, fIdx) {
-                if (field.ui_type == 'select') {
+                if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
+
+                    //讀取selectgrid的設定參數
+                    if(field.ui_type == 'selectgrid'){
+                        var func_name = prg_id + '_' + field.ui_field_name;
+                        la_fields[fIdx].selectGridOptions = ruleAgent[func_name]();
+                    }
+
                     selectDSFunc.push(
                         function (callback) {
                             mongoAgent.UI_Type_Select.findOne({
@@ -1312,7 +1319,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 };
 
 //取得跳窗頁面的值
-exports.handleSelectTextGridData = function (session, postData, callback) {
+exports.handlePopUpGridData = function (session, postData, callback) {
     var ruleName = postData.fields.rule_func_name;
 
     ruleAgent[ruleName](postData, session, function (err, result) {

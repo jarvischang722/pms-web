@@ -17,13 +17,44 @@ var selOptLib = require("../SelectOptionsLib");
 
 module.exports = {
     chkCashierrfCashiercod: function (postData, session, callback) {
-        console.log(postData);
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            cmp_id: session.user.cmp_id
+        };
+
+        let ui_field_name = _.isUndefined(postData.fields) ? "": postData.fields.ui_field_name;
+        let result = new ReturnClass();
+        let updateFieldName = {
+            cashier_cod: "value",
+            cashier_nam: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "出納員代號",
+            display: "出納員名稱"
+        };
+
+        if(ui_field_name != "") {
+            queryAgent.queryList("QRY_CASHIER_RF_CASHIER_COD", lo_params, 0, 0, function(err, getResult){
+                if(!err){
+                    result.effectValues.showDataGrid = getResult;
+                    result.effectValues.updateFieldNameTmp = updateFieldName;
+                    result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(null, [result]);
+                }
+            });
+        }
+        else {
+            callback(null, result);
+        }
     },
+
     qryCashierrfUsesta: function (postData, callback) {
         selOptLib.qryCashierrfUsesta(postData, function (err, result) {
             callback(result);
         });
     },
+
     chkCashierrfOpentimes: function (postData, session, callback) {
         let lo_params = {
             athena_id: session.athena_id,
@@ -39,7 +70,7 @@ module.exports = {
     qryUseShiftOpen: function (params, callback) {
         queryAgent.query("QRY_USE_SHIFT_OPEN", params, function (err, getResult) {
             if (_.isNull(getResult.use_shift_open) || getResult.use_shift_open == "Y") {
-                getResult.use_shift_open = "N";
+                getResult.use_shift_open = "Y";
             }
             callback(err, getResult.use_shift_open);
         });
@@ -112,5 +143,22 @@ module.exports = {
         }
 
 
+    },
+
+    PMS0830010_cashier_cod: function () {
+
+        var options = new Object;
+
+        options.panelWidth = '200';
+        options.idField = 'value';
+        options.textField = 'value';
+
+        var columns = [[
+            {field:'display',title:'出納員名稱',width:100},
+            {field:'value',title:'出納員代號',width:100}]];
+
+        options.columns = columns;
+
+        return options;
     }
 };
