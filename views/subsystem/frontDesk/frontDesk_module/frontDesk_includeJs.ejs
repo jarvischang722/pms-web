@@ -96,7 +96,7 @@
                 modal: true,
                 title: "Rm Chg",
                 title_html: true,
-                width: 1000,
+                width: 600,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -370,6 +370,7 @@
                 resizable: true
             });
         });
+
         // 彈出 Room Assign-auto Assign foCnt_autoAssignSGL
         $(document).on('click', ".foCnt_autoAssignSGL", function (e) {
             e.preventDefault();
@@ -377,7 +378,7 @@
                 modal: true,
                 title: "[訂房卡號：00481901]自動排房",
                 title_html: true,
-                width: 1000,
+                width: 600,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -401,7 +402,12 @@
                 resizable: true
             });
         });
-        // 櫃檯備品 screen小於1280縮小
+
+
+        /***
+         * 櫃檯備品 screen小於1280縮小
+         */
+
 //        var $window = $(window),
 //            $ul = $('ul.nav');
 //        $(window).on('resize', function () {
@@ -1118,8 +1124,8 @@
     // Resize Table Height
     var menuHeight1 = $(".navbar-container").height();
     var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-    console.log('menuHeight1',menuHeight1);
-    console.log('gridTableHt',menuHeight2);
+//    console.log('menuHeight1',menuHeight1);
+//    console.log('gridTableHt',menuHeight2);
     height = $(window).height()-menuHeight1-menuHeight2-10;
     $(".gridTableHt .panel-body").css("height", height);
     console.log('gridTableHt .panel-body',height);

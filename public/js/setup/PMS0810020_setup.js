@@ -1114,7 +1114,7 @@ var vm = new Vue({
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 750,
+                minWidth: 1000,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"

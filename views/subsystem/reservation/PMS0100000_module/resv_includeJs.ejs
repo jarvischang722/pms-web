@@ -512,7 +512,7 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-                height: $(window).height(),
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -526,9 +526,9 @@
                 modal: true,
                 title: "Share Rate",
                 title_html: true,
-                width: 1000,
+                width: 600,
                 maxwidth: 1920,
-                height: $(window).height(),
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -1749,4 +1749,27 @@
             addRemoveLinks: true,
             method: 'post'
         });
+
+
+    /***
+     * PMS0210030 Room Assign
+     */
+
+    // 彈出 Room Assign button  foCnt_autoAssign
+    $(document).on('click', ".foCnt_roomAssign", function (e) {
+        e.preventDefault();
+        var dialog = $("#foCnt_roomAssign-message").removeClass('hide').dialog({
+            modal: true,
+            title: "Room Assign",
+            title_html: true,
+            width: 1000,
+            maxwidth: 1920,
+            height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+
+    });
+
 </script>

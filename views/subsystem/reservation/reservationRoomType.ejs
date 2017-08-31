@@ -83,6 +83,14 @@
     <%- include ../sales/sales_module/sales_Btn_1.ejs %>
     <!--  /.End 業務 -->
 
+    <!--  接待 彈出視窗內容(jing)-->
+    <%- include ../frontDesk/frontDesk_module/frontDesk_Btn_1.ejs %>
+    <!--  /.End 接待 彈出視窗內容 -->
+
+    <!--  接待 彈出視窗內容2(jing)-->
+    <%- include ../frontDesk/frontDesk_module/frontDesk_Btn_2.ejs %>
+    <!--  /.End 接待 彈出視窗內容2 -->
+
     <!-- ratePlan 彈出視窗 備註：無法放在共用會產生抓值回圈，錯誤-->
     <div id="resv_ratePlanBtn-message" class="hide padding-5">
 
@@ -258,13 +266,16 @@
      </div>
     <!-- /.End ratePlan 彈出視窗 -->
 
-
 </div>
 
 
 <!--  訂房卡共用 initial js -->
-<%- include PMS0100000_module/resv_includeJs %>
+<%- include PMS0100000_module/resv_includeJs.ejs %>
 <!--  /.End 訂房卡共用 initial js  -->
+
+<!--  接待 initial js -->
+<%- include ../frontDesk/frontDesk_module/frontDesk_includeJs.ejs %>
+<!--  /.End 接待 initial js  -->
 
 <!--  業務 -->
 <%- include ../sales/sales_module/sales_includeJs.ejs %>

@@ -6,8 +6,8 @@
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
     <div id="singleGridPMS0810020" v-show="false">
-        <div class="col-sm-12 col-xs-12 singleGridContent">
-            <div class="row">
+        <div class="singleGridContent padding-5">
+            <div class="">
                 <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
                     <form id="singleDataForm" method="post">
@@ -15,16 +15,16 @@
                             <div class="row" v-for="fields in pageTwoFieldData">
                                 <div class="grid-item " v-for="field in fields">
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'">
+                                           v-if="field.visiable == 'Y'" class="lineHeight14">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
                                             {{field.ui_display_name}}
                                         </a>
                                         <span v-else>{{field.ui_display_name}} </span>
                                     </label>
-                                    <span v-if="field.visiable == 'Y'"
-                                          style="width: 15px; text-align: center;
-                                          display: inline-block; min-width: 15px;">:</span>
+                                    <!--<span v-if="field.visiable == 'Y'"-->
+                                          <!--style="width: 15px; text-align: center;-->
+                                          <!--display: inline-block; min-width: 15px;">:</span>-->
 
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
