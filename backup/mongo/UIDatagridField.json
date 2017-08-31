@@ -5305,7 +5305,7 @@
     "athena_id" : "", 
     "user_id" : "", 
     "prg_id" : "PMS0810030", 
-    "ui_field_name" : "conyty_sna", 
+    "ui_field_name" : "contry_sna", 
     "ui_type" : "text", 
     "ui_field_length" : NumberInt(10), 
     "ui_field_num_point" : NumberInt(0), 

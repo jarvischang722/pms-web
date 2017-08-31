@@ -754,7 +754,7 @@
     "_id" : ObjectId("599f90bb726c3e1074b5a158"), 
     "prg_id" : "PMS0860060", 
     "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
+    "template_id" : "special", 
     "table_name" : "sales_class_kvrf", 
     "rule_func_name" : "qry_sales_class_kvrf", 
     "lock_table" : "sales_class_kvrf", 
