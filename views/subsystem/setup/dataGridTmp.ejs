@@ -27,7 +27,7 @@
 
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                         <el-select v-model="searchCond[field.ui_field_name]"
-                                                   multiple="field.ui_type == 'multiselect'" size="small">
+                                                   :multiple="field.ui_type == 'multiselect'" size="small">
                                             <el-option v-for="item in field.selectData" :key="item.value"
                                                        :label="item.display" :value="item.value">
                                             </el-option>
@@ -103,7 +103,7 @@
 
                                         <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                             <el-select v-model="searchCond[field.ui_field_name]"
-                                                       multiple="field.ui_type == 'multiselect'" size="small">
+                                                       :multiple="field.ui_type == 'multiselect'" size="small">
                                                 <el-option v-for="item in field.selectData" :key="item.value"
                                                            :label="item.display" :value="item.value">
                                                 </el-option>

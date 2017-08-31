@@ -685,8 +685,7 @@ var vm = new Vue({
         var self = this;
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID(function (success) {
-        });
+        this.loadDataGridByPrgID();
         this.loadSingleGridPageField();
     },
     data: {
@@ -744,7 +743,7 @@ var vm = new Vue({
                 this.imageDisplay = false;
             }
         },
-        searchFields:function(newFields){
+        searchFields: function (newFields) {
             this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(this.searchFields, "row_seq"), "row_seq"));
         }
     },
@@ -759,8 +758,11 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            console.log(this.searchCond);
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id,searchCond:this.searchCond}, function (result) {
+            if (_.isUndefined(callback) || _.isNull(callback)) {
+                callback = function () {
+                };
+            }
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
@@ -838,7 +840,8 @@ var vm = new Vue({
                                 $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
                             });
                             vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
-                            vm.doSaveCUD(function(){});
+                            vm.doSaveCUD(function () {
+                            });
                         } else {
                             alert(result.errorMsg);
                         }
@@ -857,26 +860,19 @@ var vm = new Vue({
             // console.log("===Save params===");
             // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
+                waitingDialog.hide();
                 if (result.success) {
-
                     if (self.uploadFileList.length != 0) {
                         self.uploadAction(callback);
                     }
                     else {
                         vm.initTmpCUD();
-                        vm.loadDataGridByPrgID(function (success) {
-                            callback(success);
-                        });
+                        vm.loadDataGridByPrgID();
                         alert('save success!');
-                        waitingDialog.hide();
                     }
-                    // self.isEditStatus = false;
-
                 } else {
-                    waitingDialog.hide();
                     alert(result.errorMsg);
                 }
-
             });
 
         },
