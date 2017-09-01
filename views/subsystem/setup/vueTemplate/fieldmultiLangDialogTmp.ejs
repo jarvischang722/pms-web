@@ -26,15 +26,12 @@
     }
 </style>
 <script type="text/x-template" id="fieldMultiLangDialogTmp">
-    <el-dialog :title="" :visible.sync="showMultiLangDialog" size="tiny">
-
+    <el-dialog title="Multi Language" :visible.sync="showMultiLangDialog" size="tiny">
         <table class="langTable" style="margin-top: 20px" align="center">
-
             <tbody>
             <tr v-for="locale in sys_locales">
                 <td> {{locale.name}}</td>
                 <td>
-
                     <input :data-locale="locale.lang"
                            :id="editingLangField"
                            :value="filterLocaleContent(multiLangContentList,  locale.lang ,editingLangField) "
@@ -47,6 +44,5 @@
             <el-button @click="closeFieldMultiLangDialog"><%= __("SystemCommon").Cancel %></el-button>
             <el-button type="primary" @click="saveFieldMultiLang">  <%= __("SystemCommon").OK %> </el-button>
         </span>
-
     </el-dialog>
 </script>

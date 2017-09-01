@@ -57,7 +57,7 @@ Vue.component("field-multi-lang-dialog-tmp", {
             $.post("/api/fieldAllLocaleContent", params, function (result) {
                 self.multiLangContentList = result.multiLangContentList;
                 self.editingMultiLangFieldName = fieldInfo.ui_display_name;
-                self.openFieldMultiLangDialog(fieldInfo.ui_display_name);
+                self.openFieldMultiLangDialog();
             });
         },
         openFieldMultiLangDialog: function () {

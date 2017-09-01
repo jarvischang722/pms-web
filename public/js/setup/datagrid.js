@@ -71,7 +71,7 @@ Vue.component("multi-lang-dialog-tmp", {
             }
         },
         closeMultiLangDialog: function () {
-            $("#multiLangDialog").dialog("close");
+            this.$parent.multiLangDialogVisible = false;
         },
         //寫入此筆編輯Row
         saveMultiLang: function () {
@@ -112,7 +112,8 @@ var vm = new Vue({
         allChangeLogList: [],
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [],
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        multiLangDialogVisible:false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -391,22 +392,7 @@ var vm = new Vue({
         },
         //打開多語系編輯Dialog
         openMultiLangDialog: function () {
-            var width = 500;
-            var maxWidth = 700;
-            var dialog = $("#multiLangDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                title: "Multi Language",
-                height: 250,
-                width: 750,
-                maxWidth: _.min([width, maxWidth]),
-                resizable: true,
-                buttons: "#multiDialogBtns",
-                zIndex: 1000
-
-            });
-
-            dialog.dialog("open");
+            this.multiLangDialogVisible = true;
         },
         updateMultiLangDG: function (data) {
 
