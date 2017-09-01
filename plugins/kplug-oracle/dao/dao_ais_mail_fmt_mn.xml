@@ -22,4 +22,16 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!-- ['PMS0810030'] 取得郵件格式備註-->
+    <dao name="QRY_CNTRY_RF_REMARK">
+        <statement><![CDATA[
+                select remark1
+                from ais_mail_fmt_mn
+                where athena_id = :athena_id and trim(mail_fmt) = trim(:mail_fmt)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">mail_fmt</parameter>
+    </dao>
 </root>
