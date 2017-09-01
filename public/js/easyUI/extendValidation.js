@@ -35,7 +35,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     //一定要輸入兩碼
     FmtExactlyTwoWord: {
         validator: function (value) {
-            var reg = /^\d{2}$/;
+            var reg = /[\w]{2}/;
             $.fn.validatebox.defaults.rules.FmtExactlyTwoWord.message = go_i18nLang.Validation.Formatter["FmtExactlyTwoWord"]  ;
             return reg.test(value);
         },

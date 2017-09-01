@@ -357,6 +357,7 @@ var vm = new Vue({
                     createData: vm.tmpCUD.createData,
                     updateData: vm.tmpCUD.updateData
                 };
+
                 vm.saving = true;
                 waitingDialog.show('Saving...');
                 $.post("/api/saveDataRow", params, function (result) {
