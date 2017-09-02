@@ -120,6 +120,7 @@ module.exports = {
         }
 
         function chkSmallTypDel(smallTypData, cb) {
+            var laf_checkFunc = [];
             let lo_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod
@@ -127,17 +128,24 @@ module.exports = {
             let li_smallTyp_count = smallTypData.length;
             let li_counter = 0;
             _.each(smallTypData, function(eachData){
-                li_counter++;
-                queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
-                    if (result.small_typ_count > 0) {
-                        cb(true, "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+
+                laf_checkFunc.push(
+                    function(callback){
+                        queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
+                            if (result.small_typ_count > 0) {
+                                callback( "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+                            }else{
+                                callback(null);
+                            }
+
+                        });
                     }
+                )
 
-                    if(li_counter == li_smallTyp_count)
-                        cb(null, "success");
-                });
             });
-
+            async.parallel(laf_checkFunc,function(err,result){
+                cb(err)
+            })
         }
     },
 
