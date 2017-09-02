@@ -43,14 +43,12 @@ var vm = new Vue({
                 this.tmpCud.createData = [];
                 this.tmpCud.updateData = [];
                 this.tmpCud.deleteData = [];
-                // $("#areaTree").jstree("destroy");
             },
 
             //抓取顯示資料
             loadDataGridByPrgID: function () {
                 var self = this;
                 $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
-                    waitingDialog.hide();
                     vm.dataGridRows = _.map(result.dataGridRows, function (obj) {
                         if (obj.area_cod.trim() != "ROOT") {
                             var li_area_cod = Number(obj.area_cod);
@@ -219,6 +217,7 @@ var vm = new Vue({
             renameNode: function () {
                 var lo_selNode = this.getSelectedNode();
                 var lo_node = this.tree.get_node(lo_selNode);
+                console.log(lo_node);
                 if (lo_node.id == "ROOT") {
                     return true;
                 }
@@ -307,6 +306,7 @@ function rowData(node) {
     this.area_nam = node.text;
     this.sort_cod = node.position;
     this.parent_cod = node.parent;
+    this.level_nos = node.parents.length-1;
 }
 
 function Node(rowData) {
