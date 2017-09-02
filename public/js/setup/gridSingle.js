@@ -395,6 +395,13 @@ Vue.component('sigle-grid-dialog-tmp', {
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
             if (!_.isEmpty(rule_func_name.trim())) {
+
+                _.each(this.singleData, function (value, key) {
+                  if(_.isUndefined(value)){
+                      self.singleData[key] = "";
+                  }
+                })
+
                 var postData = {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
