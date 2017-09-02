@@ -397,9 +397,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             if (!_.isEmpty(rule_func_name.trim())) {
 
                 _.each(this.singleData, function (value, key) {
-                  if(_.isUndefined(value)){
-                      self.singleData[key] = "";
-                  }
+                    if (_.isUndefined(value)) {
+                        self.singleData[key] = "";
+                    }
                 })
 
                 var postData = {
@@ -868,7 +868,10 @@ var vm = new Vue({
         dialogVisible: false,
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        openChangeLogDialog: false,
+        allChangeLogList: []
+
     },
     watch: {
         editStatus: function (newVal) {
@@ -1219,6 +1222,13 @@ var vm = new Vue({
             dialog.dialog("open");
             // 給 dialog "內容"高 值
             //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+        },
+        loadChangeLog: function () {
+            this.openChangeLogDialog = true;
+            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+                vm.allChangeLogList = result.allChangeLogList;
+                console.log( vm.allChangeLogList);
+            });
         }
 
 

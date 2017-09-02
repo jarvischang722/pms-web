@@ -239,10 +239,10 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
             }
 
             var attrName = field.attr_func_name;
-            if (!_.isEmpty(attrName) && lo_dtData.length != 0) {
+            if (!_.isEmpty(attrName)) {
                 let lo_params = {
-                    field: field,
-                    dtData: lo_dtData
+                    field: field
+
                 }
                 selectDSFunc.push(
                     function (callback) {
