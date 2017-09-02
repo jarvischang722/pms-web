@@ -386,7 +386,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
-            console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }

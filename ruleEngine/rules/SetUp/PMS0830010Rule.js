@@ -22,7 +22,7 @@ module.exports = {
             cmp_id: session.user.cmp_id
         };
 
-        let ui_field_name = _.isUndefined(postData.fields) ? "": postData.fields.ui_field_name;
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         let result = new ReturnClass();
         let updateFieldName = {
             cashier_cod: "value",
@@ -34,9 +34,9 @@ module.exports = {
             display: "出納員名稱"
         };
 
-        if(ui_field_name != "") {
-            queryAgent.queryList("QRY_CASHIER_RF_CASHIER_COD", lo_params, 0, 0, function(err, getResult){
-                if(!err){
+        if (ui_field_name != "") {
+            queryAgent.queryList("QRY_CASHIER_RF_CASHIER_COD", lo_params, 0, 0, function (err, getResult) {
+                if (!err) {
                     result.effectValues.showDataGrid = getResult;
                     result.effectValues.updateFieldNameTmp = updateFieldName;
                     result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
@@ -48,13 +48,17 @@ module.exports = {
             callback(null, result);
         }
     },
-
+    // 參數:是否用班別開班
     qryCashierrfUsesta: function (postData, callback) {
         selOptLib.qryCashierrfUsesta(postData, function (err, result) {
             callback(result);
         });
     },
 
+    /**
+     * 若參數是否用班別開班 = Y 時，
+     * 「預設班別、今日已開班次數及今日最後開班時間」欄位畫面不顯示
+     */
     chkCashierrfOpentimes: function (postData, session, callback) {
         let lo_params = {
             athena_id: session.athena_id,
@@ -76,6 +80,11 @@ module.exports = {
         });
     },
 
+    /**
+     * 欄位use_sta=Y且『參數:是否用班別開班=N』則
+     * (1)如果欄位def_shift_cod舊值今天已經有開班,則不能異動
+     * (2)『預設班別不可重複』
+     */
     chkCashierrfDefshiftcod: function (postData, session, callback) {
         let lo_result = new ReturnClass();
         let lo_error = null;
@@ -106,6 +115,7 @@ module.exports = {
             }
         });
 
+        //滾房租日
         function qryRentCalDat(cb) {
             queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function (err, getResult) {
                 if (getResult) {
@@ -145,6 +155,49 @@ module.exports = {
 
     },
 
+    //開班檔已有資料，則不能刪除
+    r_CashierrfDelSave: function (postData, session, callback) {
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let li_counter = 0;
+        _.each(postData.deleteData, function (lo_deleteData) {
+            lo_params.open_man = lo_deleteData.cashier_cod;
+
+            queryAgent.query("QRY_OPEN_RF_COUNT_BY_OPEN_MAN", lo_params, function (err, getResult) {
+                li_counter++;
+                if (err) {
+                    lo_return.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = err.message;
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_return);
+                    return true;
+                }
+                if (getResult.openrfcount > 0) {
+                    lo_return.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = "開班檔已有資料，不能刪除";
+                    lo_error.errorCod = "1111";
+                }
+
+                if (li_counter == postData.deleteData.length) {
+                    callback(lo_error, lo_return);
+                }
+
+            });
+        });
+    },
+
+    useStaDefault: function(postData, session, callback){
+        let lo_return = new ReturnClass();
+        lo_return.defaultValues = {use_sta: true};
+        callback(null, lo_return);
+    },
+
     PMS0830010_cashier_cod: function () {
 
         var options = new Object;
@@ -154,8 +207,8 @@ module.exports = {
         options.textField = 'value';
 
         var columns = [[
-            {field:'display',title:'出納員名稱',width:100},
-            {field:'value',title:'出納員代號',width:100}]];
+            {field: 'display', title: '出納員名稱', width: 100},
+            {field: 'value', title: '出納員代號', width: 100}]];
 
         options.columns = columns;
 
