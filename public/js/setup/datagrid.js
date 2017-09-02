@@ -5,7 +5,6 @@ var prg_id = gs_prg_id;
 var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
-var gb_isUserEdit4chkTmpCudExistData;
 var gb_isUserEdit4tempExecData = true;
 
 Vue.component("multi-lang-dialog-tmp", {
@@ -79,6 +78,7 @@ Vue.component("multi-lang-dialog-tmp", {
                 var selectIndex = $('#prg_dg').datagrid("getRowIndex", $('#prg_dg').datagrid("getSelected"));
                 var multiLang = $("#multiLangDG").datagrid("getRows");
                 var updateRow = $('#prg_dg').datagrid("getSelected");
+
                 updateRow["multiLang"] = multiLang;
                 $('#prg_dg').datagrid('updateRow', {
                     index: selectIndex,
@@ -113,7 +113,7 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [],
         searchCond: {},   //搜尋條件
-        multiLangDialogVisible:false
+        multiLangDialogVisible: false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -240,7 +240,6 @@ var vm = new Vue({
         onEndEdit: function (index, row, changes) {
             if (gb_isUserEdit4EndEdit) {
                 gb_isUserEdit4EndEdit = false;
-                gb_isUserEdit4chkTmpCudExistData = true;
                 var dataType = row.createRow == 'Y'
                     ? "createData" : "updateData";  //判斷此筆是新增或更新
                 if (dataType != "createData") {
@@ -465,25 +464,25 @@ var vm = new Vue({
 
                 this.tmpCUD[dataType].push(rowData);
                 $("#gridEdit").val(this.tmpCUD);
+
                 gb_isUserEdit4ClickCell = true;
                 gb_isUserEdit4tempExecData = true;
             }
         },
         // 檢查暫存是否有資料
         chkTmpCudExistData: function (rowData, dataType) {
-            if (gb_isUserEdit4chkTmpCudExistData) {
-                gb_isUserEdit4chkTmpCudExistData = false;
-                gb_isUserEdit4tempExecData = true;
-                var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
-                var condKey = {};
-                _.each(keyVals, function (field_name) {
-                    condKey[field_name] = rowData[field_name] || "";
-                });
-                //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
-                var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
-                return existIdx;
-                gb_isUserEdit4chkTmpCudExistData = true;
-            }
+
+
+            gb_isUserEdit4tempExecData = true;
+            var keyVals = _.pluck(_.where(this.prgFieldDataAttr, {keyable: 'Y'}), "ui_field_name");
+            var condKey = {};
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = rowData[field_name] || "";
+            });
+            //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+            var existIdx = _.findIndex(this.tmpCUD[dataType], condKey);
+            return existIdx;
+
         },
         loadChangeLog: function () {
             this.openChangeLogDialog = true;
@@ -491,7 +490,9 @@ var vm = new Vue({
                 vm.allChangeLogList = result.allChangeLogList;
             });
         }
+
     }
+
 });
 
 //打開多語視窗
