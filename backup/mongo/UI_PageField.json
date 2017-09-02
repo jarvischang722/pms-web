@@ -1572,7 +1572,7 @@
     "label_width" : "", 
     "width" : "", 
     "visiable" : "Y", 
-    "modificable" : "Y", 
+    "modificable" : "I",
     "requirable" : "Y", 
     "keyable" : "Y", 
     "multi_lang_table" : "", 
