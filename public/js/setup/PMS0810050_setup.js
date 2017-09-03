@@ -2,7 +2,7 @@
  * Created by Jun on 2017/5/23.
  */
 waitingDialog.hide();
-var gs_prg_id = gs_prg_id;
+var gs_prg_id = "PMS0810050";
 var vueMain = new Vue({
     el: '#app-PMS0810050',
     mounted: function () {
@@ -31,11 +31,11 @@ var vueMain = new Vue({
             } else {
                 this.dgIns = this.dgInsDropOff;
             }
-            waitingDialog.hide();
         },
         trafficData: function (newObj) {
-            this.dgInsPickUp.loadDgData(newObj.arrive_rf);
-            this.dgInsDropOff.loadDgData(newObj.leave_rf);
+
+            this.dgInsPickUp.loadDgData(newObj.arrive_rf.slice(0,10));
+            this.dgInsDropOff.loadDgData(newObj.leave_rf.slice(0,10));
         }
     },
     methods: {
@@ -57,36 +57,39 @@ var vueMain = new Vue({
             });
         },
         combineFieldAttr: function (fieldData) {
-            var _this = this;
             this.pickUpFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
             this.dropOffFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
-
-            _.each(_this.pickUpFields, function (field, fIdx) {
-                if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(_this.pickUpFields [fIdx].editor)) {
-                        field.editor = {};
-                    }
-                    field.editor.options = {off: 'N', on: 'Y'};
-                    field.formatter = function (val, row, index) {
-                        var checked = val == 'Y' ? "checked" : "";
-                        return "<input type='checkbox' " + checked + ">";
-                    };
-                }
-            });
-            _.each(_this.dropOffFields, function (field, fIdx) {
-                if (field.ui_type == 'checkbox') {
-                    if (_.isUndefined(_this.dropOffFields[fIdx].editor)) {
-                        field.editor = {};
-                    }
-                    field.editor.options = {off: 'N', on: 'Y'};
-                    field.formatter = function (val, row, index) {
-                        var checked = val == 'Y' ? "checked" : "";
-                        return "<input type='checkbox' " + checked + ">";
-                    };
-                }
-            });
+            // this.pickUpFields = _.filter( this.pickUpFields,function(f){
+            //      return f.ui_type != 'checkbox';
+            // });
+            // this.dropOffFields = _.filter( this.pickUpFields,function(f){
+            //     return f.ui_type != 'checkbox';
+            // });
+            //_.each(_this.pickUpFields, function (field, fIdx) {
+            //     if (field.ui_type == 'checkbox') {
+            //         if (_.isUndefined(_this.pickUpFields [fIdx].editor)) {
+            //             field.editor = {};
+            //         }
+            //         field.editor.options = {off: 'N', on: 'Y'};
+            //         field.formatter = function (val, row, index) {
+            //             var checked = val == 'Y' ? "checked" : "";
+            //             return "<input type='checkbox' " + checked + ">";
+            //         };
+            //     }
+            // });
+            // _.each(_this.dropOffFields, function (field, fIdx) {
+            //     if (field.ui_type == 'checkbox') {
+            //         if (_.isUndefined(_this.dropOffFields[fIdx].editor)) {
+            //             field.editor = {};
+            //         }
+            //         field.editor.options = {off: 'N', on: 'Y'};
+            //         field.formatter = function (val, row, index) {
+            //             var checked = val == 'Y' ? "checked" : "";
+            //             return "<input type='checkbox' " + checked + ">";
+            //         };
+            //     }
+            // });
         },
-        //顯示資料
         createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
             this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields);
@@ -154,7 +157,6 @@ $(function () {
                 vueMain.gs_active = 'pickup';
             } else {
                 vueMain.gs_active = 'dropoff';
-
             }
         }
     });
