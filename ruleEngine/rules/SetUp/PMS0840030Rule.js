@@ -11,7 +11,9 @@ var ruleRootPath = appRootDir+"/ruleEngine/";
 var queryAgent = require(appRootDir+'/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath+"/returnClass");
+var mongoAgent = require(appRootDir + '/plugins/mongodb');
 var ErrorClass = require(ruleRootPath+"/errorClass");
+var dataRuleSvc = require(appRootDir + '/services/DataRuleService');
 
 module.exports = {
     //依『貨品代號』,設定『是否扣庫存』
@@ -27,10 +29,12 @@ module.exports = {
         var selectDSFunc = [];
         var result = new ReturnClass();
         var updateFieldName = {
-            agoods_cod: "goods_cod"
-            // acust_cod: "goods_sna",
-            // acust_nam: "goods_rmk",
-        };
+            goods_cod: "goods_cod",
+            goods_sna: "goods_sna",
+            goods_rmk: "goods_rmk",
+            group_nam: "group_nam"
+
+    };
 
         var fieldNameChangeLanguage = {
             goods_cod: "貨品代號",
@@ -48,14 +52,21 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
 
-                        queryAgent.query("QRYHKPRODUCTRFGOODSCOD".toUpperCase(), params, function (err, selectData) {
-                            if (!err) {
-                                result.effectValues.showDataGrid = selectData;
-                                result.effectValues.updateFieldNameTmp = updateFieldName;
-                                result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
-                                callback(null, result);
-                            }
-                        })
+                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+                            result.effectValues.showDataGrid = selectData;
+                            result.effectValues.updateFieldNameTmp = updateFieldName;
+                            result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                            callback(null, result);
+                        });
+
+                        // queryAgent.query("QRY_HKPRODUCT_RF_GOODS_COD".toUpperCase(), params, function (err, selectData) {
+                        //     if (!err) {
+                        //         result.effectValues.showDataGrid = selectData;
+                        //         result.effectValues.updateFieldNameTmp = updateFieldName;
+                        //         result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                        //         callback(null, result);
+                        //     }
+                        // })
 
                     });
                 }
