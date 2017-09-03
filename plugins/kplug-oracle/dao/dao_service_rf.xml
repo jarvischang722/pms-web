@@ -63,7 +63,7 @@
     <!-- ['PMS0830070'] 服務項目 -->
     <dao name="QRY_HC_ADJFOLIO_DT2_ITEM_NOS">
         <statement><![CDATA[
-             select item_nos, item_sna, 'false' as checked
+             select item_nos, item_sna, 'false' as checked,'false' as disabled
              from service_rf a
             where a.athena_id = ? and trim(a.hotel_cod) = ? and a.system_typ = 'HFD'
         ]]>
