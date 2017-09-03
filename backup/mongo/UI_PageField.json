@@ -6295,7 +6295,7 @@
     "width" : NumberInt(165), 
     "visiable" : "Y", 
     "modificable" : "Y", 
-    "requirable" : "N", 
+    "requirable" : "Y",
     "keyable" : "", 
     "multi_lang_table" : "lang_rvrmcod_rf", 
     "format_func_name" : "", 

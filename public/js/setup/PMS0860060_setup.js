@@ -24,7 +24,8 @@ var vm = new Vue({
             createData: [],
             updateData: [],
             deleteData: []
-        }
+        },
+        isTreeCreate: false
     },
     methods: {
         //取得使用者資料
@@ -46,7 +47,6 @@ var vm = new Vue({
         //抓取顯示資料
         loadDataGridByPrgID: function () {
             var self = this;
-            waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
                 vm.treeDataRows = _.map(result.dataGridRows, function (obj) {
                     if (obj.class_cod.trim() != "ROOT") {
@@ -71,14 +71,20 @@ var vm = new Vue({
                 }
 
                 self.initAreaTree();
-                waitingDialog.hide();
             });
         },
 
         initAreaTree: function () {
             this.convertDataGridRows2TreeData();
-            this.createTree();
-            this.tree = $("#areaTree").jstree(true);
+            if(this.isTreeCreate == false){
+                this.createTree();
+                this.tree = $("#areaTree").jstree(true);
+                this.isTreeCreate = true;
+            }
+            else{
+                this.tree.settings.core.data = vm.treeData.root;
+                this.tree.refresh();
+            }
         },
 
         convertDataGridRows2TreeData: function () {
@@ -119,12 +125,6 @@ var vm = new Vue({
                     "drag_selection": true,
                     "check_while_dragging": true
                 },
-                "types": {
-                    "#": {"max_children": 1, "max_depth": 4, "valid_children": ["root"]},
-                    "root": {"icon": "/images/icon/taiwan.png", "valid_children": ["default"]},
-                    "default": {"icon": "/images/icon/taiwan.png", "valid_children": ["default", "file"]},
-                    "file": {"icon": "fa fa-user", "valid_children": []}
-                },
                 "plugins": ["dnd", "search", "state", "types", "wholerow", "checkbox"]
             });
         },
@@ -144,8 +144,12 @@ var vm = new Vue({
         },
 
         renameNode: function () {
-            var sel = this.getSelectedNode();
-            this.tree.edit(sel);
+            var lo_selNode = this.getSelectedNode();
+            var lo_node = this.tree.get_node(lo_selNode);
+            if (lo_node.id == "ROOT") {
+                return true;
+            }
+            this.tree.edit(lo_selNode);
             gs_action = "rename";
         },
 
@@ -155,7 +159,8 @@ var vm = new Vue({
             var lo_node = this.tree.get_node(lo_selNode);
             var lo_dgRow = _.findWhere(vm.treeDataRows, {class_cod: lo_selNode});
 
-            if(_.isUndefined(lo_dgRow)){
+            // 根節點不能刪除
+            if (lo_node.id == "ROOT") {
                 return true;
             }
 
@@ -164,12 +169,6 @@ var vm = new Vue({
                     class_cod: lo_node.id
                 }));
                 this.tree.delete_node(lo_selNode);
-                return true;
-            }
-
-            console.log(lo_dgRow);
-            // 根節點不能刪除
-            if (lo_dgRow.parent_cod.trim() == "#") {
                 return true;
             }
 
@@ -328,6 +327,7 @@ function rowData(node) {
     this.class_nam = node.text;
     this.sort_cod = node.position;
     this.parent_cod = node.parent;
+    this.level_nos = node.parents.length-1;
 }
 
 function Node(rowData) {

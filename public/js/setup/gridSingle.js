@@ -264,9 +264,11 @@ Vue.component('text-select-grid-dialog-tmp', {
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-
+            console.log(result);
             for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
+                    console.log(col);
+                    console.log(field);
                     if (col == field) {
                         columnsData.push({
                             type: 'textbox',
@@ -280,6 +282,8 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
+            console.log(columnsData);
+            console.log(textDataGridArray);
             self.gridData = textDataGridArray;
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
@@ -386,7 +390,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
-            console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
