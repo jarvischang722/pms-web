@@ -503,6 +503,23 @@ exports.getVisiableOption = function(){
     return lo_optionList;
 };
 
+/**
+ * PMS0810050 交通接駁設定
+ * @return {[*,*]}
+ */
+exports.getHfdarriverfday  = function(){
+    var la_optionList= [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '<input type="checkbox" checked>',
+            N: '<input type="checkbox" >'
+        }
+    ];
+    return la_optionList;
+};
+
 //TODO 將搬到 [程式編碼]Rule裡
 
 /**
@@ -838,4 +855,14 @@ exports.qryCashierrfUsesta = function (params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCashierrfUseSta();
     callback(null, lo_result);
+};
+
+/**
+ * PMS0810050
+ * @param params
+ */
+exports.qryHfdarriverfday = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getHfdarriverfday();
+    callback(null,lo_result);
 };

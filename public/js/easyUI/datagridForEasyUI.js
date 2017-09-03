@@ -80,6 +80,7 @@ var EZfieldClass = {
         if (fieldAttrObj.ui_type != "select") {   //combobox因text內容有長有短，所以排除此長度驗證
             tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
         }
+
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
@@ -189,8 +190,8 @@ var EZfieldClass = {
                 var lo_checkboxVal = fieldAttrObj.selectData[1];
                 if (_.isUndefined(lo_checkboxVal)) {
                     lo_checkboxVal = {
-                        Y: 'Y',
-                        N: 'N'
+                        Y: '<input type="checkbox" checked>',
+                        N: '<input type="checkbox" >'
                     };
                 }
                 return val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
@@ -488,7 +489,6 @@ $.extend($.fn.datagrid.defaults.editors, {
     checkbox: {
         init: function (container, options) {
             var ls_dgName = $(container).closest(".panel").find('.datagrid-f').attr('id');
-            console.log("ING:"+ls_dgName);
             var li_index = $("#" + ls_dgName).datagrid("getRowIndex", $("#" + ls_dgName).datagrid("getSelected"));
             var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
             var ls_field_name = $(container.context.outerHTML).attr("field");

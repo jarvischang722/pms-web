@@ -6,10 +6,13 @@ var gs_prg_id = "PMS0810050";
 var vueMain = new Vue({
     el: '#app-PMS0810050',
     mounted: function () {
+        $("#pickupPanel").show();
+        $("#dropoffPanel").hide();
         waitingDialog.hide();
         this.fetchDgFieldData();
     },
     data: {
+        isLoading: false,
         gs_active: "pickup",    //正在使用 pickup 接機 | dropoff 送機
         prgFieldDataAttr: [],   //這隻程式的欄位屬性
         multiLangField: [],   //多語系欄位
@@ -21,28 +24,35 @@ var vueMain = new Vue({
         dgIns: {},       //目前在作業的dg 從dgInsPickUp or dgInsDropOff 取得
         trafficData: {}, //交通接駁資料
         pickUpFields: [],
-        dropOffFields: []
+        dropOffFields: [],
+        fieldsData: []
     },
     watch: {
         gs_active: function (active) {
 
             if (active == 'pickup') {
                 this.dgIns = this.dgInsPickUp;
+                $("#pickupPanel").show();
+                $("#dropoffPanel").hide();
             } else {
                 this.dgIns = this.dgInsDropOff;
+                $("#dropoffPanel").show();
+                $("#pickupPanel").hide();
             }
+            $("#" + this.dgIns.dgName).datagrid("reload").datagrid("resize");
         },
         trafficData: function (newObj) {
-
-            this.dgInsPickUp.loadDgData(newObj.arrive_rf.slice(0,10));
-            this.dgInsDropOff.loadDgData(newObj.leave_rf.slice(0,10));
+            this.dgInsPickUp.loadDgData(newObj.arrive_rf);
+            this.dgInsDropOff.loadDgData(newObj.leave_rf);
         }
     },
     methods: {
 
         //抓取欄位顯示資料
         fetchDgFieldData: function () {
+            this.isLoading = true;
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
+                vueMain.isLoading = false;
                 vueMain.prgFieldDataAttr = result.fieldData;
                 vueMain.combineFieldAttr(result.fieldData);
                 vueMain.createDatagrid();
@@ -59,42 +69,13 @@ var vueMain = new Vue({
         combineFieldAttr: function (fieldData) {
             this.pickUpFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
             this.dropOffFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
-            // this.pickUpFields = _.filter( this.pickUpFields,function(f){
-            //      return f.ui_type != 'checkbox';
-            // });
-            // this.dropOffFields = _.filter( this.pickUpFields,function(f){
-            //     return f.ui_type != 'checkbox';
-            // });
-            //_.each(_this.pickUpFields, function (field, fIdx) {
-            //     if (field.ui_type == 'checkbox') {
-            //         if (_.isUndefined(_this.pickUpFields [fIdx].editor)) {
-            //             field.editor = {};
-            //         }
-            //         field.editor.options = {off: 'N', on: 'Y'};
-            //         field.formatter = function (val, row, index) {
-            //             var checked = val == 'Y' ? "checked" : "";
-            //             return "<input type='checkbox' " + checked + ">";
-            //         };
-            //     }
-            // });
-            // _.each(_this.dropOffFields, function (field, fIdx) {
-            //     if (field.ui_type == 'checkbox') {
-            //         if (_.isUndefined(_this.dropOffFields[fIdx].editor)) {
-            //             field.editor = {};
-            //         }
-            //         field.editor.options = {off: 'N', on: 'Y'};
-            //         field.formatter = function (val, row, index) {
-            //             var checked = val == 'Y' ? "checked" : "";
-            //             return "<input type='checkbox' " + checked + ">";
-            //         };
-            //     }
-            // });
+
         },
         createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
-            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields);
+            this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields);
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
             this.dgIns = this.dgInsPickUp;
 
         },
@@ -143,25 +124,13 @@ var vueMain = new Vue({
                     });
 
             }
+        },
+        doChangeTraff: function (tab, event) {
+            this.gs_active = tab.name;
         }
     }
 });
 
-
-$(function () {
-    //tab 切換事件
-    $('#traffic_tab').tabs({
-        border: true,
-        onSelect: function (title, index) {
-            if (index == 0) {
-                vueMain.gs_active = 'pickup';
-            } else {
-                vueMain.gs_active = 'dropoff';
-            }
-        }
-    });
-
-});
 
 
 

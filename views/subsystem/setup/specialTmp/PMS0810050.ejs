@@ -9,26 +9,24 @@
             <div class="row">
                 <label id="prg_Id" class="prg_idLbH3 label-fontLg"><%= prg_id %></label>
             </div>
-            <div class="row no-margin-right">
+
+            <div class="row no-margin-right" v-loading="isLoading">
+
                 <!-------- tabPage -------->
-                <div id="traffic_tab" class="easyui-tabs easyUi-custom1" style="height: 380px; overflow-y: auto;">
-                    <div title="<%= __("program")["PMS0810050"]["pick_up"]%>" class="padding-tabs">
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="row">
-                                <table id="pick_up_dg" style="height: 300px;"></table>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div title="<%= __("program")["PMS0810050"]["drop_off"]%>" class="padding-tabs">
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="row">
-                                <table id="drop_off_dg" style="height: 300px;"></table>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                <el-tabs v-model="gs_active" @tab-click="doChangeTraff">
+                    <el-tab-pane label="<%= __("program")["PMS0810050"]["pick_up"]%>" name="pickup">
+                    </el-tab-pane>
+                    <el-tab-pane label="<%= __("program")["PMS0810050"]["drop_off"]%>" name="dropoff">
+                    </el-tab-pane>
+                </el-tabs>
+
+                <div id="pickupPanel" v-show="gs_active=='pickup'" class="easyui-panel">
+                    <table id="pick_up_dg" style="height: 300px;"></table>
                 </div>
+                <div id="dropoffPanel" v-show="gs_active=='dropoff'" class="easyui-panel"  >
+                    <table id="drop_off_dg" style="height: 300px;"></table>
+                </div>
+                <!--</div>-->
                 <!-------- /.tabPage -------->
             </div>
         </div>

@@ -69,7 +69,6 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
-        console.log(self.dgName);
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)
@@ -236,7 +235,6 @@ function DatagridBaseClass() {
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
-
         var condKey = {};
         _.each(keyVals, function (field_name) {
             condKey[field_name] = rowData[field_name] || "";
