@@ -217,7 +217,6 @@ var vm = new Vue({
             renameNode: function () {
                 var lo_selNode = this.getSelectedNode();
                 var lo_node = this.tree.get_node(lo_selNode);
-                console.log(lo_node);
                 if (lo_node.id == "ROOT") {
                     return true;
                 }
