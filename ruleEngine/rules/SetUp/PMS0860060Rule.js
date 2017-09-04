@@ -40,23 +40,35 @@ module.exports = {
      * 訊息:業務員資料維護已使用,不可刪除
      */
     chk_sales_class_kvrf_is_exist_sales_mn: function (postData, session, callback) {
-        let lo_params = {
-            athena_id: session.user.athena_id,
-            class_cod: postData.class_cod
-        };
-
         let lo_return = new ReturnClass();
         let lo_error = null;
+        let li_counter = 0;
 
-        queryAgent.query("CHK_SALES_CLASS_ISEXIST", lo_params, function (err, getResult) {
-            if (getResult.sales_mn_count > 0) {
-                lo_error = new ErrorClass();
-                lo_return.success = false;
-                lo_error.errorMsg = "業務員資料維護已使用，不可刪除";
-                lo_error.errorCod = "1111";
-            }
-            callback(lo_error, lo_return);
+        let lo_params = {
+            athena_id: session.user.athena_id
+        };
+
+        _.each(postData.deleteData, function(lo_deleteData){
+            lo_params.class_cod = lo_deleteData.class_cod;
+
+            queryAgent.query("CHK_SALES_CLASS_ISEXIST", lo_params, function (err, getResult) {
+                li_counter++;
+                if (getResult.sales_mn_count > 0) {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    lo_error.errorMsg = "業務員資料維護已使用，不可刪除";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_return);
+                    return true;
+                }
+
+                if(li_counter == postData.deleteData.length){
+                    callback(lo_error, lo_return);
+                }
+            });
         });
+
+
     }
 };
 
