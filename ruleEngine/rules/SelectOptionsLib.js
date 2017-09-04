@@ -504,14 +504,20 @@ exports.getVisiableOption = function(){
 };
 
 /**
- * [PMS0810050_交通接駁設定]
+ * PMS0810050 交通接駁設定
+ * @return {[*,*]}
  */
-exports.getHfdarriverfday = function(){
-    var la_checkList = [{
-        on: 'Y',
-        off: 'N'
-    }];
-    return la_checkList;
+exports.getHfdarriverfday  = function(){
+    var la_optionList= [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '<input type="checkbox" checked>',
+            N: '<input type="checkbox" >'
+        }
+    ];
+    return la_optionList;
 };
 
 //TODO 將搬到 [程式編碼]Rule裡
@@ -851,9 +857,8 @@ exports.qryCashierrfUsesta = function (params, callback){
     callback(null, lo_result);
 };
 
-
 /**
- * PMS0810050 交通接駁
+ * PMS0810050
  * @param params
  */
 exports.qryHfdarriverfday = function(params,callback){
