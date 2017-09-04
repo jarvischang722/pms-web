@@ -189,6 +189,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             var la_originData = [this.$parent.originData];
             var la_singleData = [this.singleData];
             var la_diff = _.difference(la_originData, la_singleData);
+
             // 判斷資料是否有異動
             if (la_diff.length != 0) {
                 this.isUpdate = true;
@@ -511,7 +512,6 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 顯示庫存dialog
         showRoomTypeStock: function () {
             var self = this;
-
             if (this.isUpdate) {
 
                 var result = confirm("是否儲存已編輯資料?");
@@ -659,6 +659,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
+
         //房型庫存最大日期
         showRoomTypeMaxStockDate: function () {
             var self = this;
@@ -666,6 +667,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 self.maxRmStock = moment(result.max_batch_dat).format("YYYY/MM/DD");
             });
         },
+
         // 圖片change事件
         fileChange: function (file, fileList) {
             this.$parent.uploadFileList.push(file);
@@ -866,14 +868,17 @@ var vm = new Vue({
                 if (result.success) {
                     if (self.uploadFileList.length != 0) {
                         self.uploadAction(callback);
+                        return true;
                     }
                     else {
                         vm.initTmpCUD();
                         vm.loadDataGridByPrgID();
                         alert('save success!');
                     }
+                    callback("success");
                 } else {
                     alert(result.errorMsg);
+                    callback("fail");
                 }
             });
 
