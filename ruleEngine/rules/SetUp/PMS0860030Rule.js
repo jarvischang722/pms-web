@@ -32,6 +32,7 @@ module.exports = {
                     lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
                     lo_error.errorCod = "1111";
                     callback(lo_error, lo_result);
+                    return true;
                 }
                 if(li_counter == postData.deleteData.length){
                     callback(lo_error, lo_result);
