@@ -1,16 +1,15 @@
 <!-- 彈出視窗 -->
 <script type="text/x-template" id="chooseDataDialogTmp">
     <div id="dataPopUpGridDialog" v-show="false">
-        <div class="col-sm-12 col-xs-12 singleGridContent">
+        <div class="col-sm-12 col-xs-12 singleGridContent padding-5">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 ">
                     <!--顯示內容-->
                     <form id="searchDataForm" method="post">
-                        <div class="col-sm-12"></div>
-                        <div id="textGridDiv" class="col-sm-12 col-xs-12 grid">
-                            <div class="col-sm-12">
+                        <div id="textGridDiv" class=" grid">
+                            <div class="row">
                                 <div class="col-sm-4">
-                                    <select id="cbSelect" style="width: 100%" class="easyui-combobox">
+                                    <select id="cbSelect" style="width: 100%;" class="easyui-combobox defHt">
                                         <option v-for="option in  fieldNameConditionTmp" :value="option.value">
                                             {{option.display}}
                                         </option>
@@ -18,12 +17,13 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <input type="text" style="width: 100%" id="txtSelectCondition" class="numStyle-none" @keyup="txtSearchChangeText">
+                                    <input type="text" style="width: 100%;" id="txtSelectCondition" class="numStyle-none defHt" @keyup="txtSearchChangeText">
                                 </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <div class="col-sm-12">
+                        <div class="space-4"></div>
+                        <div class="row">
                             <div class="col-sm-10">
                                 <table class="easyui-datagrid" id="chooseGrid"
                                        style="width: 100%;height: auto;"></table>

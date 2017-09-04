@@ -1209,6 +1209,10 @@ var vm = new Vue({
             dialog.dialog("open");
             // 給 dialog "內容"高 值
             //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+            // 給裡面table的高 值
+            var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
+            $("#chooseGrid").datagrid({height:chooseGridH});
+
         }
 
 

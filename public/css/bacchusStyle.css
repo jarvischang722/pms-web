@@ -56,6 +56,10 @@ body {
   height: 60px;
 }
 
+.defHt {
+  height: 25px;
+}
+
 .width-5 {
   width: 5% !important;
 }
@@ -640,6 +644,14 @@ a {
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;
+}
+
+.labelCkbox {
+  float: left;
+  line-height: 25px;
+}
+.labelCkbox span {
+  margin-right: 5px;
 }
 
 input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-outer-spin-button {
