@@ -64,7 +64,7 @@ $.extend($.fn.validatebox.defaults.rules, {
         validator: function (value) {
             var reg = /-?^\d{0,10}$/;
             $.fn.validatebox.defaults.rules.FmtZeroToTenNum.message = go_i18nLang.Validation.Formatter["FmtZeroToTenNumAndMinusOne"]  ;
-            return (Number(value) >= -1 && Number(value) != -0);
+            return (Number(value) >= -1 && value != "-0");
         },
         message: '0到10碼數字(數字必須大於等於-1)'
     },
