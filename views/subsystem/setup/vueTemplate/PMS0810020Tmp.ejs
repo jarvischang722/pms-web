@@ -5,8 +5,8 @@
     }
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
-    <div id="singleGridPMS0810020" v-show="false">
-        <div class="singleGridContent padding-5">
+    <div id="singleGridPMS0810020" v-show="false"  v-loading="$parent.isSaving">
+        <div class="singleGridContent padding-5"   >
             <div class="">
                 <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
@@ -199,19 +199,20 @@
             <div class="singleRelative">
                 <div class="singleBtnBottom">
                     <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
-                            @click="doSaveGrid('addOther')">
+                            :disabled="$parent.isSaving" @click="doSaveGrid('addOther')">
                         <%= __("SystemCommon").Add_after_save %>
                     </button>
                     <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
+                            :disabled="$parent.isSaving"  class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
                         <%= __("SystemCommon").Leave_after_save %>
                     </button>
                     <button v-if="editStatus" :disabled="editStatus && !modificableForData "
-                            class="btn btn-primary btn-white"
+                            :disabled="$parent.isSaving" class="btn btn-primary btn-white"
                             @click="doSaveGrid('')">
                         <%= __("SystemCommon").Save %>
                     </button>
-                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
+                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog"
+                            :disabled="$parent.isSaving" >
                         <%= __("SystemCommon").Leave %>
                     </button>
                 </div>

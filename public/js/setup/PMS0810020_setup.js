@@ -721,7 +721,8 @@ var vm = new Vue({
         isLoading: false,
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        isSaving:false
     },
     watch: {
         editStatus: function (newVal) {
@@ -859,12 +860,13 @@ var vm = new Vue({
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
-            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+
+            self.isSaving = true;
             // console.log("===Save params===");
             // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
-                waitingDialog.hide();
+                self.isSaving = false;
                 if (result.success) {
                     if (self.uploadFileList.length != 0) {
                         self.uploadAction(callback);
