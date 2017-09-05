@@ -423,7 +423,7 @@ $(document).on("change", "#colorWell", function (event) {
 //Checkbox onchange事件
 $(document).on('change', ".dg-checkbox-change", function (event) {
     var li_index = $(this).parents("tr[id^='datagrid']").attr("datagrid-row-index");
-    var ls_dgName = $('.datagrid-f').attr('id');
+    var ls_dgName = $(this).closest(".panel").find('.datagrid-f').attr('id');
     var lo_rowData = $("#" + ls_dgName).datagrid('getEditingRowData');
     var ui_field_name = "";
     $(this).parents("td").each(function () {
@@ -442,12 +442,10 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
     });
     var updateData = {};
     updateData[ui_field_name] = newVal;
-
     $('#' + ls_dgName).datagrid('updateRow', {
         index: li_index,
         row: updateData
     });
-
     $('#' + ls_dgName).datagrid('beginEdit', li_index);
     onChangeAction(lo_columnOption, oldVal, newVal, ls_dgName);
 
@@ -494,7 +492,7 @@ $.extend($.fn.datagrid.defaults.editors, {
             var ls_field_name = $(container.context.outerHTML).attr("field");
             var val = lo_rowData[ls_field_name];
             var checked = options.on == val ? 'checked' : '';
-            var input = $('<input type="checkbox" class="dg-checkbox-change"  ' + checked + ' onchange="" >').appendTo(container);
+            var input = $('<input type="checkbox" class="dg-checkbox-change"  ' + checked + '>').appendTo(container);
             return input;
         },
         destroy: function (target) {
