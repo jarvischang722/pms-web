@@ -62,7 +62,7 @@ module.exports = {
     chkCashierrfOpentimes: function (postData, session, callback) {
         let lo_params = {
             athena_id: session.athena_id,
-            hotel_cod: session.func_hotel_cod
+            hotel_cod: session.fun_hotel_cod
         };
         this.qryUseShiftOpen(lo_params, function (err, qryResult) {
             postData.visiable = (qryResult == "Y") ? "N" : "Y";
