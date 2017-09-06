@@ -2,13 +2,13 @@
 <script type="text/x-template" id="sigleGridDialogTmp">
     <div id="singleGridDialog" v-show="false">
         <div class="col-sm-12 col-xs-12 singleGridContent">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="row">
+            <div class="">
+                <div class="col-sm-11 col-xs-11">
+                    <div class="row no-margin-right">
                         <!-- Start Content -->
                         <form id="singleDataForm" method="post">
-                            <div id="singleGridDiv" class="col-sm-11 col-xs-11 grid">
-                                <div v-for="fields in pageTwoFieldData">
+                            <div id="singleGridDiv" class=" grid">
+                                <div  v-for="fields in pageTwoFieldData">
                                     <div class="grid-item " v-for="field in fields">
                                         <!--  CheckBox add class="labelCkbox" -->
                                         <label :style="{width:field.label_width + 'px'}"
@@ -94,7 +94,7 @@
 
                                 <!-- DT 的datagrid -->
                                 <div id="dt_dg_DIV" style="display: none;">
-                                    <table class="easyui-datagrid" id="dt_dg" style="width:100%;height:auto;">
+                                    <table class="easyui-datagrid" id="dt_dg" style="width:95%;height:auto;">
                                     </table>
 
                                     <div id="tb" style="height:auto" class="dataGrid-toolBar01">
@@ -115,8 +115,10 @@
                             </div>
                         </form>
                         <!-- End Content -->
+
                     </div>
 
+                </div>
                     <!-- Control Panel -->
                     <div class="col-sm-1 col-xs-1 singleRelative">
                         <div class="row" v-if="editStatus">
@@ -147,11 +149,11 @@
                         <div class="clearfix"></div>
                     </div>
                     <!-- End Control Panel -->
-                </div>
                 <div class="clearfix"></div>
                 <hr>
 
             </div>
+
         </div>
         <div class="clearfix"></div>
 

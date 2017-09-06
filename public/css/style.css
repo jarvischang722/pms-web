@@ -1975,7 +1975,6 @@ a {
   padding-left: 5px;
   position: absolute;
   top: 5px;
-  right: 5px;
 }
 #singleGridDialog .singleEditStatus .btn-defaultWidth {
   display: block;
@@ -3862,14 +3861,6 @@ span.triangle-text {
   margin-right: 0;
 }
 
-.redbox {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  vertical-align: sub;
-  border: 1px solid;
-}
-
 .bg-red {
   background: red;
   color: #fff;
@@ -3892,54 +3883,72 @@ span.triangle-text {
   background: gray;
 }
 
-.checkbox-header {
-  border-bottom: 1px solid;
+.cleanArngmts .cleanArngmtsBox {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: sub;
+  border: 1px solid;
+}
+.cleanArngmts .checkbox-header {
+  padding-top: 10px;
   padding-bottom: 5px;
 }
-.checkbox-header .checkbox label input[type=checkbox].ace + .lbl {
+.cleanArngmts .checkbox-header .checkbox {
   margin: 0;
-}
-.checkbox-header label {
-  display: inline-block !important;
-}
-
-.bigBox label {
-  width: 146px !important;
-}
-
-.cleanCheckbox-right {
-  display: inline-block;
-  margin-left: 20px;
   margin-top: -1px;
 }
-.cleanCheckbox-right .cc-right {
+.cleanArngmts .checkbox-header .cleanCheckbox-left, .cleanArngmts .checkbox-header .cleanCheckbox-right {
+  float: left;
+  margin-top: -1px;
+}
+.cleanArngmts .checkbox-header .cleanCheckbox-left .cleanArngmtsBox, .cleanArngmts .checkbox-header .cleanCheckbox-left .checkbox {
+  float: left;
+}
+.cleanArngmts .checkbox-header .cleanCheckbox-left .grid-item {
+  min-width: 146px;
+  max-width: 100%;
+}
+.cleanArngmts .checkbox-header .cleanCheckbox-left .grid-item .checkbox label {
+  width: auto;
+  padding-left: 5px;
+}
+.cleanArngmts .checkbox-header .cleanCheckbox-right {
+  margin-left: 20px;
+}
+.cleanArngmts .checkbox-header .cleanCheckbox-right .cc-right {
   width: 100px;
   display: inline-block;
 }
-.cleanCheckbox-right .cc-right-down {
+.cleanArngmts .checkbox-header .cleanCheckbox-right .cc-right-down {
   margin-top: 6px;
   display: inline-block;
 }
-
-.clean-table-container {
-  margin-left: 10px;
+.cleanArngmts .checkbox-header .checkbox label input[type=checkbox].ace + .lbl {
+  margin: 0;
+}
+.cleanArngmts .checkbox-header label {
+  display: inline-block !important;
+}
+.cleanArngmts .bigBox label {
+  width: 146px !important;
+}
+.cleanArngmts .clean-table-container {
   margin-top: 20px;
   display: inline-block;
 }
-.clean-table-container .clean-table-wrap {
+.cleanArngmts .clean-table-container .clean-table-wrap {
   height: 250px;
   overflow: auto;
 }
-.clean-table-container .clean-text-box {
+.cleanArngmts .clean-table-container .clean-text-box {
   text-align: right;
   margin-right: 11px;
 }
-
-.footer-textbox-wrap {
+.cleanArngmts .footer-textbox-wrap {
   margin-top: 30px;
 }
-
-.blue-text {
+.cleanArngmts .blue-text {
   color: blue;
 }
 

@@ -393,7 +393,7 @@ a
     padding-left: 5px
     position: absolute
     top: 5px
-    right: 5px
+    //right: 0
     //display: block
     //top: 10px
     .btn-defaultWidth
@@ -1900,12 +1900,6 @@ span
         text-align: right
         margin-right: 0
 //打掃安排
-.redbox
-  width: 16px
-  height: 16px
-  display: inline-block
-  vertical-align: sub
-  border: 1px solid
 .bg-red
   background: red
   color: #fff
@@ -1918,40 +1912,65 @@ span
   background: yellow
 .bg-gray
   background: gray
-.checkbox-header
-  border-bottom: 1px solid
-  padding-bottom: 5px
-  .checkbox label input[type=checkbox].ace + .lbl
-    margin: 0
-  label
-    display: inline-block !important
-.bigBox
-  label
-    width: 146px !important
-.cleanCheckbox-right
-  display: inline-block
-  margin-left: 20px
-  margin-top: -1px
-  .cc-right
-    width: 100px
+.cleanArngmts
+  .cleanArngmtsBox
+    width: 16px
+    height: 16px
     display: inline-block
-  .cc-right-down
-    margin-top: 6px
+    vertical-align: sub
+    border: 1px solid
+
+  .checkbox-header
+    //border-bottom: 1px solid
+    padding-top: 10px
+    padding-bottom: 5px
+    .checkbox
+      margin: 0
+      margin-top: -1px
+    .cleanCheckbox-left, .cleanCheckbox-right
+      float: left
+      margin-top: -1px
+      //display: inline-block
+    .cleanCheckbox-left
+      .cleanArngmtsBox,.checkbox
+        float: left
+      .grid-item
+        min-width: 146px
+        max-width: 100%
+        .checkbox
+          label
+            width: auto
+            padding-left: 5px
+    .cleanCheckbox-right
+      margin-left: 20px
+      .cc-right
+        width: 100px
+        display: inline-block
+      .cc-right-down
+        margin-top: 6px
+        display: inline-block
+
+    .checkbox label input[type=checkbox].ace + .lbl
+      margin: 0
+    label
+      display: inline-block !important
+  .bigBox
+    label
+      width: 146px !important
+  .clean-table-container
+    //margin-left: 10px
+    margin-top: 20px
     display: inline-block
-.clean-table-container
-  margin-left: 10px
-  margin-top: 20px
-  display: inline-block
-  .clean-table-wrap
-    height: 250px
-    overflow: auto
-  .clean-text-box
-    text-align: right
-    margin-right: 11px
-.footer-textbox-wrap
-  margin-top: 30px
-.blue-text
-  color: blue
+    .clean-table-wrap
+      height: 250px
+      overflow: auto
+    .clean-text-box
+      text-align: right
+      margin-right: 11px
+  .footer-textbox-wrap
+    margin-top: 30px
+  .blue-text
+    color: blue
 //rateInfo
 .margin-top10
   margin-top: 10px
