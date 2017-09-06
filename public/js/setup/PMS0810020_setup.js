@@ -125,8 +125,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             end_dat: '',
             isUpdate: false,
             isSort: false,
-            previewList: [],
-
+            previewList: []
         };
     },
     created: function () {
