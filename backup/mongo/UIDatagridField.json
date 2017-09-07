@@ -5492,7 +5492,7 @@
     "requirable" : "N", 
     "grid_field_name" : "cntry_rf", 
     "keyable" : "", 
-    "format_func_name" : "FmtZeroToTenNum", 
+    "format_func_name" : "FmtZeroToTenNumAndMinusOne", 
     "rule_func_name" : "", 
     "user_athena_id" : "", 
     "multi_lang_table" : "", 
