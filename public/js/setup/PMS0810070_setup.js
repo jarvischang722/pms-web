@@ -20,7 +20,7 @@ $(function () {
     bindEvent();
 });
 
-// 初始化日曆
+// 初始化
 function initCalendar() {
 
     // 日期列表
@@ -30,8 +30,16 @@ function initCalendar() {
         yearChanged: function (e) {
             gs_calendar_year = e.currentYear;
 
-            $("input[name='start']").val(gs_calendar_year + "/01/01");
-            $("input[name='end']").val(gs_calendar_year + "/12/31");
+            //預設為當天日期
+            if(gs_calendar_year == moment().year()){    //如果是今年, 日期區間預設今日到12/31
+                $("input[name='start']").datepicker("setDate", moment().format("YYYY/MM/DD"));
+                $("input[name='end']").datepicker("setDate", gs_calendar_year + "/12/31");
+            }
+            else{
+
+                $("input[name='start']").datepicker("setDate", gs_calendar_year + "/01/01");
+                $("input[name='end']").datepicker("setDate", gs_calendar_year + "/12/31");
+            }
 
             getHolidayDateSet();
         }
@@ -82,10 +90,9 @@ function initCalendar() {
     }
 }
 
-// 日期區間選擇 預設為當天日期
+// 日期區間選擇
 function initDatePicker() {
-    $("input[name='start']").val(moment().format("YYYY/MM/DD"));
-    $("input[name='end']").val(moment().format("YYYY/MM/DD"));
+    getHolidayDateSet();
 }
 
 // 取假日種類設定

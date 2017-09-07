@@ -949,7 +949,7 @@
             e.preventDefault();
             var dialog = $("#resv_ratePlanBtn-message").removeClass('hide').dialog({
                 modal: true,
-                title: "Rste Plan",
+                title: "Rate Plan",
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
@@ -1623,6 +1623,11 @@
         $('#amenities-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 60, everyColumnsAddWith: 0 });
 
 //      依房號訂房
+
+
+//        https://www.sitepoint.com/community/t/fixed-header-and-first-column-in-table/29828/11
+        //實測好像先hide的比較慢 170906
+//        $('#resRoomType-table').hide().fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 }).show();
         $('#resRoomType-table').fixedHeaderTable({  cloneHeadToFoot: false,fixedColumns: 1 ,addPxForFixedColumnsWidth: 50, everyColumnsAddWith: 0 });
 
 //      櫃檯備品CounterSupplies

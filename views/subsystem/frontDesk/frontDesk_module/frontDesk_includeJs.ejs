@@ -191,7 +191,7 @@
                 modal: true,
                 title: "更改C/O日期",
                 title_html: true,
-                width: 1000,
+                width: 800,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -304,7 +304,7 @@
                 modal: true,
                 title: "Share Rate",
                 title_html: true,
-                width: 1000,
+                width: 600,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -402,6 +402,28 @@
                 resizable: true
             });
         });
+
+
+        /***
+         * PMS0210030 Room Assign
+         */
+
+        // 彈出 Room Assign-auto Assign foCnt_autoAssign
+        $(document).on('click', ".foCnt_fastCo", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_fastCo-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Fast Co",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
 
 
         /***

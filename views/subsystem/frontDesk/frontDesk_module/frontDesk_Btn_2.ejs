@@ -548,4 +548,194 @@
     <!-- /PMS0210030 Room Assign -> Auto Assign 彈出視窗 -->
 
 
+    <!-- PMS0210070 fast Co  彈出視窗 -->
+    <div id="foCnt_fastCo-message" class="hide padding-5">
+        <div class="row businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="main-content-data">
+                            <div class="row">
+                                <div class="col-sm-5 col-xs-5">
+                                    <div class="borderFrame">
+                                        <div class="horizTable-outer table-middle table-ht2x">
+                                            <table class="css_table horizTable">
+
+                                                <tbody class="css_tbody text-right">
+                                                    <tr class="css_tr">
+                                                    <th class="css_th" style="min-width:150px;">消費總額</th>
+                                                    <td class="css_td" style="min-width:100px;">2000</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <th class="css_th">+代支金額</th>
+                                                        <td class="css_td">500</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <th class="css_th">+外加稅額</th>
+                                                        <td class="css_td">0</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <th class="css_th">-預付金額</th>
+                                                        <td class="css_td">1000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr class="hr-10">
+                                        <div class="horizTable-outer table-middle table-ht2x">
+                                        <table class="css_table horizTable">
+                                            <tbody class="css_tbody text-right">
+                                                <tr class="css_tr">
+                                                    <th class="css_th" style="min-width:150px;">=應收合計</th>
+                                                    <td class="css_td" style="min-width:100px;">1500</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 col-xs-7">
+                                    <div class="row no-margin-right borderFrame">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>結帳類別</label>
+                                                <select class="input-medium medium-c3-col2Spc">
+                                                    <option value="5">5:住客</option>
+                                                    <!--<option value="-1">住客類別:類別名稱</option>-->
+                                                    <option value="0">0:一班客戶</option>
+                                                    <option value="1">1:會員</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>Company</label>
+                                                <input type="text" class="input-medium medium-c3" placeholder="公司編號" />
+                                                <input type="text" class="input-medium medium-c3" placeholder="公司名稱" />
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>統一編號</label>
+                                                <input type="text" class="input-medium medium-c3" placeholder="" />
+                                                <input type="text" class="input-medium medium-c3" placeholder="聯數" />
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>發票抬頭</label>
+                                                <input type="text" class="input-medium medium-c3-col2Spc" placeholder="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="space-4"></div>
+                                    <div class="row no-margin-right borderFrame">
+                                        <div class="horizTable-outer table-middle">
+                                            <table class="css_table horizTable">
+                                                <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th text-center" style="min-width:184px;">付款方式</th>
+                                                        <th class="css_th text-center" style="min-width:150px;">付款金額</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="css_tbody text-right">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">
+
+                                                            <select class="input-medium medium-c1">
+                                                                <option value="1">A0:沖客房預收</option>
+                                                                <option value="2">10:現金</option>
+                                                                <option value="3">11:Visa信用卡</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="css_td">
+                                                            <input type="text" class="input-medium medium-c3" placeholder="" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">A0:沖客房預收</td>
+                                                        <td class="css_td">1000</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">10:現金</td>
+                                                        <td class="css_td">500</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">11:Visa信用卡</td>
+                                                        <td class="css_td">0</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">12:Master信用卡</td>
+                                                        <td class="css_td">0</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">13:沖訂金</td>
+                                                        <td class="css_td">0</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td"></td>
+                                                        <td class="css_td"></td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <thead class="css_tbody">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th text-center" style="min-width:150px;">未付金額</th>
+                                                        <th class="css_th text-center" style="min-width:150px;">已付金額</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="css_tbody text-right">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td font-lg bold">1000</td>
+                                                        <td class="css_td font-lg bold">1500</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                         <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl">分發票</span>
+                                              </label>
+                                          </span>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Settle</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Clear</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Gift C.</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Exit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0210070 開立現金帳 彈出視窗 -->
+
 </div>

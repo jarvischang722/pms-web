@@ -22,6 +22,103 @@
         /***
          * PMS0410010 房間
          */
+
+        // 彈出 打掃樓層
+        $(document).on('click', ".houseKeep_cleanFloor", function (e) {
+            e.preventDefault();
+            var dialog = $("#houseKeep_cleanFloor-message").removeClass('hide').dialog({
+                modal: true,
+                title: "打掃樓層",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 設定修理/參觀
+        $(document).on('click', ".houseKeep_fixVisit", function (e) {
+            e.preventDefault();
+            var dialog = $("#houseKeep_fixVisit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "設定修理/參觀",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 修理樓層
+        $(document).on('click', ".houseKeep_fixedFloor", function (e) {
+            e.preventDefault();
+            var dialog = $("#houseKeep_fixedFloor-message").removeClass('hide').dialog({
+                modal: true,
+                title: "修理樓層",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 刪除修理/參觀
+        $(document).on('click', ".houseKeep_delFixVisit", function (e) {
+            e.preventDefault();
+            var dialog = $("#houseKeep_delFixVisit-message").removeClass('hide').dialog({
+                modal: true,
+                title: "刪除修理/參觀",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        // 彈出 刪除瑕疵房
+        $(document).on('click', ".houseKeep_flawedRoom", function (e) {
+            e.preventDefault();
+            var dialog = $("#houseKeep_flawedRoom-message").removeClass('hide').dialog({
+                modal: true,
+                title: "刪除瑕疵房",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        $('#hk_delFixVisit-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/hk_delFixVisit-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'choose', title: '<input type="checkbox" />', width: 40},
+                {field: 'roomNum', title: '房號', width: 70},
+                {field: 'status', title: '狀態', width: 70},
+                {field: 'startDate', title: '開始日', width: 100},
+                {field: 'endDate', title: '結束日', width: 100},
+                {field: 'result', title: '原因', width: 200}
+            ]]
+        });
+
+
         /* 點選右上箭頭選擇觀看右邊表格 */
         function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
             $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
