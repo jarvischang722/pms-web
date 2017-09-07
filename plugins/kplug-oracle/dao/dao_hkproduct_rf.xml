@@ -50,12 +50,82 @@
     <!-- ['PMS0840030'] 取得中分類 -->
     <dao name="QRY_HKPRODUCT_RF_MIDDLE_TYP">
         <statement><![CDATA[
-              select middle_typ as value, typ_nam as display
-              from hkmtype_rf
-              where athena_id = ? and hotel_cod = ?
+              select middle_typ as value, typ_nam as display from hkmtype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 取得小分類 未完成-->
+    <dao name="QRYHKPRODUCTRFSMALLTYP">
+        <statement><![CDATA[
+              select small_typ as value, typ_nam as display, middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 用小分類取中分類-->
+    <dao name="GETHKPRODUCTRFMIDDLETYP">
+        <statement><![CDATA[
+              select small_typ as value, typ_nam as display, middle_typ from hkstype_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(small_typ) = trim(:small_typ)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">small_typ</parameter>
+    </dao>
+
+
+    <!-- ['PMS0840030'] 取得貨品代號 未完成-->
+    <dao name="QRY_HKPRODUCT_RF_GOODS_COD">
+        <statement><![CDATA[
+              select g.goods_cod goods_cod, g.goods_sna goods_sna, g.goods_rmk goods_rmk, rf.group_cod || ':' || rf.group_nam as group_nam from goods_mn g,group_rf rf
+              where g.athena_id = rf.athena_id and g.comp_cod = rf.comp_cod and g.group_cod = rf.group_cod and rf.set_cod = 'S' and g.goods_sta<>'D' and g.goods_flag4 in ('1','2') and g.sys_flag = '1'
+              and g.athena_id = :athena_id and trim(rf.comp_cod) = trim(:comp_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 入帳消費項目代號 -->
+    <dao name="QRY_HKPRODUCT_RF_ITEM_NOS">
+        <statement><![CDATA[
+              select item_nos as value, item_sna as display from service_rf a inner join servtype_rf b on a.athena_id = b.athena_id and a.hotel_cod = b.hotel_cod and a.serv_typ = b.serv_typ
+              where a.athena_id = :athena_id and trim(a.hotel_cod) = trim(:hotel_cod)
+              and a.account_sta = 'Y'
+              and a.system_typ = 'HFD'
+              and a.data_typ = 'N'
+              and a.income_sta = 'Y'
+              and a.serv_typ <> '98'
+              and a.item_nos not in ( 's999', 's998')
+              and b.use_typ in ('1', '2')
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0840030'] 入帳服務費代號 -->
+    <dao name="QRY_HKPRODUCT_RF_SERV_NOS">
+        <statement><![CDATA[
+        select item_nos as value, item_sna as display from service_rf a
+        inner join servtype_rf b
+        on a.athena_id = b.athena_id and a.hotel_cod = b.hotel_cod and a.serv_typ = b.serv_typ
+        where a.athena_id = :athena_id and trim(a.hotel_cod) = trim(:hotel_cod)
+        and a.account_sta = 'Y'
+        and a.system_typ = 'HFD'
+        and a.data_typ = 'N'
+        and a.income_sta = 'Y'
+        and a.serv_typ <> '98'
+        and a.item_nos not in ( 's999', 's998')
+        and b.use_typ in ('1', '2')
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 </root>

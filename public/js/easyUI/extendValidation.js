@@ -35,7 +35,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     //一定要輸入兩碼
     FmtExactlyTwoWord: {
         validator: function (value) {
-            var reg = /^\d{2}$/;
+            var reg = /[\w]{2}/;
             $.fn.validatebox.defaults.rules.FmtExactlyTwoWord.message = go_i18nLang.Validation.Formatter["FmtExactlyTwoWord"]  ;
             return reg.test(value);
         },
@@ -58,6 +58,15 @@ $.extend($.fn.validatebox.defaults.rules, {
             return reg.test(value);
         },
         message: '0到10碼數字'
+    },
+    //0到10碼數字
+    FmtZeroToTenNumAndMinusOne: {
+        validator: function (value) {
+            var reg = /-?^\d{0,10}$/;
+            $.fn.validatebox.defaults.rules.FmtZeroToTenNum.message = go_i18nLang.Validation.Formatter["FmtZeroToTenNumAndMinusOne"]  ;
+            return (Number(value) >= -1 && value != "-0");
+        },
+        message: '0到10碼數字(數字必須大於等於-1)'
     },
     //大於0
     ChkGreaterZeroNum: {

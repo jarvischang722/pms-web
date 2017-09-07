@@ -744,7 +744,7 @@
     "prg_id" : "PMS0840030", 
     "ui_field_name" : "goods_cod", 
     "ui_display_name" : "goods_rmk", 
-    "rule_func_name" : "qryHkproductrfGoodscod", 
+    "rule_func_name" : "QRY_HKPRODUCT_RF_GOODS_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -961,6 +961,202 @@
     "ui_display_name" : "usr_cname", 
     "rule_func_name" : "chkCashierrfCashiercod", 
     "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495a9"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day1", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495aa"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day2", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495ab"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day3", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495ac"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day4", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495ad"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day5", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495ae"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day6", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495af"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "ui_field_name" : "day7", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b0"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day1", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b1"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day2", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b2"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day3", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b3"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day4", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b4"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day5", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b5"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day6", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ab7938c226546d1da495b6"), 
+    "prg_id" : "PMS0810050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "ui_field_name" : "day7", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryHfdarriverfday", 
+    "defaultVal" : "N", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 

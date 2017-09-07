@@ -10,6 +10,7 @@ var vmHub = new Vue;
 /** DatagridRmSingleGridClass ***/
 function DatagridRmSingleGridClass() {
 }
+
 DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
@@ -346,27 +347,27 @@ Vue.component('single-grid-pms0830100-tmp', {
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 2,
-                        prg_id: prg_id,
-                        deleteData: [self.singleData]
-                    }, function (result) {
-                        if (result.success) {
-                            self.deleteStatue = true;
-                            self.tmpCud.deleteData = [self.singleData];
-                            self.doSaveGrid();
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-                        } else {
-                            alert(result.errorMsg);
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
+                $.post("/api/deleteFuncRule", {
+                    page_id: 2,
+                    prg_id: prg_id,
+                    deleteData: [self.singleData]
+                }, function (result) {
+                    if (result.success) {
+                        self.deleteStatue = true;
+                        self.tmpCud.deleteData = [self.singleData];
+                        self.doSaveGrid();
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
                         }
-                    });
-                }
-            });
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+
         },
 
         //關閉
@@ -646,40 +647,39 @@ var PMS0830100VM = new Vue({
             PMS0830100VM.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                $.messager.alert("Warning", 'Check at least one item');
+                alert("Warning", 'Check at least one item');
                 return;
             }
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
 
-                    _.each(checkRows, function (row) {
-                        PMS0830100VM.tmpCud.deleteData.push(row);
-                    });
+                _.each(checkRows, function (row) {
+                    PMS0830100VM.tmpCud.deleteData.push(row);
+                });
 
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 1,
-                        prg_id: prg_id,
-                        deleteData: PMS0830100VM.tmpCud.deleteData
-                    }, function (result) {
-                        if (result.success) {
-                            //刪除Row
-                            _.each(checkRows, function (row) {
-                                var DelIndex = $('#PMS0830100_dg').datagrid('getRowIndex', row);
-                                $('#PMS0830100_dg').datagrid('deleteRow', DelIndex);
-                            });
-                            PMS0830100VM.showCheckboxDG($("#PMS0830100_dg").datagrid("getRows"));
-                            PMS0830100VM.doSaveCUD();
-                        } else {
-                            alert(result.errorMsg);
-                        }
+                $.post("/api/deleteFuncRule", {
+                    page_id: 1,
+                    prg_id: prg_id,
+                    deleteData: PMS0830100VM.tmpCud.deleteData
+                }, function (result) {
+                    if (result.success) {
+                        //刪除Row
+                        _.each(checkRows, function (row) {
+                            var DelIndex = $('#PMS0830100_dg').datagrid('getRowIndex', row);
+                            $('#PMS0830100_dg').datagrid('deleteRow', DelIndex);
+                        });
+                        PMS0830100VM.showCheckboxDG($("#PMS0830100_dg").datagrid("getRows"));
+                        PMS0830100VM.doSaveCUD();
+                    } else {
+                        alert(result.errorMsg);
+                    }
 
-                    });
+                });
 
-                }
-            });
+            }
+
         },
-
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;

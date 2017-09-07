@@ -100,12 +100,11 @@ exports.getSelectOptions = function (params, selRow, callback) {
     } else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
-            ruleAgent[selRow.rule_func_name](params, function (result, data) {
-                if (_.isNull(result)) {
-                    callback(data.selectOptions);
-                }
-                else {
+            ruleAgent[selRow.rule_func_name](params, function (err, data) {
+                if (err) {
                     callback([]);
+                } else {
+                    callback(data.selectOptions);
                 }
             });
         } else {
@@ -173,13 +172,13 @@ exports.handleAddFuncRule = function (postData, session, callback) {
     ], function (err, fieldNameList) {
         let lo_initField = {};
         _.each(fieldNameList, function (name) {
-            if(name == "athena_id"){
+            if (name == "athena_id") {
                 lo_initField[name] = session.user.athena_id;
             }
-            else if(name == "hotel_cod"){
+            else if (name == "hotel_cod") {
                 lo_initField[name] = session.user.hotel_cod;
             }
-            else{
+            else {
                 lo_initField[name] = "";
             }
         });

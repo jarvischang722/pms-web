@@ -14,17 +14,16 @@ DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
 
 var Pms0830070Comp = Vue.extend({
     template: '#PMS0830070Tmp',
-    props: ['editingRow', 'singleData',"tmpCUD", 'singleDataDt'],
+    props: ['editingRow', 'singleData', "tmpCUD", 'singleDataDt', 'singleData4DetialTmp'],
     data: function () {
         return {
             dialogServiceItemVisible: false,
             adjfolioDataItem: {},
-            singleDataDt2:{}
+            singleDataDt2: {},
+            singleDataAll2: {}
         };
     },
-    created: {
-
-    },
+    created: {},
     methods: {
         //點擊明細跳窗
         btnDt4Dt: function (index) {
@@ -34,84 +33,91 @@ var Pms0830070Comp = Vue.extend({
             var self = this;
             var singleData = PMS0830070VM.singleData;
 
+            this.getSingleDtAll2();
             this.getSingleDt2(index);
 
-            $.post('/api/qryPMS0830070SingleDt4Dt',singleData,function (response) {
+            $.post('/api/qryPMS0830070SingleDt4Dt', singleData, function (response) {
 
-                _.each(response.routeDtList,function (dt4DtRow,index) {
-                    _.each(self.singleDataDt2,function (row,idx) {
-                        if(dt4DtRow["item_nos"] == row["item_nos"]){
-
-                            response.routeDtList[index]["checked"] = "true";
+                _.each(response.routeDtList, function (dt4DtRow, dt4DtIndex) {
+                    response.routeDtList[dt4DtIndex]["detailIndex"] = index;
+                    _.each(self.singleDataAll2, function (allDtRow, idx) {
+                        if (dt4DtRow["item_nos"] == allDtRow["item_nos"]) {
+                            response.routeDtList[dt4DtIndex]["checked"] = "true";
+                            _.each(self.singleDataDt2, function (row, index) {
+                                response.routeDtList[dt4DtIndex]["disabled"] = allDtRow["item_nos"] == row["item_nos"] ? "false" : "true";
+                            });
                         }
                     });
                 });
-
                 self.adjfolioDataItem = response.routeDtList;
                 self.showDialogServerItem();
             });
         },
         //Show Dt的Dt
-        showDialogServerItem:function () {
+        showDialogServerItem: function () {
             this.dialogServiceItemVisible = true;
         },
         //點擊Dt
-        clickDt:function (index) {
+        clickDt: function (index) {
             this.getSingleDt2(index);
         },
         //點擊Dt跳Dt2
-        getSingleDt2:function (index) {
+        getSingleDt2: function (index) {
             var self = this;
             var params = {
-                athena_id:self.singleData.athena_id,
-                hotel_cod:self.singleData.hotel_cod,
-                seq_nos:index
+                athena_id: self.singleData.athena_id,
+                hotel_cod: self.singleData.hotel_cod,
+                seq_nos: index
             };
 
-            $.post('/api/qryPMS0830070SingleDt2',params,function (response) {
+            $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
                 self.singleDataDt2 = response.routeDtList;
             });
         },
+
+        //點擊Dt"..."需撈取所有detail資料
+        getSingleDtAll2: function () {
+            var self = this;
+            var params = {
+                athena_id: self.singleData.athena_id,
+                hotel_cod: self.singleData.hotel_cod
+            };
+
+            $.post('/api/qryPMS0830070SingleAllDt2', params, function (response) {
+                self.singleDataAll2 = response.routeDtList;
+            });
+        },
         //新增明細
-        btnAddDtDetail:function () {
+        btnAddDtDetail: function () {
 
             var singleDataDtInfo = PMS0830070VM.singleDataDt;
             var singleData = PMS0830070VM.singleData;
             var row = [
                 {
-                    adjfolio_cod:"",
-                    athena_id:singleData.athena_id,
-                    hotel_cod:singleData.hotel_cod,
-                    seq_nos:singleDataDtInfo.length == 0 ? 1 : singleDataDtInfo.length +1
+                    adjfolio_cod: "",
+                    athena_id: singleData.athena_id,
+                    hotel_cod: singleData.hotel_cod,
+                    seq_nos: singleDataDtInfo.length == 0 ? 1 : singleDataDtInfo.length + 1
                 }
             ];
 
             singleDataDtInfo.push(row);
         },
-        chkAdjfolioData:function (index) {
-            var serviceItemData = this.adjfolioDataItem;
-            console.log(index);
-            console.log(row);
-            //serviceItemData[index]["checked"] =
+        //勾選後暫存
+        chkAdjfolioData: function (index, status) {
+            this.adjfolioDataItem[index]["checked"] = status == "true" ? "false" : "true";
         },
-        saveDt2Dt:function () {
-            //var tmpCUD = PMS0830070VM.tmpCUD;
-            //mpCUD.dt2_createData =$("#serviceDt2Dt").datagrid("getChecked");
+        //勾選的選項暫存
+        saveDt2Dt: function () {
+            var saveItemDataTmp = this.adjfolioDataItem;
+            _.each(saveItemDataTmp, function (row, index) {
 
-            console.log(this.adjfolioDataItem);
-           // $("#ckItem").ch
+                if (row["checked"] == "true" && row["disabled"] == "false") {
+                    PMS0830070VM.singleData4DetialTmp.push(row);
+                }
+            });
 
-
-            // var self = this;
-            // var table = self.adjfolioDataItem;
-            // console.log(table.length);
-            // console.log($("#ckItem"));
-            // for(var i =1;i<table.length;i++)
-            // {
-            //     if($("#ckItem")[i].is(':checked')){
-            //         alert($("#ckItem")[i].val());
-            //     }
-            // }
+            this.dialogServiceItemVisible=false;
         }
     }
 });
@@ -129,7 +135,8 @@ var PMS0830070VM = new Vue({
         activeAccount: 1,
         singleData: {},
         singleDataDt: {},
-        dgIns:{},
+        singleData4DetialTmp: [],
+        dgIns: {},
         tmpCUD: {
             createData: {},
             updateData: {},
@@ -241,37 +248,44 @@ var PMS0830070VM = new Vue({
                 resizable: true
             });
         },
-        closeGridDialog:function () {
+        closeGridDialog: function () {
             PMS0830070VM.editingRow = {};
             PMS0830070VM.singleData = {};
             PMS0830070VM.initTmpCUD();
             $("#PMS0830070Dialog").dialog('close');
         },
-        doSaveGrid:function () {
+        doSaveGrid: function () {
             var self = this;
+            console.log(self.isCreateStatus);
+            if(self.isCreateStatus){
+                PMS0830070VM.tmpCud.createData =  self.singleData;
+                //PMS0830070VM.tmpCud.dt_createData  =
+
+            }
+            console.log(self.singleData);
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, PMS0830070VM.tmpCud);
 
-            $.post("/api/saveGridSingleData", params, function (result) {
-                if (result.success) {
-
-                    if (self.uploadFileList.length != 0) {
-                        self.uploadAction(callback);
-                    }
-                    else {
-                        vm.initTmpCUD();
-                        vm.loadDataGridByPrgID(function (success) {
-                            callback(success);
-                        });
-                        alert('save success!');
-                        waitingDialog.hide();
-                    }
-
-                } else {
-                    waitingDialog.hide();
-                    alert(result.errorMsg);
-                }
-            });
+            // $.post("/api/saveGridSingleData", params, function (result) {
+            //     if (result.success) {
+            //
+            //         if (self.uploadFileList.length != 0) {
+            //             self.uploadAction(callback);
+            //         }
+            //         else {
+            //             vm.initTmpCUD();
+            //             vm.loadDataGridByPrgID(function (success) {
+            //                 callback(success);
+            //             });
+            //             alert('save success!');
+            //             waitingDialog.hide();
+            //         }
+            //
+            //     } else {
+            //         waitingDialog.hide();
+            //         alert(result.errorMsg);
+            //     }
+            // });
         }
     }
 });

@@ -165,7 +165,8 @@ Vue.component("field-multi-lang-dialog-tmp", {
         return {
             editingLangField: "",
             multiLangContentList: [],
-            fieldMultiLang: {}
+            fieldMultiLang: {},
+            showMultiLangDialog: false
         };
     },
     created: function () {
@@ -263,9 +264,11 @@ Vue.component('text-select-grid-dialog-tmp', {
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-
+            console.log(result);
             for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
+                    console.log(col);
+                    console.log(field);
                     if (col == field) {
                         columnsData.push({
                             type: 'textbox',
@@ -279,6 +282,8 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
+            console.log(columnsData);
+            console.log(textDataGridArray);
             self.gridData = textDataGridArray;
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
@@ -385,7 +390,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //改成編輯中
         changeEditingForFieldRule: function (rule_func_name) {
-            console.log(rule_func_name);
             if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
                 this.isEditingForFieldRule = true;
             }
@@ -394,6 +398,13 @@ Vue.component('sigle-grid-dialog-tmp', {
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
             if (!_.isEmpty(rule_func_name.trim())) {
+
+                _.each(this.singleData, function (value, key) {
+                    if (_.isUndefined(value)) {
+                        self.singleData[key] = "";
+                    }
+                })
+
                 var postData = {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
@@ -487,27 +498,27 @@ Vue.component('sigle-grid-dialog-tmp', {
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 2,
-                        prg_id: prg_id,
-                        deleteData: [self.singleData]
-                    }, function (result) {
-                        if (result.success) {
-                            self.deleteStatue = true;
-                            self.tmpCud.deleteData = [self.singleData];
-                            self.doSaveGrid();
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-                        } else {
-                            alert(result.errorMsg);
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
+                $.post("/api/deleteFuncRule", {
+                    page_id: 2,
+                    prg_id: prg_id,
+                    deleteData: [self.singleData]
+                }, function (result) {
+                    if (result.success) {
+                        self.deleteStatue = true;
+                        self.tmpCud.deleteData = [self.singleData];
+                        self.doSaveGrid();
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
                         }
-                    });
-                }
-            });
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+
         },
         //關閉
         emitCloseGridDialog: function () {
@@ -860,7 +871,10 @@ var vm = new Vue({
         dialogVisible: false,
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        openChangeLogDialog: false,
+        allChangeLogList: []
+
     },
     watch: {
         editStatus: function (newVal) {
@@ -899,8 +913,9 @@ var vm = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            if(_.isUndefined(callback) || _.isNull(callback)){
-                callback = function(){};
+            if (_.isUndefined(callback) || _.isNull(callback)) {
+                callback = function () {
+                };
             }
             //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
@@ -1016,45 +1031,46 @@ var vm = new Vue({
             vm.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                $.messager.alert("Warning", 'Check at least one item');
+                alert('Check at least one item');
                 return;
             }
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
+                _.each(checkRows, function (row) {
+                    vm.tmpCud.deleteData.push(row);
+                });
 
-                    _.each(checkRows, function (row) {
-                        vm.tmpCud.deleteData.push(row);
-                    });
+                $.post("/api/deleteFuncRule", {
+                    page_id: 1,
+                    prg_id: prg_id,
+                    deleteData: vm.tmpCud.deleteData
+                }, function (result) {
 
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 1,
-                        prg_id: prg_id,
-                        deleteData: vm.tmpCud.deleteData
-                    }, function (result) {
-                        if (result.success) {
+                    if (result.success) {
+                        //刪除Row
+                        _.each(checkRows, function (row) {
+                            $('#dg').datagrid('deleteRow', $('#dg').datagrid('getRowIndex', row));
+                        });
+                        vm.showCheckboxDG($("#dg").datagrid("getRows"));
+                        vm.doSaveCUD();
+                    } else {
+                        alert(result.errorMsg);
+                        _.each(checkRows, function (row) {
+                            _.without(vm.tmpCud.deleteData, row);
+                        });
+                    }
 
-                            //刪除Row
-                            _.each(checkRows, function (row) {
-                                var DelIndex = $('#dg').datagrid('getRowIndex', row);
-                                $('#dg').datagrid('deleteRow', DelIndex);
-                            });
-                            vm.showCheckboxDG($("#dg").datagrid("getRows"));
-                            vm.doSaveCUD();
-                        } else {
-                            alert(result.errorMsg);
-                            _.each(checkRows, function (row) {
-                                _.without(vm.tmpCud.deleteData, row);
-                            });
-                        }
+                });
 
-                    });
-
-                }
-            });
+            }
         },
         //資料儲存
         doSaveCUD: function (callback) {
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
+            }
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -1209,6 +1225,13 @@ var vm = new Vue({
             dialog.dialog("open");
             // 給 dialog "內容"高 值
             //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+        },
+        loadChangeLog: function () {
+            this.openChangeLogDialog = true;
+            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+                vm.allChangeLogList = result.allChangeLogList;
+                console.log( vm.allChangeLogList);
+            });
             // 給裡面table的高 值
             var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
             $("#chooseGrid").datagrid({height:chooseGridH});

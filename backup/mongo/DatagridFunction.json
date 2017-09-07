@@ -720,7 +720,7 @@
     "prg_id" : "PMS0840010", 
     "page_id" : NumberInt(1), 
     "func_id" : "0300", 
-    "rule_func_name" : ""
+    "rule_func_name" : "CHK_HKMTYPE_RF_DEL"
 }
 { 
     "_id" : ObjectId("596c33411ce4521c686b38e3"), 
@@ -741,7 +741,7 @@
     "prg_id" : "PMS0840010", 
     "page_id" : NumberInt(1), 
     "func_id" : "0531", 
-    "rule_func_name" : "CHK_HKMTYPE_RF_DEL"
+    "rule_func_name" : ""
 }
 { 
     "_id" : ObjectId("596c33411ce4521c686b38e6"), 
@@ -871,7 +871,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0200", 
-    "rule_func_name" : ""
+    "rule_func_name" : "useStaDefault"
 }
 { 
     "_id" : ObjectId("59786aca1ce45221e87fd741"), 

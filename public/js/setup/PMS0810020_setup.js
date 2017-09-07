@@ -10,6 +10,7 @@ var vmHub = new Vue;
 /** DatagridRmSingleGridClass ***/
 function DatagridRmSingleGridClass() {
 }
+
 DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
@@ -187,8 +188,8 @@ Vue.component('single-grid-pms0810020-tmp', {
             var self = this;
             var la_originData = [this.$parent.originData];
             var la_singleData = [this.singleData];
-
             var la_diff = _.difference(la_originData, la_singleData);
+
             // 判斷資料是否有異動
             if (la_diff.length != 0) {
                 this.isUpdate = true;
@@ -293,28 +294,28 @@ Vue.component('single-grid-pms0810020-tmp', {
         //刪除單筆EVENT
         handleDeleteSingleData: function () {
             var self = this;
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 2,
-                        prg_id: prg_id,
-                        deleteData: [self.singleData]
-                    }, function (result) {
-                        if (result.success) {
-                            self.deleteStatue = true;
-                            self.tmpCud.deleteData = [self.singleData];
-                            self.doSaveGrid();
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
+                $.post("/api/deleteFuncRule", {
+                    page_id: 2,
+                    prg_id: prg_id,
+                    deleteData: [self.singleData]
+                }, function (result) {
+                    if (result.success) {
+                        self.deleteStatue = true;
+                        self.tmpCud.deleteData = [self.singleData];
+                        self.doSaveGrid();
 
-                            if (result.showAlert) {
-                                alert(result.alertMsg);
-                            }
-                        } else {
-                            alert(result.errorMsg);
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
                         }
-                    });
-                }
-            });
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+
         },
         //關閉
         emitCloseGridDialog: function () {
@@ -422,21 +423,21 @@ Vue.component('single-grid-pms0810020-tmp', {
             };
 
             if (this.isUpdate) {
-                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if (result) {
-                        if (self.editStatus) {
-                            self.$parent.initTmpCUD();
-                            self.$parent.tmpCud.editData = [self.singleData];
-                        }
-                        self.$parent.doSaveCUD(function (saveResult) {
-                            if (saveResult) {
-                                self.execUploadRoomType(lo_params);
-                                self.isUpdate = false;
-                            }
-                        });
+                var result = confirm("是否儲存已編輯資料?");
+                if (result) {
+                    if (self.editStatus) {
+                        self.$parent.initTmpCUD();
+                        self.$parent.tmpCud.editData = [self.singleData];
                     }
-                    self.$parent.loadSingleGridPageField();
-                });
+                    self.$parent.doSaveCUD(function (saveResult) {
+                        if (saveResult) {
+                            self.execUploadRoomType(lo_params);
+                            self.isUpdate = false;
+                        }
+                    });
+                }
+                self.$parent.loadSingleGridPageField();
+
             }
             else {
                 self.execUploadRoomType(lo_params);
@@ -466,25 +467,26 @@ Vue.component('single-grid-pms0810020-tmp', {
             };
 
             if (this.isUpdate) {
-                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if (result) {
-                        if (self.editStatus) {
-                            self.$parent.initTmpCUD();
-                            self.$parent.tmpCud.editData = [self.singleData];
-                        }
-                        self.$parent.doSaveCUD(function (saveResult) {
-                            if (saveResult) {
-                                if (self.$parent.displayFileList.length != 0) {
-                                    self.execUploadRoomTypePic(lo_params);
-                                }
-                                else {
-                                    alert("無圖片可上傳");
-                                }
-                                self.isUpdate = false;
-                            }
-                        });
+
+                var result = confirm("是否儲存已編輯資料?");
+                if (result) {
+                    if (self.editStatus) {
+                        self.$parent.initTmpCUD();
+                        self.$parent.tmpCud.editData = [self.singleData];
                     }
-                });
+                    self.$parent.doSaveCUD(function (saveResult) {
+                        if (saveResult) {
+                            if (self.$parent.displayFileList.length != 0) {
+                                self.execUploadRoomTypePic(lo_params);
+                            }
+                            else {
+                                alert("無圖片可上傳");
+                            }
+                            self.isUpdate = false;
+                        }
+                    });
+                }
+
             }
             else {
                 if (self.$parent.displayFileList.length != 0) {
@@ -510,22 +512,22 @@ Vue.component('single-grid-pms0810020-tmp', {
         // 顯示庫存dialog
         showRoomTypeStock: function () {
             var self = this;
-
             if (this.isUpdate) {
-                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if (result) {
-                        if (self.editStatus) {
-                            self.$parent.initTmpCUD();
-                            self.$parent.tmpCud.editData = [self.singleData];
-                        }
-                        self.$parent.doSaveCUD(function (saveResult) {
-                            if (saveResult) {
-                                self.execShowRoomTypeStock();
-                                self.isUpdate = false;
-                            }
-                        });
+
+                var result = confirm("是否儲存已編輯資料?");
+                if (result) {
+                    if (self.editStatus) {
+                        self.$parent.initTmpCUD();
+                        self.$parent.tmpCud.editData = [self.singleData];
                     }
-                });
+                    self.$parent.doSaveCUD(function (saveResult) {
+                        if (saveResult) {
+                            self.execShowRoomTypeStock();
+                            self.isUpdate = false;
+                        }
+                    });
+                }
+
             }
             else {
                 self.execShowRoomTypeStock();
@@ -545,20 +547,20 @@ Vue.component('single-grid-pms0810020-tmp', {
         showRoomTypeSort: function () {
             var self = this;
             if (this.isUpdate) {
-                $.messager.confirm("提醒", "是否儲存已編輯資料?", function (result) {
-                    if (result) {
-                        if (self.editStatus) {
-                            self.$parent.initTmpCUD();
-                            self.$parent.tmpCud.editData = [self.singleData];
-                        }
-                        self.$parent.doSaveCUD(function (saveResult) {
-                            if (saveResult) {
-                                self.dialogShowRoomSortVisible = true;
-                                self.isUpdate = false;
-                            }
-                        });
+                var result = confirm("是否儲存已編輯資料?");
+                if (result) {
+                    if (self.editStatus) {
+                        self.$parent.initTmpCUD();
+                        self.$parent.tmpCud.editData = [self.singleData];
                     }
-                });
+                    self.$parent.doSaveCUD(function (saveResult) {
+                        if (saveResult) {
+                            self.dialogShowRoomSortVisible = true;
+                            self.isUpdate = false;
+                        }
+                    });
+                }
+
             }
             else {
                 self.dialogShowRoomSortVisible = true;
@@ -657,6 +659,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
 
         },
+
         //房型庫存最大日期
         showRoomTypeMaxStockDate: function () {
             var self = this;
@@ -664,6 +667,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                 self.maxRmStock = moment(result.max_batch_dat).format("YYYY/MM/DD");
             });
         },
+
         // 圖片change事件
         fileChange: function (file, fileList) {
             this.$parent.uploadFileList.push(file);
@@ -717,7 +721,8 @@ var vm = new Vue({
         isLoading: false,
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        isSaving:false
     },
     watch: {
         editStatus: function (newVal) {
@@ -817,61 +822,65 @@ var vm = new Vue({
             vm.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                $.messager.alert("Warning", 'Check at least one item');
+                alert("Warning", 'Check at least one item');
                 return;
             }
-            $.messager.confirm("Delete", "Are you sure delete those data?", function (q) {
-                if (q) {
-                    //刪除前檢查
+            var q = confirm("Are you sure delete those data?");
+            if (q) {
+                //刪除前檢查
 
-                    _.each(checkRows, function (row) {
-                        vm.tmpCud.deleteData.push(row);
-                    });
+                _.each(checkRows, function (row) {
+                    vm.tmpCud.deleteData.push(row);
+                });
 
-                    $.post("/api/deleteFuncRule", {
-                        page_id: 1,
-                        prg_id: prg_id,
-                        deleteData: vm.tmpCud.deleteData
-                    }, function (result) {
-                        if (result.success) {
-                            //刪除Row
-                            _.each(checkRows, function (row) {
-                                var DelIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
-                                $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
-                            });
-                            vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
-                            vm.doSaveCUD(function () {
-                            });
-                        } else {
-                            alert(result.errorMsg);
-                        }
+                $.post("/api/deleteFuncRule", {
+                    page_id: 1,
+                    prg_id: prg_id,
+                    deleteData: vm.tmpCud.deleteData
+                }, function (result) {
+                    if (result.success) {
+                        //刪除Row
+                        _.each(checkRows, function (row) {
+                            var DelIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
+                            $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
+                        });
+                        vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
+                        vm.doSaveCUD(function () {
+                        });
+                    } else {
+                        alert(result.errorMsg);
+                    }
 
-                    });
+                });
 
-                }
-            });
+            }
+
         },
 
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
-            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+
+            self.isSaving = true;
             // console.log("===Save params===");
             // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
-                waitingDialog.hide();
+                self.isSaving = false;
                 if (result.success) {
                     if (self.uploadFileList.length != 0) {
                         self.uploadAction(callback);
+                        return true;
                     }
                     else {
                         vm.initTmpCUD();
                         vm.loadDataGridByPrgID();
                         alert('save success!');
                     }
+                    callback("success");
                 } else {
                     alert(result.errorMsg);
+                    callback("fail");
                 }
             });
 

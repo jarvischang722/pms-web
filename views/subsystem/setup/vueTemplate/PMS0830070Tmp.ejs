@@ -87,10 +87,11 @@
                         </tr>
                         </thead>
                         <tbody class="tbody">
+
                         <tr class="css_tr" v-for="(item,index) in adjfolioDataItem">
                             <td class="css_td">
                                 <form>
-                                    <input type="checkbox" :checked="item.checked.includes('true')"  name="chk" id="ckItem" @click="chkAdjfolioData">
+                                    <input type="checkbox" :checked="item.checked.includes('true')" :disabled="item.disabled =='true' "  name="chk" id="ckItem" @click="chkAdjfolioData(index,item.checked)">
                                 </form>
                             </td>
                             <td class="css_td">{{item.item_nos}}</td>

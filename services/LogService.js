@@ -62,30 +62,8 @@ exports.getSetupPrgChangeLog = function (req, callback) {
                 callback(err, allUser);
             });
         },
-        function (allUser, callback) {
-            mongoAgent.TemplateRf.find({prg_id: ls_prg_id}, function (err, template) {
-                if (err) {
-                    return callback(err);
-                }
-
-                //多筆
-                if (template.length == 1) {
-                    gs_tableName = template[0].table_name;
-                }
-                //單筆
-                else if (template.length == 2) {
-                    gs_tableName = _.findWhere(template, {page_id: 2, template_id: 'gridSingle'}).table_name;
-                }
-                //mn_dt
-                else if (template.length == 2) {
-                    gs_tableName = _.findWhere(template, {page_id: 2, template_id: 'gridSingle'}).table_name;
-                    gs_dtTableName = _.findWhere(template, {page_id: 2, template_id: 'datagrid'}).table_name;
-                }
-                callback(err, template);
-            });
-        },
         function (template, callback) {
-            mongoAgent.SettingHistory.find({table_name: gs_tableName.toLowerCase()})
+            mongoAgent.SettingHistory.find({prg_id: ls_prg_id})
                 .sort({event_time: -1}).exec(function (err, allLogs) {
 
                 callback(err, allLogs);

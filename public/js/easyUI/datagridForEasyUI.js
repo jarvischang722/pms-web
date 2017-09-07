@@ -36,7 +36,7 @@ var EZfieldClass = {
     fieldConvEzAttr: function (fieldAttrObj, dgName) {
 
         var dataType = "";
-        if (fieldAttrObj.ui_type == "text" ) {
+        if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
         } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
@@ -75,11 +75,12 @@ var EZfieldClass = {
         };
 
         /** 長度限制  **/
-        var mixLength = fieldAttrObj.requirable == "Y" ? '0' : '1';
+        var mixLength = fieldAttrObj.requirable == "Y" ? '1' : '0';
         var maxLength = fieldAttrObj.ui_field_length;
         if (fieldAttrObj.ui_type != "select") {   //combobox因text內容有長有短，所以排除此長度驗證
             tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
         }
+
         //checkbox
         if (fieldAttrObj.ui_type == "checkbox") {
             tmpFieldObj.editor.options = fieldAttrObj.selectData[0];
@@ -189,12 +190,11 @@ var EZfieldClass = {
                 var lo_checkboxVal = fieldAttrObj.selectData[1];
                 if (_.isUndefined(lo_checkboxVal)) {
                     lo_checkboxVal = {
-                        Y: 'Y',
-                        N: 'N'
+                        Y: '<input type="checkbox" checked>',
+                        N: '<input type="checkbox" >'
                     };
                 }
-                var fieldName = val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
-                return fieldName;
+                return val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
             };
 
         } else if (fieldAttrObj.ui_type == "color") {
@@ -264,7 +264,7 @@ var EZfieldClass = {
             }
         } else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
-                if(!_.isNull(val)){
+                if (!_.isNull(val)) {
                     var lo_val = String(val);
                     if (lo_val.indexOf(":") == "-1") {
                         var hour = lo_val.substring(0, 2);
@@ -274,7 +274,7 @@ var EZfieldClass = {
                     }
                     return val;
                 }
-                else{
+                else {
                     return "";
                 }
 
@@ -313,10 +313,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
-
-        // if (selectDataRow.createRow == "Y") {
-        //     selectDataRow[fieldAttrObj.ui_field_name] = newValue;
-        // }
 
         var postData = {
             prg_id: fieldAttrObj.prg_id,
@@ -368,9 +364,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         row: effectValues
                     });
 
-                    if(!_.isUndefined(effectValues.day_sta_color)) {
-                        var col = $("#" + dgName).datagrid('getColumnOption','day_sta');
-                        col.styler = function(){
+                    if (!_.isUndefined(effectValues.day_sta_color)) {
+                        var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
+                        col.styler = function () {
                             return 'background-color:' + effectValues.day_sta_color;
                         };
                     }
@@ -427,7 +423,7 @@ $(document).on("change", "#colorWell", function (event) {
 //Checkbox onchange事件
 $(document).on('change', ".dg-checkbox-change", function (event) {
     var li_index = $(this).parents("tr[id^='datagrid']").attr("datagrid-row-index");
-    var ls_dgName = $('.datagrid-f').attr('id');
+    var ls_dgName = $(this).closest(".panel").find('.datagrid-f').attr('id');
     var lo_rowData = $("#" + ls_dgName).datagrid('getEditingRowData');
     var ui_field_name = "";
     $(this).parents("td").each(function () {
@@ -444,15 +440,12 @@ $(document).on('change', ".dg-checkbox-change", function (event) {
             newVal = val;
         }
     });
-
     var updateData = {};
     updateData[ui_field_name] = newVal;
-
     $('#' + ls_dgName).datagrid('updateRow', {
         index: li_index,
         row: updateData
     });
-
     $('#' + ls_dgName).datagrid('beginEdit', li_index);
     onChangeAction(lo_columnOption, oldVal, newVal, ls_dgName);
 
@@ -475,11 +468,11 @@ $.extend($.fn.datagrid.methods, {
         _.each(cols, function (field_name) {
             if ($row.find("td[field='" + field_name + "']").length == 1) {
                 if ($row.find("td[field='" + field_name + "']").find(".textbox-value").length > 0) {
-                    if( $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim() != ""){
+                    if ($row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim() != "") {
                         rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim();
                     }
                 } else if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").length > 0) {
-                    if( $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim() != ""){
+                    if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim() != "") {
                         rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim();
                     }
                 }
@@ -493,13 +486,13 @@ $.extend($.fn.datagrid.methods, {
 $.extend($.fn.datagrid.defaults.editors, {
     checkbox: {
         init: function (container, options) {
-            var ls_dgName = $('.datagrid-f').attr('id');
+            var ls_dgName = $(container).closest(".panel").find('.datagrid-f').attr('id');
             var li_index = $("#" + ls_dgName).datagrid("getRowIndex", $("#" + ls_dgName).datagrid("getSelected"));
-            var rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
-            var field_name = $(container.context.outerHTML).attr("field");
-            var val = rowData[field_name];
+            var lo_rowData = $("#" + ls_dgName).datagrid("getRows")[li_index];
+            var ls_field_name = $(container.context.outerHTML).attr("field");
+            var val = lo_rowData[ls_field_name];
             var checked = options.on == val ? 'checked' : '';
-            var input = $('<input type="checkbox" class="dg-checkbox-change"  ' + checked + ' onchange="">').appendTo(container);
+            var input = $('<input type="checkbox" class="dg-checkbox-change"  ' + checked + '>').appendTo(container);
             return input;
         },
         destroy: function (target) {

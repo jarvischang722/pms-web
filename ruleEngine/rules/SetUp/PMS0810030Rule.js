@@ -103,11 +103,19 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        lo_result.success = true;
-        postData.rowData.remark1 = mailFmtDisplayName;
-        postData.rowData.mail_fmt = mailFmtDisplayName;
-        lo_result.effectValues = postData.rowData;
-        callback(lo_error, lo_result);
+        var params = {
+            athena_id: session.user.athena_id,
+            mail_fmt: postData.rowData.mail_fmt
+        };
+
+        queryAgent.query("QRY_CNTRY_RF_REMARK".toUpperCase(), params, function (err, result) {
+            if (!err) {
+                postData.rowData.remark1 = result.remark1;
+                lo_result.success = true;
+                lo_result.effectValues = postData.rowData;
+                callback(lo_error, lo_result);
+            }
+        })
     },
     PMS0810030_mail_fmt: function () {
 
