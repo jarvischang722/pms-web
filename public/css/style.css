@@ -264,6 +264,10 @@
 .horizTable-outer.table-middle .css_table {
   margin: 0 auto;
 }
+.horizTable-outer.table-ht2x .css_table.horizTable th, .horizTable-outer.table-ht2x .css_table.horizTable td {
+  font-size: 1.2em;
+  height: 50px;
+}
 
 .grid-textArea .moreClick {
   height: 25px;
@@ -1770,6 +1774,11 @@ a {
 }
 
 /*-- footer -- */
+/*-- login page -- */
+select.localeSelect {
+  background-color: #fff !important;
+}
+
 .bacchus-footer {
   padding-top: 220px;
 }
@@ -4079,6 +4088,10 @@ span.triangle-text {
 
 .margin-5 {
   margin: 5px;
+}
+
+.marginLeft-3 {
+  margin-left: 3px;
 }
 
 .marginLeft-5 {

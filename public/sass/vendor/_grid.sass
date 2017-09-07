@@ -175,7 +175,7 @@
       margin-top: 5px
 .css_table
   +css_table($tableWidth: 100%)
-
+$horizTable-outerHt: 25px
 .horizTable-outer
   overflow: auto
   .css_table
@@ -183,7 +183,7 @@
     &.horizTable
       table-layout: fixed
       th,td
-        height: 25px
+        height: $horizTable-outerHt
       th
         font-weight: 400
       .text-right
@@ -192,6 +192,12 @@
   &.table-middle
     .css_table
       margin: 0 auto
+  &.table-ht2x
+    .css_table
+      &.horizTable
+        th,td
+          font-size: $font-lg
+          height: $horizTable-outerHt *2
 
 .grid-textArea
   .moreClick

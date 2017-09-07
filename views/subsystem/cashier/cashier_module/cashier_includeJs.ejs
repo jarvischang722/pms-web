@@ -40,11 +40,11 @@
             url: '/jsonData/cashier_openCashAccDg.json',
             method: 'get',
             columns: [[
-                {field: 'rmNo', title: 'Rm No.', width: 100},
+                {field: 'rmNo', title: 'Rm No.', width: 80},
                 {field: 'fullName', title: 'Full Name', width: 100},
                 {field: 'coDate', title: 'C/O Date', width: 100},
-                {field: 'coAlert', title: 'C/O Alert', width: 200},
-                {field: 'company', title: 'Company', width: 80}
+                {field: 'coAlert', title: 'C/O Alert', width: 260},
+                {field: 'company', title: 'Company', width: 140}
             ]]
         });
 
@@ -62,7 +62,7 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-//                height: $(window).height(),
+                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
