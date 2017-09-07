@@ -1,10 +1,15 @@
 <script>
     var go_i18nLang = {};
     var go_validateClass = {};
-    $.post("/api/getLocaleContent",function(result){
-        if(result.success){
-            go_i18nLang = result.localeContent;
-            go_validateClass = new validateClass();
+    $.ajax({
+        url: "/api/getLocaleContent",
+        type: "post",
+        async: false,
+        success: function (result) {
+            if(result.success){
+                go_i18nLang = result.localeContent;
+                go_validateClass = new validateClass();
+            }
         }
     });
 </script>

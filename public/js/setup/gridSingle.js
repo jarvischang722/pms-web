@@ -264,11 +264,8 @@ Vue.component('text-select-grid-dialog-tmp', {
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-            console.log(result);
             for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
-                    console.log(col);
-                    console.log(field);
                     if (col == field) {
                         columnsData.push({
                             type: 'textbox',
@@ -282,8 +279,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
-            console.log(columnsData);
-            console.log(textDataGridArray);
+
             self.gridData = textDataGridArray;
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
@@ -952,7 +948,7 @@ var vm = new Vue({
             }, function (result) {
 
                 var fieldData = result.fieldData;
-                vm.ori_pageTwoFieldData = fieldData;
+                vm.oriPageTwoFieldData = fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
@@ -1084,13 +1080,26 @@ var vm = new Vue({
         //資料驗證
         dataValidate: function () {
             var self = this;
-            console.log(this.singleData);
-            _.each(this.oriPageTwoFieldData, function (lo_field) {
-                if (lo_field.requirable == "Y") {
-                    self.singleData[lo_field.ui_field_name];
+            var lo_chkResult;
+
+            for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
+                var lo_field = this.oriPageTwoFieldData[i];
+                if (lo_field.requirable == "Y" && lo_field.modificable != "N") {
+                    lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
                 }
 
-            });
+                if (lo_field.format_func_name != "") {
+                    lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+            };
+            return lo_chkResult;
+
         },
 
         //資料儲存
@@ -1099,8 +1108,12 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
+            var lo_chkResult = this.dataValidate();
+            if (lo_chkResult.success == false) {
+                alert(lo_chkResult.msg);
+                return true;
+            }
 
-            this.dataValidate();
             return true;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
@@ -1261,11 +1274,10 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
-                console.log(vm.allChangeLogList);
             });
             // 給裡面table的高 值
             var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
-            $("#chooseGrid").datagrid({height:chooseGridH});
+            $("#chooseGrid").datagrid({height: chooseGridH});
 
         }
 

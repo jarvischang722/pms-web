@@ -161,15 +161,15 @@
   },
   "Validation": {
     "Formatter": {
-      "Required": "此欄位必填",
+      "Required": "%s 為必填",
       "ChkLength": "字數限制 %s 到 %s個字",
       "FmtFourEngNum": "格式為四碼英文數字",
       "FmtCharacters": "請輸入文字",
       "FmtZeroToFiveNum": "0到5碼數字",
       "FmtExactlyTwoWord": "2碼數字",
       "FmtZeroToTenNum": "0到10碼數字",
-      "ChkGreaterZeroNum": "請輸入大於0的數字",
-      "ChkGteZeroNum": "請輸入大於等於0的數字",
+      "ChkGreaterZeroNum": "%s 請輸入大於0的數字",
+      "ChkGteZeroNum": "%s 請輸入大於等於0的數字",
       "ChkLteZeroNum": "請輸入小於等於0的數字",
       "ChkLessZeroNum": "請輸入小於0的數字",
       "FmtHHMM": "時間格式HH:MM"

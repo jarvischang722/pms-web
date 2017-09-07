@@ -6,11 +6,9 @@ $.extend($.fn.validatebox.defaults.rules, {
     ChkLength: {
         //資料長度驗證
         validator: function (value, params) {
-
-            var minLength = params[0];
-            var maxLength = params[1];
-            $.fn.validatebox.defaults.rules.ChkLength.message = sprintf(go_i18nLang.Validation.Formatter["ChkLength"],minLength,maxLength)  ;
-            return go_validateClass.chkLength(value, params).success;
+            var lo_checkResult = go_validateClass.chkLength(value, params);
+            $.fn.validatebox.defaults.rules.ChkLength.message = lo_checkResult.msg;
+            return lo_checkResult.success;
         },
         message:    ''
     },
@@ -65,16 +63,18 @@ $.extend($.fn.validatebox.defaults.rules, {
     //大於0
     ChkGreaterZeroNum: {
         validator: function (value) {
-            $.fn.validatebox.defaults.rules.ChkGreaterZeroNum.message = go_i18nLang.Validation.Formatter["ChkGreaterZeroNum"]  ;
-            return go_validateClass.ChkGreaterZeroNum(value).success;
+            var lo_checkResult = go_validateClass.ChkGreaterZeroNum(value);
+            $.fn.validatebox.defaults.rules.ChkGreaterZeroNum.message = lo_checkResult.msg;
+            return lo_checkResult.success;
         },
         message: '請輸入大於0的數字'
     },
     //大於等於0
     ChkGteZeroNum: {
         validator: function (value) {
-            $.fn.validatebox.defaults.rules.ChkGteZeroNum.message = go_i18nLang.Validation.Formatter["ChkGteZeroNum"]  ;
-            return go_validateClass.ChkGteZeroNum(value).success;
+            var lo_checkResult = go_validateClass.ChkGreaterZeroNum(value);
+            $.fn.validatebox.defaults.rules.ChkGteZeroNum.message = lo_checkResult.msg;
+            return lo_checkResult.success;
         },
         message: '請輸入大於等於0的數字'
     },

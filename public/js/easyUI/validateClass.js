@@ -6,10 +6,12 @@ function validateClass() {
 
     this.ls_msg = go_i18nLang.Validation.Formatter;
 
-    this.required = function(value){
+    //欄位必填
+    this.required = function (value, ui_display_name) {
         var lb_result = value == "";
-        return {success: lb_result, msg: this.ls_msg.required};
-    }
+        var ls_msg = sprintf(this.ls_msg.Required, ui_display_name);
+        return {success: !lb_result, msg: ls_msg};
+    };
 
     //資料長度驗證
     this.chkLength = function (value, params) {
@@ -50,10 +52,21 @@ function validateClass() {
     };
 
     //0到10碼數字
-    this.FmtZeroToTenNum = function (value) {
+    this.FmtZeroToTenNum = function () {
         var reg = /^\d{0,10}$/;
-        var lb_result = reg.test(value);
-        return {success: lb_result, msg: this.ls_msg.FmtZeroToTenNum};
+        var ls_value = arguments[0];
+        var lb_result = reg.test(ls_value);
+        var ls_msg;
+
+        if (arguments.length == 2) {
+            var ls_ui_display_name = arguments[1];
+            ls_msg = sprintf(this.ls_msg.FmtZeroToTenNum, ls_ui_display_name);
+        }
+        else {
+            ls_msg = sprintf(this.ls_msg.FmtZeroToTenNum, "");
+        }
+        return {success: lb_result, msg: ls_msg};
+
     };
 
     //0到10碼數字(數字必須大於等於-1)
@@ -64,16 +77,46 @@ function validateClass() {
     };
 
     //大於0
-    this.ChkGreaterZeroNum = function (value) {
-        var lb_result = Number(value) >= 0;
-        return {success: lb_result, msg: this.ls_msg.ChkGreaterZeroNum};
+    this.ChkGreaterZeroNum = function () {
+        var ls_value = arguments[0];
+        var lb_result = Number(ls_value) > 0;
+        var ls_msg;
+
+        console.log(arguments.length);
+        if (arguments.length == 2) {
+            var ls_ui_display_name = arguments[1];
+            ls_msg = sprintf(this.ls_msg.ChkGreaterZeroNum, ls_ui_display_name);
+        }
+        else {
+            ls_msg = sprintf(this.ls_msg.ChkGreaterZeroNum, "");
+            console.log(ls_msg);
+        }
+        return {success: lb_result, msg: ls_msg};
     };
 
     //大於等於0
-    this.ChkGteZeroNum = function (value) {
-        var lb_result = Number(value) >= 0;
-        return {success: lb_result, msg: this.ls_msg.ChkGreaterZeroNum};
+    this.ChkGteZeroNum = function () {
+        var ls_value = arguments[0];
+        var lb_result = Number(ls_value) >= 0;
+        var ls_msg;
+
+        if (arguments.length == 2) {
+            var ls_ui_display_name = arguments[1];
+            ls_msg = sprintf(this.ls_msg.ChkGteZeroNum, ls_ui_display_name);
+        }
+        else {
+            ls_msg = sprintf(this.ls_msg.ChkGteZeroNum, "");
+        }
+        return {success: lb_result, msg: ls_msg};
+
     };
+
+    //大於等於0
+    // this.ChkGteZeroNum = function (value) {
+    //     var lb_result = Number(value) >= 0;
+    //     var ls_msg = sprintf(this.ls_msg.ChkGteZeroNum, "");
+    //     return {success: lb_result, msg: ls_msg};
+    // };
 
     //小於等於0
     this.ChkLteZeroNum = function (value) {

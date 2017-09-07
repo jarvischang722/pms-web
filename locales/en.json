@@ -161,15 +161,15 @@
 	},
 	"Validation": {
 		"Formatter": {
-			"Required": "This field is required",
+			"Required": "%s is required",
 			"ChkLength": "Length limit between %s to %s",
 			"FmtFourEngNum": "Only enter zero to five numbers",
 			"FmtCharacters": "Please enter the text",
 			"FmtZeroToFiveNum": "Only enter zero to five numbers",
 			"FmtExactlyTwoWord": "Only enter zero to two numbers",
 			"FmtZeroToTenNum": "Only enter zero to ten numbers",
-			"ChkGreaterZeroNum": "Please enter number greater than 0",
-			"ChkGteZeroNum": "Please enter  number greater than or equal to 0",
+			"ChkGreaterZeroNum": "Please enter %s number greater than 0",
+			"ChkGteZeroNum": "Please enter %s number greater than or equal to 0",
 			"ChkLteZeroNum": "Please enter  number less than or equal to 0",
 			"ChkLessZeroNum": "Please enter number less than 0",
 			"FmtHHMM": "Time format is 'HH:MM'"
