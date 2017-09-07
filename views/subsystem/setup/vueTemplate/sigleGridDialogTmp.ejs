@@ -67,7 +67,7 @@
                                            v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
                                            type="checkbox"
                                            class="numStyle-none"
-                                           :value="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :required="field.requirable == 'Y'"
                                            :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
