@@ -676,6 +676,17 @@ Vue.component('sigle-grid-dialog-tmp', {
                 dtField: this.pageTwoDataGridFieldData,
                 rowData: dtRow
             };
+
+            var li_index = _.findIndex(this.tmpCud.dt_createData, dtRow);
+            if (li_index > -1) {
+                this.tmpCud.dt_createData.splice(li_index, 1);
+            }
+
+            li_index = _.findIndex(this.tmpCud.dt_updateData, dtRow);
+            if (li_index > -1) {
+                this.tmpCud.dt_updateData.splice(li_index, 1);
+            }
+
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
                 if (chkResult.success) {
                     //是否要show出訊息

@@ -137,11 +137,11 @@ module.exports = {
         async.waterfall([
             chkSysDefault,
             chkItemIsUse
-        ], function (err, result) {
+        ], function (err, chkResult) {
             if (err) {
-                lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "系統預設，不可刪除";
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = chkResult;
                 lo_error.errorCod = "1111";
             }
             callback(lo_error, lo_result);
@@ -161,7 +161,7 @@ module.exports = {
                 item_cod: postData.singleRowData.item_cod
             };
             queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function (err, qryResult) {
-                if (!_.isNull(qryResult)) {
+                if (qryResult.item_count > 0) {
                     return cb(true, "已使用中,不可刪除");
                 }
                 cb(null, "");
