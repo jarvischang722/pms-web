@@ -258,6 +258,12 @@
 .horizTable-outer .css_table.horizTable th {
   font-weight: 400;
 }
+.horizTable-outer .css_table.horizTable .text-right th, .horizTable-outer .css_table.horizTable .text-right td {
+  text-align: right;
+}
+.horizTable-outer.table-middle .css_table {
+  margin: 0 auto;
+}
 
 .grid-textArea .moreClick {
   height: 25px;
@@ -283,6 +289,12 @@
 }
 .right-menu-co ul li:first-child {
   padding: 0 0 3px 0;
+}
+.right-menu-co ul li .checkbox {
+  margin: 0;
+}
+.right-menu-co ul li .checkbox label {
+  padding-left: 0;
 }
 .right-menu-co ul li span {
   font-weight: bold;
@@ -2169,6 +2181,63 @@ a {
 }
 .search-content .search-co .search-co-content .searchCheckbox .checkbox label .lbl:before {
   margin-right: 3px;
+}
+.search-content .search-co .search-co-content.search-S2 .searchMain-S2 {
+  padding-top: 10px;
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn {
+  top: -10px;
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch {
+  border-radius: 100px;
+  border: 1px solid #A3A0A1;
+  padding: 3px 6px;
+  margin-top: 1px;
+  width: 28px;
+  height: 28px;
+  box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch i {
+  color: #438EB9;
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -moz-animation: outAnimation 1s;
+  -webkit-animation: outAnimation 1s;
+  animation: outAnimation 1s;
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch i.active {
+  -moz-animation: inAnimation 1s;
+  -webkit-animation: inAnimation 1s;
+  animation: inAnimation 1s;
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+}
+@-webkit-keyframes inAnimation {
+  0% {
+    -webkit-transform: rotate(-135deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+  }
+}
+@-webkit-keyframes outAnimation {
+  0% {
+    -webkit-transform: rotate(45deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch:hover {
+  background: #0A4E9D;
+}
+.search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch:hover i {
+  color: #fff;
 }
 
 /*-- colorPicker 修改(假日類別設定) -- */
@@ -4270,6 +4339,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.medium-c1Rm {
+  width: 138px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.medium-c1-col2 {
   width: 488px;
   max-width: 100%;
@@ -4302,6 +4376,11 @@ a {
 }
 .input-medium.medium-c3 {
   width: 134px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-col2Spc {
+  width: 272px;
   max-width: 100%;
   height: 25px;
 }

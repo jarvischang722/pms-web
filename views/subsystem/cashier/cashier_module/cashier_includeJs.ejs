@@ -11,6 +11,45 @@
         $('[data-rel=tooltip]').tooltip();
 
         /***
+         * PMS0310010 Billing
+         */
+
+        // 彈出 住客帳維護單筆
+        $(document).on('click', ".cashier_openCashAcc", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_openCashAcc-message").removeClass('hide').dialog({
+                modal: true,
+                title: "開立現金帳",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+        /***
+         *  PMS0310010 dataGrid
+         */
+        // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
+        $('#cashier_openCashAccDg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier_openCashAccDg.json',
+            method: 'get',
+            columns: [[
+                {field: 'rmNo', title: 'Rm No.', width: 100},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'coDate', title: 'C/O Date', width: 100},
+                {field: 'coAlert', title: 'C/O Alert', width: 200},
+                {field: 'company', title: 'Company', width: 80}
+            ]]
+        });
+
+
+        /***
          * PMS0320010 外幣匯兌
          */
 

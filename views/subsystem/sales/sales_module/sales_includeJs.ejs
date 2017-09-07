@@ -170,6 +170,22 @@
                 resizable: true
             });
         });
+
+        // PMS0610010 彈出 visitPlan
+        $(document).on('click', ".sales-visitPlan", function (e) {
+            e.preventDefault();
+            var dialog = $("#sales-visitPlan-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Visit Plan",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 //        $('.easyUi-custom1').css("height","100px");
 
         // tabs setting

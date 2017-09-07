@@ -144,7 +144,7 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth cashier_openCashAcc"
                                         role="button">開立現金帳</button>
                             </li>
                             <li>
@@ -152,11 +152,11 @@
                                         role="button">Billing</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth "
                                         role="button">Group</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                <button class="btn btn-primary btn-white btn-defaultWidth foCnt_editCoDate"
                                         role="button">Edit C/ODate</button>
                             </li>
                         </ul>
@@ -175,6 +175,14 @@
     <%- include ../frontDesk/frontDesk_module/frontDesk_Btn_1.ejs %>
     <!--  /.End 接待 彈出視窗內容 -->
 
+    <!--  接待 彈出視窗內容-->
+    <%- include ../frontDesk/frontDesk_module/frontDesk_Btn_2.ejs %>
+    <!--  /.End 接待 彈出視窗內容 -->
+
+    <!--  房務 彈出視窗內容-->
+    <%- include ../houseKeeping/houseKeeping_module/houseKeeping_Btn_1.ejs %>
+    <!--  /.End 房務 彈出視窗內容 -->
+
 </div>
 <!-- /.page-content -->
 
@@ -186,4 +194,7 @@
 <%- include ../frontDesk/frontDesk_module/frontDesk_includeJs.ejs %>
 <!--  /.End 接待 共用 initial js -->
 
+<!--  房務 彈出視窗內容-->
+<%- include ../houseKeeping/houseKeeping_module/houseKeeping_includeJs.ejs %>
+<!--  /.End 房務 彈出視窗內容 -->
 

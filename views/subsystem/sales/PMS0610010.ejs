@@ -9,22 +9,27 @@
                 <div class="search-co">
 
                     <div class="row">
-                        <div class="search-co-content col-xs-12">
-                            <div class="width-95" style="padding-top: 10px;">
+                        <div class="search-co-content col-xs-12 search-S2">
+                            <div class="width-95 searchMain-S2">
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>公司編號</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1Rm"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
-                                        <label>狀態</label>
+                                        <label classs="">公司名稱</label>
                                         <input type="text" class="input-medium medium-c1"/>
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label>業務員</label>
+                                        <input type="text" class="input-medium medium-c1Rm"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row search-footer-btn" style="top: -10px;">
+                            <div class="row search-footer-btn">
                                 <div class="footer-btn-menu-co">
                                     <ul>
                                         <li>
@@ -40,8 +45,8 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <div style="border-radius: 100px; border: 1px solid #eee; padding: 3px 6px; margin-top: 1px; box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);">
-                                                <i class="fa fa-chevron-down show-search-detail" style="color: #438EB9;"></i>
+                                            <div class="icon-moreSearch show-search-detail">
+                                                <i class="fa fa-chevron-down"></i>
                                             </div>
                                         </li>
                                     </ul>
@@ -52,38 +57,26 @@
                             <div class="width-95">
 
                                 <div class="grid">
+
                                     <div class="grid-item">
-                                        <label classs="">公司名稱</label>
-                                        <input type="text" class="input-medium input-spc-1"/>
+                                        <label>狀態</label>
+                                        <input type="text" class="input-medium medium-c1Rm"/>
+                                        <span class="moreClick">...</span>
                                     </div>
-                                    <div class="searchCheckbox pull-left">
-                                                    <span class="checkbox">
-                                                      <label class="checkbox-width">
-                                                          <input name="form-field-checkbox" type="checkbox" class="ace">
-                                                          <span class="lbl">關鍵字</span>
-                                                      </label>
-                                                  </span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="grid">
                                     <div class="grid-item">
                                         <label>種類</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1Rm"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
                                         <label>合約狀態</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1Rm"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
                                 <div class="grid">
-                                    <div class="grid-item">
-                                        <label>業務員</label>
-                                        <input type="text" class="input-medium input-spc-key"/>
-                                        <span class="moreClick">...</span>
-                                    </div>
+                                </div>
+                                <div class="grid">
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
@@ -191,6 +184,16 @@
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
                                         role="button">Save As
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth sales_assign"
+                                        role="button">Sales Assign
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth sales-visitPlan"
+                                        role="button">Visit Plan
                                 </button>
                             </li>
                         </ul>

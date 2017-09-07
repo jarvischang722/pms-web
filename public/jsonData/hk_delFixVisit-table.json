@@ -1,0 +1,11 @@
+{"total":28,
+	"rows":[
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"},
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"},
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"},
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"},
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"},
+		{"choose":"<input type='checkbox' />","roomNum":"1013","status":"修理","startDate":"2017/05/09","endDate":"2017/07/27","result":"show room"}
+
+	]}
+
