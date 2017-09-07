@@ -161,6 +161,7 @@
   },
   "Validation": {
     "Formatter": {
+      "Required": "此欄位必填",
       "ChkLength": "字數限制 %s 到 %s個字",
       "FmtFourEngNum": "格式為四碼英文數字",
       "FmtCharacters": "請輸入文字",

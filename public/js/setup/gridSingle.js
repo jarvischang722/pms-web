@@ -852,6 +852,7 @@ var vm = new Vue({
         pageOneDataGridRows: [],//page_id 1 的 datagrid資料
         pageOneFieldData: [],   //page_id 1 datagird欄位
         pageTwoFieldData: [],   //page_id 2 欄位
+        oriPageTwoFieldData: [],   //page_id 2 原始欄位資料
         pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
         editingRow: {},         //編輯中的資料
         userInfo: {},            //登入的使用者資料
@@ -917,6 +918,8 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
+
+
             //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
@@ -938,6 +941,7 @@ var vm = new Vue({
             }, function (result) {
 
                 var fieldData = result.fieldData;
+                vm.ori_pageTwoFieldData = fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
@@ -1065,12 +1069,28 @@ var vm = new Vue({
 
             }
         },
+
+        //資料驗證
+        dataValidate: function () {
+            var self = this;
+            console.log(this.singleData);
+            _.each(this.oriPageTwoFieldData, function (lo_field) {
+                if (lo_field.requirable == "Y") {
+                    self.singleData[lo_field.ui_field_name];
+                }
+
+            });
+        },
+
         //資料儲存
         doSaveCUD: function (callback) {
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
             }
+
+            this.dataValidate();
+            return true;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -1230,7 +1250,7 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
-                console.log( vm.allChangeLogList);
+                console.log(vm.allChangeLogList);
             });
         }
 

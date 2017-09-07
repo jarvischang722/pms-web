@@ -161,6 +161,7 @@
 	},
 	"Validation": {
 		"Formatter": {
+			"Required": "This field is required",
 			"ChkLength": "Length limit between %s to %s",
 			"FmtFourEngNum": "Only enter zero to five numbers",
 			"FmtCharacters": "Please enter the text",
