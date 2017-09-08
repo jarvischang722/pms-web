@@ -1,5 +1,9 @@
 /**
  * Created by a16010 on 2017/9/7.
+ * value = arguments[0]
+ * ui_display_name = arguments[1]
+ * 單筆參數value, ui_display_name
+ * 多筆參數value
  */
 
 function validateClass() {
@@ -141,8 +145,7 @@ function validateClass() {
     this.ChkZeroToHundred = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var reg = /^(([1-9]\d?)|0|100)$/;
-        var lb_result = reg.test(ls_value);
+        var lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 100;
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkZeroToHundred, ls_ui_display_name) : sprintf(this.ls_msg.ChkZeroToHundred, "");
         return {success: lb_result, msg: ls_msg};
     };
@@ -151,9 +154,7 @@ function validateClass() {
     this.ChkZeroToMaxNum = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var reg = /\b([0-9]{1,5}\d)\b/;
-        var lb_result = reg.test(ls_value);
-        console.log(lb_result, ls_value);
+        var lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 99999;
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkZeroToMaxNum, ls_ui_display_name) : sprintf(this.ls_msg.ChkZeroToMaxNum, "");
         return {success: lb_result, msg: ls_msg};
     };

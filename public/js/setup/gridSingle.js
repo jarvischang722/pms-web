@@ -1084,13 +1084,15 @@ var vm = new Vue({
 
             for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
                 var lo_field = this.oriPageTwoFieldData[i];
-                if (lo_field.requirable == "Y" && lo_field.modificable != "N") {
+                //必填
+                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
                         break;
                     }
                 }
 
+                //有format
                 if (lo_field.format_func_name != "") {
                     lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
@@ -1111,10 +1113,9 @@ var vm = new Vue({
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false) {
                 alert(lo_chkResult.msg);
-                return true;
+                return;
             }
 
-            return true;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
