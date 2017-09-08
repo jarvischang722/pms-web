@@ -11,23 +11,23 @@ var roleSvc = require("../services/RoleFuncService");
  * 失物管理(靜態)
  */
 exports.getPMS0410050 = function (req, res) {
-    res.render("subsystem/housekeeping/PMS0410050");
+    res.render("subsystem/houseKeeping/PMS0410050");
 };
 /**
  * 房務入帳
  */
 exports.getPMS0410020 = function (req, res) {
-    res.render("subsystem/housekeeping/PMS0410020");
+    res.render("subsystem/houseKeeping/PMS0410020");
 };
 /**
  * 房務管理
  */
 exports.getPMS0410010 = function (req, res) {
-    res.render("subsystem/housekeeping/PMS0410010");
+    res.render("subsystem/houseKeeping/PMS0410010");
 };
 /**
  * 打掃安排
  */
 exports.getPMS0410060 = function (req, res) {
-    res.render("subsystem/housekeeping/PMS0410060");
+    res.render("subsystem/houseKeeping/PMS0410060");
 };

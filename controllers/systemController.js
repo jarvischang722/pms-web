@@ -107,7 +107,7 @@ exports.cashier = function (req, res) {
  * 房務
  */
 exports.housekeeping = function (req, res) {
-    res.render('subsystem/housekeeping/index');
+    res.render('subsystem/houseKeeping/index');
 };
 
 /**
