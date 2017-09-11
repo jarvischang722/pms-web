@@ -1059,27 +1059,16 @@
     });
 
     // PMS0210120 晨呼table 單筆(checkbox)
-    $('#front_morningSingle_Chk-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/front_morningSingle_Chk.json',
-        method: 'get',
-        method: 'get',
-        columns: [[
-            {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-        ]]
 
-    });
-    // 晨呼 單筆 table
+    // PMS0210120 晨呼table 單筆
     $('#morningSingle-table').datagrid({
         singleSelect: true,
         collapsible: true,
         // 從json 撈
-        url: '/jsonData/morningCallTable.json',
+        url: '/jsonData/morningSingle-table.json',
         method: 'get',
         columns: [[
-//            {field: 'box', title: '', width: 30},
+            {field: 'box', title: '<input type="checkbox" />', width: 30, align:'center'},
             {field: 'roomNum', title: '房號', width: 70},
             {field: 'name', title: '住客姓名', width: 100},
             {field: 'callDate', title: '晨呼日期', width: 100},
