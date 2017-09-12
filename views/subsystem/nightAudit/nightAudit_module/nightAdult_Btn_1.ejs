@@ -1,199 +1,31 @@
 <div>
-    <!-- PMS0320010 外幣匯兌 add 彈出視窗 -->
-    <div id="cashier_FXDialog-add-message" class="hide padding-5">
+    <!-- PMS0510010 夜間稽核 "Due Out Check" 彈出視窗 -->
+    <div id="nightAdt_dueOut-message" class="hide padding-5" style="top: 0 !important;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
-                            <!--1-->
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>水單號碼</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>廳別</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>班別</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                            </div>
-                            <!--2-->
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>水單產生日</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="" />
-                                </div>
-                                <div class="grid-item">
-                                    <label>水單狀態</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder="" />
-                                </div>
 
-                            </div>
-                            <!--3-->
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>房號</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>序號</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>身分證/護照</label>
-                                    <input type="text" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                            </div>
-                            <!--4-->
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>旅客姓名</label>
-                                    <input type="text" class="input-medium rateCode-s1-col2"
-                                           placeholder=""/>
-                                </div>
-
-                                <div class="grid-item">
-
-                                    <label>生日</label>
-                                    <input type="date" class="input-medium rateCode-s1"
-                                           placeholder=""/>
-                                </div>
-                            </div>
-
-                            <!--5-->
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>幣值代號</label>
-                                    <select class="input-medium rateCode-s1">
-                                        <option value="USA">美金USD</option>
-                                        <option value="TWN">台幣TWD</option>
-                                        <option value="JP">日本JPY</option>
-                                    </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>兌換方式</label>
-                                    <select class="input-medium rateCode-s1">
-                                        <option value="1">1:現金</option>
-                                        <option value="2">2:轉帳</option>
-                                        <option value="3">3:信用卡</option>
-                                    </select>
-                                </div>
-
-                                <div class="grid-item">
-                                    <label>國籍</label>
-                                    <select class="input-medium rateCode-s1">
-                                        <option value="TWN">TWN:中華民國台灣</option>
-                                        <option value="USA">USA:美國</option>
-                                        <option value="JP">JP:日本</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="border-double1"></div>
-                            <div class="borderFrame">
-
-                                <!--6-->
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <!--夜間稽核 "Due Of Check" table-->
+                                <table id="nightAdt_dueOut-table"></table>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>外幣金額</label>
-                                        <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder=""/>
-                                    </div>
-
-                                    <div class="grid-item">
-                                        <label><span>＊</span>匯率</label>
-                                        <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="" />
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>＝原兌換金額</label>
-                                        <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder="" />
+                                        <label>筆數：</label>
+                                        <span class="text-right">3</span>
                                     </div>
                                 </div>
-
-                                <!--7-->
-                                <div class="grid">
-                                    <div class="grid-item grid-fee" style="margin-left: 567px;">
-                                        <label>-手續費</label>
-                                        <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder=""/>
-                                    </div>
-                                </div>
-
-                                <!--8-->
-                                <div class="grid">
-                                    <div class="grid-item" style="margin-left: 567px;">
-                                        <label>兌換金額</label>
-                                        <input type="text" class="input-medium rateCode-s1 text-right"
-                                               placeholder=""/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="space-6"></div>
-                            <div class="grid grid-textArea">
-                                <label class="pull-left">支/鈔票號碼</label>
-                                <textarea class="pull-left remarkInput" rows="4" placeholder=""></textarea>
-                                <span class="moreClick pull-left">...</span>
-                            </div>
-
-                            <div class="space-4"></div>
-                            <div class="grid grid-textArea">
-                                <label class="pull-left">備註</label>
-                                <textarea class="pull-left remarkInput" rows="1" placeholder=""></textarea>
-                            </div>
-
-                            <div class="space-4"></div>
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>Add date</label>
-                                    <input type="text" class="input-medium rateCode-s1" placeholder="2017/7/17 18:39:13" disabled="disabled"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>Add by</label>
-                                    <input type="text" class="input-medium rateCode-s1" placeholder="cio" disabled="disabled"/>
-                                </div>
-                            </div>
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>Upd date</label>
-                                    <input type="text" class="input-medium rateCode-s1" placeholder="2017/7/17 18:39:13" disabled="disabled"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>Upd by</label>
-                                    <input type="text" class="input-medium rateCode-s1" placeholder="cio" disabled="disabled"/>
-                                </div>
-                            </div>
-                        </div><!--main-content-data-->
+                            </div><!--main-content-data-->
+                        </div>
                     </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Add
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Print
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">Exit
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashierGstLedger_Single"
+                                                role="button">Billing
                                         </button>
                                     </li>
                                 </ul>
@@ -205,6 +37,137 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <!-- /.PMS0320010 外幣匯兌 add 彈出視窗 -->
+    <!-- /.PMS0510010 夜間稽核 "Due Out Check" 彈出視窗 -->
+
+    <!-- PMS0510010 夜間稽核 "開關班" 彈出視窗 -->
+    <div id="nightAdt_closeure-message" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="borderFrame">
+                                    <!--1-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>開班日</label>
+                                            <input type="date" class="input-medium popWindow-s1-col2" />
+                                        </div>
+                                    </div>
+                                    <!--2-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>廳別</label>
+                                            <input type="text" class="input-medium popWindow-s1-col2" placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <!--3-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>班別</label>
+                                            <input type="text" class="input-medium popWindow-s1-col2" placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <!--4-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>狀態</label>
+                                            <select class="input-medium popWindow-s1-col2">
+                                                <option value="1">全部</option>
+                                                <option value="2">開班</option>
+                                                <option value="3">假班結</option>
+                                                <option value="4">已關班</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--夜間稽核 "開關班" table-->
+                                <table id="nightAdt_closeure-table"></table>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth nightAdt_closeureSGL"
+                                                role="button">關班
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth nightAdt_closeureSGL"
+                                                role="button">開班
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">假班結
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0510010 夜間稽核 "Due Out Check" 彈出視窗 -->
+
+    <!-- PMS0510010 夜間稽核 "開關班 單筆" 彈出視窗 -->
+    <div id="nightAdt_closeureSGL-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="borderFrame">
+                                    <!--1-->
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>使用者</label>
+                                            <input type="text" class="input-medium popWindow-s1" placeholder="cio" />
+                                        </div>
+                                        <div class="grid-item">
+                                            <label>密碼</label>
+                                            <input type="password" class="input-medium popWindow-s1" placeholder="" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0510010 夜間稽核 "Due Out Check" 彈出視窗 -->
 
 </div>
