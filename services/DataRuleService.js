@@ -95,6 +95,10 @@ exports.getSelectOptions = function (params, selRow, callback) {
             if (err) {
                 selData = [];
             }
+
+            _.each(selData, function(lo_selData, index){
+                selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+            });
             callback(selData);
         });
     } else {
@@ -163,13 +167,20 @@ exports.handleClickUiRow = function (postData, session, callback) {
 exports.handleAddFuncRule = function (postData, session, callback) {
     let prg_id = postData.prg_id;
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
-    async.waterfall([
+    async.parallel([
         function (cb) {
             mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: 2}, function (err, fieldNameList) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
+        },
+        function(cb){
+            mongoAgent.UI_Type_Select.find({prg_id: prg_id}, function (err, selectData) {
+                cb(err, selectData);
+            });
         }
-    ], function (err, fieldNameList) {
+    ], function (err, getResult) {
+        var fieldNameList = getResult[0];
+        var selectData = commonTools.mongoDocToObject(getResult[1]);
         let lo_initField = {};
         _.each(fieldNameList, function (name) {
             if (name == "athena_id") {
@@ -193,13 +204,31 @@ exports.handleAddFuncRule = function (postData, session, callback) {
             if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
 
                 ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+
+                    //取typeSelect的預設值
+                    _.each(selectData, function (value, index) {
+                        if(value.defaultVal != ""){
+                            result.defaultValues[value.ui_field_name] = value.defaultVal;
+                        }
+                    });
+
                     result.defaultValues = _.extend(lo_initField, result.defaultValues);
+
                     callback(err, result);
                 });
 
             } else {
 
-                callback(null, {success: true, defaultValues: lo_initField});
+                //取typeSelect的預設值
+                 var result = {};
+                 _.each(selectData, function (value, index) {
+                     if(value.defaultVal != ""){
+                         result[value.ui_field_name] = value.defaultVal;
+                     }
+                 });
+
+                result = _.extend(lo_initField, result);
+                callback(null, {success: true, defaultValues: result});
             }
 
         });
