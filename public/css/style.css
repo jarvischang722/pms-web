@@ -489,11 +489,6 @@ select.form-control {
   padding: 8px 0 24px;
 }
 
-.pageMain {
-  margin-left: -2px;
-  margin-right: -2px;
-}
-
 .ace-nav > li {
   line-height: 35px;
   height: 35px;
