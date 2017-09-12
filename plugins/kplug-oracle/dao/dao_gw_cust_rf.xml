@@ -24,7 +24,7 @@
         <parameter type="string" kind="1">source_typ</parameter>
     </dao>
 
-    <!-- [PMS0810180]-->
+    <!-- [PMS0810180] 多筆-->
     <dao name="QRY_GW_CUST_RF">
         <statement><![CDATA[
            select a.athena_id,trim(a.agent_no) agent_no, a.acust_cod, a.ccust_cod, b.show_cod ashow_cod, b.cust_nam acust_nam, c.show_cod cshow_cod, c.cust_nam ccust_nam,a.default_source_typ,a.default_guest_typ, a.ins_dat, a.ins_usr, a.upd_dat, a.upd_usr
@@ -35,6 +35,8 @@
         ]]>
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
+        <statement test="_d(param.agent_no)"><![CDATA[and agent_no like :agent_no]]></statement>
+        <parameter type="string" kind="3">agent_no</parameter>
     </dao>
 
     <!-- [PMS0810180] 單筆項目-->

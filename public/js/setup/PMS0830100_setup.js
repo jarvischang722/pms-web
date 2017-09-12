@@ -540,6 +540,9 @@ var PMS0830100VM = new Vue({
         });
         this.loadSingleGridPageField();
     },
+    components: {
+        "search-comp": go_searchComp
+    },
     data: {
         isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
@@ -564,7 +567,9 @@ var PMS0830100VM = new Vue({
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dgIns: {},
-        labelPosition: 'right'
+        labelPosition: 'right',
+        searchFields: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
     },
     methods: {
         //Init CUD
@@ -580,8 +585,13 @@ var PMS0830100VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            if (_.isUndefined(callback) || _.isNull(callback)) {
+                callback = function () {
+                };
+            }
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
+                PMS0830100VM.searchFields = result.searchFields;
                 PMS0830100VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0830100VM.pageOneFieldData = result.fieldData;
                 PMS0830100VM.showCheckboxDG();
@@ -711,7 +721,6 @@ var PMS0830100VM = new Vue({
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
-                console.log(fieldData);
                 PMS0830100VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 //page2  datagrid 欄位屬性
