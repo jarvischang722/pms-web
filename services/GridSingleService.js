@@ -186,7 +186,11 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                     if (field.ui_type == 'grid') {
                         _.each(field.datagridFields, function (field, Idx) {
                             let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
-                            la_fields[fIdx].datagridFields[Idx]["ui_display_name"] = tmpLang ? tmpLang["ui_display_name_" + session.locale] : "";
+                            if(tmpLang){
+                                la_fields[fIdx].datagridFields[Idx]["ui_display_name"] = tmpLang && tmpLang["ui_display_name_" + session.locale] != ''? tmpLang["ui_display_name_" + session.locale]
+                                    : tmpLang["ui_display_name_zh_TW"]+'('+session.locale+')' ;
+                            }
+
                         });
                     }
                 });

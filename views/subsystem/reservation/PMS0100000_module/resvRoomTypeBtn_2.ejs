@@ -4,237 +4,238 @@
         <div class="col-xs-12 col-sm-12 reservation-pickUp-wrap">
             <div class="row">
                 <div class="col-xs-11 col-sm-11">
-                    <!-------- tabPage -------->
-                    <div class="easyui-tabs easyUi-custom1" style="overflow-y: auto;">
-                        <div title="接機" class="padding-tabs">
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="">
-                                    <div class="row no-margin-right">
-                                        <!-- 接機 table -->
-                                        <table id="resvPickUp-table" style="width: 100%; height: 155px;"></table>
+                    <div class="row no-margin-right">
+                        <!-------- tabPage -------->
+                        <div class="easyui-tabs easyUi-custom1" style="overflow-y: auto;">
+                            <div title="接機" class="padding-tabs">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="">
+                                        <div class="row no-margin-right">
+                                            <!-- 接機 table -->
+                                            <table id="resvPickUp-table" style="width: 100%; height: 155px;"></table>
 
-                                        <div class="space-6"></div>
+                                            <div class="space-6"></div>
 
-                                        <div class="main-content-data">
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>連絡人</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                            <div class="main-content-data">
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>連絡人</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                                    </div>
+
+                                                    <div class="grid-item">
+                                                        <label>電話一</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>電話二</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                    </div>
+
+                                                </div>
+                                                <!--<div class="space-custom-5"></div>-->
+
+                                                <div class="grid">
+
+                                                    <div class="grid-item">
+                                                        <label>Transfer Type</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>指定住客</label>
+                                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
+                                                        <!--<select class="input-medium popWindow-s1" disabled>-->
+                                                        <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                                        <!--<option value="">WWW</option>-->
+                                                        <!--</select>-->
+                                                    </div>
                                                 </div>
 
-                                                <div class="grid-item">
-                                                    <label>電話一</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>電話二</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>大人數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>小孩數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>嬰兒數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                    </div>
                                                 </div>
 
-                                            </div>
-                                            <!--<div class="space-custom-5"></div>-->
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>日期</label>
+                                                        <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>班次</label>
+                                                        <select class="input-medium medium-c1">
+                                                            <option value="">CX531</option>
+                                                            <option value="">CX555</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>時間</label>
+                                                        <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
+                                                    </div>
+                                                </div>
 
-                                            <div class="grid">
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>備註</label>
+                                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                        <span class="moreClick">...</span>
+                                                    </div>
+                                                </div>
 
-                                                <div class="grid-item">
-                                                    <label>Transfer Type</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>輸入者</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>輸入日</label>
+                                                        <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>指定住客</label>
-                                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
-                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
-                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
-                                                    <!--<option value="">WWW</option>-->
-                                                    <!--</select>-->
-                                                </div>
-                                            </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>大人數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>最後異動者</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>最後異動日</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>小孩數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>嬰兒數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
-                                                </div>
-                                            </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>日期</label>
-                                                    <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>班次</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="">CX531</option>
-                                                        <option value="">CX555</option>
-                                                    </select>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>時間</label>
-                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>備註</label>
-                                                    <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>輸入者</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>輸入日</label>
-                                                    <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>最後異動者</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>最後異動日</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                            </div>
-
-                                        </div><!--main-content-data-->
+                                            </div><!--main-content-data-->
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div title="送機" class="padding-tabs">
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="">
-                                    <div class="row no-margin-right">
-                                        <!-- 送機 table -->
-                                        <table id="resvDropOff-table" style="width: 100%; height: 155px;"></table>
+                            <div title="送機" class="padding-tabs">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="">
+                                        <div class="row no-margin-right">
+                                            <!-- 送機 table -->
+                                            <table id="resvDropOff-table" style="width: 100%; height: 155px;"></table>
 
-                                        <div class="space-6"></div>
+                                            <div class="space-6"></div>
 
-                                        <div class="main-content-data">
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>連絡人</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                            <div class="main-content-data">
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>連絡人</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="陳老喬"/>
+                                                    </div>
+
+                                                    <div class="grid-item">
+                                                        <label>電話一</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>電話二</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                    </div>
+
+                                                </div>
+                                                <!--<div class="space-custom-5"></div>-->
+
+                                                <div class="grid">
+
+                                                    <div class="grid-item">
+                                                        <label>Transfer Type</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>指定住客</label>
+                                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
+                                                        <!--<select class="input-medium popWindow-s1" disabled>-->
+                                                        <!--<option value="">MUZIK古典樂刊_1</option>-->
+                                                        <!--<option value="">WWW</option>-->
+                                                        <!--</select>-->
+                                                    </div>
                                                 </div>
 
-                                                <div class="grid-item">
-                                                    <label>電話一</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="25575860"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>電話二</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>大人數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>小孩數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>嬰兒數</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="0"/>
+                                                    </div>
                                                 </div>
 
-                                            </div>
-                                            <!--<div class="space-custom-5"></div>-->
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>日期</label>
+                                                        <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>班次</label>
+                                                        <select class="input-medium medium-c1">
+                                                            <option value="">CX531</option>
+                                                            <option value="">CX555</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>時間</label>
+                                                        <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
+                                                    </div>
+                                                </div>
 
-                                            <div class="grid">
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>備註</label>
+                                                        <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
+                                                        <span class="moreClick">...</span>
+                                                    </div>
+                                                </div>
 
-                                                <div class="grid-item">
-                                                    <label>Transfer Type</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>輸入者</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>輸入日</label>
+                                                        <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>指定住客</label>
-                                                    <input type="text" class="input-medium medium-c1-col2v2" placeholder="MUZIK古典樂刊_1"/>
-                                                    <!--<select class="input-medium popWindow-s1" disabled>-->
-                                                    <!--<option value="">MUZIK古典樂刊_1</option>-->
-                                                    <!--<option value="">WWW</option>-->
-                                                    <!--</select>-->
-                                                </div>
-                                            </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>大人數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="2"/>
+                                                <div class="grid">
+                                                    <div class="grid-item">
+                                                        <label>最後異動者</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
+                                                    <div class="grid-item">
+                                                        <label>最後異動日</label>
+                                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
+                                                    </div>
                                                 </div>
-                                                <div class="grid-item">
-                                                    <label>小孩數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>嬰兒數</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="0"/>
-                                                </div>
-                                            </div>
 
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>日期</label>
-                                                    <input type="date" class="input-medium medium-c1" placeholder="2016/04/21"/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>班次</label>
-                                                    <select class="input-medium medium-c1">
-                                                        <option value="">CX531</option>
-                                                        <option value="">CX555</option>
-                                                    </select>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>時間</label>
-                                                    <input type="time" class="input-medium medium-c1" placeholder="19:05"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>備註</label>
-                                                    <input type="text" class="input-medium medium-c1-Full" placeholder=""/>
-                                                    <span class="moreClick">...</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>輸入者</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>輸入日</label>
-                                                    <input type="date" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                            </div>
-
-                                            <div class="grid">
-                                                <div class="grid-item">
-                                                    <label>最後異動者</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                                <div class="grid-item">
-                                                    <label>最後異動日</label>
-                                                    <input type="text" class="input-medium medium-c1" placeholder="" disabled/>
-                                                </div>
-                                            </div>
-
-                                        </div><!--main-content-data-->
+                                            </div><!--main-content-data-->
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
                         </div>
+                        <!-------- /.tabPage -------->
                     </div>
-                    <!-------- /.tabPage -------->
-
                 </div>
                 <div class="col-xs-1 col-sm-1">
                     <div class="row">

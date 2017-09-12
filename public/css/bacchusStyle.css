@@ -821,6 +821,14 @@ select {
   cursor: pointer;
 }
 
+.btn_secStage {
+  border: 1px solid #888;
+  box-shadow: 5px 3px #eee;
+}
+.btn_secStage span {
+  color: #888;
+}
+
 .lang {
   margin: 20px 20px 0 0;
 }

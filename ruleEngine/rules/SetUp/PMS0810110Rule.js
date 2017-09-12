@@ -145,7 +145,7 @@ module.exports = {
         var options = new Object;
 
         options.panelWidth = '200';
-        options.idField = 'display';
+        options.idField = 'value';
         options.textField = 'display';
 
         var columns = [[

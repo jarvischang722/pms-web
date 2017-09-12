@@ -486,7 +486,7 @@ select.form-control {
 }
 
 .page-content {
-  padding: 8px 10px 24px;
+  padding: 8px 0 24px;
 }
 
 .ace-nav > li {
@@ -1800,7 +1800,7 @@ select.localeSelect {
 .top-sec-ul .top-ul {
   cursor: pointer;
   width: 100%;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 .top-sec-ul .top-ul ul {
   margin-left: 0 !important;
@@ -1829,7 +1829,7 @@ select.localeSelect {
   background: #D15B47;
 }
 .top-sec-ul .secondMenu-ul {
-  margin: 5px 0 5px 10px;
+  margin: 5px 0 5px 15px;
 }
 .top-sec-ul .secondMenu-ul ul {
   margin-left: 0 !important;
@@ -2873,7 +2873,7 @@ ul.newVisitOther-btn {
   border: 1px solid #fff;
   position: relative;
   padding: 5px;
-  width: 127px;
+  width: 124px;
   height: 74px;
   line-height: 23px;
   box-sizing: border-box;
@@ -4865,6 +4865,14 @@ select {
   background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
+}
+
+.btn_secStage {
+  border: 1px solid #888;
+  box-shadow: 5px 3px #eee;
+}
+.btn_secStage span {
+  color: #888;
 }
 
 /*-------------- responsive -------------- */

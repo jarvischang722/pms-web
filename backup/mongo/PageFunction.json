@@ -187,3 +187,31 @@
     "func_id" : "0300", 
     "rule_func_name" : ""
 }
+{ 
+    "_id" : ObjectId("59b73599896f2f0520581189"), 
+    "prg_id" : "PMS0820020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_RoommnDel"
+}
+{ 
+    "_id" : ObjectId("59b73599896f2f052058118a"), 
+    "prg_id" : "PMS0820020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0500", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b73599896f2f052058118b"), 
+    "prg_id" : "PMS0820020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_RoommnIns"
+}
+{ 
+    "_id" : ObjectId("59b73599896f2f052058118c"), 
+    "prg_id" : "PMS0820020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_RoommnUpd"
+}
