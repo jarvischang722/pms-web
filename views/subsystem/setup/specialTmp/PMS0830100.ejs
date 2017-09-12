@@ -7,7 +7,14 @@
         </div>
     </div>
     <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
-    <!--<div class="row" style="margin-left: -5px;">-->
+
+    <!-- 查詢 -->
+    <search-comp
+            :search-fields="searchFields"
+            :search-cond="searchCond"
+            :fetch-data="loadDataGridByPrgID">
+    </search-comp>
+
     <div class="col-xs-12">
         <div class="col-sm-11 col-xs-11">
             <div class="row no-margin-right">
@@ -78,7 +85,10 @@
 
 
 <!-- settingSingleDialog-message 彈出視窗 -->
+<%- include ../vueTemplate/searchTmp.ejs %>
 <%- include ../vueTemplate/PMS0830100Tmp.ejs %>
 <%- include ../vueTemplate/fieldmultiLangDialogTmp.ejs %>
+
+<script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/easyUI/DatagridForSingleGridClass.js"></script>
 <script src="/js/setup/PMS0830100_setup.js"></script>

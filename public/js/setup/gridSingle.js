@@ -156,7 +156,6 @@ Vue.component("multiLang-dialog-tmp", {
 
 });
 
-
 /** 欄位多語系Dialog **/
 Vue.component("field-multi-lang-dialog-tmp", {
     template: '#fieldMultiLangDialogTmp',
@@ -839,16 +838,16 @@ Vue.component('sigle-grid-dialog-tmp', {
     }
 });
 
+
 var vm = new Vue({
     el: '#GSApp',
-    compiled: function () {
-
-    },
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID(function (success) {
-        });
+        this.loadDataGridByPrgID(function (success) {});
+    },
+    components: {
+        "search-comp": go_searchComp
     },
     data: {
         isDatepickerInit: false,
@@ -878,7 +877,6 @@ var vm = new Vue({
         dtMultiLangField: [],  //Dt 多語編輯欄位
         dialogVisible: false,
         searchFields: [], //搜尋的欄位
-        searchFieldsByRow: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: []
@@ -925,9 +923,6 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
-
-
-            //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;
@@ -1281,10 +1276,7 @@ var vm = new Vue({
             $("#chooseGrid").datagrid({height: chooseGridH});
 
         }
-
-
     }
-
 });
 
 
