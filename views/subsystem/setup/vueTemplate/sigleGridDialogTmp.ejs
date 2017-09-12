@@ -8,12 +8,12 @@
                         <!-- Start Content -->
                         <form id="singleDataForm" method="post">
                             <div id="singleGridDiv" class=" grid">
-                                <div  v-for="fields in pageTwoFieldData">
+                                <div v-for="fields in pageTwoFieldData">
                                     <div class="grid-item " v-for="field in fields">
                                         <!--  CheckBox add class="labelCkbox" -->
                                         <label :style="{width:field.label_width + 'px'}"
                                                v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
-                                                class="labelCkbox">
+                                               class="labelCkbox">
                                             <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                             <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
                                                 {{field.ui_display_name}}
@@ -50,29 +50,29 @@
                                                :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                @click="chkClickPopUpGrid(field)"
-                                            >
+                                        >
 
                                         <!--  label -->
                                         <label
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                               class="numStyle-none"
-                                               v-if="field.visiable == 'Y' && field.ui_type == 'label'"
-                                               :maxlength="field.ui_field_length"
+                                                class="numStyle-none"
+                                                v-if="field.visiable == 'Y' && field.ui_type == 'label'"
+                                                :maxlength="field.ui_field_length"
                                         >
                                             {{singleData[field.ui_field_name]}}
                                         </label>
 
-                                    <!--  checkbox -->
-                                    <input v-model="singleData[field.ui_field_name]"
-                                           v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
-                                           type="checkbox"
-                                           class="numStyle-none"
-                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                           :required="field.requirable == 'Y'"
-                                           :maxlength="field.ui_field_length"
-                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                           @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                    >
+                                        <!--  checkbox -->
+                                        <input v-model="singleData[field.ui_field_name]"
+                                               v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                               type="checkbox"
+                                               class="numStyle-none"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               :required="field.requirable == 'Y'"
+                                               :maxlength="field.ui_field_length"
+                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                               @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                        >
 
                                         <!-- 下拉選單 -->
                                         <select v-model="singleData[field.ui_field_name]"
@@ -119,36 +119,36 @@
                     </div>
 
                 </div>
-                    <!-- Control Panel -->
-                    <div class="col-sm-1 col-xs-1 singleRelative">
-                        <div class="row" v-if="editStatus">
-                            <div class="singleEditStatus">
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isFistData"
-                                        style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                        :disabled="isLastData"
-                                        style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                </button>
-                                <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
-                                        style=""
-                                        @click="handleDeleteSingleData">
-                                    <%= __("SystemCommon").Delete %>
-                                </button>
-                            </div>
+                <!-- Control Panel -->
+                <div class="col-sm-1 col-xs-1 singleRelative">
+                    <div class="row" v-if="editStatus">
+                        <div class="singleEditStatus">
+                            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                    :disabled="isFistData"
+                                    style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                            </button>
+                            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                    :disabled="isFistData"
+                                    style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                            </button>
+                            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                    :disabled="isLastData"
+                                    style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                            </button>
+                            <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                    :disabled="isLastData"
+                                    style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                            </button>
+                            <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                    style=""
+                                    @click="handleDeleteSingleData">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <!-- End Control Panel -->
+                    <div class="clearfix"></div>
+                </div>
+                <!-- End Control Panel -->
                 <div class="clearfix"></div>
                 <hr>
 
