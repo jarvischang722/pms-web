@@ -590,13 +590,6 @@
     "page_id" : NumberInt(1)
 }
 { 
-    "_id" : ObjectId("593133c26e646b21a86afa56"), 
-    "prg_id" : "PMS0810150", 
-    "func_id" : "0200", 
-    "rule_func_name" : "qry_dp_req_default", 
-    "page_id" : NumberInt(1)
-}
-{ 
     "_id" : ObjectId("593133cf6e646b21a86afa57"), 
     "prg_id" : "PMS0810150", 
     "func_id" : "0400", 
@@ -1052,5 +1045,54 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0400", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581182"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0100", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581183"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581184"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_RoommnDel"
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581185"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581186"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(1009), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581187"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(1010), 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59b734a0896f2f0520581188"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : NumberInt(1011), 
     "rule_func_name" : ""
 }
