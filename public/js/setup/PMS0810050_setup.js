@@ -111,7 +111,7 @@ var vueMain = new Vue({
                         waitingDialog.hide();
                         if (response.success) {
                             self.dgIns.initTmpCUD();
-                            $("#gridEdit").val(null);
+                            self.fetchDgFieldData();
                             alert('save success!');
                         } else {
                             alert(response.errorMsg);

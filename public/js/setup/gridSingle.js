@@ -264,11 +264,8 @@ Vue.component('text-select-grid-dialog-tmp', {
             var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
                 return textDataGrid[key];
             });
-            console.log(result);
             for (var col in textDataGrid[0]) {
                 _.each(fieldNameChangeLanguage, function (name, field) {
-                    console.log(col);
-                    console.log(field);
                     if (col == field) {
                         columnsData.push({
                             type: 'textbox',
@@ -282,8 +279,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                     }
                 });
             }
-            console.log(columnsData);
-            console.log(textDataGridArray);
+
             self.gridData = textDataGridArray;
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
@@ -676,6 +672,17 @@ Vue.component('sigle-grid-dialog-tmp', {
                 dtField: this.pageTwoDataGridFieldData,
                 rowData: dtRow
             };
+
+            var li_index = _.findIndex(this.tmpCud.dt_createData, dtRow);
+            if (li_index > -1) {
+                this.tmpCud.dt_createData.splice(li_index, 1);
+            }
+
+            li_index = _.findIndex(this.tmpCud.dt_updateData, dtRow);
+            if (li_index > -1) {
+                this.tmpCud.dt_updateData.splice(li_index, 1);
+            }
+
             $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
                 if (chkResult.success) {
                     //是否要show出訊息
@@ -852,6 +859,7 @@ var vm = new Vue({
         pageOneDataGridRows: [],//page_id 1 的 datagrid資料
         pageOneFieldData: [],   //page_id 1 datagird欄位
         pageTwoFieldData: [],   //page_id 2 欄位
+        oriPageTwoFieldData: [],   //page_id 2 原始欄位資料
         pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
         editingRow: {},         //編輯中的資料
         userInfo: {},            //登入的使用者資料
@@ -917,6 +925,8 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
+
+
             //waitingDialog.show("Loading...");
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
@@ -938,6 +948,7 @@ var vm = new Vue({
             }, function (result) {
 
                 var fieldData = result.fieldData;
+                vm.oriPageTwoFieldData = fieldData;
 
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
@@ -1065,12 +1076,46 @@ var vm = new Vue({
 
             }
         },
+
+        //資料驗證
+        dataValidate: function () {
+            var self = this;
+            var lo_chkResult;
+
+            for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
+                var lo_field = this.oriPageTwoFieldData[i];
+                //必填
+                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
+                    lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+
+                //有format
+                if (lo_field.format_func_name != "") {
+                    lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+            };
+            return lo_chkResult;
+
+        },
+
         //資料儲存
         doSaveCUD: function (callback) {
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
             }
+            var lo_chkResult = this.dataValidate();
+            if (lo_chkResult.success == false) {
+                alert(lo_chkResult.msg);
+                return;
+            }
+
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -1230,11 +1275,10 @@ var vm = new Vue({
             this.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
-                console.log( vm.allChangeLogList);
             });
             // 給裡面table的高 值
             var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
-            $("#chooseGrid").datagrid({height:chooseGridH});
+            $("#chooseGrid").datagrid({height: chooseGridH});
 
         }
 

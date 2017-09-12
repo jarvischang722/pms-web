@@ -140,19 +140,5 @@ module.exports = {
                 callback(lo_error, lo_result);
             }
         })
-    },
-
-    r_HkproductrfDefault: function(postData, session, callback){
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-        lo_result.defaultValues.amodify_sta = "Y";
-        lo_result.defaultValues.inv_sta = "N";
-        lo_result.defaultValues.service_sta = "Y";
-        lo_result.defaultValues.use_sta = "Y";
-        lo_result.defaultValues.unit_amt = "0";
-        lo_result.defaultValues.cost_amt = "0";
-        lo_result.defaultValues.serv_rat = "0";
-        lo_result.defaultValues.opencode_sta = "N";
-        callback(lo_error, lo_result);
     }
 }

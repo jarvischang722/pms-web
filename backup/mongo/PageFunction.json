@@ -187,10 +187,3 @@
     "func_id" : "0300", 
     "rule_func_name" : ""
 }
-{ 
-    "_id" : ObjectId("59a7b5810da0d29e24ea8c93"), 
-    "prg_id" : "PMS0840030", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0200", 
-    "rule_func_name" : "r_HkproductrfDefault"
-}

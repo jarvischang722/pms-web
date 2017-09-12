@@ -36,7 +36,13 @@ exports.PMS0810020Filter = function (rows, searchCond, callback) {
             return _.indexOf(searchCond.free_cod, d.free_cod) > -1;
         });
     }
-
+    if (!_.isUndefined(searchCond.query_dat) && searchCond.query_dat.length > 0) {
+        searchCond.query_dat = moment(new Date(searchCond.query_dat)).format("YYYY/MM/DD");
+        rows = _.filter(rows, function (d) {
+            return new Date(d.begin_dat) <= new Date(searchCond.query_dat)  &&
+                new Date(d.end_dat) >= new Date(searchCond.query_dat) ;
+        });
+    }
     callback(rows);
 };
 
