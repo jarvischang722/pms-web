@@ -13,9 +13,13 @@
         <parameter type="string" kind="2" condition="room_cod like ?">guarentee_typ</parameter>
         <parameter type="string" kind="2" condition="guarentee_nam like ?">guarentee_nam</parameter>
         <parameter type="string" kind="2" condition="guarentee_rmk like ?">guarentee_rmk</parameter>
-        <parameter type="string" kind="2" condition="dp_req like ?">dp_req</parameter>
-        <parameter type="string" kind="2" condition="use_sta like ?">use_sta</parameter>
-        <orderby>  order by view_seq,guarentee_nam</orderby>
+        <statement test="_d(param.dp_req) == 'N'"><![CDATA[and dp_req = :dp_req]]></statement>
+        <statement test="_d(param.dp_req) == 'Y'"><![CDATA[and dp_req = :dp_req]]></statement>
+        <statement test="_d(param.use_sta) == 'N'"><![CDATA[and use_sta = :use_sta]]></statement>
+        <statement test="_d(param.use_sta) == 'Y'"><![CDATA[and use_sta = :use_sta]]></statement>
+        <parameter type="string" kind="3">dp_req</parameter>
+        <parameter type="string" kind="3">use_sta</parameter>
+        <orderby>  order by view_seq, guarentee_nam</orderby>
     </dao>
 
     <!-- ['PMS0810150'] 訂房類別設定(單筆mn)-->

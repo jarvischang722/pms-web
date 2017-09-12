@@ -99,8 +99,6 @@ exports.PMS0820050Filter = function (rows, searchCond, callback) {
             return new Date(d.begin_dat) <= new Date(ld_begin_dat) && new Date(d.end_dat) >= new Date(ld_end_dat);
         });
     }
-
-
     callback(rows);
 };
 
@@ -112,5 +110,16 @@ exports.PMS0820050Filter = function (rows, searchCond, callback) {
  * @constructor
  */
 exports.PMS0810150Filter = function (rows, searchCond, callback) {
+    if (!_.isUndefined(searchCond.dp_req) && searchCond.dp_req.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf(searchCond.dp_req, d.dp_req) > -1;
+        });
+    }
+
+    if (!_.isUndefined(searchCond.use_sta) && searchCond.use_sta.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf(searchCond.use_sta, d.use_sta) > -1;
+        });
+    }
     callback(rows);
 };

@@ -923,6 +923,7 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
+            console.log(this.searchCond);
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
                 vm.searchFields = result.searchFields;
@@ -1276,10 +1277,7 @@ var vm = new Vue({
             $("#chooseGrid").datagrid({height: chooseGridH});
 
         }
-
-
     }
-
 });
 
 
