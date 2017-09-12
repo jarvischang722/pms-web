@@ -94,7 +94,7 @@ var EZfieldClass = {
         };
 
         /** 將不能修改的日期改成textbox，因textbox的editor.format沒作用，所以利用onChange轉型**/
-        if((fieldAttrObj.ui_type == "datebox" || fieldAttrObj.ui_type == "datetime") &&  fieldAttrObj.modificable == "N"){
+        if((fieldAttrObj.ui_type == "datebox" || fieldAttrObj.ui_type == "datetime") && fieldAttrObj.modificable == "N"){
             tmpFieldObj.editor.type = "textbox";
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 if (newValue != "" && !_.isUndefined(newValue)) {
