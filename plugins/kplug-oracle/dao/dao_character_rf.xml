@@ -17,7 +17,7 @@
         <statement><![CDATA[
               select character_cod character_rmk, character_nam,sys_default
                from character_rf
-              where athena_id = ? and hotel_cod = ?
+              where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
