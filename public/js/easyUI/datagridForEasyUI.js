@@ -108,7 +108,7 @@ var EZfieldClass = {
                     });
                     $(lo_editor.target).textbox("setValue", ls_date);
                 }
-            }
+            };
         }
 
         /** Formatter 顯示  **/
@@ -287,9 +287,9 @@ var EZfieldClass = {
                     }
                     return val;
                 }
-                else {
+                
                     return "";
-                }
+                
 
             };
         } else if (dataType == "combogrid") {

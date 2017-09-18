@@ -482,6 +482,24 @@ exports.getChkOutOption = function(){
 };
 
 /**
+ * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
+ * @returns {array}
+ */
+exports.getHfdusedtSysdefault = function(){
+    var lo_optionList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
  * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
  * @returns {[array]}
  */
@@ -780,6 +798,17 @@ exports.qryHfdusedtConotice = function(params, callback){
     lo_result.selectOptions = optionsLib.getChkOutOption();
     callback(null, lo_result);
 };
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
+ * @param params
+ */
+exports.qryHfdusedtSysdefault = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getHfdusedtSysdefault();
+    callback(null, lo_result);
+};
+
 
 /**
  * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
