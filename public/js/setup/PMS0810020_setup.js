@@ -692,6 +692,9 @@ var vm = new Vue({
         this.loadDataGridByPrgID();
         this.loadSingleGridPageField();
     },
+    components: {
+        "search-comp": go_searchComp
+    },
     data: {
         isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),

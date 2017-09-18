@@ -55,19 +55,27 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var modifySta = postData.singleRowData.modify_sta;
+
+        // 1.欄位modify_sta不為’Y’的，則不可刪除
+        if(modifySta != "Y"){
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = "欄位modify_sta不為Y，不可刪除";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+            return;
+        }
+
         var params = {
             athena_id: session.user.athena_id,
             hotel_cod: postData.singleRowData.hotel_cod,
             serv_typ: postData.singleRowData.serv_typ
         };
 
-        // 1.欄位modify_sta不為’Y’的，則不可刪除
-        var isDeleteRow = modifySta != "Y" ? false : true;
-
         // 2.檢查若服務項目設定有使用，則不可刪除
         queryAgent.query("chk_serv_type_rf_is_exist_service_rf".toUpperCase(), params, function (err, chkResult) {
             if (chkResult) {
-                if (chkResult.service_count > 0 || isDeleteRow == true) {
+                if (chkResult.service_count > 0) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
                     lo_error.errorMsg = "服務項目有使用，則不可刪除";

@@ -27,16 +27,6 @@ module.exports = {
             callback(lo_error, lo_result);
         }
     },
-    qry_dp_req_default: function(postData, session, callback){
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-        lo_result.defaultValues.dp_req = "N";
-        lo_result.defaultValues.dp_rat = "0";
-        lo_result.defaultValues.cc_req = "N";
-        lo_result.defaultValues.use_sta = "Y";
-        lo_result.defaultValues.view_seq = "0";
-        callback(lo_error, lo_result);
-    },
     //新增儲存時驗證dp_req(需收訂金)
     r_svr2msg_rf_ins_save: function (postData, session, callback) {
         var dpreqTemp = postData.singleRowData.dp_req;
@@ -71,12 +61,11 @@ module.exports = {
                     lo_error.errorCod = "1111";
                     callback(lo_error, lo_result);
                 }
-            } else {
+            }
+            else {
                 if (dpratTemp != 0) {
-                    lo_error = new ErrorClass();
-                    lo_result.success = false;
-                    lo_error.errorMsg = "%需為0";
-                    lo_error.errorCod = "1111";
+                    postData.singleRowData.dp_rat = "0";
+                    lo_result.effectValues = postData.singleRowData;
                     callback(lo_error, lo_result);
                 } else {
                     callback(lo_error, lo_result);
@@ -121,12 +110,11 @@ module.exports = {
                 }
             } else {
                 if (dpratTemp != 0) {
-                    lo_error = new ErrorClass();
-                    lo_result.success = false;
-                    lo_error.errorMsg = "%需為0";
-                    lo_error.errorCod = "1111";
+                    postData.singleRowData.dp_rat = "0";
+                    lo_result.effectValues = postData.singleRowData;
                     callback(lo_error, lo_result);
-                } else {
+                }
+                else {
                     callback(lo_error, lo_result);
                 }
             }

@@ -33,7 +33,7 @@
     <!-- PMS0810110 確認source_grp有無在群組中-->
     <dao name="CHK_SOURCE_GRP_RF">
         <statement><![CDATA[
-          select count(*) as source_count  from source_grp_rf where athena_id = ? and source_grp = ?   and use_sta = 'Y'
+          select count(*) as source_count  from source_grp_rf where athena_id = ? and trim(source_grp) = trim(?) and use_sta = 'Y'
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
