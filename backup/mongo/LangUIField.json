@@ -6922,7 +6922,7 @@
     "prg_id" : "PMS0810020", 
     "page_id" : NumberInt(3), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "依日期查詢有效房型(條件是between begin_dat and end_dat)", 
+    "ui_field_name" : "query_dat", 
     "ui_display_name_zh_TW" : "依日期查詢有效房型", 
     "hint_zh_TW" : "依日期查詢有效房型", 
     "ui_display_name_en" : "Available Date", 

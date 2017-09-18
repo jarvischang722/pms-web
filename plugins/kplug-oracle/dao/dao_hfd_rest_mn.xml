@@ -8,6 +8,8 @@
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_d(param.room_cod)"><![CDATA[and room_cod = :room_cod]]></statement>
+        <parameter type="string" kind="3">room_cod</parameter>
     </dao>
 
     <!-- ['PMS0830100'] 單筆逾時計價相關 -->

@@ -204,11 +204,11 @@ module.exports = {
 
         options.panelWidth = '200';
         options.idField = 'value';
-        options.textField = 'value';
+        options.textField = 'display';
 
         var columns = [[
-            {field: 'display', title: '出納員名稱', width: 100},
-            {field: 'value', title: '出納員代號', width: 100}]];
+            {field:'value', title: '出納員代號', width: 100},
+            {field:'display', title: '出納員名稱', width: 100}]];
 
         options.columns = columns;
 

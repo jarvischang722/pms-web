@@ -824,30 +824,6 @@
     "multi_display_field" : ""
 }
 { 
-    "_id" : ObjectId("59784784d7826628c0a3caa1"), 
-    "prg_id" : "PMS0830090", 
-    "ui_field_name" : "deposit_nos", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qry_deposit_mn_deposit_nos", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
-    "_id" : ObjectId("59784790d7826628c0a3caa2"), 
-    "prg_id" : "PMS0830090", 
-    "ui_field_name" : "show_cod", 
-    "ui_display_name" : "", 
-    "rule_func_name" : "qry_custmn_deposit_nos", 
-    "defaultVal" : "", 
-    "ds_from_sql" : "N", 
-    "multi_lang_table" : "", 
-    "multi_value_field" : "", 
-    "multi_display_field" : ""
-}
-{ 
     "_id" : ObjectId("59786b181ce45221e87fd746"), 
     "prg_id" : "PMS0830010", 
     "page_id" : NumberInt(1), 
@@ -1157,6 +1133,162 @@
     "ui_display_name" : "", 
     "rule_func_name" : "qryHfdarriverfday", 
     "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811ba"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "room_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnRoomsta", 
+    "defaultVal" : "V", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811bb"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "assign_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnAssignsta", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811bc"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "clean_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnCleansta", 
+    "defaultVal" : "C", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811bd"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "bed_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnBedsta", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811be"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_Room_mn_Room_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811bf"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "clean_cod", 
+    "ui_display_name" : "pers_nam", 
+    "rule_func_name" : "qry_Room_mn_Clean_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c0"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "character_rmk", 
+    "ui_display_name" : "character_nam", 
+    "rule_func_name" : "qry_Room_mn_Character_rmk", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c1"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "view_seq", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "99999", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c2"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "build_nos", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_Room_mn_Qry_Build_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c3"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "floor_nos", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnQryFloornos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c4"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "room_cod", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_Room_mn_Qry_Floor_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59b7362f896f2f05205811c5"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "查詢", 
+    "ui_field_name" : "bed_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryRoommnBedsta", 
+    "defaultVal" : "", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
