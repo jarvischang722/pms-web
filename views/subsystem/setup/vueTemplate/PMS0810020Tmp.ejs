@@ -94,25 +94,6 @@
                                            v-if="field.visiable == 'N'"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="grid-item">
-                                    <label style="width: 75px;"><span><%= __("program")["PMS0810020"].roomTypeLabel %> : </span></label>
-                                    <el-upload v-if="editStatus" class="upload-demo" list-type="picture"
-                                               :auto-upload="false" :on-change="fileChange"
-                                               :on-remove="fileRemove" action="" :file-list="previewList">
-                                        <el-button size="small"
-                                                   type="primary"><%= __("program")["PMS0810020"].uploadImageBTN %></el-button>
-                                        <div slot="tip"
-                                             class="el-upload__tip"><%= __("program")["PMS0810020"].uploadImageTip %></div>
-                                        <div slot="tip"
-                                             class="el-upload__tip"><%= __("program")["PMS0810020"].uploadMsg %></div>
-
-                                    </el-upload>
-                                </div>
-                            </div>
-                            <div v-for="file in displayFileList">
-                                <img :src="file.url" width="500px" v-show="imageDisplay">
-                            </div>
                         </div>
                     </form>
                     <!-- End Content -->
@@ -158,13 +139,6 @@
                                                 :disabled="$parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="$parent.isLoading"
-                                                @click="uploadRoomTypePic">
-                                            <%= __("program")["PMS0810020"].uploadRoomTpyePic %>
                                         </button>
                                     </li>
                                     <li>

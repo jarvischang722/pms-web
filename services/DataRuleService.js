@@ -108,6 +108,9 @@ exports.getSelectOptions = function (params, selRow, callback) {
                 if (err) {
                     callback([]);
                 } else {
+                    _.each(data.selectOptions, function(lo_selData, index){
+                        data.selectOptions[index].display = lo_selData.value + " : " + lo_selData.display;
+                    });
                     callback(data.selectOptions);
                 }
             });

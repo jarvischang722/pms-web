@@ -402,9 +402,9 @@ Vue.component('single-grid-pms0810020-tmp', {
         },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
-                return _.findWhere(selectData, {value: val}).display;
+                return   _.findWhere(selectData, {value: val}).display;
             } else {
-                return val;
+                return val + ":";
             }
         },
 
@@ -781,6 +781,7 @@ var vm = new Vue({
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
+                vm.pageTwoDataGridFieldData =  result.fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
             });
         },
@@ -856,15 +857,42 @@ var vm = new Vue({
             }
 
         },
+        //資料驗證
+        dataValidate: function () {
+            var self = this;
+            var lo_chkResult;
+            for (var i = 0; i < this.pageTwoDataGridFieldData.length; i++) {
+                var lo_field = this.pageTwoDataGridFieldData[i];
+                //必填
+                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
+                    lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+
+                //有format
+                if (lo_field.format_func_name != "") {
+                    lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+            };
+            return lo_chkResult;
+
+        },
 
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
-
+            var lo_chkResult = this.dataValidate();
+            if (lo_chkResult.success == false) {
+                alert(lo_chkResult.msg);
+                return;
+            }
             self.isSaving = true;
-            // console.log("===Save params===");
-            // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 self.isSaving = false;
                 if (result.success) {
@@ -1119,7 +1147,7 @@ var vm = new Vue({
             this.initDatePicker();
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            var height = 19 * 50; // 預設一個row 高度
+            var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,
