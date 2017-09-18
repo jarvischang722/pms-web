@@ -2370,6 +2370,9 @@ select.localeSelect {
   min-height: initial;
   cursor: auto;
 }
+.businessCompanyData .tab-block.billCheckbox .checkbox label.ckBox_label {
+  width: 90px;
+}
 .businessCompanyData .tab-block.relatedCheck {
   margin-left: 75px;
 }
@@ -2543,7 +2546,7 @@ input[type="radio"], input[type="checkbox"] {
   padding: 3px !important;
 }
 
-.NewVisitRecord-wrap {
+.newVisitRecord-wrap {
   margin: 10px 0;
 }
 
@@ -4068,6 +4071,10 @@ span.triangle-text {
 
 .no-padding-right {
   padding-right: 0;
+}
+
+.padding-2 {
+  padding: 2如px;
 }
 
 .padding-5 {

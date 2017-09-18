@@ -3,9 +3,9 @@
     $(function (){
 
         // PMS0610010 彈出 商務公司維護
-        $(document).on('click', ".bs-company-totalMain", function (e) {
+        $(document).on('click', ".sales-AccountMain", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-totalMain-message").removeClass('hide').dialog({
+            var dialog = $("#sales-AccountMain-message").removeClass('hide').dialog({
                 modal: true,
                 title: "商務公司維護",
                 title_html: true,
@@ -249,9 +249,9 @@
          * PMS0620040
          */
         // PMS0620040 彈出新增拜訪記錄
-        $(document).on('click', ".NewVisitRecord", function (e) {
+        $(document).on('click', ".newVisitRecord", function (e) {
             e.preventDefault();
-            var dialog = $("#NewVisitRecord-page").removeClass('hide').dialog({
+            var dialog = $("#newVisitRecord-page").removeClass('hide').dialog({
                 modal: true,
                 title: "新增拜訪記錄",
                 title_html: true,
@@ -286,19 +286,7 @@
         /***
          * dataGrid
          */
-        // PMS0610010 商務公司主頁(多筆)(checkbox)
-        $('#bs-companyMain_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/bs-companyMain_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
 
-        });
         // PMS0610010 商務公司主頁(多筆) dataGrid
         $('#bs-companyMain-table').datagrid({
             singleSelect:true,
@@ -307,6 +295,7 @@
             url:'/jsonData/bsCompany_companyMain.json',
             method:'get',
             columns:[[
+                {field:'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
                 {field:'companyNum',title:'公司編號',width:80},
                 {field:'companyName',title:'公司名稱',width:200},
                 {field:'status',title:'狀態',width:80},
@@ -424,19 +413,7 @@
 
         });
 
-        // PMS0610010 其他備註 (checkbox)
-        $('#sales_visitRecordSingle_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/sales_visitRecordSingle_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
 
-        });
         // PMS0610010 拜訪紀錄 dataGrid
         $('#visitRecord-table').datagrid({
             singleSelect:true,
@@ -445,6 +422,7 @@
             url:'/jsonData/bsCompany_visitRecord.json',
             method:'get',
             columns:[[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field:'visitWay',title:'拜訪方式',width:70},
                 {field:'visitDate',title:'預定拜訪日',width:100},
                 {field:'visitStatus',title:'拜訪狀態',width:70},
@@ -453,19 +431,6 @@
                 {field:'realVisitDate',title:'實際拜訪日',width:100},
                 {field:'traffic',title:'交通費',width:70,align:'right'}
             ]]
-        });
-        // PMS0610010 其他備註 (checkbox)
-        $('#sales_otherRemarks_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/sales_otherRemarks_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-
         });
         // PMS0610010 其他備註 dataGrid
         $('#otherRemarks-table').datagrid({
@@ -542,18 +507,7 @@
          * PMS0620010 datagrid
          */
 
-        // PMS0620010 業務員資料維護(checkBox) (checkbox)
-        $('#clerkDataGridResult_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/clerkDataGridResult_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-        });
+
         // PMS0620010 業務員資料維護(多筆) dataGrid
         $('#clerkDataGridResult-table').datagrid({
             singleSelect: true,
@@ -562,6 +516,7 @@
             url: '/jsonData/bsCompany_clerkDataGridResult.json',
             method: 'get',
             columns: [[
+                {field:'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
                 {field: 'clerkNum', title: 'Sales Id', width: 100},
                 {field: 'clerkName', title: 'Name', width: 100},
                 {field: 'clerkStatus', title: 'Status', width: 100},
@@ -600,6 +555,7 @@
             url: '/jsonData/sales_assign.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'accNo', title: 'Acc.No.', width: 80},
                 {field: 'accName', title: 'Acc.Name', width: 100},
                 {field: 'status', title: 'Status', width: 60},
@@ -609,17 +565,7 @@
                 {field: 'sales', title: 'Sales', width: 100}
             ]]
         });
-        // PMS0620010 業務員指派(前面的checkbox) dataGrid
-        $('#sales_assignChk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/sales_assignChk.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-        });
+
         /***
          * PMS0620040 datagrid
          */
@@ -659,13 +605,14 @@
         });
 
         // PMS0620040 新增拜訪編輯
-        $('#NewVisitRecord-table').datagrid({
+        $('#newVisitRecord-table').datagrid({
             singleSelect:true,
             collapsible:true,
             // 從json 撈
             url:'/jsonData/bsCompany_newVisitRecord.json',
             method:'get',
             columns:[[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field:'VisitNum',title:'Co. Id',width:60},
                 {field:'VisitName',title:'Co. Name',width:170},
                 {field:'VisitStatus',title:'Status',width:50},
@@ -707,6 +654,7 @@
             url:'/jsonData/sales_visitRecord.json',
             method:'get',
             columns:[[
+                {field:'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
                 {field:'coID',title:'Co. Id',width:80},
                 {field:'coName',title:'Co. Name',width:180},
                 {field:'status',title:'Status',width:50},
