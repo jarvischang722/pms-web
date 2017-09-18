@@ -125,8 +125,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             end_dat: '',
             isUpdate: false,
             isSort: false,
-            previewList: [],
-
+            previewList: []
         };
     },
     created: function () {
@@ -446,10 +445,8 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         // 執行上傳官網
         execUploadRoomType: function (lo_params) {
-            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, lo_params);
             $.post("/api/gateway/uploadRoomType", params, function (result) {
-                waitingDialog.hide();
                 if (result.success) {
                     alert('uploadRoomType success!');
                 } else {
@@ -1064,10 +1061,8 @@ var vm = new Vue({
                 room_cod: vm.singleData.room_cod,
                 begin_dat: vm.singleData.begin_dat
             };
-            waitingDialog.show("Loading...");
             $.post("/api/PMS0810020/getRoomTypeUploadPic", params)
                 .done(function (getResult) {
-                    waitingDialog.hide();
                     vm.isLoading = false;
                     if (getResult.success) {
                         vm.singleData.pic_path = getResult.roomTypePicData;
