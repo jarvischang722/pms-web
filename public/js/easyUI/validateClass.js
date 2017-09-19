@@ -26,7 +26,7 @@ function validateClass() {
         var li_maxLength = params[1];
 
         var lb_result = value.length <= li_maxLength && value.length >= li_minLength;
-        var ls_msg = sprintf(this.ls_msg.ChkLength, li_minLength, li_maxLength);
+        var ls_msg = sprintf(this.ls_msg.ChkLength, value, li_minLength, li_maxLength);
         return {success: lb_result, msg: ls_msg};
     };
 

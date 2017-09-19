@@ -6,6 +6,7 @@
                 select contry_hq as value, contry_nam display
                  from eis_cntry_rf
                   where athena_id = ?
+                  order by contry_hq
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
