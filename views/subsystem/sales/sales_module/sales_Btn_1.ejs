@@ -117,7 +117,7 @@
                                                         <input type="number" class="input-medium bill-input-s1" disabled="disabled" placeholder="476544"/>
                                                     </div>
                                                     <div class="pull-right grid-item">
-                                                        <button class="btn btn-primary btn-white pull-right btn-sm changeCreditLimit"
+                                                        <button class="btn btn-primary btn-white pull-right btn-sm sales_changeCreditLimit"
                                                                 role="button">信用額度變更</button>
                                                     </div>
                                                     <div class="clearfix"></div>
@@ -140,7 +140,7 @@
                                                         </span>
                                                     </div>
                                                     <div class="grid-item">
-                                                        <label>帳務所屬代號</label>
+                                                        <label>簽帳公司</label>
                                                         <input type="text" class="input-medium bill-input-s2" disabled="disabled" placeholder="23598231:德安資訊國際股份有限公司"/>
                                                     </div>
                                                 </div>
@@ -169,7 +169,7 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <label class="margin-spacing-3">備註</label>
+                                                    <label class="margin-spacing-3">訂房備註</label>
                                                     <textarea class="form-control" rows="4" placeholder="1.每天免費洗衣一套工作服 2.免費市區電費"></textarea>
                                                 </div>
                                                 <div class="space-6"></div>
@@ -221,6 +221,14 @@
                                                                 <button class="btn btn-primary btn-white btn-defaultWidth btn_secStage"
                                                                         role="button"><span>加入秘書積點</span></button>
                                                             </li>
+                                                            <li>
+                                                                <span class="checkbox">
+                                                                  <label class="checkbox-width">
+                                                                      <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                                      <span class="lbl font-btn">離職不顯示</span>
+                                                                  </label>
+                                                                </span>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -242,7 +250,7 @@
                                                     <div class="right-menu-co">
                                                         <ul>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-editClerk"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editClerk"
                                                                         role="button">修改業務員</button>
                                                             </li>
                                                         </ul>
@@ -325,11 +333,11 @@
                                                     <div class="right-menu-co">
                                                         <ul>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-visitRecord"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-visitRecord"
                                                                         role="button">新增拜訪紀錄</button>
                                                             </li>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-visitRecord"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-visitRecord"
                                                                         role="button">修改拜訪紀錄</button>
                                                             </li>
                                                             <li>
@@ -344,7 +352,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div title="其他備註" class="padding-tabs">
+                                <div title="業務備註" class="padding-tabs">
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="col-xs-11 col-sm-11">
@@ -360,11 +368,11 @@
                                                     <div class="right-menu-co">
                                                         <ul>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-editOtherRemark"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
                                                                         role="button">新增備註</button>
                                                             </li>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-editOtherRemark"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
                                                                         role="button">修改備註</button>
                                                             </li>
                                                             <li>
@@ -478,7 +486,7 @@
                                                     <div class="right-menu-co">
                                                         <ul>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth bs-company-displayMonth"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales_displayMonth"
                                                                         role="button">顯示月份明細</button>
                                                             </li>
                                                         </ul>
@@ -514,11 +522,11 @@
                                                 role="button"><span>公司關聯圖</span></button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth bs-company-stateChange"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
                                                 role="button">合約狀態變更</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth bs-company-changeRecord"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_changeRecord"
                                                 role="button">異動紀錄</button>
                                     </li>
                                 </ul>
@@ -532,7 +540,7 @@
     </div>
 
     <!-- PMS0610010 信用額度變更 彈出視窗 -->
-    <div id="changeCreditLimit-message" class="hide padding-5">
+    <div id="sales_changeCreditLimit-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                     <div class="row">
@@ -560,7 +568,7 @@
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>帳務所屬代號</label>
+                                        <label>簽帳公司</label>
                                         <select class="input-medium medium-c1">
                                             <option value="1">23598231-德安資訊國際股</option>
                                         </select>
@@ -630,7 +638,7 @@
     <!-- /.PMS0610010 信用額度變更 -->
 
     <!-- PMS0610010 狀態變更 彈出視窗 -->
-    <div id="bs-company-stateChange-message" class="hide padding-5">
+    <div id="sales_stateChange-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="col-sm-10 col-xs-10">
@@ -675,7 +683,7 @@
     <!-- /.PMS0610010 狀態變更 -->
 
     <!-- PMS0610010 聯絡方式-更多資訊 彈出視窗 -->
-    <div id="contractMoreInfo-message" class="hide padding-5">
+    <div id="sales_contractMoreInfo-message" class="hide padding-5">
         <div class="businessCompanyData col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col-sm-10 col-xs-10">
@@ -725,7 +733,7 @@
                                     <tr class="css_tr">
                                         <td class="css_td">公司地址</td>
                                         <td class="css_td">104</td>
-                                        <td class="css_td">台北市中山區松江路309號8樓 <span class="moreClick contractMoreInfo">...</span></td>
+                                        <td class="css_td">台北市中山區松江路309號8樓 <span class="moreClick sales_contractMoreInfo">...</span></td>
                                         <td class="css_td text-center"><input type="checkbox" checked /> </td>
                                     </tr>
                                     <tr class="css_tr">
@@ -737,7 +745,7 @@
                                     <tr class="css_tr">
                                         <td class="css_td">電子郵件</td>
                                         <td class="css_td td-disable"></td>
-                                        <td class="css_td">service@athena.com.tw<span class="moreClick contractMoreInfo">...</span></td>
+                                        <td class="css_td">service@athena.com.tw<span class="moreClick sales_contractMoreInfo">...</span></td>
                                         <td class="css_td text-center"><input type="checkbox" checked /> </td>
                                     </tr>
                                 </tbody>
@@ -774,7 +782,7 @@
 
     <!-- PMS0610010 顯示月份明細 彈出視窗 -->
     <!-- 只要彈出視窗裡面有dataGrid就會讓視窗出現在最下面 -->
-    <div id="bs-company-displayMonth-message" class="hide padding-5" style="top: 20%;">
+    <div id="sales_displayMonth-message" class="hide padding-5" style="top: 20%;">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <!-- 貢獻度-顯示月份明細 dataGrid -->
@@ -786,7 +794,7 @@
     <!-- /.PMS0610010 顯示月份明細 -->
 
     <!-- PMS0610010 修改業務員 彈出視窗 -->
-    <div id="bs-company-editClerk-message" class="hide padding-5">
+    <div id="sales_editClerk-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -837,7 +845,7 @@
     <!-- /.PMS0610010 修改業務員 -->
 
     <!-- PMS0610010 修改拜訪紀錄 彈出視窗 -->
-    <div id="bs-company-visitRecord-message" class="hide padding-5">
+    <div id="sales-visitRecord-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -953,7 +961,7 @@
     <!-- /.PMS0610010 修改拜訪紀錄 -->
 
     <!-- PMS0610010 其他備註 多筆 彈出視窗 -->
-    <div id="bs-company-editOtherRemark-message" class="hide padding-5">
+    <div id="sales_editOtherRemark-message" class="hide padding-5">
 
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
@@ -1037,7 +1045,7 @@
     <!-- /.PMS0610010 其他備註 多筆 -->
 
     <!-- PMS0610010 異動紀錄 彈出視窗 -->
-    <div id="bs-company-changeRecord-message" class="hide padding-5">
+    <div id="sales_changeRecord-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -1225,7 +1233,7 @@
     <!-- /.PMS0610010 異動紀錄 -->
 
     <!-- PMS0610010 Status chg. 彈出視窗 -->
-    <div id="bs-company-statusChg-message" class="hide padding-5">
+    <div id="sales_statusChg-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -1271,168 +1279,6 @@
     </div>
     <!-- /.PMS0610010 Status chg. -->
 
-    <!-- PMS0610010 visitPlan  彈出視窗 -->
-    <div id="sales-visitPlan-message" class="hide padding-5">
-        <div class="businessCompanyData">
-            <div class="col-xs-12">
-                <div class="search-content">
-                    <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                    <div class="search-co">
-                        <div class="search-co-h">
-                            <i class="ace-icon fa fa-search search-icon"></i>
-                            <span>Search</span>
-                            <div class="row search-right-btn">
-                                <div class="right-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <i class="fa fa-chevron-down show-search-detail"></i>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="search-co-content col-xs-12">
-                                <div class="col-sm-4">
-
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                                <div class="col-sm-4">
-
-                                </div>
-                            </div>
-                            <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
-                                <div class="row search-footer-btn">
-                                    <div class="footer-btn-menu-co">
-                                        <ul>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom"
-                                                     title="查詢">
-                                                    <div class="icon-reStyle icon-co-14"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom"
-                                                     title="清除">
-                                                    <div class="icon-reStyle icon-co-11"></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>  <!-- /.footer-btn-menu-co -->
-                                </div> <!-- /.search-footer-btn -->
-
-                                <div class="grid width-95">
-                                    <div class="grid-item">
-                                        <label>Co. Id</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">A1231</option>
-                                            <option value="2">a2322</option>
-                                            <option value="3">A0003</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Status</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">Normal</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Co. Name</label>
-                                        <select class="input-medium popWindow-s1v2-col4Key">
-                                            <option value="1">人人公司</option>
-                                            <option value="2">No</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="searchCheckbox pull-left">
-                                    <span class="checkbox">
-                                      <label class="checkbox-width">
-                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                          <span class="lbl">Keyword</span>
-                                      </label>
-                                    </span>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="grid-item">
-                                        <label>Co. Type</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">簽約公司</option>
-                                            <option value="2">非簽約公司</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Contract</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">已簽約</option>
-                                            <option value="2">洽談中</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Region</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">北區</option>
-                                            <option value="2">中區</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Sales Rap</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">陳瑞克</option>
-                                            <option value="2">黃大企</option>
-                                        </select>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>Industry</label>
-                                        <select id="" class="input-medium popWindow-s1v2-col2">
-                                            <option value="1">資訊業</option>
-                                            <option value="2">製造業</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <div class="clearfix"></div>
-                            </div>
-                        </div> <!-- row-->
-                    </div> <!-- /.search-co -->
-                </div> <!-- /.row  search-content-->
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
-
-            <div class="col-xs-12">
-                <div class="col-sm-11 col-xs-11">
-                    <div class="row no-margin-right">
-                        <!--假的checkbox table-->
-                        <div style="float:left; min-width: 30px; max-width: 3%;">
-                            <table id="newVisitResult_Chk-table"></table>
-                        </div>
-
-                        <div class="gridTableHt">
-                            <!-- 拜訪計畫 dataGrid -->
-                            <table id="NewVisitResult-table"></table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth newVisitRecord"
-                                            role="button">新增拜訪紀錄</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- /.col-sm-12 -->
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <!-- /.PMS0610010 visitPlan 彈出視窗 -->
 
     <!--/***
         * PMS0620010
@@ -1693,113 +1539,15 @@
     </div>
     <!-- /.PMS0620010 業務員修改 彈出視窗-->
 
-    <!-- PMS0620010 業務員指派 彈出視窗 resv_ratePlanBtn -->
+    <!-- PMS0620010 業務員指派 彈出視窗 sales Assign -->
     <div id="sales_assign-message" class="hide padding-5" style="top: 0;">
 
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
-                    <div class="search-content">
-                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                        <div class="search-co">
-                            <div class="search-co-h">
-                                <i class="ace-icon fa fa-search search-icon"></i>
-                                <span>Search</span>
-                            </div>
-                                <div class="search-co-content col-xs-12 rece-search-detail">
-                                    <div class="row search-footer-btn">
-                                        <div class="footer-btn-menu-co">
-                                            <ul>
-                                                <li>
-                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                        <div class="icon-reStyle icon-co-14"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                        <div class="icon-reStyle icon-co-11"></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>  <!-- /.footer-btn-menu-co -->
-                                    </div> <!-- /.search-footer-btn -->
-                                    <div class="width-95">
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Account No.</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Status</label>
-                                                <select id="" class="input-medium popWindow-s1">
-                                                    <option value="1">STD</option>
-                                                    <option value="2">SUP</option>
-                                                    <option value="3">DXK</option>
-                                                    <option value="4">DXT</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="searchCheckbox pull-left">
-                                                <span class="checkbox">
-                                                  <label class="checkbox-width">
-                                                      <input name="form-field-checkbox" type="checkbox" class="ace" checked>
-                                                      <span class="lbl">更動未來訂房卡</span>
-                                                  </label>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Account Name</label>
-                                                <input type="text" class="input-medium popWindow-s1-col2v2" placeholder="">
-                                            </div>
-                                        </div>
-
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Area</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Industry</label>
-                                                <select id="" class="input-medium popWindow-s1">
-                                                    <option value="1">STD</option>
-                                                    <option value="2">SUP</option>
-                                                    <option value="3">DXK</option>
-                                                    <option value="4">DXT</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>Account Type</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                            </div>
-                                            <div class="grid-item">
-                                                <label>Sales</label>
-                                                <input type="text" class="input-medium popWindow-s1" placeholder="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-
-                            <div class="clearfix"></div>
-                        </div> <!-- /.search-co -->
-                    </div> <!-- /.row  search-content-->
-
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-sm-12 col-xs-12">
-                <div class="row">
                     <div class="col-sm-11 col-xs-11">
                         <div class="row no-margin-right">
-                            <!--假的checkbox table-->
-                            <div style="float:left; min-width: 30px; max-width: 3%;">
-                                <table id="sales_assignChk-table"></table>
-                            </div>
+
                             <!-- PMS0620010 業務員指派 dataGrid -->
                             <table id="sales_assign-table"></table>
                             <div class="clearfix"></div>
@@ -1812,6 +1560,14 @@
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">Assign</button>
+                                </li>
+                                <li>
+                                    <span class="checkbox">
+                                      <label class="checkbox-width">
+                                          <input name="form-field-checkbox" type="checkbox" class="ace" checked>
+                                          <span class="lbl font-btn">更動未來訂房卡</span>
+                                      </label>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -1915,7 +1671,7 @@
     <!-- PMS0620010 Change Log 彈出視窗-->
 
     <!--PMS0620040  新增拜訪記錄 彈出視窗-->
-    <div id="newVisitRecord-page" class="hide padding-5">
+    <div id="sales_newVisitRecord-page" class="hide padding-5">
         <div class="col-sm-12 newVisitRecord-wrap">
             <div class="row" >
                 <div class="borderFrame2">
@@ -2094,9 +1850,9 @@
     <!-- /. PMS0620040 新增拜訪記錄 彈出視窗-->
 
     <!-- PMS0620050 修改拜訪記錄 彈出視窗-->
-    <div id="editVisitRecord-page" class="hide">
+    <div id="sales_editVisitRecord-page" class="hide">
         <div class="col-sm-12 newVisitRecord-wrap">
-            <!--todo no-margin-right-->
+            <!--remarks: no-margin-right-->
             <div class="row">
                 <div class="col-sm-11 col-xs-11">
                     <div class="row">

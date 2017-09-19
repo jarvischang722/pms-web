@@ -135,6 +135,10 @@ body {
   line-height: 34px;
 }
 
+.font-btn {
+  font-size: 12px;
+}
+
 .font-14 {
   font-size: 14px;
 }

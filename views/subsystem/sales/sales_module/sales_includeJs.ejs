@@ -18,9 +18,9 @@
         });
 
         // PMS0610010 彈出SettingNewDialog
-        $(document).on('click', ".changeCreditLimit", function (e) {
+        $(document).on('click', ".sales_changeCreditLimit", function (e) {
             e.preventDefault();
-            var dialog = $("#changeCreditLimit-message").removeClass('hide').dialog({
+            var dialog = $("#sales_changeCreditLimit-message").removeClass('hide').dialog({
                 modal: true,
                 title: "信用額度變更",
                 title_html: true,
@@ -33,9 +33,9 @@
         });
 
         // PMS0610010 彈出 狀態變更
-        $(document).on('click', ".bs-company-stateChange", function (e) {
+        $(document).on('click', ".sales_stateChange", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-stateChange-message").removeClass('hide').dialog({
+            var dialog = $("#sales_stateChange-message").removeClass('hide').dialog({
                 modal: true,
                 title: "狀態變更",
                 title_html: true,
@@ -48,9 +48,9 @@
         });
 
         // PMS0610010 彈出 聯絡方式 更多資訊
-        $(document).on('click', ".contractMoreInfo", function (e) {
+        $(document).on('click', ".sales_contractMoreInfo", function (e) {
             e.preventDefault();
-            var dialog = $("#contractMoreInfo-message").removeClass('hide').dialog({
+            var dialog = $("#sales_contractMoreInfo-message").removeClass('hide').dialog({
                 modal: true,
                 title: "更多資訊",
                 title_html: true,
@@ -78,9 +78,9 @@
         });
 
         // PMS0610010 彈出 顯示月份明細
-        $(document).on('click', ".bs-company-displayMonth", function (e) {
+        $(document).on('click', ".sales_displayMonth", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-displayMonth-message").removeClass('hide').dialog({
+            var dialog = $("#sales_displayMonth-message").removeClass('hide').dialog({
                 modal: true,
                 title: "顯示月份明細",
                 title_html: true,
@@ -93,9 +93,9 @@
         });
 
         // PMS0610010 彈出 修改業務員
-        $(document).on('click', ".bs-company-editClerk", function (e) {
+        $(document).on('click', ".sales_editClerk", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-editClerk-message").removeClass('hide').dialog({
+            var dialog = $("#sales_editClerk-message").removeClass('hide').dialog({
                 modal: true,
                 title: "修改業務員",
                 title_html: true,
@@ -108,9 +108,9 @@
         });
 
         // PMS0610010 彈出 拜訪紀錄 多筆
-        $(document).on('click', ".bs-company-visitRecord", function (e) {
+        $(document).on('click', ".sales-visitRecord", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-visitRecord-message").removeClass('hide').dialog({
+            var dialog = $("#sales-visitRecord-message").removeClass('hide').dialog({
                 modal: true,
                 autoOpen: false,
                 title: "修改拜訪紀錄",
@@ -127,9 +127,9 @@
         });
 
         // PMS0610010 彈出 其他備註 多筆
-        $(document).on('click', ".bs-company-editOtherRemark", function (e) {
+        $(document).on('click', ".sales_editOtherRemark", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-editOtherRemark-message").removeClass('hide').dialog({
+            var dialog = $("#sales_editOtherRemark-message").removeClass('hide').dialog({
                 modal: true,
                 title: "修改其他備註",
                 title_html: true,
@@ -142,9 +142,9 @@
         });
 
         // PMS0610010 彈出 異動紀錄 多筆
-        $(document).on('click', ".bs-company-changeRecord", function (e) {
+        $(document).on('click', ".sales_changeRecord", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-changeRecord-message").removeClass('hide').dialog({
+            var dialog = $("#sales_changeRecord-message").removeClass('hide').dialog({
                 modal: true,
                 title: "異動紀錄",
                 title_html: true,
@@ -157,9 +157,9 @@
         });
 
         // PMS0610010 彈出 Status chg.
-        $(document).on('click', ".bs-company-statusChg", function (e) {
+        $(document).on('click', ".sales_statusChg", function (e) {
             e.preventDefault();
-            var dialog = $("#bs-company-statusChg-message").removeClass('hide').dialog({
+            var dialog = $("#sales_statusChg-message").removeClass('hide').dialog({
                 modal: true,
                 title: "Status chg.",
                 title_html: true,
@@ -171,21 +171,7 @@
             });
         });
 
-        // PMS0610010 彈出 visitPlan
-        $(document).on('click', ".sales-visitPlan", function (e) {
-            e.preventDefault();
-            var dialog = $("#sales-visitPlan-message").removeClass('hide').dialog({
-                modal: true,
-                title: "Visit Plan",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
+
 //        $('.easyUi-custom1').css("height","100px");
 
         // tabs setting
@@ -249,9 +235,9 @@
          * PMS0620040
          */
         // PMS0620040 彈出新增拜訪記錄
-        $(document).on('click', ".newVisitRecord", function (e) {
+        $(document).on('click', ".sales_newVisitRecord", function (e) {
             e.preventDefault();
-            var dialog = $("#newVisitRecord-page").removeClass('hide').dialog({
+            var dialog = $("#sales_newVisitRecord-page").removeClass('hide').dialog({
                 modal: true,
                 title: "新增拜訪記錄",
                 title_html: true,
@@ -268,9 +254,9 @@
          */
 
         // PMS0620050 彈出修改拜訪記錄
-        $(document).on('click', ".editVisitRecord", function (e) {
+        $(document).on('click', ".sales_editVisitRecord", function (e) {
             e.preventDefault();
-            var dialog = $("#editVisitRecord-page").removeClass('hide').dialog({
+            var dialog = $("#sales_editVisitRecord-page").removeClass('hide').dialog({
                 modal: true,
                 title: "修改拜訪記錄",
                 title_html: true,
@@ -516,7 +502,7 @@
             url: '/jsonData/bsCompany_clerkDataGridResult.json',
             method: 'get',
             columns: [[
-                {field:'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
+                {field: 'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
                 {field: 'clerkNum', title: 'Sales Id', width: 100},
                 {field: 'clerkName', title: 'Name', width: 100},
                 {field: 'clerkStatus', title: 'Status', width: 100},
@@ -555,14 +541,14 @@
             url: '/jsonData/sales_assign.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field: 'accNo', title: 'Acc.No.', width: 80},
-                {field: 'accName', title: 'Acc.Name', width: 100},
-                {field: 'status', title: 'Status', width: 60},
-                {field: 'accType', title: 'Acc. Type', width: 80},
-                {field: 'area', title: 'Area', width: 80},
-                {field: 'industry', title: 'Industry', width: 80},
-                {field: 'sales', title: 'Sales', width: 100}
+                {field: 'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
+                {field: 'clerkNum', title: 'Sales Id', width: 100},
+                {field: 'clerkName', title: 'Name', width: 100},
+                {field: 'clerkStatus', title: 'Status', width: 100},
+                {field: 'clerkTeam', title: 'Team', width: 100},
+                {field: 'hotelBusiness', title: 'Hotel', width: 100},
+                {field: 'foodBusiness', title: 'F&B', width: 100},
+                {field: 'memberBusiness', title: 'Membership', width: 100}
             ]]
         });
 
