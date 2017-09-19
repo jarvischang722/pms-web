@@ -49,7 +49,7 @@
                                                         :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                         format="yyyy/MM/dd"
                                                         :style="{width:field.width + 'px' , height:'30px'}"
-                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                        :change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
                                     </template>
 
@@ -57,6 +57,7 @@
                                     <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
                                         <el-date-picker v-model="singleData[field.ui_field_name]"
                                                         type="datetime"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                         placeholder=""
                                                         :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                         size="small"

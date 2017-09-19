@@ -85,7 +85,7 @@ module.exports = {
         let end_dat = singleRowData.end_dat || "";
         let result = new ReturnClass();
         let error = null;
-        return callback(error, result);  //TODO 暫時先不判斷
+
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
             queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {
                 athena_id: athena_id,

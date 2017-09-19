@@ -14,7 +14,7 @@ function validateClass() {
     this.required = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = ls_value != "";
+        var lb_result = ls_value !== "";
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.Required, ls_ui_display_name) : sprintf(this.ls_msg.Required, "");
 
         return {success: lb_result, msg: ls_msg};
@@ -105,6 +105,7 @@ function validateClass() {
 
     //大於等於0
     this.ChkGteZeroNum = function () {
+
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
         var lb_result = Number(ls_value) >= 0;
