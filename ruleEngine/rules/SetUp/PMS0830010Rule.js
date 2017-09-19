@@ -118,6 +118,10 @@ module.exports = {
                 });
 
             }
+            else{
+                callback(lo_error, lo_result);
+            }
+
         });
 
         //滾房租日
@@ -253,51 +257,6 @@ module.exports = {
 
             });
         });
-    },
-
-    /**
-     * 虛擬欄位『今日已開班次數』、『今日最後開班時間』sql
-     */
-    r_CashierrfUpd: function (postData, session, callback) {
-        let lo_params = {
-            athena_id: session.user.athena_id,
-            hotel_cod: session.user.hotel_cod
-        };
-        let lo_error = null;
-        let lo_return = new ReturnClass();
-        async.waterfall([
-            qryRentCalDat,
-            qryOpenTimesAndOpenDat
-        ], function (err, lo_result) {
-            if (err) {
-                lo_error = new ErrorClass();
-                lo_return.success = false;
-                lo_error.errorMsg = err;
-                lo_error.errorCod = "1111";
-            }
-            callback(lo_error, lo_result);
-        });
-
-        //滾房租日
-        function qryRentCalDat(cb) {
-            queryAgent.query("QRY_RENT_CAL_DAT", lo_params, function (err, getResult) {
-                if (!err) {
-                    cb(null, getResult.rent_cal_dat);
-                }
-                else {
-                    cb(err, getResult.rent_cal_dat);
-                }
-            });
-        }
-
-        function qryOpenTimesAndOpenDat(rent_cal_dat, cb) {
-            lo_params.shop_dat = rent_cal_dat;
-            lo_params.shift_cod = postData.singleRowData.shift_cod;
-            queryAgent.query("QRY_OPEN_TIMES_AND_OPEN_DAT", lo_params, function (err, getResult) {
-                let lo_return = {open_times: getResult.open_times, open_dat: getResult.open_dat};
-                cb(err, lo_return);
-            });
-        }
     },
 
     useStaDefault: function (postData, session, callback) {

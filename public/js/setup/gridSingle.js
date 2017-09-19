@@ -556,7 +556,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                     this.tmpCud.editData = [this.singleData];
                 }
 
-
                 this.$emit('do-save-cud', function (success) {
                     if (success) {
                         //儲存後離開
@@ -1081,7 +1080,6 @@ var vm = new Vue({
         dataValidate: function () {
             var self = this;
             var lo_chkResult;
-
             for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
                 var lo_field = this.oriPageTwoFieldData[i];
                 //必填
@@ -1115,10 +1113,8 @@ var vm = new Vue({
                 alert(lo_chkResult.msg);
                 return;
             }
-
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
-
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
