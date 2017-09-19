@@ -1085,7 +1085,7 @@ var vm = new Vue({
             for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
                 var lo_field = this.oriPageTwoFieldData[i];
                 //必填
-                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
+                if (lo_field.requirable == "Y" && lo_field.modificable == "Y" && lo_field.ui_type != "checkbox") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
                         break;
@@ -1118,6 +1118,7 @@ var vm = new Vue({
 
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
+
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();
                 if (result.success) {
@@ -1281,8 +1282,6 @@ var vm = new Vue({
             $("#chooseGrid").datagrid({height: chooseGridH});
 
         }
-
-
     }
 
 });

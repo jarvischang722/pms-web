@@ -46,7 +46,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                 if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                     //讀取selectgrid的設定參數
-                    if(field.ui_type == 'selectgrid'){
+                    if (field.ui_type == 'selectgrid') {
                         var func_name = prg_id + '_' + field.ui_field_name;
                         la_fields[fIdx].selectGridOptions = ruleAgent[func_name]();
                     }
@@ -207,7 +207,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
             if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                 //讀取selectgrid的設定參數
-                if(field.ui_type == 'selectgrid'){
+                if (field.ui_type == 'selectgrid') {
                     var func_name = prg_id + '_' + field.ui_field_name;
                     lo_dataGridField[fIdx].selectGridOptions = ruleAgent[func_name]();
                 }
@@ -461,7 +461,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             if (field.ui_type == 'select' || field.ui_type == 'multiselect' || field.ui_type == 'checkbox' || field.ui_type == 'selectgrid') {
 
                 //讀取selectgrid的設定參數
-                if(field.ui_type == 'selectgrid'){
+                if (field.ui_type == 'selectgrid') {
                     var func_name = prg_id + '_' + field.ui_field_name;
                     lo_dataGridField[fIdx].selectGridOptions = ruleAgent[func_name]();
                 }
@@ -721,7 +721,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         });
         _.each(dt_createData, function (data, idx) {
             let keys = tools.combineKeys(data, _.pluck(la_dtkeyFields, 'ui_field_name'), false);
-            if(_.hasOwnProperty(keys)){     //for PMS0820050，data無key的欄位，導致判斷錯誤。
+            if (_.hasOwnProperty(keys)) {     //for PMS0820050，data無key的欄位，導致判斷錯誤。
                 let targetIdx = _.findIndex(dt_createData, keys);
                 if (targetIdx > -1 && idx > targetIdx) {
                     delete dt_createData[targetIdx];
@@ -791,6 +791,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     savaExecDatas[exec_seq] = execData;
                     exec_seq++;
                 });
+            }
+
+            if (!chk_err && !_.isUndefined(chk_result.effectValues)) {
+                postData.createData = chk_result.effectValues;
             }
 
             callback(chk_err, chk_result);
