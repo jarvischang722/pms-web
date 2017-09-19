@@ -922,7 +922,7 @@
             {field: 'cRoom', title: '計價房種', width: 100},
             {field: 'useRoom', title: '使用房種', width: 100},
             {field: 'avgRoom', title: '平均房價', width: 100},
-            {field: 'csKind', title: '市場類別', width: 100},
+            {field: 'csKind', title: '住客類別', width: 100},
             {field: 'fullName', title: 'Full Name', width: 100},
             {field: 'company', title: '代訂公司', width: 100},
             {field: 'contact', title: '聯絡人', width: 100},
@@ -942,16 +942,24 @@
         columns: [[
             {field: 'cardCode', title: '訂房卡號', width: 100},
             {field: 'code', title: '序號', width: 50},
-            {field: 'bookingNum', title: '訂房數', width: 50},
-            {field: 'roomNum', title: '排房數', width: 50},
-            {field: 'ciNum', title: 'C/I數', width: 50},
-            {field: 'coNum', title: 'C/O數', width: 50},
-            {field: 'proxyCompanyName', title: '團號', width: 100},
-            {field: 'kind', title: '種類', width: 50},
-            {field: 'state', title: '狀態', width: 70},
+            {field: 'bookingNum', title: '房組', width: 50},
+            {field: 'name', title: '姓名', width: 50},
+            {field: 'roomAssignNum', title: '排房', width: 50},
+            {field: 'roomNum', title: '房號', width: 50},
+            {field: 'roomAssignHousing', title: '排房房種', width: 100},
+            {field: 'useHousing', title: '使用房種', width: 100},
+            {field: 'valuationHousing', title: '計價房種', width: 100},
+            {field: 'roomAssignSet', title: '排房設定', width: 100},
             {field: 'ciDate', title: 'C/I 日期', width: 100},
             {field: 'coDate', title: 'C/O 日期', width: 100},
-            {field: 'days', title: '天數', width: 50}
+            {field: 'days', title: '天數', width: 50},
+            {field: 'insteadOrderCo', title: '代訂公司', width: 100},
+            {field: 'roomNumCode', title: '房價代號', width: 150},
+            {field: 'adult', title: '大人', width: 50},
+            {field: 'child', title: '小孩', width: 50},
+            {field: 'baby', title: '嬰兒', width: 50},
+            {field: 'avgRoom', title: '平均房價', width: 80,align: 'right'},
+            {field: 'changeRoomRm', title: '換房備駐', width: 200}
         ]]
     });
 

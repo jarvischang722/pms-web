@@ -1777,4 +1777,14 @@
 
     });
 
+// 訂房卡button 文字轉換
+    $("#resv_changeTxt").click(function(){
+        var textName = $(this).text();
+        if (textName == "Waiting")
+            $(this).text("Cancel")
+        else if (textName == "Cancel")
+            $(this).text("Reservations");
+        else
+            $(this).text("Waiting");
+    });
 </script>
