@@ -258,11 +258,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                 toolbar: '#tb',
                 columns: [firstCol, secondCol],
                 fitColumns: true,
-                // collapsible: true,
-                // remoteSort: false,
                 singleSelect: true,
-                // selectOnCheck: true,
-                // checkOnSelect: true,
                 data: dtDataGridRows,
                 onEndEdit: function (index, row) {
                     self.tempExecData(row);
@@ -274,14 +270,6 @@ Vue.component('single-grid-pms0830100-tmp', {
             });
 
             this.dtDataGridIsCreate = true;
-            // var lo_rest_field = $("[field='rest']", $("#dt_dg_DIV"));
-            // var lo_stay_field = $("[field='stay']", $("#dt_dg_DIV"));
-            // if (!_.isUndefined(lo_rest_field.attr("rowspan"))) {
-            //     lo_rest_field.removeAttr("rowspan");
-            // }
-            // if (!_.isUndefined(lo_stay_field.attr("rowspan"))) {
-            //     lo_stay_field.removeAttr("rowspan");
-            // }
 
         },
 
