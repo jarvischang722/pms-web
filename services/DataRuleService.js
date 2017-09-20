@@ -276,7 +276,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
     mongoAgent[dbName].findOne({
         prg_id: prg_id,
         func_id: '0300',
-        page_id: page_id
+        "$or" : [ { "page_id": { $not: { $exists: true } } }, { "page_id": page_id } ]
     }, function (err, func) {
         var lo_result = new ReturnClass();
         if (!err && func) {

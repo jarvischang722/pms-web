@@ -302,7 +302,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     deleteData: [self.singleData]
                 }, function (result) {
                     if (result.success) {
-                        self.deleteStatue = true;
+                        self.deleteStatus = true;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
 
@@ -335,7 +335,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             var self = this;
             var targetRowAfterDelete = {}; //刪除後要指向的資料
-            if (this.deleteStatue) {
+            if (this.deleteStatus) {
                 var rowsNum = $("#PMS0810020_dg").datagrid('getRows').length;
                 var currentRowIdx = $("#PMS0810020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                 if (currentRowIdx == rowsNum - 1) {
@@ -372,7 +372,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                         self.emitFetchSingleData();
                     }
                     self.previewList = [];
-                    if (self.deleteStatue) {
+                    if (self.deleteStatus) {
                         /**
                          * 刪除成功
                          * 1.取下一筆
@@ -728,13 +728,13 @@ var vm = new Vue({
         editStatus: function (newVal) {
             if (newVal) {
                 vm.createStatus = false;
-                vm.deleteStatue = false;
+                vm.deleteStatus = false;
             }
         },
         createStatus: function (newVal) {
             if (newVal) {
                 vm.editStatus = false;
-                vm.deleteStatue = false;
+                vm.deleteStatus = false;
             }
         },
         deleteStatus: function (newVal) {
@@ -823,17 +823,16 @@ var vm = new Vue({
             vm.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                alert("Warning", 'Check at least one item');
+                alert('Check at least one item.');
                 return;
             }
             var q = confirm("Are you sure delete those data?");
             if (q) {
-                //刪除前檢查
-
+                //刪除Row
                 _.each(checkRows, function (row) {
                     vm.tmpCud.deleteData.push(row);
                 });
-
+                //刪除前檢查
                 $.post("/api/deleteFuncRule", {
                     page_id: 1,
                     prg_id: prg_id,
@@ -842,13 +841,14 @@ var vm = new Vue({
                     if (result.success) {
                         //刪除Row
                         _.each(checkRows, function (row) {
-                            var DelIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
-                            $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
+                            var ln_delIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
+                            $('#PMS0810020_dg').datagrid('deleteRow', ln_delIndex);
                         });
                         vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
                         vm.doSaveCUD(function () {
                         });
                     } else {
+                        vm.tmpCud.deleteData=[];
                         alert(result.errorMsg);
                     }
 
@@ -888,7 +888,7 @@ var vm = new Vue({
             var self = this;
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false) {
+            if (vm.tmpCud.deleteData.length == 0 && lo_chkResult.success == false) {
                 alert(lo_chkResult.msg);
                 return;
             }

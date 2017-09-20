@@ -182,9 +182,10 @@ module.exports = {
 
                         if (!_.isUndefined(delDR.upload_sta) && delDR.upload_sta == "Y") {
                             delError = new ErrorClass();
+                            delResult.success = false;
                             delError.errorMsg = "上傳官網,不能刪除";
                             delError.errorCod = '1111';
-                            delResult.success = false;
+
                             return callback(delError, delResult);
                         }
 
@@ -538,14 +539,14 @@ module.exports = {
                 if(err){
                     chkError = new ErrorClass();
                     chkError.errorCod = "1111";
-                    chkError.errorMsg = err.message;
+                    chkError.errorMsg = err.message || err.errorMsg;
                     chkResult.success = false;
                 }
                 callback(chkError, chkResult);
             });
-        } catch (err) {
+        } catch (ex) {
             chkError = new ErrorClass();
-            chkError.errorMsg = err;
+            chkError.errorMsg = ex.message;
             chkError.errorCod = "1111";
             chkResult.success = false;
             callback(chkError, chkResult);
