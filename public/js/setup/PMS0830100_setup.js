@@ -443,9 +443,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             var self = this;
 
             if (!_.isUndefined(rowData.day_sta_color)) {
-
                 var lo_day_sta = $('#dt_dg').datagrid('getSelected').day_sta;
-
                 delete rowData["day_sta_color"];
             }
 
