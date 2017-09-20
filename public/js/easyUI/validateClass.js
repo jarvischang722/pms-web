@@ -21,12 +21,15 @@ function validateClass() {
     };
 
     //資料長度驗證
-    this.chkLength = function (value, params) {
-        var li_minLength = params[0];
-        var li_maxLength = params[1];
+    this.chkLength = function () {
+        var ls_value = arguments[0];
+        var ls_params = arguments[1];
+        var li_minLength = ls_params[0];
+        var li_maxLength = ls_params[1];
+        var ls_ui_display_name = arguments[3];
 
-        var lb_result = value.length <= li_maxLength && value.length >= li_minLength;
-        var ls_msg = sprintf(this.ls_msg.ChkLength, li_minLength, li_maxLength);
+        var lb_result = ls_value.length <= li_maxLength && ls_value.length >= li_minLength;
+        var ls_msg = (arguments.length == 3) ? sprintf(this.ls_msg.ChkLength, ls_ui_display_name, li_minLength, li_maxLength) : sprintf(this.ls_msg.ChkLength, "", li_minLength, li_maxLength);
         return {success: lb_result, msg: ls_msg};
     };
 
