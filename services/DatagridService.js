@@ -95,7 +95,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
         //  ) 條件過濾
         function (dataRow, callback) {
             if (!_.isUndefined(ruleAgent[prg_id + "Filter"])) {
-                ruleAgent[prg_id + "Filter"](dataRow, params, function (dataRow) {
+                ruleAgent[prg_id + "Filter"](dataRow, session, params, function (dataRow) {
                     dataGridRows = dataRow;
                     callback(null, dataRow);
                 });

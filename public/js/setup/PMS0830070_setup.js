@@ -124,9 +124,12 @@ var Pms0830070Comp = Vue.extend({
 
 var PMS0830070VM = new Vue({
     el: '#PMS0830070App',
-    components: {Pms0830070Comp},
+    components: {
+        Pms0830070Comp,
+        "search-comp": go_searchComp
+    },
     data: {
-        prg_id: gs_prg_id,
+        // prg_id: gs_prg_id,
         pageOneDataGridRows: [],
         pageOneFieldData: [],
         editingRow: {},
@@ -146,8 +149,10 @@ var PMS0830070VM = new Vue({
             dt_deleteData: [],
             dt2_createData: [],
             dt2_updateData: [],
-            dt2_deleteData: [],
-        }
+            dt2_deleteData: []
+        },
+        searchFields: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
     },
     created: function () {
         // this.$on("updateTmpCUD", function (data) {
@@ -184,8 +189,9 @@ var PMS0830070VM = new Vue({
         },
         //撈多筆
         getRouteData: function () {
-            $.post('/api/prgDataGridDataQuery', {prg_id: this.prg_id})
+            $.post('/api/prgDataGridDataQuery', {prg_id: gs_prg_id, searchCond: this.searchCond})
                 .done(function (response) {
+                    PMS0830070VM.searchFields = response.searchFields;
                     PMS0830070VM.pageOneDataGridRows = response.dataGridRows;
                     PMS0830070VM.pageOneFieldData = response.fieldData;
                 });
@@ -215,7 +221,7 @@ var PMS0830070VM = new Vue({
         fetchSingleData: function (editingRow) {
             this.isCreateStatus = false;
             this.isEditStatus = true;
-            this.editingRow["prg_id"] = prg_id;
+            this.editingRow["prg_id"] = gs_prg_id;
             $.post('/api/qryPMS0830070SingleMn', editingRow)
                 .done(function (response) {
                     PMS0830070VM.singleData = response.routeDt;
@@ -264,7 +270,7 @@ var PMS0830070VM = new Vue({
             }
             console.log(self.singleData);
             waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: prg_id}, PMS0830070VM.tmpCud);
+            var params = _.extend({prg_id: gs_prg_id}, PMS0830070VM.tmpCud);
 
             // $.post("/api/saveGridSingleData", params, function (result) {
             //     if (result.success) {

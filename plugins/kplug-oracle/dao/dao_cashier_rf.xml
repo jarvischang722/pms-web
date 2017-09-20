@@ -8,6 +8,8 @@
         ]]></statement>
         <parameter type="int">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
+        <parameter type="likestring" kind="2" condition="cashier_cod like ?" >cashier_cod</parameter>
+        <parameter type="likestring" kind="2" condition="def_shift_cod like ?" >def_shift_cod</parameter>
     </dao>
 
     <!-- [PMS0830010] 預設班別不可重複-->
