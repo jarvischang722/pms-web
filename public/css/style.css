@@ -397,6 +397,9 @@ h3 {
 .btn-defaultWidth.segement {
   margin-bottom: 10px;
 }
+.btn-defaultWidth.padding-lg {
+  padding: 6px 9px;
+}
 
 .intCountLi-height ul li {
   padding: 5px 0;
@@ -2248,6 +2251,9 @@ select.localeSelect {
 .search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch:hover i {
   color: #fff;
 }
+.search-content .search-co .search-co-content.search-S2-con.rece-search-detail {
+  padding-top: 0;
+}
 
 /*-- colorPicker 修改(假日類別設定) -- */
 .spectrumColor {
@@ -2369,6 +2375,9 @@ select.localeSelect {
 .businessCompanyData .tab-block.billCheckbox .checkbox label {
   min-height: initial;
   cursor: auto;
+}
+.businessCompanyData .tab-block.billCheckbox .checkbox label.ckBox_label {
+  width: 90px;
 }
 .businessCompanyData .tab-block.relatedCheck {
   margin-left: 75px;
@@ -2543,7 +2552,7 @@ input[type="radio"], input[type="checkbox"] {
   padding: 3px !important;
 }
 
-.NewVisitRecord-wrap {
+.newVisitRecord-wrap {
   margin: 10px 0;
 }
 
@@ -4070,6 +4079,10 @@ span.triangle-text {
   padding-right: 0;
 }
 
+.padding-2 {
+  padding: 2如px;
+}
+
 .padding-5 {
   padding: 5px;
 }
@@ -4175,6 +4188,10 @@ span.triangle-text {
 
 .lineHeight34 {
   line-height: 34px;
+}
+
+.font-btn {
+  font-size: 12px;
 }
 
 .font-14 {
@@ -4785,7 +4802,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   border-radius: 10px;
   background: #B0D877;
   right: 8px;
-  top: -37px;
+  top: -28px;
   cursor: pointer;
 }
 .extendGrid .extendIcon:hover {

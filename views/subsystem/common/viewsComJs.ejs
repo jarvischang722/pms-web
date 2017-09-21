@@ -1,0 +1,53 @@
+
+<script type="text/javascript">
+    //common JS
+    jQuery(function () {
+        // Resize Table Height // Date:170920
+//        alert('menuHeight1');
+        var menuHeight1 = $(".navbar-container").height();
+        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+        //    console.log('menuHeight1',menuHeight1);
+        //    console.log('gridTableHt',menuHeight2);
+        height = $(window).height()-menuHeight1-menuHeight2-10;
+        $(".gridTableHt .panel-body").css("height", height);
+        //        console.log('gridTableHt .panel-body',height);
+        $(window).resize(function() {
+            height = $(window).height()-menuHeight1-menuHeight2-10;
+            $(".gridTableHt .panel-body").css("height", height);
+        });
+        //.END Resize Table Height // Date:170920
+
+
+        // tabs setting
+        $('.easyUi-custom1').tabs({
+            // 可以resize 左右，但height 會變大
+//            fit: true,
+//            height: auto
+        });
+        //.END tabs setting
+
+
+        // 提示訊息
+        $('[data-rel=tooltip]').tooltip();
+        //.END 提示訊息
+
+
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
+        });
+        // 下拉選單 文字更換(樓層、棟別)
+        $('.dpUIList li > a').on('click', function(){
+            $(this).parents('.btn-group').find('.dpShowValue').text(this.innerHTML);
+        });
+        //.END 下拉選單
+
+
+        //排房選中active
+        $('.counterBlock').click(function(){
+            $('.counterBlock').removeClass("active");
+            $(this).addClass("active");
+        });
+        //.END 排房選中active
+    });
+</script>
