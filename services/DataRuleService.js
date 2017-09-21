@@ -97,7 +97,9 @@ exports.getSelectOptions = function (params, selRow, callback) {
             }
 
             _.each(selData, function(lo_selData, index){
-                selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+                if(!_.isUndefined(lo_selData.value)) {
+                    selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+                }
             });
             callback(selData);
         });

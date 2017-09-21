@@ -77,7 +77,7 @@ var EZfieldClass = {
         /** 長度限制  **/
         var mixLength = fieldAttrObj.requirable == "Y" ? '1' : '0';
         var maxLength = fieldAttrObj.ui_field_length;
-        if (fieldAttrObj.ui_type != "select") {   //combobox因text內容有長有短，所以排除此長度驗證
+        if (fieldAttrObj.ui_type != "select" && fieldAttrObj.ui_type != "selectgrid") {   //combobox因text內容有長有短，所以排除此長度驗證
             tmpFieldObj.editor.options.validType.push('ChkLength[' + mixLength + ',' + maxLength + ']');
         }
 
