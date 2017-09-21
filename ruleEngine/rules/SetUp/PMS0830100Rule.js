@@ -82,8 +82,10 @@ module.exports = {
         function qryDayStaColor(chkResult, cb){
             queryAgent.query("QRY_DAY_STA_COLOR", lo_params, function (err, getResult) {
                 if (!err) {
-                    var color = colorCodToHex(getResult.color_num);
-                    postData.rowData.day_sta_color = "#" + color;
+                    try {
+                        var color = colorCodToHex(getResult.color_num);
+                        postData.rowData.day_sta_color = "#" + color;
+                    }
                     lo_result.effectValues = {day_sta_color: postData.rowData.day_sta_color};
                     cb(null, lo_result);
                 }
@@ -101,15 +103,11 @@ module.exports = {
 
         queryAgent.query("QRY_HFD_REST_DT_SEQ_NOS", lo_params, function(err, getResult){
             let li_max_seq_nos = getResult.max_seq_nos || 0;
-            if(!err){
-                lo_result.defaultValues = {seq_nos: li_max_seq_nos};
-            }
-            else{
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = err;
-                lo_error.errorCod = "1111";
-                lo_result.success = false;
-            }
+
+            _.each(postData.dt_createData, function(lo_dtCreateData){
+                lo_dtCreateData.seq_nos = li_max_seq_nos;
+                li_max_seq_nos++;
+            });
             callback(lo_error, lo_result);
         });
     },
