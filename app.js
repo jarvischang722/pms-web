@@ -1,30 +1,34 @@
-var express = require('express');
-var session = require("express-session");
-var MongoStore = require('connect-mongo')(session);
-var expressLayouts = require('express-ejs-layouts');
-var path = require('path');
-var i18n = require("i18n");
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var http = require('http');
-var routing = require('./routing');
-var dbConfig = require('./configs/database');
-var sysConfig = require('./configs/SystemConfig');
-var debug = require('debug')('bacchus4web:server');
-var passport = require('passport');
-var flash = require('connect-flash');
-var port = 8888;
-var app = express();// initail express
-var server = http.createServer(app);
-var io = require('socket.io')(server);
-var ios = require('socket.io-express-session');
-var dbSvc = require("./services/DbTableService");
-var dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
-var mongoAgent = require("./plugins/mongodb");
-var tbSVC = require("./services/DbTableService");
-var _ = require("underscore");
+let express = require('express');
+let session = require("express-session");
+let MongoStore = require('connect-mongo')(session);
+let expressLayouts = require('express-ejs-layouts');
+let path = require('path');
+let i18n = require("i18n");
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let http = require('http');
+let routing = require('./routing');
+let dbConfig = require('./configs/database');
+let sysConfig = require('./configs/SystemConfig');
+let debug = require('debug')('bacchus4web:server');
+let passport = require('passport');
+let flash = require('connect-flash');
+let port = 8888;
+let app = express();// initail express
+let server = http.createServer(app);
+let io = require('socket.io')(server);
+let ios = require('socket.io-express-session');
+let dbSvc = require("./services/DbTableService");
+let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
+let mongoAgent = require("./plugins/mongodb");
+let tbSVC = require("./services/DbTableService");
+let _ = require("underscore");
+let compression = require('compression');
+
+// compress all responses
+app.use(compression());
 
 //靜態檔案指定路徑
 app.use(express.static(__dirname + '/public'));
