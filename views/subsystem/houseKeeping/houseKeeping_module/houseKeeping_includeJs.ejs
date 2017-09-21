@@ -1,24 +1,6 @@
 <script type="text/javascript">
     jQuery(function () {
 
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            fit: true,
-//            height: auto
-        });
-
-        $('[data-rel=tooltip]').tooltip();
-
-        // 下拉選單 文字更換(樓層、棟別)
-        $('.dpUIList li > a').on('click', function(){
-            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
-        });
-        // 下拉選單 文字更換(樓層、棟別)
-        $('.dpUIList li > a').on('click', function(){
-            $(this).parents('.btn-group').find('.dpShowValue').text(this.innerHTML);
-        });
-
         /***
          * PMS0410010 房間
          */
@@ -70,6 +52,7 @@
                 resizable: true
             });
         });
+
         // 彈出 刪除修理/參觀
         $(document).on('click', ".houseKeep_delFixVisit", function (e) {
             e.preventDefault();
@@ -85,6 +68,7 @@
                 resizable: true
             });
         });
+
         // 彈出 刪除瑕疵房
         $(document).on('click', ".houseKeep_flawedRoom", function (e) {
             e.preventDefault();
@@ -155,22 +139,8 @@
         });
         /* 點選左上放大鏡選擇觀看內容多寡 End */
 
-        //顯示排房明細
-        $(function () {
-            $('.showCardDetail').click(function () {
-                $(".cardDetail-table").toggle().css('height','auto');
-            });
-        });
-        //排房選中active
-        $(function(){
-            $('.counterBlock').click(function(){
-                $('.counterBlock').removeClass("active");
-                $(this).addClass("active");
-            });
-        });
 
         //房務管理切換
-        $(function(){
             $('.hk-graphics-btn').hide();
             $('.hk-dataList-container').hide();
 
@@ -188,7 +158,6 @@
                 $('.hk-table-container').show();
                 $('.hk-list-btn').show();
             });
-        });
         //.End房務管理切換
 
         $('#hk-PMS0410010-table').datagrid({
@@ -219,7 +188,7 @@
 
 
 
-        $(function(){
+        // ** 房務入帳主檔 **
             //選中的增加active
             $(".hk-MidBoxsBlock").click(function() {
                 $(this).siblings('.hk-MidBoxsBlock').removeClass('active');
@@ -247,7 +216,7 @@
                 $(".hk-midNav-2").hide();
                 $(".hk-midNav-1").show();
             });
-        });
+        //.End ** 房務入帳主檔 **
 
         // 彈出房務入帳主檔
         $(document).on('click', ".hk-posting-btn", function (e) {
@@ -357,18 +326,5 @@
             ]]
         });
 
-//common JS
-        // Resize Table Height
-        var menuHeight1 = $(".navbar-container").height();
-        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-        console.log('menuHeight1',menuHeight1);
-        console.log('gridTableHt',menuHeight2);
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-        console.log('gridTableHt .panel-body',height);
-        $(window).resize(function() {
-            height = $(window).height()-menuHeight1-menuHeight2-10;
-            $(".gridTableHt .panel-body").css("height", height);
-        });
     });
 </script>

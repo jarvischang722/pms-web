@@ -11,4 +11,16 @@
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0820020'] 取得房間特色-->
+    <dao name="QRY_ROOM_MN_CHARACTER_RMK">
+        <statement><![CDATA[
+              select character_cod character_rmk, character_nam,sys_default
+               from character_rf
+              where trim(athena_id) = ? and trim(hotel_cod) = ?
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
 </root>

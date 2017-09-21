@@ -85,7 +85,7 @@ module.exports = {
         let end_dat = singleRowData.end_dat || "";
         let result = new ReturnClass();
         let error = null;
-        return callback(error, result);  //TODO 暫時先不判斷
+
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
             queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {
                 athena_id: athena_id,
@@ -182,9 +182,10 @@ module.exports = {
 
                         if (!_.isUndefined(delDR.upload_sta) && delDR.upload_sta == "Y") {
                             delError = new ErrorClass();
+                            delResult.success = false;
                             delError.errorMsg = "上傳官網,不能刪除";
                             delError.errorCod = '1111';
-                            delResult.success = false;
+
                             return callback(delError, delResult);
                         }
 
@@ -466,20 +467,20 @@ module.exports = {
         let chkError = null;
         let params = postData["singleRowData"] || {};
         let userInfo = session.user;
-        params["begin_dat"] = moment(params["begin_dat"] ).format("YYYY/MM/DD");
+        params["begin_dat"] = moment(params["begin_dat"]).format("YYYY/MM/DD");
         try {
             async.waterfall([
                 function (cb) {
-                    self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function(err, lo_checkResult){
-                        if(lo_checkResult.success && !err){
+                    self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function (err, lo_checkResult) {
+                        if (lo_checkResult.success && !err) {
                             cb(null, "chk success");
                         }
-                        else{
+                        else {
                             cb(err, lo_checkResult);
                         }
                     });
                 },
-                function (lo_checkResult, cb){
+                function (lo_checkResult, cb) {
                     let lo_params = {
                         athena_id: params.athena_id,
                         hotel_cod: params.hotel_cod,
@@ -534,18 +535,18 @@ module.exports = {
                         cb(chkError, chkResult);
                     });
                 }
-            ], function(err, result){
-                if(err){
+            ], function (err, result) {
+                if (err) {
                     chkError = new ErrorClass();
                     chkError.errorCod = "1111";
-                    chkError.errorMsg = err.message;
+                    chkError.errorMsg = err.message || err.errorMsg;
                     chkResult.success = false;
                 }
                 callback(chkError, chkResult);
             });
-        } catch (err) {
+        } catch (ex) {
             chkError = new ErrorClass();
-            chkError.errorMsg = err;
+            chkError.errorMsg = ex.message;
             chkError.errorCod = "1111";
             chkResult.success = false;
             callback(chkError, chkResult);
@@ -661,18 +662,19 @@ module.exports = {
                 chkError = new ErrorClass();
                 chkError.errorMsg = err;
                 chkError.errorCod = "1111";
-            } else {
-
-                if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
-
-                    ruleResult.showAlert = true;
-                    ruleResult.alertMsg = "房型類別不可修改";
-                    ruleResult.effectValues = {
-                        room_typ: room.room_typ
-                    };
-
-                }
+                return callback(chkError, ruleResult);
             }
+
+            if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
+
+                ruleResult.showAlert = true;
+                ruleResult.alertMsg = "房型類別不可修改";
+                ruleResult.effectValues = {
+                    room_typ: room.room_typ
+                };
+
+            }
+
             callback(chkError, ruleResult);
         });
 

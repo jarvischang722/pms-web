@@ -20,9 +20,18 @@ module.exports = {
         callback(null, [postData.field]);
     },
 
+    /**
+     * 參數滾房租日
+     * pg_ais2.sf_get_hotel_sval(hotel_cod, 'HFD', 'rent_cal_dat',  Athena_id )
+     * 1.欄位「end_dat結束日期」不可以早於「begin_dat開始日期」
+     * 2.結束日大於等於滾房租日
+     * 3.開始日大於等於滾房租日
+     * 4.明細日期不能重疊,例如第2行2015/5/1~2015/7/31,第3行2015/7/31~2015/12/31,這樣就算重疊
+     * 訊息:第2行2015/5/1~2015/7/31與第3行2015/7/31~2015/12/31,日期區間重疊
+     */
     chk_hfd_use_dt_begin_end_dat: function (postData, session, callback) {
         let ls_rentCalDat;
-        let la_dtData = _.clone(postData.allRows);
+        let la_dtData = _.clone(postData.allRowData);
         let lo_result = new ReturnClass();
         let lo_error = null;
         let params = {
@@ -31,7 +40,7 @@ module.exports = {
         };
 
         async.waterfall([
-            qryRentCalDat,
+            qryRentCalDat,          //參數滾房租日
             chkBeginAndEndDat
         ], function (err, result) {
             if (err) {
@@ -43,6 +52,7 @@ module.exports = {
                     postData.rowData.begin_dat = "";
                     postData.rowData.end_dat = "";
                 }
+                postData.rowData[postData.validateField] = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
             callback(lo_error, lo_result);
@@ -63,11 +73,11 @@ module.exports = {
             rent_cal_dat = new Date(rent_cal_dat);
 
             try {
-                if (postData.editData.begin_dat != "" && !_.isUndefined(postData.editData.begin_dat)) {
-                    lo_beginDat = moment(new Date(postData.editData.begin_dat));
+                if (postData.editRowData.begin_dat != "" && !_.isUndefined(postData.editRowData.begin_dat)) {
+                    lo_beginDat = moment(new Date(postData.editRowData.begin_dat));
                 }
-                if (postData.editData.end_dat != "" && !_.isUndefined(postData.editData.end_dat)) {
-                    lo_endDat = moment(new Date(postData.editData.end_dat));
+                if (postData.editRowData.end_dat != "" && !_.isUndefined(postData.editRowData.end_dat)) {
+                    lo_endDat = moment(new Date(postData.editRowData.end_dat));
                 }
             }
             catch(ex){
@@ -99,15 +109,15 @@ module.exports = {
                 let lb_chkEndDat;
                 let ls_repeatMsg;
                 let li_curIdx;
-                if(!_.isUndefined(postData.editData.key_nos)){
-                    li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editData.key_nos});
+                if(!_.isUndefined(postData.editRowData.key_nos)){
+                    li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editRowData.key_nos});
                 }
                 else{
-                    li_curIdx = _.findIndex(la_dtData, postData.editData);
+                    li_curIdx = _.findIndex(la_dtData, postData.editRowData);
                 }
-                if(!_.isUndefined(postData.allRows)) {
-                    postData.allRows.pop();
-                    _.each(postData.allRows, function (comparDT, compIdx) {
+                if(!_.isUndefined(postData.allRowData)) {
+                    postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
+                    _.each(postData.allRowData, function (comparDT, compIdx) {
                         let ls_begin_dat = moment(new Date(comparDT.begin_dat)).format("YYYY-MM-DD");
                         let ls_end_dat = moment(new Date(comparDT.end_dat)).format("YYYY-MM-DD");
                         lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat);
@@ -118,6 +128,7 @@ module.exports = {
                             return cb(true, ls_repeatMsg);
                         }
                     });
+                    cb(false, "");
                 }
                 else{
                     cb(false, "");

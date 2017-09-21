@@ -27,6 +27,8 @@ module.exports = function(app  ) {
     app.post('/api/getRouteDtByRouteCod', cashierCrtl.getRouteDtByRouteCod);
     //
     app.post('/api/doSavePMS0830080', cashierCrtl.doSavePMS0830080);
+    //儲存
+    app.post('/api/doSavePMS0830070', cashierCrtl.doSavePMS0830070);
     //取得單筆
     app.post('/api/qryPMS0830070SingleMn', cashierCrtl.qryPMS0830070SingleMn);
     //取得DT

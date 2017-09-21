@@ -125,8 +125,7 @@ Vue.component('single-grid-pms0810020-tmp', {
             end_dat: '',
             isUpdate: false,
             isSort: false,
-            previewList: [],
-
+            previewList: []
         };
     },
     created: function () {
@@ -303,7 +302,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                     deleteData: [self.singleData]
                 }, function (result) {
                     if (result.success) {
-                        self.deleteStatue = true;
+                        self.deleteStatus = true;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
 
@@ -336,7 +335,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             var self = this;
             var targetRowAfterDelete = {}; //刪除後要指向的資料
-            if (this.deleteStatue) {
+            if (this.deleteStatus) {
                 var rowsNum = $("#PMS0810020_dg").datagrid('getRows').length;
                 var currentRowIdx = $("#PMS0810020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                 if (currentRowIdx == rowsNum - 1) {
@@ -373,7 +372,7 @@ Vue.component('single-grid-pms0810020-tmp', {
                         self.emitFetchSingleData();
                     }
                     self.previewList = [];
-                    if (self.deleteStatue) {
+                    if (self.deleteStatus) {
                         /**
                          * 刪除成功
                          * 1.取下一筆
@@ -403,9 +402,9 @@ Vue.component('single-grid-pms0810020-tmp', {
         },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
-                return _.findWhere(selectData, {value: val}).display;
+                return   _.findWhere(selectData, {value: val}).display;
             } else {
-                return val;
+                return val + ":";
             }
         },
 
@@ -446,10 +445,8 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         // 執行上傳官網
         execUploadRoomType: function (lo_params) {
-            waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, lo_params);
             $.post("/api/gateway/uploadRoomType", params, function (result) {
-                waitingDialog.hide();
                 if (result.success) {
                     alert('uploadRoomType success!');
                 } else {
@@ -731,13 +728,13 @@ var vm = new Vue({
         editStatus: function (newVal) {
             if (newVal) {
                 vm.createStatus = false;
-                vm.deleteStatue = false;
+                vm.deleteStatus = false;
             }
         },
         createStatus: function (newVal) {
             if (newVal) {
                 vm.editStatus = false;
-                vm.deleteStatue = false;
+                vm.deleteStatus = false;
             }
         },
         deleteStatus: function (newVal) {
@@ -784,6 +781,7 @@ var vm = new Vue({
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
+                vm.pageTwoDataGridFieldData =  result.fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
             });
         },
@@ -825,17 +823,16 @@ var vm = new Vue({
             vm.tmpCud.deleteData = [];
             var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
-                alert("Warning", 'Check at least one item');
+                alert('Check at least one item.');
                 return;
             }
             var q = confirm("Are you sure delete those data?");
             if (q) {
-                //刪除前檢查
-
+                //刪除Row
                 _.each(checkRows, function (row) {
                     vm.tmpCud.deleteData.push(row);
                 });
-
+                //刪除前檢查
                 $.post("/api/deleteFuncRule", {
                     page_id: 1,
                     prg_id: prg_id,
@@ -844,13 +841,14 @@ var vm = new Vue({
                     if (result.success) {
                         //刪除Row
                         _.each(checkRows, function (row) {
-                            var DelIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
-                            $('#PMS0810020_dg').datagrid('deleteRow', DelIndex);
+                            var ln_delIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
+                            $('#PMS0810020_dg').datagrid('deleteRow', ln_delIndex);
                         });
                         vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
                         vm.doSaveCUD(function () {
                         });
                     } else {
+                        vm.tmpCud.deleteData=[];
                         alert(result.errorMsg);
                     }
 
@@ -859,15 +857,42 @@ var vm = new Vue({
             }
 
         },
+        //資料驗證
+        dataValidate: function () {
+            var self = this;
+            var lo_chkResult;
+            for (var i = 0; i < this.pageTwoDataGridFieldData.length; i++) {
+                var lo_field = this.pageTwoDataGridFieldData[i];
+                //必填
+                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
+                    lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+
+                //有format
+                if (lo_field.format_func_name != "") {
+                    lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_chkResult.success == false) {
+                        break;
+                    }
+                }
+            };
+            return lo_chkResult;
+
+        },
 
         //資料儲存
         doSaveCUD: function (callback) {
             var self = this;
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
-
+            var lo_chkResult = this.dataValidate();
+            if (vm.tmpCud.deleteData.length == 0 && lo_chkResult.success == false) {
+                alert(lo_chkResult.msg);
+                return;
+            }
             self.isSaving = true;
-            // console.log("===Save params===");
-            // console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 self.isSaving = false;
                 if (result.success) {
@@ -1064,10 +1089,8 @@ var vm = new Vue({
                 room_cod: vm.singleData.room_cod,
                 begin_dat: vm.singleData.begin_dat
             };
-            waitingDialog.show("Loading...");
             $.post("/api/PMS0810020/getRoomTypeUploadPic", params)
                 .done(function (getResult) {
-                    waitingDialog.hide();
                     vm.isLoading = false;
                     if (getResult.success) {
                         vm.singleData.pic_path = getResult.roomTypePicData;
@@ -1124,7 +1147,7 @@ var vm = new Vue({
             this.initDatePicker();
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
-            var height = 19 * 50; // 預設一個row 高度
+            var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#singleGridPMS0810020").dialog({
                 autoOpen: false,
                 modal: true,

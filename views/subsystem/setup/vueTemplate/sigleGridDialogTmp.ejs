@@ -7,8 +7,9 @@
                     <div class="row no-margin-right">
                         <!-- Start Content -->
                         <form id="singleDataForm" method="post">
-                            <div id="singleGridDiv" class=" grid">
+                            <div id="singleGridDiv">
                                 <div v-for="fields in pageTwoFieldData">
+                                <div class=" grid">
                                     <div class="grid-item " v-for="field in fields">
                                         <!--  CheckBox add class="labelCkbox" -->
                                         <label :style="{width:field.label_width + 'px'}"
@@ -90,6 +91,7 @@
                                                v-model="singleData[field.ui_field_name]"
                                                v-if="field.visiable == 'N'"/>
                                     </div>
+                                </div>
                                 </div>
 
                                 <!-- DT 的datagrid -->

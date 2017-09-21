@@ -62,7 +62,9 @@ var vueMain = new Vue({
         },
         //抓取資料
         fetchTrafficData: function () {
+            this.isLoading = true;
             $.post("/api/getTrafficData", {prg_id: gs_prg_id, page_id: 1}, function (result) {
+                vueMain.isLoading = false;
                 vueMain.trafficData = result.trafficData;
             });
         },
@@ -111,7 +113,8 @@ var vueMain = new Vue({
                         waitingDialog.hide();
                         if (response.success) {
                             self.dgIns.initTmpCUD();
-                            self.fetchDgFieldData();
+                            self.fetchTrafficData();
+                            //self.fetchDgFieldData();
                             alert('save success!');
                         } else {
                             alert(response.errorMsg);

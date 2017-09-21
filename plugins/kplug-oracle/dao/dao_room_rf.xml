@@ -42,7 +42,7 @@
     <!-- 取得房租項目select  -->
     <dao name="QRY_SERVICE_RF_ITEM_NOS">
         <statement><![CDATA[
-            select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+            select item_nos as value, rtrim(item_sna) as  display
             from service_rf
             where athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)
@@ -57,7 +57,7 @@
     <!-- 取得房租項目select  -->
     <dao name="QRY_SERVICE_RF_RENT_COD">
         <statement><![CDATA[
-            select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+            select item_nos as value, rtrim(item_sna) as display
             from service_rf
             where athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)
@@ -72,7 +72,7 @@
     <!-- 取得服務費消費項目select  -->
     <dao name="QRY_SERVICE_RF_SERV_COD">
         <statement><![CDATA[
-            select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+            select item_nos as  value, item_sna  as  display
             from service_rf
             where athena_id = :athena_id
             and trim(hotel_cod) = trim(:hotel_cod)
@@ -87,7 +87,7 @@
     <!-- 取得免費服務項目select -->
     <dao name="QRY_SERVICE_RF_FREE_COD">
         <statement><![CDATA[
-             select item_nos value,rtrim(item_nos) || ':' || rtrim(item_sna) display
+             select item_nos as value, rtrim(item_sna) as  display
              from service_rf
              where athena_id = :athena_id
              and trim(hotel_cod) = trim(:hotel_cod)
