@@ -467,20 +467,20 @@ module.exports = {
         let chkError = null;
         let params = postData["singleRowData"] || {};
         let userInfo = session.user;
-        params["begin_dat"] = moment(params["begin_dat"] ).format("YYYY/MM/DD");
+        params["begin_dat"] = moment(params["begin_dat"]).format("YYYY/MM/DD");
         try {
             async.waterfall([
                 function (cb) {
-                    self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function(err, lo_checkResult){
-                        if(lo_checkResult.success && !err){
+                    self.chk_rvrmcod_rf_is_exist_rminv_dt(postData, session, function (err, lo_checkResult) {
+                        if (lo_checkResult.success && !err) {
                             cb(null, "chk success");
                         }
-                        else{
+                        else {
                             cb(err, lo_checkResult);
                         }
                     });
                 },
-                function (lo_checkResult, cb){
+                function (lo_checkResult, cb) {
                     let lo_params = {
                         athena_id: params.athena_id,
                         hotel_cod: params.hotel_cod,
@@ -535,8 +535,8 @@ module.exports = {
                         cb(chkError, chkResult);
                     });
                 }
-            ], function(err, result){
-                if(err){
+            ], function (err, result) {
+                if (err) {
                     chkError = new ErrorClass();
                     chkError.errorCod = "1111";
                     chkError.errorMsg = err.message || err.errorMsg;
@@ -662,18 +662,19 @@ module.exports = {
                 chkError = new ErrorClass();
                 chkError.errorMsg = err;
                 chkError.errorCod = "1111";
-            } else {
-
-                if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
-
-                    ruleResult.showAlert = true;
-                    ruleResult.alertMsg = "房型類別不可修改";
-                    ruleResult.effectValues = {
-                        room_typ: room.room_typ
-                    };
-
-                }
+                return callback(chkError, ruleResult);
             }
+
+            if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
+
+                ruleResult.showAlert = true;
+                ruleResult.alertMsg = "房型類別不可修改";
+                ruleResult.effectValues = {
+                    room_typ: room.room_typ
+                };
+
+            }
+
             callback(chkError, ruleResult);
         });
 
