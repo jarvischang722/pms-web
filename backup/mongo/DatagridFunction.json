@@ -1,39 +1,4 @@
 { 
-    "_id" : ObjectId("58c5177f323a15276c3aa3ca"), 
-    "prg_id" : "PMS0810020", 
-    "func_id" : "0100", 
-    "rule_func_name" : "qry_rvrmcod_rf", 
-    "page_id" : NumberInt(1)
-}
-{ 
-    "_id" : ObjectId("58c5177f323a15276c3aa3cb"), 
-    "prg_id" : "PMS0810020", 
-    "func_id" : "0200", 
-    "rule_func_name" : "r_rvrmcod_rf_add", 
-    "page_id" : NumberInt(1)
-}
-{ 
-    "_id" : ObjectId("58c5177f323a15276c3aa3cc"), 
-    "prg_id" : "PMS0810020", 
-    "func_id" : "0300", 
-    "rule_func_name" : "r_rvrmcod_rf_del_save", 
-    "page_id" : NumberInt(1)
-}
-{ 
-    "_id" : ObjectId("58c5177f323a15276c3aa3cd"), 
-    "prg_id" : "PMS0810020", 
-    "func_id" : "0400", 
-    "rule_func_name" : "qry_single_rvrmcod_rf", 
-    "page_id" : NumberInt(1)
-}
-{ 
-    "_id" : ObjectId("58c5177f323a15276c3aa3ce"), 
-    "prg_id" : "PMS0810020", 
-    "func_id" : "0401", 
-    "rule_func_name" : "chk_edit_rvrmcod_rf", 
-    "page_id" : NumberInt(1)
-}
-{ 
     "_id" : ObjectId("58cf4db33cdc5d021507fa71"), 
     "prg_id" : "PMS0810010", 
     "func_id" : "0300", 
@@ -919,7 +884,7 @@
     "prg_id" : "PMS0830100", 
     "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
-    "func_id" : "0200", 
+    "func_id" : "0541", 
     "rule_func_name" : "QRY_HFD_REST_DT_SEQ_NOS"
 }
 { 
@@ -1095,4 +1060,34 @@
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1011), 
     "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59c1ddcb1af7d633f8830934"), 
+    "prg_id" : "PMS0810020", 
+    "func_id" : "0100", 
+    "rule_func_name" : "qry_rvrmcod_rf"
+}
+{ 
+    "_id" : ObjectId("59c1ddcb1af7d633f8830935"), 
+    "prg_id" : "PMS0810020", 
+    "func_id" : "0200", 
+    "rule_func_name" : "r_rvrmcod_rf_add"
+}
+{ 
+    "_id" : ObjectId("59c1ddcb1af7d633f8830936"), 
+    "prg_id" : "PMS0810020", 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_rvrmcod_rf_is_exist_rminv_dt"
+}
+{ 
+    "_id" : ObjectId("59c1ddcb1af7d633f8830937"), 
+    "prg_id" : "PMS0810020", 
+    "func_id" : "0400", 
+    "rule_func_name" : "qry_single_rvrmcod_rf"
+}
+{ 
+    "_id" : ObjectId("59c1ddcb1af7d633f8830938"), 
+    "prg_id" : "PMS0810020", 
+    "func_id" : "0401", 
+    "rule_func_name" : "chk_edit_rvrmcod_rf"
 }

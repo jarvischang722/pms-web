@@ -8452,7 +8452,7 @@
     "tab_page_id" : NumberInt(1), 
     "grid_field_name" : "hfd_use_rf", 
     "ui_field_name" : "sys_default", 
-    "ui_type" : "text", 
+    "ui_type" : "select", 
     "ui_field_length" : NumberInt(1), 
     "ui_field_num_point" : NumberInt(0), 
     "col_seq" : NumberInt(5), 
