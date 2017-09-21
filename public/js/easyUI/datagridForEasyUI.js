@@ -3,7 +3,6 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
-var isUserEdit = true; //是否為修改或是連動修改
 var ga_colorAry = [];  //
 /**
  * datagrid 轉接器與call
@@ -94,7 +93,7 @@ var EZfieldClass = {
         };
 
         /** 將不能修改的日期改成textbox，因textbox的editor.format沒作用，所以利用onChange轉型**/
-        if((fieldAttrObj.ui_type == "datebox" || fieldAttrObj.ui_type == "datetime") && fieldAttrObj.modificable == "N"){
+        if ((fieldAttrObj.ui_type == "datebox" || fieldAttrObj.ui_type == "datetime") && fieldAttrObj.modificable == "N") {
             tmpFieldObj.editor.type = "textbox";
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 if (newValue != "" && !_.isUndefined(newValue)) {
@@ -136,9 +135,9 @@ var EZfieldClass = {
 
             //combobox連動
             if (fieldAttrObj.rule_func_name != "") {
-                tmpFieldObj.editor.options.onSelect = function (date) {
+                tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    onChangeAction(fieldAttrObj, "", date, ls_dgName);
+                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                 };
             }
 
@@ -192,9 +191,7 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    if (isUserEdit) {
-                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
-                    }
+                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                 };
             }
         } else if (fieldAttrObj.ui_type == "checkbox") {
@@ -260,9 +257,7 @@ var EZfieldClass = {
 
 
                 if (fieldAttrObj.rule_func_name != "") {
-                    if (isUserEdit) {
-                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
-                    }
+                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                 }
             };
 
@@ -287,10 +282,8 @@ var EZfieldClass = {
                     }
                     return val;
                 }
-                
-                    return "";
-                
 
+                return "";
             };
         } else if (dataType == "combogrid") {
             //參數設定於各對照擋的Rule
@@ -299,12 +292,9 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.textField = fieldAttrObj.selectGridOptions.textField;
             tmpFieldObj.editor.options.columns = fieldAttrObj.selectGridOptions.columns;
             tmpFieldObj.editor.options.data = fieldAttrObj.selectData;
-            isUserEdit = true;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                if (isUserEdit) {
-                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
-                }
+                onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
             };
         }
         return tmpFieldObj;
@@ -320,9 +310,8 @@ var EZfieldClass = {
  * @param dgName
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-
-    if (newValue != oldValue && !_.isUndefined(newValue) && isUserEdit) {
-        var allDataRow = $('#' + dgName).datagrid('getRows');
+    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue)) {
+        var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
@@ -339,7 +328,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
-        isUserEdit = false;
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
@@ -368,7 +356,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             //連動帶回的值
             if (!_.isUndefined(result.effectValues)) {
                 var effectValues = result.effectValues;
-                isUserEdit = false;
                 if (!_.isArray(effectValues) && _.size(result.effectValues) > 0) {
 
                     $('#' + dgName).datagrid('endEdit', indexRow);
@@ -397,8 +384,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     });
 
                 }
-
-                isUserEdit = true;
             }
 
             if (!result.isModifiable) {
@@ -479,19 +464,22 @@ $.extend($.fn.datagrid.methods, {
         var rowData = $('#' + dgName).datagrid('getSelected');
         var $row = $("table[class='datagrid-btable']").find("tr[datagrid-row-index='" + editingIdx + "']");
         _.each(cols, function (field_name) {
-            if ($row.find("td[field='" + field_name + "']").length == 1) {
-                if ($row.find("td[field='" + field_name + "']").find(".textbox-value").length > 0) {
-                    if ($row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim() != "") {
-                        rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".textbox-value").val().trim();
+                var $td = ($row.find("td[field='" + field_name + "']").length == 1) ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
+                var $textbox = $(".textbox-value", $td);
+                var $checkbox = $(".dg-checkbox-change", $td);
+
+                if ($textbox.length > 0) {
+                    if ($textbox.val().trim() != "") {
+                        rowData[field_name] = $textbox.val().trim();
                     }
-                } else if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").length > 0) {
-                    if ($row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim() != "") {
-                        rowData[field_name] = $row.find("td[field='" + field_name + "']").find(".dg-checkbox-change").val().trim();
+                    else if ($checkbox.length > 0) {
+                        if ($checkbox.val().trim() != "") {
+                            rowData[field_name] = $checkbox.val().trim();
+                        }
                     }
                 }
             }
-        });
-
+        );
         return rowData;
     }
 });
