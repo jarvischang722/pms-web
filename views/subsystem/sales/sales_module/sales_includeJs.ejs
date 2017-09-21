@@ -174,12 +174,6 @@
 
 //        $('.easyUi-custom1').css("height","100px");
 
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            fit: true,
-//            height: auto
-        });
 
         /***
          * PMS0620010
@@ -502,7 +496,6 @@
             url: '/jsonData/bsCompany_clerkDataGridResult.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
                 {field: 'clerkNum', title: 'Sales Id', width: 100},
                 {field: 'clerkName', title: 'Name', width: 100},
                 {field: 'clerkStatus', title: 'Status', width: 100},
@@ -689,17 +682,6 @@
 
     });
 
-    // Resize Table Height
-    var menuHeight1 = $(".navbar-container").height();
-    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-            console.log('menuHeight1',menuHeight1);
-            console.log('gridTableHt',menuHeight2);
-    height = $(window).height()-menuHeight1-menuHeight2-10;
-    $(".gridTableHt .panel-body").css("height", height);
-    console.log('gridTableHt .panel-body',height);
-    $(window).resize(function() {
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-    });
+
 </script>
 

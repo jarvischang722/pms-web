@@ -2251,6 +2251,9 @@ select.localeSelect {
 .search-content .search-co .search-co-content.search-S2 .search-footer-btn .icon-moreSearch:hover i {
   color: #fff;
 }
+.search-content .search-co .search-co-content.search-S2-con.rece-search-detail {
+  padding-top: 0;
+}
 
 /*-- colorPicker 修改(假日類別設定) -- */
 .spectrumColor {

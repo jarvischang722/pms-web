@@ -1,26 +1,6 @@
 <script type="text/javascript">
     jQuery(function () {
 
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            fit: true,
-//            height: auto
-        });
-
-
-        $('[data-rel=tooltip]').tooltip();
-
-        // 下拉選單 文字更換(樓層、棟別)
-        $('.dpUIList li > a').on('click', function(){
-            $(this).parents('.select-group').find('.dpShowValue').text(this.innerHTML);
-        });
-        // 下拉選單 文字更換(樓層、棟別)
-        $('.dpUIList li > a').on('click', function(){
-            $(this).parents('.btn-group').find('.dpShowValue').text(this.innerHTML);
-        });
-
-
         /***
          * PMS0210020 綜合櫃檯
          */
@@ -770,7 +750,7 @@
         /***
          * PMS0210130 messages
          */
-// pm dataGrid
+        // pm dataGrid
         $('#pa-setting-1').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -880,247 +860,242 @@
             ]]
 
         });
-    });
 
-    //    新增晨呼
-    $(document).on('click', ".addMorning-btn", function (e) {
-        e.preventDefault();
-        var dialog = $("#addMorning-page").removeClass('hide').dialog({
-            modal: true,
-            title: "新增晨呼",
-            title_html: true,
-            width: 700,
-            maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-            dialogClass: "test",
-            resizable: true
+
+        //    新增晨呼
+        $(document).on('click', ".addMorning-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#addMorning-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增晨呼",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+    //                height: $(window).height(),
+    //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         });
-    });
 
-    // 排房作業
-    $('#roomDetail-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/front_roomAssign-1.json',
-        method: 'get',
-        columns: [[
-            {field: 'cardCode', title: '訂房卡號', width: 100},
-            {field: 'code', title: '序號', width: 50},
-            {field: 'bookingNum', title: '訂房數', width: 50},
-            {field: 'roomNum', title: '排房數', width: 50},
-            {field: 'ciNum', title: 'C/I數', width: 50},
-            {field: 'coNum', title: 'C/O數', width: 50},
-            {field: 'proxyCompanyName', title: '團號', width: 100},
-            {field: 'kind', title: '種類', width: 50},
-            {field: 'state', title: '狀態', width: 70},
-            {field: 'ciDate', title: 'C/I 日期', width: 100},
-            {field: 'coDate', title: 'C/O 日期', width: 100},
-            {field: 'days', title: '天數', width: 50},
-            {field: 'roomCode', title: '房價代號', width: 150},
-            {field: 'cRoom', title: '計價房種', width: 100},
-            {field: 'useRoom', title: '使用房種', width: 100},
-            {field: 'avgRoom', title: '平均房價', width: 100},
-            {field: 'csKind', title: '住客類別', width: 100},
-            {field: 'fullName', title: 'Full Name', width: 100},
-            {field: 'company', title: '代訂公司', width: 100},
-            {field: 'contact', title: '聯絡人', width: 100},
-            {field: 'companyName', title: '公司名稱', width: 100},
-            {field: 'adult', title: '大人', width: 50},
-            {field: 'child', title: '小孩', width: 50},
-            {field: 'baby', title: '嬰兒', width: 50}
-        ]]
-    });
-    // 排房作業細節2
-    $('#roomDetail-table2').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/front_roomAssign-2.json',
-        method: 'get',
-        columns: [[
-            {field: 'cardCode', title: '訂房卡號', width: 100},
-            {field: 'code', title: '序號', width: 50},
-            {field: 'bookingNum', title: '房組', width: 50},
-            {field: 'name', title: '姓名', width: 50},
-            {field: 'roomAssignNum', title: '排房', width: 50},
-            {field: 'roomNum', title: '房號', width: 50},
-            {field: 'roomAssignHousing', title: '排房房種', width: 100},
-            {field: 'useHousing', title: '使用房種', width: 100},
-            {field: 'valuationHousing', title: '計價房種', width: 100},
-            {field: 'roomAssignSet', title: '排房設定', width: 100},
-            {field: 'ciDate', title: 'C/I 日期', width: 100},
-            {field: 'coDate', title: 'C/O 日期', width: 100},
-            {field: 'days', title: '天數', width: 50},
-            {field: 'insteadOrderCo', title: '代訂公司', width: 100},
-            {field: 'roomNumCode', title: '房價代號', width: 150},
-            {field: 'adult', title: '大人', width: 50},
-            {field: 'child', title: '小孩', width: 50},
-            {field: 'baby', title: '嬰兒', width: 50},
-            {field: 'avgRoom', title: '平均房價', width: 80,align: 'right'},
-            {field: 'changeRoomRm', title: '換房備駐', width: 200}
-        ]]
-    });
+        // 排房作業
+        $('#roomDetail-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_roomAssign-1.json',
+            method: 'get',
+            columns: [[
+                {field: 'cardCode', title: '訂房卡號', width: 100},
+                {field: 'code', title: '序號', width: 50},
+                {field: 'bookingNum', title: '訂房數', width: 50},
+                {field: 'roomNum', title: '排房數', width: 50},
+                {field: 'ciNum', title: 'C/I數', width: 50},
+                {field: 'coNum', title: 'C/O數', width: 50},
+                {field: 'proxyCompanyName', title: '團號', width: 100},
+                {field: 'kind', title: '種類', width: 50},
+                {field: 'state', title: '狀態', width: 70},
+                {field: 'ciDate', title: 'C/I 日期', width: 100},
+                {field: 'coDate', title: 'C/O 日期', width: 100},
+                {field: 'days', title: '天數', width: 50},
+                {field: 'roomCode', title: '房價代號', width: 150},
+                {field: 'cRoom', title: '計價房種', width: 100},
+                {field: 'useRoom', title: '使用房種', width: 100},
+                {field: 'avgRoom', title: '平均房價', width: 100},
+                {field: 'csKind', title: '住客類別', width: 100},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'company', title: '代訂公司', width: 100},
+                {field: 'contact', title: '聯絡人', width: 100},
+                {field: 'companyName', title: '公司名稱', width: 100},
+                {field: 'adult', title: '大人', width: 50},
+                {field: 'child', title: '小孩', width: 50},
+                {field: 'baby', title: '嬰兒', width: 50}
+            ]]
+        });
+        // 排房作業細節2
+        $('#roomDetail-table2').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_roomAssign-2.json',
+            method: 'get',
+            columns: [[
+                {field: 'cardCode', title: '訂房卡號', width: 100},
+                {field: 'code', title: '序號', width: 50},
+                {field: 'bookingNum', title: '房組', width: 50},
+                {field: 'name', title: '姓名', width: 50},
+                {field: 'roomAssignNum', title: '排房', width: 50},
+                {field: 'roomNum', title: '房號', width: 50},
+                {field: 'roomAssignHousing', title: '排房房種', width: 100},
+                {field: 'useHousing', title: '使用房種', width: 100},
+                {field: 'valuationHousing', title: '計價房種', width: 100},
+                {field: 'roomAssignSet', title: '排房設定', width: 100},
+                {field: 'ciDate', title: 'C/I 日期', width: 100},
+                {field: 'coDate', title: 'C/O 日期', width: 100},
+                {field: 'days', title: '天數', width: 50},
+                {field: 'insteadOrderCo', title: '代訂公司', width: 100},
+                {field: 'roomNumCode', title: '房價代號', width: 150},
+                {field: 'adult', title: '大人', width: 50},
+                {field: 'child', title: '小孩', width: 50},
+                {field: 'baby', title: '嬰兒', width: 50},
+                {field: 'avgRoom', title: '平均房價', width: 80,align: 'right'},
+                {field: 'changeRoomRm', title: '換房備駐', width: 200}
+            ]]
+        });
 
-    // 住客查詢
-    $('#PMS0210050').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/PMS0210050.json',
-        method: 'get',
-        columns: [[
-            {field: 'name', title: 'Name', width: 100},
-            {field: 'gender', title: 'Gender', width: 55},
-            {field: 'status', title: 'Status', width: 70},
-            {field: 'ciDate', title: 'CI Date', width: 100},
-            {field: 'coDate', title: 'CO Date', width: 100},
-            {field: 'company', title: 'Company', width: 100},
-            {field: 'room', title: 'Room', width: 70},
-            {field: 'rmSer', title: 'RM.Ser', width: 70},
-            {field: 'rvNos', title: 'RV.Nor', width: 70},
-            {field: 'rvSer', title: 'RV.Ser', width: 50},
-            {field: 'nationality', title: 'Nationality', width: 100},
-            {field: 'license', title: 'License Plate', width: 100}
-        ]]
-    });
+        // 住客查詢
+        $('#PMS0210050').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/PMS0210050.json',
+            method: 'get',
+            columns: [[
+                {field: 'name', title: 'Name', width: 100},
+                {field: 'gender', title: 'Gender', width: 55},
+                {field: 'status', title: 'Status', width: 70},
+                {field: 'ciDate', title: 'CI Date', width: 100},
+                {field: 'coDate', title: 'CO Date', width: 100},
+                {field: 'company', title: 'Company', width: 100},
+                {field: 'room', title: 'Room', width: 70},
+                {field: 'rmSer', title: 'RM.Ser', width: 70},
+                {field: 'rvNos', title: 'RV.Nor', width: 70},
+                {field: 'rvSer', title: 'RV.Ser', width: 50},
+                {field: 'nationality', title: 'Nationality', width: 100},
+                {field: 'license', title: 'License Plate', width: 100}
+            ]]
+        });
 
-    // 排房明細
-    $('#townList-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/townList-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'rmNo', title: 'Rm. No.', width: 70},
-            {field: 'rmType', title: 'Rm. Type', width: 70},
-            {field: 'rmSta', title: 'Rm. Sta.', width: 70},
-            {field: 'hkSta', title: 'HK Sta.', width: 70},
-            {field: 'oos', title: 'OOS', width: 70},
-            {field: 'assign', title: 'Assign', width: 100},
-            {field: 'name', title: 'Full Name', width: 100},
-            {field: 'ciDate', title: 'C/I Date', width: 100},
-            {field: 'coDate', title: 'C/O Date', width: 100},
-            {field: 'rmRemark', title: 'Rm. Remark', width: 150},
-        ]]
-    });
+        // 排房明細
+        $('#townList-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/townList-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'rmNo', title: 'Rm. No.', width: 70},
+                {field: 'rmType', title: 'Rm. Type', width: 70},
+                {field: 'rmSta', title: 'Rm. Sta.', width: 70},
+                {field: 'hkSta', title: 'HK Sta.', width: 70},
+                {field: 'oos', title: 'OOS', width: 70},
+                {field: 'assign', title: 'Assign', width: 100},
+                {field: 'name', title: 'Full Name', width: 100},
+                {field: 'ciDate', title: 'C/I Date', width: 100},
+                {field: 'coDate', title: 'C/O Date', width: 100},
+                {field: 'rmRemark', title: 'Rm. Remark', width: 150},
+            ]]
+        });
 
-    // 接待單筆
-    $('#fd-checkIn-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/fd-checkIn-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'scan', title: '掃描', width: 40},
-            {field: 'rem', title: '提醒', width: 40},
-            {field: 'money', title: '指定訂金', width: 70,align:"right"},
-            {field: 'phone', title: '電話機語言', width: 80},
-            {field: 'clean', title: '清掃狀態', width: 70},
-            {field: 'roomNum', title: '房號', width: 70},
-            {field: 'vip', title: 'VIP', width: 40},
-            {field: 'name', title: '住客姓名', width: 100},
-            {field: 'inDate', title: '入住日期', width: 100},
-            {field: 'outDate', title: '退房日期', width: 100},
-            {field: 'code', title: '房價代號', width: 100},
-            {field: 'useRoom', title: '使用房種', width: 100},
-            {field: 'roomPrice', title: '房價', width: 100,align:"right"},
-            {field: 'roomType', title: '排房房種', width: 100}
-        ]]
-    });
+        // 接待單筆
+        $('#fd-checkIn-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/fd-checkIn-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'scan', title: '掃描', width: 40},
+                {field: 'rem', title: '提醒', width: 40},
+                {field: 'money', title: '指定訂金', width: 70,align:"right"},
+                {field: 'phone', title: '電話機語言', width: 80},
+                {field: 'clean', title: '清掃狀態', width: 70},
+                {field: 'roomNum', title: '房號', width: 70},
+                {field: 'vip', title: 'VIP', width: 40},
+                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'inDate', title: '入住日期', width: 100},
+                {field: 'outDate', title: '退房日期', width: 100},
+                {field: 'code', title: '房價代號', width: 100},
+                {field: 'useRoom', title: '使用房種', width: 100},
+                {field: 'roomPrice', title: '房價', width: 100,align:"right"},
+                {field: 'roomType', title: '排房房種', width: 100}
+            ]]
+        });
 
-    // PMS0210120 晨呼table(checkbox)
-    $('#front_morningCall_Chk-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/front_morningCall_Chk.json',
-        method: 'get',
-        method: 'get',
-        columns: [[
-            {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-        ]]
+        // PMS0210120 晨呼table(checkbox)
+        $('#front_morningCall_Chk-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/front_morningCall_Chk.json',
+            method: 'get',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
+            ]]
 
-    });
-    // 晨呼table
-    $('#morningCallTable').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/morningCallTable.json',
-        method: 'get',
-        columns: [[
-//            {field: 'box', title: '', width: 30},
-            {field: 'roomNum', title: '房號', width: 70},
-            {field: 'name', title: '住客姓名', width: 100},
-            {field: 'callDate', title: '晨呼日期', width: 100},
-            {field: 'callTime', title: '晨呼時間', width: 100},
-            {field: 'callState', title: '晨呼狀態', width: 100},
-            {field: 'addDate', title: '新增日', width: 100},
-            {field: 'addBy', title: '新增者', width: 100},
-            {field: 'lastDate', title: '最後異動日', width: 100},
-            {field: 'lastGuy', title: '最後異動者', width: 100},
-        ]]
-    });
+        });
+        // 晨呼table
+        $('#morningCallTable').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/morningCallTable.json',
+            method: 'get',
+            columns: [[
+    //            {field: 'box', title: '', width: 30},
+                {field: 'roomNum', title: '房號', width: 70},
+                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'callDate', title: '晨呼日期', width: 100},
+                {field: 'callTime', title: '晨呼時間', width: 100},
+                {field: 'callState', title: '晨呼狀態', width: 100},
+                {field: 'addDate', title: '新增日', width: 100},
+                {field: 'addBy', title: '新增者', width: 100},
+                {field: 'lastDate', title: '最後異動日', width: 100},
+                {field: 'lastGuy', title: '最後異動者', width: 100},
+            ]]
+        });
 
-    // PMS0210120 晨呼table 單筆(checkbox)
+        // PMS0210120 晨呼table 單筆(checkbox)
 
-    // PMS0210120 晨呼table 單筆
-    $('#morningSingle-table').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/morningSingle-table.json',
-        method: 'get',
-        columns: [[
-            {field: 'box', title: '<input type="checkbox" />', width: 30, align:'center'},
-            {field: 'roomNum', title: '房號', width: 70},
-            {field: 'name', title: '住客姓名', width: 100},
-            {field: 'callDate', title: '晨呼日期', width: 100},
-            {field: 'callTime', title: '晨呼時間', width: 100}
-        ]]
-    });
+        // PMS0210120 晨呼table 單筆
+        $('#morningSingle-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/morningSingle-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'box', title: '<input type="checkbox" />', width: 30, align:'center'},
+                {field: 'roomNum', title: '房號', width: 70},
+                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'callDate', title: '晨呼日期', width: 100},
+                {field: 'callTime', title: '晨呼時間', width: 100}
+            ]]
+        });
 
-    // RelatedRms table
-    $('#relatedRmsTable').datagrid({
-        singleSelect: true,
-        collapsible: true,
-        // 從json 撈
-        url: '/jsonData/relatedRmsTable.json',
-        method: 'get',
-        columns: [[
-//            {field: 'box', title: '', width: 30},
-            {field: 'roomNum', title: '房號', width: 50},
-            {field: 'name', title: 'Full Name', width: 100},
-            {field: 'sex', title: '性別', width: 50},
-            {field: 'nationality', title: '國籍', width: 70},
-            {field: 'bookingRoom', title: '訂房公司名稱', width: 100},
-            {field: 'ciDate', title: 'C/I日期', width: 100},
-            {field: 'ciTime', title: 'C/I時間', width: 100},
-            {field: 'expectCo', title: '預計C/O日期', width: 100},
-            {field: 'bookingNum', title: '訂房卡號', width: 100},
-            {field: 'groupName', title: '團號/團體名稱', width: 100}
-        ]]
-    });
+        // RelatedRms table
+        $('#relatedRmsTable').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/relatedRmsTable.json',
+            method: 'get',
+            columns: [[
+    //            {field: 'box', title: '', width: 30},
+                {field: 'roomNum', title: '房號', width: 50},
+                {field: 'name', title: 'Full Name', width: 100},
+                {field: 'sex', title: '性別', width: 50},
+                {field: 'nationality', title: '國籍', width: 70},
+                {field: 'bookingRoom', title: '訂房公司名稱', width: 100},
+                {field: 'ciDate', title: 'C/I日期', width: 100},
+                {field: 'ciTime', title: 'C/I時間', width: 100},
+                {field: 'expectCo', title: '預計C/O日期', width: 100},
+                {field: 'bookingNum', title: '訂房卡號', width: 100},
+                {field: 'groupName', title: '團號/團體名稱', width: 100}
+            ]]
+        });
 
-    //顯示排房明細
-    $(function () {
+        //顯示排房明細
         $('.showCardDetail').click(function () {
             $(".cardDetail-table").toggle().css('height','auto');
-        });
-    });
-    //排房選中active
-    $(function(){
+        })
+        //排房選中active
         $('.townBlock').click(function(){
             $('.townBlock').removeClass("active");
             $(this).addClass("active");
         });
-    });
-    //排房切換
-    $(function(){
+        //排房切換
         $('.town-graphics-btn').hide();
         $('.town-table').hide();
         $('.roomAssign').on('click', ".town-list-btn", function (e) {
@@ -1136,20 +1111,7 @@
             $('.town-grap').show();
             $('.town-list-btn').show();
         });
+
     });
 
-
-//common JS
-    // Resize Table Height
-    var menuHeight1 = $(".navbar-container").height();
-    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-//    console.log('menuHeight1',menuHeight1);
-//    console.log('gridTableHt',menuHeight2);
-    height = $(window).height()-menuHeight1-menuHeight2-10;
-    $(".gridTableHt .panel-body").css("height", height);
-    console.log('gridTableHt .panel-body',height);
-    $(window).resize(function() {
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-    });
 </script>
