@@ -26,6 +26,8 @@ var mongoAgent = require("./plugins/mongodb");
 var tbSVC = require("./services/DbTableService");
 var _ = require("underscore");
 
+//靜態檔案指定路徑
+app.use(express.static(__dirname + '/public'));
 
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
@@ -74,7 +76,6 @@ app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10
 //app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}));  //url編碼處理
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(i18n.init);
