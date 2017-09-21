@@ -802,6 +802,10 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 });
             }
 
+            if (!chk_err && !_.isUndefined(chk_result.effectValues)) {
+                postData.createData = chk_result.effectValues;
+            }
+
             callback(chk_err, chk_result);
 
         });

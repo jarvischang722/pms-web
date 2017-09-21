@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [PMS0830010] 虛擬欄位『今日已開班次數』、『今日最後開班時間』-->
+    <!-- [PMS0830010] 查詢OPEN_RF數量-->
     <dao name="QRY_OPEN_RF_COUNT">
         <statement><![CDATA[
             select COUNT(*) as openRfCount from open_rf
@@ -28,5 +28,21 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="String" kind="3">hotel_cod</parameter>
         <parameter type="String" kind="3">open_man</parameter>
+    </dao>
+
+    <!-- [PMS0830010] 虛擬欄位『今日已開班次數』、『今日最後開班時間』-->
+    <dao name="QRY_OPEN_TIMES_AND_OPEN_DAT">
+        <statement><![CDATA[
+            select nvl(open_times,0) open_times, lopen_dat open_dat from open_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and shop_dat = :shop_dat
+            and trim(shift_cod) = trim(:shift_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="String" kind="3">hotel_cod</parameter>
+        <parameter type="date" kind="3">shop_dat</parameter>
+        <parameter type="String" kind="3">shift_cod</parameter>
     </dao>
 </root>

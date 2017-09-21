@@ -582,6 +582,7 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                         ruleAgent[createRuleFuncName](postData, session, function (err, result) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
+                                                postData.singleRowData = result.effectValues;
                                             }
                                             callback(err, 'create');
                                         });
@@ -677,6 +678,7 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                         lo_chkResult.success = false;
                     }
                     lo_chkResult.extendExecDataArrSet = tmpExtendExecDataArrSet;
+                    lo_chkResult.effectValues = postData.singleRowData;
 
                     callback(lo_chkError, lo_chkResult);
                 });
