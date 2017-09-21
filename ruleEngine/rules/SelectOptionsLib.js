@@ -372,11 +372,11 @@ exports.checkStaIsCheckedList = function () {
 };
 
 /**
- * [PMS0830010_出納員設定] 啟用狀態
+ * [PMS0830010_出納員設定] 啟用狀態checkbox
  * @returns {[array]}
  */
-exports.getCashierrfUseSta = function(){
-    var lo_optionList= [
+exports.getCashierrfUseSta = function () {
+    var lo_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -386,7 +386,25 @@ exports.getCashierrfUseSta = function(){
         }
     ];
     return lo_optionList;
-}
+};
+
+/**
+ * [PMS0830010_出納員設定] 啟用狀態select
+ * @returns {[array]}
+ */
+exports.getCashierrfUsestaSelect = function () {
+    var lo_optionList = [
+        {
+            display: "啟用",
+            value: "Y"
+        },
+        {
+            display: "不啟用",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
 
 
 /**
@@ -467,7 +485,7 @@ exports.HfdroomcolorrfProtyp = function () {
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒
  * @returns {array}
  */
-exports.getChkOutOption = function(){
+exports.getChkOutOption = function () {
     var lo_optionList = [
         {
             display: "是",
@@ -485,7 +503,7 @@ exports.getChkOutOption = function(){
  * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
  * @returns {array}
  */
-exports.getHfdusedtSysdefault = function(){
+exports.getHfdusedtSysdefault = function () {
     var lo_optionList = [
         {
             display: "是",
@@ -503,7 +521,7 @@ exports.getHfdusedtSysdefault = function(){
  * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
  * @returns {[array]}
  */
-exports.getVisiableOption = function(){
+exports.getVisiableOption = function () {
     var lo_optionList = [
         {
             display: "顯示",
@@ -525,8 +543,8 @@ exports.getVisiableOption = function(){
  * PMS0810050 交通接駁設定
  * @return {[*,*]}
  */
-exports.getHfdarriverfday  = function(){
-    var la_optionList= [
+exports.getHfdarriverfday = function () {
+    var la_optionList = [
         {
             on: 'Y',
             off: 'N'
@@ -793,7 +811,7 @@ exports.chkHfdorderconfirmrfContent = function (params, callback) {
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒
  * @param params
  */
-exports.qryHfdusedtConotice = function(params, callback){
+exports.qryHfdusedtConotice = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getChkOutOption();
     callback(null, lo_result);
@@ -803,7 +821,7 @@ exports.qryHfdusedtConotice = function(params, callback){
  * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
  * @param params
  */
-exports.qryHfdusedtSysdefault = function(params, callback){
+exports.qryHfdusedtSysdefault = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getHfdusedtSysdefault();
     callback(null, lo_result);
@@ -814,7 +832,7 @@ exports.qryHfdusedtSysdefault = function(params, callback){
  * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
  * @returns params
  */
-exports.qryHfdusedtIsvisiable = function(params, callback){
+exports.qryHfdusedtIsvisiable = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getVisiableOption();
     callback(null, lo_result);
@@ -824,65 +842,79 @@ exports.qryHfdusedtIsvisiable = function(params, callback){
  * PMS0830090 MasterTyp
  * @param params
  */
-exports.qryMasterrfMastertyp = function(params,callback){
+exports.qryMasterrfMastertyp = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getMasteRrfMasterTypList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0830090 MasterSta
  * @param params
  */
-exports.qryMasterrfMastersta = function(params,callback){
+exports.qryMasterrfMastersta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getMasteRrfMasterStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0840030 是否打勾可修改金額
  * @param params
  */
-exports.qryHkproductrfAmodifysta = function(params,callback){
+exports.qryHkproductrfAmodifysta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0840030 是否打勾要服務費
  * @param params
  */
-exports.qryHkproductrfServicesta = function(params,callback){
+exports.qryHkproductrfServicesta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.checkStaIsCheckedList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0840030 是否要扣庫存
  * @param params
  */
-exports.qryHkproductrfInvsta = function(params,callback){
+exports.qryHkproductrfInvsta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0840030 是否要使用狀態
  * @param params
  */
-exports.qryHkproductrfUsesta = function(params,callback){
+exports.qryHkproductrfUsesta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUseStaList();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
-exports.qryCashierrfUsesta = function (params, callback){
+/**
+ * [PMS0830010_出納員設定] 啟用狀態checkbox
+ * @param params
+ */
+exports.qryCashierrfUsesta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getCashierrfUseSta();
+    callback(null, lo_result);
+};
+
+/**
+ * [PMS0830010_出納員設定] 啟用狀態select
+ * @param params
+ */
+exports.qryCashierrfUsestaSelect = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCashierrfUsestaSelect();
     callback(null, lo_result);
 };
 
@@ -890,8 +922,8 @@ exports.qryCashierrfUsesta = function (params, callback){
  * PMS0810050
  * @param params
  */
-exports.qryHfdarriverfday = function(params,callback){
+exports.qryHfdarriverfday = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getHfdarriverfday();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
