@@ -86,6 +86,7 @@ module.exports = {
                         var color = colorCodToHex(getResult.color_num);
                         postData.rowData.day_sta_color = "#" + color;
                     }
+                    catch(ex){}
                     lo_result.effectValues = {day_sta_color: postData.rowData.day_sta_color};
                     cb(null, lo_result);
                 }
