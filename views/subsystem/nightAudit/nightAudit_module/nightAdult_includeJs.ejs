@@ -1,14 +1,6 @@
 <script type="text/javascript">
     jQuery(function () {
 
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            fit: true,
-//            height: auto
-        });
-
-        $('[data-rel=tooltip]').tooltip();
 
         /***
          * PMS0510010 夜間稽核
@@ -84,6 +76,7 @@
                 {field: 'resvCardNum', title: '訂房卡號', width: 100}
             ]]
         });
+
         // 夜間稽核 開關班 dataGrid
         $('#nightAdt_closeure-table').datagrid({
             singleSelect: true,
@@ -103,18 +96,5 @@
             ]]
         });
 
-//common JS
-        // Resize Table Height
-        var menuHeight1 = $(".navbar-container").height();
-        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-        console.log('menuHeight1',menuHeight1);
-        console.log('gridTableHt',menuHeight2);
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-        console.log('gridTableHt .panel-body',height);
-        $(window).resize(function() {
-            height = $(window).height()-menuHeight1-menuHeight2-10;
-            $(".gridTableHt .panel-body").css("height", height);
-        });
     });
 </script>

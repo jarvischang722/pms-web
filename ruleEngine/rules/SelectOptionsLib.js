@@ -463,11 +463,97 @@ exports.HfdroomcolorrfProtyp = function () {
     ];
 };
 
+//房間狀況
+exports.roomMnRoomSta = function () {
+    return [
+        {
+            display: "空房",
+            value: "V"
+        },
+        {
+            display: "住人",
+            value: "O"
+        },
+        {
+            display: "修理",
+            value: "R"
+        },
+        {
+            display: "參觀",
+            value: "S"
+        }
+    ];
+};
+
+//排房狀況
+exports.roomMnAssignSta = function () {
+    return [
+        {
+            display: "有排房",
+            value: "Y"
+        },
+        {
+            display: "無排房",
+            value: "N"
+        }
+    ];
+};
+
+//清掃狀況
+exports.roomMnCleanSta = function () {
+    return [
+        {
+            display: "乾靜",
+            value: "C"
+        },
+        {
+            display: "髒",
+            value: "D"
+        }
+    ];
+};
+
+//清掃狀況
+exports.roomMnBedSta = function () {
+    return [
+        {
+            display: "無設定",
+            value: "N"
+        },
+        {
+            display: "拆床",
+            value: "S"
+        },
+        {
+            display: "併床",
+            value: "M"
+        }
+    ];
+};
+
 /**
  * [PMS0820050_櫃檯備品庫存設定] 退房提醒
  * @returns {array}
  */
 exports.getChkOutOption = function(){
+    var lo_optionList = [
+        {
+            display: "是",
+            value: "Y"
+        },
+        {
+            display: "否",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
+ * @returns {array}
+ */
+exports.getHfdusedtSysdefault = function(){
     var lo_optionList = [
         {
             display: "是",
@@ -782,6 +868,17 @@ exports.qryHfdusedtConotice = function(params, callback){
 };
 
 /**
+ * [PMS0820050_櫃檯備品庫存設定] 系統預設顯示
+ * @param params
+ */
+exports.qryHfdusedtSysdefault = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getHfdusedtSysdefault();
+    callback(null, lo_result);
+};
+
+
+/**
  * [PMS0820050_櫃檯備品庫存設定] 顯示狀態
  * @returns params
  */
@@ -864,5 +961,45 @@ exports.qryCashierrfUsesta = function (params, callback){
 exports.qryHfdarriverfday = function(params,callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getHfdarriverfday();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0820020 房間狀況
+ * @param params
+ */
+exports.qryRoommnRoomsta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.roomMnRoomSta();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0820020 排房狀況
+ * @param params
+ */
+exports.qryRoommnAssignsta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.roomMnAssignSta();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0820020 清掃狀況
+ * @param params
+ */
+exports.qryRoommnCleansta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.roomMnCleanSta();
+    callback(null,lo_result);
+};
+
+/**
+ * PMS0820020 清掃狀況
+ * @param params
+ */
+exports.qryRoommnBedsta = function(params,callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.roomMnBedSta();
     callback(null,lo_result);
 };

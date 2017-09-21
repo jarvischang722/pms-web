@@ -1,15 +1,6 @@
 <script type="text/javascript">
     jQuery(function () {
 
-        // tabs setting
-        $('.easyUi-custom1').tabs({
-            // 可以resize 左右，但height 會變大
-//            fit: true,
-//            height: auto
-        });
-
-        $('[data-rel=tooltip]').tooltip();
-
         /***
          * PMS0310010 Billing
          */
@@ -29,9 +20,11 @@
                 resizable: true
             });
         });
+
         /***
          *  PMS0310010 dataGrid
          */
+
         // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
         $('#cashier_openCashAccDg-table').datagrid({
             singleSelect: true,
@@ -136,6 +129,7 @@
         /***
          * dataGrid
          */
+
         // 外幣匯兌 cashier_FX-table dataGrid
         $('#cashier_FX-table').datagrid({
             singleSelect: true,
@@ -159,6 +153,7 @@
                 {field: 'updDate', title: '修改日期', width: 130}
             ]]
         });
+
         // 住客帳維護_多筆 cashier_GstLedgerMulti dataGrid
         $('#cashier_GstLedgerMulti-table').datagrid({
             singleSelect: true,
@@ -340,19 +335,5 @@
             ]]
         });
 
-
-//common JS
-        // Resize Table Height
-        var menuHeight1 = $(".navbar-container").height();
-        var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-//        console.log('menuHeight1',menuHeight1);
-//        console.log('gridTableHt',menuHeight2);
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-        console.log('gridTableHt .panel-body',height);
-        $(window).resize(function() {
-            height = $(window).height()-menuHeight1-menuHeight2-10;
-            $(".gridTableHt .panel-body").css("height", height);
-        });
     });
 </script>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- PMS0820020 取得清掃人員-->
+    <dao name="QRY_ROOM_MN_CLEAN_COD">
+        <statement><![CDATA[
+              select pers_mn.pers_cod clean_cod, pers_mn.pers_nam 員工名稱, nvl( bdpart_rf.bdpart_nam, pers_mn.bdpart_cod ) 大部門單位, nvl( dept_rf.dept_nam, pers_mn.persdp_cod ) 人事單位 from pers_mn, bdpart_rf, dept_rf,HOTEL_RF
+              where pers_mn.athena_id = bdpart_rf.athena_id(+) and pers_mn.comp_cod = bdpart_rf.comp_cod(+) and pers_mn.bdpart_cod = bdpart_rf.bdpart_cod(+) and pers_mn.athena_id = dept_rf.athena_id(+)
+             and pers_mn.comp_cod = dept_rf.comp_cod(+) and pers_mn.persdp_cod = dept_rf.dept_cod(+) and pers_mn.athena_id =1 and HOTEL_RF.ATHENA_ID = ?  AND  HOTEL_RF.HOTEL_COD = ? and pers_mn.comp_cod = HOTEL_RF.COMP_COD order by pers_mn.pers_cod
+
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+</root>

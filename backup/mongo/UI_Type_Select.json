@@ -492,7 +492,7 @@
     "tab_page_id" : NumberInt(1), 
     "ui_field_name" : "sys_default", 
     "ui_display_name" : "", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "qryHfdusedtSysdefault", 
     "defaultVal" : "N", 
     "ds_from_sql" : "", 
     "multi_lang_table" : "", 
@@ -930,7 +930,6 @@
 { 
     "_id" : ObjectId("598bca11726c3e34cca32581"), 
     "prg_id" : "PMS0830010", 
-    "page_id" : NumberInt(2), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "cashier_cod", 
@@ -940,7 +939,8 @@
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
-    "multi_display_field" : ""
+    "multi_display_field" : "", 
+    "page_id" : NumberInt(2)
 }
 { 
     "_id" : ObjectId("59ab7938c226546d1da495a9"), 
@@ -1289,6 +1289,21 @@
     "ui_display_name" : "", 
     "rule_func_name" : "qryRoommnBedsta", 
     "defaultVal" : "", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59c349dd726c3e155c862e11"), 
+    "prg_id" : "PMS0830010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "use_sta", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryCashierrfUsestaSelect", 
+    "defaultVal" : "Y", 
     "ds_from_sql" : "N", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
