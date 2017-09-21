@@ -389,6 +389,35 @@ var PMS0830070VM = new Vue({
                 PMS0830070VM.pageOneFieldData = result.fieldData;
                 callback(result.success);
             });
+        },
+        combineSQLData: function () {
+            var la_oriRouteDtList = this.routeDtList;
+            var allAccData = [];
+            if (this.tmpCUD.deleteData.length == 0) {
+                this.tmpCUD.dt_createData = [];
+                this.tmpCUD.dt_updateData = [];
+                _.each(this.accounts, function (accData) {
+                    if (accData.length > 0) {
+                        allAccData = _.union(allAccData, accData);
+                    }
+                });
+                _.each(allAccData, function (type) {
+                    var existIdx = _.findIndex(la_oriRouteDtList, {small_typ: type.small_typ.trim()});
+                    if (existIdx == -1) {
+                        PMS0830080VM.tmpCUD.dt_createData.push(type);
+                    } else {
+                        //判斷無效先拿掉，type與la_oriRouteDtList都一樣。
+                        if (type.folio_nos != la_oriRouteDtList[existIdx].folio_nos || type.master_sta != la_oriRouteDtList[existIdx].master_sta) {
+                            PMS0830080VM.tmpCUD.dt_updateData.push(type);
+                        }
+
+                    }
+                });
+            } else {
+                var tmpDeleteData = this.tmpCUD.deleteData;
+                this.initTmpCUD();
+                this.tmpCUD.deleteData = tmpDeleteData;
+            }
         }
     }
 });
