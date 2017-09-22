@@ -1,8 +1,9 @@
 /**
  * Created by Jun on 2017/3/7.
  */
-var ruleSVC = require("../services/DataRuleService");
-var commonTools = require("../utils/CommonTools");
+let ruleSVC = require("../services/DataRuleService");
+let commonTools = require("../utils/CommonTools");
+let ruleAgent = require("../ruleEngine/ruleAgent");
 
 /**
  * 欄位規則檢查
@@ -57,3 +58,21 @@ exports.deleteFuncRule = function (req, res) {
     });
 };
 
+
+/**
+ * 復原此RoomCod 原來的房間名稱
+ */
+exports.revertRoomNam = function(req,res){
+    ruleAgent.getOriRoomNamByRoomCod(req.body,req.session,function(err,result){
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};
+
+/**
+ * 復原此RoomCod 原來的房間簡稱
+ */
+exports.revertRoomSna = function(req,res){
+    ruleAgent.getOriRoomSnaByRoomCod(req.body,req.session,function(err,result){
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};

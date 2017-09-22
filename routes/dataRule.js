@@ -24,5 +24,8 @@ module.exports = function (app) {
     //刪除功能規則
     app.post('/api/deleteFuncRule', middles, ruleCrtl.deleteFuncRule);
 
+    //取得回復房間名稱與簡稱
+    app.post('/api/revertRoomNam',middles,ruleCrtl.revertRoomNam);
+    app.post('/api/revertRoomSna',middles,ruleCrtl.revertRoomSna);
 };
 
