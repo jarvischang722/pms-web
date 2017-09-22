@@ -4080,7 +4080,7 @@ span.triangle-text {
 }
 
 .padding-2 {
-  padding: 2如px;
+  padding: 2px;
 }
 
 .padding-5 {
@@ -4885,8 +4885,11 @@ select {
 }
 
 .btn_secStage {
-  border: 1px solid #888;
-  box-shadow: 5px 3px #eee;
+  border: 1px solid #888 !important;
+  box-shadow: 1px 1px #848484 !important;
+}
+.btn_secStage:hover {
+  background: #eee !important;
 }
 .btn_secStage span {
   color: #888;
