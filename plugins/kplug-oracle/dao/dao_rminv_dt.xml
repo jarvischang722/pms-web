@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- 檢查指定房號於滾房租日(含)以後尚有排房者不可刪除-->
+    <dao name="QRY_ROW_HOURCE_MIN_BATCH_DAT">
+        <statement><![CDATA[
+             SELECT  MIN(BATCH_DAT) as batchDat
+             FROM  RMINV_DT
+             WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ? AND  ASSIGN_STA = 'Y'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="string" kind="1">room_nos</parameter>
+    </dao>
+
+    <!-- 檢查指定房號於滾房租日(含)以後尚有修理設定者不可刪除-->
+    <dao name="QRY_FIX_MIN_BATCH_DAT">
+        <statement><![CDATA[
+              SELECT  MIN(BATCH_DAT) as batchDat
+               FROM  RMINV_DT
+              WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ?  AND  ROOM_STA = 'R'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="string" kind="1">room_nos</parameter>
+    </dao>
+
+    <!-- 檢查指定房號於滾房租日(含)以後尚有參觀設定者不可刪除-->
+    <dao name="QRY_VISIT_MIN_BATCH_DAT">
+        <statement><![CDATA[
+              SELECT  MIN(BATCH_DAT) as batchDat
+               FROM  RMINV_DT
+              WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ?  AND  ROOM_STA = 'S'
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="string" kind="1">room_nos</parameter>
+    </dao>
+</root>
