@@ -115,7 +115,7 @@ a
           opacity: 1
 
 
-//system 改版二
+// optionSystem 改版二
 .boxy
   padding: 0
   display: inline-block
@@ -616,7 +616,10 @@ select.localeSelect
               background: #0A4E9D
               i
                 color: #fff
-
+      &.search-S2-con
+        // 170920 最後將 “rece-search-detail” 的padding拿掉
+        &.rece-search-detail
+          padding-top: 0
 
 
 
@@ -715,6 +718,8 @@ select.localeSelect
         label
           min-height: initial
           cursor: auto
+          &.ckBox_label
+            width: 90px
     &.relatedCheck
       margin-left: 75px
       .checkbox label input[type=checkbox].ace + .lbl
@@ -862,7 +867,7 @@ input[type="radio"], input[type="checkbox"]
   td
     padding: 3px !important
 //新增拜訪編輯
-.NewVisitRecord-wrap
+.newVisitRecord-wrap
   margin: 10px 0
 .newVisit-textarea
   margin-left: 110px

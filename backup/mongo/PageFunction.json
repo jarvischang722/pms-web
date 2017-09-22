@@ -69,27 +69,6 @@
     "rule_func_name" : "chkA6hfdareapntrfIsexistA6hfdprintdt"
 }
 { 
-    "_id" : ObjectId("58c4f31f323a15276c3aa2dd"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0521", 
-    "rule_func_name" : "r_rvrmcod_rf_ins_save"
-}
-{ 
-    "_id" : ObjectId("58c4f31f323a15276c3aa2de"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0300", 
-    "rule_func_name" : "r_rvrmcod_rf_del_save"
-}
-{ 
-    "_id" : ObjectId("59590afff57a0b3362f9e252"), 
-    "prg_id" : "PMS0810020", 
-    "page_id" : NumberInt(2), 
-    "func_id" : "0541", 
-    "rule_func_name" : "r_rvrmcod_rf_ins_save"
-}
-{ 
     "_id" : ObjectId("596c33651ce4521c686b38e8"), 
     "prg_id" : "PMS0840010", 
     "page_id" : NumberInt(2), 
@@ -178,7 +157,7 @@
     "prg_id" : "PMS0830100", 
     "page_id" : NumberInt(2), 
     "func_id" : "0541", 
-    "rule_func_name" : ""
+    "rule_func_name" : "QRY_HFD_REST_DT_SEQ_NOS"
 }
 { 
     "_id" : ObjectId("598ad71bb746b64e2c220c82"), 
@@ -214,4 +193,32 @@
     "page_id" : NumberInt(2), 
     "func_id" : "0541", 
     "rule_func_name" : "r_RoommnUpd"
+}
+{ 
+    "_id" : ObjectId("59c1dd971af7d633f8830926"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : "chk_rvrmcod_rf_is_exist_rminv_dt"
+}
+{ 
+    "_id" : ObjectId("59c1dd971af7d633f8830927"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_rvrmcod_rf_ins_save"
+}
+{ 
+    "_id" : ObjectId("59c1dd971af7d633f8830928"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_rvrmcod_rf_del_save"
+}
+{ 
+    "_id" : ObjectId("59c1dd971af7d633f8830929"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_rvrmcod_rf_ins_save"
 }

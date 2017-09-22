@@ -161,21 +161,21 @@
 	},
 	"Validation": {
 		"Formatter": {
-			"Required": "『%s』 is required",
-			"ChkLength": "『%s』 length limit between %s to %s",
-			"FmtFourEngNum": "『%s』 only enter zero to five numbers",
-			"FmtCharacters": "Please enter 『%s』 the text",
-			"FmtZeroToFiveNum": "『%s』 only enter zero to five numbers",
-			"FmtExactlyTwoWord": "『%s』 only enter zero to two numbers",
-			"FmtZeroToTenNum": "『%s』 only enter zero to ten numbers",
-			"FmtZeroToTenNumAndMinusOne": "『%s』 請輸入0到10碼數字(數字必須大於等於-1)(英文)",
-			"ChkGreaterZeroNum": "Please enter 『%s』 number greater than 0",
-			"ChkGteZeroNum": "Please enter 『%s』 number greater than or equal to 0",
-			"ChkLteZeroNum": "Please enter 『%s』 number less than or equal to 0",
-			"ChkLessZeroNum": "Please enter 『%s』 number less than 0",
-			"ChkZeroToHundred": "『%s』 請輸入0~100的數字(英文)",
-			"ChkZeroToMaxNum": "『%s』 請輸入0~99999的數字(英文)",
-			"FmtHHMM": "『%s』 time format is 'HH:MM'"
+			"Required": "%s is required",
+			"ChkLength": "%s length limit between %s to %s",
+			"FmtFourEngNum": "%s only enter zero to five numbers",
+			"FmtCharacters": "Please enter %s the text",
+			"FmtZeroToFiveNum": "%s only enter zero to five numbers",
+			"FmtExactlyTwoWord": "%s only enter zero to two numbers",
+			"FmtZeroToTenNum": "%s only enter zero to ten numbers",
+			"FmtZeroToTenNumAndMinusOne": "%s 請輸入0到10碼數字(數字必須大於等於-1)(英文)",
+			"ChkGreaterZeroNum": "Please enter %s number greater than 0",
+			"ChkGteZeroNum": "Please enter %s number greater than or equal to 0",
+			"ChkLteZeroNum": "Please enter %s number less than or equal to 0",
+			"ChkLessZeroNum": "Please enter %s number less than 0",
+			"ChkZeroToHundred": "%s 請輸入0~100的數字(英文)",
+			"ChkZeroToMaxNum": "%s 請輸入0~99999的數字(英文)",
+			"FmtHHMM": "%s time format is 'HH:MM'"
 		}
 	}
 }

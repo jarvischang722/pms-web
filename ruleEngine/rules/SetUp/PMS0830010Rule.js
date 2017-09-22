@@ -48,6 +48,7 @@ module.exports = {
             callback(null, result);
         }
     },
+
     // 參數:是否用班別開班
     qryCashierrfUsesta: function (postData, callback) {
         selOptLib.qryCashierrfUsesta(postData, function (err, result) {
@@ -76,7 +77,11 @@ module.exports = {
         });
     },
 
-    // QRY_USE_SHIFT_OPEN 參數:是否用班別開班
+    /**
+     * QRY_USE_SHIFT_OPEN 參數:是否用班別開班
+     * @param params {athena_id, hotel_cod}
+     * @param callback
+     */
     qryUseShiftOpen: function (params, callback) {
         queryAgent.query("QRY_USE_SHIFT_OPEN", params, function (err, getResult) {
             if (_.isNull(getResult.use_shift_open) || getResult.use_shift_open == "Y") {
@@ -119,6 +124,10 @@ module.exports = {
                 });
 
             }
+            else{
+                callback(lo_error, lo_result);
+            }
+
         });
 
         //滾房租日
@@ -161,6 +170,64 @@ module.exports = {
 
     },
 
+    /**
+     * 1.欄位use_sta=N或是『參數:是否用班別開班=Y』則清空欄位def_shift_cod值
+     * 2.欄位use_sta=Y且『參數:是否用班別開班=N』則
+     * (1)欄位def_shift_cod必輸入值
+     * (2)看『預設班別不可重複』sql
+     */
+    r_CashierrfInsSave: function (postData, session, callback) {
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+
+        this.qryUseShiftOpen(lo_params, function (err, getResult) {
+            let ls_use_shift_open = getResult;
+
+            if (postData.singleRowData.use_sta == "false" || ls_use_shift_open == "Y") {
+                postData.singleRowData.def_shift_cod = "";
+                lo_return.effectValues = postData.singleRowData;
+                return callback(lo_error, lo_return);
+            }
+
+            if (postData.singleRowData.use_sta == "true" && ls_use_shift_open == "N") {
+                if (postData.singleRowData.def_shift_cod == "") {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    lo_error.msg = "欄位def_shift_cod必輸入值";
+                    lo_error.errorCod = "1111";
+                    return callback(lo_error, lo_return);
+                }
+
+                let lo_chkParams = lo_params;
+                lo_chkParams.def_shift_cod = postData.singleRowData.def_shift_cod;
+                lo_chkParams.cashier_cod = postData.singleRowData.cashier_cod;
+                queryAgent.query("QRY_CASHIER_RF_COUNT", lo_chkParams, function (err, getResult) {
+                    if (getResult.cashierrfcount > 0) {
+                        lo_error = new ErrorClass();
+                        lo_return.success = false;
+                        lo_error.msg = "預設班別不可重複";
+                        lo_error.errorCod = "1111";
+                    }
+                    return callback(lo_error, lo_return);
+                });
+            }
+            else {
+                callback(lo_error, lo_return);
+            }
+        });
+    },
+
+    // 同上
+    r_CashierrfModifySave: function (postData, session, callback) {
+        this.r_CashierrfInsSave(postData, session, function (err, getResult) {
+            callback(err, getResult);
+        });
+    },
+
     //開班檔已有資料，則不能刪除
     r_CashierrfDelSave: function (postData, session, callback) {
         let lo_params = {
@@ -198,7 +265,7 @@ module.exports = {
         });
     },
 
-    useStaDefault: function(postData, session, callback){
+    useStaDefault: function (postData, session, callback) {
         let lo_return = new ReturnClass();
         lo_return.defaultValues = {use_sta: true};
         callback(null, lo_return);

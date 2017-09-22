@@ -14,19 +14,22 @@ function validateClass() {
     this.required = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = ls_value != "";
+        var lb_result = ls_value !== "";
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.Required, ls_ui_display_name) : sprintf(this.ls_msg.Required, "");
 
         return {success: lb_result, msg: ls_msg};
     };
 
     //資料長度驗證
-    this.chkLength = function (value, params) {
-        var li_minLength = params[0];
-        var li_maxLength = params[1];
+    this.chkLength = function () {
+        var ls_value = arguments[0];
+        var ls_params = arguments[1];
+        var li_minLength = ls_params[0];
+        var li_maxLength = ls_params[1];
+        var ls_ui_display_name = arguments[3];
 
-        var lb_result = value.length <= li_maxLength && value.length >= li_minLength;
-        var ls_msg = sprintf(this.ls_msg.ChkLength, li_minLength, li_maxLength);
+        var lb_result = ls_value.length <= li_maxLength && ls_value.length >= li_minLength;
+        var ls_msg = (arguments.length == 3) ? sprintf(this.ls_msg.ChkLength, ls_ui_display_name, li_minLength, li_maxLength) : sprintf(this.ls_msg.ChkLength, "", li_minLength, li_maxLength);
         return {success: lb_result, msg: ls_msg};
     };
 
@@ -141,11 +144,31 @@ function validateClass() {
         return {success: lb_result, msg: ls_msg};
     };
 
+    // 判斷是否為整數
+    this.chkInteger = function(ls_value){
+        var lb_result;
+        if (ls_value.toString().indexOf(".") > -1) {
+            lb_result = false;
+        }
+        else{
+            lb_result = true;
+        }
+        return lb_result;
+    };
+
     //只能0~100
     this.ChkZeroToHundred = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 100;
+        var lb_result;
+
+        if (this.chkInteger(ls_value)) {
+            lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 100;
+        }
+        else{
+            lb_result = false;
+        }
+
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkZeroToHundred, ls_ui_display_name) : sprintf(this.ls_msg.ChkZeroToHundred, "");
         return {success: lb_result, msg: ls_msg};
     };
@@ -154,7 +177,13 @@ function validateClass() {
     this.ChkZeroToMaxNum = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 99999;
+        var lb_result;
+        if (this.chkInteger(ls_value)) {
+            lb_result = Number(ls_value) >= 0 && Number(ls_value) <= 99999;
+        }
+        else{
+            lb_result = false;
+        }
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.ChkZeroToMaxNum, ls_ui_display_name) : sprintf(this.ls_msg.ChkZeroToMaxNum, "");
         return {success: lb_result, msg: ls_msg};
     };
