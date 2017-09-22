@@ -8,10 +8,11 @@
         ]]></statement>
         <parameter type="int">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
+        <parameter type="string" kind="3">use_sta</parameter>
+        <!--<statement test="_d(param.use_sta)"><![CDATA[and use_sta IN(:use_sta)]]></statement>-->
+        <statement test="instring" condition="param.use_sta"><![CDATA[and use_sta IN(:use_sta)]]></statement>
         <parameter type="likestring" kind="2" condition="cashier_cod like ?" >cashier_cod</parameter>
         <parameter type="likestring" kind="2" condition="def_shift_cod like ?" >def_shift_cod</parameter>
-        <statement test="_d(param.use_sta)"><![CDATA[and use_sta = :use_sta]]></statement>
-        <parameter type="string" kind="3">use_sta</parameter>
     </dao>
 
     <!-- [PMS0830010] 預設班別不可重複-->
@@ -29,7 +30,7 @@
     <!-- [PMS0830010] 取得單筆出納員cashier_rf -->
     <dao name="QRY_CASHIER_RF_SINGLE">
         <statement><![CDATA[
-            select c.athena_id, c.hotel_cod, c.cashier_cod, s.usr_cname, c.use_sta, c.max_times, c.start_amt, c.def_shift_cod, c.ins_dat, c.ins_usr, c.upd_dat, c.upd_usr, nvl(open_times,0) open_times,lopen_dat  from cashier_rf c
+            select c.athena_id, c.hotel_cod, c.cashier_cod, s.usr_cname as cashier_nam, c.use_sta, c.max_times, c.start_amt, c.def_shift_cod, c.ins_dat, c.ins_usr, c.upd_dat, c.upd_usr, nvl(open_times,0) open_times,lopen_dat  from cashier_rf c
             join hotel_rf h on c.athena_id = h.athena_id and c.hotel_cod = h.hotel_cod
             left join s99_user s on s.user_athena_id = h.athena_id and s.cmp_id = h.comp_cod and s.usr_id = c.cashier_cod
             left join open_rf o on o.athena_id = c.athena_id and o.hotel_cod = c.hotel_cod and o.open_man = c.cashier_cod and o.shop_dat = to_date(pg_ais2.SF_GET_HOTEL_SVAL(o.hotel_cod,'HFD','rent_cal_dat',o.athena_id), 'yyyy/mm/dd')

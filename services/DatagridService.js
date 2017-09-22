@@ -80,6 +80,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
         // 3)
         function (gridInfo, callback) {
             if (!_.isUndefined(gridInfo.rule_func_name) && !_.isEmpty(gridInfo.rule_func_name)) {
+                console.log(params);
                 queryAgent.queryList(gridInfo.rule_func_name.toUpperCase(), params, 0, 0, function (err, data) {
                     dataGridRows = data;
                     if (err) {

@@ -49,6 +49,7 @@ function DB() {
 
 DB.prototype.debug = 0;
 DB.prototype.maxRows = 200;  // Default get max rows 200
+DB.prototype.inCon = {};
 DB.prototype.clusters = [];
 DB.prototype.options = {};
 DB.prototype.create = function (opt) {
@@ -149,7 +150,7 @@ DB.prototype.execute = function (sql, param, cb) {
                 });
         });
     });
-}
+};
 
 DB.prototype.loadDao = function (dao) {
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
@@ -235,15 +236,23 @@ DB.prototype.queryDao = function (dao, param, cb) {
     var sql = "";
     daoBean.statements.forEach(function (statement) {
         if (statement.test != '') {
-            var test = parser.parse(statement.test);
-            var r = parser.run(test, kplugFun, {
-                param: param
-            });
-            test = null;
+            var r;
+            if (statement.test == "instring") {
+
+            }
+            else {
+                var test = parser.parse(statement.test);
+                r = parser.run(test, kplugFun, {
+                    param: param
+                });
+                test = null;
+            }
+
             if (r) {
                 sql += ' ' + statement.sql;
             }
-        } else {
+        }
+        else {
             sql += ' ' + statement.sql;
         }
     });
@@ -292,7 +301,22 @@ DB.prototype.queryDao = function (dao, param, cb) {
                         con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
                 } else {
-                    con[parameter.key] = param[parameter.key];
+                    if (_.isArray(param[parameter.key])) {
+                        var self = this;
+                        _.each(param[parameter.key], function (ls_param, index) {
+                            if (index == 0) {
+                                self.inCon[parameter.key] = "";
+                            }
+                            index++;
+                            self.inCon[parameter.key] += "'" + ls_param + "'";
+                            if (index < param[parameter.key].length) {
+                                self.inCon[parameter.key] += ",";
+                            }
+                        });
+                    }
+                    else {
+                        con[parameter.key] = param[parameter.key];
+                    }
                 }
             }
         }
@@ -348,6 +372,13 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
             condition['maxnumrows'] = size;
         }
     }
+
+    if (!_.isEmpty(this.inCon)) {
+        _.each(this.inCon, function (value, index) {
+            sqlstring = sqlstring.replace(":" + index, value);
+        });
+    }
+
     if (dbObj.debug == 1) {
         console.log("sqlstring:" + sqlstring);
         console.log("parameters:" + JSON.stringify(condition));
