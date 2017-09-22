@@ -282,7 +282,7 @@ module.exports = {
                                                         operation: "=",
                                                         value: c_data.room_cod
                                                     }],
-                                                room_nam: c_data.room_name || "",
+                                                room_nam: c_data.room_nam || "",
                                                 room_sna: c_data.room_sna || ""
                                             });
 
