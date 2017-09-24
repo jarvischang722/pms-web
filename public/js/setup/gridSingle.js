@@ -843,7 +843,8 @@ var vm = new Vue({
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID(function (success) {});
+        this.loadDataGridByPrgID();
+        this.loadSingleGridPageField();
     },
     components: {
         "search-comp": go_searchComp
@@ -934,7 +935,10 @@ var vm = new Vue({
         },
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function (callback) {
-
+            if (_.isUndefined(callback) || _.isNull(callback)) {
+                callback = function () {
+                };
+            }
             $.post("/api/singleGridPageFieldQuery", {
                 prg_id: prg_id,
                 page_id: 2,
@@ -943,7 +947,6 @@ var vm = new Vue({
 
                 var fieldData = result.fieldData;
                 vm.oriPageTwoFieldData = fieldData;
-
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 //page2  datagrid 欄位屬性
@@ -1099,6 +1102,7 @@ var vm = new Vue({
 
         //資料儲存
         doSaveCUD: function (callback) {
+
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
@@ -1108,7 +1112,7 @@ var vm = new Vue({
                 alert(lo_chkResult.msg);
                 return;
             }
-            waitingDialog.show('Saving...');
+
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 waitingDialog.hide();

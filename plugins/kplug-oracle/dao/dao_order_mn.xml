@@ -5,9 +5,10 @@
         <statement><![CDATA[
             select count(*) as rvtyp_count
             from order_mn
-            where athena_id = :athena_id and rownum = 1
+            where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and rownum = 1
         ]]></statement>
         <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <statement test="_v(param.rv1_typ)"><![CDATA[and rv1_typ is not null]]></statement>
         <statement test="_v(param.rv2_typ)"><![CDATA[and rv2_typ is not null]]></statement>
         <statement test="_v(param.rv3_typ)"><![CDATA[and rv3_typ is not null]]></statement>
@@ -25,9 +26,10 @@
         <statement><![CDATA[
           select count(*)  as rvtyp_count
           from order_mn
-          where athena_id = :athena_id and rownum = 1
+          where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and  rownum = 1
         ]]></statement>
         <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <statement test="_v(param.rv1_typ)"><![CDATA[and rv1_typ = :rv_typ ]]></statement>
         <statement test="_v(param.rv2_typ)"><![CDATA[and rv2_typ = :rv_typ ]]></statement>
         <statement test="_v(param.rv3_typ)"><![CDATA[and rv3_typ = :rv_typ ]]></statement>
@@ -46,22 +48,26 @@
         <statement><![CDATA[
        select count(*)  as guest_count
        from order_mn
-        where athena_id = ?  and trim(guest_typ) = trim(?) and rownum = 1
+        where athena_id = ?  and trim(hotel_cod) = trim(?)
+        and trim(guest_typ) = trim(?) and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">guest_typ</parameter>
     </dao>
 
     <!-- [prg_id: PMS0810110] -->
     <dao name="GET_ORDER_MN.SOURCE_TYP_COUNT">
         <statement><![CDATA[
-       select count(*)  as source_count
-       from order_mn
-        where athena_id = ?  and trim(source_typ) = trim(?) and rownum = 1
+        select count(*)  as source_count
+        from order_mn
+        where athena_id = ?  and trim(hotel_cod) = trim(?)
+        and trim(source_typ) = trim(?) and rownum = 1
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">source_typ</parameter>
     </dao>
 
