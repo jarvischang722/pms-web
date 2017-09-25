@@ -200,4 +200,40 @@
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
+
+    <!-- 取得房型名稱 -->
+    <dao name="QRY_RVRMCOD_RF_ROOM_NAM">
+        <statement><![CDATA[
+            select room_nam
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_cod) = trim(:room_cod)
+            and begin_dat <> to_date(:begin_dat,'YYYY/MM/DD')
+            and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+    </dao>
+
+    <!-- 取得房型名稱 -->
+    <dao name="QRY_RVRMCOD_RF_ROOM_SNA">
+        <statement><![CDATA[
+            select room_sna
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_cod) = trim(:room_cod)
+            and begin_dat <> to_date(:begin_dat,'YYYY/MM/DD')
+            and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+    </dao>
 </root>
