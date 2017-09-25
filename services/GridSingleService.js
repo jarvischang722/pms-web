@@ -78,7 +78,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
                 var attrName = field.attr_func_name;
-                if (!_.isEmpty(attrName)) {
+                if (!_.isEmpty(attrName) && (field.visiable == "C" || field.modificable == "C" || field.requirable == "C" )) {
                     let lo_params = {
                         field: field,
                         singleRowData: singleRowData

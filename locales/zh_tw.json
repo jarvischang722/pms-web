@@ -168,6 +168,7 @@
       "FmtZeroToFiveNum": "%s 請輸入0到5碼數字",
       "FmtZeroToTenNumAndMinusOne": "%s 請輸入0到10碼數字(數字必須大於等於-1)",
       "FmtExactlyTwoWord": "%s 請輸入2碼數字",
+      "FmtExactlyTwoCode": "%s 請輸入2碼代號",
       "FmtZeroToTenNum": "%s 請輸入0到10碼數字",
       "ChkGreaterZeroNum": "%s 請輸入大於0的數字",
       "ChkGteZeroNum": "%s 請輸入大於等於0的數字",
