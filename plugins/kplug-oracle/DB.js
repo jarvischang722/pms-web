@@ -237,16 +237,11 @@ DB.prototype.queryDao = function (dao, param, cb) {
     daoBean.statements.forEach(function (statement) {
         if (statement.test != '') {
             var r;
-            if (statement.test == "instring") {
-
-            }
-            else {
-                var test = parser.parse(statement.test);
-                r = parser.run(test, kplugFun, {
-                    param: param
-                });
-                test = null;
-            }
+            var test = parser.parse(statement.test);
+            r = parser.run(test, kplugFun, {
+                param: param
+            });
+            test = null;
 
             if (r) {
                 sql += ' ' + statement.sql;
@@ -258,6 +253,7 @@ DB.prototype.queryDao = function (dao, param, cb) {
     });
 
     var con = {};
+    var self = this;
     daoBean.parameters.forEach(function (parameter) {
         if (parameter.kind == 1) {
             sql = sql.replace('?', prefix + parameter.key);
@@ -273,7 +269,8 @@ DB.prototype.queryDao = function (dao, param, cb) {
                 con[parameter.key] = param[parameter.key];
             }
 
-        } else if (parameter.kind == 2) {
+        }
+        else if (parameter.kind == 2) {
             if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
                 sql += " and " + parameter.condition;
                 sql = sql.replace('?', prefix + parameter.key);
@@ -290,7 +287,8 @@ DB.prototype.queryDao = function (dao, param, cb) {
                 }
 
             }
-        } else if (parameter.kind == 3) {
+        }
+        else if (parameter.kind == 3) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
                 if (parameter.type == 'likestring') {
                     con[parameter.key] = '%' + param[parameter.key] + '%';
@@ -300,23 +298,22 @@ DB.prototype.queryDao = function (dao, param, cb) {
                     } else {
                         con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                     }
-                } else {
-                    if (_.isArray(param[parameter.key])) {
-                        var self = this;
-                        _.each(param[parameter.key], function (ls_param, index) {
-                            if (index == 0) {
-                                self.inCon[parameter.key] = "";
-                            }
-                            index++;
-                            self.inCon[parameter.key] += "'" + ls_param + "'";
-                            if (index < param[parameter.key].length) {
-                                self.inCon[parameter.key] += ",";
-                            }
-                        });
-                    }
-                    else {
-                        con[parameter.key] = param[parameter.key];
-                    }
+
+                }
+                else if (parameter.type == 'instring') {
+                    _.each(param[parameter.key], function (ls_param, index) {
+                        if (index == 0) {
+                            self.inCon[parameter.key] = "";
+                        }
+                        index++;
+                        self.inCon[parameter.key] += "'" + ls_param + "'";
+                        if (index < param[parameter.key].length) {
+                            self.inCon[parameter.key] += ",";
+                        }
+                    });
+                }
+                else {
+                    con[parameter.key] = param[parameter.key];
                 }
             }
         }
@@ -401,6 +398,7 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
             return;
         }
         var data = [];
+        this.inCon = {};
         _.each(result.rows, function (row, idx) {
             var dd = {};
             for (var i = 0; i < row.length; i++) {
