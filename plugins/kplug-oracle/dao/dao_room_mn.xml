@@ -28,7 +28,7 @@
     <!-- ['PMS0820020'] 房間設定(單筆) -->
     <dao name="QRY_SINGLE_ROOM_MN">
         <statement><![CDATA[
-               select athena_id, hotel_cod, build_nos, floor_nos, room_nos, room_cod, room_sta, assign_sta, clean_sta, clean_cod, conn_room, character_rmk, oos_sta, osreason_rmk, level_nos, , ed_sta, user_rmk, ci_dat, co_dat, adult_qnt, child_qnt, baby_qnt, alarm_dat, pre_alarm_dat, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
+               select athena_id, hotel_cod, build_nos, floor_nos, room_nos, room_cod, room_sta, assign_sta, clean_sta, clean_cod, conn_room, character_rmk, oos_sta, osreson_rmk, level_nos, bed_sta, user_rmk, ci_dat, co_dat, adult_qnt, child_qnt, baby_qnt, alarm_dat, pre_alarm_dat, view_seq, ins_dat, ins_usr, upd_dat, upd_usr
                from room_mn
                where trim(athena_id) = ? and trim(hotel_cod) = ? and room_nos = ?
         ]]>
@@ -60,5 +60,18 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0820020'] 查詢有無連通房號 -->
+    <dao name="QRY_ROOM_MN_CONN_ROOM">
+        <statement><![CDATA[
+            select conn_room
+            from room_mn
+            where trim(athena_id) = ? and trim(hotel_cod) = ? and room_nos = ? and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="string" kind="1">room_nos</parameter>
     </dao>
 </root>

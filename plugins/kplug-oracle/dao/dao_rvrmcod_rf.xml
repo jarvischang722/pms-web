@@ -191,13 +191,49 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
-    <!-- 房型庫存最大日期 -->
+    <!-- 取得房型 -->
     <dao name="QRY_ROOM_MN_ROOM_COD">
         <statement><![CDATA[
-            select room_cod as value, room_nam as display from rvrmcod_rf where athena_id = ? and hotel_cod = ?
+            select room_cod as value, room_nam as display from rvrmcod_rf where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
+    <!-- 取得房型名稱 -->
+    <dao name="QRY_RVRMCOD_RF_ROOM_NAM">
+        <statement><![CDATA[
+            select room_nam
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_cod) = trim(:room_cod)
+            and begin_dat <> to_date(:begin_dat,'YYYY/MM/DD')
+            and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
+    </dao>
+
+    <!-- 取得房型名稱 -->
+    <dao name="QRY_RVRMCOD_RF_ROOM_SNA">
+        <statement><![CDATA[
+            select room_sna
+            from rvrmcod_rf
+            where athena_id = :athena_id
+            and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_cod) = trim(:room_cod)
+            and begin_dat <> to_date(:begin_dat,'YYYY/MM/DD')
+            and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">room_cod</parameter>
+        <parameter type="string" kind="3">begin_dat</parameter>
     </dao>
 </root>

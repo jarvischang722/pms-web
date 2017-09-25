@@ -153,6 +153,7 @@ DB.prototype.execute = function (sql, param, cb) {
 };
 
 DB.prototype.loadDao = function (dao) {
+    console.log("Exec Dao name : "+dao.dao);
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
         return daoPool[dao.dao];
     }
@@ -230,7 +231,7 @@ DB.prototype.loadDao = function (dao) {
 DB.prototype.queryDao = function (dao, param, cb) {
     var daoBean = this.loadDao(dao);
     if (daoBean == null) {
-        cb({message: 'no dao:' + dao.name}, null, null);
+        cb({message: 'no dao:' + dao.dao}, null, null);
         return;
     }
     var sql = "";

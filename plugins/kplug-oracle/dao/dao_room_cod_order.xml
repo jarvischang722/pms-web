@@ -6,7 +6,7 @@
 
             select count(*) as room_count
             from room_cod_order
-            where athena_id = :athena_id and room_cod = :room_cod
+            where athena_id = :athena_id and trim(room_cod) = trim(:room_cod)
             and    trim(hotel_cod) = trim(:hotel_cod)
 
         ]]>

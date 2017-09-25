@@ -53,8 +53,8 @@ module.exports = {
                     function (callback) {
                         queryAgent.query("CHK_PG_HAVE_EIS_SYS", params, function (err, dataInfo) {
                             if (!err) {
-                                if (dataInfo.displayFiled != null) {
-                                    if (displayFiled == "Y") {
+                                if (dataInfo.displayfiled != null) {
+                                    if (dataInfo.displayfiled == "Y") {
                                         field.visiable = "Y";
                                         callback(null, field);
                                     } else {
