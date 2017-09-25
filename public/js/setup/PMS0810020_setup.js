@@ -216,17 +216,22 @@ Vue.component('single-grid-pms0810020-tmp', {
                         //是否要show出詢問視窗
                         if (result.showConfirm) {
                             if (confirm(result.confirmMsg)) {
+
+                            }else{
                                 //有沒有要再打一次ajax到後端
-                                if (result.isGoPostAjax) {
+                                if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
                                     $.post(result.ajaxURL, postData, function (result) {
                                         if (!result.success) {
                                             alert(result.errorMsg);
+                                        } else {
+                                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                self.singleData = _.extend(self.singleData, result.effectValues);
+                                            }
                                         }
                                     });
                                 }
                             }
                         }
-
 
                     } else {
                         alert(result.errorMsg);
@@ -402,7 +407,7 @@ Vue.component('single-grid-pms0810020-tmp', {
         },
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
-                return   _.findWhere(selectData, {value: val}).display;
+                return _.findWhere(selectData, {value: val}).display;
             } else {
                 return val + ":";
             }
@@ -722,7 +727,7 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchFieldsByRow: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
-        isSaving:false
+        isSaving: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -781,7 +786,7 @@ var vm = new Vue({
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
                 var fieldData = result.fieldData;
-                vm.pageTwoDataGridFieldData =  result.fieldData;
+                vm.pageTwoDataGridFieldData = result.fieldData;
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
             });
         },
@@ -848,7 +853,7 @@ var vm = new Vue({
                         vm.doSaveCUD(function () {
                         });
                     } else {
-                        vm.tmpCud.deleteData=[];
+                        vm.tmpCud.deleteData = [];
                         alert(result.errorMsg);
                     }
 
@@ -878,7 +883,8 @@ var vm = new Vue({
                         break;
                     }
                 }
-            };
+            }
+            ;
             return lo_chkResult;
 
         },
