@@ -6,10 +6,10 @@
             select athena_id, hotel_cod, cashier_cod, use_sta, max_times, start_amt, def_shift_cod, ins_dat, ins_usr, upd_dat, upd_usr from cashier_rf
             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]></statement>
-        <parameter type="int">athena_id</parameter>
+        <parameter type="number">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
-        <statements test="_v(param.use_sta)"><![CDATA[and use_sta IN(:use_sta)]]></statements>
         <parameter type="instring" kind="3">use_sta</parameter>
+        <statement test="_v(param.use_sta)"><![CDATA[and use_sta IN(:use_sta)]]></statement>
         <parameter type="likestring" kind="2" condition="cashier_cod like ?" >cashier_cod</parameter>
         <parameter type="likestring" kind="2" condition="def_shift_cod like ?" >def_shift_cod</parameter>
     </dao>
@@ -20,7 +20,7 @@
             select count(*) as cashierRfCount from cashier_rf
             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(def_shift_cod) = trim(:def_shift_cod) and trim(cashier_cod) <> trim(:cashier_cod)
         ]]></statement>
-        <parameter type="int">athena_id</parameter>
+        <parameter type="number">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
         <parameter type="String">def_shift_cod</parameter>
         <parameter type="String">cashier_cod</parameter>
@@ -35,7 +35,7 @@
             left join open_rf o on o.athena_id = c.athena_id and o.hotel_cod = c.hotel_cod and o.open_man = c.cashier_cod and o.shop_dat = to_date(pg_ais2.SF_GET_HOTEL_SVAL(o.hotel_cod,'HFD','rent_cal_dat',o.athena_id), 'yyyy/mm/dd')
             where c.athena_id = :athena_id and trim(c.hotel_cod) = trim(:hotel_cod) and trim(c.cashier_cod) = trim(:cashier_cod)
         ]]></statement>
-        <parameter type="int">athena_id</parameter>
+        <parameter type="number">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
         <parameter type="String">cashier_cod</parameter>
     </dao>

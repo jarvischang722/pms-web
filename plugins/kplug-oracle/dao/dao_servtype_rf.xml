@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- ['PMS0830020']取得多筆 -->
+    <!-- ['PMS0830020']取得服務種類多筆 -->
     <dao name="QRY_SERV_TYPE_RF">
         <statement><![CDATA[
 
@@ -10,6 +10,8 @@
         ]]></statement>
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">use_typ</parameter>
+        <statement test="_v(param.use_typ)"><![CDATA[and use_typ in(:use_typ)]]></statement>
         <parameter type="likestring" kind="2" condition="serv_typ like ?">serv_typ</parameter>
         <parameter type="likestring" kind="2" condition="type_nam like ? ">type_nam</parameter>
     </dao>

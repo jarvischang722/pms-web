@@ -624,6 +624,25 @@ exports.getHfdarriverfday = function () {
     return la_optionList;
 };
 
+/**
+ * PMS0830110 平板作業區域設定
+ * 搜尋AreapntSta下拉資料
+ * @returns {[*,*]}
+ */
+exports.searchAreapntSta = function(){
+    var la_optionList = [
+        {
+            display: "使用",
+            value: "Y"
+        },
+        {
+            display: "非使用",
+            value: "N"
+        }
+    ];
+    return la_optionList;
+}
+
 //TODO 將搬到 [程式編碼]Rule裡
 
 /**
@@ -1035,3 +1054,14 @@ exports.qryRoommnBedsta = function(params,callback){
     lo_result.selectOptions = optionsLib.roomMnBedSta();
     callback(null,lo_result);
 };
+
+/**
+ * PMS0830110 平板作業區域設定
+ * 搜尋AreapntSta下拉資料
+ * @returns {[*,*]}
+ */
+exports.qrySearchAreapntSta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.searchAreapntSta();
+    callback(null,lo_result);
+}

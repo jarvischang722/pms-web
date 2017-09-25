@@ -153,7 +153,7 @@ DB.prototype.execute = function (sql, param, cb) {
 };
 
 DB.prototype.loadDao = function (dao) {
-    console.log("Exec Dao name : "+dao.dao);
+    console.log("Exec Dao name : " + dao.dao);
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
         return daoPool[dao.dao];
     }
@@ -228,6 +228,29 @@ DB.prototype.loadDao = function (dao) {
     return {statements: statements, parameters: parameters, groupbys: groupbys, orderbys: orderbys};
 };
 
+DB.prototype.paramTypeFormat = function (ls_paramType, lo_param, ls_paramKey) {
+    var ls_cond = "";
+    if (ls_paramType.toLowerCase() == 'likestring') {
+        ls_cond = '%' + lo_param[ls_paramKey] + '%';
+    }
+    else if(ls_paramType.toLowerCase() == "number"){
+        var strToNum = Number(lo_param[ls_paramKey]);
+        ls_cond = (_.isNaN(strToNum)) ? "" : strToNum;
+    }
+    else if (ls_paramType.toLowerCase() == 'date') {
+        if (lo_param[ls_paramKey] instanceof Date) {
+            ls_cond = lo_param[ls_paramKey];
+        } else {
+            ls_cond = new moment(moment(new Date(lo_param[ls_paramKey])).format('YYYY/MM/DD HH:mm:ss')).toDate();
+        }
+    }
+    else {
+        ls_cond = lo_param[ls_paramKey];
+    }
+
+    return ls_cond;
+};
+
 DB.prototype.queryDao = function (dao, param, cb) {
     var daoBean = this.loadDao(dao);
     if (daoBean == null) {
@@ -258,63 +281,37 @@ DB.prototype.queryDao = function (dao, param, cb) {
     daoBean.parameters.forEach(function (parameter) {
         if (parameter.kind == 1) {
             sql = sql.replace('?', prefix + parameter.key);
-            if (parameter.type == 'likestring') {
-                con[parameter.key] = '%' + param[parameter.key] + '%';
-            } else if (parameter.type == 'date') {
-                if (param[parameter.key] instanceof Date) {
-                    con[parameter.key] = param[parameter.key];
-                } else {
-                    con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
-                }
-            } else {
-                con[parameter.key] = param[parameter.key];
-            }
+            con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
 
         }
         else if (parameter.kind == 2) {
             if (_.isUndefined(param[parameter.key]) == false || _.isEmpty(param[parameter.key]) == false) {
                 sql += " and " + parameter.condition;
                 sql = sql.replace('?', prefix + parameter.key);
-                if (parameter.type == 'likestring') {
-                    con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date') {
-                    if (param[parameter.key] instanceof Date) {
-                        con[parameter.key] = param[parameter.key];
-                    } else {
-                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
-                    }
-                } else {
-                    con[parameter.key] = param[parameter.key];
-                }
-
+                con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
             }
         }
         else if (parameter.kind == 3) {
             if (sql.indexOf(prefix + parameter.key) >= 0) {
-                if (parameter.type == 'likestring') {
-                    con[parameter.key] = '%' + param[parameter.key] + '%';
-                } else if (parameter.type == 'date') {
-                    if (param[parameter.key] instanceof Date) {
-                        con[parameter.key] = param[parameter.key];
-                    } else {
-                        con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
+                if (parameter.type.toLowerCase() == 'instring') {
+                    if(param[parameter.key] instanceof Array){
+                        _.each(param[parameter.key], function (ls_param, index) {
+                            if (index == 0) {
+                                self.inCon[parameter.key] = "";
+                            }
+                            index++;
+                            self.inCon[parameter.key] += "'" + ls_param + "'";
+                            if (index < param[parameter.key].length) {
+                                self.inCon[parameter.key] += ",";
+                            }
+                        });
                     }
-
+                    else{
+                        self.inCon[parameter.key] = param[parameter.key];
+                    }
                 }
-                else if (parameter.type == 'instring') {
-                    _.each(param[parameter.key], function (ls_param, index) {
-                        if (index == 0) {
-                            self.inCon[parameter.key] = "";
-                        }
-                        index++;
-                        self.inCon[parameter.key] += "'" + ls_param + "'";
-                        if (index < param[parameter.key].length) {
-                            self.inCon[parameter.key] += ",";
-                        }
-                    });
-                }
-                else {
-                    con[parameter.key] = param[parameter.key];
+                else{
+                    con[parameter.key] = self.paramTypeFormat(parameter.type, param, parameter.key);
                 }
             }
         }
@@ -371,9 +368,10 @@ DB.prototype.doQuery = function (connection, sqlstring, condition, mode, start, 
         }
     }
 
+    // where in 用字串取代方式作
     if (!_.isEmpty(this.inCon)) {
-        _.each(this.inCon, function (value, index) {
-            sqlstring = sqlstring.replace(":" + index, value);
+        _.each(this.inCon, function (value, paramKey) {
+            sqlstring = sqlstring.replace(":" + paramKey, value);
         });
     }
 
