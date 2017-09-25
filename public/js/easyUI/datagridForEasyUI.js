@@ -3,6 +3,7 @@
  * EasyUI 對應page field 欄位屬性相關方法
  * moment套件(必須)
  */
+var isUserEdit = true; //是否為修改或是連動修改
 var ga_colorAry = [];  //
 /**
  * datagrid 轉接器與call
@@ -137,7 +138,9 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    if (isUserEdit) {
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    }
                 };
             }
 
@@ -191,7 +194,9 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    if (isUserEdit) {
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    }
                 };
             }
         } else if (fieldAttrObj.ui_type == "checkbox") {
@@ -257,7 +262,9 @@ var EZfieldClass = {
 
 
                 if (fieldAttrObj.rule_func_name != "") {
-                    onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    if (isUserEdit) {
+                        onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+                    }
                 }
             };
 
@@ -310,7 +317,7 @@ var EZfieldClass = {
  * @param dgName
  */
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue)) {
+    if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
@@ -328,6 +335,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
+        isUserEdit = false;
         $.post('/api/chkFieldRule', postData, function (result) {
             if (result.success) {
                 //是否要show出訊息
@@ -384,8 +392,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     });
 
                 }
-            }
 
+            }
             if (!result.isModifiable) {
                 var la_readonlyFields = _.uniq(result.readonlyFields);
                 _.each(la_readonlyFields, function (field) {
@@ -396,6 +404,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).textbox("readonly", true);
                 });
             }
+            isUserEdit = true;
         });
     }
 }
