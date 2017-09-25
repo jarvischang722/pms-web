@@ -6,6 +6,7 @@
                 select rf.*,fmt.remark1
                 from cntry_rf rf left join ais_mail_fmt_mn fmt on fmt.mail_fmt = rf.mail_fmt and fmt.athena_id = rf.athena_id
                 where rf.athena_id = ?
+                order by contry_cod
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

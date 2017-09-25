@@ -19,7 +19,7 @@
         <statement><![CDATA[
               Select  hotel_cod
               from  hotel_sval_mn
-              Where  athena_id =:athena_id and sys_cod='HFD' AND trim(VAL_RMK)= trim(:contry_cod) and val_nam = rpad(:contry_cod,120) and rownum =1
+              Where  athena_id =:athena_id and sys_cod='HFD' AND trim(VAL_RMK)= 'contry_cod' and val_nam = rpad(:contry_cod,120) and rownum =1
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>

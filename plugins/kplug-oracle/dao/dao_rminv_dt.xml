@@ -6,7 +6,7 @@
         <statement><![CDATA[
              SELECT  MIN(BATCH_DAT) as batchDat
              FROM  RMINV_DT
-             WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ? AND  ASSIGN_STA = 'Y'
+             WHERE  trim(ATHENA_ID) = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ? AND  ASSIGN_STA = 'Y'
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>

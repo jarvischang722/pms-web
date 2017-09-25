@@ -67,7 +67,7 @@
         <statement><![CDATA[
             select conn_room
             from room_mn
-            where athena_id = ? and hotel_cod = ? and room_nos = ? and rownum = 1
+            where trim(athena_id) = ? and trim(hotel_cod) = ? and room_nos = ? and rownum = 1
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
