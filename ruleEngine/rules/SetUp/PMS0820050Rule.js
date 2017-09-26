@@ -197,5 +197,5 @@ module.exports = {
 };
 
 function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-    return now_dat.isBetween(begin_dat, end_dat);
+    return now_dat.isBetween(begin_dat, end_dat, null, '[]');
 }
