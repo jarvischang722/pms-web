@@ -20,13 +20,13 @@
         <parameter type="string" kind="3">athena_id</parameter>
     </dao>
 
-    <!-- ['PMS0810030'] 參數:是否顯示此欄位-->
-    <dao name="CHK_PG_HAVE_EIS_SYS">
-        <statement><![CDATA[
-               select pg_ais2.SF_GET_COMP_SVAL('NULL','EIS','have_eis_sys') as displayFiled from dual
-        ]]>
-        </statement>
-    </dao>
+    <!-- ['PMS0810030'] 參數:是否顯示此欄位 (未使用到)-->
+    <!--<dao name="CHK_PG_HAVE_EIS_SYS">-->
+        <!--<statement><![CDATA[-->
+               <!--select pg_ais2.SF_GET_COMP_SVAL('NULL','EIS','have_eis_sys') as displayFiled from dual-->
+        <!--]]>-->
+        <!--</statement>-->
+    <!--</dao>-->
 
     <!-- ['PMS0820050'] 參數:滾房租日-->
     <dao name="QRY_RENT_CAL_DAT">

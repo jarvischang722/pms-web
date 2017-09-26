@@ -191,10 +191,10 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
-    <!-- 房型庫存最大日期 -->
+    <!-- 取得房型 -->
     <dao name="QRY_ROOM_MN_ROOM_COD">
         <statement><![CDATA[
-            select room_cod as value, room_nam as display from rvrmcod_rf where athena_id = ? and hotel_cod = ?
+            select room_cod as value, room_nam as display from rvrmcod_rf where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
