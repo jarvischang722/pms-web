@@ -152,6 +152,7 @@ DB.prototype.execute = function (sql, param, cb) {
 }
 
 DB.prototype.loadDao = function (dao) {
+    console.log("Exec Dao name : "+dao.dao);
     if (_.isUndefined(dao.xml) == true && daoPool[dao.dao] != null) {
         return daoPool[dao.dao];
     }
@@ -227,9 +228,10 @@ DB.prototype.loadDao = function (dao) {
 };
 
 DB.prototype.queryDao = function (dao, param, cb) {
+
     var daoBean = this.loadDao(dao);
     if (daoBean == null) {
-        cb({message: 'no dao:' + dao.name}, null, null);
+        cb({message: 'no dao:' + dao.dao}, null, null);
         return;
     }
     var sql = "";
@@ -260,7 +262,12 @@ DB.prototype.queryDao = function (dao, param, cb) {
                 } else {
                     con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
                 }
-            } else {
+            } else if (parameter.type == 'instring') {
+                if (param[parameter.key] instanceof Array) {
+                    console.log(param[parameter.key]);
+                    param[parameter.key] = param[parameter.key].join(',');
+                }
+            }else {
                 con[parameter.key] = param[parameter.key];
             }
 
@@ -290,6 +297,11 @@ DB.prototype.queryDao = function (dao, param, cb) {
                         con[parameter.key] = param[parameter.key];
                     } else {
                         con[parameter.key] = new moment(moment(new Date(param[parameter.key])).format('YYYY/MM/DD HH:mm:ss')).toDate();
+                    }
+                } else if (parameter.type == 'instring') {
+                    if (param[parameter.key] instanceof Array) {
+                        console.log(param[parameter.key]);
+                        param[parameter.key] = param[parameter.key];
                     }
                 } else {
                     con[parameter.key] = param[parameter.key];
