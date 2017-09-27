@@ -6,10 +6,10 @@
            select athena_id, hotel_cod, room_cod, desc_rmk, ins_dat, ins_usr, upd_dat, upd_usr from hfd_rest_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="Number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <statement test="_d(param.room_cod)"><![CDATA[and room_cod = :room_cod]]></statement>
-        <parameter type="string" kind="3">room_cod</parameter>
+        <statement test="_v(param.room_cod)"><![CDATA[and room_cod in(:room_cod)]]></statement>
+        <parameter type="instring" kind="3">room_cod</parameter>
     </dao>
 
     <!-- ['PMS0830100'] 單筆逾時計價相關 -->

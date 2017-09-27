@@ -6,7 +6,7 @@
             select athena_id, hotel_cod, cashier_cod, fmoney_cod, start_amt from cashier_fm_mn
             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(cashier_cod) = trim(:cashier_cod)
         ]]></statement>
-        <parameter type="int">athena_id</parameter>
+        <parameter type="number">athena_id</parameter>
         <parameter type="String">hotel_cod</parameter>
         <parameter type="String">cashier_cod</parameter>
     </dao>
