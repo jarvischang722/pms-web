@@ -1309,3 +1309,75 @@
     "multi_value_field" : "", 
     "multi_display_field" : ""
 }
+{ 
+    "_id" : ObjectId("59c4cde507bdfc3508c0234b"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "adult_qnt", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59c4ce9c07bdfc3508c0234c"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "child_qnt", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59c4e6c207bdfc3508c0234d"), 
+    "prg_id" : "PMS0820020", 
+    "tab_page_id" : "1", 
+    "ui_field_name" : "baby_qnt", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "", 
+    "defaultVal" : "0", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59c8a7020da0d29e24ea8cbd"), 
+    "prg_id" : "PMS0830090", 
+    "ui_field_name" : "deposit_nos", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qryDepositnosSelect", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59c8d2a3726c3e2b98fc26a8"), 
+    "prg_id" : "PMS0830110", 
+    "ui_field_name" : "areapnt_sta_search", 
+    "ui_display_name" : "Open", 
+    "rule_func_name" : "qry_search_areapnt_sta", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N"
+}
+{ 
+    "_id" : ObjectId("59c9fd280da0d29e24ea8cc6"), 
+    "prg_id" : "PMS0830090", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "QRY_CUST_MN_FOR_ASHOW_COD", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
