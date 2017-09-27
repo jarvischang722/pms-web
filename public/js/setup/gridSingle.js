@@ -844,6 +844,7 @@ var vm = new Vue({
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID(function (success) {});
+        this.loadSingleGridPageField();
     },
     components: {
         "search-comp": go_searchComp
@@ -940,10 +941,8 @@ var vm = new Vue({
                 page_id: 2,
                 singleRowData: vm.editingRow
             }, function (result) {
-
                 var fieldData = result.fieldData;
                 vm.oriPageTwoFieldData = fieldData;
-
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
 
                 //page2  datagrid 欄位屬性
@@ -1051,7 +1050,6 @@ var vm = new Vue({
                     prg_id: prg_id,
                     deleteData: vm.tmpCud.deleteData
                 }, function (result) {
-
                     if (result.success) {
                         //刪除Row
                         _.each(checkRows, function (row) {
