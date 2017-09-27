@@ -256,13 +256,14 @@ module.exports = {
                                 function (callback) {
                                     async.waterfall([
                                         function (callback) {
-                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
-                                                let thisRuleErr = null;
-                                                if (Number(data.cover_count || 0) > 1) {
-                                                    thisRuleErr = "相同房型的開始結束日期不可重疊";
-                                                }
-                                                callback(thisRuleErr, []);
-                                            });
+                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
+                                            //     let thisRuleErr = null;
+                                            //     if (Number(data.cover_count || 0) > 1) {
+                                            //         thisRuleErr = "相同房型的開始結束日期不可重疊";
+                                            //     }
+                                            //     callback(thisRuleErr, []);
+                                            // });
+                                            callback(null, []);
                                         },
                                         function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
@@ -425,13 +426,14 @@ module.exports = {
                                 function (callback) {
                                     async.waterfall([
                                         function(callback){
-                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
-                                                if (Number(data.cover_count || 0) > 0) {
-                                                    callback("相同房型的開始結束日期不可重疊", []);
-                                                }
-                                            });
+                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
+                                            //     if (Number(data.cover_count || 0) > 0) {
+                                            //         callback("相同房型的開始結束日期不可重疊", []);
+                                            //     }
+                                            // });
+                                            callback(null, []);
                                         },
-                                        function (callback) {
+                                        function (data,callback) {
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'rvrmcod_rf',
@@ -452,7 +454,6 @@ module.exports = {
                                                 room_nam: e_data.room_nam || "",
                                                 room_sna: e_data.room_sna || ""
                                             });
-
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'lang_rvrmcod_rf',
@@ -482,7 +483,6 @@ module.exports = {
                                                 ],
                                                 words: e_data.room_nam || ""
                                             });
-
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'lang_rvrmcod_rf',

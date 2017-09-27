@@ -41,7 +41,7 @@ module.exports = {
                             } else {
                                 //通過
                                 lo_result.success = true;
-                                postData.singleRowData.character_rmk = postData.singleRowData.character_rmk + "CTRM";
+                                postData.singleRowData.character_rmk = postData.singleRowData.character_rmk.push("CTRM");
                                 lo_result.effectValues = postData.singleRowData;
                                 callback(lo_error, lo_result);
                             }
@@ -145,16 +145,16 @@ module.exports = {
     },
     r_RoommDelChangeData: function (postData, session, callback) {
         //組
-        let chkResult = new ReturnClass();
+        let lo_result = new ReturnClass();
         let userInfo = session.user;
-
+        let lo_error = null;
         var params = {
             athena_id: postData.singleRowData.athena_id,
             hotel_cod: postData.singleRowData.hotel_cod
         };
 
         queryAgent.query("QRY_HOTEL_SVAL", params, function (err, guestlData) {
-            chkResult.extendExecDataArrSet.push({
+            lo_result.extendExecDataArrSet.push({
                 function: '0',
                 table_name: 'rminv_dt',
                 condition: [{
@@ -176,7 +176,7 @@ module.exports = {
                 }]
             });
 
-            chkResult.extendExecDataArrSet.push({
+            lo_result.extendExecDataArrSet.push({
                 function: '2',
                 table_name: 'room_mn',
                 condition: [{
@@ -192,8 +192,8 @@ module.exports = {
                     operation: "=",
                     value: postData.singleRowData.romm_nos
                 }],
-                conn_room: e_data.room_nam || "",
-                character_rmk: e_data.room_sna || "" //移除CTRM
+                conn_room:"",
+                character_rmk: postData.singleRowData.character_rmk.push("CTRM")
             });
         });
 
@@ -222,7 +222,7 @@ module.exports = {
                 value: postData.singleRowData.romm_nos
             }],
             conn_room: postData.singleRowData.conn_room,
-            character_rmk: postData.singleRowData.character_rmk + "CTRM"
+            character_rmk: postData.singleRowData.character_rmk.push("CTRM")
         });
 
         callback(lo_error, lo_result);
@@ -236,7 +236,7 @@ module.exports = {
 
         var params = {
             athena_id: singleRowData.athena_id,
-            hotle_cod: singleRowData.hotel_cod,
+            hotel_cod: singleRowData.hotel_cod.trim(),
             room_nos: singleRowData.room_nos
         };
 
@@ -259,7 +259,7 @@ module.exports = {
                         value: singleRowData.room_nos
                     }],
                     conn_room: singleRowData.conn_room || "",
-                    character_rmk: singleRowData.character_rmk + "CTRM"
+                    character_rmk: singleRowData.character_rmk.push("CTRM")
                 });
             }
             if ((guestData.connn_room != "" && singleRowData.conn_room == "") || (guestData.connn_room != singleRowData.conn_room)) {
@@ -280,7 +280,7 @@ module.exports = {
                         value: singleRowData.room_nos
                     }],
                     conn_room: "",
-                    character_rmk: singleRowData.character_rmk.replace("CTRM", "")
+                    character_rmk: singleRowData.character_rmk.splice("0","0","CTRM")
                 });
             }
 

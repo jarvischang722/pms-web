@@ -11,9 +11,10 @@ var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
 var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
+var selOptLib = require("../SelectOptionsLib");
 
 module.exports = {
-    chkA6hfdareapntrfIsexistA6hfdprintdt: function(postData, session, callback){
+    chkA6hfdareapntrfIsexistA6hfdprintdt: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var params = {
@@ -33,10 +34,15 @@ module.exports = {
             }
         });
     },
-    qry_areapnt_sta_default: function(postData, session, callback){
+    qry_areapnt_sta_default: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
         lo_result.defaultValues.areapnt_sta = "Y";
         callback(lo_error, lo_result);
+    },
+    qry_search_areapnt_sta: function (postData, callback) {
+        selOptLib.qrySearchAreapntSta(postData, function (err, result) {
+            callback(null, result);
+        });
     }
 }
