@@ -316,6 +316,7 @@ var EZfieldClass = {
  * @param newValue
  * @param dgName
  */
+var ga_readonlyFields = [];
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
@@ -395,8 +396,17 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
             }
             if (!result.isModifiable) {
-                var la_readonlyFields = _.uniq(result.readonlyFields);
-                _.each(la_readonlyFields, function (field) {
+                ga_readonlyFields = _.uniq(result.readonlyFields);
+                _.each(ga_readonlyFields, function (field) {
+                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                        index: indexRow,
+                        field: field
+                    });
+                    $(lo_editor.target).textbox("readonly", true);
+                });
+            }
+            else{
+                _.each(ga_readonlyFields, function (field) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
                         index: indexRow,
                         field: field
