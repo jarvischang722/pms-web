@@ -1394,6 +1394,12 @@ function changeValueFormat(value, ui_type) {
         } else {
             valueTemp = false;
         }
+    }else if(ui_type=="multiselect"){
+        var array = value.replace(/'/g,"").split(',');
+        valueTemp =[];
+        for(i=0;i<array.length;i++){
+            valueTemp.push(array[i]);
+        }
     }
 
     return valueTemp;
@@ -1412,6 +1418,8 @@ function changeValueFormat4Save(value, ui_type) {
         } else {
             valueTemp = "N";
         }
+    }else if(ui_type =="multiselect"){
+        valueTemp = "'" + value.join() +"'";
     }
 
     return valueTemp;

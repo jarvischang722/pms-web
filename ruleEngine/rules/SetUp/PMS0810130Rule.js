@@ -27,7 +27,7 @@ module.exports = {
         var la_rvtyp_OneToTen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         var la_rvtyp = [];
         queryAgent.queryList("QRY_RVTYPE_RF", session.user, 0, 0, function (err, rvtypList) {
-            if (rvtypList.length > 0 && rvtypList.length < 10) {
+            if (rvtypList.length >= 0 && rvtypList.length < 10) {
                 la_rvtyp = _.pluck(rvtypList, "type");  //取房間類別種類陣列
                 var la_diffType = _.difference(la_rvtyp_OneToTen, la_rvtyp);
                 lo_result.defaultValues = commandRules.getCreateCommonDefaultDataRule();

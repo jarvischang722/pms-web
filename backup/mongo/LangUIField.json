@@ -2489,7 +2489,7 @@
     "prg_id" : "PMS0830090", 
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "cust_cod", 
+    "ui_field_name" : "show_cod", 
     "ui_display_name_zh_TW" : "客戶代號", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Customer ID", 
@@ -2588,7 +2588,7 @@
     "prg_id" : "PMS0830090", 
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
-    "ui_field_name" : "cust_cod", 
+    "ui_field_name" : "show_cod", 
     "ui_display_name_zh_TW" : "客戶代號", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Customer ID", 
@@ -7032,4 +7032,37 @@
     "hint_zh_TW" : "會員業務", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59c9bb660da0d29e24ea8cbe"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "show_cod", 
+    "ui_display_name_zh_TW" : "客戶代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Customer ID", 
+    "hint_en" : "Customer id"
+}
+{ 
+    "_id" : ObjectId("59c9bb770da0d29e24ea8cbf"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "alt_nam", 
+    "ui_display_name_zh_TW" : "客戶姓名", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Customer Name", 
+    "hint_en" : "Customer name"
+}
+{ 
+    "_id" : ObjectId("59c9bb920da0d29e24ea8cc0"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_sta", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : "In use or not"
 }
