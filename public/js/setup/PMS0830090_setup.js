@@ -142,7 +142,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                             type: 'textbox',
                             field: col,
                             title: name,
-                            width: 200,
+                            width: 150,
                             align: "left"
                         });
                         self.fieldNameConditionTmp.push({value: field, display: name});
@@ -156,7 +156,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 columns: [columnsData],
                 singleSelect: true,
                 data: textDataGridArray,
-                width: 500
+                height: 500,
             }).datagrid('columnMoving');
             self.updateFieldNameTmp = updateFieldName;
         },
