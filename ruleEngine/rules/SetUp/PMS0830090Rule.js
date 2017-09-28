@@ -104,6 +104,24 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
                         dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+
+                            //特殊專用
+                            _.each(selectData, function (value, index) {
+                                switch(value.uniinv_sta) {
+                                    case "Y":
+                                        value.uniinv_sta = "Y:先開";
+                                        break;
+                                    case "N":
+                                        value.uniinv_sta = "N:後開";
+                                        break;
+                                    case "X":
+                                        value.uniinv_sta = "X:已開";
+                                        break;
+                                    default:
+                                        value.uniinv_sta = "";
+                                }
+                            });
+
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
