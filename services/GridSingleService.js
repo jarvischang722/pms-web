@@ -841,6 +841,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             if (typeof data[objKey] === 'string') {
                                 data[objKey] = data[objKey].trim();
                             }
+
                             tmpIns[objKey] = value;
                         }
                     });
