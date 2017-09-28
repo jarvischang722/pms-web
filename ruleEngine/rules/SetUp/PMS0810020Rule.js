@@ -178,7 +178,7 @@ module.exports = {
                 delFuncs.push(
                     function (callback) {
                         let params = {
-                            hotel_cod: session.hotel_cod,
+                            hotel_cod: session.user.hotel_cod,
                             athena_id: session.user.athena_id,
                             room_cod: delDR.room_cod || ""
                         };
