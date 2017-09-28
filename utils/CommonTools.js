@@ -156,14 +156,7 @@ function convUtcToDate(lo_data, fieldAttrs) {
                     lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
                 }
                 else if (patternDat.test(fieldName)) {
-                    let lo_field = _.findWhere(fieldAttrs, {ui_field_name: fieldName});
-                    if (lo_field.ui_type == 'date') {
-                        lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
-                    }
-                    else if (lo_field.ui_type == 'datetime') {
-                        lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
-                    }
-
+                    lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
                 }
             }
         }
