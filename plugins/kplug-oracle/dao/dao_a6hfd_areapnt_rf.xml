@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- ['PMS0830110'] 查詢多筆資料-->
+    <!-- ['PMS0830110'] 平板作業區域設定 查詢多筆資料-->
     <dao name="QRY_A6HFD_AREAPNT_RF">
         <statement><![CDATA[
                  select athena_id, hotel_cod, areapnt_cod, areapnt_nam, areapnt_sta, client_nam, bill_printer, uniinv_printer, ins_dat, ins_usr, upd_dat, upd_usr
@@ -10,6 +10,10 @@
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="instring" kind="3">areapnt_sta_search</parameter>
+        <statement test="_v(param.areapnt_sta_search)"><![CDATA[and areapnt_sta in(:areapnt_sta_search)]]></statement>
+        <parameter type="likestring" kind="2" condition="areapnt_cod like ?" >areapnt_cod</parameter>
+        <parameter type="likestring" kind="2" condition="areapnt_nam like ?" >areapnt_nam</parameter>
     </dao>
 
     <!-- ['PMS0830110'] 查詢單筆資料-->

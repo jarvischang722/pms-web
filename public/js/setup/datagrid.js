@@ -1,7 +1,7 @@
 /**
  * Created by Jun on 2017/2/23.
  */
-var prg_id = gs_prg_id;
+var prg_id = $("#prg_Id").text();
 var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
@@ -94,12 +94,12 @@ Vue.component("multi-lang-dialog-tmp", {
 
 var vm = new Vue({
     el: '#DGApp',
-    components: {
-        "search-comp": go_searchComp
-    },
     mounted: function () {
         this.initTmpCUD();
         this.fetchDataGridData();
+    },
+    components: {
+        "search-comp": go_searchComp
     },
     data: {
         prgFieldDataAttr: [],   //這隻程式的欄位屬性
@@ -156,10 +156,11 @@ var vm = new Vue({
                 fieldOptions: saveField
             });
         },
+
         //抓取顯示資料
         fetchDataGridData: function () {
+            console.log(this.searchCond);
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
-                waitingDialog.hide();
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;
                 vm.showDataGrid(result.fieldData, result.dataGridRows);
@@ -482,7 +483,7 @@ var vm = new Vue({
         },
         loadChangeLog: function () {
             this.openChangeLogDialog = true;
-            $.post("/api/getSetupPrgChangeLog", {prg_id: gs_prg_id}, function (result) {
+            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             });
         }

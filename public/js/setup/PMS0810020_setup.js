@@ -688,7 +688,6 @@ Vue.component('single-grid-pms0810020-tmp', {
 var vm = new Vue({
     el: '#GSApp',
     mounted: function () {
-        var self = this;
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();

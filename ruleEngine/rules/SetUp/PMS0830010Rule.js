@@ -52,7 +52,13 @@ module.exports = {
     // 參數:是否用班別開班
     qryCashierrfUsesta: function (postData, callback) {
         selOptLib.qryCashierrfUsesta(postData, function (err, result) {
-            callback(result);
+            callback(null, result);
+        });
+    },
+
+    qryCashierrfUsestaSelect: function(postData, callback){
+        selOptLib.qryCashierrfUsestaSelect(postData, function(err, result){
+            callback(null, result);
         });
     },
 

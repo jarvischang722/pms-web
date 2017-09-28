@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!--  -->
+    <!-- [PMS0810020] 取多筆房型資料 -->
     <dao name="QRY_RVRMCOD_RF">
         <statement><![CDATA[
             select * from rvrmcod_rf
@@ -9,6 +9,14 @@
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="instring" kind="3">room_typ</parameter>
+        <parameter type="instring" kind="3">rent_cod</parameter>
+        <parameter type="instring" kind="3">serv_cod</parameter>
+        <parameter type="instring" kind="3">free_cod</parameter>
+        <statement test="_v(param.room_typ)"><![CDATA[and room_typ in(:room_typ)]]></statement>
+        <statement test="_v(param.rent_cod)"><![CDATA[and rent_cod in(:rent_cod)]]></statement>
+        <statement test="_v(param.serv_cod)"><![CDATA[and serv_cod in(:serv_cod)]]></statement>
+        <statement test="_v(param.free_cod)"><![CDATA[and free_cod in(:free_cod)]]></statement>
         <parameter type="likestring" kind="2" condition="room_cod like ?" >room_cod</parameter>
         <parameter type="likestring" kind="2" condition="room_nam like ?" >room_nam</parameter>
         <parameter type="date" kind="2" condition="begin_dat = ?">begin_dat</parameter>

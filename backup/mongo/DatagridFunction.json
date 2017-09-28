@@ -778,25 +778,25 @@
 { 
     "_id" : ObjectId("5976a01bd7826628c0a3ca5e"), 
     "prg_id" : "PMS0830090", 
-    "func_id" : NumberInt(100), 
+    "func_id" : "0100", 
     "rule_func_name" : ""
 }
 { 
     "_id" : ObjectId("5976a01bd7826628c0a3ca5f"), 
     "prg_id" : "PMS0830090", 
-    "func_id" : NumberInt(200), 
+    "func_id" : "0200", 
     "rule_func_name" : "rMasterrfIns"
 }
 { 
     "_id" : ObjectId("5976a01bd7826628c0a3ca60"), 
     "prg_id" : "PMS0830090", 
-    "func_id" : NumberInt(300), 
+    "func_id" : "0300", 
     "rule_func_name" : "r_MasterrfSaveDel"
 }
 { 
     "_id" : ObjectId("5976a01bd7826628c0a3ca61"), 
     "prg_id" : "PMS0830090", 
-    "func_id" : NumberInt(400), 
+    "func_id" : "0400", 
     "rule_func_name" : ""
 }
 { 

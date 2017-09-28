@@ -222,3 +222,31 @@
     "func_id" : "0541", 
     "rule_func_name" : "r_rvrmcod_rf_ins_save"
 }
+{ 
+    "_id" : ObjectId("59c379ef0da0d29e24ea8cb6"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "rMasterrfIns"
+}
+{ 
+    "_id" : ObjectId("59c71e7507bdfc3508c0234e"), 
+    "prg_id" : "PMS0820020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_RoommDelChangeData"
+}
+{ 
+    "_id" : ObjectId("59c9ee430da0d29e24ea8cc4"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_MasterrfSaveDel"
+}
+{ 
+    "_id" : ObjectId("59c9ee570da0d29e24ea8cc5"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_MasterrfSaveModify"
+}
