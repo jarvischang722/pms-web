@@ -3,9 +3,9 @@
     <!-- ['PMS0830070'] 明細虛擬帳單項目 -->
     <dao name="QRY_HC_ADJFOLIO_DT">
         <statement><![CDATA[
-               select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nam, ins_dat, ins_usr, upd_dat, upd_usr
+               select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nam, ins_dat, ins_usr, upd_dat, upd_usr,'false' as created,'true' as edited,'false' deleted
                from hc_adjfolio_dt
-               where trim(athena_id) = ? and trim(hotel_cod) = ? and adjfolio_cod = ?
+               where trim(athena_id) = ? and trim(hotel_cod) = ? and trim(adjfolio_cod) = trim(?)
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
