@@ -2454,7 +2454,7 @@
     "template_id" : "gridsingle", 
     "ui_field_name" : "item_nam", 
     "ui_type" : "text", 
-    "ui_field_length" : NumberInt(10), 
+    "ui_field_length" : NumberInt(40), 
     "ui_field_num_point" : NumberInt(0), 
     "row_seq" : "3", 
     "height" : "25", 
@@ -3240,7 +3240,7 @@
     "keyable" : "", 
     "multi_lang_table" : "", 
     "format_func_name" : "", 
-    "rule_func_name" : "chkMasterrfMastersta"
+    "rule_func_name" : ""
 }
 { 
     "_id" : ObjectId("59769bdcd7826628c0a3ca44"), 
@@ -6814,7 +6814,7 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_session", 
-    "ui_type" : "datetime", 
+    "ui_type" : "text", 
     "ui_field_length" : NumberInt(20), 
     "ui_field_num_point" : NumberInt(0), 
     "row_seq" : NumberInt(10), 
