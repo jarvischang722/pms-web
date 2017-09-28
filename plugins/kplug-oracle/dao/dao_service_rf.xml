@@ -16,7 +16,7 @@
             and b.use_typ in ('1', '2')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -36,7 +36,7 @@
             and b.use_typ in ('1', '2')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -56,7 +56,7 @@
             and b.use_typ in ('1', '2')
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
 
@@ -68,7 +68,7 @@
             where a.athena_id = ? and trim(a.hotel_cod) = ? and a.system_typ = 'HFD'
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 </root>

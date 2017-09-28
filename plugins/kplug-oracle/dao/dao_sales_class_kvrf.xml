@@ -6,7 +6,7 @@
         select class_cod, class_nam, trim(parent_cod) as parent_cod, sort_cod, level_nos, ins_dat, ins_usr, upd_dat, upd_usr, athena_id
         from sales_class_kvrf where athena_id = :athena_id
         ]]></statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
 

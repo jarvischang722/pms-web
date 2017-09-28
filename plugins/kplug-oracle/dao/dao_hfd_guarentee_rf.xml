@@ -13,12 +13,10 @@
         <parameter type="string" kind="2" condition="room_cod like ?">guarentee_typ</parameter>
         <parameter type="string" kind="2" condition="guarentee_nam like ?">guarentee_nam</parameter>
         <parameter type="string" kind="2" condition="guarentee_rmk like ?">guarentee_rmk</parameter>
-        <statement test="_d(param.dp_req) == 'N'"><![CDATA[and dp_req = :dp_req]]></statement>
-        <statement test="_d(param.dp_req) == 'Y'"><![CDATA[and dp_req = :dp_req]]></statement>
-        <statement test="_d(param.use_sta) == 'N'"><![CDATA[and use_sta = :use_sta]]></statement>
-        <statement test="_d(param.use_sta) == 'Y'"><![CDATA[and use_sta = :use_sta]]></statement>
-        <parameter type="string" kind="3">dp_req</parameter>
-        <parameter type="string" kind="3">use_sta</parameter>
+        <statement test="_v(param.dp_req)"><![CDATA[and dp_req in(:dp_req)]]></statement>
+        <statement test="_v(param.use_sta)"><![CDATA[and use_sta in(:use_sta)]]></statement>
+        <parameter type="instring" kind="3">dp_req</parameter>
+        <parameter type="instring" kind="3">use_sta</parameter>
         <orderby>  order by view_seq, guarentee_nam</orderby>
     </dao>
 

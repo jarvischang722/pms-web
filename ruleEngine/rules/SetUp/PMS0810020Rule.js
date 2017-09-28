@@ -256,13 +256,14 @@ module.exports = {
                                 function (callback) {
                                     async.waterfall([
                                         function (callback) {
-                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
-                                                let thisRuleErr = null;
-                                                if (Number(data.cover_count || 0) > 1) {
-                                                    thisRuleErr = "相同房型的開始結束日期不可重疊";
-                                                }
-                                                callback(thisRuleErr, []);
-                                            });
+                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
+                                            //     let thisRuleErr = null;
+                                            //     if (Number(data.cover_count || 0) > 1) {
+                                            //         thisRuleErr = "相同房型的開始結束日期不可重疊";
+                                            //     }
+                                            //     callback(thisRuleErr, []);
+                                            // });
+                                            callback(null, []);
                                         },
                                         function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
@@ -282,10 +283,69 @@ module.exports = {
                                                         operation: "=",
                                                         value: c_data.room_cod
                                                     }],
-                                                room_nam: c_data.room_name || "",
+                                                room_nam: c_data.room_nam || "",
                                                 room_sna: c_data.room_sna || ""
                                             });
 
+                                            tmpExtendExecDataArrSet.push({
+                                                function: '2',
+                                                table_name: 'lang_rvrmcod_rf',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'hotel_cod',
+                                                    operation: "=",
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: c_data.room_cod.trim()
+                                                    },{
+                                                        key: 'locale',
+                                                        operation: "=",
+                                                        value: session.locale
+                                                    },
+                                                    {
+                                                        key: 'field_name',
+                                                        operation: "=",
+                                                        value: 'room_nam'
+                                                    }
+                                                ],
+                                                words: c_data.room_nam || ""
+                                            });
+
+                                            tmpExtendExecDataArrSet.push({
+                                                function: '2',
+                                                table_name: 'lang_rvrmcod_rf',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'hotel_cod',
+                                                    operation: "=",
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: c_data.room_cod.trim()
+                                                    },{
+                                                        key: 'locale',
+                                                        operation: "=",
+                                                        value: session.locale
+                                                    },
+                                                    {
+                                                        key: 'field_name',
+                                                        operation: "=",
+                                                        value: 'room_sna'
+                                                    }
+                                                ],
+                                                words: c_data.room_sna || ""
+                                            });
                                             callback(null, tmpExtendExecDataArrSet);
                                         },
                                         // 新增房型排序
@@ -365,14 +425,15 @@ module.exports = {
                             editSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
-                                        // function(callback){
-                                        //     queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
-                                        //         if (Number(data.cover_count || 0) > 0) {
-                                        //             callback("相同房型的開始結束日期不可重疊", []);
-                                        //         }
-                                        //     })
-                                        // },
-                                        function (callback) {
+                                        function(callback){
+                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
+                                            //     if (Number(data.cover_count || 0) > 0) {
+                                            //         callback("相同房型的開始結束日期不可重疊", []);
+                                            //     }
+                                            // });
+                                            callback(null, []);
+                                        },
+                                        function (data,callback) {
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'rvrmcod_rf',
@@ -381,14 +442,76 @@ module.exports = {
                                                     operation: "=",
                                                     value: userInfo.athena_id
                                                 }, {
+                                                    key: 'hotel_cod',
+                                                    operation: "=",
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
                                                     key: 'room_cod',
                                                     operation: "=",
-                                                    value: e_data.room_cod
+                                                    value: e_data.room_cod.trim()
                                                 }],
                                                 room_nam: e_data.room_nam || "",
                                                 room_sna: e_data.room_sna || ""
                                             });
-
+                                            tmpExtendExecDataArrSet.push({
+                                                function: '2',
+                                                table_name: 'lang_rvrmcod_rf',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'hotel_cod',
+                                                    operation: "=",
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: e_data.room_cod.trim()
+                                                    },{
+                                                        key: 'locale',
+                                                        operation: "=",
+                                                        value: session.locale
+                                                    },
+                                                    {
+                                                        key: 'field_name',
+                                                        operation: "=",
+                                                        value: 'room_nam'
+                                                    }
+                                                ],
+                                                words: e_data.room_nam || ""
+                                            });
+                                            tmpExtendExecDataArrSet.push({
+                                                function: '2',
+                                                table_name: 'lang_rvrmcod_rf',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'hotel_cod',
+                                                    operation: "=",
+                                                    value: userInfo.hotel_cod
+                                                }
+                                                    , {
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: e_data.room_cod.trim()
+                                                    },{
+                                                        key: 'locale',
+                                                        operation: "=",
+                                                        value: session.locale
+                                                    },
+                                                    {
+                                                        key: 'field_name',
+                                                        operation: "=",
+                                                        value: 'room_sna'
+                                                    }
+                                                ],
+                                                words: e_data.room_sna || ""
+                                            });
                                             callback(null, tmpExtendExecDataArrSet);
                                         },
                                         function (data, callback) {
@@ -564,18 +687,18 @@ module.exports = {
         let result = new ReturnClass();
         let error = null;
         let singleRowData = postData.singleRowData;
-        let athena_id = session.user.athena_id;
         let params = {
-            athena_id: athena_id,
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
             room_cod: singleRowData.room_cod.trim(),
             begin_dat: moment(new Date(singleRowData.begin_dat)).format("YYYY/MM/DD")
         };
         if (!_.isEmpty(singleRowData.room_cod.trim())) {
-            queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, roomData) {
-                if (!err && roomData && roomData.room_count > 0) {
+            queryAgent.query("QRY_RVRMCOD_RF_ROOM_NAM", params, function (err, roomData) {
+                if (!err && roomData && roomData.room_nam.trim() != singleRowData.room_nam.trim() ) {
                     result.showConfirm = true;
                     result.isGoPostAjax = true;
-                    result.ajaxURL = "";
+                    result.ajaxURL = "/api/revertRoomNam";
                     result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的名稱與其他期間設定不同，是否確定修改?』";
                 }
                 callback(error, result);
@@ -597,16 +720,18 @@ module.exports = {
         let result = new ReturnClass();
         let error = null;
         let singleRowData = postData.singleRowData;
-        let athena_id = session.user.athena_id;
         let params = {
-            athena_id: athena_id,
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
             room_cod: singleRowData.room_cod.trim(),
             begin_dat: moment(new Date(singleRowData.begin_dat)).format("YYYY/MM/DD")
         };
         if (!_.isEmpty(singleRowData.room_cod.trim())) {
-            queryAgent.query("CHK_RVRMCOD_RF_ROOM_DATA", params, function (err, roomData) {
-                if (!err && roomData && roomData.room_count > 0) {
+            queryAgent.query("QRY_RVRMCOD_RF_ROOM_SNA", params, function (err, roomData) {
+                if (!err && roomData && roomData.room_sna.trim() != singleRowData.room_sna.trim() ) {
                     result.showConfirm = true;
+                    result.isGoPostAjax = true;
+                    result.ajaxURL = "/api/revertRoomSna";
                     result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的簡稱與其他期間設定不同，是否確定修改?』";
                 }
                 callback(error, result);
@@ -676,6 +801,36 @@ module.exports = {
             }
 
             callback(chkError, ruleResult);
+        });
+
+    },
+    /**
+     * 取得回復到跟使用者修改之前資料庫裡的房型名稱
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    getOriRoomNamByRoomCod: function(postData,session,callback){
+        let result = new ReturnClass();
+        let error = null;
+        queryAgent.query("QRY_RVRMCOD_RF_ROOM_NAM",postData.singleRowData,function(err,roomData){
+            result.effectValues["room_nam"] = roomData.room_nam;
+            callback(error, result);
+        });
+
+    },
+    /**
+     * 取得回復到跟使用者修改之前資料庫裡的房型簡稱
+     * @param postData
+     * @param session
+     * @param callback
+     */
+    getOriRoomSnaByRoomCod: function(postData,session,callback){
+        let result = new ReturnClass();
+        let error = null;
+        queryAgent.query("QRY_RVRMCOD_RF_ROOM_SNA",postData.singleRowData,function(err,roomData){
+            result.effectValues["room_sna"] = roomData.room_sna;
+            callback(error, result);
         });
 
     }

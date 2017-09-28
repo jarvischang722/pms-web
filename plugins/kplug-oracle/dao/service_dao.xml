@@ -90,5 +90,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_dt2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pers_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_rminv_dt.xml"/>
     </sql-sources>
 </struts-config>

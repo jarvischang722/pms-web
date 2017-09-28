@@ -78,7 +78,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
 
                 //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
                 var attrName = field.attr_func_name;
-                if (!_.isEmpty(attrName)) {
+                if (!_.isEmpty(attrName) && (field.visiable == "C" || field.modificable == "C" || field.requirable == "C" )) {
                     let lo_params = {
                         field: field,
                         singleRowData: singleRowData
@@ -1394,6 +1394,12 @@ function changeValueFormat(value, ui_type) {
         } else {
             valueTemp = false;
         }
+    }else if(ui_type=="multiselect"){
+        var array = value.replace(/'/g,"").split(',');
+        valueTemp =[];
+        for(i=0;i<array.length;i++){
+            valueTemp.push(array[i]);
+        }
     }
 
     return valueTemp;
@@ -1412,6 +1418,8 @@ function changeValueFormat4Save(value, ui_type) {
         } else {
             valueTemp = "N";
         }
+    }else if(ui_type =="multiselect"){
+        valueTemp = "'" + value.join() +"'";
     }
 
     return valueTemp;

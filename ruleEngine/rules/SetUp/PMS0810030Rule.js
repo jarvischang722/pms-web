@@ -29,7 +29,7 @@ module.exports = {
                     if (guestData != null) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "[" + hotel_cod + "]館-住客歷史參數-本國國籍, 已設定, 不可刪除";
+                        lo_error.errorMsg = "[" + session.user.hotel_cod + "]館-住客歷史參數-本國國籍, 已設定, 不可刪除";
                         lo_error.errorCod = "1111";
                         callback(lo_error, lo_result);
                     } else {
@@ -53,8 +53,8 @@ module.exports = {
                     function (callback) {
                         queryAgent.query("CHK_PG_HAVE_EIS_SYS", params, function (err, dataInfo) {
                             if (!err) {
-                                if (dataInfo.displayFiled != null) {
-                                    if (displayFiled == "Y") {
+                                if (dataInfo.displayfiled != null) {
+                                    if (dataInfo.displayfiled == "Y") {
                                         field.visiable = "Y";
                                         callback(null, field);
                                     } else {
@@ -108,14 +108,28 @@ module.exports = {
             mail_fmt: postData.rowData.mail_fmt
         };
 
-        queryAgent.query("QRY_CNTRY_RF_REMARK".toUpperCase(), params, function (err, result) {
-            if (!err) {
-                postData.rowData.remark1 = result.remark1;
-                lo_result.success = true;
-                lo_result.effectValues = postData.rowData;
-                callback(lo_error, lo_result);
-            }
-        })
+        if(postData.rowData.mail_fmt != postData.rowData.remark1) {
+            queryAgent.query("QRY_CNTRY_RF_REMARK".toUpperCase(), params, function (err, result) {
+                if (!err) {
+                    if (result.remark1 != null) {
+                        if(postData.rowData.remark1 != result.remark1) {
+                            postData.rowData.remark1 = result.remark1;
+                            lo_result.success = true;
+                            lo_result.effectValues = postData.rowData;
+                            callback(lo_error, lo_result);
+                        }else {
+                            callback(null, lo_result);
+                        }
+                    } else {
+                        callback(null, lo_result);
+                    }
+                } else {
+                    callback(err, lo_result);
+                }
+            })
+        }else {
+            callback(null, lo_result);
+        }
     },
     PMS0810030_mail_fmt: function () {
 

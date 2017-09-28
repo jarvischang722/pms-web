@@ -57,7 +57,7 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
                 callback(err, filteredFields);
             });
         }
-        ], function (err, filteredFields) {
+    ], function (err, filteredFields) {
         callback(err, filteredFields);
     });
 
@@ -69,7 +69,7 @@ function filterSpecField(allFields, userInfo, callback) {
     _.each(allFields, function (field, fIdx) {
         //撈取下拉選單資料
         if (_.isEqual(field.ui_type, "select") || _.isEqual(field.ui_type, "multiselect") || _.isEqual(field.ui_type, "checkbox") ||
-            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio") ) {
+            _.isEqual(field.ui_type, "selectgrid") || _.isEqual(field.ui_type, "radio")) {
             handleFuncs.push(
                 function (callback) {
                     appendFieldSelectData(field, userInfo, function (err, appendedField) {
@@ -93,7 +93,15 @@ function filterSpecField(allFields, userInfo, callback) {
 function appendFieldSelectData(field, userInfo, callback) {
     mongoAgent.UI_Type_Select.findOne({
         prg_id: field.prg_id,
-        ui_field_name: field.ui_field_name
+        ui_field_name: field.ui_field_name,
+        $or: [
+            {
+                "page_id": {$exists: false}
+            },
+            {
+                "page_id": field.page_id
+            }
+        ]
     }).exec(function (err, selRow) {
         if (selRow) {
             selRow = selRow.toObject();
