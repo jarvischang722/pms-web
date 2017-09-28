@@ -1153,7 +1153,7 @@ var vm = new Vue({
                     if (result.success) {
                         vm.oriSingleData = $.extend({}, result.rowData);
                         vm.singleData = result.rowData;
-                        vm.modificableForData = result.modificable || true;
+                        vm.modificableForData = result.isModifiable;
                         vm.dtData = dtData;
                         vmHub.$emit('showDtDataGrid', dtData);
                         callback(true);

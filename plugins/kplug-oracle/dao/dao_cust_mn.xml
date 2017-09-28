@@ -50,7 +50,7 @@
     <!--[PMS0810180] 顯示ashow_cod跳出訊息的欄位資料 -->
     <dao name="QRY_CUST_MN_FOR_ASHOW_COD">
         <statement><![CDATA[
-            select  show_cod, cust_nam, contact1_rmk, status_cod,cust_cod  from cust_mn
+            select  show_cod, cust_nam, contact1_rmk, status_cod, cust_cod from cust_mn
             where status_cod='N'  and cust_typ='N' and athena_id =?
         ]]>
         </statement>
