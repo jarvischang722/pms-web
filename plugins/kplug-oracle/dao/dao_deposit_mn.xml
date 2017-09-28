@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [PMS0830090] [PMS0830090] 顯示cshow_cod跳出訊息的訂金編號 -->
-    <dao name="QRY_DEPOSIT_MN_DEPOSIT_NOS">
+    <!-- [PMS0830090] 選擇訂金編號下拉清單 -->
+    <dao name="QRYDEPOSITNOSSELECT">
         <statement><![CDATA[
-			select d.deposit_nos , d.alt_nam , d.BANLANCE_AMT , d.UNIINV_STA , d.ID_COD , d.HAND_NOS , rf.type1_nam  from deposit_mn d,dps_type1_rf rf
-                     where d.athena_id = rf.athena_id and d.athena_id = :athena_id and d.hotel_cod = :hotel_cod
-                    and group_cod in (select group_cod from rspt_rf r where Athena_id = :athena_id and hotel_cod = :hotel_cod and sys_cod = 'HC' and rownum = 1)
+			select d.deposit_nos , d.alt_nam , d.BANLANCE_AMT , d.UNIINV_STA , d.ID_COD , d.HAND_NOS , rf.type1_nam
+			from deposit_mn d,dps_type1_rf rf
+			where d.athena_id = rf.athena_id and d.athena_id = :athena_id and trim(d.hotel_cod) = trim(:hotel_cod) and group_cod in (select group_cod from rspt_rf r where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and sys_cod = 'HC' and rownum = 1)
         ]]>
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>

@@ -74,4 +74,17 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">room_nos</parameter>
     </dao>
+
+    <!-- ['PMS0830090'] 不可設 room_mn 房號的第一碼 -->
+    <dao name="QRY_ROOM_MN_ROOM_NOS">
+        <statement><![CDATA[
+             select unique substr(room_nos, 1, 1) as room_nos from room_mn
+             where athena_id = ?
+             and trim(hotel_cod) = trim(?)
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">hotel_cod</parameter>
+    </dao>
+
 </root>

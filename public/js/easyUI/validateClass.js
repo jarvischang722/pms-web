@@ -90,7 +90,7 @@ function validateClass() {
     this.FmtZeroToTenNumAndMinusOne = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var reg = /-?^\d{0,10}$/;
+        var reg = /^-?\d{0,10}$/;
         var lb_result = reg.test(ls_value) && (Number(ls_value) >= -1 && ls_value != "-0");
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.FmtZeroToTenNumAndMinusOne, ls_ui_display_name) : sprintf(this.ls_msg.FmtZeroToTenNumAndMinusOne, "");
         return {success: lb_result, msg: ls_msg};

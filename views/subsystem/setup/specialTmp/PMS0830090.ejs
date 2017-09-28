@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="/css/setup/gridSingle.css">
+<link rel="stylesheet" href="/css/easyUI/easyui.css">
+<div id="GSApp">
+    <div class="col-xs-12">
+        <div class="row">
+            <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
+        </div>
+    </div>
+    <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
+    <!--<div class="row" style="margin-left: -5px;">-->
+    <div class="col-xs-12">
+        <div class="col-sm-11 col-xs-11">
+            <div class="row no-margin-right">
+                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
+                    <div style="float:left; min-width: 30px; max-width: 3%;">
+                        <table id="dgCheckbox"></table>
+                    </div>
+                    <div style="float: left; max-width: 96%; width: 94%;">
+                        <table id="PMS0830090_dg"></table>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xs-1 col-sm-1">
+            <div class="row">
+                <div class="right-menu-co">
+                    <ul>
+                        <!--<li>-->
+                            <!--<button id="ins-btn" @click="appendRow"-->
+                                    <!--class="btn btn-primary btn-white btn-defaultWidth"-->
+                                    <!--role="button">-->
+                                <!--<%= __("SystemCommon").Add %>-->
+                            <!--</button>-->
+                        <!--</li>-->
+
+                        <li>
+                            <button id="ins-btn" @click="batchappendRow"
+                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("program")["PMS0830090"]["batch_add"] %>
+                            </button>
+                        </li>
+
+                        <li>
+                            <button id="remove-btn" @click="removeRow"
+                                    class="btn btn-danger btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("SystemCommon").Delete %>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> <!-- -->
+    <!--</div>-->
+    <div class="clearfix"></div>
+
+
+    <single-grid-pms0830090-tmp
+            @close-single-grid-dialog="closeSingleGridDialog"
+            @append-row="appendRow"
+            @fetch-single-data="fetchSingleData"
+            @do-save-cud="doSaveCUD"
+            :single-data="singleData"
+            :page-two-field-data="pageTwoFieldData"
+            :page-two-data-grid-field-data="pageTwoDataGridFieldData"
+            :create-status="createStatus"
+            :edit-status="editStatus"
+            :delete-status="deleteStatus"
+            :editing-row="editingRow"
+            :page-one-data-grid-rows="pageOneDataGridRows"
+            :tmp-cud="tmpCud"
+            :modificable-for-data="modificableForData">
+    </single-grid-pms0830090-tmp>
+
+    <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
+
+    <field-multi-lang-dialog-tmp
+            :sys_locales="sys_locales"
+            :single-data="singleData">
+    </field-multi-lang-dialog-tmp>
+
+</div>
+
+<!-- settingSingleDialog-message 彈出視窗 -->
+<%- include ../vueTemplate/chooseDataDialogTmp.ejs %>
+<%- include ../vueTemplate/PMS0830090Tmp.ejs %>
+<%- include ../vueTemplate/fieldmultiLangDialogTmp.ejs %>
+<script src="/js/easyUI/DatagridForSingleGridClass.js"></script>
+<script src="/js/setup/PMS0830090_setup.js"></script>
