@@ -499,32 +499,45 @@
                                 </div><!--main-content-data-->
 
                                 <div class="space-4"></div>
-                                <div>
-                                    <span class="orangeBlock1">pick up</span>
-                                    <span class="orangeBlock1">Enter bed</span>
-                                    <span class="orangeBlock1">FOC</span>
-                                    <span class="orangeBlock1">Gtd</span>
-                                </div>
-                                <!--<div class="changeChoice">-->
-                                <!--<ul>-->
-                                <!--<li>pick up</li>-->
-                                <!--<li>Enter bed</li>-->
-                                <!--<li>FOC</li>-->
-                                <!--<li>Gtd</li>-->
-                                <!--</ul>-->
+                                <!--<div>-->
+                                    <!--<span class="orangeBlock1">pick up</span>-->
+                                    <!--<span class="orangeBlock1">Enter bed</span>-->
+                                    <!--<span class="orangeBlock1">FOC</span>-->
+                                    <!--<span class="orangeBlock1">Gtd</span>-->
                                 <!--</div>-->
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1">
                     <div class="row">
+
+
                         <div class="right-menu-co">
                             <ul>
+
                                 <li>
                                     <!-- id ="resv_changeTxt" 訂房卡button 文字轉換 -->
-                                    <button id ="resv_changeTxt" class="btn btn-primary btn-white padding-lg btn-defaultWidth"
-                                            role="button">Waiting</button>
+                                    <!--<button id ="resv_changeTxt" class="btn btn-primary btn-white padding-lg btn-defaultWidth"-->
+                                            <!--role="button">Waiting</button>-->
+                                    <div class="btn-group btn-defaultWidth">
+                                        <button data-toggle="dropdown"
+                                                class="btn btn-primary btn-white btn-defaultWidth dropdown-toggle"
+                                                aria-expanded="false">
+
+                                            <span class="dpShowValue" style="font-weight: normal;">Waiting</span>
+                                            <span class="ace-icon fa fa-angle-down icon-on-right"></span>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-info dropdown-menu-right dpUIList">
+                                            <li><a href="#">Waiting</a></li>
+
+                                            <li><a href="#">Cancel</a></li>
+
+                                            <li><a href="#">Reservation</a></li>
+                                        </ul>
+                                    </div> <!-- /.btn-group -->
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -539,7 +552,7 @@
                                             role="button">Duplicate</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_depoisits"
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_deposits"
                                             role="button">Deposits</button>
                                 </li>
                                 <li>
@@ -556,17 +569,24 @@
                                             role="button">RM. Assign</button>
                                 </li>
                                 <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
+                                            role="button">Pax List</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth resvPickUp-btn"
+                                            role="button">Transfer</button>
+                                </li>
+                                <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             role="button">Quit</button>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-        <div class="clearfix"></div>
     </div>
+    <div class="clearfix"></div>
 </div>
 <!-- /.訂房卡 -->
 
@@ -759,11 +779,7 @@
                                                 <span class="moreClick">...</span>
                                             </div>
                                             <div class="grid-item">
-                                                <label>Skymiles</label>
-                                                <select class="input-medium medium-c3-card-2">
-                                                    <option value="1">Y</option>
-                                                    <option value="2">N</option>
-                                                </select>
+                                                <input type="text" class="input-medium medium-skyNo" placeholder="Asia Miles" disabled/>
                                             </div>
                                         </div>
                                         <!--11-->
@@ -1463,24 +1479,9 @@
                     <div class="col-xs-12 col-sm-12">
                         <div class="row">
                             <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail"
-                                        role="button">Pax List</button>
-                            </div>
-                            <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth resv_counterSupplies"
                                         role="button">Amenities Iny.</button>
                             </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resvPickUp-btn"
-                                        role="button">Transfer</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="space-6"></div>
-
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="row">
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth resvBatch-btn"
                                         role="button">批次修改</button>
@@ -1489,10 +1490,6 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage03"
                                         role="button">Routing</button>
                             </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_shareRate"
-                                        role="button">Share Rate</button>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -1500,6 +1497,10 @@
 
                     <div class="col-xs-12 col-sm-12">
                         <div class="row">
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_shareRate"
+                                        role="button">Share Rate</button>
+                            </div>
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">Coupon</button>
@@ -1508,18 +1509,17 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage05"
                                         role="button">Rv. Classified</button>
                             </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_FOC"
-                                        role="button">FOC</button>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="space-6"></div>
 
-
                     <div class="col-xs-12 col-sm-12">
                         <div class="row">
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_FOC"
+                                        role="button">FOC</button>
+                            </div>
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">Registration Card Print</button>
@@ -1528,17 +1528,18 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage08"
                                         role="button">Change Log</button>
                             </div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage04"
-                                        role="button">Confirmation Letter</button>
-                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <div class="space-6"></div>
 
+
                     <div class="col-xs-12 col-sm-12">
                         <div class="row">
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage04"
+                                        role="button">Confirmation Letter</button>
+                            </div>
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">F&B. Booking</button>
@@ -1547,6 +1548,13 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
                                         role="button">Banquet</button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="row">
                             <div class="col-xs-4">
                                 <button class="btn btn-primary btn-white btn-defaultWidth resv_BtnPage14"
                                         role="button">Confirmation Letter Log</button>
@@ -1640,6 +1648,7 @@
                                                                 <table class="css_table horizTable">
                                                                     <thead class="css_thead">
                                                                     <tr class="css_tr">
+                                                                        <th class="css_th" style="min-width:25px;"><i class="fa fa-plus pointer"></i></th>
                                                                         <th class="css_th" style="min-width:200px;">住客姓名</th>
                                                                         <th class="css_th" style="min-width:60px;">房組</th>
                                                                         <th class="css_th" style="min-width:60px;">排房狀態</th>
@@ -1648,36 +1657,42 @@
                                                                     </thead>
                                                                     <tbody class="css_tbody">
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">王大明</td>
                                                                             <td class="css_td">1</td>
                                                                             <td class="css_td">已排房</td>
                                                                             <td class="css_td">201</td>
                                                                         </tr>
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">王美美</td>
                                                                             <td class="css_td">1</td>
                                                                             <td class="css_td">已排房</td>
                                                                             <td class="css_td">201</td>
                                                                         </tr>
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">李大同</td>
                                                                             <td class="css_td">2</td>
                                                                             <td class="css_td">已排房</td>
                                                                             <td class="css_td">302</td>
                                                                         </tr>
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">陳小華</td>
                                                                             <td class="css_td">3</td>
                                                                             <td class="css_td">未排房</td>
                                                                             <td class="css_td"></td>
                                                                         </tr>
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">張三</td>
                                                                             <td class="css_td"></td>
                                                                             <td class="css_td">未排房</td>
                                                                             <td class="css_td"></td>
                                                                         </tr>
                                                                         <tr class="css_tr">
+                                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
                                                                             <td class="css_td">李四</td>
                                                                             <td class="css_td"></td>
                                                                             <td class="css_td">未排房</td>
@@ -1822,121 +1837,101 @@
                                                 <table class="css_table horizTable">
                                                     <thead class="css_thead">
                                                         <tr class="css_tr text-center">
+                                                            <th class="css_th" style="min-width:25px;"><i class="fa fa-plus pointer"></i></th>
                                                             <th class="css_th" style="min-width:40px;">序號</th>
                                                             <th class="css_th" style="min-width:200px;">住客姓名</th>
-                                                            <th class="css_th" style="min-width:60px;">房組</th>
                                                             <th class="css_th" style="min-width:60px;">排房狀態</th>
                                                             <th class="css_th" style="min-width:60px;">房號</th>
-                                                            <th class="css_th" style="min-width:50px;">性別</th>
-                                                            <th class="css_th" style="min-width:80px;">國籍</th>
-                                                            <th class="css_th" style="min-width:80px;">身分證字號</th>
                                                             <th class="css_th" style="min-width:70px;">生日</th>
-                                                            <th class="css_th" style="min-width:100px;">入住提醒</th>
-                                                            <th class="css_th" style="min-width:100px;">退房提醒</th>
+                                                            <th class="css_th" style="min-width:200px;">入住提醒</th>
+                                                            <th class="css_th" style="min-width:200px;">退房提醒</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="css_tbody">
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">1</td>
-                                                        <td class="css_td">王大明
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td">1</td>
-                                                        <td class="css_td">已排房</td>
-                                                        <td class="css_td">201</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">2</td>
-                                                        <td class="css_td">王美美
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td">1</td>
-                                                        <td class="css_td">已排房</td>
-                                                        <td class="css_td">201</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">3</td>
-                                                        <td class="css_td">李大同
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td">2</td>
-                                                        <td class="css_td">已排房</td>
-                                                        <td class="css_td">302</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">4</td>
-                                                        <td class="css_td">陳小華
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td">3</td>
-                                                        <td class="css_td">未排房</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-ㄨ                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">5</td>
-                                                        <td class="css_td">張三
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">未排房</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="css_tr">
-                                                        <td class="css_td">6</td>
-                                                        <td class="css_td">李四
-                                                            <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
-                                                        </td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">未排房</td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td"></td>
-                                                        <td class="css_td">
-                                                            <span class="moreClick">...</span>
-                                                        </td>
-                                                    </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">1</td>
+                                                            <td class="css_td">王大明
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">已排房</td>
+                                                            <td class="css_td">201</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">2</td>
+                                                            <td class="css_td">王美美
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">已排房</td>
+                                                            <td class="css_td">201</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">3</td>
+                                                            <td class="css_td">李大同
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">已排房</td>
+                                                            <td class="css_td">302</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">4</td>
+                                                            <td class="css_td">陳小華
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">未排房</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">5</td>
+                                                            <td class="css_td">張三
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">未排房</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"><i class="fa fa-minus red pointer"></i></td>
+                                                            <td class="css_td">6</td>
+                                                            <td class="css_td">李四
+                                                                <button class="btn btn-sm btn-primary btn-white btn-sm-font2 moreClick">Profile</button>
+                                                            </td>
+                                                            <td class="css_td">未排房</td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td">
+                                                                <span class="moreClick">...</span>
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1953,14 +1948,6 @@
                     <div class="row">
                         <div class="right-menu-co">
                             <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增住客</button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            role="button">刪除住客</button>
-                                </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth resv_assignHouse"
                                             role="button">指定房組</button>

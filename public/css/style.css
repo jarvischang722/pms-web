@@ -397,9 +397,6 @@ h3 {
 .btn-defaultWidth.segement {
   margin-bottom: 10px;
 }
-.btn-defaultWidth.padding-lg {
-  padding: 6px 9px;
-}
 
 .intCountLi-height ul li {
   padding: 5px 0;
@@ -1393,7 +1390,6 @@ table.treetable span.indenter {
   margin: 0 auto;
   text-align: center;
   width: 375px;
-  /*----- 驗證碼圖片 ----- */
 }
 .loginPage .logoCompany {
   margin: 30px 0 0 0;
@@ -1478,34 +1474,55 @@ table.treetable span.indenter {
   border-width: 0 0 1px;
 }
 .loginPage .navbar-fixed-top select {
-  padding: 5px;
+  padding: 5px 15px 5px 5px;
 }
-.loginPage .v_codes_input {
+.loginPage .navbar-fixed-top select.localeSelect {
+  background-color: #fff !important;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  background: #fff url("/images/toggle-collapse-dark.png") 98% 44% !important;
+  background-repeat: no-repeat !important;
+  cursor: pointer;
+}
+
+.bacchus-footer {
+  padding-top: 220px;
+  /*----- 驗證碼圖片 ----- */
+}
+.bacchus-footer .footerImg {
+  margin: 30px 0 20px 0;
+}
+.bacchus-footer .footerImg img {
+  width: 200px;
+  height: auto;
+}
+.bacchus-footer .v_codes_input {
   width: 50% !important;
   float: left;
 }
-.loginPage .v_codes {
+.bacchus-footer .v_codes {
   float: left;
 }
-.loginPage .v_codes img {
+.bacchus-footer .v_codes img {
   margin: 10px 0 0 10px;
   text-align: center;
 }
-.loginPage .errorTip {
+.bacchus-footer .errorTip {
   color: #ff0000;
 }
-.loginPage .input-icon {
+.bacchus-footer .input-icon {
   position: relative;
 }
-.loginPage .input-icon.input-icon-right > input {
+.bacchus-footer .input-icon.input-icon-right > input {
   padding-left: 6px;
   padding-right: 24px;
 }
-.loginPage .input-icon.input-icon-right > .ace-icon {
+.bacchus-footer .input-icon.input-icon-right > .ace-icon {
   left: auto;
   right: 3px;
 }
-.loginPage .input-icon > .ace-icon {
+.bacchus-footer .input-icon > .ace-icon {
   padding: 0 3px;
   z-index: 2;
   position: absolute;
@@ -1517,7 +1534,7 @@ table.treetable span.indenter {
   color: #909090;
   font-size: 16px;
 }
-.loginPage .input-icon > input:focus + .ace-icon {
+.bacchus-footer .input-icon > input:focus + .ace-icon {
   color: #579;
 }
 
@@ -1766,6 +1783,8 @@ a {
   font-size: 16px;
   letter-spacing: 1px;
   position: absolute;
+  left: 0;
+  right: 0;
   top: 15%;
   border-top: 5px solid rgba(255, 255, 255, 0.5);
   opacity: 0;
@@ -1777,22 +1796,6 @@ a {
 }
 
 /*-- footer -- */
-/*-- login page -- */
-select.localeSelect {
-  background-color: #fff !important;
-}
-
-.bacchus-footer {
-  padding-top: 220px;
-}
-.bacchus-footer .footerImg {
-  margin: 30px 0 20px 0;
-}
-.bacchus-footer .footerImg img {
-  width: 200px;
-  height: auto;
-}
-
 /*-- top-sec-menu -- */
 .top-sec-ul {
   max-width: 100%;
@@ -2879,7 +2882,7 @@ ul.newVisitOther-btn {
 .foCounter .counterPage .counterRow .counterBlock {
   float: left;
   margin: 0 1px 1px 0;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   position: relative;
   padding: 5px;
   width: 124px;
@@ -3815,9 +3818,50 @@ span.triangle-text {
   box-shadow: 3px 3px 2px #ccc;
 }
 
-.townBlock.active {
-  border: 5px solid red;
-  padding: 1px !important;
+.townPage {
+  height: 600px;
+  overflow: auto;
+}
+.townPage .townRow .townBlock {
+  float: left;
+  margin: 0 1px 1px 0;
+  position: relative;
+  padding: 5px;
+  width: 85px;
+  height: 85px;
+  box-sizing: border-box;
+  background: #a0563d;
+  color: #ede3d1;
+  font-size: 10px;
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+.townPage .townRow .townBlock.no-show {
+  background: #b94db3;
+}
+.townPage .townRow .townBlock:hover {
+  opacity: 0.6;
+}
+.townPage .townRow .townBlock .content-sub {
+  height: 18px;
+}
+.townPage .townRow .townBlock .head .left, .townPage .townRow .townBlock .content-sub .left, .townPage .townRow .townBlock .foot .left {
+  float: left;
+}
+.townPage .townRow .townBlock .head .right, .townPage .townRow .townBlock .content-sub .right, .townPage .townRow .townBlock .foot .right {
+  float: right;
+}
+.townPage .townRow .townBlock .head .txt-lg, .townPage .townRow .townBlock .content-sub .txt-lg, .townPage .townRow .townBlock .foot .txt-lg {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 16px;
+}
+.townPage .townRow .townBlock .head .fa, .townPage .townRow .townBlock .content-sub .fa, .townPage .townRow .townBlock .foot .fa {
+  font-size: 16px;
+  margin-top: 8px;
+}
+.townPage .townRow .townBlock.active {
+  border: 2px solid red;
 }
 
 .roomAssign .select-group {
@@ -4080,7 +4124,7 @@ span.triangle-text {
 }
 
 .padding-2 {
-  padding: 2如px;
+  padding: 2px;
 }
 
 .padding-5 {
@@ -4109,6 +4153,10 @@ span.triangle-text {
 
 .marginLeft-5 {
   margin-left: 5px;
+}
+
+.marginLeft-90 {
+  margin-left: 90px;
 }
 
 .height87 {
@@ -4409,6 +4457,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.medium-skyNo {
+  width: 147px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.medium-c3-col2Spc {
   width: 272px;
   max-width: 100%;
@@ -4626,6 +4679,11 @@ a {
 }
 .input-medium.resvCard-col2Remark2 {
   width: 265px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-full {
+  width: 723px;
   max-width: 100%;
   height: 25px;
 }
@@ -4885,8 +4943,11 @@ select {
 }
 
 .btn_secStage {
-  border: 1px solid #888;
-  box-shadow: 5px 3px #eee;
+  border: 1px solid #888 !important;
+  box-shadow: 1px 1px #848484 !important;
+}
+.btn_secStage:hover {
+  background: #eee !important;
 }
 .btn_secStage span {
   color: #888;
