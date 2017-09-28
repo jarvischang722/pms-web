@@ -99,7 +99,6 @@ module.exports = {
                 lo_endDat = "";
             }
 
-            rent_cal_dat = new Date("2017/08/23");
             // 判斷修改時，小於滾房租日不能修改
             if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
                 if (lo_endDat != "" || lo_beginDat != "") {
@@ -213,8 +212,7 @@ module.exports = {
             });
         }
 
-    }
-    ,
+    },
 
     r_pms0820050_add: function (postData, session, callback) {
         let lo_result = new ReturnClass();
@@ -229,8 +227,7 @@ module.exports = {
         });
 
     }
-}
-;
+};
 
 function chkDateIsBetween(begin_dat, end_dat, now_dat) {
     return now_dat.isBetween(begin_dat, end_dat, null, '[]');

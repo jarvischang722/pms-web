@@ -138,6 +138,8 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                    var li_date_leng = newValue.split('').length;
+
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
