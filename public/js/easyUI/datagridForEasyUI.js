@@ -131,6 +131,7 @@ var EZfieldClass = {
             };
 
             tmpFieldObj.formatter = dateFunc;
+            tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.editor.options.parser = dateParserFunc;
             tmpFieldObj.editor.options.formatter = dateFunc;
 
