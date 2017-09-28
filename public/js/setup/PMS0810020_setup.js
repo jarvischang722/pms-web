@@ -110,11 +110,6 @@ Vue.component('single-grid-pms0810020-tmp', {
             dialogRmTypeStockVisible: false,
             tabName: 'ERP',
             reset_qnt: false,
-            pickerOptions0: {
-                disabledDate: function (time) {
-                    return time.getTime() < Date.now() - 8.64e7;
-                }
-            },
             testData: '',   //TODO: 房型顯示排序，需有資料異動才會更新，暫時用此參數當作異動值
             erpSortData: [],
             webSiteSortData: [],
@@ -868,7 +863,7 @@ var vm = new Vue({
             for (var i = 0; i < this.pageTwoDataGridFieldData.length; i++) {
                 var lo_field = this.pageTwoDataGridFieldData[i];
                 //必填
-                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
+                if (lo_field.requirable == "Y" && lo_field.modificable != "N") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
                         break;

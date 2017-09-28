@@ -54,9 +54,9 @@ module.exports = {
         let end_dat = moment(new Date(singleRowData.end_dat));
         let result = new ReturnClass();
         let error = null;
-        queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id, hotel_cod: hotel_cod}, function (err, data) {
+        queryAgent.query("QRY_RENT_CAL_DAT", {athena_id: athena_id, hotel_cod: hotel_cod}, function (err, data) {
             if (data) {
-                let belong_dat = moment(new Date(data.belong_dat));
+                let belong_dat = moment(new Date(data.rent_cal_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
                     result.success = false;
                     error = new ErrorClass();
@@ -87,13 +87,13 @@ module.exports = {
         let error = null;
 
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
-            queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {
+            queryAgent.query("QRY_RENT_CAL_DAT", {
                 athena_id: athena_id,
                 hotel_cod: hotel_cod
             }, function (err, data) {
 
                 if (data) {
-                    let belong_dat = moment(new Date(data.belong_dat));
+                    let belong_dat = moment(new Date(data.rent_cal_dat));
                     begin_dat = moment(new Date(begin_dat));
                     end_dat = moment(new Date(end_dat));
                     //1)

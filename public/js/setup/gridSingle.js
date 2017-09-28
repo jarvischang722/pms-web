@@ -1079,7 +1079,7 @@ var vm = new Vue({
             for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
                 var lo_field = this.oriPageTwoFieldData[i];
                 //必填
-                if (lo_field.requirable == "Y" && lo_field.modificable == "Y" && lo_field.ui_type != "checkbox") {
+                if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
                         break;
