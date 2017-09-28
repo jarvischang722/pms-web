@@ -56,6 +56,10 @@ body {
   margin-left: 5px;
 }
 
+.marginLeft-90 {
+  margin-left: 90px;
+}
+
 .height87 {
   height: 87px;
 }
@@ -351,6 +355,11 @@ a {
 }
 .input-medium.medium-c3 {
   width: 134px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-skyNo {
+  width: 147px;
   max-width: 100%;
   height: 25px;
 }
@@ -975,47 +984,6 @@ select {
 .room-special textarea {
   width: 100%;
   height: auto;
-}
-
-.townPage {
-  height: 600px;
-  overflow: auto;
-}
-.townPage .townRow .townBlock {
-  float: left;
-  margin: 0 5px 5px 0;
-  padding: 6px;
-  width: 85px;
-  height: 85px;
-  box-sizing: border-box;
-  background: #a0563d;
-  color: #ede3d1;
-  font-size: 10px;
-  cursor: pointer;
-}
-.townPage .townRow .townBlock.no-show {
-  background: #b94db3;
-}
-.townPage .townRow .townBlock:hover {
-  opacity: 0.6;
-}
-.townPage .townRow .townBlock .content-sub {
-  height: 18px;
-}
-.townPage .townRow .townBlock .head .left, .townPage .townRow .townBlock .content-sub .left, .townPage .townRow .townBlock .foot .left {
-  float: left;
-}
-.townPage .townRow .townBlock .head .right, .townPage .townRow .townBlock .content-sub .right, .townPage .townRow .townBlock .foot .right {
-  float: right;
-}
-.townPage .townRow .townBlock .head .txt-lg, .townPage .townRow .townBlock .content-sub .txt-lg, .townPage .townRow .townBlock .foot .txt-lg {
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
-}
-.townPage .townRow .townBlock .head .fa, .townPage .townRow .townBlock .content-sub .fa, .townPage .townRow .townBlock .foot .fa {
-  font-size: 16px;
-  margin-top: 8px;
 }
 
 .select-group .btn-group, .select-group .form-group {

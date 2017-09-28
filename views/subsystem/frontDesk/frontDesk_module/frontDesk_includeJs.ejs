@@ -1091,7 +1091,7 @@
             $(".cardDetail-table").toggle().css('height','auto');
         })
         //排房選中active
-        $('.townBlock').click(function(){
+        $('.townPage').on('click', ".townBlock", function (e) {
             $('.townBlock').removeClass("active");
             $(this).addClass("active");
         });
