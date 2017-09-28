@@ -397,9 +397,6 @@ h3 {
 .btn-defaultWidth.segement {
   margin-bottom: 10px;
 }
-.btn-defaultWidth.padding-lg {
-  padding: 6px 9px;
-}
 
 .intCountLi-height ul li {
   padding: 5px 0;
@@ -4682,6 +4679,11 @@ a {
 }
 .input-medium.resvCard-col2Remark2 {
   width: 265px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-full {
+  width: 723px;
   max-width: 100%;
   height: 25px;
 }

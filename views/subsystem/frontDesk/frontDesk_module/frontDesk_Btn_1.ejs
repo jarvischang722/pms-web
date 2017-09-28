@@ -15,144 +15,278 @@
     </div>
     <!-- /RelatedRms 彈出視窗 -->
     <!-- 晨呼 彈出視窗 -->
-    <div id="addMorning-page" class="hide padding-5 lost-found-wrap">
+    <!--lost-found-wrap old Class-->
+    <div id="addMorning-page" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="search-content">
-                        <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-                        <div class="search-co">
-                            <div class="search-co-h">
-                                <i class="ace-icon fa fa-search search-icon"></i>
-                                <span>Search</span>
-                            </div>
-                            <div class="search-co-content col-xs-12 rece-search-detail">
-                                <div class="row search-footer-btn">
-                                    <div class="footer-btn-menu-co">
-                                        <ul>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
-                                                    <div class="icon-reStyle icon-co-14"></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
-                                                    <div class="icon-reStyle icon-co-11"></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>  <!-- /.footer-btn-menu-co -->
-                                </div> <!-- /.search-footer-btn -->
-                                <div class="width-95">
-                                    <!--1-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>房號</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>訂房卡號</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                        <div class="grid-item">
-                                            <label>公帳號</label>
-                                            <input type="text" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div> <!-- /.search-co -->
-                    </div> <!-- /.row  search-content-->
-                </div>
-                <div class="row">
-                        <div class="navy-line"></div>
-                        <div class="col-xs-11 col-sm-11">
-                            <div class="space-4"></div>
-                            <div class="main-content-data">
-                                <div class="width-95">
-                                    <!--1-->
-                                    <div class="grid">
-                                        <div class="grid-item">
-                                            <label>晨呼日期</label>
-                                            <input type="date" class="input-medium medium-c1" placeholder="">
-                                        </div>
-                                    </div>
-                                    <!--2-->
-                                    <div class="grid monring-timeBox">
-                                        <div class="grid-item">
-                                            <label>晨呼時間</label>
-                                            <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
-                                            <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
-                                            <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--main-content-data-->
-                            <div class="clearfix"></div>
 
-                        </div>
-                        <div class="col-xs-1 col-sm-1">
-                            <div class="row">
-                                <div class="right-menu-co">
-                                    <ul>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">設定
-                                            </button>
-                                        </li>
-                                    </ul>
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="space-4"></div>
+                        <div class="main-content-data">
+                            <div class="width-95">
+
+                                <div class="grid marginLeft-90">
+                                    <div class="grid-item foCntRadio">
+                                        <div class="searchRadio pull-left lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width" style="width: auto;">
+                                                  <input name="form-field-checkbox" value="addMorningRadio1" type="radio" class="ace">
+                                                  <span class="lbl ">房號</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio pull-left lineHeight24 foCnt_addMorning01">
+                                            <span class="radio">
+                                              <label class="checkbox-width" style="width: auto;">
+                                                  <input name="form-field-checkbox" value="addMorningRadio2" type="radio" class="ace">
+                                                  <span class="lbl">訂房卡號</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio pull-left lineHeight24 foCnt_addMorning01">
+                                            <span class="radio">
+                                              <label class="checkbox-width" style="width: auto;">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">公帳號</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>晨呼日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="">
+                                    </div>
+                                </div>
+                                <!--2-->
+                                <div class="grid monring-timeBox">
+                                    <div class="grid-item">
+                                        <label>晨呼時間</label>
+                                        <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
+                                        <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
+                                        <input type="time" class="input-medium popWindow-s1Remark" placeholder="">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div><!--main-content-data-->
                         <div class="clearfix"></div>
 
-                        <div class="navy-line"></div>
-                        <div class="col-xs-11 col-sm-11">
-                            <div class="main-content-data">
-                                <div class="row no-margin-right">
-                                    <!-- 晨呼table(單筆) dataGrid -->
-                                    <table id="morningSingle-table" style="height: 200px;"></table>
-                                </div>
-                            </div><!--main-content-data-->
-                            <div class="clearfix"></div>
-
-                        </div>
-                        <div class="col-xs-1 col-sm-1">
-                            <div class="row">
-                                <div class="right-menu-co">
-                                    <ul>
-                                        <li>
-                                            <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                    role="button">Delete
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">Save
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">選擇
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                    role="button">Quit
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">設定
+                                        </button>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="navy-line"></div>
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="main-content-data">
+                            <div class="row no-margin-right">
+                                <!-- 晨呼table(單筆) dataGrid -->
+                                <table id="morningSingle-table" style="height: 200px;"></table>
+                            </div>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <!--li.checkbox-->
+                                    <li>
+                                         <span class="checkbox">
+                                              <label class="checkbox-width">
+                                                  <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                  <span class="lbl font-btn">History</span>
+                                              </label>
+                                          </span>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                role="button">Delete
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Save
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">選擇
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
-                    <div class="clearfix"></div>
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
     <!-- /晨呼 彈出視窗 -->
+
+    <!-- PMS0210020 晨呼的選擇團號 彈出視窗 -->
+    <div id="foCnt_addMorning01-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:28px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">團號/團體名稱</th>
+                                            <th class="css_th" style="min-width:70px;">導遊姓名</th>
+                                            <th class="css_th" style="min-width:70px;">房號</th>
+                                            <th class="css_th" style="min-width:70px;">訂房卡號</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                                <td class="css_td">王大明</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">00484201</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                                <td class="css_td">王大明</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">00484201</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                                <td class="css_td">王大明</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">00484201</td>
+                                            </tr>
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                                <td class="css_td">王大明</td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td"></td>
+                                                <td class="css_td">00484201</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.晨呼的選擇團號 foCnt_addMorning01 -->
+
+    <!-- PMS0210020 選擇公帳號 彈出視窗 -->
+    <div id="foCnt_addMorning02-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+                                <div class="horizTable-outer">
+                                    <table class="css_table horizTable">
+                                        <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="min-width:28px;">選擇</th>
+                                            <th class="css_th" style="min-width:70px;">公帳號</th>
+                                            <th class="css_th" style="min-width:70px;">名稱</th>
+                                            <th class="css_th" style="min-width:70px;">Ｃ/I日期</th>
+                                            <th class="css_th" style="min-width:70px;">預計C/O日期</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="css_tbody">
+                                            <tr class="css_tr">
+                                                <td class="css_td text-center"><input type="checkbox" checked/></td>
+                                                <td class="css_td">Ｇ49</td>
+                                                <td class="css_td">星星公司</td>
+                                                <td class="css_td">2017/05/11</td>
+                                                <td class="css_td">2017/05/14</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.選擇公帳號 foCnt_addMorning02 -->
 
     <!-- 接待單筆 彈出視窗 -->
     <div id="fdCheckIn-page" class="hide padding-5 lost-found-wrap">
@@ -890,7 +1024,6 @@
     </div>
     <!-- /.點擊待檢查 彈出視窗 -->
 
-
     <!-- lost found(單筆) 彈出視窗 -->
     <div id="lost-found-modify" class="hide padding-5">
         <div class="businessCompanyData">
@@ -1200,7 +1333,8 @@
                         <div class="col-xs-12 col-sm-12">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth foCnt_messageSGL"
+                                    <!--foCnt_messageSGL Old Button-->
+                                    <button class="btn btn-primary btn-white btn-defaultWidth message-btn"
                                             role="button">Message</button>
                                 </div>
                                 <div class="col-xs-4">
@@ -1285,7 +1419,7 @@
                                 <!--3-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>訂房公司</label>
+                                        <label>Company</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
@@ -1424,7 +1558,7 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">服務項目</button>
+                                                role="button">預估款</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1476,7 +1610,7 @@
                                 <!--2-->
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Full Name</label>
+                                        <label>類別</label>
                                         <select class="input-medium resvCard-col2">
                                             <option value="1">休息</option>
                                             <option value="2">住宿</option>
@@ -1485,6 +1619,13 @@
                                     <div class="grid-item">
                                         <label>市場類別</label>
                                         <input type="text" class="input-medium resvCard-col2" placeholder="一般散客"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>Full Name</label>
+                                        <input type="text" class="input-medium resvCard-full" placeholder=""/>
                                     </div>
                                 </div>
 
@@ -1855,6 +1996,18 @@
                                                             <span class="moreClick">...</span>
                                                         </div>
                                                     </div>
+                                                    <!--13-->
+                                                    <div class="grid">
+                                                        <div class="grid-item">
+                                                            <label>航空會員</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                        </div>
+                                                        <div class="grid-item">
+                                                            <label>航空卡號</label>
+                                                            <input type="text" class="input-medium resvCard" placeholder="" disabled/>
+                                                            <span class="moreClick agent-btn">...</span>
+                                                        </div>
+                                                    </div>
                                                 </div><!--main-content-data-->
                                             </div>
                                         </div>
@@ -1884,6 +2037,10 @@
                                                 role="button">Pre.auth.</button>
                                     </li>
                                     <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_guestDetail-btn1"
+                                                role="button">Trace</button>
+                                    </li>
+                                    <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">Save</button>
                                     </li>
@@ -1907,30 +2064,41 @@
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
-                    <div class="col-xs-11 col-sm-11">
+                    <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
-                            <div class="main-content-data">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>訂金代號</label>
-                                        <select class="input-medium medium-c5">
-                                            <option value="">C/I 日期</option>
-                                            <option value="">C/O 日期</option>
-                                            <option value="">房價代號</option>
-                                            <option value="">計價房種</option>
-                                        </select>
+                            <div class="main-content-data borderFrame">
+
+                                <div class="float-left width-10">
+                                    <div class="titleInfo">
+                                        <div class="titleInfo-head">
+                                            <p class="titleInfo-title">RM:602</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>名稱</label>
-                                        <input type="text" class="input-medium medium-c5" placeholder="" disabled/>
+                                <div class="float-left width-90">
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>訂金代號</label>
+                                            <select class="input-medium medium-c5">
+                                                <option value="">C/I 日期</option>
+                                                <option value="">C/O 日期</option>
+                                                <option value="">房價代號</option>
+                                                <option value="">計價房種</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid">
+                                        <div class="grid-item">
+                                            <label>名稱</label>
+                                            <input type="text" class="input-medium medium-c5" placeholder="" disabled/>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div><!--main-content-data-->
                         </div>
                     </div>
-                    <div class="col-xs-1 col-sm-1">
+                    <div class="col-xs-2 col-sm-2">
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
@@ -1950,7 +2118,7 @@
                 <div class="space-6"></div>
                 <div class="clearfix"></div>
                 <div class="row">
-                    <div class="col-xs-11 col-sm-11">
+                    <div class="col-xs-10 col-sm-10">
                         <div class="row no-margin-right">
                             <div class="main-content-data">
                                 <!--PMS0210020 Deposit table-->
@@ -1958,26 +2126,10 @@
                             </div><!--main-content-data-->
                         </div>
                     </div>
-                    <div class="col-xs-1 col-sm-1">
+                    <div class="col-xs-2 col-sm-2">
                         <div class="row">
                             <div class="right-menu-co">
                                 <ul>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">RM:602</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">全選</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">全不選</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                role="button">反向選擇</button>
-                                    </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">以下全選</button>

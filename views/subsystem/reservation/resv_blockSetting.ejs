@@ -127,9 +127,9 @@
     <div id="blockSettingSingle-page" class="hide padding-5" style="">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
-                <div class="row">
+                <div class="row borderFrame">
                     <div class="col-xs-11 col-sm-11">
-                        <div class="main-content-data">
+                        <div class="main-content-data borderFrame">
                             <!--1-->
                             <div class="grid">
                                 <div class="grid-item">
@@ -146,7 +146,7 @@
                             <!--2-->
                             <div class="grid">
                                 <div class="grid-item">
-                                    <label class="pull-left">Guest Remark</label>
+                                    <label class="pull-left">Description</label>
                                     <textarea class="input-medium resvCard-col3 pull-left input-hCol2 marginLeft-5" placeholder="2017 AGODA BLOCK 10 FOR DXK DAILY"></textarea>
                                     <!--<input type="text" class="input-medium resvCard-col2" placeholder="pick guy" style="height:55px;" />-->
 
@@ -157,13 +157,13 @@
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>Add date</label>
-                                    <input type="date" class="input-medium resvCard-col2"
-                                           placeholder="2017/6/6"/>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="2017/6/6" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>Add by</label>
-                                    <input type="date" class="input-medium resvCard-col2"
-                                           placeholder="RICK"/>
+                                    <input type="text" class="input-medium resvCard-col2"
+                                           placeholder="RICK" disabled/>
                                 </div>
                             </div>
                             <!--4-->
@@ -171,12 +171,12 @@
                                 <div class="grid-item">
                                     <label>Upd date</label>
                                     <input type="text" class="input-medium resvCard-col2"
-                                           placeholder="2017/6/6"/>
+                                           placeholder="2017/6/6" disabled/>
                                 </div>
                                 <div class="grid-item">
                                     <label>Upd by</label>
                                     <input type="text" class="input-medium resvCard-col2"
-                                           placeholder="RICK"/>
+                                           placeholder="RICK" disabled/>
                                 </div>
                             </div>
 
@@ -309,7 +309,7 @@
             url: '/jsonData/resv_blockSettingSingle.json',
             method: 'get',
             columns: [[
-                {field: 'blockNo', title: 'Block No.', width: 80},
+//                {field: 'blockNo', title: 'Block No.', width: 80},
                 {field: 'blockRM', title: 'RM type', width: 80},
                 {field: 'blockSD', title: 'Start Date', width: 80},
                 {field: 'blockED', title: 'End Date', width: 80},
