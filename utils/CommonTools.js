@@ -139,7 +139,7 @@ exports.handlePreprocessData = function (lao_data, fieldAttrs) {
 function convUtcToDate(lo_data, fieldAttrs) {
 
     _.each(lo_data, function (val, fieldName) {
-        if (!_.isUndefined(fieldAttrs)) {
+        if (!_.isUndefined(fieldAttrs) && val != "") {
             let lo_field = _.findWhere(fieldAttrs, {ui_field_name: fieldName});
             if (lo_field) {
                 if (lo_field.ui_type == 'date') {
@@ -151,11 +151,13 @@ function convUtcToDate(lo_data, fieldAttrs) {
         } else {
             var patternDat = /_dat$/i; //找尋欄位是dat或date結尾
 
-            if (fieldName == 'ins_dat' || fieldName == 'upd_dat') {
-                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
-            }
-            else if (patternDat.test(fieldName)) {
-                lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
+            if (lo_data[fieldName] != null) {
+                if (fieldName == 'ins_dat' || fieldName == 'upd_dat') {
+                    lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD HH:mm:ss");
+                }
+                else if (patternDat.test(fieldName)) {
+                    lo_data[fieldName] = moment(new Date(lo_data[fieldName])).format("YYYY/MM/DD");
+                }
             }
         }
     });

@@ -54,9 +54,9 @@ module.exports = {
         let end_dat = moment(new Date(singleRowData.end_dat));
         let result = new ReturnClass();
         let error = null;
-        queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: athena_id, hotel_cod: hotel_cod}, function (err, data) {
+        queryAgent.query("QRY_RENT_CAL_DAT", {athena_id: athena_id, hotel_cod: hotel_cod}, function (err, data) {
             if (data) {
-                let belong_dat = moment(new Date(data.belong_dat));
+                let belong_dat = moment(new Date(data.rent_cal_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
                     result.success = false;
                     error = new ErrorClass();
@@ -87,35 +87,27 @@ module.exports = {
         let error = null;
 
         if (!_.isEmpty(begin_dat) && !_.isEmpty(end_dat)) {
-            queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {
+            begin_dat = moment(new Date(begin_dat));
+            end_dat = moment(new Date(end_dat));
+            if (end_dat.diff(begin_dat, "days") < 0) {
+                if (!error) {
+                    error = new ErrorClass();
+                }
+                result.success = false;
+                error.errorMsg = "結束日期不可以早於開始日期";
+                error.errorCod = "1111";
+            }
+            return callback(error, result);
+        } else if (_.isEmpty(begin_dat) && _.isEmpty(end_dat)) {
+            queryAgent.query("QRY_RENT_CAL_DAT", {
                 athena_id: athena_id,
                 hotel_cod: hotel_cod
             }, function (err, data) {
 
                 if (data) {
-                    let belong_dat = moment(new Date(data.belong_dat));
-                    begin_dat = moment(new Date(begin_dat));
-                    end_dat = moment(new Date(end_dat));
+                    let belong_dat = moment(new Date(data.rent_cal_dat)); //滾房租日
                     //1)
-                    if (end_dat.diff(begin_dat, "days") < 0) {
-                        if (!error) {
-                            error = new ErrorClass();
-                        }
-                        result.success = false;
-                        error.errorMsg = "結束日期不可以早於開始日期";
-                        error.errorCod = "1111";
-                    }
-                    //2)
-                    if (begin_dat.diff(belong_dat, "days") < 0) {
-                        if (!error) {
-                            error = new ErrorClass();
-                        }
-                        result.success = false;
-                        error.errorMsg = "房型的開始日小於滾房租日";
-                        error.errorCod = "1111";
-                    }
-                    //3)
-                    if (end_dat.diff(belong_dat, "days") < 0) {
+                    if (!_.isEmpty(end_dat) && moment(new Date(end_dat)).diff(belong_dat, "days") < 0) {
                         if (!error) {
                             error = new ErrorClass();
                         }
@@ -123,6 +115,16 @@ module.exports = {
                         error.errorMsg = "房型的結束日小於滾房租日";
                         error.errorCod = "1111";
                     }
+                    //2)
+                    if (!_.isEmpty(begin_dat) && moment(new Date(begin_dat)).diff(belong_dat, "days") < 0) {
+                        if (!error) {
+                            error = new ErrorClass();
+                        }
+                        result.success = false;
+                        error.errorMsg = "房型的開始日小於滾房租日";
+                        error.errorCod = "1111";
+                    }
+
                 }
 
                 callback(error, result);
@@ -131,6 +133,7 @@ module.exports = {
         } else {
             callback(error, result);
         }
+
 
     },
     /**
@@ -303,7 +306,7 @@ module.exports = {
                                                         key: 'room_cod',
                                                         operation: "=",
                                                         value: c_data.room_cod.trim()
-                                                    },{
+                                                    }, {
                                                         key: 'locale',
                                                         operation: "=",
                                                         value: session.locale
@@ -333,7 +336,7 @@ module.exports = {
                                                         key: 'room_cod',
                                                         operation: "=",
                                                         value: c_data.room_cod.trim()
-                                                    },{
+                                                    }, {
                                                         key: 'locale',
                                                         operation: "=",
                                                         value: session.locale
@@ -425,7 +428,7 @@ module.exports = {
                             editSubFunc.push(
                                 function (callback) {
                                     async.waterfall([
-                                        function(callback){
+                                        function (callback) {
                                             // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
                                             //     if (Number(data.cover_count || 0) > 0) {
                                             //         callback("相同房型的開始結束日期不可重疊", []);
@@ -433,7 +436,7 @@ module.exports = {
                                             // });
                                             callback(null, []);
                                         },
-                                        function (data,callback) {
+                                        function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
                                                 function: '2',
                                                 table_name: 'rvrmcod_rf',
@@ -447,10 +450,10 @@ module.exports = {
                                                     value: userInfo.hotel_cod
                                                 }
                                                     , {
-                                                    key: 'room_cod',
-                                                    operation: "=",
-                                                    value: e_data.room_cod.trim()
-                                                }],
+                                                        key: 'room_cod',
+                                                        operation: "=",
+                                                        value: e_data.room_cod.trim()
+                                                    }],
                                                 room_nam: e_data.room_nam || "",
                                                 room_sna: e_data.room_sna || ""
                                             });
@@ -470,7 +473,7 @@ module.exports = {
                                                         key: 'room_cod',
                                                         operation: "=",
                                                         value: e_data.room_cod.trim()
-                                                    },{
+                                                    }, {
                                                         key: 'locale',
                                                         operation: "=",
                                                         value: session.locale
@@ -499,7 +502,7 @@ module.exports = {
                                                         key: 'room_cod',
                                                         operation: "=",
                                                         value: e_data.room_cod.trim()
-                                                    },{
+                                                    }, {
                                                         key: 'locale',
                                                         operation: "=",
                                                         value: session.locale
@@ -695,7 +698,7 @@ module.exports = {
         };
         if (!_.isEmpty(singleRowData.room_cod.trim())) {
             queryAgent.query("QRY_RVRMCOD_RF_ROOM_NAM", params, function (err, roomData) {
-                if (!err && roomData && roomData.room_nam.trim() != singleRowData.room_nam.trim() ) {
+                if (!err && roomData && roomData.room_nam.trim() != singleRowData.room_nam.trim()) {
                     result.showConfirm = true;
                     result.isGoPostAjax = true;
                     result.ajaxURL = "/api/revertRoomNam";
@@ -728,7 +731,7 @@ module.exports = {
         };
         if (!_.isEmpty(singleRowData.room_cod.trim())) {
             queryAgent.query("QRY_RVRMCOD_RF_ROOM_SNA", params, function (err, roomData) {
-                if (!err && roomData && roomData.room_sna.trim() != singleRowData.room_sna.trim() ) {
+                if (!err && roomData && roomData.room_sna.trim() != singleRowData.room_sna.trim()) {
                     result.showConfirm = true;
                     result.isGoPostAjax = true;
                     result.ajaxURL = "/api/revertRoomSna";
@@ -810,10 +813,10 @@ module.exports = {
      * @param session
      * @param callback
      */
-    getOriRoomNamByRoomCod: function(postData,session,callback){
+    getOriRoomNamByRoomCod: function (postData, session, callback) {
         let result = new ReturnClass();
         let error = null;
-        queryAgent.query("QRY_RVRMCOD_RF_ROOM_NAM",postData.singleRowData,function(err,roomData){
+        queryAgent.query("QRY_RVRMCOD_RF_ROOM_NAM", postData.singleRowData, function (err, roomData) {
             result.effectValues["room_nam"] = roomData.room_nam;
             callback(error, result);
         });
@@ -825,10 +828,10 @@ module.exports = {
      * @param session
      * @param callback
      */
-    getOriRoomSnaByRoomCod: function(postData,session,callback){
+    getOriRoomSnaByRoomCod: function (postData, session, callback) {
         let result = new ReturnClass();
         let error = null;
-        queryAgent.query("QRY_RVRMCOD_RF_ROOM_SNA",postData.singleRowData,function(err,roomData){
+        queryAgent.query("QRY_RVRMCOD_RF_ROOM_SNA", postData.singleRowData, function (err, roomData) {
             result.effectValues["room_sna"] = roomData.room_sna;
             callback(error, result);
         });

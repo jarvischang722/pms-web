@@ -21,7 +21,6 @@ module.exports = {
             athena_id: session.user.athena_id,
             source_grp: postData.rowData.source_grp
         };
-
         if (!_.isEmpty(postData.rowData.source_grp.trim())) {
             queryAgent.query("CHK_SOURCE_GRP_RF".toUpperCase(), params, function (err, guestData) {
                 if (!err) {
@@ -139,21 +138,5 @@ module.exports = {
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
         })
-    },
-    PMS0810110_source_grp: function () {
-
-        var options = new Object;
-
-        options.panelWidth = '200';
-        options.idField = 'value';
-        options.textField = 'display';
-
-        var columns = [[
-            {field:'value',title:'群組代號',width:100},
-            {field:'display',title:'群組名稱',width:100}]];
-
-        options.columns = columns;
-
-        return options;
     }
 }

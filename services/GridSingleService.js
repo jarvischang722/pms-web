@@ -428,7 +428,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             },
             function (rowData, callback) {
                 //func_id  0401  抓完要編輯的資料後，要檢查此筆Row Data 可否被編輯
-                mongoAgent.DatagridFunction.findOne({
+                mongoAgent.PageFunction.findOne({
                     prg_id: prg_id,
                     func_id: '0401'
                 }, function (err, func) {
@@ -841,6 +841,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                             if (typeof data[objKey] === 'string') {
                                 data[objKey] = data[objKey].trim();
                             }
+
                             tmpIns[objKey] = value;
                         }
                     });

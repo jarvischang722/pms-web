@@ -56,6 +56,30 @@
 
         });
 
+        // PMS0210020 trace Button
+        $('#resv_guestDetail-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation/resv_guestDetail.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
+                {field: 'historyNO', title: '歷史編號', width: 80},
+                {field: 'personID', title: '身份證字號', width: 100},
+                {field: 'fullName', title: 'Full Nmae', width: 80},
+                {field: 'sex', title: '性別', width: 60},
+                {field: 'birthDate', title: '出生日期', width: 100},
+                {field: 'status', title: '狀態', width: 60},
+                {field: 'country', title: '國籍', width: 100},
+                {field: 'visitNum', title: '來訪次數', width: 60},
+                {field: 'visitDay', title: '來訪天數', width: 60},
+                {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
+                {field: 'getDM', title: '收取DM', width: 60}
+            ]]
+
+        });
+
         // PMS0210010 住客歷史多筆資料(checkbox)
         $('#resv_gProfile_Chk-table').datagrid({
             singleSelect: true,
@@ -69,6 +93,27 @@
             ]]
 
         });
+
+        // G.Profile resv_merge dataGrid
+        $('#resv_merge-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/reservation/resv_merge.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox01', title: '',width: 28,align:"center"},
+                {field: 'checkbox02', title: '<input type="checkbox">',width: 28,align:"center"},
+                {field: 'guestNo', title: 'Guest No', width: 100, align:'right'},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'birth', title: 'Birth', width: 100, align:'right'},
+                {field: 'IDNo', title: 'ID No.', width: 100},
+                {field: 'nationality', title: 'Nationality', width: 80},
+                {field: 'mobile', title: 'Mobile', width: 100, align:'right'},
+                {field: 'email', title: 'Email', width: 150}
+            ]]
+        });
+
         // 彈出 住客歷史 Lost&Found
         $(document).on('click', ".resvLostFound", function (e) {
             e.preventDefault();
@@ -960,14 +1005,14 @@
             });
         });
 
-        // 彈出 訂房卡 resv_depoisits(開班登入)
-        $(document).on('click', ".resv_depoisits", function (e) {
+        // 彈出 訂房卡 resv_deposits(開班登入)
+        $(document).on('click', ".resv_deposits", function (e) {
             e.preventDefault();
-            var dialog = $("#resv_depoisits-message").removeClass('hide').dialog({
+            var dialog = $("#resv_deposits-message").removeClass('hide').dialog({
                 modal: true,
                 title: "開班登入",
                 title_html: true,
-                width: 700,
+                width: 500,
                 maxwidth: 1920,
                 minheight: 250,
 //                height: $(window).height(),
@@ -977,10 +1022,10 @@
             });
         });
 
-        // 彈出 訂房卡 resv_depoisitsStep2(設定訂金編號01)
-        $(document).on('click', ".resv_depoisitsStep2", function (e) {
+        // 彈出 訂房卡 resv_depositsStep2(設定訂金編號01)
+        $(document).on('click', ".resv_depositsStep2", function (e) {
             e.preventDefault();
-            var dialog = $("#resv_depoisitsStep2-message").removeClass('hide').dialog({
+            var dialog = $("#resv_depositsStep2-message").removeClass('hide').dialog({
                 modal: true,
                 title: "設定訂金編號",
                 title_html: true,
@@ -994,10 +1039,10 @@
             });
         });
 
-        // 彈出 訂房卡 resv_depoisitsStep3A(訂金編號新增)
-        $(document).on('click', ".resv_depoisitsStep3A", function (e) {
+        // 彈出 訂房卡 resv_depositsStep3A(訂金編號新增)
+        $(document).on('click', ".resv_depositsStep3A", function (e) {
             e.preventDefault();
-            var dialog = $("#resv_depoisitsStep3A-message").removeClass('hide').dialog({
+            var dialog = $("#resv_depositsStep3A-message").removeClass('hide').dialog({
                 modal: true,
                 title: "訂金編號新增",
                 title_html: true,
@@ -1010,10 +1055,10 @@
             });
         });
 
-        // 彈出 訂房卡 resv_depoisitsStep4A(入帳)
-        $(document).on('click', ".resv_depoisitsStep4A", function (e) {
+        // 彈出 訂房卡 resv_depositsStep4A(入帳)
+        $(document).on('click', ".resv_depositsStep4A", function (e) {
             e.preventDefault();
-            var dialog = $("#resv_depoisitsStep4A-message").removeClass('hide').dialog({
+            var dialog = $("#resv_depositsStep4A-message").removeClass('hide').dialog({
                 modal: true,
                 title: "入帳:[0000052AAA]",
                 title_html: true,
@@ -1026,26 +1071,11 @@
             });
         });
 
-        // 彈出 訂房卡 resv_depoisitsStep4A(入帳)
-        $(document).on('click', ".resv_depoisitsStep5A", function (e) {
-            e.preventDefault();
-            var dialog = $("#resv_depoisitsStep5A-message").removeClass('hide').dialog({
-                modal: true,
-                title: "德安資訊有限公司-訂金帳戶資料",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
 
-        // 彈出 訂房卡 resv_depoisitsStep3B(訂金編號)
-        $(document).on('click', ".resv_depoisitsStep3B", function (e) {
+        // 彈出 訂房卡 resv_depositsStep3B(訂金編號)
+        $(document).on('click', ".resv_depositsStep3B", function (e) {
             e.preventDefault();
-            var dialog = $("#resv_depoisitsStep3B-message").removeClass('hide').dialog({
+            var dialog = $("#resv_depositsStep3B-message").removeClass('hide').dialog({
                 modal: true,
                 title: "共有50筆資料",
                 title_html: true,
@@ -1066,6 +1096,22 @@
                 title_html: true,
                 width: 800,
                 maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 G.Profile "Merge" Btn
+        $(document).on('click', ".resv_merge", function (e) {
+            e.preventDefault();
+            var dialog = $("#resv_merge-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Merge",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -1477,12 +1523,12 @@
         ]]
     });
 
-    // 訂房卡 resv_depoisitsStep3B(訂金編號) dataGrid
-    $('#resv_depositStep3B').datagrid({
+    // 訂房卡 resv_depositsStep3B(訂金編號) dataGrid
+    $('#resv_depositsStep3B-table').datagrid({
         singleSelect: true,
         collapsible: true,
         // 從json 撈
-        url: '/jsonData/resv_depositStep3B.json',
+        url: '/jsonData/resv_depositsStep3B.json',
         method: 'get',
         columns: [[
             {field: 'depositNum', title: '訂金編號', width: 100},
@@ -1493,12 +1539,12 @@
         ]]
     });
 
-    // 訂房卡 resv_depoisitsStep5A(訂金帳戶資料) dataGrid
-    $('#resv_depositStep5A-table').datagrid({
+    // 訂房卡 resv_depoisitsStep3A(訂金帳戶資料) dataGrid
+    $('#resv_depositsStep3A-table').datagrid({
         singleSelect: true,
         collapsible: true,
         // 從json 撈
-        url: '/jsonData/resv_depositStep5A.json',
+        url: '/jsonData/resv_depositsStep3A.json',
         method: 'get',
         columns: [[
 
@@ -1555,6 +1601,8 @@
             {field: 'mode', title: '收費方式.', width: 70}
         ]]
     });
+
+
 
     //changeRecords中的dropdown select
     $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
@@ -1735,13 +1783,81 @@
     });
 
     //dropzone 圖片上傳套件選項
-    var myDropzone = new Dropzone("#myDropzone",
-        {
-            maxFilesize: 0.08,
+    try {
+        Dropzone.autoDiscover = false;
+
+        var myDropzone = new Dropzone('#myDropzone', {
+
+            maxFilesize: 0.5,
             uploadMultiple: false,
             addRemoveLinks: true,
-            method: 'post'
+            method: 'post',
+            thumbnailHeight: 120,
+            thumbnailWidth: 120,
+
+            //addRemoveLinks : true,
+//            dictRemoveFile: 'Remove',
+
+            dictDefaultMessage :
+                '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+                <span class="smaller-80 grey">(or click)</span> <br /> \
+                <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
+            ,
+
+            thumbnail: function(file, dataUrl) {
+                if (file.previewElement) {
+                    $(file.previewElement).removeClass("dz-file-preview");
+                    var images = $(file.previewElement).find("[data-dz-thumbnail]").each(function() {
+                        var thumbnailElement = this;
+                        thumbnailElement.alt = file.name;
+                        thumbnailElement.src = dataUrl;
+                    });
+                    setTimeout(function() { $(file.previewElement).addClass("dz-image-preview"); }, 1);
+                }
+            }
+
         });
+
+
+        //simulating upload progress
+        var minSteps = 6,
+            maxSteps = 60,
+            timeBetweenSteps = 100,
+            bytesPerStep = 100000;
+
+        myDropzone.uploadFiles = function(files) {
+            var self = this;
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                totalSteps = Math.round(Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep)));
+
+                for (var step = 0; step < totalSteps; step++) {
+                    var duration = timeBetweenSteps * (step + 1);
+                    setTimeout(function(file, totalSteps, step) {
+                        return function() {
+                            file.upload = {
+                                progress: 100 * (step + 1) / totalSteps,
+                                total: file.size,
+                                bytesSent: (step + 1) * file.size / totalSteps
+                            };
+
+                            self.emit('uploadprogress', file, file.upload.progress, file.upload.bytesSent);
+                            if (file.upload.progress == 100) {
+                                file.status = Dropzone.SUCCESS;
+                                self.emit("success", file, 'success', null);
+                                self.emit("complete", file);
+                                self.processQueue();
+                            }
+                        };
+                    }(file, totalSteps, step), duration);
+                }
+            }
+        }
+
+    } catch(e) {
+//        alert('Dropzone.js does not support older browsers!');
+    }
 
 
     /***
@@ -1775,4 +1891,16 @@
         else
             $(this).text("Waiting");
     });
+
+    // resv_deposits 切換Radio 顯示不同按鈕
+    $('.resv_depositsStep3B').hide();
+    $(document).on('click', ".deposits_One", function (e) {
+        $('.depositsBtn').removeClass('resv_depositsStep3B').addClass('resv_depositsStep3A');
+    });
+
+    $(document).on('click', ".deposits_Two", function (e) {
+        $('.depositsBtn').removeClass('resv_depositsStep3A').addClass('resv_depositsStep3B');
+    });
+
+
 </script>

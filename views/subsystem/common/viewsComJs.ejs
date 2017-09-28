@@ -42,9 +42,12 @@
         });
         //.END 下拉選單
 
-
+        $('.townPage').on('click', ".townBlock", function (e) {
+            $('.townBlock').removeClass("active");
+            $(this).addClass("active");
+        });
         //排房選中active
-        $('.counterBlock').click(function(){
+        $('.counterPage').on('click', ".counterBlock", function (e) {
             $('.counterBlock').removeClass("active");
             $(this).addClass("active");
         });

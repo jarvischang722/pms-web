@@ -36,13 +36,13 @@
 
                                     <td class="css_td">
                                         <form>
-                                            <input type="checkbox">
+                                            <input type="checkbox" @click="clickDeleteDt(item.seq_nos)">
                                         </form>
                                     </td>
 
                                     <!--<td class="css_td" contenteditable="true" @click="clickDt(item.seq_nos)" @change="changeDtInfo(item.seq_nos)" >{{item.seq_nos}}-->
                                     <td>
-                                        <input class="input-medium medium-c1" type="text" name="seqNos"
+                                        <input class="input-medium medium-c1" type="text" name="seqNos"  disabled
                                                @click="clickDt(item.seq_nos)" v-model="item.seq_nos">
                                     </td>
                                     <!--<td class="css_td" contenteditable="true" @click="clickDt(item.seq_nos)" @change="changeDtInfo(item.item_nam)">{{item.item_nam}}-->

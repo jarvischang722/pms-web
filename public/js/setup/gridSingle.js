@@ -658,64 +658,60 @@ Vue.component('sigle-grid-dialog-tmp', {
                     }
                     this.dtEditIndex = index;
                 } else {
-                    setTimeout(function () {
-                        $("#dt_dg").datagrid('selectRow', this.dtEditIndex);
-                    }, 0);
+                    $("#dt_dg").datagrid('selectRow', this.dtEditIndex);
                 }
             }
         },
 
         onClickDtRow: function (index, dtRow) {
-            var lo_params = {
-                dtField: this.pageTwoDataGridFieldData,
-                rowData: dtRow
-            };
+            if (this.dtEditIndex != index) {
+                if (this.endDtEditing()) {
+                    var lo_params = {
+                        dtField: this.pageTwoDataGridFieldData,
+                        rowData: dtRow
+                    };
 
-            var li_index = _.findIndex(this.tmpCud.dt_createData, dtRow);
-            if (li_index > -1) {
-                this.tmpCud.dt_createData.splice(li_index, 1);
-            }
-
-            li_index = _.findIndex(this.tmpCud.dt_updateData, dtRow);
-            if (li_index > -1) {
-                this.tmpCud.dt_updateData.splice(li_index, 1);
-            }
-
-            $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
-                if (chkResult.success) {
-                    //是否要show出訊息
-                    if (chkResult.showAlert) {
-                        alert(chkResult.alertMsg);
+                    var li_index = _.findIndex(this.tmpCud.dt_createData, dtRow);
+                    if (li_index > -1) {
+                        this.tmpCud.dt_createData.splice(li_index, 1);
                     }
 
-                    //是否要show出詢問視窗
-                    if (chkResult.showConfirm) {
-                        if (confirm(chkResult.confirmMsg)) {
-                            //有沒有要再打一次ajax到後端
-                            if (chkResult.isGoPostAjax) {
-                                $.post(chkResult.ajaxURL, postData, function (ajaxResult) {
-                                    if (!ajaxResult.success) {
-                                        alert(ajaxResult.errorMsg);
+                    li_index = _.findIndex(this.tmpCud.dt_updateData, dtRow);
+                    if (li_index > -1) {
+                        this.tmpCud.dt_updateData.splice(li_index, 1);
+                    }
+                    var self = this;
+                    $.post('/api/chkDtFieldRule', lo_params, function (chkResult) {
+                        if (chkResult.success) {
+                            //是否要show出訊息
+                            if (chkResult.showAlert) {
+                                alert(chkResult.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (chkResult.showConfirm) {
+                                if (confirm(chkResult.confirmMsg)) {
+                                    //有沒有要再打一次ajax到後端
+                                    if (chkResult.isGoPostAjax) {
+                                        $.post(chkResult.ajaxURL, postData, function (ajaxResult) {
+                                            if (!ajaxResult.success) {
+                                                alert(ajaxResult.errorMsg);
+                                            }
+                                        });
                                     }
-                                });
+                                }
                             }
                         }
-                    }
+                        else {
+                            alert(chkResult.errorMsg);
+                        }
+                    });
+                    this.dtEditIndex = index;
                 }
                 else {
-                    alert(chkResult.errorMsg);
-                    if (!chkResult.isModifiable) {
-                        var la_readonlyFields = _.uniq(chkResult.readonlyFields);
-                        _.each(la_readonlyFields, function (field) {
-                            var lo_editor = $('#dt_dg').datagrid('getEditor', {
-                                index: index,
-                                field: field
-                            });
-                            $(lo_editor.target).textbox("readonly", true);
-                        });
-                    }
+                    $("#dt_dg").datagrid('selectRow', this.dtEditIndex);
                 }
-            });
+            }
         },
 
         //結束編輯dt
@@ -729,7 +725,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 return true;
             }
             return false;
-
         },
 
         //儲存page2 datagrid欄位屬性
@@ -780,7 +775,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             var delRow = $("#dt_dg").datagrid('getSelected');
             if (!delRow) {
                 alert("請選擇要刪除的資料");
+                return;
             }
+
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
             vm.tmpCud.dt_deleteData.push(delRow);
@@ -1079,7 +1076,7 @@ var vm = new Vue({
             for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
                 var lo_field = this.oriPageTwoFieldData[i];
                 //必填
-                if (lo_field.requirable == "Y" && lo_field.modificable == "Y" && lo_field.ui_type != "checkbox") {
+                if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                     lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_chkResult.success == false) {
                         break;
@@ -1093,7 +1090,8 @@ var vm = new Vue({
                         break;
                     }
                 }
-            };
+            }
+            ;
             return lo_chkResult;
 
         },
@@ -1155,7 +1153,6 @@ var vm = new Vue({
                     if (result.success) {
                         vm.oriSingleData = $.extend({}, result.rowData);
                         vm.singleData = result.rowData;
-                        console.log(vm.singleData);
                         vm.modificableForData = result.modificable || true;
                         vm.dtData = dtData;
                         vmHub.$emit('showDtDataGrid', dtData);
