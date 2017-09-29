@@ -150,7 +150,7 @@
     "prg_id" : "PMS0830100", 
     "page_id" : NumberInt(2), 
     "func_id" : "0521", 
-    "rule_func_name" : ""
+    "rule_func_name" : "QRY_HFD_REST_DT_SEQ_NOS"
 }
 { 
     "_id" : ObjectId("597ec0ec818df4286420c1f4"), 
@@ -249,4 +249,25 @@
     "page_id" : NumberInt(2), 
     "func_id" : "0541", 
     "rule_func_name" : "r_MasterrfSaveModify"
+}
+{ 
+    "_id" : ObjectId("59cc89720da0d29e24ea8ccc"), 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0401", 
+    "rule_func_name" : "r_0401"
+}
+{ 
+    "_id" : ObjectId("59cdeec11af7d632f41e5af7"), 
+    "prg_id" : "PMS0810020", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0401", 
+    "rule_func_name" : "chk_edit_rvrmcod_rf"
+}
+{ 
+    "_id" : ObjectId("59cdee780da0d29e24ea8cd2"), 
+    "prg_id" : "PMS0840030", 
+    "page_id" : NumberInt(2), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_HkproductrfSaveModify"
 }
