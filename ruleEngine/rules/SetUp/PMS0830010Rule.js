@@ -88,6 +88,7 @@ module.exports = {
             if (_.isNull(getResult.use_shift_open)) {
                 getResult.use_shift_open = "Y";
             }
+            getResult.use_shift_open = "N";
             callback(err, getResult.use_shift_open);
         });
     },
@@ -106,7 +107,7 @@ module.exports = {
         };
 
         this.qryUseShiftOpen(lo_params, function (err, use_shift_open) {
-            if (postData.singleRowData.use_sta == "Y" && use_shift_open == "N") {
+            if ((postData.singleRowData.use_sta == "Y" || postData.singleRowData.use_sta == "true") && use_shift_open == "N") {
 
                 async.waterfall([
                     qryRentCalDat,
@@ -185,16 +186,19 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
+        if(!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0){
+            return callback(lo_error, lo_return);
+        }
         this.qryUseShiftOpen(lo_params, function (err, getResult) {
             let ls_use_shift_open = getResult;
 
-            if (postData.singleRowData.use_sta == "false" || ls_use_shift_open == "Y") {
+            if ((postData.singleRowData.use_sta == "N" || postData.singleRowData.use_sta == "false") || ls_use_shift_open == "Y") {
                 postData.singleRowData.def_shift_cod = "";
                 lo_return.effectValues = postData.singleRowData;
                 return callback(lo_error, lo_return);
             }
 
-            if (postData.singleRowData.use_sta == "true" && ls_use_shift_open == "N") {
+            if ((postData.singleRowData.use_sta == "Y" || postData.singleRowData.use_sta == "true") && ls_use_shift_open == "N") {
                 if (postData.singleRowData.def_shift_cod.trim() == "") {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
