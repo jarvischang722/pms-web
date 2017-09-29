@@ -38,14 +38,14 @@
                 <div class="right-menu-co">
                     <ul>
                         <li>
-                            <button id="ins-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
+                            <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="appendRow"
                                     role="button">
                                 <%= __("SystemCommon").Add %>
                             </button>
                         </li>
                         <li>
-                            <button id="remove-btn" :disabled="saving"
+                            <button id="remove-btn"
                                     class="btn btn-danger btn-white btn-defaultWidth"
                                     @click="removeRow();"
                                     role="button">
@@ -53,7 +53,7 @@
                             </button>
                         </li>
                         <li>
-                            <button id="save-btn" :disabled="saving" class="btn btn-primary btn-white btn-defaultWidth"
+                            <button id="save-btn" class="btn btn-primary btn-white btn-defaultWidth"
                                     @click="doSave();"
                                     role="button">
                                 <%= __("SystemCommon").Save %>

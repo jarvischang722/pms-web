@@ -333,8 +333,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             key_nos: 0,
             isEditingForFieldRule: false,
             isVerified: true,
-            fieldChecking: false  //是否在檢查欄位中
-
+            fieldChecking: false,  //是否在檢查欄位中
+            BTN_action: false
 
         };
     },
@@ -554,8 +554,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 } else if (this.editStatus) {
                     this.tmpCud.editData = [this.singleData];
                 }
-
+                this.BTN_action = true;
                 this.$emit('do-save-cud', function (success) {
+                    self.BTN_action = false;
                     if (success) {
                         //儲存後離開
                         if (saveAfterAction == "closeDialog") {
@@ -877,7 +878,6 @@ var vm = new Vue({
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: []
-
     },
     watch: {
         editStatus: function (newVal) {
@@ -952,7 +952,6 @@ var vm = new Vue({
                     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
-
 
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
@@ -1104,7 +1103,7 @@ var vm = new Vue({
                 };
             }
             var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false) {
+            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
                 return;
             }
@@ -1116,6 +1115,11 @@ var vm = new Vue({
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
                         callback(success);
+                    });
+                    _.each(vm.dtData, function (lo_dtData) {
+                        if (!_.isUndefined(lo_dtData.createRow)) {
+                            delete lo_dtData["createRow"];
+                        }
                     });
                     alert('save success!');
                 } else {

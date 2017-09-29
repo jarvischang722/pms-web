@@ -137,23 +137,23 @@
                     <div class="row" v-if="editStatus">
                         <div class="singleEditStatus">
                             <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                    :disabled="isFistData || !modificableForData"
+                                    :disabled="isFistData || !modificableForData || BTN_action"
                                     style="" @click="toFirstData"><%= __("SystemCommon").First %>
                             </button>
                             <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                    :disabled="isFistData || !modificableForData"
+                                    :disabled="isFistData || !modificableForData || BTN_action"
                                     style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                             </button>
                             <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                    :disabled="isLastData || !modificableForData"
+                                    :disabled="isLastData || !modificableForData || BTN_action"
                                     style="" @click="toNextData"><%= __("SystemCommon").Next %>
                             </button>
                             <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                    :disabled="isLastData || !modificableForData"
+                                    :disabled="isLastData || !modificableForData || BTN_action"
                                     style="" @click="toLastData"><%= __("SystemCommon").Last %>
                             </button>
                             <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
-                                    :disabled="!modificableForData"
+                                    :disabled="!modificableForData || BTN_action"
                                     style=""
                                     @click="handleDeleteSingleData">
                                 <%= __("SystemCommon").Delete %>
@@ -176,19 +176,19 @@
             <div class="singleRelative">
                 <div class="singleBtnBottom">
                     <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
-                            @click="doSaveGrid('addOther')">
+                            @click="doSaveGrid('addOther')" :disabled="BTN_action">
                         <%= __("SystemCommon").Add_after_save %>
                     </button>
-                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
+                    <button v-if="createStatus ||  editStatus" :disabled="(editStatus && !modificableForData) || BTN_action"
                             class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
                         <%= __("SystemCommon").Leave_after_save %>
                     </button>
-                    <button v-if="editStatus" :disabled="editStatus && !modificableForData "
+                    <button v-if="editStatus" :disabled="(editStatus && !modificableForData) || BTN_action"
                             class="btn btn-primary btn-white"
                             @click="doSaveGrid('')">
                         <%= __("SystemCommon").Save %>
                     </button>
-                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog">
+                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog" :disabled="BTN_action">
                         <%= __("SystemCommon").Leave %>
                     </button>
                 </div>

@@ -128,5 +128,14 @@ $.extend($.fn.validatebox.defaults.rules, {
             return lo_checkResult.success;
         },
         message: '只能0~99999'
+    },
+    //只能0~99999
+    ChkPointOne : {
+        validator: function (value) {
+            var lo_checkResult = go_validateClass.ChkPointOne(value);
+            $.fn.validatebox.defaults.rules.ChkPointOne.message = lo_checkResult.msg;
+            return lo_checkResult.success;
+        },
+        message: '僅能輸入到小數點1位'
     }
 });

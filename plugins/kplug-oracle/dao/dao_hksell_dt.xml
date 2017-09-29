@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PMS0840030'] HKSELL_DT有用到的不可刪除 -->
+    <dao name="GET_PRODUCT_NOS_COUNT">
+        <statement><![CDATA[
+            select count(*) as count from hksell_dt where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(product_nos) = trim(:product_nos) and rownum =1
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">product_nos</parameter>
+    </dao>
+</root>

@@ -64,7 +64,6 @@ var EZfieldClass = {
         tmpFieldObj.title = fieldAttrObj.ui_display_name;
         tmpFieldObj.sortable = true;
 
-
         tmpFieldObj.editor = {
             type: dataType,
             options: {
@@ -96,19 +95,6 @@ var EZfieldClass = {
         /** 將不能修改的日期改成textbox，因textbox的editor.format沒作用，所以利用onChange轉型**/
         if ((fieldAttrObj.ui_type == "datebox" || fieldAttrObj.ui_type == "datetime") && fieldAttrObj.modificable == "N") {
             tmpFieldObj.editor.type = "textbox";
-            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
-                if (newValue != "" && !_.isUndefined(newValue)) {
-                    var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    var ls_date = moment(newValue).format("YYYY/MM/DD HH:mm:ss");
-                    var li_rowIndex = parseInt($(this).closest('tr.datagrid-row').attr("datagrid-row-index"));
-
-                    var lo_editor = $('#' + ls_dgName).datagrid('getEditor', {
-                        index: li_rowIndex,
-                        field: fieldAttrObj.ui_field_name
-                    });
-                    $(lo_editor.target).textbox("setValue", ls_date);
-                }
-            };
         }
 
         /** Formatter 顯示  **/
@@ -125,9 +111,7 @@ var EZfieldClass = {
                 if (date != "" && !_.isUndefined(date)) {
                     return new Date(Date.parse(date));
                 }
-
                 return new Date();
-
             };
 
             tmpFieldObj.formatter = dateFunc;
@@ -139,7 +123,6 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-                    var li_date_leng = newValue.split('').length;
 
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
@@ -149,7 +132,7 @@ var EZfieldClass = {
 
         } else if (dataType == "datetimebox") {
 
-            var datetimeFunc = function (date, row) {
+            var datetimeFunc = function (date) {
                 if (date != "" && !_.isUndefined(date)) {
                     return moment(date).format("YYYY/MM/DD HH:mm:ss");
                 }
@@ -408,7 +391,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).textbox("readonly", true);
                 });
             }
-            else{
+            else {
                 _.each(ga_readonlyFields, function (field) {
                     var lo_editor = $('#' + dgName).datagrid('getEditor', {
                         index: indexRow,

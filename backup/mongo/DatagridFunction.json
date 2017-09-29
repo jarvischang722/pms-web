@@ -802,25 +802,29 @@
 { 
     "_id" : ObjectId("5977ea54d7826628c0a3ca8d"), 
     "prg_id" : "PMS0840030", 
-    "func_id" : NumberInt(100), 
+    "func_id" : "0100", 
+    "page_id" : NumberInt(1), 
     "rule_func_name" : ""
 }
 { 
     "_id" : ObjectId("5977ea54d7826628c0a3ca8e"), 
     "prg_id" : "PMS0840030", 
-    "func_id" : NumberInt(200), 
+    "func_id" : "0200", 
+    "page_id" : NumberInt(1), 
     "rule_func_name" : "rHkproductrfIns"
 }
 { 
     "_id" : ObjectId("5977ea54d7826628c0a3ca8f"), 
     "prg_id" : "PMS0840030", 
-    "func_id" : NumberInt(300), 
+    "func_id" : "0300", 
+    "page_id" : NumberInt(1), 
     "rule_func_name" : "r_HkproductrfSaveDel"
 }
 { 
     "_id" : ObjectId("5977ea54d7826628c0a3ca90"), 
     "prg_id" : "PMS0840030", 
-    "func_id" : NumberInt(400), 
+    "func_id" : "0400", 
+    "page_id" : NumberInt(1), 
     "rule_func_name" : ""
 }
 { 

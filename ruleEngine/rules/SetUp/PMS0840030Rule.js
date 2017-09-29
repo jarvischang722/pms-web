@@ -24,7 +24,7 @@ module.exports = {
         var params = {
             athena_id: session.user.athena_id,
             comp_cod: session.user.cmp_id
-        }
+        };
 
         var selectDSFunc = [];
         var result = new ReturnClass();
@@ -82,11 +82,10 @@ module.exports = {
     chkHkproductrfServicesta:function(postData, session, callback){
         var lo_result = new ReturnClass();
         var lo_error = null;
-        var serviceStaValue = postData.singleRowData.service_sta;
 
-        if(serviceStaValue == "N"){
+        if(postData.singleRowData.service_sta == "false"){
             postData.singleRowData.serv_rat = "0";
-            lo_result.effectValues = postData.singleRowData;
+            lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
             callback(lo_error, lo_result);
         }else {
             callback(lo_error, lo_result);
@@ -96,26 +95,125 @@ module.exports = {
     chkHkproductrfServrat:function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        var serviceStaValue = postData.singleRowData.service_sta;
+
         var servratValue = postData.singleRowData.serv_rat;
 
-        if( serviceStaValue == "N"){
-            if(servratValue != "0"){
-                // postData.singleRowData.serv_rat = "0";
-                // lo_result.effectValues = postData.singleRowData;
-                lo_error.succeed
+        if(postData.singleRowData.service_sta == "false"){
+            if(postData.singleRowData.serv_rat != 0)
+            {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "不要收服務費,不用輸入服務費率";
+                lo_error.errorCod = "1111";
+                postData.singleRowData.serv_rat = "0";
+                lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
+                callback(lo_error, lo_result);
+            }
+            else {
+                callback(lo_error, lo_result);
+            }
+        }else {
+            if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
+            {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "要收服務費,服務費率必須大於0";
+                lo_error.errorCod = "1111";
+                postData.singleRowData.serv_rat = "";
+                lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
+                callback(lo_error, lo_result);
+            }
+            else{
                 callback(lo_error, lo_result);
             }
 
+        }
+    },
+    //0541若設要收服務費時，則值要大於0
+    r_HkproductrfSaveModify:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        var servratValue = postData.singleRowData.serv_rat;
+
+        if(postData.singleRowData.service_sta == "false"){
+            if(postData.singleRowData.serv_rat != 0)
+            {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "不要收服務費,不用輸入服務費率";
+                lo_error.errorCod = "1111";
+                postData.singleRowData.serv_rat = "0";
+                lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
+                callback(lo_error, lo_result);
+            }
+            else {
+                callback(lo_error, lo_result);
+            }
         }else {
-            callback(lo_error, lo_result);
+            if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
+            {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "要收服務費,服務費率必須大於0";
+                lo_error.errorCod = "1111";
+                postData.singleRowData.serv_rat = "";
+                lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
+                callback(lo_error, lo_result);
+            }
+            else{
+                callback(lo_error, lo_result);
+            }
+
         }
     },
     //顯示順序,目前已存在的資料的最大值+1
     rHkproductrfIns:function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        callback(lo_error, lo_result);
+
+        var params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod
+        };
+
+        queryAgent.query("QRYHKPRODUCTRFINS".toUpperCase(), params, function (err, result) {
+            if (!err) {
+                lo_result.defaultValues.view_seq = result.view_seq;
+                callback(lo_error, lo_result);
+            }
+            else {
+                callback(lo_error, lo_result);
+            }
+        });
+    },
+    r_HkproductrfSaveDel:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        var params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod,
+            product_nos: postData.singleRowData.product_nos
+        };
+
+        queryAgent.query("GET_PRODUCT_NOS_COUNT".toUpperCase(), params, function (err, result) {
+            if (!err) {
+                if(result.count > 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "資料已被使用,不可刪除";
+                    lo_error.errorCod = "1111";
+                    callback(lo_error, lo_result);
+                }
+                else{
+                    callback(lo_error, lo_result);
+                }
+            }
+            else {
+                callback(lo_error, lo_result);
+            }
+        });
     },
     //選擇小分類後，帶回中分類
     qryMiddleTyp: function (postData, session, callback) {
@@ -139,6 +237,6 @@ module.exports = {
                 lo_result.effectValues = postData.singleRowData;
                 callback(lo_error, lo_result);
             }
-        })
+        });
     }
 }

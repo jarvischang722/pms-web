@@ -109,7 +109,7 @@ var vm = new Vue({
         editIndex: undefined,
         multiLangEditIndex: undefined,
         tmpCUD: {},
-        saving: false,
+        // saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         openChangeLogDialog: false,
         allChangeLogList: [],
@@ -354,10 +354,8 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
 
-                vm.saving = true;
                 waitingDialog.show('Saving...');
                 $.post("/api/saveDataRow", params, function (result) {
-                    vm.saving = false;
                     waitingDialog.hide();
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
