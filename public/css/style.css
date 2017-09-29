@@ -1991,9 +1991,6 @@ a {
 #singleGridDialog {
   position: relative;
   overflow-y: hidden;
-  margin-top: 5px;
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
 #singleGridDialog .singleRelative {
   position: relative;
@@ -2011,6 +2008,8 @@ a {
   padding: 5px;
 }
 #singleGridDialog .singleGridContent {
+  padding-top: 5px;
+  padding-bottom: 5px;
   max-height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
@@ -2964,6 +2963,11 @@ ul.newVisitOther-btn {
   position: absolute;
   top: 25px;
   left: 5px;
+}
+.foCounter .counterPage .counterRow .counterBlock .content .foCnt_icon {
+  width: 12px;
+  height: 12px;
+  margin: 4px 1px auto 1px;
 }
 .foCounter .counterPage .counterRow .counterBlock .content-sub .left {
   position: absolute;
@@ -4193,6 +4197,10 @@ span.triangle-text {
 
 .width-61 {
   width: 61% !important;
+}
+
+.border-width-1 {
+  border-width: 1px;
 }
 
 .pointer {

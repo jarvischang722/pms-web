@@ -96,6 +96,10 @@ body {
   width: 61% !important;
 }
 
+.border-width-1 {
+  border-width: 1px;
+}
+
 .pointer {
   cursor: pointer;
 }
