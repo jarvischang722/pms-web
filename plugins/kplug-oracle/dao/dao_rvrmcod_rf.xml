@@ -105,20 +105,23 @@
     <dao name="CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT">
         <statement><![CDATA[
 
-        SELECT count(*) AS cover_count
-        FROM  rvrmcod_rf
-        WHERE room_cod = :room_cod AND
-        (
-        BEGIN_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
-        OR
-        END_DAT BETWEEN to_date(:begin_dat,'YYYY/MM/DD') AND to_date(:end_dat,'YYYY/MM/DD')
-        )
+            SELECT count(*) AS cover_count
+              FROM RVRMCOD_RF
+             WHERE athena_id = :athena_id
+               AND trim(hotel_cod) = trim(:hotel_cod)
+               AND trim(room_cod) = trim(:room_cod)
+               AND BEGIN_DAT <> :old_begin_dat
+               AND BEGIN_DAT <= :begin_dat
+               and END_DAT >= :end_dat
 
         ]]>
         </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="string" kind="3">room_cod</parameter>
-        <parameter type="string" kind="3">begin_dat</parameter>
-        <parameter type="string" kind="3">end_dat</parameter>
+        <parameter type="date" kind="3">begin_dat</parameter>
+        <parameter type="date" kind="3">old_begin_dat</parameter>
+        <parameter type="date" kind="3">end_dat</parameter>
     </dao>
 
     <!-- 檢查要儲存房型的起始結束日有無重疊-->

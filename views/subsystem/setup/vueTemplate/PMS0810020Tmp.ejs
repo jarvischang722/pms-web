@@ -5,8 +5,8 @@
     }
 </style>
 <script type="text/x-template" id="sigleGridPMS0810020Tmp">
-    <div id="singleGridPMS0810020" v-show="false"  v-loading="$parent.isSaving">
-        <div class="singleGridContent padding-5"   >
+    <div id="singleGridPMS0810020" v-show="false" v-loading="$parent.isSaving">
+        <div class="singleGridContent padding-5">
             <div class="">
                 <div class="col-sm-12 col-xs-12">
                     <!-- Start Content -->
@@ -23,8 +23,8 @@
                                         <span v-else>{{field.ui_display_name}} </span>
                                     </label>
                                     <!--<span v-if="field.visiable == 'Y'"-->
-                                          <!--style="width: 15px; text-align: center;-->
-                                          <!--display: inline-block; min-width: 15px;">:</span>-->
+                                    <!--style="width: 15px; text-align: center;-->
+                                    <!--display: inline-block; min-width: 15px;">:</span>-->
 
                                     <!--  Text & Number -->
                                     <!--  number no spinner add class="numStyle-none" -->
@@ -37,19 +37,19 @@
                                            :required="field.requirable == 'Y'"
                                            min="0"
                                            :maxlength="field.ui_field_length"
-                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                           :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                            @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
                                     <!-- 日期選擇器 -->
                                     <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
                                         <el-date-picker v-model="singleData[field.ui_field_name]"
                                                         type="date"
-                                                        placeholder=""
                                                         size="small"
-                                                        :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                         format="yyyy/MM/dd"
                                                         :style="{width:field.width + 'px' , height:'30px'}"
-                                                        :change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+
                                         </el-date-picker>
                                     </template>
 
@@ -58,11 +58,11 @@
                                         <el-date-picker v-model="singleData[field.ui_field_name]"
                                                         type="datetime"
                                                         change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                        placeholder=""
-                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                         size="small"
                                                         format="yyyy/MM/dd HH:mm:ss"
-                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
                                     </template>
 
@@ -72,7 +72,7 @@
                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                           :class="{'input_sta_required' : field.requirable == 'Y' }"
                                           v-if="field.visiable == 'Y' && field.ui_type == 'select'">
-                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                        <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                 :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                 class="btn btn-default btn-white dropdown-toggle btn-height"
                                                 style="text-align: left!important;"
@@ -82,7 +82,8 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
-                                            <li role="presentation" v-for="opt in field.selectData" @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                            <li role="presentation" v-for="opt in field.selectData"
+                                                @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                                 <a @click.prevent="singleData[field.ui_field_name] = opt.value">
                                                     {{opt.display}}
                                                 </a>
@@ -94,9 +95,6 @@
                                            v-model="singleData[field.ui_field_name]"
                                            v-if="field.visiable == 'N'"/>
                                 </div>
-                            </div>
-                            <div v-for="file in displayFileList">
-                                <img :src="file.url" width="500px" v-show="imageDisplay">
                             </div>
                         </div>
                     </form>
@@ -140,21 +138,21 @@
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="$parent.isLoading"
+                                                :disabled="!isModifiable || $parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="$parent.isLoading"
+                                                :disabled="!isModifiable || $parent.isLoading"
                                                 @click="showRoomTypeStock">
                                             <%= __("program")["PMS0810020"].genRoomTypeStock %>
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                                :disabled="$parent.isLoading"
+                                                :disabled="!isModifiable || $parent.isLoading"
                                                 @click="showRoomTypeSort">
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
                                         </button>
@@ -180,17 +178,18 @@
                             :disabled="$parent.isSaving" @click="doSaveGrid('addOther')">
                         <%= __("SystemCommon").Add_after_save %>
                     </button>
-                    <button v-if="createStatus ||  editStatus" :disabled="editStatus && !modificableForData "
-                            :disabled="$parent.isSaving"  class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
+                    <button v-if="createStatus ||  editStatus"
+                            :disabled="$parent.isSaving || (editStatus && !isModifiable)"
+                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
                         <%= __("SystemCommon").Leave_after_save %>
                     </button>
-                    <button v-if="editStatus" :disabled="editStatus && !modificableForData "
-                            :disabled="$parent.isSaving" class="btn btn-primary btn-white"
+                    <button v-if="editStatus" :disabled="$parent.isSaving || (editStatus && !isModifiable) "
+                            class="btn btn-primary btn-white"
                             @click="doSaveGrid('')">
                         <%= __("SystemCommon").Save %>
                     </button>
                     <button class="btn btn-primary btn-white" @click="emitCloseGridDialog"
-                            :disabled="$parent.isSaving" >
+                            :disabled="$parent.isSaving">
                         <%= __("SystemCommon").Leave %>
                     </button>
                 </div>
@@ -199,7 +198,8 @@
         </div>
 
         <!-- 產生庫存dialog -->
-        <el-dialog title="<%= __("program")["PMS0810020"].genRoomTypeDialogTitle %>" :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false"
+        <el-dialog title="<%= __("program")["PMS0810020"].genRoomTypeDialogTitle %>"
+                   :visible.sync="dialogRmTypeStockVisible" size="tiny" :show-close="false"
                    :modal-append-to-body="false">
             <el-row>
                 <el-col :span="12" :offset="6">
