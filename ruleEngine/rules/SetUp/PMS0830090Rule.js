@@ -62,7 +62,7 @@ module.exports = {
         var lo_error = null;
 
         //舊值=N,詢問是否執行清空客戶代號
-        if(postData.oriSingleRowData.master_typ == "N") {
+        if(postData.oriSingleRowData.master_typ == "N" && postData.singleRowData != null) {
             lo_result.showConfirm = true;
             lo_result.confirmMsg = "指定類別不為指定使用，執行將清空客戶代號資料，是否執行?";
             lo_result.alertMsg = "不可異動";

@@ -156,8 +156,9 @@ module.exports = {
                         lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat);
                         lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat);
                         if (lb_chkBeginDat || lb_chkEndDat) {
+                            let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
-                                "與第" + (compIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
+                                "與第" + (li_allRowDataIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
                             return cb(true, ls_repeatMsg);
                         }
                     });

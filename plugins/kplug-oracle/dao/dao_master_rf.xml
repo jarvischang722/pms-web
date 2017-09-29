@@ -12,6 +12,9 @@
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
+        <statement test="_v(param.master_typ)"><![CDATA[and master_typ in(:master_typ)]]></statement>
+        <parameter type="instring" kind="3">master_typ</parameter>
+        <!--<parameter type="likestring" kind="2" condition="product_nam like ?">product_nam</parameter>-->
     </dao>
 
     <!-- ['PMS0830090'] 取得公帳號設定master_rf(單筆) -->
