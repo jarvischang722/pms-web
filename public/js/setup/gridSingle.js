@@ -1104,7 +1104,7 @@ var vm = new Vue({
                 };
             }
             var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false) {
+            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
                 return;
             }
@@ -1116,6 +1116,11 @@ var vm = new Vue({
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
                         callback(success);
+                    });
+                    _.each(vm.dtData, function (lo_dtData) {
+                        if (!_.isUndefined(lo_dtData.createRow)) {
+                            delete lo_dtData["createRow"];
+                        }
                     });
                     alert('save success!');
                 } else {
