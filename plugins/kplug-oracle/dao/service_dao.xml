@@ -46,6 +46,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_hkmtype_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hkproduct_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hkstype_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hksell_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_kind_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>

@@ -152,11 +152,14 @@ Vue.component('text-select-grid-dialog-tmp', {
             }
 
             self.gridData = textDataGridArray;
+            var height = document.documentElement.clientHeight - 160;
+            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
                 singleSelect: true,
                 data: textDataGridArray,
-                height: 500,
+                height: height,
+                width: width,
             }).datagrid('columnMoving');
             self.updateFieldNameTmp = updateFieldName;
         },
@@ -476,7 +479,6 @@ Vue.component('single-grid-pms0830090-tmp', {
                                 // "deposit_nos": this.singleData.deposit_nos
                             });
                         }
-                        console.log(lo_tmpCud);
                         this.tmpCud.createData = lo_tmpCud;
                         //return;
                     }
@@ -614,6 +616,9 @@ var PMS0830090VM = new Vue({
         });
         this.loadSingleGridPageField();
     },
+    components: {
+        "search-comp": go_searchComp
+    },
     data: {
         isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
@@ -640,7 +645,9 @@ var PMS0830090VM = new Vue({
         singleData: {},         //單檔資訊
         modificableForData: true,       //決定是否可以修改資料
         dgIns: {},
-        labelPosition: 'right'
+        labelPosition: 'right',
+        searchFields: [], //搜尋的欄位
+        searchCond: {}   //搜尋條件
     },
     methods: {
         //Init CUD
@@ -656,8 +663,9 @@ var PMS0830090VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id}, function (result) {
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 waitingDialog.hide();
+                PMS0830090VM.searchFields = result.searchFields;
                 PMS0830090VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0830090VM.pageOneFieldData = result.fieldData;
                 PMS0830090VM.showCheckboxDG();
@@ -810,7 +818,7 @@ var PMS0830090VM = new Vue({
         doSaveCUD: function (callback) {
             if(PMS0830090VM.isbatchAdd){
                 var lo_chkResult = this.dataValidate();
-                if (lo_chkResult.success == false) {
+                if (lo_chkResult.success == false) { //vm.tmpCud.deleteData.length == 0
                     alert(lo_chkResult.msg);
                     return;
                 }
@@ -845,7 +853,6 @@ var PMS0830090VM = new Vue({
         //抓取page_id 2 單頁顯示欄位
         loadSingleGridPageField: function () {
             $.post("/api/singleGridPageFieldQuery", {prg_id: prg_id, page_id: 2}, function (result) {
-                console.log(result);
                 var fieldData = _.clone(result.fieldData);
                 go_Field_Data_Tmp = _.clone(result.fieldData);
 
@@ -1096,7 +1103,7 @@ var PMS0830090VM = new Vue({
                     keyable : "",
                     multi_lang_table : "",
                     format_func_name : "",
-                    rule_func_name : "chkMasterrfMastertyp",
+                    rule_func_name : "",
                     ui_display_name:"類別",
                     selectData:[
                         {
@@ -1111,39 +1118,21 @@ var PMS0830090VM = new Vue({
                 }
             ];
 
-            // var lo_Field_Data_Tmp = _.clone(go_Field_Data_Tmp);
-            //
-            // _.each(lo_Field_Data_Tmp, function (value, key) {
-            //     if(value.ui_field_name == "master_typ"){
-            //         _.each(value.selectData, function (ItemValue, Itemindex) {
-            //             if (ItemValue.value == "N") {
-            //                 value.selectData.splice(Itemindex, 1);
-            //             }
-            //         });
-            //         //if(value.ui_field_name == "master_typ" || value.ui_field_name == "cust_cod" || value.ui_field_name == "show_cod" || value.ui_field_name == "cust_nam" || value.ui_field_name == "deposit_nos" || value.ui_field_name == "deposit_nam"){   //SA修改，先保留
-            //         lo_fieldData.push(value);
-            //     }
-            // });
-
             return lo_fieldData;
         },
 
         //顯示textgrid跳窗訊息
         showPopUpGridDialog: function () {
             this.dialogVisible = true;
-            var maxHeight = document.documentElement.clientHeight - 60; //browser 高度 - 70功能列
-            var height = this.pageTwoFieldData.length * 50; // 預設一個row 高度
-            if (this.pageTwoDataGridFieldData.length > 0) {
-                //加上 dt 高度
-                height += this.dtData.length * 35 + 130;
-            }
+            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+
             var dialog = $("#dataPopUpGridDialog").dialog({
                 autoOpen: false,
                 modal: true,
-                height: _.min([maxHeight, height]),
+                height: height,
+                width: width,
                 title: prg_id,
-                minWidth: 750,
-                maxHeight: maxHeight,
                 resizable: true
             });
             dialog.dialog("open");
@@ -1159,8 +1148,6 @@ function editDtMultiLang(rowIdx) {
 }
 
 Vue.filter("showDropdownDisplayName", function (val) {
-    console.log(val);
-    console.log(selectData);
 });
 
 var adpterDg = new AdapterDatagrid(PMS0830090VM);
