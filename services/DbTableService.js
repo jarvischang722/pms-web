@@ -488,10 +488,8 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     let la_deleteData = postData.deleteData || [];
     let la_dtCreateData = postData.dt_createData || [];
     let la_dtUpdateData = postData.dt_updateData || [];
-    let la_dtdelData = postData.dt_updelData || [];
     let la_dt2CreateData = postData.dt2_createData || [];
     let la_dt2UpdateData = postData.dt2_updateData || [];
-    let la_dt2delData = postData.dt2_delData || [];
     let lo_mnData = {};  // 主檔資料(一次儲存只會有一筆)
     let lo_savaExecDatas = {};
     let ln_exec_seq = 1;
@@ -528,7 +526,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
             operation: "=",
             value: lo_mnData.adjfolio_cod
         });
-        tmpUpdData = _.extend(tmpUpdData, {adjfolio_cod: lo_mnData.adjfolio_cod.trim()});
+        tmpUpdData = _.extend(tmpUpdData, {adjfolio_rmk: lo_mnData.adjfolio_rmk.trim()});
         lo_savaExecDatas[ln_exec_seq] = _.extend(tmpUpdData, ruleAgent.getEditDefaultDataRule(session));
         delete lo_savaExecDatas[ln_exec_seq]["ins_dat"];
         delete lo_savaExecDatas[ln_exec_seq]["ins_usr"];
@@ -536,20 +534,29 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     }
     //組合刪除資料
     _.each(la_deleteData, function (delData) {
-        let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_mn"};
+        //先刪除dt2
+        let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
         tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
         tmpDelData.condition.push({
-            key: "adjfolio_cod",
-            operation: "=",
-            value: delData.adjfolio_cod
-        });
+                key: "adjfolio_cod",
+                operation: "=",
+                value: delData.adjfolio_cod
+            }
+        );
+
+        lo_savaExecDatas[ln_exec_seq] = tmpDelData;
+        ln_exec_seq++;
+
         //先刪除dt
+        tmpDelData = JSON.parse(JSON.stringify(tmpDelData));
+        tmpDelData.table_name = "hc_adjfolio_dt";
+
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
 
         //再刪除mn
         tmpDelData = JSON.parse(JSON.stringify(tmpDelData));
-        tmpDelData.table_name = "route_mn";
+        tmpDelData.table_name = "hc_adjfolio_mn";
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
     });
@@ -563,25 +570,69 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     }
     //dt 編輯資料
     for (var i = 0; i < la_dtUpdateData.length; i++) {
-        let tmpDtUpdData = {"function": "2", "table_name": "hc_adjfolio_dt"};
-        tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        tmpDtUpdData.condition.push({
-                key: "adjfolio_cod",
-                operation: "=",
-                value: lo_mnData.adjfolio_cod
-            },
-            {
-                key: "seq_nos",
-                operation: "=",
-                value: la_dtUpdateData[i].seq_nos
-            });
-        tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
-        tmpDtUpdData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
-        ln_exec_seq++;
-    }
-    ;
 
+        let tmpDtUpdData = {"function": "2", "table_name": "hc_adjfolio_dt"};
+
+        if(la_dtUpdateData[i].deleted == "true" && la_dtUpdateData[i].edited == "true"){    //刪除DT
+            tmpDtUpdData.function = "0";
+            tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
+            tmpDtUpdData.condition.push({
+                    key: "adjfolio_cod",
+                    operation: "=",
+                    value: lo_mnData.adjfolio_cod
+                },
+                {
+                    key: "seq_nos",
+                    operation: "=",
+                    value: la_dtUpdateData[i].seq_nos
+                });
+            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
+            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
+            ln_exec_seq++;
+
+            let tmpDtUpdDataDt2 = {"function": "0", "table_name": "hc_adjfolio_dt2"};
+
+            tmpDtUpdDataDt2.condition = JSON.parse(JSON.stringify(la_commonCond));
+            tmpDtUpdDataDt2.condition.push({
+                    key: "adjfolio_cod",
+                    operation: "=",
+                    value: lo_mnData.adjfolio_cod
+                },
+                {
+                    key: "seq_nos",
+                    operation: "=",
+                    value: la_dtUpdateData[i].seq_nos
+                });
+            tmpDtUpdDataDt2 = _.extend(tmpDtUpdDataDt2, la_dtUpdateData[i]);
+            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdDataDt2, ruleAgent.getEditDefaultDataRule(session));
+            ln_exec_seq++;
+
+        }else if(la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].created == "true"){    //新增DT
+            tmpDtUpdData.function = "1";
+            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
+            tmpDtUpdData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
+            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
+            ln_exec_seq++;
+
+        }else  if(la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].edited == "true"){    //更新DT
+            tmpDtUpdData.function = "2";
+            tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
+            tmpDtUpdData.condition.push({
+                    key: "adjfolio_cod",
+                    operation: "=",
+                    value: lo_mnData.adjfolio_cod
+                },
+                {
+                    key: "seq_nos",
+                    operation: "=",
+                    value: la_dtUpdateData[i].seq_nos
+                });
+            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
+            tmpDtUpdData["item_nam"] = la_dtUpdateData[i].item_nam;
+            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
+            ln_exec_seq++;
+        }
+    }
     //dt2 新增資料
     for (var i = 0; i < la_dt2CreateData.length; i++) {
         let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
@@ -597,24 +648,46 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     }
     //dt 編輯資料
     for (var i = 0; i < la_dt2UpdateData.length; i++) {
-        let tmpDtUpdData = {"function": "2", "table_name": "hc_adjfolio_dt2"};
-        tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-        tmpDtUpdData.condition.push({
-                key: "adjfolio_cod",
-                operation: "=",
-                value: lo_mnData.adjfolio_cod
-            },
-            {
-                key: "seq_nos",
-                operation: "=",
-                value: la_dt2UpdateData[i].seq_nos
-            });
-        tmpDtUpdData = _.extend(tmpDtUpdData, la_dt2UpdateData[i]);
-        tmpDtUpdData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
-        ln_exec_seq++;
-    }
-    ;
+        //先刪除dt2
+        let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
+
+        if(la_dt2UpdateData[i].check == "false" && la_dt2UpdateData[i].checked == "true"){
+
+            tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
+            tmpDelData.condition.push(
+                {
+                    key: "adjfolio_cod",
+                    operation: "=",
+                    value: lo_mnData.adjfolio_cod
+                },
+                {
+                    key: "item_nos",
+                    operation: "=",
+                    value: la_dt2UpdateData[i].item_nos
+                },
+                {
+                    key: "seq_nos",
+                    operation: "=",
+                    value: la_dt2UpdateData[i].seq_nos
+                }
+            );
+
+            lo_savaExecDatas[ln_exec_seq] = tmpDelData;
+            ln_exec_seq++;
+        }else {
+            let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
+            tmpCreateData = _.extend(tmpCreateData, la_dt2UpdateData[i]);
+            tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
+            tmpCreateData["athena_id"] = session.user.athena_id;
+            tmpCreateData["hotel_cod"] = session.user.fun_hotel_cod;
+            delete tmpCreateData["item_sna"];
+            delete tmpCreateData["checked"];
+            delete tmpCreateData["disabled"];
+
+            lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
+            ln_exec_seq++;
+        }
+    };
 
     let apiParams = {
         "REVE-CODE": "BAC03009010000",

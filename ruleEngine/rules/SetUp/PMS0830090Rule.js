@@ -8,6 +8,8 @@ var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 var ruleRootPath = appRootDir + "/ruleEngine/";
 var queryAgent = require(appRootDir + '/plugins/kplug-oracle/QueryAgent');
+var mongoAgent = require(appRootDir + '/plugins/mongodb');
+var dataRuleSvc = require(appRootDir + '/services/DataRuleService');
 var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
@@ -24,24 +26,49 @@ module.exports = {
             if(showCod != ""){
                 callback(lo_error,lo_result);
             }
+            else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = "「類別」為『N:指定使用』時,一定要輸入『客戶代號』";
+                lo_error.errorCod = "1111";
+                callback(lo_error,lo_result);
+            }
         }
-        callback(null,lo_result);
+        else {
+            callback(lo_error,lo_result);
+        }
     },
     //「類別」為「系統自動給號」，且「目前狀態」不為「使用中」時，才能刪除
     r_MasterrfSaveDel:function (postData, session, callback) {
+
         var lo_result = new ReturnClass();
-        callback(null,lo_result);
+        var lo_error = null;
+
+        if(postData.singleRowData.master_typ == "A" && postData.singleRowData.master_sta != "Y"){
+            callback(lo_error,lo_result);
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "「類別」為「系統自動給號」，且「目前狀態」不為「使用中」時，才能刪除";
+            lo_error.errorCod = "1111";
+            callback(lo_error, lo_result);
+        }
     },
-    //1.「目前狀態」為「Y:使用中」時,這個欄位不可改
-    //2.舊值=N,詢問是否執行清空客戶代號
+
+    //舊值=N,詢問是否執行清空客戶代號
     chkMasterrfMastertyp:function (postData, session, callback) {
         var lo_result = new ReturnClass();
-        callback(null,lo_result);
-    },
-    //只能在P:暫停使用／N:未使用做互換
-    chkMasterrfMastersta:function (postData, session, callback) {
-        var lo_result = new ReturnClass();
-        callback(null,lo_result);
+        var lo_error = null;
+
+        //舊值=N,詢問是否執行清空客戶代號
+        if(postData.oriSingleRowData.master_typ == "N" && postData.singleRowData != null) {
+            lo_result.showConfirm = true;
+            lo_result.confirmMsg = "指定類別不為指定使用，執行將清空客戶代號資料，是否執行?";
+            lo_result.alertMsg = "不可異動";
+        }
+        callback(lo_error, lo_result);
+
     },
     //選擇訂金編號
     chkMasterrfDepositnos: function (postData, session, callback) {
@@ -77,6 +104,24 @@ module.exports = {
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
                         dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+
+                            //特殊專用
+                            _.each(selectData, function (value, index) {
+                                switch(value.uniinv_sta) {
+                                    case "Y":
+                                        value.uniinv_sta = "Y:先開";
+                                        break;
+                                    case "N":
+                                        value.uniinv_sta = "N:後開";
+                                        break;
+                                    case "X":
+                                        value.uniinv_sta = "X:已開";
+                                        break;
+                                    default:
+                                        value.uniinv_sta = "";
+                                }
+                            });
+
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
@@ -92,6 +137,7 @@ module.exports = {
             callback(null, result);
         }
     },
+
     //選擇客戶代號
     chkMasterrfShowcod: function (postData, session, callback) {
         var userInfo = session.user;
@@ -106,13 +152,15 @@ module.exports = {
             //Page2欄位:跳出視窗的欄位(對應)
             var updateFieldName = {
                 cust_cod: "cust_cod",
+                show_cod: "show_cod",
                 cust_nam: "cust_nam"
             };
 
             var fieldNameChangeLanguage = {
                 show_cod: "客戶代號",
                 cust_nam: "客戶名稱",
-                cust_typ: "客戶類別"
+                contact1_rmk: "連絡電話",
+                status_cod: "狀態"
             };
 
             if (ui_field_name != "") {
@@ -138,6 +186,57 @@ module.exports = {
             } else {
                 callback(null, result);
             }
+        }
+    },
+
+    rMasterrfIns:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        var lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod
+        };
+
+        //不可設 room_mn 房號的第一碼
+        queryAgent.queryList("QRY_ROOM_MN_ROOM_NOS", lo_params, 0, 0, function (err, getResult) {
+            if (getResult) {
+                if(!_.isUndefined(postData.singleRowData.master_nos)){
+                    var prefix = postData.singleRowData.master_nos.substr(0, 1);
+                    var index = _.findIndex(getResult, {room_nos: prefix});
+                    if(index != -1){
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = "error";
+                        lo_error.errorCod = "1111";
+                    }
+                    callback(lo_error, lo_result);
+                }
+                else
+                    callback(lo_error, lo_result);
+            }
+            if(err){
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorMsg = err;
+                lo_error.errorCod = "1111";
+                callback(lo_error, lo_result);
+            }
+        });
+    },
+
+    // 欄位master_sta=Y時,這筆資料要變成readonly(所有欄位不可改)
+    r_0401 : function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        if(postData.singleRowData.master_sta == "Y"){
+                lo_error = new ErrorClass();
+                lo_result.isModifiable = false;
+                callback(lo_error,lo_result);
+            }
+            else{
+            callback(lo_error,lo_result);
         }
     }
 }

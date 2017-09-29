@@ -2454,7 +2454,7 @@
     "template_id" : "gridsingle", 
     "ui_field_name" : "item_nam", 
     "ui_type" : "text", 
-    "ui_field_length" : NumberInt(10), 
+    "ui_field_length" : NumberInt(40), 
     "ui_field_num_point" : NumberInt(0), 
     "row_seq" : "3", 
     "height" : "25", 
@@ -3240,7 +3240,7 @@
     "keyable" : "", 
     "multi_lang_table" : "", 
     "format_func_name" : "", 
-    "rule_func_name" : "chkMasterrfMastersta"
+    "rule_func_name" : ""
 }
 { 
     "_id" : ObjectId("59769bdcd7826628c0a3ca44"), 
@@ -3561,7 +3561,7 @@
     "width" : NumberInt(165), 
     "visiable" : "Y", 
     "modificable" : "N", 
-    "requirable" : "Y", 
+    "requirable" : "N", 
     "keyable" : "", 
     "multi_lang_table" : "", 
     "format_func_name" : "", 
@@ -3826,9 +3826,9 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "serv_rat", 
-    "ui_type" : "number", 
+    "ui_type" : "percent", 
     "ui_field_length" : NumberInt(15), 
-    "ui_field_num_point" : NumberInt(3), 
+    "ui_field_num_point" : NumberInt(1), 
     "row_seq" : NumberInt(7), 
     "height" : NumberInt(25), 
     "col_seq" : NumberInt(1), 
@@ -3839,7 +3839,7 @@
     "requirable" : "Y", 
     "keyable" : "", 
     "multi_lang_table" : "", 
-    "format_func_name" : "", 
+    "format_func_name" : "ChkPointOne", 
     "rule_func_name" : "chkHkproductrfServrat"
 }
 { 
@@ -6814,7 +6814,7 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_session", 
-    "ui_type" : "datetime", 
+    "ui_type" : "text", 
     "ui_field_length" : NumberInt(20), 
     "ui_field_num_point" : NumberInt(0), 
     "row_seq" : NumberInt(10), 
@@ -8318,6 +8318,31 @@
     "page_id" : NumberInt(3), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "inv_sta", 
+    "ui_type" : "select", 
+    "ui_field_length" : NumberInt(1), 
+    "ui_field_num_point" : "", 
+    "row_seq" : "", 
+    "height" : "", 
+    "col_seq" : "", 
+    "label_width" : "", 
+    "width" : "", 
+    "visiable" : "Y", 
+    "modificable" : "Y", 
+    "requirable" : "N", 
+    "keyable" : "", 
+    "multi_lang_table" : "", 
+    "format_func_name" : "", 
+    "rule_func_name" : ""
+}
+{ 
+    "_id" : ObjectId("59cde84e0da0d29e24ea8cd1"), 
+    "user_athena_id" : "", 
+    "user_id" : "", 
+    "athena_id" : "", 
+    "prg_id" : "PMS0830090", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "master_typ", 
     "ui_type" : "select", 
     "ui_field_length" : NumberInt(1), 
     "ui_field_num_point" : "", 

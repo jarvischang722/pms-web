@@ -34,6 +34,9 @@ module.exports = {
         let la_dtData = _.clone(postData.allRowData);
         let lo_result = new ReturnClass();
         let lo_error = null;
+        let lo_oldValue = (postData.oldValue == "") ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lb_begin_dat_enable = false;
+        let lb_end_dat_enable = false;
         let params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.hotel_cod
@@ -48,13 +51,24 @@ module.exports = {
                 lo_result.success = false;
                 lo_error.errorMsg = result;
                 lo_error.errorCod = "1111";
-                if(postData.rowData.createRow == "Y"){
+                if (postData.rowData.createRow == "Y") {
                     postData.rowData.begin_dat = "";
                     postData.rowData.end_dat = "";
                 }
                 postData.rowData[postData.validateField] = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
+
+            if (lb_end_dat_enable) {
+                lo_result.isModifiable = false;
+                lo_result.readonlyFields.push("end_dat");
+                lo_result.readonlyFields.push("item_qnt");
+            }
+            if (lb_begin_dat_enable) {
+                lo_result.isModifiable = false;
+                lo_result.readonlyFields.push("begin_dat");
+            }
+
             callback(lo_error, lo_result);
         });
 
@@ -80,42 +94,61 @@ module.exports = {
                     lo_endDat = moment(new Date(postData.editRowData.end_dat));
                 }
             }
-            catch(ex){
+            catch (ex) {
                 lo_beginDat = "";
                 lo_endDat = "";
             }
 
-            if (lo_beginDat != "" && lo_endDat != "") {
+            // 判斷修改時，小於滾房租日不能修改
+            if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
+                if (lo_endDat != "" || lo_beginDat != "") {
+                    // 2) 判斷結束日與滾房租日，不能修改
+                    if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
+                        if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
+                            lb_end_dat_enable = true;
+                        }
+                    }
+                    // 3) 判斷開始日與滾房租日，不能修改
+                    if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
+                        if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
+                            lb_begin_dat_enable = true;
+                        }
+                    }
+                    return cb(false, "開始日不可小於滾房租日");
+                }
+            }
 
+            // 2) 判斷結束日與滾房租日
+            if (lo_endDat != "") {
+                if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    return cb(true, "結束日不可小於滾房租日");
+                }
+            }
+            // 3) 判斷開始日與滾房租日
+            if (lo_beginDat != "") {
+                if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
+                    return cb(true, "開始日不可小於滾房租日");
+                }
+            }
+
+            if (lo_beginDat != "" && lo_endDat != "") {
                 // 1) 判斷開始日語結束日
                 if (lo_endDat.diff(lo_beginDat) < 0) {
                     return cb(true, "結束日期不可以早於開始日期");
                 }
-                // 2) 判斷結束日與滾房租日
-                if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
-                    lo_result.isModifiable = false;
-                    lo_result.readonlyFields.push("end_dat");
-                    lo_result.readonlyFields.push("item_qnt");
-                    return cb(true, "結束日不可小於滾房租日");
-                }
-                // 3) 判斷開始日與滾房租日
-                if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
-                    lo_result.isModifiable = false;
-                    lo_result.readonlyFields.push("begin_dat");
-                    return cb(true, "開始日不可小於滾房租日");
-                }
+
                 // 4) 判斷區間是否重疊
                 let lb_chkBeginDat;
                 let lb_chkEndDat;
                 let ls_repeatMsg;
                 let li_curIdx;
-                if(!_.isUndefined(postData.editRowData.key_nos)){
+                if (!_.isUndefined(postData.editRowData.key_nos)) {
                     li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editRowData.key_nos});
                 }
-                else{
+                else {
                     li_curIdx = _.findIndex(la_dtData, postData.editRowData);
                 }
-                if(!_.isUndefined(postData.allRowData)) {
+                if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
                     _.each(postData.allRowData, function (comparDT, compIdx) {
                         let ls_begin_dat = moment(new Date(comparDT.begin_dat)).format("YYYY-MM-DD");
@@ -123,14 +156,15 @@ module.exports = {
                         lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat);
                         lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat);
                         if (lb_chkBeginDat || lb_chkEndDat) {
+                            let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
-                                "與第" + (compIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
+                                "與第" + (li_allRowDataIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
                             return cb(true, ls_repeatMsg);
                         }
                     });
                     cb(false, "");
                 }
-                else{
+                else {
                     cb(false, "");
                 }
             }
@@ -197,5 +231,5 @@ module.exports = {
 };
 
 function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-    return now_dat.isBetween(begin_dat, end_dat);
+    return now_dat.isBetween(begin_dat, end_dat, null, '[]');
 }

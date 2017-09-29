@@ -79,14 +79,16 @@ module.exports = {
 
     /**
      * QRY_USE_SHIFT_OPEN 參數:是否用班別開班
+     * pg_ais2.sf_get_hotel_sval(hotel_cod, 'HFD', 'use_shift_open', Athena_id ),如果沒取到值,預設Y
      * @param params {athena_id, hotel_cod}
      * @param callback
      */
     qryUseShiftOpen: function (params, callback) {
         queryAgent.query("QRY_USE_SHIFT_OPEN", params, function (err, getResult) {
-            if (_.isNull(getResult.use_shift_open) || getResult.use_shift_open == "Y") {
+            if (_.isNull(getResult.use_shift_open)) {
                 getResult.use_shift_open = "Y";
             }
+            getResult.use_shift_open = "N";
             callback(err, getResult.use_shift_open);
         });
     },
@@ -105,7 +107,7 @@ module.exports = {
         };
 
         this.qryUseShiftOpen(lo_params, function (err, use_shift_open) {
-            if (postData.singleRowData.use_sta == "true" && use_shift_open == "N") {
+            if ((postData.singleRowData.use_sta == "Y" || postData.singleRowData.use_sta == "true") && use_shift_open == "N") {
 
                 async.waterfall([
                     qryRentCalDat,
@@ -142,7 +144,7 @@ module.exports = {
         function chkDefShiftCod(rent_cal_dat, cb) {
             let lo_chkParams = lo_params;
             lo_chkParams.shop_dat = rent_cal_dat;
-            lo_chkParams.shift_cod = postData.oriSingleRowData.def_shift_cod;
+            lo_chkParams.shift_cod = postData.singleRowData.def_shift_cod;
             queryAgent.query("QRY_OPEN_RF_COUNT", lo_chkParams, function (err, getResult) {
                 if (getResult.openrfcount > 0) {
                     cb(true, "今天已經有開班，不能異動");
@@ -184,20 +186,23 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
+        if(!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0){
+            return callback(lo_error, lo_return);
+        }
         this.qryUseShiftOpen(lo_params, function (err, getResult) {
             let ls_use_shift_open = getResult;
 
-            if (postData.singleRowData.use_sta == "false" || ls_use_shift_open == "Y") {
+            if ((postData.singleRowData.use_sta == "N" || postData.singleRowData.use_sta == "false") || ls_use_shift_open == "Y") {
                 postData.singleRowData.def_shift_cod = "";
                 lo_return.effectValues = postData.singleRowData;
                 return callback(lo_error, lo_return);
             }
 
-            if (postData.singleRowData.use_sta == "true" && ls_use_shift_open == "N") {
-                if (postData.singleRowData.def_shift_cod == "") {
+            if ((postData.singleRowData.use_sta == "Y" || postData.singleRowData.use_sta == "true") && ls_use_shift_open == "N") {
+                if (postData.singleRowData.def_shift_cod.trim() == "") {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
-                    lo_error.msg = "欄位def_shift_cod必輸入值";
+                    lo_error.errorMsg = "欄位def_shift_cod必輸入值";
                     lo_error.errorCod = "1111";
                     return callback(lo_error, lo_return);
                 }
@@ -209,7 +214,7 @@ module.exports = {
                     if (getResult.cashierrfcount > 0) {
                         lo_error = new ErrorClass();
                         lo_return.success = false;
-                        lo_error.msg = "預設班別不可重複";
+                        lo_error.errorMsg = "預設班別不可重複";
                         lo_error.errorCod = "1111";
                     }
                     return callback(lo_error, lo_return);

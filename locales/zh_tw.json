@@ -106,6 +106,9 @@
       "copy_color": "複製顏色",
       "paste_color": "貼上顏色"
     },
+    "PMS0830090": {
+      "batch_add": "批次新增"
+    },
     "PMS0830100": {
       "begin_dat": "開始日",
       "end_dat": "結束日",
@@ -176,7 +179,8 @@
       "ChkLessZeroNum": "%s 請輸入小於0的數字",
       "ChkZeroToHundred": "%s 請輸入0~100的數字",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字",
-      "FmtHHMM": "%s 時間格式HH:MM"
+      "FmtHHMM": "%s 時間格式HH:MM",
+      "ChkPointOne": "%s 僅能輸入至小數點1位"
     }
   }
 }

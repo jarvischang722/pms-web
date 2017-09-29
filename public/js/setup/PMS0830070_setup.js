@@ -90,10 +90,16 @@ var Pms0830070Comp = Vue.extend({
             $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
                 if (PMS0830070VM.singleData4DetialTmp.length > 0) {
                     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                        if (row.seq_nos == index)
-                            response.routeDtList.push(row);
+                        if(typeof row != "undefined") {
+                            if (row.seq_nos == index) {
+                                console.log(row.seq_nos);
+                                console.log(index);
+                                response.routeDtList.push(row);
+                            }
+                        }
                     });
                 }
+                console.log(response.routeDtList);
                 self.singleDataDt2 = response.routeDtList;
             });
         },
@@ -126,28 +132,66 @@ var Pms0830070Comp = Vue.extend({
                         athena_id: singleData.athena_id,
                         hotel_cod: singleData.hotel_cod,
                         seq_nos: singleDataDtInfo.length == 0 ? 1 : singleDataDtInfo.length + 1,
-                        item_nam: ""
+                        item_nam: "",
+                        created: "true",
+                        edited: "false",
+                        deleted:"false"
                     };
                 PMS0830070VM.singleDataDt.push(row);
             } else {
                 alert("請輸入代號");
             }
         },
-        //刪除明細(明天問看看要不要做)
+        clickDeleteDt:function (deleteIndex) {
+            var singleDataDtInfo = PMS0830070VM.singleDataDt;
+            _.each(singleDataDtInfo,function (row,index) {
+                if(singleDataDtInfo.deleted == "false" || typeof singleDataDtInfo.deleted == "undefined") {
+                    if (row.seq_nos == deleteIndex && row.edited == "true") {
+                        PMS0830070VM.singleDataDt[index].deleted = "true";
+                        PMS0830070VM.singleDataDt[index].created = "false";
+                        PMS0830070VM.singleDataDt[index].edited = "true";
+                    } else if (row.seq_nos == deleteIndex && row.created == "true") {
+                        PMS0830070VM.singleDataDt[index].deleted = "true";
+                        PMS0830070VM.singleDataDt[index].created = "true";
+                        PMS0830070VM.singleDataDt[index].edited = "false";
+                    }
+                }else{
+                    if (row.seq_nos == deleteIndex && row.edited == "true") {
+                        PMS0830070VM.singleDataDt[index].deleted = "false";
+                        PMS0830070VM.singleDataDt[index].created = "false";
+                        PMS0830070VM.singleDataDt[index].edited = "true";
+                    } else if (row.seq_nos == deleteIndex && row.created == "true") {
+                        PMS0830070VM.singleDataDt[index].deleted = "false";
+                        PMS0830070VM.singleDataDt[index].created = "true";
+                        PMS0830070VM.singleDataDt[index].edited = "false";
+                    }
+                }
+            })
+        },
+        //刪除明細
         btnDeleteDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
-
+            //刪除明細也要將detail有的刪除
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
-                var row =
-                    {
-                        adjfolio_cod: singleData.adjfolio_cod,
-                        athena_id: singleData.athena_id,
-                        hotel_cod: singleData.hotel_cod,
-                        seq_nos: singleDataDtInfo.length == 0 ? 1 : singleDataDtInfo.length + 1,
-                        item_nam: ""
-                    };
-                PMS0830070VM.singleDataDt.push(row);
+                _.each(singleDataDtInfo,function (row,index) {
+                    if(row.deleted == "true" && row.created == "true"){
+                        _.each(PMS0830070VM.singleData4DetialTmp,function (detailRow,detailIndex) {
+                            if(row.seq_nos == detailRow.seq_nos){
+                                delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                            }
+                        });
+                        PMS0830070VM.singleDataDt.splice(index);
+                    }else if(row.deleted == "true" && row.edited == "true"){
+                        _.each(PMS0830070VM.singleData4DetialTmp,function (detailRow,detailIndex) {
+                            if(row.seq_nos == detailRow.seq_nos){
+                                delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                            }
+                        });
+                        PMS0830070VM.singleDataDtEdit4DeleteTmp.push(row);
+                        PMS0830070VM.singleDataDt.splice(index);
+                    }
+                });
             } else {
                 alert("請輸入代號");
             }
@@ -163,7 +207,7 @@ var Pms0830070Comp = Vue.extend({
 
             //看哪些有被打勾
             _.each(saveItemDataTmp, function (row, index) {
-                if (row["check"] == "true" && row["disabled"] == "false") {
+                if ((row["check"] == "true" && row["checked"] == "false" && row["disabled"] == "false") || (row["check"] == "false" && row["checked"] == "true" && row["disabled"] == "false")) {
                     if(savedItemData.length > 0) {
                         _.each(savedItemData, function (savedRow, savedIndex) {
                             if (savedRow["item_nos"] != row["item_nos"]) {
@@ -198,6 +242,7 @@ var PMS0830070VM = new Vue({
         activeAccount: 1,
         singleData: {},
         singleDataDt: {},
+        singleDataDtEdit4DeleteTmp: [],
         singleData4DetialTmp: [],
         dgIns: {},
         tmpCUD: {
@@ -276,6 +321,70 @@ var PMS0830070VM = new Vue({
             this.tmpCUD.deleteData = $("#PMS0830070_dg").datagrid("getChecked");
             this.doSave();
         },
+        initTmpCUD: function () {
+            this.tmpCUD = {
+                createData: {},
+                updateData: {},
+                deleteData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: [],
+                dt2_createData: [],
+                dt2_updateData: [],
+                dt2_deleteData: []
+            };
+            PMS0830070VM.singleData4DetialTmp=[];
+        },
+        //取得單筆
+        fetchSingleData: function (editingRow) {
+            this.isCreateStatus = false;
+            this.isEditStatus = true;
+            this.editingRow["prg_id"] = gs_prg_id;
+            $.post('/api/qryPMS0830070SingleMn', editingRow)
+                .done(function (response) {
+                    PMS0830070VM.singleData = response.routeDt;
+                });
+
+            this.getSingleGridData(editingRow);
+        },
+        //取得單筆Dt
+        getSingleGridData: function (editingRow) {
+
+            this.getSingleGridDataDt(editingRow);
+            //this.getSingleGridData2(editingRow);
+            this.openRouteDialog();
+        },
+        //取的單筆Dt(要共用)
+        getSingleGridDataDt(editingRow){
+            $.post('/api/qryPMS0830070SingleDt', editingRow)
+                .done(function (response) {
+                    PMS0830070VM.singleDataDt = response.routeDtList;
+                });
+        },
+        //開起單筆頁
+        openRouteDialog: function () {
+            this.initTmpCUD();
+            this.activeAccount = 1;
+            var dialog = $("#PMS0830070Dialog").removeClass('hide').dialog({
+                modal: true,
+                title: "虛擬帳單",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                height: $(window).height(),
+                dialogClass: "test",
+                resizable: true
+            });
+        },
+        closeGridDialog: function () {
+            PMS0830070VM.editingRow = {};
+            PMS0830070VM.singleData = {};
+            PMS0830070VM.singleDataDt = {};
+            PMS0830070VM.singleData4DetialTmp = [];
+            PMS0830070VM.singleDataDtEdit4DeleteTmp= [],
+            PMS0830070VM.initTmpCUD();
+            $("#PMS0830070Dialog").dialog('close');
+        },
         doSave: function () {
             var self = this;
             if (self.tmpCUD.deleteData.length == 0) {
@@ -299,61 +408,6 @@ var PMS0830070VM = new Vue({
             });
 
         },
-        initTmpCUD: function () {
-            this.tmpCUD = {
-                createData: [],
-                updateData: [],
-                deleteData: [],
-                dt_createData: [],
-                dt_updateData: [],
-                dt_deleteData: []
-            };
-        },
-        //取得單筆
-        fetchSingleData: function (editingRow) {
-            this.isCreateStatus = false;
-            this.isEditStatus = true;
-            this.editingRow["prg_id"] = gs_prg_id;
-            $.post('/api/qryPMS0830070SingleMn', editingRow)
-                .done(function (response) {
-                    PMS0830070VM.singleData = response.routeDt;
-                });
-
-            this.getSingleGridData(editingRow);
-        },
-        //取得單筆Dt
-        getSingleGridData: function (editingRow) {
-            $.post('/api/qryPMS0830070SingleDt', editingRow)
-                .done(function (response) {
-                    PMS0830070VM.singleDataDt = response.routeDtList;
-                });
-
-            //this.getSingleGridData2(editingRow);
-            this.openRouteDialog();
-        },
-        //開起單筆頁
-        openRouteDialog: function () {
-            this.initTmpCUD();
-            this.activeAccount = 1;
-            var dialog = $("#PMS0830070Dialog").removeClass('hide').dialog({
-                modal: true,
-                title: "虛擬帳單",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-                height: $(window).height(),
-                dialogClass: "test",
-                resizable: true
-            });
-        },
-        closeGridDialog: function () {
-            PMS0830070VM.editingRow = {};
-            PMS0830070VM.singleData = {};
-            PMS0830070VM.singleDataDt = {};
-            PMS0830070VM.singleData4DetialTmp = [];
-            PMS0830070VM.initTmpCUD();
-            $("#PMS0830070Dialog").dialog('close');
-        },
         doSaveGrid: function (callback) {
             var self = this;
 
@@ -364,10 +418,13 @@ var PMS0830070VM = new Vue({
             }else if(self.isEditStatus){
                 PMS0830070VM.tmpCUD.updateData = self.singleData;
                 PMS0830070VM.tmpCUD.dt_updateData = self.singleDataDt;
+                _.each(self.singleDataDtEdit4DeleteTmp,function (row,index) {
+                    PMS0830070VM.tmpCUD.dt_updateData.push(row);
+                })
+
                 PMS0830070VM.tmpCUD.dt2_updateData = self.singleData4DetialTmp;
             }
 
-            console.log(self.singleDataDt);
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: gs_prg_id}, PMS0830070VM.tmpCUD);
 
@@ -376,9 +433,11 @@ var PMS0830070VM = new Vue({
 
                     PMS0830070VM.initTmpCUD();
                     PMS0830070VM.loadDataGridByPrgID(function (success) {
-                        callback(success);
+
                     });
                     alert('save success!');
+                    PMS0830070VM.isCreateStatus = false;
+                    PMS0830070VM.isEditStatus = true;
                     waitingDialog.hide();
 
                 } else {
@@ -395,6 +454,10 @@ var PMS0830070VM = new Vue({
                 PMS0830070VM.pageOneFieldData = result.fieldData;
                 callback(result.success);
             });
+            var params={
+                adjfolio_cod:PMS0830070VM.singleData.adjfolio_cod
+            }
+            this.getSingleGridDataDt(params);
         },
         combineSQLData: function () {
             var la_oriRouteDtList = this.routeDtList;
