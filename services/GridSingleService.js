@@ -320,8 +320,18 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     var lo_rowData = {};
     var lo_dtData = [];
     let go_dataGridField;
+    let lo_pageField;
     async.waterfall([
-            function (callback) {
+            function (callback){
+                mongoAgent.UI_PageField.find({
+                    prg_id: prg_id,
+                    page_id: 2
+                }, function (err, pageField) {
+                    lo_pageField = pageField;
+                    callback(err, pageField);
+                });
+            },
+            function (pageField, callback) {
                 mongoAgent.TemplateRf.findOne({
                     prg_id: prg_id,
                     page_id: 2
@@ -339,7 +349,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                     postData["hotel_cod"] = userInfo.fun_hotel_cod;
                     postData["user_id"] = userInfo.usr_id;
 
-                    postData = tools.handlePreprocessData(postData);
+                    postData = tools.handlePreprocessData(postData, pageField);
 
                     queryAgent.query(singleData.rule_func_name.toUpperCase(), postData, function (err, rowData) {
 
@@ -348,7 +358,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                         }
 
                         langSvc.handleSingleDataLangConv(rowData, prg_id, 2, session.locale, function (err, rowData) {
-                            lo_rowData = tools.handlePreprocessData(rowData);
+                            lo_rowData = tools.handlePreprocessData(rowData, pageField);
                             callback(null, rowData);
                         });
 
@@ -406,7 +416,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
                             queryAgent.queryList(grid.rule_func_name.toUpperCase(), params, 0, 0, function (err, dtDataList) {
                                 _.each(dtDataList, function (row, idx) {
-                                    dtDataList[idx] = tools.handlePreprocessData(row);
+                                    dtDataList[idx] = tools.handlePreprocessData(row, lo_pageField);
                                 });
                                 lo_dtData = dtDataList;
 
@@ -446,13 +456,8 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
             },
             function (result, callback) {
-                mongoAgent.UI_PageField.find({
-                    prg_id: prg_id,
-                    page_id: 2
-                }, function (err, pageField) {
-                    dataValueChange(pageField, lo_rowData);
-                    callback(err, result);
-                });
+                dataValueChange(lo_pageField, lo_rowData);
+                callback(null, result);
             }
         ],
         function (err, result) {
@@ -1349,18 +1354,6 @@ function dataValueChange(fields, data) {
         if (!_.isUndefined(data[objKey])) {
             var value = data[objKey];
 
-            // _.each(fields, function (row) {
-            //     if (row.ui_field_name == objKey && row.ui_type == "time") {
-            //         var hour = value.substring(0,2);
-            //         var min = value.substring(2,4);
-            //         var fieldName = hour + ":" + min;
-            //
-            //         data[objKey] = fieldName;
-            //     } else if (row.ui_field_name == objKey && row.ui_type == "percent") {
-            //         data[objKey] = (parseFloat(value) * 100);
-            //     }
-            // })
-
             _.each(fields, function (row) {
                 if (row.ui_field_name == objKey) {
                     var finalValue = changeValueFormat(value, row.ui_type);
@@ -1395,10 +1388,10 @@ function changeValueFormat(value, ui_type) {
         } else {
             valueTemp = false;
         }
-    }else if(ui_type=="multiselect"){
-        var array = value.replace(/'/g,"").split(',');
-        valueTemp =[];
-        for(i=0;i<array.length;i++){
+    } else if (ui_type == "multiselect") {
+        var array = value.replace(/'/g, "").split(',');
+        valueTemp = [];
+        for (i = 0; i < array.length; i++) {
             valueTemp.push(array[i]);
         }
     }
@@ -1419,8 +1412,8 @@ function changeValueFormat4Save(value, ui_type) {
         } else {
             valueTemp = "N";
         }
-    }else if(ui_type =="multiselect"){
-        valueTemp = "'" + value.join() +"'";
+    } else if (ui_type == "multiselect") {
+        valueTemp = "'" + value.join() + "'";
     }
 
     return valueTemp;
