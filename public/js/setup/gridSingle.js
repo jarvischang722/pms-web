@@ -876,8 +876,8 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
-        allChangeLogList: []
-
+        allChangeLogList: [],
+        BTN_action: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -952,7 +952,6 @@ var vm = new Vue({
                     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
                         return field.multi_lang_table != "";
                     });
-
 
                     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
                 }
@@ -1109,8 +1108,10 @@ var vm = new Vue({
                 return;
             }
 
+            this.BTN_action = true;
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
+                vm.BTN_action = false;
                 waitingDialog.hide();
                 if (result.success) {
                     vm.initTmpCUD();

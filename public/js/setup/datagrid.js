@@ -109,13 +109,14 @@ var vm = new Vue({
         editIndex: undefined,
         multiLangEditIndex: undefined,
         tmpCUD: {},
-        saving: false,
+        // saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         openChangeLogDialog: false,
         allChangeLogList: [],
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
-        multiLangDialogVisible: false
+        multiLangDialogVisible: false,
+        BTN_action: false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -354,10 +355,11 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
 
-                vm.saving = true;
+                // vm.saving = true;
+                this.BTN_action = true;
                 waitingDialog.show('Saving...');
                 $.post("/api/saveDataRow", params, function (result) {
-                    vm.saving = false;
+                    vm.BTN_action = false;
                     waitingDialog.hide();
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
