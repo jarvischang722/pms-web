@@ -64,7 +64,6 @@ var EZfieldClass = {
         tmpFieldObj.title = fieldAttrObj.ui_display_name;
         tmpFieldObj.sortable = true;
 
-
         tmpFieldObj.editor = {
             type: dataType,
             options: {
