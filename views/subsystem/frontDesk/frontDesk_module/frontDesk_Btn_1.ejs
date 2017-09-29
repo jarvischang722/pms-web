@@ -1,4 +1,144 @@
 <div>
+    <!-- pre Auth 彈出視窗 -->
+    <div id="preAuth-wrap" class="hide padding-5 lost-found-wrap" style="top: 200px !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-11 col-sm-11">
+                <div class="">
+
+                    <table id="preAuthTable"></table>
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Add</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Delete</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Quit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /pre Auth   彈出視窗 -->
+    <!-- Late C/O 彈出視窗 -->
+    <div id="lateCo-wrap" class="hide padding-5 lost-found-wrap" style="top: 200px !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-11 col-sm-11">
+                <div class="row">
+
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>住客</label>
+                            <input type="text" class="input-medium resvCard-col2Spec1" placeholder="陳春嬌" disabled="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>離店日期</label>
+                            <input type="date" class="input-medium medium-c1" placeholder="">
+                        </div>
+                        <div class="grid-item">
+                            <label>離店時間</label>
+                            <input type="time" class="input-medium medium-c1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>核准者</label>
+                            <input type="text" class="input-medium medium-c1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>原因</label>
+                            <input type="text" class="input-medium resvCard-col2Spec1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>異動日</label>
+                            <input type="date" class="input-medium medium-c1" placeholder="" disabled>
+                        </div>
+                        <div class="grid-item">
+                            <label>異動者</label>
+                            <input type="text" class="input-medium medium-c1" placeholder="" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Quit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Late C/O   彈出視窗 -->
+    <!-- 個人換房 彈出視窗 -->
+    <div id="changeRoom-wrap" class="hide padding-5 lost-found-wrap" style="top: 200px !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-11 col-sm-11">
+                <div class="row">
+
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label>房號</label>
+                            <input type="text" class="input-medium resvCard-col2" placeholder="">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item">
+                            <label class="pull-left">換房備註</label>
+                            <textarea class="input-medium resvCard-col2 pull-left input-hCol2 marginLeft-5" placeholder=""></textarea>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">確定</button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth" role="button">取消</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /個人換房 彈出視窗 -->
     <!-- RelatedRms 彈出視窗 -->
     <div id="RelatedRms-page" class="hide padding-5 lost-found-wrap" style="top: 200px !important;">
         <div class="businessCompanyData">
@@ -1415,7 +1555,7 @@
                                                 role="button">製卡</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth frontDesk_depoisitsBtn"
                                                 role="button">入帳</button>
                                     </li>
                                     <li>
@@ -1427,7 +1567,7 @@
                                                 role="button">服務項目</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth registration-cardBtn"
                                                 role="button">旅客登記卡</button>
                                     </li>
                                     <li>
@@ -1872,15 +2012,15 @@
                                                 role="button">新增住客</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth changeRoom-Btn"
                                                 role="button">個人換房</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth lateCo-Btn"
                                                 role="button">Late C/O</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth preAuth-Btn"
                                                 role="button">Pre.auth.</button>
                                     </li>
                                     <li>

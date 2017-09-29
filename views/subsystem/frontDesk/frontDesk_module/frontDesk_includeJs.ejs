@@ -567,6 +567,54 @@
             ]]
         });
 
+        // 彈出 接待-開班登入
+        $(document).on('click', ".frontDesk_depoisitsBtn", function (e) {
+            e.preventDefault();
+            var dialog = $("#frontDesk_depoisits-message").removeClass('hide').dialog({
+                modal: true,
+                title: "開班登入",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 住客帳入帳
+        $(document).on('click', ".frontDeskRecorded_Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#frontDeskRecorded-message").removeClass('hide').dialog({
+                modal: true,
+                title: "住客帳入帳作業",
+                title_html: true,
+                width: 900,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 住客帳入帳
+        $(document).on('click', ".registration-cardBtn", function (e) {
+            e.preventDefault();
+            var dialog = $("#registration-card-message").removeClass('hide').dialog({
+                modal: true,
+                title: "旅客登記卡",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 綜合櫃檯-預估款 foCnt_prePayment dataGrid
         $('#foCnt_prePayment-table').datagrid({
             singleSelect: true,
@@ -878,6 +926,54 @@
             });
         });
 
+        //    個人換房
+        $(document).on('click', ".changeRoom-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#changeRoom-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "個人換房",
+                title_html: true,
+                width: 550,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        //    Late C/O
+        $(document).on('click', ".lateCo-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lateCo-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "Late C/O",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        //    PreAuth-Btn
+        $(document).on('click', ".preAuth-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#preAuth-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "Pre.auth.",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         // 排房作業
         $('#roomDetail-table').datagrid({
             singleSelect: true,
@@ -1083,6 +1179,63 @@
                 {field: 'expectCo', title: '預計C/O日期', width: 100},
                 {field: 'bookingNum', title: '訂房卡號', width: 100},
                 {field: 'groupName', title: '團號/團體名稱', width: 100}
+            ]]
+        });
+        // preAuthTable
+        $('#preAuthTable').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/preAuthTable.json',
+            method: 'get',
+            columns: [[
+                {field: 'roomNum', title: '序號', width: 50},
+                {field: 'sDate', title: '預刷日期', width: 100},
+                {field: 'pay', title: '付款方式', width: 150},
+                {field: 'card', title: '信用卡卡號', width: 100},
+                {field: 'date', title: '有效期限', width: 50},
+                {field: 'code', title: '授權碼', width: 70},
+                {field: 'money', title: '預刷金額.', width: 70, align:'right'}
+            ]]
+        });
+
+        // 住客帳入帳作業table
+        $('#frontDeskRecorded1-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/frontDeskRecorded1-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'CNum', title: '消費單號', width: 100},
+                {field: 'CCode', title: '消費代號', width: 100},
+                {field: 'price', title: '單價', width: 70},
+                {field: 'num', title: '數量', width: 70},
+                {field: 'total', title: '小計', width: 70, align:'right'},
+                {field: 'total2', title: '小計(未含稅)', width: 100, align:'right'},
+                {field: 'pay', title: '稅刷', width: 70, align:'right'},
+                {field: 'roomNum', title: '房號', width: 70},
+                {field: 'ps', title: '出鈉備註', width: 70}
+            ]]
+        });
+
+        // 住客帳入帳作業table2
+        $('#frontDeskRecorded2-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/frontDeskRecorded2-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'CNum', title: '消費項', width: 100},
+                {field: 'CCode', title: '項目名稱', width: 100},
+                {field: 'price', title: '單價', width: 70},
+                {field: 'num', title: '數量', width: 70},
+                {field: 'total', title: '小計', width: 70, align:'right'},
+                {field: 'ps', title: '出鈉備註', width: 100, align:'right'},
+                {field: 'pay', title: '帳單備註', width: 70, align:'right'},
+                {field: 'roomNum', title: '入帳房號', width: 70},
+                {field: 'file', title: '帳夾', width: 70}
             ]]
         });
 
