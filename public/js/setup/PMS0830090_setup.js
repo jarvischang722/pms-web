@@ -818,7 +818,7 @@ var PMS0830090VM = new Vue({
         doSaveCUD: function (callback) {
             if(PMS0830090VM.isbatchAdd){
                 var lo_chkResult = this.dataValidate();
-                if (lo_chkResult.success == false) { //vm.tmpCud.deleteData.length == 0
+                if (lo_chkResult.success == false && PMS0830090VM.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
                     return;
                 }
