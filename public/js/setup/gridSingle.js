@@ -532,9 +532,8 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
-
+            var self = this;
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {
-                var self = this;
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
                 if (this.deleteStatue) {
                     var rowsNum = $("#dg").datagrid('getRows').length;
@@ -556,6 +555,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                 }
                 this.BTN_action = true;
                 this.$emit('do-save-cud', function (success) {
+                    console.log(success);
                     self.BTN_action = false;
                     if (success) {
                         //儲存後離開
@@ -1102,6 +1102,7 @@ var vm = new Vue({
                 callback = function () {
                 };
             }
+
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
@@ -1124,6 +1125,7 @@ var vm = new Vue({
                     alert('save success!');
                 } else {
                     alert(result.errorMsg);
+                    callback(false);
                 }
             });
 
