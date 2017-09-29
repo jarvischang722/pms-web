@@ -136,4 +136,15 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
     </dao>
+
+    <!-- ['PMS0840030'] 顯示順序,目前已存在的資料的最大值+1 -->
+    <dao name="QRYHKPRODUCTRFINS">
+        <statement><![CDATA[
+        select nvl(max(view_seq),0) + 1 as view_seq from hkproduct_rf
+        where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+        ]]>
+        </statement>
+        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
