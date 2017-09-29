@@ -333,8 +333,8 @@ Vue.component('sigle-grid-dialog-tmp', {
             key_nos: 0,
             isEditingForFieldRule: false,
             isVerified: true,
-            fieldChecking: false  //是否在檢查欄位中
-
+            fieldChecking: false,  //是否在檢查欄位中
+            BTN_action: false
 
         };
     },
@@ -554,8 +554,9 @@ Vue.component('sigle-grid-dialog-tmp', {
                 } else if (this.editStatus) {
                     this.tmpCud.editData = [this.singleData];
                 }
-
+                this.BTN_action = true;
                 this.$emit('do-save-cud', function (success) {
+                    self.BTN_action = false;
                     if (success) {
                         //儲存後離開
                         if (saveAfterAction == "closeDialog") {
@@ -876,8 +877,7 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
-        allChangeLogList: [],
-        BTN_action: false
+        allChangeLogList: []
     },
     watch: {
         editStatus: function (newVal) {
@@ -1108,10 +1108,8 @@ var vm = new Vue({
                 return;
             }
 
-            this.BTN_action = true;
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
-                vm.BTN_action = false;
                 waitingDialog.hide();
                 if (result.success) {
                     vm.initTmpCUD();

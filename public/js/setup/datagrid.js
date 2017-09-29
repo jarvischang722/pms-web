@@ -115,8 +115,7 @@ var vm = new Vue({
         allChangeLogList: [],
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
-        multiLangDialogVisible: false,
-        BTN_action: false
+        multiLangDialogVisible: false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -355,11 +354,8 @@ var vm = new Vue({
                     updateData: vm.tmpCUD.updateData
                 };
 
-                // vm.saving = true;
-                this.BTN_action = true;
                 waitingDialog.show('Saving...');
                 $.post("/api/saveDataRow", params, function (result) {
-                    vm.BTN_action = false;
                     waitingDialog.hide();
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
