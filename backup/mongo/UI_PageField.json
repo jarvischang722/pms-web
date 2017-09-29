@@ -3826,9 +3826,9 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "serv_rat", 
-    "ui_type" : "number", 
+    "ui_type" : "percent", 
     "ui_field_length" : NumberInt(15), 
-    "ui_field_num_point" : NumberInt(3), 
+    "ui_field_num_point" : NumberInt(1), 
     "row_seq" : NumberInt(7), 
     "height" : NumberInt(25), 
     "col_seq" : NumberInt(1), 
@@ -3839,7 +3839,7 @@
     "requirable" : "Y", 
     "keyable" : "", 
     "multi_lang_table" : "", 
-    "format_func_name" : "", 
+    "format_func_name" : "ChkPointOne", 
     "rule_func_name" : "chkHkproductrfServrat"
 }
 { 
