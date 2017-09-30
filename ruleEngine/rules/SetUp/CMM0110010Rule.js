@@ -18,7 +18,7 @@ module.exports = {
         var error = null;
         var result = new ReturnClass();
 
-        if(deleteFlag == 'N'){
+        if(deleteFlag == 'N'  && postData.oldValue != ""){
             result.success = false;
             error = new ErrorClass();
             error.errorMsg = "聯絡類別，不可異動";

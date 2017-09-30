@@ -204,7 +204,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
         mongoAgent.DatagridFunction.findOne({
             prg_id: prg_id,
             func_id: '0200',
-            page_id: page_id
+            tab_page_id: page_id
         }, function (err, func) {
             if (func) {
                 func = func.toObject();
