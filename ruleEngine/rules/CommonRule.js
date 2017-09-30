@@ -12,7 +12,7 @@ module.exports = {
      * @return
      */
     getCreateCommonDefaultDataRule: function (session) {
-        if(_.isUndefined(session)){
+        if (_.isUndefined(session)) {
             return {};
         }
         var lo_common = {
@@ -39,6 +39,26 @@ module.exports = {
             upd_dat: moment().format("YYYY/MM/DD HH:mm:ss")
         };
         return lo_common;
-    }
+    },
 
+    /**
+     * 日期區間比較
+     * @param compar_begin_dat 比較對象開始日
+     * @param compar_end_dat 比較對象結束日
+     * @param now_begin_dat 此筆資料開始日
+     * @param now_end_dat 此筆資料結束日
+     * @returns {boolean}
+     */
+    chkDateIsBetween: function (compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
+        compar_begin_dat = moment.isMoment(compar_begin_dat) ? compar_begin_dat : moment(new Date(compar_begin_dat));
+        compar_end_dat = moment.isMoment(compar_end_dat) ? compar_end_dat : moment(new Date(compar_end_dat));
+        now_begin_dat = moment.isMoment(now_begin_dat) ? now_begin_dat : moment(new Date(now_begin_dat));
+        now_end_dat = moment.isMoment(now_end_dat) ? now_end_dat : moment(new Date(now_end_dat));
+        if (compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 };

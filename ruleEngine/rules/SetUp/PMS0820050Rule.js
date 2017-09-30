@@ -138,8 +138,7 @@ module.exports = {
                 }
 
                 // 4) 判斷區間是否重疊
-                let lb_chkBeginDat;
-                let lb_chkEndDat;
+                let lb_chkOverLap;
                 let ls_repeatMsg;
                 let li_curIdx;
                 if (!_.isUndefined(postData.editRowData.key_nos)) {
@@ -153,9 +152,8 @@ module.exports = {
                     _.each(postData.allRowData, function (comparDT, compIdx) {
                         let ls_begin_dat = moment(new Date(comparDT.begin_dat));
                         let ls_end_dat = moment(new Date(comparDT.end_dat));
-                        lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat, lo_endDat);
-                        lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat, lo_endDat);
-                        if (lb_chkBeginDat || lb_chkEndDat) {
+                        lb_chkOverLap = commandRules.chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat, lo_endDat);
+                        if (lb_chkOverLap) {
                             let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
                                 "與第" + (li_allRowDataIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
@@ -230,11 +228,11 @@ module.exports = {
     }
 };
 
-function chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
-    if(compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+// function chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
+//     if(compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0){
+//         return true;
+//     }
+//     else{
+//         return false;
+//     }
+// }
