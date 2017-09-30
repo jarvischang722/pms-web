@@ -1118,7 +1118,6 @@ var vm = new Vue({
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
-                waitingDialog.hide();
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
@@ -1220,7 +1219,7 @@ var vm = new Vue({
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: prg_id,
-                minWidth: 750,
+                minWidth: 760,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
