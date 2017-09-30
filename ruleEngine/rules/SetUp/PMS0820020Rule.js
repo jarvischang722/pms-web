@@ -152,7 +152,9 @@ module.exports = {
             athena_id: postData.singleRowData.athena_id,
             hotel_cod: postData.singleRowData.hotel_cod
         };
+        characterRmkTmp = postData.singleRowData.character_rmk;
 
+        postData.singleRowData.character_rmk =_.isUndefined(characterRmkTmp) ? [] : postData.singleRowData.character_rmk;
         queryAgent.query("QRY_HOTEL_SVAL", params, function (err, guestlData) {
             lo_result.extendExecDataArrSet.push({
                 function: '0',
@@ -204,7 +206,7 @@ module.exports = {
         var lo_error = null;
         let chkResult = new ReturnClass();
         let userInfo = session.user;
-
+        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk ==""?[]:postData.singleRowData.character_rmk;
         chkResult.extendExecDataArrSet.push({
             function: '2',
             table_name: 'room_mn',
@@ -313,5 +315,12 @@ module.exports = {
         });
 
         callback(lo_error, lo_result);
+    },
+    r_defaultValueAdd:function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+
+        var characterRmk={"character_rmk":[]};
+        lo_result.defaultValues = characterRmk;
+        callback(null,lo_result);
     }
 }
