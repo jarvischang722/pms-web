@@ -56,8 +56,8 @@ module.exports = {
         });
     },
 
-    qryCashierrfUsestaSelect: function(postData, callback){
-        selOptLib.qryCashierrfUsestaSelect(postData, function(err, result){
+    qryCashierrfUsestaSelect: function (postData, callback) {
+        selOptLib.qryCashierrfUsestaSelect(postData, function (err, result) {
             callback(null, result);
         });
     },
@@ -119,14 +119,15 @@ module.exports = {
                         lo_result.success = false;
                         lo_error.errorCod = "1111";
                         lo_error.errorMsg = result;
-                        lo_result.effectValues = postData.oriSingleRowData;
+                        postData.singleRowData[postData.validateField] = "";
+                        lo_result.effectValues = postData.singleRowData;
 
                     }
                     callback(lo_error, lo_result);
                 });
 
             }
-            else{
+            else {
                 callback(lo_error, lo_result);
             }
 
@@ -186,7 +187,7 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
-        if(!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0){
+        if (!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0) {
             return callback(lo_error, lo_return);
         }
         this.qryUseShiftOpen(lo_params, function (err, getResult) {
@@ -285,8 +286,8 @@ module.exports = {
         options.textField = 'display';
 
         var columns = [[
-            {field:'value', title: '出納員代號', width: 100},
-            {field:'display', title: '出納員名稱', width: 100}]];
+            {field: 'value', title: '出納員代號', width: 100},
+            {field: 'display', title: '出納員名稱', width: 100}]];
 
         options.columns = columns;
 
