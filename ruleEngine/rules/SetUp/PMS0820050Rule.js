@@ -151,10 +151,10 @@ module.exports = {
                 if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
                     _.each(postData.allRowData, function (comparDT, compIdx) {
-                        let ls_begin_dat = moment(new Date(comparDT.begin_dat)).format("YYYY-MM-DD");
-                        let ls_end_dat = moment(new Date(comparDT.end_dat)).format("YYYY-MM-DD");
-                        lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat);
-                        lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat);
+                        let ls_begin_dat = moment(new Date(comparDT.begin_dat));
+                        let ls_end_dat = moment(new Date(comparDT.end_dat));
+                        lb_chkBeginDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat, lo_endDat);
+                        lb_chkEndDat = chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_endDat, lo_endDat);
                         if (lb_chkBeginDat || lb_chkEndDat) {
                             let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
@@ -230,6 +230,11 @@ module.exports = {
     }
 };
 
-function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-    return now_dat.isBetween(begin_dat, end_dat, null, '[]');
+function chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
+    if(compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0){
+        return true;
+    }
+    else{
+        return false;
+    }
 }

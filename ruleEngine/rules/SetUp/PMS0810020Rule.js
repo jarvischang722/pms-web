@@ -58,13 +58,11 @@ module.exports = {
             if (data) {
                 let belong_dat = moment(new Date(data.rent_cal_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
-                    result.success = false;
-                    error = new ErrorClass();
-                    error.errorMsg = "此房型的結束日小於滾房租日，故無法修改";
-                    error.errorCod = "1111";
+                    result.showAlert = true;
+                    result.alertMsg = "此房型的結束日小於滾房租日，故無法修改";
+                    result.isModifiable = false;
                 }
             }
-
             callback(error, result);
         });
 
@@ -96,9 +94,12 @@ module.exports = {
                 result.success = false;
                 error.errorMsg = "結束日期不可以早於開始日期";
                 error.errorCod = "1111";
+                return callback(error,result);
             }
-            return callback(error, result);
-        } else if (_.isEmpty(begin_dat) && _.isEmpty(end_dat)) {
+
+        }
+
+        if (!_.isEmpty(begin_dat) || !_.isEmpty(end_dat)) {
             queryAgent.query("QRY_RENT_CAL_DAT", {
                 athena_id: athena_id,
                 hotel_cod: hotel_cod
@@ -240,6 +241,7 @@ module.exports = {
      * @param callback {Function} :
      */
     r_rvrmcod_rf_ins_save: function (postData, session, callback) {
+        let self = this;
         let saveResult = new ReturnClass();
         let saveError = null;
         try {
@@ -259,14 +261,26 @@ module.exports = {
                                 function (callback) {
                                     async.waterfall([
                                         function (callback) {
-                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
-                                            //     let thisRuleErr = null;
-                                            //     if (Number(data.cover_count || 0) > 1) {
-                                            //         thisRuleErr = "相同房型的開始結束日期不可重疊";
-                                            //     }
-                                            //     callback(thisRuleErr, []);
-                                            // });
-                                            callback(null, []);
+                                            self.chk_rvrmcod_rf_begin_end_dat({singleRowData: c_data}, session, function (err, data) {
+                                                if(err){
+                                                    callback(err.errorMsg, data);
+                                                }else{
+                                                    callback(null, data);
+                                                }
+                                            });
+                                        },
+                                        function (data, callback) {
+                                            c_data["old_begin_dat"] = "1900/01/01";
+                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
+
+                                                if (Number(data.cover_count || 0) > 0) {
+                                                    callback("相同房型的開始結束日期不可重疊", []);
+                                                }else{
+                                                    callback(null, data);
+                                                }
+
+                                            });
+
                                         },
                                         function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
@@ -429,12 +443,25 @@ module.exports = {
                                 function (callback) {
                                     async.waterfall([
                                         function (callback) {
-                                            // queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
-                                            //     if (Number(data.cover_count || 0) > 0) {
-                                            //         callback("相同房型的開始結束日期不可重疊", []);
-                                            //     }
-                                            // });
-                                            callback(null, []);
+                                            self.chk_rvrmcod_rf_begin_end_dat({singleRowData: e_data}, session, function (err, data) {
+                                              if(err){
+                                                  callback(err.errorMsg, data);
+                                              }else{
+                                                  callback(null, data);
+                                              }
+
+                                            });
+                                        },
+                                        function (data, callback) {
+                                            e_data["old_begin_dat"] = e_data.begin_dat || "1990/01/01";
+                                            queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
+                                                if (Number(data.cover_count || 0) > 0) {
+                                                    callback("相同房型的開始結束日期不可重疊", data);
+                                                }else{
+                                                    callback(null, []);
+                                                }
+                                            });
+
                                         },
                                         function (data, callback) {
                                             tmpExtendExecDataArrSet.push({
