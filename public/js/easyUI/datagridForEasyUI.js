@@ -349,10 +349,10 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             //連動帶回的值
-            if (!_.isUndefined(result.effectValues)) {
-                var effectValues = result.effectValues;
-                if (!_.isArray(effectValues) && _.size(result.effectValues) > 0) {
 
+            if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+                var effectValues = result.effectValues;
+                if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
                     $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
@@ -370,6 +370,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
                 } else {
                     _.each(effectValues, function (item, index) {
+
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
