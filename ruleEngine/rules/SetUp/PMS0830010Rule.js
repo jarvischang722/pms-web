@@ -203,7 +203,7 @@ module.exports = {
                 if (postData.singleRowData.def_shift_cod.trim() == "") {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
-                    lo_error.errorMsg = "欄位def_shift_cod必輸入值";
+                    lo_error.errorMsg = "欄位預設班別必輸入值";
                     lo_error.errorCod = "1111";
                     return callback(lo_error, lo_return);
                 }
