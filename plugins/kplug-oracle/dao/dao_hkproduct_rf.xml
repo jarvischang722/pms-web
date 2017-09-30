@@ -87,10 +87,10 @@
     </dao>
 
 
-    <!-- ['PMS0840030'] 取得貨品代號 未完成-->
+    <!-- ['PMS0840030'] 取得貨品代號-->
     <dao name="QRY_HKPRODUCT_RF_GOODS_COD">
         <statement><![CDATA[
-              select g.goods_cod goods_cod, g.goods_sna goods_sna, g.goods_rmk goods_rmk, rf.group_cod || ':' || rf.group_nam as group_nam from goods_mn g,group_rf rf
+              select g.goods_cod goods_cod, g.goods_sna goods_sna, g.goods_rmk goods_rmk, rf.group_cod || ':' || rf.group_nam as group_nam,'Y' as inv_sta from goods_mn g,group_rf rf
               where g.athena_id = rf.athena_id and g.comp_cod = rf.comp_cod and g.group_cod = rf.group_cod and rf.set_cod = 'S' and g.goods_sta<>'D' and g.goods_flag4 in ('1','2') and g.sys_flag = '1'
               and g.athena_id = :athena_id and trim(rf.comp_cod) = trim(:comp_cod)
         ]]>

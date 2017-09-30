@@ -304,10 +304,9 @@ Vue.component('text-select-grid-dialog-tmp', {
                     });
                 });
             } else {
-
-                // _.each(chooseData, function (chooseValue, chooseField) {
-                //     chooseData[chooseField] = "";
-                // });
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
+                });
             }
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');

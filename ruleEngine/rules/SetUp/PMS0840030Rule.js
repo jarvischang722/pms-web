@@ -33,7 +33,7 @@ module.exports = {
             goods_sna: "goods_sna",
             goods_rmk: "goods_rmk",
             group_nam: "group_nam",
-           // inv_sta:"inv_sta"
+            inv_sta:"inv_sta"
 
     };
 
