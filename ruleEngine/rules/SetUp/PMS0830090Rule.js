@@ -207,7 +207,7 @@ module.exports = {
                     if(index != -1){
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "error";
+                        lo_error.errorMsg = "不可設與房號第一碼相同";
                         lo_error.errorCod = "1111";
                     }
                     callback(lo_error, lo_result);
