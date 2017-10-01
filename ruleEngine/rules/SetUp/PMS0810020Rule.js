@@ -15,6 +15,7 @@ let ReturnClass = require(ruleRootPath + "/returnClass");
 let ErrorClass = require(ruleRootPath + "/errorClass");
 
 
+
 module.exports = {
     /**
      * 房間小類設定存在時，不可刪除
@@ -59,7 +60,8 @@ module.exports = {
                 let belong_dat = moment(new Date(data.rent_cal_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
                     result.showAlert = true;
-                    result.alertMsg = "此房型的結束日小於滾房租日，故無法修改";
+                    // result.alertMsg = "此房型的結束日小於滾房租日，故無法修改";
+                    result.alertMsg = commandRules.getMsgByCod("pms81msg1");
                     result.isModifiable = false;
                 }
             }

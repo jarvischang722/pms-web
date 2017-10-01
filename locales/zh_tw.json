@@ -182,5 +182,8 @@
       "FmtHHMM": "%s 時間格式HH:MM",
       "ChkPointOne": "%s 僅能輸入至小數點1位"
     }
+  },
+  "ErrorMsg": {
+    "pms81msg1": "此房型的結束日小於滾房租日，故無法修改"
   }
 }

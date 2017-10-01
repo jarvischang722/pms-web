@@ -4,6 +4,7 @@
  */
 var moment = require("moment");
 var _ = require("underscore");
+var i18n = require("i18n");
 
 module.exports = {
     /**
@@ -60,5 +61,9 @@ module.exports = {
         else {
             return false;
         }
+    },
+
+    getMsgByCod: function(msgCod){
+        return i18n.__("ErrorMsg")[msgCod];
     }
 };
