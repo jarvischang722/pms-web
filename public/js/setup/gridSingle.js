@@ -561,7 +561,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 }
                 this.BTN_action = true;
                 this.$emit('do-save-cud', function (success) {
-                    console.log(success);
                     self.BTN_action = false;
                     if (success) {
                         //儲存後離開
@@ -1112,7 +1111,7 @@ var vm = new Vue({
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
-                return;
+                return callback(false);
             }
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
