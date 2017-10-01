@@ -148,31 +148,43 @@ module.exports = {
         let ls_now_end_dat = postData.editRowData.end_dat || "";
         let ls_day_sta = postData.editRowData.day_sta || "";
 
-        // _.each(postData.allRowData, function(eachRowData, index){
-        if(ls_now_begin_dat != "" && ls_now_end_dat != "" && ls_day_sta != "") {
-            for (let i = 0; i < postData.allRowData.length; i++) {
-                let eachRowData = postData.allRowData[i];
-                if (i != postData.rowIndex) {
-                    let ls_eachRowBeginDat = moment(new Date(eachRowData.begin_dat)).format("YYYY/MM/DD");
-                    let ls_eachRowEndDat = moment(new Date(eachRowData.end_dat)).format("YYYY/MM/DD");
-                    ls_now_begin_dat = moment(new Date(postData.editRowData.begin_dat)).format("YYYY/MM/DD");
-                    ls_now_end_dat = moment(new Date(postData.editRowData.end_dat)).format("YYYY/MM/DD");
+        if (ls_now_begin_dat != "" && ls_now_end_dat != "") {
+            ls_now_begin_dat = moment(new Date(ls_now_begin_dat)).format("YYYY/MM/DD");
+            ls_now_end_dat = moment(new Date(ls_now_end_dat)).format("YYYY/MM/DD");
 
-                    let lb_chkOverLap = commandRules.chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, ls_now_begin_dat, ls_now_end_dat);
-                    let li_curIdx = Number(postData.rowIndex);
+            if (moment(new Date(ls_now_end_dat)).diff(moment(new Date(ls_now_begin_dat))) < 0) {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                postData.editRowData[postData.validateField] = postData.oldValue;
+                lo_result.effectValues = postData.editRowData;
+                lo_error.errorMsg = "結束日不能早於開始日";
+                lo_error.errorCod = "1111";
+                return callback(lo_error, lo_result);
+            }
 
-                    if (lb_chkOverLap && postData.editRowData.day_sta == eachRowData.day_sta) {
+            if (ls_day_sta != "") {
+                for (let i = 0; i < postData.allRowData.length; i++) {
+                    let eachRowData = postData.allRowData[i];
+                    if (i != postData.rowIndex) {
+                        let ls_eachRowBeginDat = moment(new Date(eachRowData.begin_dat)).format("YYYY/MM/DD");
+                        let ls_eachRowEndDat = moment(new Date(eachRowData.end_dat)).format("YYYY/MM/DD");
 
-                        ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.end_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
-                            "與 第[" + (i + 1) + "]行 開始日[" + ls_eachRowBeginDat + "]結束日[" + ls_eachRowEndDat + "]假日類別[" + eachRowData.day_sta + "] 日期重疊";
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, ls_now_begin_dat, ls_now_end_dat);
+                        let li_curIdx = Number(postData.rowIndex);
 
-                        lo_error = new ErrorClass();
-                        lo_result.success = false;
-                        lo_error.errorMsg = ls_repeatMsg;
-                        lo_error.errorCod = "1111";
-                        postData.rowData["day_sta"] = postData.oldValue;
-                        lo_result.effectValues = postData.rowData;
-                        break;
+                        if (lb_chkOverLap && postData.editRowData.day_sta == eachRowData.day_sta) {
+
+                            ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.end_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
+                                "與 第[" + (i + 1) + "]行 開始日[" + ls_eachRowBeginDat + "]結束日[" + ls_eachRowEndDat + "]假日類別[" + eachRowData.day_sta + "] 日期重疊";
+
+                            lo_error = new ErrorClass();
+                            lo_result.success = false;
+                            lo_error.errorMsg = ls_repeatMsg;
+                            lo_error.errorCod = "1111";
+                            postData.rowData["day_sta"] = postData.oldValue;
+                            lo_result.effectValues = postData.rowData;
+                            break;
+                        }
                     }
                 }
             }
