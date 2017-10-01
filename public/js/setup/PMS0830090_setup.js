@@ -457,7 +457,7 @@ Vue.component('single-grid-pms0830090-tmp', {
 
                         var lo_tmpCud = [];
 
-                        for(i = this.singleData.start_num; i <= this.singleData.end_num; i++){
+                        for(i = Number(this.singleData.start_num); i <= Number(this.singleData.end_num); i++){
 
                             var account = padLeft(i.toString(), this.singleData.account_length - 1);
                             account = this.singleData.prefix + account;
