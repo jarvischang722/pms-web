@@ -426,6 +426,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     //連動帶回的值
                     if (!_.isUndefined(result.effectValues)) {
                         self.singleData = _.extend(self.singleData, result.effectValues);
+                        self.isVerified = true;
                     }
                     //是否要show出訊息
                     if (result.showAlert) {
