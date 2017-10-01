@@ -118,7 +118,7 @@ module.exports = {
                         lo_result.success = false;
                         lo_error.errorCod = "1111";
                         lo_error.errorMsg = result;
-                        postData.singleRowData[postData.validateField] = "";
+                        postData.singleRowData[postData.validateField] = postData.oriSingleRowData[postData.validateField];
                         lo_result.effectValues = postData.singleRowData;
 
                     }
@@ -144,7 +144,7 @@ module.exports = {
         function chkDefShiftCod(rent_cal_dat, cb) {
             let lo_chkParams = lo_params;
             lo_chkParams.shop_dat = rent_cal_dat;
-            lo_chkParams.shift_cod = postData.singleRowData.def_shift_cod;
+            lo_chkParams.shift_cod = postData.oriSingleRowData.def_shift_cod.trim();
             queryAgent.query("QRY_OPEN_RF_COUNT", lo_chkParams, function (err, getResult) {
                 if (getResult.openrfcount > 0) {
                     cb(true, "今天已經有開班，不能異動");
