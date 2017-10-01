@@ -88,7 +88,6 @@ module.exports = {
             if (_.isNull(getResult.use_shift_open)) {
                 getResult.use_shift_open = "Y";
             }
-            getResult.use_shift_open = "N";
             callback(err, getResult.use_shift_open);
         });
     },

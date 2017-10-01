@@ -349,7 +349,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             }
 
             //連動帶回的值
-
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
