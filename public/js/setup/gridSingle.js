@@ -330,7 +330,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -876,7 +876,7 @@ var vm = new Vue({
         },
         singleData: {},         //單檔資訊
         oriSingleData: {},      //單黨資訊原始檔
-        modificableForData: true,       //決定是否可以修改資料
+        isModifiable: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
         dialogVisible: false,
@@ -1140,6 +1140,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
+            vm.isModifiable = true;
             this.loadSingleGridPageField(function (success) {
                 $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
@@ -1164,7 +1165,7 @@ var vm = new Vue({
                     if (result.success) {
                         vm.oriSingleData = $.extend({}, result.rowData);
                         vm.singleData = result.rowData;
-                        vm.modificableForData = result.modificable || true;
+                        vm.isModifiable = result.isModifiable || true;
                         vm.dtData = dtData;
                         vmHub.$emit('showDtDataGrid', dtData);
                         callback(true);

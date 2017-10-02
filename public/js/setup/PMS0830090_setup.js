@@ -716,7 +716,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.editStatus = false;
             PMS0830090VM.isbatchAdd = false;
             PMS0830090VM.singleData = {};
-
+            PMS0830090VM.modificableForData = true;
             PMS0830090VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
             PMS0830090VM.oriPageTwoFieldData = go_Field_Data_Tmp;
 
