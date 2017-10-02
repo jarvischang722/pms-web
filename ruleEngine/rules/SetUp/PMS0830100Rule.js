@@ -66,27 +66,28 @@ module.exports = {
         async.waterfall([
             chkDayStaOverLap,
             qryDayStaColor
-        ], function(err, getResult){
-            if(getResult.success){
+        ], function (err, getResult) {
+            if (getResult.success) {
                 callback(null, lo_result);
             }
-            else{
+            else {
                 callback(err, getResult);
             }
         });
 
-        function chkDayStaOverLap(cb){
+        function chkDayStaOverLap(cb) {
             self.chkDayStaOverLap(postData, session, cb);
         }
 
-        function qryDayStaColor(chkResult, cb){
+        function qryDayStaColor(chkResult, cb) {
             queryAgent.query("QRY_DAY_STA_COLOR", lo_params, function (err, getResult) {
                 if (!err) {
                     try {
                         var color = colorCodToHex(getResult.color_num);
                         postData.rowData.day_sta_color = "#" + color;
                     }
-                    catch(ex){}
+                    catch (ex) {
+                    }
                     lo_result.effectValues = {day_sta_color: postData.rowData.day_sta_color};
                     cb(null, lo_result);
                 }
@@ -102,10 +103,10 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
 
-        queryAgent.query("QRY_HFD_REST_DT_SEQ_NOS", lo_params, function(err, getResult){
+        queryAgent.query("QRY_HFD_REST_DT_SEQ_NOS", lo_params, function (err, getResult) {
             let li_max_seq_nos = getResult.max_seq_nos || 0;
 
-            _.each(postData.dt_createData, function(lo_dtCreateData){
+            _.each(postData.dt_createData, function (lo_dtCreateData) {
                 lo_dtCreateData.seq_nos = li_max_seq_nos;
                 li_max_seq_nos++;
             });
@@ -138,45 +139,69 @@ module.exports = {
         });
     },
 
-    chkDayStaOverLap: function(postData, session, callback){
+    // 明細，日期區間+假日類別不可重疊
+    chkDayStaOverLap: function (postData, session, callback) {
         let ls_repeatMsg = "";
         let lo_result = new ReturnClass();
         let lo_error = null;
+        let ls_now_begin_dat = postData.editRowData.begin_dat || "";
+        let ls_now_end_dat = postData.editRowData.end_dat || "";
+        let ls_day_sta = postData.editRowData.day_sta || "";
 
-        _.each(postData.allRowData, function(eachRowData, index){
-            if(index != postData.rowIndex && postData.editRowData.begin_dat != "" && postData.editRowData.end_dat != "" && postData.editRowData.day_sta != "") {
-                let ls_eachRowBeginDat = eachRowData.begin_dat;
-                let ls_eachRowEndDat = eachRowData.end_dat;
-                let lb_chkBeginDat = chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, postData.editRowData.begin_dat);
-                let lb_chkEndDat = chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, postData.editRowData.end_dat);
-                let li_curIdx = Number(postData.rowIndex);
+        if (ls_now_begin_dat != "" && ls_now_end_dat != "") {
+            ls_now_begin_dat = moment(new Date(ls_now_begin_dat)).format("YYYY/MM/DD");
+            ls_now_end_dat = moment(new Date(ls_now_end_dat)).format("YYYY/MM/DD");
 
-                if ((lb_chkBeginDat || lb_chkEndDat) && postData.editRowData.day_sta == eachRowData.day_sta) {
+            if (moment(new Date(ls_now_end_dat)).diff(moment(new Date(ls_now_begin_dat))) < 0) {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                postData.editRowData[postData.validateField] = postData.oldValue;
+                lo_result.effectValues = postData.editRowData;
+                lo_error.errorMsg = "結束日不能早於開始日";
+                lo_error.errorCod = "1111";
+                return callback(lo_error, lo_result);
+            }
 
-                    ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.begin_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
-                        "與 第[" + (index + 1) + "]行 開始日["+ ls_eachRowBeginDat +"]結束日["+ ls_eachRowEndDat +"]假日類別["+ eachRowData.day_sta +"] 日期重疊";
+            if (ls_day_sta != "") {
+                for (let i = 0; i < postData.allRowData.length; i++) {
+                    let eachRowData = postData.allRowData[i];
+                    if (i != postData.rowIndex) {
+                        let ls_eachRowBeginDat = moment(new Date(eachRowData.begin_dat)).format("YYYY/MM/DD");
+                        let ls_eachRowEndDat = moment(new Date(eachRowData.end_dat)).format("YYYY/MM/DD");
 
-                    lo_error = new ErrorClass();
-                    lo_result.success = false;
-                    lo_error.errorMsg = ls_repeatMsg;
-                    lo_error.errorCod = "1111";
-                    lo_result.effectValues = {day_sta: ""};
-                    return false;
+                        let lb_chkOverLap = commandRules.chkDateIsBetween(ls_eachRowBeginDat, ls_eachRowEndDat, ls_now_begin_dat, ls_now_end_dat);
+                        let li_curIdx = Number(postData.rowIndex);
+
+                        if (lb_chkOverLap && postData.editRowData.day_sta == eachRowData.day_sta) {
+
+                            ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.end_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
+                                "與 第[" + (i + 1) + "]行 開始日[" + ls_eachRowBeginDat + "]結束日[" + ls_eachRowEndDat + "]假日類別[" + eachRowData.day_sta + "] 日期重疊";
+
+                            lo_error = new ErrorClass();
+                            lo_result.success = false;
+                            lo_error.errorMsg = ls_repeatMsg;
+                            lo_error.errorCod = "1111";
+                            postData.rowData["day_sta"] = postData.oldValue;
+                            lo_result.effectValues = postData.rowData;
+                            break;
+                        }
+                    }
                 }
             }
-        });
+        }
         callback(lo_error, lo_result);
     }
 
 
-};
-
-function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-    begin_dat = new Date(begin_dat);
-    end_dat = new Date(end_dat);
-    now_dat = new Date(now_dat);
-    return moment(now_dat).isBetween(begin_dat, end_dat);
 }
+;
+
+// function chkDateIsBetween(begin_dat, end_dat, now_dat) {
+//     begin_dat = new Date(begin_dat);
+//     end_dat = new Date(end_dat);
+//     now_dat = new Date(now_dat);
+//     return moment(now_dat).isBetween(begin_dat, end_dat);
+// }
 
 //反轉成16進位
 function colorCodToHex(colorCod) {

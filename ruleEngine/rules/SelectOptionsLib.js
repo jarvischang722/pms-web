@@ -521,7 +521,7 @@ exports.roomMnAssignSta = function () {
 exports.roomMnCleanSta = function () {
     return [
         {
-            display: "乾靜",
+            display: "乾淨",
             value: "C"
         },
         {

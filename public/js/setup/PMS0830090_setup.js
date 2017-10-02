@@ -298,6 +298,7 @@ Vue.component('single-grid-pms0830090-tmp', {
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
                     if (result.success) {
+                        PMS0830090VM.originData = _.clone(lo_singleData);
                         //是否要show出訊息
                         if (result.showAlert) {
                             alert(result.alertMsg);
@@ -310,7 +311,6 @@ Vue.component('single-grid-pms0830090-tmp', {
                                 PMS0830090VM.singleData.cust_cod = '';
                                 PMS0830090VM.singleData.show_cod = '';
                                 PMS0830090VM.singleData.cust_nam = '';
-                                PMS0830090VM.originData = _.clone(lo_singleData);
                             }
                             else{
                                 //否: 不可異動
@@ -450,16 +450,16 @@ Vue.component('single-grid-pms0830090-tmp', {
                 if (this.createStatus) {
                     if(PMS0830090VM.isbatchAdd){    //判斷是否為批次新增
 
-                        if(this.singleData.start_num > this.singleData.end_num){
+                        if(Number(this.singleData.start_num) > Number(this.singleData.end_num)){
                             alert("起始編號要小於結尾編號!");
                             return;
                         }
 
                         var lo_tmpCud = [];
 
-                        for(i = this.singleData.start_num; i <= this.singleData.end_num; i++){
+                        for(i = Number(this.singleData.start_num); i <= Number(this.singleData.end_num); i++){
 
-                            var account = padLeft(i, this.singleData.account_length - 1);
+                            var account = padLeft(i.toString(), this.singleData.account_length - 1);
                             account = this.singleData.prefix + account;
 
                             //判斷是否已經存在

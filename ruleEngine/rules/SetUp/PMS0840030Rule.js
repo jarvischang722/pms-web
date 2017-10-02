@@ -32,7 +32,8 @@ module.exports = {
             goods_cod: "goods_cod",
             goods_sna: "goods_sna",
             goods_rmk: "goods_rmk",
-            group_nam: "group_nam"
+            group_nam: "group_nam",
+            inv_sta:"inv_sta"
 
     };
 
@@ -75,6 +76,12 @@ module.exports = {
                 callback(err, result);
             });
         }else {
+            if(postData.singleRowData.goods_cod.trim() != ""){
+                postData.singleRowData.inv_sta = "Y";
+            }else {
+                postData.singleRowData.inv_sta = "N";
+            }
+            result.effectValues.inv_sta = postData.singleRowData.inv_sta;
             callback(null, result);
         }
     },

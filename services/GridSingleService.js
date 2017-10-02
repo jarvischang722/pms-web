@@ -1370,6 +1370,14 @@ function dataValueChange(fields, data) {
     });
 }
 
+//解決js的浮點運算bug
+function accMul(arg1, arg2) {
+    var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+    try { m += s1.split(".")[1].length } catch (e) { }
+    try { m += s2.split(".")[1].length } catch (e) { }
+    return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+}
+
 //將要顯示在頁面上的欄位格式做轉換
 function changeValueFormat(value, ui_type) {
     var valueTemp;
@@ -1381,7 +1389,7 @@ function changeValueFormat(value, ui_type) {
         }
         valueTemp = fieldName;
     } else if (ui_type == "percent") {
-        valueTemp = parseFloat(value) * 100;
+        valueTemp = accMul(parseFloat(value), 100);
     } else if (ui_type == "checkbox") {
         if (value == "Y") {
             valueTemp = true;

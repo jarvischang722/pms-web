@@ -56,8 +56,8 @@ module.exports = {
         });
     },
 
-    qryCashierrfUsestaSelect: function(postData, callback){
-        selOptLib.qryCashierrfUsestaSelect(postData, function(err, result){
+    qryCashierrfUsestaSelect: function (postData, callback) {
+        selOptLib.qryCashierrfUsestaSelect(postData, function (err, result) {
             callback(null, result);
         });
     },
@@ -88,7 +88,6 @@ module.exports = {
             if (_.isNull(getResult.use_shift_open)) {
                 getResult.use_shift_open = "Y";
             }
-            getResult.use_shift_open = "N";
             callback(err, getResult.use_shift_open);
         });
     },
@@ -119,14 +118,15 @@ module.exports = {
                         lo_result.success = false;
                         lo_error.errorCod = "1111";
                         lo_error.errorMsg = result;
-                        lo_result.effectValues = postData.oriSingleRowData;
+                        postData.singleRowData[postData.validateField] = postData.oriSingleRowData[postData.validateField];
+                        lo_result.effectValues = postData.singleRowData;
 
                     }
                     callback(lo_error, lo_result);
                 });
 
             }
-            else{
+            else {
                 callback(lo_error, lo_result);
             }
 
@@ -144,7 +144,7 @@ module.exports = {
         function chkDefShiftCod(rent_cal_dat, cb) {
             let lo_chkParams = lo_params;
             lo_chkParams.shop_dat = rent_cal_dat;
-            lo_chkParams.shift_cod = postData.singleRowData.def_shift_cod;
+            lo_chkParams.shift_cod = postData.oriSingleRowData.def_shift_cod.trim();
             queryAgent.query("QRY_OPEN_RF_COUNT", lo_chkParams, function (err, getResult) {
                 if (getResult.openrfcount > 0) {
                     cb(true, "今天已經有開班，不能異動");
@@ -186,7 +186,7 @@ module.exports = {
         let lo_return = new ReturnClass();
         let lo_error = null;
 
-        if(!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0){
+        if (!_.isUndefined(postData.deleteData) && postData.deleteData.length != 0) {
             return callback(lo_error, lo_return);
         }
         this.qryUseShiftOpen(lo_params, function (err, getResult) {
@@ -202,7 +202,7 @@ module.exports = {
                 if (postData.singleRowData.def_shift_cod.trim() == "") {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
-                    lo_error.errorMsg = "欄位def_shift_cod必輸入值";
+                    lo_error.errorMsg = "欄位預設班別必輸入值";
                     lo_error.errorCod = "1111";
                     return callback(lo_error, lo_return);
                 }
@@ -285,8 +285,8 @@ module.exports = {
         options.textField = 'display';
 
         var columns = [[
-            {field:'value', title: '出納員代號', width: 100},
-            {field:'display', title: '出納員名稱', width: 100}]];
+            {field: 'value', title: '出納員代號', width: 100},
+            {field: 'display', title: '出納員名稱', width: 100}]];
 
         options.columns = columns;
 

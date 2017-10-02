@@ -295,13 +295,19 @@ Vue.component('text-select-grid-dialog-tmp', {
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-            _.each(selectTable, function (selectValue, selectField) {
-                _.each(updateFieldName, function (updateValue, updateField) {
-                    if (selectField == updateValue) {
-                        chooseData[updateField] = selectValue;
-                    }
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
                 });
-            });
+            } else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
+                });
+            }
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -420,6 +426,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                     //連動帶回的值
                     if (!_.isUndefined(result.effectValues)) {
                         self.singleData = _.extend(self.singleData, result.effectValues);
+                        self.isVerified = true;
                     }
                     //是否要show出訊息
                     if (result.showAlert) {
@@ -555,7 +562,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 }
                 this.BTN_action = true;
                 this.$emit('do-save-cud', function (success) {
-                    console.log(success);
                     self.BTN_action = false;
                     if (success) {
                         //儲存後離開
@@ -1106,12 +1112,11 @@ var vm = new Vue({
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
-                return;
+                return callback(false);
             }
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
-                waitingDialog.hide();
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
