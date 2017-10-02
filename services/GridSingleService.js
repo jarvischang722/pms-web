@@ -770,7 +770,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     function combineDtDeleteExecData(checkResult, callback) {
         try {
             _.each(dt_deleteData, function (data) {
-                var tmpDel = {"function": "0", "table_name": dtTableName}; //0 代表刪除
+                var tmpDel = {"function": "0", "table_name": dtTableName,"kindOfRel":'dt'}; //0 代表刪除
                 tmpDel.condition = [];
                 //組合where 條件
                 _.each(la_dtkeyFields, function (keyField, keyIdx) {
@@ -1061,7 +1061,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         try {
             //dt 新增
             _.each(dt_createData, function (data) {
-                var tmpIns = {"function": "1", "table_name": dtTableName}; //1  新增
+                var tmpIns = {"function": "1", "table_name": dtTableName,"kindOfRel":"dt"}; //1  新增
                 tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                 var mnRowData = data["mnRowData"] || {};
                 delete data["mnRowData"];
@@ -1114,7 +1114,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
             //dt 編輯
             _.each(dt_editData, function (data) {
-                var tmpEdit = {"function": "2", "table_name": dtTableName}; //2  編輯
+                var tmpEdit = {"function": "2", "table_name": dtTableName,"kindOfRel":"dt"}; //2  編輯
                 var mnRowData = data["mnRowData"] || {};
 
                 delete data["mnRowData"];
@@ -1318,7 +1318,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //組要刪除的dt資料
     function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
-        let tmpDel = {"function": "0", "table_name": dtTableName}; //0 代表刪除
+        let tmpDel = {"function": "0", "table_name": dtTableName,"kindOfRel":"dt"}; //0 代表刪除
         tmpDel.condition = [];
         //組合where 條件
         _.each(la_dtkeyFields, function (keyField, keyIdx) {
