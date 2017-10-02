@@ -170,14 +170,19 @@ Vue.component('text-select-grid-dialog-tmp', {
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-
-            _.each(selectTable, function (selectValue, selectField) {
-                _.each(updateFieldName, function (updateValue, updateField) {
-                    if (selectField == updateValue) {
-                        chooseData[updateField] = selectValue;
-                    }
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
                 });
-            });
+            }else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = "";  //SAM20170930
+                });
+            }
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
