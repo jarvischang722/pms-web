@@ -883,7 +883,8 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+        isSaving :false
     },
     watch: {
         editStatus: function (newVal) {
@@ -1103,7 +1104,7 @@ var vm = new Vue({
 
         //資料儲存
         doSaveCUD: function (callback) {
-
+            this.isSaving = true;
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
@@ -1117,6 +1118,7 @@ var vm = new Vue({
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
+                vm.isSaving = false;
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
