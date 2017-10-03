@@ -148,6 +148,7 @@ var Pms0830070Comp = Vue.extend({
             }
         },
         clickDeleteDt:function (deleteIndex) {
+
             var singleDataDtInfo = PMS0830070VM.singleDataDt;
             _.each(singleDataDtInfo,function (row,index) {
                 if(singleDataDtInfo.deleted == "false" || typeof singleDataDtInfo.deleted == "undefined") {
@@ -180,21 +181,25 @@ var Pms0830070Comp = Vue.extend({
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
                 _.each(singleDataDtInfo,function (row,index) {
-                    if(row.deleted == "true" && row.created == "true"){
-                        _.each(PMS0830070VM.singleData4DetialTmp,function (detailRow,detailIndex) {
-                            if(row.seq_nos == detailRow.seq_nos){
-                                delete PMS0830070VM.singleData4DetialTmp[detailIndex];
-                            }
-                        });
-                        PMS0830070VM.singleDataDt.splice(index);
-                    }else if(row.deleted == "true" && row.edited == "true"){
-                        _.each(PMS0830070VM.singleData4DetialTmp,function (detailRow,detailIndex) {
-                            if(row.seq_nos == detailRow.seq_nos){
-                                delete PMS0830070VM.singleData4DetialTmp[detailIndex];
-                            }
-                        });
-                        PMS0830070VM.singleDataDtEdit4DeleteTmp.push(row);
-                        PMS0830070VM.singleDataDt.splice(index);
+
+                    if( typeof row != "undefined") {
+
+                        if (row.deleted == "true" && row.created == "true") {
+                            _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
+                                if (row.seq_nos == detailRow.seq_nos) {
+                                    delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                                }
+                            });
+                            PMS0830070VM.singleDataDt =_.without(PMS0830070VM.singleDataDt,row);
+                        } else if (row.deleted == "true" && row.edited == "true") {
+                            _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
+                                if (row.seq_nos == detailRow.seq_nos) {
+                                    delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                                }
+                            });
+                            PMS0830070VM.singleDataDtEdit4DeleteTmp.push(row);
+                            PMS0830070VM.singleDataDt=_.without(PMS0830070VM.singleDataDt,row);
+                        }
                     }
                 });
             } else {
@@ -225,7 +230,7 @@ var Pms0830070Comp = Vue.extend({
                     }
                 }
             });
-
+            PMS0830070VM.singleDataDt2 = PMS0830070VM.singleData4DetialTmp;
             this.adjfolioDataItem = {};
             this.dialogServiceItemVisible = false;
         }
