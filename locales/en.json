@@ -110,7 +110,22 @@
 			"batch_add": "Batch Add"
 		},
 		"PMS0820020": {
-			"batch_add": "Batch Add"
+			"batch_add": "Batch Add",
+			"room_leng": "房號長度(英文)",
+			"front_cod": "前置碼(英文)",
+			"room_begin_dat": "房號開始號碼(英文)",
+			"build_nos": "Building",
+			"room_end_nos": "房號結束號碼(英文)",
+			"floor_nos": "Floor",
+			"room_cod": "Room Type",
+			"room_nos_typ": "房號單、雙數(英文)",
+			"bed_sta": "Beds",
+			"single_nos": "單號(英文)",
+			"double_nos": "雙號(英文)",
+			"both_nos": "兩者(英文)",
+			"single_bed": "拆床(英文)",
+			"double_bed": "併床(英文)",
+			"noset_bed": "無設定(英文)"
 		},
 		"PMS0830100": {
 			"begin_dat": "開始日",

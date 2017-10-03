@@ -101,19 +101,42 @@ Vue.component("field-multi-lang-dialog-tmp", {
 Vue.component('single-grid-pms0820020-tmp', {
     template: '#sigleGridPMS0820020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable'],
     data: function () {
         return {
             tmpCUD: {},
             isFistData: false,
             isLastData: false,
-            dtDataGridIsCreate: false
+            dtDataGridIsCreate: false,
+            BTN_action: false
         };
     },
     created: function () {
     },
 
-    watch: {},
+    watch: {
+        editingRow: function (newRow, oldRow) {
+
+            this.$parent.editingRow = newRow;
+            var nowDatagridRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', newRow);
+            $("#PMS0820020_dg").datagrid('selectRow', nowDatagridRowIndex);
+
+            if ($("#PMS0820020_dg").datagrid('getRowIndex', newRow) == 0) {
+                //已經到第一筆
+                this.isFistData = true;
+                this.isLastData = false;
+            } else if ($("#PMS0820020_dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
+                //已經到最後一筆
+                this.isFistData = false;
+                this.isLastData = true;
+            } else {
+
+                this.isFistData = false;
+                this.isLastData = false;
+            }
+
+        }
+    },
     methods: {
         //到第一筆
         toFirstData: function () {
@@ -236,11 +259,11 @@ var PMS0820020VM = new Vue({
         },
         originData: {},         //原始資料
         singleData: {},         //單檔資訊
-        modificableForData: true,       //決定是否可以修改資料
         dgIns: {},
         labelPosition: 'right',
         searchFields: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        isModifiable: true       //決定是否可以修改資料
     },
     methods: {
         //Init CUD
@@ -249,9 +272,6 @@ var PMS0820020VM = new Vue({
                 createData: [],
                 editData: [],
                 deleteData: [],
-                dt_createData: [],
-                dt_editData: [],
-                dt_deleteData: []
             };
         },
         //抓取顯示資料
@@ -308,7 +328,7 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.editStatus = false;
             PMS0820020VM.isbatchAdd = false;
             PMS0820020VM.singleData = {};
-            PMS0820020VM.modificableForData = true;
+            PMS0820020VM.isModifiable = true;
             PMS0820020VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
             PMS0820020VM.oriPageTwoFieldData = go_Field_Data_Tmp;
 
@@ -338,6 +358,11 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.oriPageTwoFieldData = fieldData;
 
             PMS0820020VM.showSingleGridDialog();
+        },
+
+        fetchBatchFieldData: function(){
+            var lo_fieldData = [];
+            var lo_fieldAttrObj = new fieldAttrClass();
         },
 
         //dg row刪除
@@ -463,7 +488,7 @@ var PMS0820020VM = new Vue({
                 if (result.success) {
                     PMS0820020VM.singleData = result.rowData;
                     PMS0820020VM.originData = _.clone(result.rowData);
-                    PMS0820020VM.modificableForData = result.isModifiable;
+                    PMS0820020VM.isModifiable = result.isModifiable || true;
                     callback(true);
 
                 } else {
@@ -504,9 +529,7 @@ var PMS0820020VM = new Vue({
 
         //打開單檔dialog
         showSingleGridDialog: function () {
-            // this.initDatePicker();
-            console.log(this.pageTwoFieldData);
-            this.dialogVisible = true;
+            this.initDatePicker();
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             var height = 10 * 50; // 預設一個row 高度
             var dialog = $("#sigleGridPMS0820020").dialog({
@@ -514,6 +537,7 @@ var PMS0820020VM = new Vue({
                 modal: true,
                 title: prg_id,
                 minWidth: 1000,
+                maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
             });
