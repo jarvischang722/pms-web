@@ -123,10 +123,12 @@
                                 <tr v-for="logData in allChangeLogList">
                                     <td class="width-15">{{logData.event_time}}</td>
                                     <td class="width-10">{{logData.user}}</td>
-                                    <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                    <td class="width-15">
+                                        <span v-for="keyData in logData.keys">{{keyData}}<br></span>
                                     </td>
                                     <td class="width-20">
-                                        <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}
+                                        <div class="blue bold" style="text-transform: capitalize;">
+                                            {{logData.action }}
                                         </div>
                                         <span v-for="mnData in logData.desc_mn">
                                         {{mnData.field_name}} :
@@ -136,7 +138,29 @@
                                         <br>
                                     </span>
                                     </td>
-                                    <td class="width-20"> N/A </td>
+                                    <td class="width-20">
+                                        <template v-if="logData.desc_dt.length > 0">
+                                            <div  v-for="dtLogData in logData.desc_dt" >
+                                                <div class="blue bold" style="text-transform: capitalize;">
+                                                    {{dtLogData.action }}
+                                                </div>
+                                                <span v-for="dtData in dtLogData.changes">
+                                                {{dtData.field_name}} :
+                                                {{dtData.oldVal}}
+
+                                                <span v-if="dtLogData.action == 'update'"> →  </span>
+                                                {{dtData.newVal}}
+                                                       <br>
+                                            </span>
+
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                                  N/A
+                                        </template>
+
+
+                                    </td>
 
                                 </tr>
                                 </tbody>
