@@ -215,11 +215,142 @@ Vue.component('single-grid-pms0820020-tmp', {
 
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
+            var self = this;
+            var targetRowAfterDelete = {}; //刪除後要指向的資料
+            if (this.deleteStatue) {
+                var rowsNum = $("#PMS0820020_dg").datagrid('getRows').length;
+                var currentRowIdx = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
+                if (currentRowIdx == rowsNum - 1) {
+                    //刪除的資料已經是最後一筆 就取datagrid最末筆
+                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx - 1];
 
+                } else {
+                    //取下一筆
+                    targetRowAfterDelete = self.pageOneDataGridRows[currentRowIdx + 1];
+                }
+            }
+
+            if (this.createStatus) {
+                if (PMS0820020VM.isbatchAdd) {    //判斷是否為批次新增
+                    var lo_tmpCud = [];
+                    var li_room_nos_leng = (this.singleData.front_cod != "") ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
+                    for (var i = Number(this.singleData.room_begin_nos); i <= Number(this.singleData.room_end_nos); i++) {
+
+                        if (this.singleData.room_nos_typ == 1) {
+                            if (i % 2 == 0) {
+                                continue;
+                            }
+                        }
+                        else if (this.singleData.room_nos_typ == 2) {
+                            if (i % 2 == 1) {
+                                continue;
+                            }
+                        }
+
+                        var li_room_nos = padLeft(i.toString(), li_room_nos_leng);
+                        li_room_nos = this.singleData.front_cod + li_room_nos;
+
+                        //判斷是否已經存在
+                        var existIdx = _.findIndex(this.pageOneDataGridRows, function (lo_rows) {
+                            return lo_rows.room_nos.trim() == li_room_nos.trim();
+                        });
+
+                        if (existIdx != -1) {
+                            continue;
+                        }
+
+                        lo_tmpCud.push({
+                            "room_nos": li_room_nos,
+                            "room_cod": this.singleData.room_cod,
+                            "bed_sta": this.singleData.bed_sta,
+                            "build_nos": this.singleData.build_nos,
+                            "floor_nos": this.singleData.floor_nos
+                        });
+                    }
+                    this.tmpCud.createData = lo_tmpCud;
+                }
+                else {
+                    this.tmpCud.createData = [this.singleData];
+                }
+            } else if (this.editStatus) {
+                this.tmpCud.editData = [this.singleData];
+            }
+
+            //先驗證有無欄位沒驗證過的
+            this.$emit('do-save-cud', function (success) {
+                if (success) {
+                    //儲存後離開
+                    if (saveAfterAction == "closeDialog") {
+                        self.singleData = {};
+                        self.emitCloseGridDialog();
+                    }
+                    //新增完再新增另一筆
+                    else if (saveAfterAction == "addOther") {
+                        self.singleData = {};
+                        self.emitAppendRow();
+                    }
+
+                    if (self.deleteStatue) {
+                        /**
+                         * 刪除成功
+                         * 1.取下一筆
+                         * 2.無下一筆時取datagrid 最後一筆
+                         * 3.連一筆都沒有關掉dialog 回多筆
+                         **/
+                        if ($("#PMS0820020_dg").datagrid('getRows').length > 0) {
+                            self.editingRow = targetRowAfterDelete;
+                            self.emitFetchSingleData();
+                        } else {
+                            //連一筆都沒有就關掉視窗
+                            self.emitCloseGridDialog();
+                        }
+
+                    }
+
+
+                }
+            });
         },
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
+            var self = this;
+            var lo_singleData = this.singleData;
+
+            if (!_.isEmpty(rule_func_name.trim())) {
+                var postData = {
+                    prg_id: prg_id,
+                    rule_func_name: rule_func_name,
+                    validateField: ui_field_name,
+                    singleRowData: lo_singleData,
+                    oriSingleRowData: PMS0820020VM.originData
+                };
+                $.post('/api/chkFieldRule', postData, function (result) {
+                    if (result.success) {
+                        // PMS0820020VM.originData = _.clone(lo_singleData);
+                        //是否要show出訊息
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
+                        }
+
+                        //是否要show出詢問視窗
+                        if (result.showConfirm) {
+                            if (confirm(result.confirmMsg)) {
+                            }
+                        }
+                    } else {
+                        alert(result.errorMsg);
+                    }
+
+                    //連動帶回的值
+                    if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+                        PMS0820020VM.singleData = _.extend(PMS0820020VM.singleData, result.effectValues);
+                    }
+                });
+            }
+        },
+
+        chkClickPopUpGrid: function (field) {
 
         }
     }
@@ -271,7 +402,7 @@ var PMS0820020VM = new Vue({
             this.tmpCud = {
                 createData: [],
                 editData: [],
-                deleteData: [],
+                deleteData: []
             };
         },
         //抓取顯示資料
@@ -348,21 +479,134 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.createStatus = true;
             PMS0820020VM.editStatus = false;
             PMS0820020VM.isbatchAdd = true;
-            //PMS0820020VM.singleData = {account_length: 4, prefix : 'A', master_typ : 'A', cust_cod : '', show_cod : '', cust_nam : '', deposit_nos: '', deposit_nam: ''};  //改SA，先保留
-            PMS0820020VM.singleData = {account_length: 4, prefix: 'A'};
+            PMS0820020VM.singleData = {adult_qnt: 0, child_qnt: 0, baby_qnt: 0};
 
             //塞欄位
-            var fieldData = this.fetchBatchFieldData();
+            this.fetchBatchFieldData(function (fieldData) {
+                PMS0820020VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
+                PMS0820020VM.oriPageTwoFieldData = fieldData;
 
-            PMS0820020VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
-            PMS0820020VM.oriPageTwoFieldData = fieldData;
-
-            PMS0820020VM.showSingleGridDialog();
+                PMS0820020VM.showSingleGridDialog();
+            });
         },
 
-        fetchBatchFieldData: function(){
-            var lo_fieldData = [];
-            var lo_fieldAttrObj = new fieldAttrClass();
+        fetchBatchFieldData: function (callback) {
+            var self = this;
+            var lo_params = {
+                prg_id: prg_id,
+                func_id: "1009"
+            };
+            $.post("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
+                if (getResult.success) {
+                    var lo_fieldData = [];
+                    var la_ui_field_name = ["room_leng", "front_cod", "room_begin_nos", "build_nos", "room_end_nos", "floor_nos",
+                        "room_cod", "room_nos_typ", "bed_sta"];
+                    var li_row_seq = 1;
+                    var li_col_seq = 1;
+
+                    _.each(la_ui_field_name, function (ui_field_name, index) {
+                        var la_option_field_name = [];
+                        var ls_ui_type = "text";
+                        var li_width = 165;
+                        var ls_requirable = (ui_field_name == "front_cod") ? "N" : "Y";
+
+                        if (ui_field_name == "room_cod" || ui_field_name == "room_nos_typ" || ui_field_name == "bed_sta") {
+                            li_col_seq = 1;
+                            li_width = 420;
+                            li_row_seq++;
+                            ls_ui_type = "select";
+
+                            if (ui_field_name == "room_cod") {
+                                la_option_field_name = getResult.selectOptions;
+                                PMS0820020VM.singleData.room_cod = la_option_field_name[0].value;
+                            }
+                            else if (ui_field_name == "room_nos_typ") {
+                                la_option_field_name = [
+                                    {
+                                        display: "both_nos",
+                                        value: 0
+                                    },
+                                    {
+                                        display: "single_nos",
+                                        value: 1
+                                    },
+                                    {
+                                        display: "double_nos",
+                                        value: 2
+                                    }
+                                ];
+                                PMS0820020VM.singleData.room_nos_typ = la_option_field_name[0].value;
+                            }
+                            else if (ui_field_name == "bed_sta") {
+                                la_option_field_name = [
+                                    {
+                                        display: "noset_bed",
+                                        value: "N"
+                                    },
+                                    {
+                                        display: "single_bed",
+                                        value: "S"
+                                    },
+                                    {
+                                        display: "double_bed",
+                                        value: "M"
+                                    }
+                                ];
+                                PMS0820020VM.singleData.bed_sta = la_option_field_name[0].value;
+                            }
+                        }
+                        else {
+                            if (index != 0) {
+                                if (index % 2 == 0) {
+                                    li_row_seq++;
+                                    li_col_seq = 1;
+                                }
+                                else {
+                                    li_col_seq++;
+                                }
+                            }
+                        }
+
+                        var li_ui_field_length = 10;
+                        if (ui_field_name == "room_leng") {
+                            li_ui_field_length = 1;
+                        }
+                        else if (ui_field_name == "front_cod") {
+                            li_ui_field_length = 1;
+                        }
+
+                        self.chkFieldHasRule(ui_field_name);
+
+                        var lo_fieldAttrObj = new fieldAttrClass(prg_id, ui_field_name, ls_ui_type, li_row_seq, li_col_seq);
+                        lo_fieldAttrObj.width = li_width;
+                        lo_fieldAttrObj.ui_field_length = li_ui_field_length;
+                        lo_fieldAttrObj.set_selectData(la_option_field_name);
+                        lo_fieldAttrObj.requirable = ls_requirable;
+                        lo_fieldAttrObj.rule_func_name = self.chkFieldHasRule(ui_field_name);
+                        lo_fieldAttrObj.format_func_name = self.chkFieldHasFormat(ui_field_name);
+
+                        lo_fieldData.push(lo_fieldAttrObj);
+                    });
+
+                    callback(lo_fieldData);
+                }
+            });
+        },
+
+        chkFieldHasRule: function (ui_field_name) {
+            var ls_rule_func_name = ""
+            if (ui_field_name == "room_leng") {
+                ls_rule_func_name = "chkRoomLeng";
+            }
+            else if (ui_field_name == "room_begin_nos" || ui_field_name == "room_end_nos") {
+                ls_rule_func_name = "chkRoomNosLeng";
+            }
+            return ls_rule_func_name;
+        },
+
+        chkFieldHasFormat: function (ui_field_name) {
+            var ls_format_func_name = "";
+            return ls_format_func_name;
         },
 
         //dg row刪除
@@ -536,7 +780,7 @@ var PMS0820020VM = new Vue({
                 autoOpen: false,
                 modal: true,
                 title: prg_id,
-                minWidth: 1000,
+                minWidth: 760,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns"
@@ -544,7 +788,7 @@ var PMS0820020VM = new Vue({
 
             dialog.dialog("open");
             // 給 dialog "內容"高 值
-           $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+            $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
 
         //關閉單檔dialog
@@ -570,9 +814,7 @@ Vue.filter("showDropdownDisplayName", function (val) {
 var adpterDg = new AdapterDatagrid(PMS0820020VM);
 
 
-function padLeft(str, lenght) {
-    if (str.length >= lenght)
-        return str;
-    else
-        return padLeft("0" + str, lenght);
+function padLeft(str, length) {
+    var ls_return = (str.length >= length) ? str : padLeft("0" + str, length);
+    return ls_return;
 }

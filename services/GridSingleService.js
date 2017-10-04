@@ -1380,7 +1380,10 @@ function accMul(arg1, arg2) {
 
 //將要顯示在頁面上的欄位格式做轉換
 function changeValueFormat(value, ui_type) {
-    var valueTemp;
+    var valueTemp = "";
+    if(value == null) {
+        return valueTemp;
+    }
     if (ui_type == "time") {
         if (!_.isEmpty(value)) {
             var hour = value.substring(0, 2);
