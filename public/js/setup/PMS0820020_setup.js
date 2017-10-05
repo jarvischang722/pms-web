@@ -233,7 +233,7 @@ Vue.component('single-grid-pms0820020-tmp', {
             if (this.createStatus) {
                 if (PMS0820020VM.isbatchAdd) {    //判斷是否為批次新增
                     var lo_tmpCud = [];
-                    var li_room_nos_leng = (this.singleData.front_cod != "") ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
+                    var li_room_nos_leng = (!_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "") ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
                     for (var i = Number(this.singleData.room_begin_nos); i <= Number(this.singleData.room_end_nos); i++) {
 
                         if (this.singleData.room_nos_typ == 1) {
@@ -248,7 +248,8 @@ Vue.component('single-grid-pms0820020-tmp', {
                         }
 
                         var li_room_nos = padLeft(i.toString(), li_room_nos_leng);
-                        li_room_nos = this.singleData.front_cod + li_room_nos;
+                        var ls_front_cod = (_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "") ? "" : this.singleData.front_cod.trim();
+                        li_room_nos = ls_front_cod + li_room_nos;
 
                         //判斷是否已經存在
                         var existIdx = _.findIndex(this.pageOneDataGridRows, function (lo_rows) {
@@ -259,13 +260,8 @@ Vue.component('single-grid-pms0820020-tmp', {
                             continue;
                         }
 
-                        lo_tmpCud.push({
-                            "room_nos": li_room_nos,
-                            "room_cod": this.singleData.room_cod,
-                            "bed_sta": this.singleData.bed_sta,
-                            "build_nos": this.singleData.build_nos,
-                            "floor_nos": this.singleData.floor_nos
-                        });
+                        this.singleData.room_nos = li_room_nos;
+                        lo_tmpCud.push(_.clone(this.singleData));
                     }
                     this.tmpCud.createData = lo_tmpCud;
                 }
@@ -372,29 +368,34 @@ var PMS0820020VM = new Vue({
     data: {
         isDatepickerInit: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
-        createStatus: false,    //新增狀態
-        editStatus: false,      //編輯狀態
-        deleteStatus: false,    //刪除狀態
-        isbatchAdd: false,      //是否為批次新增
-        pageOneDataGridRows: [],//page_id 1 的 datagrid資料
-        pageOneFieldData: [],   //page_id 1 datagird欄位
-        pageTwoFieldData: [],   //page_id 2 欄位
-        oriPageTwoFieldData: [],   //page_id 2 原始欄位資料
+        createStatus: false,            //新增狀態
+        editStatus: false,              //編輯狀態
+        deleteStatus: false,            //刪除狀態
+        isbatchAdd: false,              //是否為批次新增
+        pageOneDataGridRows: [],        //page_id 1 的 datagrid資料
+        pageOneFieldData: [],           //page_id 1 datagird欄位
+        pageTwoFieldData: [],           //page_id 2 欄位
+        oriPageTwoFieldData: [],        //page_id 2 原始欄位資料
         pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
-        editingRow: {},         //編輯中的資料
-        userInfo: {},            //登入的使用者資料
-        tmpCud: {               //新刪修暫存
+        editingRow: {},                 //編輯中的資料
+        userInfo: {},                   //登入的使用者資料
+        tmpCud: {                       //新刪修暫存
             createData: [],
             editData: [],
             deleteData: []
         },
-        originData: {},         //原始資料
-        singleData: {},         //單檔資訊
+        originData: {},                 //原始資料
+        singleData: {},                 //單檔資訊
         dgIns: {},
         labelPosition: 'right',
-        searchFields: [], //搜尋的欄位
-        searchCond: {},   //搜尋條件
-        isModifiable: true       //決定是否可以修改資料
+        searchFields: [],               //搜尋的欄位
+        searchCond: {},                 //搜尋條件
+        isModifiable: true,             //決定是否可以修改資料
+        showRoomSortDialog: false,      //是否顯示房間排序dialog
+        roomSortData: [],               //房間排序資料
+        testData: '',                    //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
+        sort_typ: "",
+        isAction: false
     },
     methods: {
         //Init CUD
@@ -479,7 +480,16 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.createStatus = true;
             PMS0820020VM.editStatus = false;
             PMS0820020VM.isbatchAdd = true;
-            PMS0820020VM.singleData = {adult_qnt: 0, child_qnt: 0, baby_qnt: 0};
+            PMS0820020VM.singleData = {
+                room_sta: "V",
+                assign_sta: "N",
+                clean_sta: "C",
+                bed_sta: "N",
+                adult_qnt: 0,
+                child_qnt: 0,
+                baby_qnt: 0,
+                view_seq: 99999
+            };
 
             //塞欄位
             this.fetchBatchFieldData(function (fieldData) {
@@ -509,6 +519,7 @@ var PMS0820020VM = new Vue({
                         var ls_ui_type = "text";
                         var li_width = 165;
                         var ls_requirable = (ui_field_name == "front_cod") ? "N" : "Y";
+                        var ls_keyable = "N";
 
                         if (ui_field_name == "room_cod" || ui_field_name == "room_nos_typ" || ui_field_name == "bed_sta") {
                             li_col_seq = 1;
@@ -552,7 +563,6 @@ var PMS0820020VM = new Vue({
                                         value: "M"
                                     }
                                 ];
-                                PMS0820020VM.singleData.bed_sta = la_option_field_name[0].value;
                             }
                         }
                         else {
@@ -567,21 +577,12 @@ var PMS0820020VM = new Vue({
                             }
                         }
 
-                        var li_ui_field_length = 10;
-                        if (ui_field_name == "room_leng") {
-                            li_ui_field_length = 1;
-                        }
-                        else if (ui_field_name == "front_cod") {
-                            li_ui_field_length = 1;
-                        }
-
-                        self.chkFieldHasRule(ui_field_name);
-
                         var lo_fieldAttrObj = new fieldAttrClass(prg_id, ui_field_name, ls_ui_type, li_row_seq, li_col_seq);
                         lo_fieldAttrObj.width = li_width;
-                        lo_fieldAttrObj.ui_field_length = li_ui_field_length;
+                        lo_fieldAttrObj.ui_field_length = self.chkUiFieldLength(ui_field_name);
                         lo_fieldAttrObj.set_selectData(la_option_field_name);
                         lo_fieldAttrObj.requirable = ls_requirable;
+                        lo_fieldAttrObj.keyable = ls_keyable;
                         lo_fieldAttrObj.rule_func_name = self.chkFieldHasRule(ui_field_name);
                         lo_fieldAttrObj.format_func_name = self.chkFieldHasFormat(ui_field_name);
 
@@ -593,8 +594,9 @@ var PMS0820020VM = new Vue({
             });
         },
 
+        // 檢查欄位是否需要規則
         chkFieldHasRule: function (ui_field_name) {
-            var ls_rule_func_name = ""
+            var ls_rule_func_name = "";
             if (ui_field_name == "room_leng") {
                 ls_rule_func_name = "chkRoomLeng";
             }
@@ -604,9 +606,105 @@ var PMS0820020VM = new Vue({
             return ls_rule_func_name;
         },
 
+        // 檢查欄位是否需要格式規則
         chkFieldHasFormat: function (ui_field_name) {
             var ls_format_func_name = "";
             return ls_format_func_name;
+        },
+
+        // 檢查欄位長度
+        chkUiFieldLength: function (ui_field_name) {
+            var li_ui_field_length = 10;
+            if (ui_field_name == "room_leng") {
+                li_ui_field_length = 1;
+            }
+            else if (ui_field_name == "front_cod") {
+                li_ui_field_length = 1;
+            }
+            else if (ui_field_name == "build_nos") {
+                li_ui_field_length = 2;
+            }
+            else if (ui_field_name == "floor_nos") {
+                li_ui_field_length = 3;
+            }
+
+            return li_ui_field_length;
+        },
+
+        sortRoomEvent: function (ls_sort_typ) {
+            var self = this;
+            var lo_params = {
+                prg_id: prg_id,
+                func_id: "1011",
+                sort_typ: ls_sort_typ
+            };
+            $.post("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
+                if (getResult.success) {
+                    self.roomSortData = getResult.roomNosData;
+                    self.showRoomSortDialog = true;
+                }
+            });
+        },
+
+        // 移動排序
+        itemMove: function (li_oldIndex, li_newIndex) {
+            this.testData = li_oldIndex;
+            this.testData = "";
+
+            var data = this.roomSortData;
+            var temp = data[li_oldIndex];
+            data[li_oldIndex] = data[li_newIndex];
+            data[li_newIndex] = temp;
+        },
+
+        // 重新產生房間排序
+        reSortByTyp: function () {
+            this.sortRoomEvent(this.sort_typ);
+        },
+
+        // 房間排序儲存
+        roomSortSave: function () {
+            var self = this;
+            this.isAction = true;
+            var tmpCud = {
+                updateData: []
+            };
+            _.each(this.roomSortData, function (lo_roomSortData, index) {
+                index++;
+                tmpCud.updateData.push({
+                    room_nos: lo_roomSortData.room_nos,
+                    view_seq: index
+                });
+            });
+            var fieldData = [
+                {ui_field_name: 'hotel_cod', keyable: 'Y'},
+                {ui_field_name: 'room_nos', keyable: 'Y'}
+            ];
+
+            var params = {
+                prg_id: prg_id,
+                tmpCUD: tmpCud,
+                fieldData: fieldData,
+                mainTableName: "room_mn"
+            };
+
+            $.post('/api/execSQLProcess', params)
+                .done(function (response) {
+                    if (response.success) {
+                        self.initTmpCUD();
+                        self.sortRoomEvent('');
+                        self.loadDataGridByPrgID(function(){});
+                        alert('save success!');
+                        self.isAction = false;
+                    }
+                    else {
+                        alert(response.errorMsg);
+                    }
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    self.isAction = false;
+                });
         },
 
         //dg row刪除
@@ -676,15 +774,18 @@ var PMS0820020VM = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
-            if (PMS0820020VM.isbatchAdd) {
-                var lo_chkResult = this.dataValidate();
-                if (lo_chkResult.success == false && PMS0820020VM.tmpCud.deleteData.length == 0) {
-                    alert(lo_chkResult.msg);
-                    return;
-                }
+
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
             }
 
-            var self = this;
+            var lo_chkResult = this.dataValidate();
+            if (!_.isUndefined(lo_chkResult) && lo_chkResult.success == false && PMS0820020VM.tmpCud.deleteData.length == 0) {
+                alert(lo_chkResult.msg);
+                return;
+            }
+
             waitingDialog.show('Saving...');
 
             var params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);

@@ -13,6 +13,7 @@ var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var moment = require("moment");
 var go_sysConf = require("../configs/SystemConfig");
+var commonRule = require("../ruleEngine/rules/CommonRule");
 /**
  *
  * @param prg_id{String} : 程式編號
@@ -279,7 +280,7 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
             tmpIns[objKey] = c_data[objKey];
         });
 
-        tmpIns = _.extend(tmpIns, ruleAgent.getCreateCommonDefaultDataRule(session));
+        tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
 
         savaExecDatas[exec_seq] = tmpIns;
         exec_seq++;
@@ -312,7 +313,7 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
             tmpEdit[objKey] = u_data[objKey];
         });
 
-        tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
+        tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
 
         delete tmpEdit["ins_dat"];
         delete tmpEdit["ins_usr"];

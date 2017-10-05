@@ -29,9 +29,10 @@ function fieldAttrClass(prg_id, ui_field_name, ui_type, row_seq, col_seq) {
     this.rule_func_name = "";
     this.ui_display_name = "";
 
+    var debug_mod = false;
     var chkFieldI18nIsExist = function(ls_field_name){
         var display_name = lo_i18nLang[ls_field_name] || ls_field_name;
-        if(_.isUndefined(lo_i18nLang[ls_field_name])){
+        if(debug_mod && _.isUndefined(lo_i18nLang[ls_field_name])){
             console.error(ls_field_name + " i18n not set");
         }
         return display_name;

@@ -207,7 +207,7 @@ module.exports = {
         let chkResult = new ReturnClass();
         let userInfo = session.user;
 
-        if(postData.createData.length > 1){
+        if (postData.createData.length > 1) {
             return callback(null, lo_result);
         }
 
@@ -240,6 +240,10 @@ module.exports = {
         var singleRowData = postData.singleRowData;
         let chkResult = new ReturnClass();
         let userInfo = session.user;
+
+        if(postData.editData.length > 1){
+            return callback(lo_error, lo_result);
+        }
 
         var params = {
             athena_id: singleRowData.athena_id,
@@ -351,10 +355,54 @@ module.exports = {
         });
     },
 
-    chkRoomLeng: function(postData, session, callback){
+    //房間顯示排序
+    PMS0820020_1011: function (postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
-        if(postData.singleRowData.room_leng > 6){
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+
+        // 畫面顯示依顯示順序及房號排序
+        if (postData.sort_typ == '') {
+            queryFunc("QRY_ROOM_MN_SORT_BY_VIEW_SEQ", callback);
+        }
+        // 依房號遞增排序
+        else if (postData.sort_typ == "0") {
+            queryFunc("QRY_ROOM_MN_SORT_BY_ROOM_NOS", callback);
+        }
+        // 依房號長度、房號遞增排序
+        else if (postData.sort_typ == "1") {
+            queryFunc("QRY_ROOM_MN_SORT_BY_ROOM_NOS_LENG", callback);
+        }
+        // 依棟別、樓層、房號長度、房號遞增排序
+        else if (postData.sort_typ == "2") {
+            queryFunc("QRY_ROOM_MN_SORT_BY_BUILD_NOS", callback);
+        }
+
+        function queryFunc(dao_name, callback) {
+            queryAgent.queryList(dao_name, lo_params, 0, 0, function (err, getResult) {
+                if (!err) {
+                    lo_return.roomNosData = getResult;
+                }
+                else {
+                    lo_error = new ErrorClass();
+                    lo_return.success = false;
+                    lo_error.errorMsg = err;
+                    lo_error.errorCod = "1111";
+                }
+                callback(lo_error, lo_return);
+            });
+        }
+
+    },
+
+    // 房號長度:至多不可超過6碼
+    chkRoomLeng: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        if (postData.singleRowData.room_leng > 6) {
             lo_error = new ErrorClass();
             lo_return.success = false;
             lo_return.effectValues = {room_leng: 6};
@@ -363,7 +411,12 @@ module.exports = {
         }
         callback(lo_error, lo_return);
     },
-    chkRoomNosLeng: function(postData, session, callback){
+
+    /**
+     * 前置碼:長度1，可指定房號前置碼，包含在房號長度中
+     * 開始號碼、結束號碼皆為數字，開始號碼不可大於結束號碼
+     */
+    chkRoomNosLeng: function (postData, session, callback) {
         let lo_return = new ReturnClass();
         let lo_error = null;
         let li_room_leng = Number(postData.singleRowData.room_leng) || 0;
@@ -371,7 +424,7 @@ module.exports = {
         let ls_room_end_nos = postData.singleRowData.room_end_nos || "";
         let ls_front_cod = postData.singleRowData.front_cod || "";
 
-        if(li_room_leng == 0){
+        if (li_room_leng == 0) {
             lo_error = new ErrorClass();
             lo_return.success = false;
             lo_error.errorMsg = "房號長度未填";
@@ -380,12 +433,12 @@ module.exports = {
             return callback(lo_error, lo_return);
         }
 
-        if(ls_front_cod != ""){
+        if (ls_front_cod != "") {
             li_room_leng -= 1;
         }
 
-        if(ls_room_begin_nos != ""){
-            if(ls_room_begin_nos.length > li_room_leng){
+        if (ls_room_begin_nos != "") {
+            if (ls_room_begin_nos.length > li_room_leng) {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
                 lo_return.effectValues = {room_begin_nos: ""};
@@ -395,8 +448,8 @@ module.exports = {
             }
         }
 
-        if(ls_room_end_nos != ""){
-            if(ls_room_end_nos.length > li_room_leng){
+        if (ls_room_end_nos != "") {
+            if (ls_room_end_nos.length > li_room_leng) {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
                 lo_return.effectValues = {room_end_nos: ""};
@@ -406,8 +459,8 @@ module.exports = {
             }
         }
 
-        if(ls_room_begin_nos != "" && ls_room_end_nos != ""){
-            if(Number(ls_room_begin_nos) > Number(ls_room_end_nos)){
+        if (ls_room_begin_nos != "" && ls_room_end_nos != "") {
+            if (Number(ls_room_begin_nos) > Number(ls_room_end_nos)) {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
                 lo_error.errorMsg = "開始號碼不可大於結束號碼";

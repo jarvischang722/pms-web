@@ -51,6 +51,14 @@
                         </li>
 
                         <li>
+                            <button id="ins-btn" @click="sortRoomEvent('')"
+                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("program")["PMS0820020"]["sortRoom"] %>
+                            </button>
+                        </li>
+
+                        <li>
                             <button id="remove-btn" @click="removeRow"
                                     class="btn btn-danger btn-white btn-defaultWidth"
                                     role="button">
@@ -79,13 +87,62 @@
             :editing-row="editingRow"
             :page-one-data-grid-rows="pageOneDataGridRows"
             :tmp-cud="tmpCud"
-            :is-modifiable ="isModifiable">
+            :is-modifiable="isModifiable">
     </single-grid-pms0820020-tmp>
 
     <field-multi-lang-dialog-tmp
             :sys_locales="sys_locales"
             :single-data="singleData">
     </field-multi-lang-dialog-tmp>
+
+    <el-dialog title="<%= __("program")["PMS0820020"].sortRoom %>" :visible="showRoomSortDialog" :show-close="false">
+        <table class="horizTable" width="100%" border="0">
+            <tr class="css_tr">
+                <td class="css_td">
+                    <input type="radio" id="sort_typ" value="0" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_room_nos %>
+                </td>
+                <td class="css_td">
+                    <input type="radio" id="sort_typ" value="1" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_room_nos_leng %>
+                </td>
+                <td class="css_td">
+                    <input type="radio" id="sort_typ" value="2" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_build_nos %>
+                </td>
+                <td clas="css_td"><button size="small" @click="reSortByTyp"><%= __("program")["PMS0820020"].reSortByTyp %></button></td>
+            </tr>
+        </table>
+        <br>
+        <table class="css_table horizTable" width="100％;">
+            <thead class="css_thead">
+            <tr class="css_tr">
+                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0820020"].room_nos %></th>
+                <th class="css_th" style="width: 25%;"><%= __("program")["PMS0820020"].display_sort %></th>
+            </tr>
+            </thead>
+            <tbody class="css_tbody">
+            <tr class="css_tr" v-for="(item, index) in roomSortData">
+                <td class="css_td">{{item.room_nos}} {{testData}}</td>
+                <td class="css_td">
+                    <button type="button" size="small" class="el-icon-caret-top"
+                            @click="itemMove(index, index-1)" v-if="index != 0">
+                    </button>
+                    <button type="button" size="small" class="el-icon-caret-bottom"
+                            @click="itemMove(index, index+1)"
+                            v-if="index != roomSortData.length-1">
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div slot="footer" class="dialog-footer">
+            <el-row>
+                <el-col :span="12" :offset="3">
+                    <el-button :disabled="isAction"
+                            @click="showRoomSortDialog = false"><%= __("SystemCommon").Cancel %></el-button>
+                    <el-button :disabled="isAction" type="primary" @click="roomSortSave"><%= __("SystemCommon").Save %></el-button>
+                </el-col>
+            </el-row>
+        </div>
+    </el-dialog>
 
 </div>
 

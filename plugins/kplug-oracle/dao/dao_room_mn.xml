@@ -87,4 +87,48 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 
+    <!-- ['PMS0820020'] 查詢排序後房號 -->
+    <dao name="QRY_ROOM_MN_SORT_BY_VIEW_SEQ">
+        <statement><![CDATA[
+             select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta from room_mn
+             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by view_seq, room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0820020'] 依房號遞增排序 -->
+    <dao name="QRY_ROOM_MN_SORT_BY_ROOM_NOS">
+        <statement><![CDATA[
+             select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta from room_mn
+             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0820020'] 依房號長度、房號遞增排序 -->
+    <dao name="QRY_ROOM_MN_SORT_BY_ROOM_NOS_LENG">
+        <statement><![CDATA[
+             select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta from room_mn
+             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by length(trim(room_nos)),room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0820020'] 依棟別、樓層、房號長度、房號遞增排序 -->
+    <dao name="QRY_ROOM_MN_SORT_BY_BUILD_NOS">
+        <statement><![CDATA[
+             select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta from room_mn
+             where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) order by build_nos,floor_nos, length(trim(room_nos)),room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
+
 </root>
