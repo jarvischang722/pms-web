@@ -7,13 +7,14 @@ var Schema = mongoose.Schema;
 
 var SettingHistorySchema = new Schema({
 
-    prg_id: String,      　
-    table_name:String,
-    action:String,
+    prg_id: String,
+    table_name: String,
+    action: String,
     key: {},
-    dataOfChanges:{},
+    dataOfChanges: {},
     user: String,
-    event_time : String
+    dt: Array,
+    event_time: String
 
 }, {collection: "SettingHistory"});
 
