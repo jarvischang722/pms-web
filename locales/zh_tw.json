@@ -112,6 +112,7 @@
     "PMS0820020": {
       "batch_add": "批次新增",
       "sortRoom": "房間排序",
+      "roomList": "房間清單",
       "room_leng": "房號長度",
       "room_nos": "房號",
       "display_sort": "顯示順序",

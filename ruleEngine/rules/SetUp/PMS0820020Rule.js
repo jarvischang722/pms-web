@@ -241,7 +241,7 @@ module.exports = {
         let chkResult = new ReturnClass();
         let userInfo = session.user;
 
-        if(postData.editData.length > 1){
+        if (postData.editData.length > 1) {
             return callback(lo_error, lo_result);
         }
 
@@ -344,6 +344,28 @@ module.exports = {
         queryAgent.queryList("QRY_ROOM_MN_ROOM_COD", lo_params, 0, 0, function (err, getResult) {
             if (!err) {
                 lo_return.selectOptions = getResult;
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+                lo_error.errorCod = "1111";
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    //房間清單
+    PMS0820020_1010: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod
+        };
+        queryAgent.queryList("QRY_ROOM_MN_SORT_BY_VIEW_SEQ", lo_params, 0, 0, function (err, getResult) {
+            if (!err) {
+                lo_return.roomListData = getResult;
             }
             else {
                 lo_error = new ErrorClass();

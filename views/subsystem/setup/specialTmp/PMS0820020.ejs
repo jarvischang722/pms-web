@@ -51,6 +51,14 @@
                         </li>
 
                         <li>
+                            <button id="ins-btn" @click="showRmList"
+                                    class="btn btn-primary btn-white btn-defaultWidth"
+                                    role="button">
+                                <%= __("program")["PMS0820020"]["roomList"] %>
+                            </button>
+                        </li>
+
+                        <li>
                             <button id="ins-btn" @click="sortRoomEvent('')"
                                     class="btn btn-primary btn-white btn-defaultWidth"
                                     role="button">
@@ -144,12 +152,15 @@
         </div>
     </el-dialog>
 
+    <rm-list :room-list-data="roomListData"></rm-list>
+
 </div>
 
 <!-- settingSingleDialog-message 彈出視窗 -->
 <%- include ../vueTemplate/PMS0820020Tmp.ejs %>
 <%- include ../vueTemplate/fieldmultiLangDialogTmp.ejs %>
 <%- include ../vueTemplate/searchTmp.ejs %>
+<%- include ../vueTemplate/PMS0820020RmListTmp.ejs %>
 
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/easyUI/DatagridForSingleGridClass.js"></script>

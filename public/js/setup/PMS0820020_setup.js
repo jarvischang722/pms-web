@@ -352,6 +352,14 @@ Vue.component('single-grid-pms0820020-tmp', {
     }
 });
 
+var rmList = Vue.extend({
+    template: "#PMS0820020RmListTmp",
+    props: ["roomListData"],
+    data: function () {
+        return {};
+    }
+});
+
 
 var PMS0820020VM = new Vue({
     el: '#GSApp',
@@ -363,7 +371,8 @@ var PMS0820020VM = new Vue({
         this.loadSingleGridPageField();
     },
     components: {
-        "search-comp": go_searchComp
+        "search-comp": go_searchComp,
+        "rm-list": rmList
     },
     data: {
         isDatepickerInit: false,
@@ -393,9 +402,10 @@ var PMS0820020VM = new Vue({
         isModifiable: true,             //決定是否可以修改資料
         showRoomSortDialog: false,      //是否顯示房間排序dialog
         roomSortData: [],               //房間排序資料
-        testData: '',                    //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
+        testData: '',                   //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
         sort_typ: "",
-        isAction: false
+        isAction: false,
+        roomListData: []                //房間清單資料
     },
     methods: {
         //Init CUD
@@ -693,7 +703,8 @@ var PMS0820020VM = new Vue({
                     if (response.success) {
                         self.initTmpCUD();
                         self.sortRoomEvent('');
-                        self.loadDataGridByPrgID(function(){});
+                        self.loadDataGridByPrgID(function () {
+                        });
                         alert('save success!');
                         self.isAction = false;
                     }
@@ -705,6 +716,57 @@ var PMS0820020VM = new Vue({
                     console.log(error);
                     self.isAction = false;
                 });
+        },
+
+        qryRoomListData: function (callback) {
+            var self = this;
+            var lo_params = {
+                prg_id: prg_id,
+                func_id: "1010"
+            };
+            $.post("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
+                if (getResult.success) {
+
+                    self.roomListData = _.groupBy(_.sortBy(getResult.roomListData, "room_nos"), "room_cod");
+
+                    _.each(self.roomListData, function(ls_roomListData, key){
+                        self.roomListData[key] = self._chunk(self.roomListData[key], 10);
+                    });
+                    callback(true);
+                }
+            });
+        },
+
+        _chunk: function (array, size) {
+            return array.reduce(function (res, item, index) {
+                if (index % size === 0) {
+                    res.push([]);
+                }
+                res[res.length - 1].push(item);
+                return res;
+            }, []);
+        },
+
+        // 顯示房間清單
+        showRmList: function () {
+            this.qryRoomListData(function (la_roomListData) {
+                var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
+                var height = 10 * 50; // 預設一個row 高度
+                var dialog = $("#PMS0820020RmList").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: prg_id,
+                    width: 1200,
+                    minWidth: 800,
+                    maxHeight: maxHeight,
+                    resizable: true,
+                    buttons: "#dialogBtns"
+                });
+
+                dialog.dialog("open");
+                // 給 dialog "內容"高 值
+                $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+            });
         },
 
         //dg row刪除
