@@ -113,6 +113,25 @@
             var dialog = $("#sales-visitRecord-message").removeClass('hide').dialog({
                 modal: true,
                 autoOpen: false,
+                title: "新增拜訪紀錄",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+//                responsive: true
+            });
+
+
+        });
+
+        // PMS0610010 彈出 修改拜訪紀錄 多筆
+        $(document).on('click', ".sales-editVisitRecord", function (e) {
+            e.preventDefault();
+            var dialog = $("#sales-editVisitRecord-message").removeClass('hide').dialog({
+                modal: true,
+                autoOpen: false,
                 title: "修改拜訪紀錄",
                 title_html: true,
                 width: 800,
@@ -401,7 +420,7 @@
             url:'/jsonData/sales/bsCompany_visitRecord.json',
             method:'get',
             columns:[[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+//                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field:'visitWay',title:'拜訪方式',width:70},
                 {field:'visitDate',title:'預定拜訪日',width:100},
                 {field:'visitStatus',title:'拜訪狀態',width:70},

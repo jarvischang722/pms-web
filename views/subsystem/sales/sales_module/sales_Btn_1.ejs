@@ -319,9 +319,6 @@
                                         <div class="row">
                                             <div class="col-xs-11 col-sm-11">
                                                 <div class="row no-margin-right">
-                                                    <div style="float:left; min-width: 30px; max-width: 3%;">
-                                                        <table id="sales_visitRecordSingle_Chk-table"></table>
-                                                    </div>
                                                     <!-- 拜訪紀錄 dataGrid -->
                                                     <table id="visitRecord-table" style="height: 310px;"></table>
 
@@ -337,7 +334,7 @@
                                                                         role="button">新增拜訪紀錄</button>
                                                             </li>
                                                             <li>
-                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-visitRecord"
+                                                                <button class="btn btn-primary btn-white btn-defaultWidth sales-editVisitRecord"
                                                                         role="button">修改拜訪紀錄</button>
                                                             </li>
                                                             <li>
@@ -844,7 +841,7 @@
     </div>
     <!-- /.PMS0610010 修改業務員 -->
 
-    <!-- PMS0610010 修改拜訪紀錄 彈出視窗 -->
+    <!-- PMS0610010 新增拜訪紀錄 彈出視窗 -->
     <div id="sales-visitRecord-message" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-sm-12 col-xs-12">
@@ -894,7 +891,107 @@
 
                                 <div class="grid">
                                     <div class="marginB-c1">
-                                        <label class="pull-left">內容(摘要)</label>
+                                        <label class="pull-left">內容</label>
+                                        <textarea class="pull-left margin-5" style="width: 434px; max-width: 100%;" rows="4" placeholder="談合約其貢獻度數字以及房價等級定義"></textarea>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="space-6"></div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>新增日</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="2000/01/01 12:30:00" disabled="disabled" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新增者</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="cio" disabled="disabled" />
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>最後異動日</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="2000/01/01 12:30:00" disabled="disabled" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>最後異動者</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="cio" disabled="disabled" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-xs-2">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Quit</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.PMS0610010 新增拜訪紀錄 -->
+
+    <!-- PMS0610010 修改拜訪紀錄 彈出視窗 -->
+    <div id="sales-editVisitRecord-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-sm-10 col-xs-10">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>拜訪方式</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="1">1.親訪</option>
+                                            <option value="2">2.電訪</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>預定拜訪日</label>
+                                        <!--<input class="easyui-datebox input-medium medium-c1">-->
+                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass" type="date" required="">
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>拜訪狀態</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="Y">Y:已拜訪</option>
+                                            <option value="N">N:未拜訪</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>實際拜訪日</label>
+                                        <input format-date="YYYY/MM/DD" format-datetime="YYYY/MM/DD HH:mm:ss" class="input-medium medium-c1 dateClass" type="date" required="">
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>交通費</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="435" />
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>主旨</label>
+                                        <input type="text" class="input-medium input-spc-1" placeholder="初談合約" />
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="marginB-c1">
+                                        <label class="pull-left">內容</label>
                                         <textarea class="pull-left margin-5" style="width: 434px; max-width: 100%;" rows="4" placeholder="談合約其貢獻度數字以及房價等級定義"></textarea>
                                     </div>
                                     <div class="clearfix"></div>
@@ -948,6 +1045,10 @@
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth"
                                             role="button">Delete</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">Quit</button>
                                 </li>
                             </ul>
                         </div>

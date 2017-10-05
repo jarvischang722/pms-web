@@ -100,6 +100,13 @@ exports.getPMS0860060 = function (req, res) {
 };
 
 /**
+ * PMS0820020房間設定(靜態)
+ */
+exports.getPMS0820020 = function (req, res) {
+    res.render("subsystem/setup/specialTmp/PMS0820020");
+};
+
+/**
  * 取得庫存最大日期
  */
 exports.getRoomTypeMaxStockDate = function (req, res) {
