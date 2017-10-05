@@ -330,7 +330,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('sigle-grid-dialog-tmp', {
     template: '#sigleGridDialogTmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'modificableForData', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', 'dialogVisible', 'selectPopUpGridData', 'updateBackSelectData'],
     data: function () {
         return {
             isFistData: false,
@@ -876,14 +876,15 @@ var vm = new Vue({
         },
         singleData: {},         //單檔資訊
         oriSingleData: {},      //單黨資訊原始檔
-        modificableForData: true,       //決定是否可以修改資料
+        isModifiable: true,       //決定是否可以修改資料
         dtData: [],
         dtMultiLangField: [],  //Dt 多語編輯欄位
         dialogVisible: false,
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+        isSaving :false
     },
     watch: {
         editStatus: function (newVal) {
@@ -1103,7 +1104,7 @@ var vm = new Vue({
 
         //資料儲存
         doSaveCUD: function (callback) {
-
+            this.isSaving = true;
             if (_.isUndefined(callback)) {
                 callback = function () {
                 };
@@ -1117,6 +1118,7 @@ var vm = new Vue({
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
+                vm.isSaving = false;
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {
@@ -1140,6 +1142,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.createStatus = true;
             vm.singleData = {};
+            vm.isModifiable = true;
             this.loadSingleGridPageField(function (success) {
                 $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
@@ -1164,7 +1167,7 @@ var vm = new Vue({
                     if (result.success) {
                         vm.oriSingleData = $.extend({}, result.rowData);
                         vm.singleData = result.rowData;
-                        vm.modificableForData = result.modificable || true;
+                        vm.isModifiable = result.isModifiable || true;
                         vm.dtData = dtData;
                         vmHub.$emit('showDtDataGrid', dtData);
                         callback(true);

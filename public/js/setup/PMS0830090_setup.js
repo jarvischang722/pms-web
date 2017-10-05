@@ -170,14 +170,19 @@ Vue.component('text-select-grid-dialog-tmp', {
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-
-            _.each(selectTable, function (selectValue, selectField) {
-                _.each(updateFieldName, function (updateValue, updateField) {
-                    if (selectField == updateValue) {
-                        chooseData[updateField] = selectValue;
-                    }
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
                 });
-            });
+            }else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = "";  //SAM20170930
+                });
+            }
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -716,7 +721,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.editStatus = false;
             PMS0830090VM.isbatchAdd = false;
             PMS0830090VM.singleData = {};
-
+            PMS0830090VM.modificableForData = true;
             PMS0830090VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
             PMS0830090VM.oriPageTwoFieldData = go_Field_Data_Tmp;
 

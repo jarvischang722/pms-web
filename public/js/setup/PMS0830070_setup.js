@@ -26,10 +26,15 @@ var Pms0830070Comp = Vue.extend({
     created: {},
     methods: {
         //點擊明細跳窗
-        btnDt4Dt: function (index) {
-            this.getSingleDtAll2();
-            this.getSingleDt2(index);
-            this.openDetail4Detail(index);
+        btnDt4Dt: function (index,itemName) {
+
+            if(itemName != "") {
+                this.getSingleDtAll2();
+                this.getSingleDt2(index);
+                this.openDetail4Detail(index);
+            }else {
+                alert("請輸入帳單明細");
+            }
         },
         openDetail4Detail: function (index) {
             var self = this;
@@ -210,7 +215,8 @@ var Pms0830070Comp = Vue.extend({
                 if ((row["check"] == "true" && row["checked"] == "false" && row["disabled"] == "false") || (row["check"] == "false" && row["checked"] == "true" && row["disabled"] == "false")) {
                     if(savedItemData.length > 0) {
                         _.each(savedItemData, function (savedRow, savedIndex) {
-                            if (savedRow["item_nos"] != row["item_nos"]) {
+                            console.log(PMS0830070VM.singleData4DetialTmp.indexOf(row != -1));
+                            if (savedRow["item_nos"] != row["item_nos"] && (PMS0830070VM.singleData4DetialTmp.indexOf(row) == -1))  {
                                 PMS0830070VM.singleData4DetialTmp.push(row);
                             }
                         });
@@ -417,11 +423,7 @@ var PMS0830070VM = new Vue({
                 PMS0830070VM.tmpCUD.dt2_createData = self.singleData4DetialTmp;
             }else if(self.isEditStatus){
                 PMS0830070VM.tmpCUD.updateData = self.singleData;
-                PMS0830070VM.tmpCUD.dt_updateData = self.singleDataDt;
-                _.each(self.singleDataDtEdit4DeleteTmp,function (row,index) {
-                    PMS0830070VM.tmpCUD.dt_updateData.push(row);
-                })
-
+                PMS0830070VM.tmpCUD.dt_updateData = self.singleDataDt.concat(self.singleDataDtEdit4DeleteTmp);
                 PMS0830070VM.tmpCUD.dt2_updateData = self.singleData4DetialTmp;
             }
 
