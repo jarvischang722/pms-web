@@ -76,37 +76,69 @@ exports.getSetupPrgChangeLog = function (req, callback) {
             });
         },
         function (allLogs, callback) {
-            mongoAgent.UIDatagridField.find({prg_id: ls_prg_id}).exec(function (err, prgFields) {
-                var finalAllLogs = [];
-                _.each(allLogs, function (logData) {
-                    logData = logData.toObject();
-                    let lo_tmpLog = {desc_mn: [], desc_dt: [], keys: []};
-                    lo_tmpLog.event_time = moment(logData.event_time).format("YYYY/MM/DD HH:mm:ss");
-                    lo_tmpLog.user = _.findWhere(ga_allUser, {usr_id: logData.user})
-                        ? _.findWhere(ga_allUser, {usr_id: logData.user}).usr_cname : logData.user;
-                    lo_tmpLog.action = logData.action;
-                    _.each(logData.key, function (val, field_name) {
-                        field_name = _.findWhere(ga_allLangField, {ui_field_name: field_name})
-                            ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name;
-                        lo_tmpLog.keys.push(field_name + " : " + val);
-                    });
-                    _.each(logData.dataOfChanges, function (changeData, field_name) {
+            var finalAllLogs = [];
+            //處理每一筆異動紀錄
+            _.each(allLogs, function (logData) {
+                logData = logData.toObject();
+                let lo_tmpLog = {desc_mn: [], desc_dt: [], keys: []};
+                lo_tmpLog.event_time = moment(logData.event_time).format("YYYY/MM/DD HH:mm:ss"); //異動時間
+                lo_tmpLog.user = _.findWhere(ga_allUser, {usr_id: logData.user})
+                    ? _.findWhere(ga_allUser, {usr_id: logData.user}).usr_cname : logData.user;
+                lo_tmpLog.action = logData.action;
 
-                        lo_tmpLog.desc_mn.push(
-                            {
-                                field_name: _.findWhere(ga_allLangField, {ui_field_name: field_name})
-                                    ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name,
-                                newVal: changeData["newVal"],
-                                oldVal: changeData["oldVal"]
-                            });
-
-                    });
-
-                    finalAllLogs.push(lo_tmpLog);
+                //組合MN key值
+                _.each(logData.key, function (val, field_name) {
+                    field_name = _.findWhere(ga_allLangField, {ui_field_name: field_name})
+                        ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name;
+                    lo_tmpLog.keys.push(field_name + " : " + val);
                 });
 
-                callback(null, finalAllLogs);
+                //MN 異動記錄組合
+                _.each(logData.dataOfChanges, function (changeData, field_name) {
+
+                    lo_tmpLog.desc_mn.push(
+                        {
+                            field_name: _.findWhere(ga_allLangField, {ui_field_name: field_name})
+                                ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name,
+                            newVal: changeData["newVal"],
+                            oldVal: changeData["oldVal"]
+                        });
+
+                });
+
+
+                //組合dt 資料
+                if (!_.isUndefined(logData.dt)) {
+                    logData.dt = _.filter(logData.dt, function (dtData) {
+                        return _.size(dtData.dataOfChanges) > 0;
+                    });
+                    _.each(logData.dt, function (dtLog) {
+                        var lo_dtData = {
+                            action:dtLog.action,
+                            table_name:dtLog.table_name,
+                            changes :[]
+                        }
+                        //dt 異動記錄組合
+                        _.each(dtLog.dataOfChanges, function (changeData, field_name) {
+
+                            lo_dtData.changes.push(
+                                {
+
+                                    field_name: _.findWhere(ga_allLangField, {ui_field_name: field_name})
+                                        ? _.findWhere(ga_allLangField, {ui_field_name: field_name})["ui_display_name_" + ga_locale] : field_name,
+                                    newVal: changeData["newVal"],
+                                    oldVal: changeData["oldVal"]
+                                });
+                        });
+
+                        lo_tmpLog.desc_dt.push(lo_dtData);
+                    });
+                }
+
+                finalAllLogs.push(lo_tmpLog);
             });
+
+            callback(null, finalAllLogs);
 
 
         }
