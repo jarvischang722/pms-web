@@ -1021,49 +1021,56 @@
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0100", 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581183"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0200", 
-    "rule_func_name" : ""
+    "rule_func_name" : "r_defaultValueAdd", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581184"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0300", 
-    "rule_func_name" : "r_RoommnDel"
+    "rule_func_name" : "r_RoommnDel", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581185"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0400", 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581186"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1009), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581187"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1010), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581188"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1011), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59c1ddcb1af7d633f8830934"), 
