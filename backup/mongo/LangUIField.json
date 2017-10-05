@@ -1557,7 +1557,7 @@
     "ui_field_name" : "acust_nam", 
     "ui_display_name_zh_TW" : "訂房公司名稱", 
     "hint_zh_TW" : "訂房公司名稱", 
-    "ui_display_name_en" : "Agent", 
+    "ui_display_name_en" : "Agent Name", 
     "hint_en" : "Agent name"
 }
 { 
@@ -1777,7 +1777,7 @@
     "ui_field_name" : "acust_nam", 
     "ui_display_name_zh_TW" : "訂房公司名稱", 
     "hint_zh_TW" : "訂房公司名稱", 
-    "ui_display_name_en" : "Agent", 
+    "ui_display_name_en" : "Agent Name", 
     "hint_en" : "Agent name"
 }
 { 

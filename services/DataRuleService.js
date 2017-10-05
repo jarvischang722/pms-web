@@ -294,12 +294,12 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
                     deleteData = postData["dt_deleteData"] || [];
                 }
 
-
                 _.each(deleteData, function (d_data) {
                     postData.singleRowData = d_data;
+                    var lo_postData = _.clone(postData);
                     funcs.push(
                         function (callback) {
-                            ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+                            ruleAgent[func.rule_func_name](lo_postData, session, function (err, result) {
                                 callback(err, result);
                             });
                         }
