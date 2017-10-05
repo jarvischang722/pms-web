@@ -86,3 +86,14 @@ exports.handleDataGridDeleteEventRule = function (req, res) {
         res.json(commonTools.mergeRtnErrResultJson(err, result));
     });
 };
+
+/**
+ * 特殊版型多筆，按下特殊按鈕，規則檢查
+ * @param req
+ * @param res
+ */
+exports.specialDataGridBtnEventRule = function(req, res){
+    dataRuleSVC.chkSpecialDataGridBtnEventRule(req.body, req.session, function (err, result) {
+        res.json(commonTools.mergeRtnErrResultJson(err, result));
+    });
+};

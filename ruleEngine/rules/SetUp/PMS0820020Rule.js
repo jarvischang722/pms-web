@@ -154,7 +154,7 @@ module.exports = {
         };
         characterRmkTmp = postData.singleRowData.character_rmk;
 
-        postData.singleRowData.character_rmk =_.isUndefined(characterRmkTmp) ? [] : postData.singleRowData.character_rmk;
+        postData.singleRowData.character_rmk = _.isUndefined(characterRmkTmp) ? [] : postData.singleRowData.character_rmk;
         queryAgent.query("QRY_HOTEL_SVAL", params, function (err, guestlData) {
             lo_result.extendExecDataArrSet.push({
                 function: '0',
@@ -194,7 +194,7 @@ module.exports = {
                     operation: "=",
                     value: postData.singleRowData.romm_nos
                 }],
-                conn_room:"",
+                conn_room: "",
                 character_rmk: postData.singleRowData.character_rmk.push("CTRM")
             });
         });
@@ -206,7 +206,12 @@ module.exports = {
         var lo_error = null;
         let chkResult = new ReturnClass();
         let userInfo = session.user;
-        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk ==""?[]:postData.singleRowData.character_rmk;
+
+        if(postData.createData.length > 1){
+            return callback(null, lo_result);
+        }
+
+        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk == "" ? [] : postData.singleRowData.character_rmk;
         chkResult.extendExecDataArrSet.push({
             function: '2',
             table_name: 'room_mn',
@@ -221,7 +226,7 @@ module.exports = {
             }, {
                 key: 'room_nos',
                 operation: "=",
-                value: postData.singleRowData.romm_nos
+                value: postData.singleRowData.room_nos
             }],
             conn_room: postData.singleRowData.conn_room,
             character_rmk: postData.singleRowData.character_rmk.push("CTRM")
@@ -282,7 +287,7 @@ module.exports = {
                         value: singleRowData.room_nos
                     }],
                     conn_room: "",
-                    character_rmk: singleRowData.character_rmk.splice("0","0","CTRM")
+                    character_rmk: singleRowData.character_rmk.splice("0", "0", "CTRM")
                 });
             }
 
@@ -316,11 +321,102 @@ module.exports = {
 
         callback(lo_error, lo_result);
     },
-    r_defaultValueAdd:function (postData, session, callback) {
+    r_defaultValueAdd: function (postData, session, callback) {
         var lo_result = new ReturnClass();
 
-        var characterRmk={"character_rmk":[]};
+        var characterRmk = {"character_rmk": []};
         lo_result.defaultValues = characterRmk;
-        callback(null,lo_result);
+        callback(null, lo_result);
+    },
+
+    //批次產生房號
+    PMS0820020_1009: function (postData, session, callback) {
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.fun_hotel_cod
+        };
+        queryAgent.queryList("QRY_ROOM_MN_ROOM_COD", lo_params, 0, 0, function (err, getResult) {
+            if (!err) {
+                lo_return.selectOptions = getResult;
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = err;
+                lo_error.errorCod = "1111";
+            }
+            callback(lo_error, lo_return);
+        });
+    },
+
+    chkRoomLeng: function(postData, session, callback){
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        if(postData.singleRowData.room_leng > 6){
+            lo_error = new ErrorClass();
+            lo_return.success = false;
+            lo_return.effectValues = {room_leng: 6};
+            lo_error.errorMsg = "至多不可超過6碼";
+            lo_error.errorCod = "1111";
+        }
+        callback(lo_error, lo_return);
+    },
+    chkRoomNosLeng: function(postData, session, callback){
+        let lo_return = new ReturnClass();
+        let lo_error = null;
+        let li_room_leng = Number(postData.singleRowData.room_leng) || 0;
+        let ls_room_begin_nos = postData.singleRowData.room_begin_nos || "";
+        let ls_room_end_nos = postData.singleRowData.room_end_nos || "";
+        let ls_front_cod = postData.singleRowData.front_cod || "";
+
+        if(li_room_leng == 0){
+            lo_error = new ErrorClass();
+            lo_return.success = false;
+            lo_error.errorMsg = "房號長度未填";
+            lo_error.errorCod = "1111";
+            lo_return.effectValues = {room_leng: "2", room_begin_nos: "", room_end_nos: ""};
+            return callback(lo_error, lo_return);
+        }
+
+        if(ls_front_cod != ""){
+            li_room_leng -= 1;
+        }
+
+        if(ls_room_begin_nos != ""){
+            if(ls_room_begin_nos.length > li_room_leng){
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_return.effectValues = {room_begin_nos: ""};
+                lo_error.errorMsg = "房號開始號碼超過房號長度";
+                lo_error.errorCod = "1111";
+                return callback(lo_error, lo_return);
+            }
+        }
+
+        if(ls_room_end_nos != ""){
+            if(ls_room_end_nos.length > li_room_leng){
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_return.effectValues = {room_end_nos: ""};
+                lo_error.errorMsg = "房號結束號碼超過房號長度";
+                lo_error.errorCod = "1111";
+                return callback(lo_error, lo_return);
+            }
+        }
+
+        if(ls_room_begin_nos != "" && ls_room_end_nos != ""){
+            if(Number(ls_room_begin_nos) > Number(ls_room_end_nos)){
+                lo_error = new ErrorClass();
+                lo_return.success = false;
+                lo_error.errorMsg = "開始號碼不可大於結束號碼";
+                lo_error.errorCod = "1111";
+                lo_return.effectValues = {room_begin_nos: "", room_end_nos: ""};
+                return callback(lo_error, lo_return);
+            }
+        }
+
+        callback(lo_error, lo_return);
     }
-}
+};
