@@ -62,17 +62,29 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 
+    <!-- [PMS0820020] 查詢房號數量 -->
+    <dao name="QRY_ROOM_NOS_COUNT">
+        <statement><![CDATA[
+            select count(*) room_count from room_mn where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+            and trim(room_nos) = trim(:conn_room)
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">conn_room</parameter>
+    </dao>
+
     <!-- ['PMS0820020'] 查詢有無連通房號 -->
     <dao name="QRY_ROOM_MN_CONN_ROOM">
         <statement><![CDATA[
             select conn_room
             from room_mn
-            where trim(athena_id) = ? and trim(hotel_cod) = ? and room_nos = ? and rownum = 1
+            where athena_id = ? and trim(hotel_cod) = trim(?) and trim(room_nos) = trim(?) and rownum = 1
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">room_nos</parameter>
+        <parameter type="string" kind="1">conn_room</parameter>
     </dao>
 
     <!-- ['PMS0830090'] 不可設 room_mn 房號的第一碼 -->

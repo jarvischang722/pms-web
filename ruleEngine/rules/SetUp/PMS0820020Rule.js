@@ -13,67 +13,148 @@ var ReturnClass = require(ruleRootPath + "/returnClass");
 var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
+    /**
+     * 連通房檢查
+     * 1.不能與自己房號相同
+     * 2.要存在的房號
+     * 3.異動欄位character_rmk"
+     */
     chkRoommnConnroom: function (postData, session, callback) {
 
-        var connRoom = postData.singleRowData.conn_room;
-        var lo_result = new ReturnClass();
-        var lo_error = null;
+        let ls_connRoom = postData.singleRowData.conn_room || "";
+        ls_connRoom = ls_connRoom.trim();
+        let ls_roomNos = postData.singleRowData.room_nos || "";
+        ls_roomNos = ls_roomNos.trim();
+        let lo_result = new ReturnClass();
+        let lo_error = null;
 
-        if (connRoom != "") {
-
-            var roomNos = postData.singleRowData.room_nos.trim();
-            var params = {
-                athenaid: postData.singleRowData.athena_id,
-                hotel_cod: postData.singleRowData.hotel_cod,
-                room_nos: postData.singleRowData.room_nos,
-            };
-
-            if (roomNos != connRoom) {
-                queryAgent.query("QRY_ROOM_MN_CONN_ROOM", params, function (err, guestData) {
-                    if (!err) {
-                        if (!_.isNull(guestData)) {
-                            if (guestData.conn_room != "" && guestData.conn_room == postData.singleRowData.room_nos) {
-                                lo_error = new ErrorClass();
-                                lo_result.success = false;
-                                lo_error.errorMsg = "房號【" + postData.singleRowData.room_nos + "】已經有設定連通房號【" + guestData.conn_room + "】,不能再指定";
-                                lo_error.errorCod = "1111";
-                                callback(lo_error, lo_result);
-                            } else {
-                                //通過
-                                lo_result.success = true;
-                                postData.singleRowData.character_rmk = postData.singleRowData.character_rmk.push("CTRM");
-                                lo_result.effectValues = postData.singleRowData;
-                                callback(lo_error, lo_result);
-                            }
-
-                        } else {
-                            lo_error = new ErrorClass();
-                            lo_result.success = false;
-                            lo_error.errorMsg = "查不到連通房號";
-                            lo_error.errorCod = "1111";
-                            callback(lo_error, lo_result);
-                        }
-                    } else {
-                        lo_result.success = true;
-                        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk;//還要再修改
-                        lo_result.effectValues = postData.singleRowData;
-                        callback(err, lo_result);
-                    }
-                });
-            } else {
-
-                lo_result.success = false;
-                lo_error = new ErrorClass();
-                lo_error.errorMsg = "不能與自己房號相同";
-                lo_error.errorCod = "1111";
-                callback(lo_error, lo_result);
-
-            }
-        } else {
-            callback(lo_error, lo_result);
+        // 連通房未填
+        if (ls_connRoom == "") {
+            return callback(lo_error, lo_result);
+        }
+        // 房號未填
+        else if (ls_roomNos == "") {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "房號未填";
+            lo_error.errorCod = "1111";
+            lo_result.effectValues = {conn_room: ""};
+            return callback(lo_error, lo_result);
         }
 
+        if (ls_connRoom == ls_roomNos) {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "不能與自己房號相同";
+            lo_error.errorCod = "1111";
+            return callback(lo_error, lo_result);
+        }
+
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            conn_room: ls_connRoom
+        };
+
+        async.waterfall([
+            chkRoomNosIsExist,          //檢查房間是否存在
+            chkConnRoomIsExist,         //檢查是否有設定連通房
+        ], function (err, result) {
+            callback(err, result);
+        });
+
+        function chkRoomNosIsExist(cb) {
+            queryAgent.query("QRY_ROOM_NOS_COUNT", lo_params, function (err, getResult) {
+                if (getResult.room_count == 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "查無此房號";
+                    lo_error.errorCod = "1111";
+                }
+
+                cb(lo_error, lo_result);
+            });
+        }
+
+        function chkConnRoomIsExist(result, cb) {
+            queryAgent.query("QRY_ROOM_MN_CONN_ROOM", lo_params, function (err, getResult) {
+                if (err) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = err;
+                    lo_error.errorCod = "1111";
+                    return cb(lo_error, lo_result);
+                }
+                else {
+                    if (!_.isNull(getResult.conn_room)) {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = "房號【" + ls_roomNos + "】已經有設定連通房號【" + ls_connRoom + "】,不能再指定";
+                        lo_error.errorCod = "1111";
+                        cb(lo_error, lo_result);
+                    }
+                    else {
+                        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk.push("CTRM");
+                        lo_result.effectValues = postData.singleRowData;
+                        cb(lo_error, lo_result);
+                    }
+                }
+            });
+        }
+
+        //     if (roomNos != connRoom) {
+        //         queryAgent.queryList("QRY_ROOM_MN_CONN_ROOM", params, 0, 0, function (err, guestData) {
+        //             console.log(guestData);
+        //             if (!err) {
+        //                 callback(null, lo_result);
+        //                 if (_.isNull(guestData)) {
+        //
+        //                 }
+        //                 else if (!_.isNull(guestData)) {
+        //                     if (guestData.conn_room != "" && guestData.conn_room == postData.singleRowData.room_nos) {
+        //                         lo_error = new ErrorClass();
+        //                         lo_result.success = false;
+        //                         lo_error.errorMsg = "房號【" + postData.singleRowData.room_nos + "】已經有設定連通房號【" + guestData.conn_room + "】,不能再指定";
+        //                         lo_error.errorCod = "1111";
+        //                         callback(lo_error, lo_result);
+        //                     } else {
+        //                         //通過
+        //                         lo_result.success = true;
+        //                         postData.singleRowData.character_rmk = postData.singleRowData.character_rmk.push("CTRM");
+        //                         lo_result.effectValues = postData.singleRowData;
+        //                         callback(lo_error, lo_result);
+        //                     }
+        //
+        //                 }
+        //                 else {
+        //                     lo_error = new ErrorClass();
+        //                     lo_result.success = false;
+        //                     lo_error.errorMsg = "查不到連通房號";
+        //                     lo_error.errorCod = "1111";
+        //                     callback(lo_error, lo_result);
+        //                 }
+        //             } else {
+        //                 lo_result.success = true;
+        //                 postData.singleRowData.character_rmk = postData.singleRowData.character_rmk;//還要再修改
+        //                 lo_result.effectValues = postData.singleRowData;
+        //                 callback(err, lo_result);
+        //             }
+        //         });
+        //     } else {
+        //
+        //         lo_result.success = false;
+        //         lo_error = new ErrorClass();
+        //         lo_error.errorMsg = "不能與自己房號相同";
+        //         lo_error.errorCod = "1111";
+        //         callback(lo_error, lo_result);
+        //
+        //     }
+        // } else {
+        //     callback(lo_error, lo_result);
+        // }
+
     },
+
     r_RoommnDel: function (postData, session, callback) {
         var roomSta = postData.singleRowData.room_sta;
         var lo_result = new ReturnClass();
@@ -493,5 +574,41 @@ module.exports = {
         }
 
         callback(lo_error, lo_return);
+    },
+
+    // 查詢清掃人員
+    qry_Room_mn_Clean_cod: function (postData, session, callback) {
+        let lo_params = {
+            athena_id: session.user.athena_id,
+            hotel_cod: session.user.hotel_cod,
+            comp_id: session.user.cmp_id
+        };
+
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        let result = new ReturnClass();
+        let updateFieldName = {
+            clean_cod: "員工名稱"
+        };
+
+        let fieldNameChangeLanguage = {
+            clean_cod: "員工代號",
+            "員工名稱": "員工名稱",
+            "大部門單位": "大部門單位",
+            "人事單位": "人事單位"
+        };
+
+        if (ui_field_name != "") {
+            queryAgent.queryList("QRY_ROOM_MN_CLEAN_COD", lo_params, 0, 0, function (err, getResult) {
+                if (!err) {
+                    result.effectValues.showDataGrid = getResult;
+                    result.effectValues.updateFieldNameTmp = updateFieldName;
+                    result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(null, [result]);
+                }
+            });
+        }
+        else {
+            callback(null, result);
+        }
     }
 };

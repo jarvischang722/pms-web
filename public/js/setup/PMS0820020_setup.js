@@ -97,11 +97,114 @@ Vue.component("field-multi-lang-dialog-tmp", {
 
 });
 
+//跳窗將資料選回去單筆欄位
+Vue.component('text-select-grid-dialog-tmp', {
+    template: "#chooseDataDialogTmp",
+    data: function () {
+        return {
+            fieldNameConditionTmp: [],
+            gridColumns: [],
+            updateFieldNameTmp: [],
+            gridData: [],
+            isFistData: false,
+            isLastData: false,
+            dtEditIndex: undefined
+        };
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('showPopUpDataGrid', function (result) {
+            self.showPopUpDataGrid(result);
+        });
+    },
+    methods: {
+        //顯示點選popupgrid跳出來的視窗
+        showPopUpDataGrid: function (result) {
+            var self = this;
+            var textDataGrid = result.showDataGrid;
+            var updateFieldName = result.updateFieldNameTmp;
+            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            this.fieldNameConditionTmp = [];
+            this.fieldConditionTmp = [];
+            this.gridData = [];
+            delete textDataGrid ['errorMsg'];
+            var columnsData = [];
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+                return textDataGrid[key];
+            });
+            for (var col in textDataGrid[0]) {
+                _.each(fieldNameChangeLanguage, function (name, field) {
+                    if (col == field) {
+                        columnsData.push({
+                            type: 'textbox',
+                            field: col,
+                            title: name,
+                            width: 150,
+                            align: "left"
+                        });
+                        self.fieldNameConditionTmp.push({value: field, display: name});
+                        self.fieldConditionTmp.push({value: field});
+                    }
+                });
+            }
+
+            self.gridData = textDataGridArray;
+            var height = document.documentElement.clientHeight - 160;
+            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
+            $('#chooseGrid').datagrid({
+                columns: [columnsData],
+                singleSelect: true,
+                data: textDataGridArray,
+                height: height,
+                width: width
+            }).datagrid('columnMoving');
+            self.updateFieldNameTmp = updateFieldName;
+        },
+        //將選擇到的資料帶回Page2
+        chooseDataBackGridSingle: function () {
+            var self = this;
+            var selectTable = $('#chooseGrid').datagrid('getSelected');
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
+
+            // console.log(updateFieldName, updateFieldName, selectTable);
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
+                });
+            }else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = "";  //SAM20170930
+                });
+            }
+            console.log(chooseData);
+            vmHub.$emit('updateBackSelectData', chooseData);
+            $("#dataPopUpGridDialog").dialog('close');
+        },
+        txtSearchChangeText: function (keyContent) {
+            var allData = this.gridData;
+            var selectFieldName = $('#cbSelect').val();
+            var selectCondition = $('#txtSelectCondition').val();
+
+            var dataGrid = _.filter(allData, function (row) {
+                if (row[selectFieldName].includes(selectCondition))
+                    return row;
+            });
+            $('#chooseGrid').datagrid('loadData', dataGrid);
+
+        }
+    }
+});
+
 /** 編輯新增Dialog Component **/
 Vue.component('single-grid-pms0820020-tmp', {
     template: '#sigleGridPMS0820020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable'],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', "updateBackSelectData"],
     data: function () {
         return {
             tmpCUD: {},
@@ -112,6 +215,10 @@ Vue.component('single-grid-pms0820020-tmp', {
         };
     },
     created: function () {
+        var self = this;
+        vmHub.$on('updateBackSelectData', function (chooseData) {
+            self.singleData = _.extend(self.singleData, chooseData);
+        });
     },
 
     watch: {
@@ -346,20 +453,57 @@ Vue.component('single-grid-pms0820020-tmp', {
             }
         },
 
-        chkClickPopUpGrid: function (field) {
+        //改成編輯中
+        changeEditingForFieldRule: function (rule_func_name) {
+            if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
+                this.isEditingForFieldRule = true;
+            }
+        },
 
+        chkClickPopUpGrid: function (field) {
+            // this.changeEditingForFieldRule(field.rule_func_name);
+            if (field.ui_type == "popupgrid") {
+                var params = {
+                    prg_id: prg_id,
+                    fields: field,
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                };
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        PMS0820020VM.selectPopUpGridData = result.showDataGrid;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        PMS0820020VM.showPopUpGridDialog();
+                    }
+                });
+            }
         }
     }
 });
 
 var rmList = Vue.extend({
     template: "#PMS0820020RmListTmp",
-    props: ["roomListData"],
+    props: ["roomListData", "roomTotal"],
     data: function () {
-        return {};
+        return {
+        };
+    },
+    methods: {
+        roomSubTotal: function(room_cod){
+            var self = this;
+            var roomSubTotal = 0;
+            var roomNosData = _.filter(this.roomListData, function(value, key){
+                return key == room_cod;
+            });
+            _.each(roomNosData, function(groupData){
+                _.each(groupData, function(eachData){
+                    roomSubTotal += eachData.length;
+                });
+            });
+
+            return roomSubTotal;
+        }
     }
 });
-
 
 var PMS0820020VM = new Vue({
     el: '#GSApp',
@@ -405,7 +549,8 @@ var PMS0820020VM = new Vue({
         testData: '',                   //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
         sort_typ: "",
         isAction: false,
-        roomListData: []                //房間清單資料
+        roomListData: [],               //房間清單資料
+        roomTotal: 0
     },
     methods: {
         //Init CUD
@@ -641,7 +786,8 @@ var PMS0820020VM = new Vue({
             return li_ui_field_length;
         },
 
-        sortRoomEvent: function (ls_sort_typ) {
+        //顯示房間排序
+        showRoomSortDialog: function (ls_sort_typ) {
             var self = this;
             var lo_params = {
                 prg_id: prg_id,
@@ -718,6 +864,7 @@ var PMS0820020VM = new Vue({
                 });
         },
 
+        //查詢房間清單資料
         qryRoomListData: function (callback) {
             var self = this;
             var lo_params = {
@@ -726,7 +873,7 @@ var PMS0820020VM = new Vue({
             };
             $.post("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
                 if (getResult.success) {
-
+                    self.roomTotal = getResult.roomListData.length;
                     self.roomListData = _.groupBy(_.sortBy(getResult.roomListData, "room_nos"), "room_cod");
 
                     _.each(self.roomListData, function(ls_roomListData, key){
@@ -749,6 +896,7 @@ var PMS0820020VM = new Vue({
 
         // 顯示房間清單
         showRmList: function () {
+            this.roomTotal = 0;
             this.qryRoomListData(function (la_roomListData) {
                 var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
                 var height = 10 * 50; // 預設一個row 高度
@@ -962,6 +1110,25 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.initTmpCUD();
 
             $("#sigleGridPMS0820020").dialog('close');
+        },
+
+        //顯示textgrid跳窗訊息
+        showPopUpGridDialog: function () {
+            this.dialogVisible = true;
+            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+
+            var dialog = $("#dataPopUpGridDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height: height,
+                width: width,
+                title: prg_id,
+                resizable: true
+            });
+            dialog.dialog("open");
+            // 給 dialog "內容"高 值
+            //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         }
     }
 

@@ -59,7 +59,7 @@
                         </li>
 
                         <li>
-                            <button id="ins-btn" @click="sortRoomEvent('')"
+                            <button id="ins-btn" @click="showRoomSortDialog('')"
                                     class="btn btn-primary btn-white btn-defaultWidth"
                                     role="button">
                                 <%= __("program")["PMS0820020"]["sortRoom"] %>
@@ -97,6 +97,8 @@
             :tmp-cud="tmpCud"
             :is-modifiable="isModifiable">
     </single-grid-pms0820020-tmp>
+
+    <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
     <field-multi-lang-dialog-tmp
             :sys_locales="sys_locales"
@@ -152,11 +154,16 @@
         </div>
     </el-dialog>
 
-    <rm-list :room-list-data="roomListData"></rm-list>
+    <rm-list
+            :room-list-data="roomListData"
+            :room-total="roomTotal">
+
+    </rm-list>
 
 </div>
 
 <!-- settingSingleDialog-message 彈出視窗 -->
+<%- include ../vueTemplate/chooseDataDialogTmp.ejs %>
 <%- include ../vueTemplate/PMS0820020Tmp.ejs %>
 <%- include ../vueTemplate/fieldmultiLangDialogTmp.ejs %>
 <%- include ../vueTemplate/searchTmp.ejs %>
