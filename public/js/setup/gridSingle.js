@@ -584,15 +584,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                              **/
                             if ($("#dg").datagrid('getRows').length > 0) {
                                 self.editingRow = targetRowAfterDelete;
-                                self.emitFetchSingleData();
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
-
                         }
-
-
+                        self.emitFetchSingleData(); //做完操作，重load單筆
                     }
                 });
             }
@@ -787,7 +784,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            vm.tmpCud.dt_deleteData.push(delRow);
+            if(delRow.createRow != "Y")
+                vm.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,

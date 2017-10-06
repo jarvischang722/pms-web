@@ -424,15 +424,12 @@ Vue.component('single-grid-pms0830100-tmp', {
                              **/
                             if ($("#PMS0830100_dg").datagrid('getRows').length > 0) {
                                 self.editingRow = targetRowAfterDelete;
-                                self.emitFetchSingleData();
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
-
                         }
-
-
+                        self.emitFetchSingleData(); //做完操作，重load單筆
                     }
                 });
             }
@@ -494,7 +491,8 @@ Vue.component('single-grid-pms0830100-tmp', {
             }
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
+            if(delRow.createRow != "Y")
+                PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -689,7 +687,6 @@ var PMS0830100VM = new Vue({
                     });
                     alert('save success!');
                     waitingDialog.hide();
-
                 } else {
                     waitingDialog.hide();
                     alert(result.errorMsg);
