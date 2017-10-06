@@ -27,6 +27,8 @@ module.exports = function(app  ) {
     app.post("/api/uploadFile", middles, systCrtl.uploadFile);
 
     /** 取得異動紀錄　**/
-    app.post("/api/getSetupPrgChangeLog", middles, systCrtl.getSetupPrgChangeLog);　
+    app.post("/api/getSetupPrgChangeLog", middles, systCrtl.getSetupPrgChangeLog);
+    /** 取得Session 過期時間　**/
+    app.post("/api/getSessionExpireTime",  systCrtl.getSessionExpireTime);　
 
 };

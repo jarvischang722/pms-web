@@ -30,8 +30,6 @@ let compression = require('compression');
 // compress all responses
 app.use(compression());
 
-//靜態檔案指定路徑
-app.use(express.static(__dirname + '/public'));
 
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
@@ -73,7 +71,10 @@ app.set('port', process.env.PORT || port);
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
 
-//Sam:暫時為了post擴充可傳的資料量，做修改 20170705
+//靜態檔案指定路徑
+app.use(express.static(__dirname + '/public'));
+
+//為了post擴充可傳的資料量
 app.use(bodyParser.json({limit: "10mb"}));
 app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10000}));
 
@@ -123,11 +124,11 @@ app.use(sessionMiddleware);
 require("./plugins/socket.io/socketEvent")(io);
 
 //一直保持session 不閒置
-app.use(function (req, res, next) {
-    req.session._touchSession = new Date();
-    req.session.touch();
-    next();
-});
+// app.use(function (req, res, next) {
+//     req.session._touchSession = new Date();
+//     req.session.touch();
+//     next();
+// });
 
 app.use(function (req, res, next) {
     res.locals.session = req.session;
@@ -150,6 +151,7 @@ app.use(function (req, res, next) {
     res.cookie('sys_locales', localeInfo, options);
     next();
 });
+
 routing(app, passport);
 
 // catch 404 and forward to error handler

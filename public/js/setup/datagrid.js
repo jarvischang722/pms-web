@@ -159,7 +159,6 @@ var vm = new Vue({
 
         //抓取顯示資料
         fetchDataGridData: function () {
-            console.log(this.searchCond);
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.prgFieldDataAttr = result.fieldData;

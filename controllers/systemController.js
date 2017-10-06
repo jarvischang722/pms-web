@@ -187,5 +187,13 @@ exports.uploadFile = function (req, res) {
 exports.getSetupPrgChangeLog = function (req, res) {
     logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
         res.json({success: false, errorMsg: '', allChangeLogList: allChangeLogList});
-    })
+    });
+};
+
+/**
+ * 抓取session 結束時間
+ */
+exports.getSessionExpireTime = function (req,res) {
+    let lo_session = req.session;
+    res.json({success:true,session:lo_session});
 };

@@ -11,9 +11,9 @@ var middles = [i18nMW, authMW, sysMW];
 module.exports = function (app) {
 
     //夜間稽核
-    app.get('/PMS0510010', nightAuditCrtl.getPMS0510010);
+    app.get('/PMS0510010',middles, nightAuditCrtl.getPMS0510010);
 
     //房價稽核表
-    app.get('/PMS0510020', nightAuditCrtl.getPMS0510020);
+    app.get('/PMS0510020', middles,nightAuditCrtl.getPMS0510020);
 
 };

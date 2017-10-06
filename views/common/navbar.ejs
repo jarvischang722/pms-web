@@ -50,7 +50,7 @@
             <li class="info">
                 <span id="datetimeSpan"></span>
                 | <span>  <%= session.user.usr_cname %>  </span>
-                | 距離登出時間 : <span id="timeLeft">  00 : 00   </span>
+                <!--| 距離登出時間 : <span id="timeLeft">  00 : 00   </span>-->
             </li>
 
             <li class="purple dropdown-modal">
@@ -170,9 +170,9 @@
 </div>
 
 <script>
+
     var g_socket = io.connect('/system');
-    var gs_clientSocketID = randomWord(false, 30); //產生網頁唯一的ID
-    g_socket.emit("checkSessionExist");
+//   g_socket.emit("checkSessionExist");
 
     //接收session 剩餘時間
     g_socket.on("sessionTimeLeft", function (data) {
@@ -183,15 +183,13 @@
     })
 
     //接收socket 回傳
-    g_socket.on("sessionStatus", function (session) {
-        var inst = $('[data-remodal-id=sessionModal]').remodal();
-        inst.open();
+    g_socket.on("sessionStatus", function () {
+        $('[data-remodal-id=sessionModal]').remodal().open();
     })
 
     $(function () {
         updateDateTime();
         setInterval(updateDateTime, 1000);
-
 
         $(document).on('closing', '.remodal', function (e) {
             location.href = "/login";
@@ -202,6 +200,7 @@
         var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
         $("#datetimeSpan").html(datetime);
     }
+
     function doLogout() {
         $.post("/cas/logout", function (data) {
             location.reload();
