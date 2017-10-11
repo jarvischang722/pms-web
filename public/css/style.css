@@ -4121,6 +4121,57 @@ span.triangle-text {
   font-weight: bold;
 }
 
+.BgBacchusBlue {
+  background: #c0d6ee;
+  color: #000;
+}
+
+.dominos-inventory-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #C5D0DC;
+  overflow: hidden;
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+
+.dominos-inventory-left {
+  flex: 0 0 auto;
+  padding: 10px;
+  width: 220px;
+  min-height: 200px;
+  min-width: 200px;
+  border-right: 3px solid #c0d6ee;
+  height: auto !important;
+  overflow: hidden;
+}
+
+.dominos-inventory-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+}
+
+.dominos-inventory-wrap .horizTable-outer .css_table .css_th {
+  background: #c0d6ee;
+  color: #000;
+}
+
+.dominos-inventory-details {
+  margin: 0 20px;
+}
+
+.dominos-btn-group {
+  float: left;
+}
+.dominos-btn-group li {
+  display: inline-block;
+  width: 70px;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4766,6 +4817,16 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w253px {
+  width: 253px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w510px {
+  width: 510px;
   max-width: 100%;
   height: 25px;
 }
