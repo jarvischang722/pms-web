@@ -449,6 +449,22 @@ Vue.component('single-grid-pms0820020-tmp', {
                     if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                         PMS0820020VM.singleData = _.extend(PMS0820020VM.singleData, result.effectValues);
                     }
+
+                    //有沒有要再打一次ajax到後端
+                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                        $.post(result.ajaxURL, postData, function (result) {
+
+                            if (!result.success) {
+                                alert(result.errorMsg);
+                            } else {
+
+                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                }
+
+                            }
+                        });
+                    }
                 });
             }
         },
@@ -996,9 +1012,12 @@ var PMS0820020VM = new Vue({
                 return;
             }
 
-            waitingDialog.show('Saving...');
+            // waitingDialog.show('Saving...');
+            // console.log(PMS0820020VM.tmpCud);
+            // return;
 
             var params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);
+            console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0820020VM.initTmpCUD();
