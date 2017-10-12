@@ -4169,7 +4169,18 @@ span.triangle-text {
 }
 .dominos-btn-group li {
   display: inline-block;
-  width: 70px;
+  width: 81px;
+  margin-bottom: 5px;
+}
+.dominos-btn-group li.btn-120 {
+  width: 120px;
+}
+
+.dominos-input-group select {
+  vertical-align: bottom;
+}
+.dominos-input-group .input-medium {
+  margin-bottom: 3px;
 }
 
 /*------  共用區public ------ */
