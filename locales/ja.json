@@ -109,6 +109,32 @@
     "PMS0830090": {
       "batch_add": "批次新增(日)"
     },
+    "PMS0820020": {
+      "batch_add": "批次新增(日文)",
+      "sortRoom": "房間排序(日文)",
+      "roomList": "房間清單(日文)",
+      "room_leng": "房號長度(日文)",
+      "room_nos": "房號(日文)",
+      "display_sort": "顯示順序(日文)",
+      "sort_by_room_nos": "依房號遞增排序(日文)",
+      "sort_by_room_nos_leng": "依房號長度、房號遞增排序(日文)",
+      "sort_by_build_nos": "依棟別、樓層、房號長度、房號遞增排序(日文)",
+      "reSortByTyp": "重新產生排序(日文)",
+      "front_cod": "前置碼(日文)",
+      "room_begin_nos": "房號開始號碼(日文)",
+      "build_nos": "棟別(日文)",
+      "room_end_nos": "房號結束號碼(日文)",
+      "floor_nos": "樓層(日文)",
+      "room_cod": "房型(日文)",
+      "room_nos_typ": "房號單、雙數(日文)",
+      "bed_sta": "拆併床(日文)",
+      "single_nos": "單號(日文)",
+      "double_nos": "雙號(日文)",
+      "both_nos": "兩者(日文)",
+      "single_bed": "拆床(日文)",
+      "double_bed": "併床(日文)",
+      "noset_bed": "無設定(日文)"
+    },
     "PMS0830100": {
       "begin_dat": "開始日",
       "end_dat": "結束日",
