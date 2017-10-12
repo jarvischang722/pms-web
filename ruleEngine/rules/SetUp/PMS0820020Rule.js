@@ -109,7 +109,7 @@ module.exports = {
                     if (getResult.conn_room.trim() != "" && getResult.conn_room.trim() != ls_roomNos) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "房號【" + ls_roomNos + "】已經有設定連通房號【" + ls_connRoom + "】,不能再指定";
+                        lo_error.errorMsg = "房號【" + ls_connRoom + "】已經有設定連通房號【" + getResult.conn_room.trim() + "】,不能再指定";
                         lo_error.errorCod = "1111";
                         cb(lo_error, lo_result);
                     }
@@ -122,6 +122,24 @@ module.exports = {
                 }
             });
         }
+    },
+
+    //房間特色移除CTRM，清空連通房設定
+    chkMultiSelect: function (postData, session, callback) {
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        let li_oldCtrmIsExist = _.findIndex(postData.oriSingleRowData.character_rmk, function (eachData) {
+            return eachData.trim() == "CTRM";
+        });
+        let li_newCtrmIsExist = _.findIndex(postData.singleRowData.character_rmk, function (eachData) {
+            return eachData.trim() == "CTRM";
+        });
+
+        if (li_oldCtrmIsExist != -1 && li_newCtrmIsExist == -1) {
+            lo_result.effectValues = {conn_room: ""};
+        }
+        callback(lo_error, lo_result);
     },
 
     /**
@@ -271,7 +289,7 @@ module.exports = {
         //如果有連通房,一併清除【例如自己是101,而連通房舊值是102,新值是空】
         function updRmMn(result, cb) {
 
-            if (postData.singleRowData.conn_room == "") {
+            if (postData.singleRowData.conn_room.trim() == "") {
                 cb(null, "");
             }
             else {
@@ -317,36 +335,92 @@ module.exports = {
     r_RoommnIns: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        let chkResult = new ReturnClass();
+        let la_character_rmk = postData.singleRowData.character_rmk || [];
+        let ls_conn_room = postData.singleRowData.conn_room || "";
+        ls_conn_room = ls_conn_room.trim();
         let userInfo = session.user;
 
+        // 批次新增不用驗證
         if (postData.createData.length > 1) {
             return callback(null, lo_result);
         }
 
-        postData.singleRowData.character_rmk = postData.singleRowData.character_rmk == "" ? [] : postData.singleRowData.character_rmk;
-        postData.singleRowData.character_rmk.push("CTRM");
-        chkResult.extendExecDataArrSet.push({
-            function: '2',
-            table_name: 'room_mn',
-            condition: [{
-                key: 'athena_id',
-                operation: "=",
-                value: userInfo.athena_id
-            }, {
-                key: 'hotel_cod',
-                operation: "=",
-                value: userInfo.hotel_cod
-            }, {
-                key: 'room_nos',
-                operation: "=",
-                value: postData.singleRowData.room_nos
-            }],
-            conn_room: postData.singleRowData.conn_room,
-            character_rmk: postData.singleRowData.character_rmk
+        let li_ctrmIsExist = _.findIndex(la_character_rmk, function (eachData) {
+            return eachData.trim() == "CTRM";
         });
 
-        callback(lo_error, lo_result);
+        if (ls_conn_room == "" && li_ctrmIsExist == -1) {
+            return callback(null, lo_result);
+        }
+        else if (ls_conn_room == "" && li_ctrmIsExist != -1) {
+            lo_error = new ErrorClass();
+            lo_result.success = false;
+            lo_error.errorMsg = "房間特色有CTRM選項，連通房為必填";
+            lo_error.errorCod = "1111";
+            return callback(lo_error, lo_result);
+        }
+        else if (ls_conn_room != "" && li_ctrmIsExist == -1) {
+            postData.singleRowData.character_rmk.push("CTRM");
+            postData.singleRowData.character_rmk = _.uniq(postData.singleRowData.character_rmk);
+            lo_result.effectValues = postData.singleRowData;
+        }
+
+        qrySingleRoomMnByRoomNos(ls_conn_room, function (err, getResult) {
+            getResult.character_rmk.push("CTRM");
+            getResult.character_rmk = _.uniq(getResult.character_rmk);
+            if (getResult.character_rmk.length == 0) {
+                getResult.character_rmk = "";
+            }
+            else {
+                getResult.character_rmk = "'" + getResult.character_rmk.join() + "'";
+            }
+
+            lo_result.extendExecDataArrSet.push({
+                function: '2',
+                table_name: 'room_mn',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: userInfo.athena_id
+                }, {
+                    key: 'hotel_cod',
+                    operation: "=",
+                    value: userInfo.hotel_cod
+                }, {
+                    key: 'room_nos',
+                    operation: "=",
+                    value: postData.singleRowData.conn_room
+                }],
+                conn_room: postData.singleRowData.room_nos,
+                character_rmk: getResult.character_rmk
+            });
+            callback(lo_error, lo_result);
+        });
+
+        //透過房號查詢單筆資料func
+        function qrySingleRoomMnByRoomNos(room_nos, cb) {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                room_nos: room_nos
+            };
+            lo_params.room_nos = room_nos.trim();
+            queryAgent.query("QRY_SINGLE_ROOM_MN", lo_params, function (err, getResult) {
+                getResult.character_rmk = getResult.character_rmk || "";
+                if (getResult.character_rmk != "") {
+                    var array = getResult.character_rmk.replace(/'/g, "").split(',');
+                    valueTemp = [];
+                    for (i = 0; i < array.length; i++) {
+                        valueTemp.push(array[i]);
+                    }
+                    getResult.character_rmk = valueTemp;
+                }
+                else {
+                    getResult.character_rmk = [];
+                }
+                cb(null, getResult);
+            });
+        }
     },
 
     /**
@@ -369,9 +443,10 @@ module.exports = {
         let lo_oldSingleData;
         let userInfo = session.user;
 
-        // if (postData.editData.length > 1) {
-        //     return callback(lo_error, lo_result);
-        // }
+        //批次不用驗證
+        if (postData.editData.length > 1) {
+            return callback(lo_error, lo_result);
+        }
 
         let lo_params = {
             athena_id: session.user.athena_id,
@@ -426,17 +501,16 @@ module.exports = {
          *  (i)舊值「連通房」的room_mn也要移除conn_room與character_rmk
          *  (ii)新值「連通房」的room_mn也要加上conn_room與character_rmk
          */
-
         function chkConnRoomEditRule(result, cb) {
             //(1)無->有【例如自己是101,而連通房舊值是空,新值是102】
             if (lo_oldSingleData.conn_room == "" && lo_newSingleData.conn_room != "") {
                 qrySingleRoomMnByRoomNos(lo_newSingleData.conn_room, function (err, getResult) {
                     let lo_connRoomData = getResult;
                     lo_connRoomData.character_rmk.push("CTRM");
-                    if(lo_connRoomData.character_rmk.length == 0){
+                    if (lo_connRoomData.character_rmk.length == 0) {
                         lo_connRoomData.character_rmk = "";
                     }
-                    else{
+                    else {
                         lo_connRoomData.character_rmk = "'" + lo_connRoomData.character_rmk.join() + "'";
                     }
                     lo_result.extendExecDataArrSet.push({
@@ -458,6 +532,7 @@ module.exports = {
                         conn_room: lo_newSingleData.room_nos || "",
                         character_rmk: lo_connRoomData.character_rmk
                     });
+                    chkCharacterRmkLength();
                     cb(lo_error, lo_result);
                 });
             }
@@ -466,10 +541,10 @@ module.exports = {
                 qrySingleRoomMnByRoomNos(lo_oldSingleData.conn_room, function (err, getResult) {
                     let lo_connRoomData = getResult;
                     lo_connRoomData.character_rmk = _.without(lo_connRoomData.character_rmk, "CTRM");
-                    if(lo_connRoomData.character_rmk.length == 0){
+                    if (lo_connRoomData.character_rmk.length == 0) {
                         lo_connRoomData.character_rmk = "";
                     }
-                    else{
+                    else {
                         lo_connRoomData.character_rmk = "'" + lo_connRoomData.character_rmk.join() + "'";
                     }
                     lo_result.extendExecDataArrSet.push({
@@ -491,6 +566,7 @@ module.exports = {
                         conn_room: "",
                         character_rmk: lo_connRoomData.character_rmk
                     });
+                    chkCharacterRmkLength();
                     cb(lo_error, lo_result);
                 });
             }
@@ -502,10 +578,10 @@ module.exports = {
                         qrySingleRoomMnByRoomNos(lo_oldSingleData.conn_room, function (err, getResult) {
                             let lo_connRoomData = getResult;
                             lo_connRoomData.character_rmk = _.without(lo_connRoomData.character_rmk, "CTRM");
-                            if(lo_connRoomData.character_rmk.length == 0){
+                            if (lo_connRoomData.character_rmk.length == 0) {
                                 lo_connRoomData.character_rmk = "";
                             }
-                            else{
+                            else {
                                 lo_connRoomData.character_rmk = "'" + lo_connRoomData.character_rmk.join() + "'";
                             }
                             lo_result.extendExecDataArrSet.push({
@@ -527,6 +603,8 @@ module.exports = {
                                 conn_room: "",
                                 character_rmk: lo_connRoomData.character_rmk
                             });
+
+                            chkCharacterRmkLength();
                             par_cb(lo_error, lo_result);
                         });
                     },
@@ -555,16 +633,26 @@ module.exports = {
                                 character_rmk: "'" + lo_connRoomData.character_rmk.join() + "'"
                             });
                             par_cb(lo_error, lo_result);
-                        }, function (err, result) {
-                            cb(err, result);
                         });
                     }
-                ]);
+                ], function (err, result) {
+                    cb(err, lo_result);
+                });
             }
+            //一般儲存
             else {
-                lo_result.extendExecDataArrSet.push({
-                    character_rmk: ""
-                })
+                let li_ctrmIsExist = _.findIndex(lo_newSingleData.character_rmk, function (eachData) {
+                    return eachData.trim() == "CTRM";
+                });
+                if (li_ctrmIsExist != -1 && lo_newSingleData.conn_room == "") {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = "房間特色有CTRM選項，連通房為必填";
+                    lo_error.errorCod = "1111";
+                    return cb(lo_error, lo_result);
+                }
+
+                chkCharacterRmkLength();
                 cb(lo_error, lo_result);
             }
         }
@@ -582,13 +670,14 @@ module.exports = {
                     }
                     getResult.character_rmk = valueTemp;
                 }
-                else{
+                else {
                     getResult.character_rmk = [];
                 }
                 cb(null, getResult);
             });
         }
 
+        //如果房型有異動,同時修改房間庫存資料於滾房租日(含)以後之該房號房型資料
         function chkRoomCodEdit(result, cb) {
             if (lo_oldSingleData.room_cod != lo_newSingleData.room_cod) {
                 queryAgent.query("QRY_HOTEL_SVAL", lo_params, function (err, getResult) {
@@ -619,6 +708,29 @@ module.exports = {
             }
             else {
                 cb(lo_error, lo_result);
+            }
+        }
+
+        function chkCharacterRmkLength() {
+            if (_.isUndefined(lo_newSingleData.character_rmk) || lo_newSingleData.character_rmk == "") {
+                lo_result.extendExecDataArrSet.push({
+                    function: '2',
+                    table_name: 'room_mn',
+                    condition: [{
+                        key: 'athena_id',
+                        operation: "=",
+                        value: userInfo.athena_id
+                    }, {
+                        key: 'hotel_cod',
+                        operation: "=",
+                        value: userInfo.hotel_cod
+                    }, {
+                        key: 'room_nos',
+                        operation: "=",
+                        value: lo_newSingleData.room_nos
+                    }],
+                    character_rmk: ""
+                });
             }
         }
     },

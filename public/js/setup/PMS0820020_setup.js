@@ -23,6 +23,8 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
         PMS0820020VM.showSingleGridDialog();
     });
 };
+DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
+};
 /*** Class End  ***/
 
 /** 欄位多語系Dialog **/
@@ -176,7 +178,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                         }
                     });
                 });
-            }else {
+            } else {
                 _.each(chooseData, function (chooseValue, chooseField) {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
@@ -258,7 +260,6 @@ Vue.component('single-grid-pms0820020-tmp', {
             var nowRowIndex = $("#PMS0820020_dg").datagrid('getRowIndex', this.editingRow);
             this.editingRow = this.pageOneDataGridRows[nowRowIndex - 1];
             this.emitFetchSingleData();
-
         },
 
         //下一筆
@@ -289,6 +290,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                 }, function (result) {
                     if (result.success) {
                         self.deleteStatue = true;
+                        self.editStatus = false;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
                         if (result.showAlert) {
@@ -500,18 +502,17 @@ var rmList = Vue.extend({
     template: "#PMS0820020RmListTmp",
     props: ["roomListData", "roomTotal"],
     data: function () {
-        return {
-        };
+        return {};
     },
     methods: {
-        roomSubTotal: function(room_cod){
+        roomSubTotal: function (room_cod) {
             var self = this;
             var roomSubTotal = 0;
-            var roomNosData = _.filter(this.roomListData, function(value, key){
+            var roomNosData = _.filter(this.roomListData, function (value, key) {
                 return key == room_cod;
             });
-            _.each(roomNosData, function(groupData){
-                _.each(groupData, function(eachData){
+            _.each(roomNosData, function (groupData) {
+                _.each(groupData, function (eachData) {
                     roomSubTotal += eachData.length;
                 });
             });
@@ -560,7 +561,7 @@ var PMS0820020VM = new Vue({
         searchFields: [],               //搜尋的欄位
         searchCond: {},                 //搜尋條件
         isModifiable: true,             //決定是否可以修改資料
-        showRoomSortDialog: false,      //是否顯示房間排序dialog
+        showRoomSortDialogVisiable: false,      //是否顯示房間排序dialog
         roomSortData: [],               //房間排序資料
         testData: '',                   //TODO: 排序，需有資料異動才會更新，暫時用此參數當作異動值
         sort_typ: "",
@@ -579,6 +580,13 @@ var PMS0820020VM = new Vue({
         },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
+
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
+            }
+
+            console.log(this.searchCond);
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 PMS0820020VM.searchFields = result.searchFields;
                 PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
@@ -813,7 +821,7 @@ var PMS0820020VM = new Vue({
             $.post("/api/specialDataGridBtnEventRule", lo_params, function (getResult) {
                 if (getResult.success) {
                     self.roomSortData = getResult.roomNosData;
-                    self.showRoomSortDialog = true;
+                    self.showRoomSortDialogVisiable = true;
                 }
             });
         },
@@ -831,7 +839,7 @@ var PMS0820020VM = new Vue({
 
         // 重新產生房間排序
         reSortByTyp: function () {
-            this.sortRoomEvent(this.sort_typ);
+            this.showRoomSortDialog(this.sort_typ);
         },
 
         // 房間排序儲存
@@ -864,7 +872,7 @@ var PMS0820020VM = new Vue({
                 .done(function (response) {
                     if (response.success) {
                         self.initTmpCUD();
-                        self.sortRoomEvent('');
+                        self.showRoomSortDialog('');
                         self.loadDataGridByPrgID(function () {
                         });
                         alert('save success!');
@@ -892,7 +900,7 @@ var PMS0820020VM = new Vue({
                     self.roomTotal = getResult.roomListData.length;
                     self.roomListData = _.groupBy(_.sortBy(getResult.roomListData, "room_nos"), "room_cod");
 
-                    _.each(self.roomListData, function(ls_roomListData, key){
+                    _.each(self.roomListData, function (ls_roomListData, key) {
                         self.roomListData[key] = self._chunk(self.roomListData[key], 10);
                     });
                     callback(true);
@@ -1012,10 +1020,6 @@ var PMS0820020VM = new Vue({
                 return;
             }
 
-            // waitingDialog.show('Saving...');
-            // console.log(PMS0820020VM.tmpCud);
-            // return;
-
             var params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);
             console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
@@ -1060,6 +1064,9 @@ var PMS0820020VM = new Vue({
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
                 if (result.success) {
+                    if (result.rowData.character_rmk == null) {
+                        result.rowData.character_rmk = [];
+                    }
                     PMS0820020VM.singleData = result.rowData;
                     PMS0820020VM.originData = _.clone(result.rowData);
                     PMS0820020VM.isModifiable = result.isModifiable || true;
@@ -1126,6 +1133,7 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.editingRow = {};
             PMS0820020VM.singleData = {};
             PMS0820020VM.editStatus = false;
+            PMS0820020VM.createStatus = false;
             PMS0820020VM.initTmpCUD();
 
             $("#sigleGridPMS0820020").dialog('close');

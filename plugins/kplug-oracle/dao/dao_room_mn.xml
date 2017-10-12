@@ -18,11 +18,21 @@
         <statement><![CDATA[
                select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
                from room_mn
-               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+               where trim(athena_id) = ? and trim(hotel_cod) = ?
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
+        <parameter type="likestring" kind="2" condition="room_nos like ? ">room_nos</parameter>
+        <parameter type="instring" kind="3">build_nos</parameter>
+        <statement test="_v(param.build_nos)"><![CDATA[and build_nos in(:build_nos)]]></statement>
+        <parameter type="instring" kind="3">floor_nos</parameter>
+        <statement test="_v(param.floor_nos)"><![CDATA[and floor_nos in(:floor_nos)]]></statement>
+        <parameter type="instring" kind="3">room_cod</parameter>
+        <statement test="_v(param.room_cod)"><![CDATA[and room_cod in(:room_cod)]]></statement>
+        <parameter type="instring" kind="3">bed_sta</parameter>
+        <statement test="_v(param.bed_sta)"><![CDATA[and bed_sta in(:bed_sta)]]></statement>
+        <orderby>order by view_seq, room_nos</orderby>
     </dao>
 
     <!-- ['PMS0820020'] 房間設定(單筆) -->
@@ -43,10 +53,10 @@
         <statement><![CDATA[
               select distinct build_nos
               from room_mn
-              where athena_id = ? and hotel_cod = ? order by build_nos
+              where athena_id = ? and trim(hotel_cod) = trim(?) order by build_nos
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 

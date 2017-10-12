@@ -91,7 +91,7 @@
 
                                             <template v-if="field.visiable == 'Y' && field.ui_type == 'multiselect' ">
                                                 <el-select v-model="singleData[field.ui_field_name]" multiple
-                                                           :changed="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                            :class="{'input_sta_required' : field.requirable == 'Y' }">
