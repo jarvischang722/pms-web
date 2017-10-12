@@ -170,7 +170,10 @@
                             @click="doSaveGrid('')">
                         <%= __("SystemCommon").Save %>
                     </button>
-                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog" :disabled="BTN_action">
+                    <button v-if="roomListDialogVisiable" class="btn btn-primary btn-white" @click="closeRmListDialog" :disabled="BTN_action">
+                        <%= __("SystemCommon").Leave %>
+                    </button>
+                    <button v-else class="btn btn-primary btn-white" @click="emitCloseGridDialog" :disabled="BTN_action">
                         <%= __("SystemCommon").Leave %>
                     </button>
                 </div>

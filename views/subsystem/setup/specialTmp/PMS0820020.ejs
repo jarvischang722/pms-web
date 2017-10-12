@@ -95,7 +95,8 @@
             :editing-row="editingRow"
             :page-one-data-grid-rows="pageOneDataGridRows"
             :tmp-cud="tmpCud"
-            :is-modifiable="isModifiable">
+            :is-modifiable="isModifiable"
+            :room-list-dialog-visiable="roomListDialogVisiable">
     </single-grid-pms0820020-tmp>
 
     <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
@@ -147,7 +148,7 @@
             <el-row>
                 <el-col :span="12" :offset="3">
                     <el-button :disabled="isAction"
-                            @click="showRoomSortDialog = false"><%= __("SystemCommon").Cancel %></el-button>
+                            @click="showRoomSortDialogVisiable = false"><%= __("SystemCommon").Cancel %></el-button>
                     <el-button :disabled="isAction" type="primary" @click="roomSortSave"><%= __("SystemCommon").Save %></el-button>
                 </el-col>
             </el-row>
@@ -157,7 +158,6 @@
     <rm-list
             :room-list-data="roomListData"
             :room-total="roomTotal">
-
     </rm-list>
 
 </div>

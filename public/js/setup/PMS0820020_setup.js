@@ -206,7 +206,7 @@ Vue.component('text-select-grid-dialog-tmp', {
 Vue.component('single-grid-pms0820020-tmp', {
     template: '#sigleGridPMS0820020Tmp',
     props: ['editStatus', 'createStatus', 'deleteStatus', 'editingRow', 'pageOneDataGridRows', 'pageTwoDataGridFieldData',
-        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', "updateBackSelectData"],
+        'singleData', 'pageTwoFieldData', 'tmpCud', 'isModifiable', "updateBackSelectData", "roomListDialogVisiable"],
     data: function () {
         return {
             tmpCUD: {},
@@ -494,6 +494,11 @@ Vue.component('single-grid-pms0820020-tmp', {
                     }
                 });
             }
+        },
+
+        closeRmListDialog: function(){
+            PMS0820020VM.roomListDialogVisiable = false;
+            $("#PMS0820020RmList").dialog("close");
         }
     }
 });
@@ -567,7 +572,8 @@ var PMS0820020VM = new Vue({
         sort_typ: "",
         isAction: false,
         roomListData: [],               //房間清單資料
-        roomTotal: 0
+        roomTotal: 0,
+        roomListDialogVisiable: false
     },
     methods: {
         //Init CUD
@@ -920,6 +926,7 @@ var PMS0820020VM = new Vue({
 
         // 顯示房間清單
         showRmList: function () {
+            this.roomListDialogVisiable = true;
             this.roomTotal = 0;
             this.qryRoomListData(function (la_roomListData) {
                 var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
@@ -1021,7 +1028,6 @@ var PMS0820020VM = new Vue({
             }
 
             var params = _.extend({prg_id: prg_id}, PMS0820020VM.tmpCud);
-            console.log(params);
             $.post("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0820020VM.initTmpCUD();
@@ -1137,6 +1143,7 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.initTmpCUD();
 
             $("#sigleGridPMS0820020").dialog('close');
+
         },
 
         //顯示textgrid跳窗訊息
