@@ -1052,6 +1052,7 @@ var vm = new Vue({
         //新增按鈕Event
         appendRow: function () {
             vm.initTmpCUD();
+            vm.isModifiable = true;
             vm.createStatus = true;
             vm.imageDisplay = false;
             vm.singleData = {};

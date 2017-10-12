@@ -25,5 +25,7 @@ module.exports = function(app ) {
     //按下刪除按鈕資料檢查
     app.post('/api/handleDataGridDeleteEventRule', dgCrtl.handleDataGridDeleteEventRule);
 
+    //特殊版型多筆，按下特殊按鈕，規則檢查
+    app.post('/api/specialDataGridBtnEventRule', dgCrtl.specialDataGridBtnEventRule);
 };
 

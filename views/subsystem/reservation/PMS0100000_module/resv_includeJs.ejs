@@ -891,99 +891,6 @@
             });
         });
 
-        // 失物明細
-        $(document).on('click', ".lf-modify-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#lost-found-modify").removeClass('hide').dialog({
-                modal: true,
-                title: "失物明細",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // L&F點選... 彈出視窗
-        $(document).on('click', ".lfMore", function (e) {
-            e.preventDefault();
-            var dialog = $("#lfMore-page").removeClass('hide').dialog({
-                modal: true,
-                title: "可選擇項目",
-                title_html: true,
-                width: 400,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 PM
-        $(document).on('click', ".publiceAccountSetting-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#publiceAccountSetting-Dialog").removeClass('hide').dialog({
-                modal: true,
-                title: "設定公帳號",
-                title_html: true,
-                width: 700,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 PM
-        $(document).on('click', ".paChoosed-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#publiceAccountChoosed-Dialog").removeClass('hide').dialog({
-                modal: true,
-                title: "共有1筆資料",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 PM
-        $(document).on('click', ".paBuild-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#paBuild-Dialog").removeClass('hide').dialog({
-                modal: true,
-                title: "選擇公帳號",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出 PM
-        $(document).on('click', ".paBuild-more", function (e) {
-            e.preventDefault();
-            var dialog = $("#paBuild-more-Dialog").removeClass('hide').dialog({
-                modal: true,
-                title: "共有119筆資料",
-                title_html: true,
-                width: 900,
-                maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
 
         // 彈出 ratePlan內容
         $(document).on('click', ".resv_ratePlanBtn", function (e) {
@@ -1883,7 +1790,7 @@
         if (textName == "Waiting")
             $(this).text("Cancel")
         else if (textName == "Cancel")
-            $(this).text("Reservations");
+            $(this).text("Reservation");
         else
             $(this).text("Waiting");
     });

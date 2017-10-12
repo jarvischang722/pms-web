@@ -1,6 +1,6 @@
 <!-- 單檔彈出視窗 -->
-<script type="text/x-template" id="sigleGridDialogTmp">
-    <div id="singleGridDialog" v-show="false" v-loading="$parent.isSaving" element-loading-text="Saving">
+<script type="text/x-template" id="sigleGridPMS0820020Tmp">
+    <div id="sigleGridPMS0820020" v-show="false" v-loading="$parent.isSaving" element-loading-text="Saving">
         <div class="col-sm-12 col-xs-12 singleGridContent">
             <div class="">
                 <div class="col-sm-11 col-xs-11">
@@ -83,7 +83,7 @@
                                                     :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                                    v-if="field.visiable == 'Y' && (field.ui_type == 'select' )">
+                                                    v-if="field.visiable == 'Y' && field.ui_type == 'select'">
                                                 <option v-for="opt in field.selectData" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -91,7 +91,7 @@
 
                                             <template v-if="field.visiable == 'Y' && field.ui_type == 'multiselect' ">
                                                 <el-select v-model="singleData[field.ui_field_name]" multiple
-                                                           :changed="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                           @change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                            :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                            :class="{'input_sta_required' : field.requirable == 'Y' }">
@@ -105,27 +105,6 @@
                                                    v-model="singleData[field.ui_field_name]"
                                                    v-if="field.visiable == 'N'"/>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <!-- DT 的datagrid -->
-                                <div id="dt_dg_DIV" style="display: none;">
-                                    <table class="easyui-datagrid" id="dt_dg" style="width:95%;height:auto;">
-                                    </table>
-
-                                    <div id="tb" style="height:auto" class="dataGrid-toolBar01">
-                                        <a href="javascript:void(0)" class="easyui-linkbutton"
-                                           data-options="iconCls:'icon-add',plain:true"
-                                           @click="appendDtRow">
-                                            <i class="fa fa-plus green"></i>
-                                            <%= __("SystemCommon").Add %>
-                                        </a>
-                                        <a href="javascript:void(0)" class="easyui-linkbutton"
-                                           data-options="iconCls:'icon-remove',plain:true"
-                                           @click="removeDtRow">
-                                            <i class="fa fa-minus red"></i>
-                                            <%= __("SystemCommon").Delete %>
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +170,10 @@
                             @click="doSaveGrid('')">
                         <%= __("SystemCommon").Save %>
                     </button>
-                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog" :disabled="BTN_action">
+                    <button v-if="roomListDialogVisiable" class="btn btn-primary btn-white" @click="closeRmListDialog" :disabled="BTN_action">
+                        <%= __("SystemCommon").Leave %>
+                    </button>
+                    <button v-else class="btn btn-primary btn-white" @click="emitCloseGridDialog" :disabled="BTN_action">
                         <%= __("SystemCommon").Leave %>
                     </button>
                 </div>

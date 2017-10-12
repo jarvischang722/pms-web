@@ -51,7 +51,7 @@
                                                @click="clickDt(item.seq_nos)" v-model="item.item_nam">
                                     </td>
 
-                                     <button   @click="btnDt4Dt(item.seq_nos)">...</button>
+                                     <button   @click="btnDt4Dt(item.seq_nos,item.item_nam)">...</button>
                                 </tr>
                             </table>
                         </div>
@@ -98,7 +98,7 @@
                             <thead class="css_thead">
                             <tr class="css_tr">
                                 <th class="ccs_th">勾選</th>
-                                <th class="css_th">服務項目</th>
+                                <th class="css_th">項目代號</th>
                                 <th class="css_th">服務項目</th>
                             </tr>
                             </thead>
@@ -109,7 +109,7 @@
                                     <form>
                                         <input type="checkbox" :checked="item.checked.includes('true')"
                                                :disabled="item.disabled =='true' " name="chk" id="ckItem"
-                                               @click="chkAdjfolioData(index,item.checked)">
+                                               @click="chkAdjfolioData(index,item.checking)">
                                     </form>
                                 </td>
                                 <td class="css_td">{{item.item_nos}}</td>

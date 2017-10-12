@@ -42,7 +42,7 @@
     <!-- 取得公司所有成員 -->
     <dao name="QRY_ALL_USER_WITH_COMP">
         <statement><![CDATA[
-         SELECT USR_ID,USR_CNAME FROM "HTCE7"."S99_USER"
+         SELECT USR_ID,USR_CNAME FROM S99_USER
         where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
         ]]> </statement>
 
@@ -53,7 +53,7 @@
     <!-- [PMS0830010] 經由usr_cname查詢usr_id -->
     <dao name="QRY_USR_ID_BY_USR_CNAME">
         <statement><![CDATA[
-         SELECT USR_ID FROM "HTCE7"."S99_USER"
+         SELECT USR_ID FROM S99_USER
         where user_athena_id = :athena_id and trim(cmp_id) = trim(:cmp_id)
         ]]> </statement>
 

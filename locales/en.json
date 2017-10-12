@@ -109,6 +109,32 @@
 		"PMS0830090": {
 			"batch_add": "Batch Add"
 		},
+		"PMS0820020": {
+			"batch_add": "Batch Add",
+			"sortRoom": "房間排序(英文)",
+			"roomList": "房間清單(英文)",
+			"room_leng": "房號長度(英文)",
+			"room_nos": "Room Nos",
+			"display_sort": "顯示順序(英文)",
+			"sort_by_room_nos": "依房號遞增排序(英文)",
+			"sort_by_room_nos_leng": "依房號長度、房號遞增排序(英文)",
+			"sort_by_build_nos": "依棟別、樓層、房號長度、房號遞增排序(英文)",
+			"reSortByTyp": "重新產生排序(英文)",
+			"front_cod": "前置碼(英文)",
+			"room_begin_nos": "房號開始號碼(英文)",
+			"build_nos": "Building",
+			"room_end_nos": "房號結束號碼(英文)",
+			"floor_nos": "Floor",
+			"room_cod": "Room Type",
+			"room_nos_typ": "房號單、雙數(英文)",
+			"bed_sta": "Beds",
+			"single_nos": "單號(英文)",
+			"double_nos": "雙號(英文)",
+			"both_nos": "兩者(英文)",
+			"single_bed": "拆床(英文)",
+			"double_bed": "併床(英文)",
+			"noset_bed": "無設定(英文)"
+		},
 		"PMS0830100": {
 			"begin_dat": "開始日",
 			"end_dat": "結束日",
