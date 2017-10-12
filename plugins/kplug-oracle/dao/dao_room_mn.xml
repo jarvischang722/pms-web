@@ -51,7 +51,7 @@
     <!-- ['PMS0820020'] 查詢條件:棟別 -->
     <dao name="QRY_ROOM_MN_QRY_BUILD_NOS">
         <statement><![CDATA[
-              select distinct build_nos
+              select distinct build_nos as display, build_nos as value
               from room_mn
               where athena_id = ? and trim(hotel_cod) = trim(?) order by build_nos
         ]]>
@@ -63,12 +63,12 @@
     <!-- ['PMS0820020'] 查詢條件:樓層 -->
     <dao name="QRY_ROOM_MN_QRY_FLOOR_NOS">
         <statement><![CDATA[
-             select distinct floor_nos
+             select distinct floor_nos as display, floor_nos as value
              from room_mn
-             where athena_id = ? and hotel_cod = ? order by floor_nos
+             where athena_id = ? and trim(hotel_cod) = trim(?) order by floor_nos
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
     </dao>
 
