@@ -1,6 +1,7 @@
 /**
  * Created by a14020 on 2017/8/9.
  */
+var vmHub = new Vue;
 waitingDialog.hide();
 function DatagridSingleGridClass() {
 }
@@ -23,7 +24,12 @@ var Pms0830070Comp = Vue.extend({
             singleDataAll2: {}
         };
     },
-    created: {},
+    created:function(){
+        var self = this;
+        vmHub.$on('updateDetail2',function () {
+            self.singleDataDt2={};
+        });
+    },
     methods: {
         //點擊明細跳窗
         btnDt4Dt: function (index,itemName) {
@@ -32,6 +38,7 @@ var Pms0830070Comp = Vue.extend({
                 this.getSingleDtAll2();
                 this.getSingleDt2(index);
                 this.openDetail4Detail(index);
+                this.showDialogServerItem();
             }else {
                 alert("請輸入帳單明細");
             }
@@ -48,6 +55,7 @@ var Pms0830070Comp = Vue.extend({
                     _.each(self.singleDataAll2, function (allDtRow, idx) {
                         if (dt4DtRow["item_nos"] == allDtRow["item_nos"]) {
                             response.routeDtList[dt4DtIndex]["checked"] = "true";
+                            response.routeDtList[dt4DtIndex]["checking"] = "true";
                             if (self.singleDataDt2.length > 0) {
                                 var isSame = false;
                                 //取得此代號+序號項目
@@ -68,7 +76,6 @@ var Pms0830070Comp = Vue.extend({
                     });
                 });
                 self.adjfolioDataItem = response.routeDtList;
-                self.showDialogServerItem();
             });
         },
         //Show Dt的Dt
@@ -85,6 +92,7 @@ var Pms0830070Comp = Vue.extend({
         //點擊Dt跳Dt2
         getSingleDt2: function (index) {
             var self = this;
+            //var dtListTmp;
             var params = {
                 athena_id: self.singleData.athena_id,
                 hotel_cod: self.singleData.hotel_cod,
@@ -96,15 +104,12 @@ var Pms0830070Comp = Vue.extend({
                 if (PMS0830070VM.singleData4DetialTmp.length > 0) {
                     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
                         if(typeof row != "undefined") {
-                            if (row.seq_nos == index) {
-                                console.log(row.seq_nos);
-                                console.log(index);
+                            if (row.seq_nos == index && row.checking == "true") {
                                 response.routeDtList.push(row);
                             }
                         }
                     });
                 }
-                console.log(response.routeDtList);
                 self.singleDataDt2 = response.routeDtList;
             });
         },
@@ -128,15 +133,22 @@ var Pms0830070Comp = Vue.extend({
         //新增明細
         btnAddDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
-
+            var seqNosTmp = 0;
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
+
+                _.each(singleDataDtInfo,function (row,index) {
+                    if(seqNosTmp < row.seq_nos){
+                        seqNosTmp =  row.seq_nos;
+                    }
+                });
+
                 var row =
                     {
                         adjfolio_cod: singleData.adjfolio_cod,
                         athena_id: singleData.athena_id,
                         hotel_cod: singleData.hotel_cod,
-                        seq_nos: singleDataDtInfo.length == 0 ? 1 : singleDataDtInfo.length + 1,
+                        seq_nos: singleDataDtInfo.length == 0 ? 1 : seqNosTmp + 1,
                         item_nam: "",
                         created: "true",
                         edited: "false",
@@ -183,7 +195,6 @@ var Pms0830070Comp = Vue.extend({
                 _.each(singleDataDtInfo,function (row,index) {
 
                     if( typeof row != "undefined") {
-
                         if (row.deleted == "true" && row.created == "true") {
                             _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
                                 if (row.seq_nos == detailRow.seq_nos) {
@@ -208,29 +219,42 @@ var Pms0830070Comp = Vue.extend({
         },
         //勾選後暫存
         chkAdjfolioData: function (index, status) {
-            this.adjfolioDataItem[index]["check"] = status == "true" ? "false" : "true";
+            this.adjfolioDataItem[index]["checking"] = status == "false" ? "true" : "false";
         },
         //勾選的選項暫存
         saveDt2Dt: function () {
+
             var saveItemDataTmp = this.adjfolioDataItem;
             var savedItemData = PMS0830070VM.singleData4DetialTmp;
 
+            var singleData4ShowDt = [];
+            var isInclude= false;
             //看哪些有被打勾
             _.each(saveItemDataTmp, function (row, index) {
-                if ((row["check"] == "true" && row["checked"] == "false" && row["disabled"] == "false") || (row["check"] == "false" && row["checked"] == "true" && row["disabled"] == "false")) {
+
+                //新勾選以及取消原本的勾選都寫入到暫存
+                if (row["checking"] == "true" && row["checked"] == "false" && row["disabled"] == "false") {
                     if(savedItemData.length > 0) {
                         _.each(savedItemData, function (savedRow, savedIndex) {
-                            console.log(PMS0830070VM.singleData4DetialTmp.indexOf(row != -1));
                             if (savedRow["item_nos"] != row["item_nos"] && (PMS0830070VM.singleData4DetialTmp.indexOf(row) == -1))  {
                                 PMS0830070VM.singleData4DetialTmp.push(row);
+                                singleData4ShowDt.push(row);
                             }
                         });
                     }else {
                         PMS0830070VM.singleData4DetialTmp.push(row);
+                        singleData4ShowDt.push(row);
                     }
+                }else if(row["checking"] == "false" && row["checked"] == "true" && row["disabled"] == "false"){
+                    PMS0830070VM.singleData4DetialTmp.push(row);
+                } else if(row["checking"] == "false" && row["checked"] == "false" && row["disabled"] == "false"){
+                    delete PMS0830070VM.singleData4DetialTmp[row];
+                }else if(row["checking"] == "true" && row["checked"] == "true" && row["disabled"] == "false"){
+                    singleData4ShowDt.push(row);
                 }
             });
-            PMS0830070VM.singleDataDt2 = PMS0830070VM.singleData4DetialTmp;
+
+            this.singleDataDt2 = singleData4ShowDt;
             this.adjfolioDataItem = {};
             this.dialogServiceItemVisible = false;
         }
@@ -312,13 +336,14 @@ var PMS0830070VM = new Vue({
                     PMS0830070VM.pageOneFieldData = response.fieldData;
                 });
         },
+        //新增單筆
         addRoute: function () {
-
             var self = this;
             self.singleData = {adjfolio_cod: '', adjfolio_rmk: ''};
             self.singleDataDt = [];
             self.isCreateStatus = true;
             self.isEditStatus = false;
+            vmHub.$emit('updateDetail2');
             self.openRouteDialog();
             $.post("/api/addFuncRule", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 if (result.success) {
