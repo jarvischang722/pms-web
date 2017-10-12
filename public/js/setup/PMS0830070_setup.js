@@ -102,10 +102,13 @@ var Pms0830070Comp = Vue.extend({
 
             $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
                 if (PMS0830070VM.singleData4DetialTmp.length > 0) {
+                    console.log(PMS0830070VM.singleData4DetialTmp);
                     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
                         if(typeof row != "undefined") {
                             if (row.seq_nos == index && row.checking == "true") {
                                 response.routeDtList.push(row);
+                            }else if(row.seq_nos == index && row.checking == "false" && row.checked == "true" ){
+
                             }
                         }
                     });
