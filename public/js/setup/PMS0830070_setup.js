@@ -92,7 +92,6 @@ var Pms0830070Comp = Vue.extend({
         //點擊Dt跳Dt2
         getSingleDt2: function (index) {
             var self = this;
-            //var dtListTmp;
             var params = {
                 athena_id: self.singleData.athena_id,
                 hotel_cod: self.singleData.hotel_cod,
@@ -106,6 +105,8 @@ var Pms0830070Comp = Vue.extend({
                         if(typeof row != "undefined") {
                             if (row.seq_nos == index && row.checking == "true") {
                                 response.routeDtList.push(row);
+                            }else if(row.seq_nos == index && row.checking == "false" && row.checked == "true" ){
+                                response.routeDtList.splice(detailIndex,1);
                             }
                         }
                     });
@@ -189,6 +190,7 @@ var Pms0830070Comp = Vue.extend({
         //刪除明細
         btnDeleteDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
+            var self = this;
             //刪除明細也要將detail有的刪除
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
@@ -197,19 +199,26 @@ var Pms0830070Comp = Vue.extend({
                     if( typeof row != "undefined") {
                         if (row.deleted == "true" && row.created == "true") {
                             _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
-                                if (row.seq_nos == detailRow.seq_nos) {
-                                    delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                                if(detailRow.seq_nos != "undefined") {
+                                    if (row.seq_nos == detailRow.seq_nos) {
+                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp,detailRow);
+                                    }
                                 }
                             });
                             PMS0830070VM.singleDataDt =_.without(PMS0830070VM.singleDataDt,row);
+                            self.singleDataDt2={};
                         } else if (row.deleted == "true" && row.edited == "true") {
                             _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
-                                if (row.seq_nos == detailRow.seq_nos) {
-                                    delete PMS0830070VM.singleData4DetialTmp[detailIndex];
+                                if(detailRow.seq_nos != "undefined") {
+                                    if (row.seq_nos == detailRow.seq_nos) {
+                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp,detailRow);
+                                    }
                                 }
                             });
+
                             PMS0830070VM.singleDataDtEdit4DeleteTmp.push(row);
                             PMS0830070VM.singleDataDt=_.without(PMS0830070VM.singleDataDt,row);
+                            self.singleDataDt2={};
                         }
                     }
                 });
