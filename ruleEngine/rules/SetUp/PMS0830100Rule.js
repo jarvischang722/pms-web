@@ -42,7 +42,7 @@ module.exports = {
         }
 
         function qryRoomCod(rent_cal_dat, cb) {
-            lo_params.rent_cal_dat = moment(rent_cal_dat).format("YYYY-MM-DD");
+            lo_params.rent_cal_dat = rent_cal_dat;
             queryAgent.queryList("QRY_HFD_REST_MN_ROOM_COD", lo_params, 0, 0, function (err, getResult) {
                 if (!err) {
                     cb(null, getResult);
