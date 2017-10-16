@@ -13,6 +13,7 @@ var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var moment = require("moment");
 var go_sysConf = require("../configs/SystemConfig");
+var commonRule = require("../ruleEngine/rules/CommonRule");
 /**
  *
  * @param prg_id{String} : 程式編號
@@ -279,7 +280,7 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
             tmpIns[objKey] = c_data[objKey];
         });
 
-        tmpIns = _.extend(tmpIns, ruleAgent.getCreateCommonDefaultDataRule(session));
+        tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
 
         savaExecDatas[exec_seq] = tmpIns;
         exec_seq++;
@@ -312,7 +313,7 @@ exports.combineExecData = function (fieldData, tmpCUD, session, mainTableName) {
             tmpEdit[objKey] = u_data[objKey];
         });
 
-        tmpEdit = _.extend(tmpEdit, ruleAgent.getEditDefaultDataRule(session));
+        tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
 
         delete tmpEdit["ins_dat"];
         delete tmpEdit["ins_usr"];
@@ -635,23 +636,25 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     }
     //dt2 新增資料
     for (var i = 0; i < la_dt2CreateData.length; i++) {
-        let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
-        tmpCreateData = _.extend(tmpCreateData, la_dt2CreateData[i]);
-        tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-        tmpCreateData["athena_id"] = session.user.athena_id;
-        tmpCreateData["hotel_cod"] = session.user.fun_hotel_cod;
-        delete tmpCreateData["item_sna"];
-        delete tmpCreateData["checked"];
-        delete tmpCreateData["disabled"];
-        lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
-        ln_exec_seq++;
+        if(la_dt2CreateData[i].checking == "true" && la_dt2CreateData[i].checked == "false") {
+            let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
+            tmpCreateData = _.extend(tmpCreateData, la_dt2CreateData[i]);
+            tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
+            tmpCreateData["athena_id"] = session.user.athena_id;
+            tmpCreateData["hotel_cod"] = session.user.fun_hotel_cod;
+            delete tmpCreateData["item_sna"];
+            delete tmpCreateData["checked"];
+            delete tmpCreateData["disabled"];
+            lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
+            ln_exec_seq++;
+        }
     }
     //dt 編輯資料
     for (var i = 0; i < la_dt2UpdateData.length; i++) {
         //先刪除dt2
         let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
 
-        if(la_dt2UpdateData[i].check == "false" && la_dt2UpdateData[i].checked == "true"){
+        if(la_dt2UpdateData[i].checking == "false" && la_dt2UpdateData[i].checked == "true"){
 
             tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
             tmpDelData.condition.push(

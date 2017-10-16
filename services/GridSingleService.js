@@ -1373,7 +1373,10 @@ function dataValueChange(fields, data) {
 
 //將要顯示在頁面上的欄位格式做轉換
 function changeValueFormat(value, ui_type) {
-    var valueTemp;
+    var valueTemp = "";
+    if(value == null) {
+        return valueTemp;
+    }
     if (ui_type == "time") {
         if (!_.isEmpty(value)) {
             var hour = value.substring(0, 2);
@@ -1396,6 +1399,9 @@ function changeValueFormat(value, ui_type) {
             valueTemp.push(array[i]);
         }
     }
+    else if(ui_type.toLocaleLowerCase() == "number"){
+        valueTemp = Number(value);
+    }
 
     return valueTemp;
 }
@@ -1403,6 +1409,11 @@ function changeValueFormat(value, ui_type) {
 //將儲存或修改的欄位格式做轉換
 function changeValueFormat4Save(value, ui_type) {
     var valueTemp;
+
+    if(value == null || value == ""){
+        return "";
+    }
+
     if (ui_type == "time") {
         valueTemp = value.replace(":", "");
     } else if (ui_type == "percent") {
@@ -1415,6 +1426,9 @@ function changeValueFormat4Save(value, ui_type) {
         }
     } else if (ui_type == "multiselect") {
         valueTemp = "'" + value.join() + "'";
+    }
+    else if(ui_type.toLocaleLowerCase() == "number"){
+        valueTemp = Number(value);
     }
 
     return valueTemp;

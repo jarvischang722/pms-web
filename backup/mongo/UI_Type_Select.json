@@ -1261,7 +1261,7 @@
     "tab_page_id" : "查詢", 
     "ui_field_name" : "floor_nos", 
     "ui_display_name" : "", 
-    "rule_func_name" : "qryRoommnQryFloornos", 
+    "rule_func_name" : "qry_Room_mn_Qry_Floor_nos", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
     "multi_lang_table" : "", 
@@ -1377,6 +1377,188 @@
     "rule_func_name" : "QRY_CUST_MN_FOR_ASHOW_COD", 
     "defaultVal" : "", 
     "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f763"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "N:在職／Q:離職", 
+    "rule_func_name" : "lang_status_cod", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f764"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "class_cod", 
+    "ui_type" : "select(單筆mutlitree)", 
+    "ui_display_name" : "class_nam", 
+    "rule_func_name" : "qry_class_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f765"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f766"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "bq_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f767"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "member_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f768"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "user_nos", 
+    "ui_type" : "select", 
+    "ui_display_name" : "usr_cname", 
+    "rule_func_name" : "qry_user_nos", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f769"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "(N:正常／X:停用)", 
+    "rule_func_name" : "lang_sales_hotel_dt_status_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f76a"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "class_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "class_nam", 
+    "rule_func_name" : "qry_class_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d838c50201fc486f76b"), 
+    "prg_id" : "PMS0620020", 
+    "ui_field_name" : "hotel_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "hotel_nam", 
+    "rule_func_name" : "qry_hotel_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ddae168c50201fd0130a0f"), 
+    "prg_id" : "PMS0620010", 
+    "ui_field_name" : "status_cod", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_status_cod", 
+    "defaultVal" : "N", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ddae168c50201fd0130a10"), 
+    "prg_id" : "PMS0620010", 
+    "ui_field_name" : "class_cod", 
+    "ui_type" : "多筆select(查詢mutlitree)", 
+    "ui_display_name" : "class_nam", 
+    "rule_func_name" : "qry_class_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ddae168c50201fd0130a11"), 
+    "prg_id" : "PMS0620010", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ddae168c50201fd0130a12"), 
+    "prg_id" : "PMS0620010", 
+    "ui_field_name" : "bq_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("59ddae168c50201fd0130a13"), 
+    "prg_id" : "PMS0620010", 
+    "ui_field_name" : "member_sales", 
+    "ui_type" : "select", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "lang_yn", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "L", 
     "multi_lang_table" : "", 
     "multi_value_field" : "", 
     "multi_display_field" : ""
