@@ -85,9 +85,8 @@
 
     <!-- easy ui -->
     <script>
-        $.noConflict(true);
+//        $.noConflict(true);
     </script>
-    <script src="../../../public/js/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../../public/js/easyUI/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../../public/js/easyUI/columns-ext.js"></script>
     <script>
@@ -180,6 +179,7 @@
     <!-- jsTree -->
     <script src="../../../public/js/tree/jstree.min.js"></script>
 
+    <script src="/js/saleAndInventory/PSIW500030.js"></script>
 </head>
 <body class="no-skin" data-feedly-mini="yes">
 
@@ -340,19 +340,19 @@
                             <div class="dominos-btn-group">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" role="button">新增</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" onclick="addData()" role="button">新增</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" role="button">修改</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" onclick="editData()" role="button">修改</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" role="button">刪除</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="deleteData()" role="button">刪除</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" role="button">核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="approved()" role="button">核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" role="button">取消核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="cancel()" role="button">取消核准</button>
                                         </li>
                                     </ul>
                             </div>
@@ -361,40 +361,40 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂單編號</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input id="order_nos" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂單日期</label>
-                                        <input type="date" class="input-medium resvCardSpec1" placeholder="">
+                                        <input id="order_dat" type="date" class="input-medium resvCardSpec1" placeholder="">
                                     </div>
                                     <div class="grid-item">
                                         <label>狀態</label>
-                                        <input type="text" class="input-medium resvCard" placeholder="核准" disabled>
+                                        <input id="order_sta" type="text" class="input-medium resvCard" placeholder="核准" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>交貨日期</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="2016/07/06" disabled>
+                                        <input id="ship_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂單格式</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="">
+                                        <input id="order_format" type="text" class="input-medium resvCardSpec1" placeholder="">
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶代號</label>
-                                        <input type="text" class="input-medium w253px" placeholder="" disabled>
+                                        <input id="show_cod" type="text" class="input-medium w253px" placeholder="" disabled>
                                         <input type="text" class="input-medium w253px" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>送貨地點</label>
-                                        <input type="text" class="input-medium w253px" placeholder="" disabled>
-                                        <input type="text" class="input-medium w253px" placeholder="" disabled>
+                                        <input id="ship1_add" type="text" class="input-medium w253px" placeholder="" disabled>
+                                        <input id="ship2_add" type="text" class="input-medium w253px" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -404,43 +404,43 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>訂貨人姓名</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="">
+                                        <input id="atten_nam" type="text" class="input-medium resvCardSpec1" placeholder="">
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂單備註</label>
-                                        <input type="text" class="input-medium w510px" placeholder="">
+                                        <input id="order_rmk" type="text" class="input-medium w510px" placeholder="">
                                     </div>
                                 </div>
                                 <div class="grid">
                                 <div class="grid-item">
                                     <label>輸入者</label>
-                                    <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    <input id="ins_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                 </div>
                                 <div class="grid-item">
                                     <label>輸入日</label>
-                                    <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    <input id="ins_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                 </div>
                             </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>異動者</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="2016/05/05" disabled>
+                                        <input id="upd_usr" type="text" class="input-medium resvCardSpec1" placeholder="2016/05/05" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>異動日</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="2016/05/07" disabled>
+                                        <input id="upd_dat" type="text" class="input-medium resvCardSpec1" placeholder="2016/05/07" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>核准者</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input id="cnfirm_cod" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>核准日</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input id="cnfirm_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                 </div>
                             </div>
