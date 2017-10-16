@@ -4169,7 +4169,18 @@ span.triangle-text {
 }
 .dominos-btn-group li {
   display: inline-block;
-  width: 70px;
+  width: 81px;
+  margin-bottom: 5px;
+}
+.dominos-btn-group li.btn-120 {
+  width: 120px;
+}
+
+.dominos-input-group select {
+  vertical-align: bottom;
+}
+.dominos-input-group .input-medium {
+  margin-bottom: 3px;
 }
 
 /*------  共用區public ------ */
@@ -4827,6 +4838,16 @@ a {
 }
 .input-medium.w510px {
   width: 510px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w388px {
+  width: 388px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w118px {
+  width: 118px;
   max-width: 100%;
   height: 25px;
 }
