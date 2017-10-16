@@ -112,7 +112,7 @@
     <script src="../../../public/js/element_ui/locales/zh_TW.js"></script>
     <script src="../../../public/js/element_ui/locales/ja.js"></script>
     <script src="../../../public/js/element_ui/locales/ko.js"></script>
-
+    <script src="/js/saleAndInventory/PSIW500030.js"></script>
 
     <script>
         var gs_locale = '<%=session.locale%>';
@@ -201,6 +201,9 @@
                         <div class="dominos-inventory-left">
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
+
+                                    <table id="PSIW500030_dg" class="css_table horizTable"></table>
+
                                     <table class="css_table horizTable">
                                         <thead class="css_thead">
                                         <tr class="css_tr text-center">
@@ -316,10 +319,9 @@
                                         </li>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="cancel()" role="button">取消核准</button>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">取消核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">儲存</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" onclick="save()" role="button">儲存</button>
                                         </li>
                                         <li class="btn-120">
                                             <button class="btn btn-primary btn-white btn-defaultWidth" role="button">空白訂貨表單下載</button>
@@ -349,7 +351,6 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>訂單格式</label>
-                                        <span class="moreClick">...</span>
                                         <select name="" id="order_format" class="input-medium resvCardSpec1" style="-webkit-appearance: menulist;">
                                             <option value="">123</option>
                                             <option value="">test</option>

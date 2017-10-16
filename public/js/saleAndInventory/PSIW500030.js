@@ -9,6 +9,330 @@ var prg_id = $("#prg_id").val();
 var go_userid;  //員工編號
 var go_saveData;
 
+/** DatagridRmSingleGridClass ***/
+function DatagridRmSingleGridClass() {
+}
+
+DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
+DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
+
+DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
+    alert(idx);
+    //vm.editingRow = row;
+    //vm.editStatus = true;
+    // vm.fetchSingleData(row, function (success) {
+    //     vm.showSingleGridDialog();
+    // });
+};
+/*** Class End  ***/
+
+//頁面初始化
+$(function(){
+    // if(verify())
+    // {
+    //     initDataGrid();
+    // }
+    // else{
+    //
+    // }
+    initDataGrid();
+});
+
+
+//初始化DataGrid
+function initDataGrid() {
+    var dgIns = {};
+    dgIns = new DatagridRmSingleGridClass();
+    dgIns.init(prg_id, 'PSIW500030_dg', EZfieldClass.combineFieldOption(bindingFieldData(), 'PSIW500030_dg'));
+
+    var lo_params = {
+        func : "getDataGridRows",
+        comp_cod: "1",
+        key_cod1: "a16009"
+    };
+
+    //撈多筆資料
+    //waitingDialog.show('Loading...');
+    $.post("/api/getQueryResult", lo_params, function (result) {
+        //waitingDialog.hide();
+        if (result.data) {
+            dgIns.loadDgData(result.data);
+        } else {
+            alert(result.errorMsg);
+        }
+    });
+}
+
+function bindingFieldData() {
+    var lo_fieldData = [
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "order_nos",
+            ui_type : "text",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 0,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"訂單編號"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "sales_cod",
+            ui_type : "text",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 1,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"員工編號"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "order_dat",
+            ui_type : "date",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 2,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"訂單日期"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "ship_dat",
+            ui_type : "date",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 3,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"交貨日期"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "order_sta",
+            ui_type : "text",
+            ui_field_length : 1,
+            ui_field_num_point : 0,
+            col_seq : 4,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"狀態"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "format_sta",
+            ui_type : "text",
+            ui_field_length : 4,
+            ui_field_num_point : 0,
+            col_seq : 5,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"訂單格式"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "show_cod",
+            ui_type : "text",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 6,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"客戶代號"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "cust_nam",
+            ui_type : "text",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 7,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"客戶名稱"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "order_rmk",
+            ui_type : "text",
+            ui_field_length : 20,
+            ui_field_num_point : 0,
+            col_seq : 8,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"訂單備註"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "ins_usr",
+            ui_type : "text",
+            ui_field_length : 10,
+            ui_field_num_point : 0,
+            col_seq : 9,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"輸入者"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "upd_usr",
+            ui_type : "text",
+            ui_field_length : 10,
+            ui_field_num_point : 0,
+            col_seq : 10,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"異動者"
+        },
+        {
+            athena_id : "",
+            user_id : "",
+            prg_id : "PSIW500030",
+            ui_field_name : "cnfirm_cod",
+            ui_type : "text",
+            ui_field_length : 10,
+            ui_field_num_point : 0,
+            col_seq : 11,
+            width : 100,
+            visiable : "Y",
+            modificable : "N",
+            requirable : "Y",
+            grid_field_name : "psi_quote_mn",
+            keyable : "",
+            format_func_name : "",
+            rule_func_name : "",
+            user_athena_id : "",
+            multi_lang_table : "",
+            page_id : 1,
+            ui_display_name:"核准者"
+        },
+    ];
+    return lo_fieldData;
+}
+
 function verify() {     //驗證人員編號
 
     var lo_check = false;
@@ -27,12 +351,21 @@ function verify() {     //驗證人員編號
         break;
     }
 
-    if(!lo_check){
-        //如果沒輸入員工編號不能進去訂單頁面
-    }
+    return(lo_check);
+
 }
 
-function defaultValue() {     //預設值
+function addData() {     //新增資料
+    defaultValue();
+
+
+    //TODO
+    //帶入訂單日期order_dat、交貨日期ship_dat、客戶代號show_cod(虛擬欄位)、訂貨人attnd_nam
+    //用『客戶代號show_cod』到客戶代號sql：帶回『客戶流水號cust_cod』、『客戶名稱cust_nam』、『送貨地點ship1_add、ship2_add』、『電話cust_tel』
+    //訂單格式下拉內容、
+}
+
+function defaultValue() {     //新增資料預設值
 
     //訂單日期
     var order_dat = moment().format('YYYY-MM-DD');
@@ -40,19 +373,6 @@ function defaultValue() {     //預設值
     var ship_dat = moment().add(1, 'day').format('YYYY/MM/DD');
     $("#ship_dat").val(ship_dat);
 
-}
-
-function addData() {     //新增資料
-    defaultValue();
-
-    bindingData();
-    //JSON.stringify(go_saveData);  //轉json
-    //console.log(go_saveData);
-
-    //TODO
-    //帶入訂單日期order_dat、交貨日期ship_dat、客戶代號show_cod(虛擬欄位)、訂貨人attnd_nam
-    //用『客戶代號show_cod』到客戶代號sql：帶回『客戶流水號cust_cod』、『客戶名稱cust_nam』、『送貨地點ship1_add、ship2_add』、『電話cust_tel』
-    //訂單格式下拉內容、
 }
 
 function editData() {    //修改資料
@@ -87,7 +407,10 @@ function save() {        //儲存
     //TODO
     //判斷是新增還是修改
     //判斷狀態為待核或核准
-    //組資料
+    bindingData();                  //組資料
+    //JSON.stringify(go_saveData);  //轉json
+    //console.log(go_saveData);
+
     //將dt貨號空白的貨品清除,這些不需要透過API入到DB
     //主檔稅額與明細稅額合計的差異數，調到最後一筆計稅明細的稅額
     //換句話說『將差額調到psi_quote_dt.SORDER_TAX最後一筆有值的明細』
@@ -164,25 +487,6 @@ function bindingData() {      //組資料
     go_saveData = lo_saveData;
 
 }
-
-/** DatagridRmSingleGridClass ***/
-function DatagridRmSingleGridClass() {
-}
-
-DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
-DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {
-    //
-};
-DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
-    PMS0830090VM.editingRow = row;
-    PMS0830090VM.editStatus = true;
-    PMS0830090VM.fetchSingleData(row, function (success) {
-        PMS0830090VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(go_Field_Data_Tmp, "row_seq"), "row_seq"));
-        PMS0830090VM.oriPageTwoFieldData = go_Field_Data_Tmp;
-        PMS0830090VM.showSingleGridDialog();
-    });
-};
-/*** Class End  ***/
 
 /** 欄位多語系Dialog **/
 Vue.component("field-multi-lang-dialog-tmp", {
@@ -1123,164 +1427,6 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.initTmpCUD();
 
             $("#singleGridPMS0830090").dialog('close');
-        },
-
-        //組批次新增的欄位
-        fetchBatchFieldData: function () {
-
-            var lo_fieldData = [
-                {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "account_length",
-                    ui_type : "select",
-                    selectData: [
-                        {
-                            display: '4',
-                            value: '4'
-                        },
-                        {
-                            display: '5',
-                            value: '5'
-                        },
-                        {
-                            display: '6',
-                            value: '6'
-                        }
-                    ],
-                    ui_field_length : 6,
-                    ui_field_num_point :0,
-                    row_seq : 1,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"公帳號長度"
-                },
-                {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "prefix",
-                    ui_type : "text",
-                    ui_field_length : 1,
-                    ui_field_num_point :0,
-                    row_seq : 1,
-                    height : 25,
-                    col_seq : 2,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"使用字首"
-                },
-                {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "start_num",
-                    ui_type : "text",
-                    ui_field_length : 5,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "ChkGreaterZeroNum",
-                    rule_func_name : "",
-                    ui_display_name:"起始編號"
-                },
-                {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "end_num",
-                    ui_type : "text",
-                    ui_field_length : 5,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 2,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "ChkGreaterZeroNum",
-                    rule_func_name : "",
-                    ui_display_name:"結尾編號"
-                },
-                {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "master_typ",
-                    ui_type : "select",
-                    ui_field_length : 1,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"類別",
-                    selectData:[
-                        {
-                            value: "A",
-                            display:"A : 系統自動給號"
-                        },
-                        {
-                            value: "C",
-                            display:"C : 現金帳"
-                        }
-                    ]
-                }
-            ];
-
-            return lo_fieldData;
         },
 
         //顯示textgrid跳窗訊息
