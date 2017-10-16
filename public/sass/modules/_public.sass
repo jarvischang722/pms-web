@@ -258,8 +258,16 @@ $medium-c3-card: 212px
     +input-s1(695px)
   &.popWindow-s1
     +input-s1(155px)
+    //popWindow-s1拆成兩個
+  &.consumeCode-g1-s
+    +input-s1(50px)
+  &.consumeCode-g1-m
+    +input-s1(102px)
+
   &.popWindow-s1Remark
     +input-s1(128px)
+  &.popWindow-s1-col3
+    +input-s1(672px)
     // resv_gProfile
   &.popWindow-s2
     +input-s1(138px)
@@ -505,7 +513,14 @@ input.numStyle-none
       margin: 0 108px auto 5px
       .checkbox-width
         width: auto
-
+  &.routingCkbox
+    margin: 3px 0
+    label
+      text-align: left
+      width: 100px
+    .checkbox-width
+      padding: 0
+      margin: 0
 .text-right
   text-align: right!important
   .numeric

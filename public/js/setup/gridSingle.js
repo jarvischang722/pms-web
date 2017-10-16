@@ -341,7 +341,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             isVerified: true,
             fieldChecking: false,  //是否在檢查欄位中
             BTN_action: false
-
         };
     },
     watch: {
@@ -399,7 +398,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
             if (!_.isEmpty(rule_func_name.trim())) {
-
                 _.each(this.singleData, function (value, key) {
                     if (_.isUndefined(value)) {
                         self.singleData[key] = "";
@@ -413,9 +411,10 @@ Vue.component('sigle-grid-dialog-tmp', {
                     singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                     oriSingleRowData: this.$parent.oriSingleData
                 };
+
                 $.post('/api/chkFieldRule', postData, function (result) {
                     self.isEditingForFieldRule = false;
-
+                    self.isRuleComplete = true;
                     if (result.success) {
                         self.isVerified = true;
                     } else {
@@ -537,8 +536,28 @@ Vue.component('sigle-grid-dialog-tmp', {
         emitAppendRow: function () {
             this.$emit('append-row');
         },
+
+        initRuleComplete: function (ui_field_name, rule_func_name) {
+            if (!_.isEmpty(rule_func_name.trim())) {
+                this.isRuleComplete = false;
+            }
+        },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
+
+            if (this.isRuleComplete == false) {
+                if (this.timer == null) {
+                    this.timer = setInterval(this.doSaveGrid(saveAfterAction), 5000);
+                }
+                console.log("waiting rule complete");
+                return;
+            }
+            else {
+                clearInterval(this.timer);
+                console.log("rule complete");
+                this.timer = null;
+            }
+
             var self = this;
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
@@ -882,7 +901,9 @@ var vm = new Vue({
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: [],
-        isSaving :false
+        isSaving: false,
+        isRuleComplete: true,
+        timer: null
     },
     watch: {
         editStatus: function (newVal) {
@@ -1111,12 +1132,14 @@ var vm = new Vue({
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
+                vm.isSaving = false;
                 return callback(false);
             }
 
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 vm.isSaving = false;
+                console.log(vm.isSaving);
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {

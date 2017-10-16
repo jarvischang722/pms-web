@@ -585,7 +585,9 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                         ruleAgent[createRuleFuncName](postData, session, function (err, result) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
-                                                postData.singleRowData = result.effectValues;
+                                                if(!_.isEmpty(result.effectValues)){
+                                                    postData.singleRowData = result.effectValues;
+                                                }
                                             }
                                             callback(err, 'create');
                                         });
@@ -622,6 +624,9 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                         ruleAgent[updateRuleFuncName](postData, session, function (err, result) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
+                                                if(!_.isEmpty(result.effectValues)){
+                                                    postData.singleRowData = result.effectValues;
+                                                }
                                             }
                                             callback(err, 'update');
                                         });
@@ -718,3 +723,25 @@ exports.doChkSingleGridAfterSave = function (postData, session, callback) {
 
 
 };
+
+/**
+ * 特殊版型多筆，按下特殊按鈕，規則檢查
+ */
+exports.chkSpecialDataGridBtnEventRule = function(postData, session, callback){
+    let func_id = postData.func_id || "";
+    let prg_id = postData.prg_id || "";
+
+    if(_.isUndefined(ruleAgent[prg_id + "_" + func_id])){
+        callback(null, '');
+        return;
+    }
+    else if(func_id == "" || prg_id == ""){
+        console.error("prg_id 或 func_id為空值");
+        callback(null, '');
+        return;
+    }
+
+    ruleAgent[prg_id + "_" + func_id](postData, session, function(err, result){
+        callback(err, result);
+    });
+}

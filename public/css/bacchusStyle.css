@@ -486,8 +486,23 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.consumeCode-g1-s {
+  width: 50px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.consumeCode-g1-m {
+  width: 102px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.popWindow-s1Remark {
   width: 128px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.popWindow-s1-col3 {
+  width: 672px;
   max-width: 100%;
   height: 25px;
 }
@@ -843,6 +858,17 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
+}
+.searchCheckbox.routingCkbox {
+  margin: 3px 0;
+}
+.searchCheckbox.routingCkbox label {
+  text-align: left;
+  width: 100px;
+}
+.searchCheckbox.routingCkbox .checkbox-width {
+  padding: 0;
+  margin: 0;
 }
 
 .text-right {
