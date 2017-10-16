@@ -2,10 +2,10 @@
     jQuery(function () {
 
         /***
-         * PMS0310010 Billing
+         * PMS0310010 住客帳維護/Billing
          */
 
-        // 彈出 住客帳維護單筆
+        // 彈出 住客帳維護單筆 cashier_openCashAcc
         $(document).on('click', ".cashier_openCashAcc", function (e) {
             e.preventDefault();
             var dialog = $("#cashier_openCashAcc-message").removeClass('hide').dialog({
@@ -21,26 +21,185 @@
             });
         });
 
-        /***
-         *  PMS0310010 dataGrid
-         */
 
-        // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
-        $('#cashier_openCashAccDg-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/cashier_openCashAccDg.json',
-            method: 'get',
-            columns: [[
-                {field: 'rmNo', title: 'Rm No.', width: 80},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'coDate', title: 'C/O Date', width: 100},
-                {field: 'coAlert', title: 'C/O Alert', width: 260},
-                {field: 'company', title: 'Company', width: 140}
-            ]]
+        // 彈出 Billing>routing
+        $(document).on('click', ".cashier_routing", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_routing-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Routing",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         });
 
+
+        // 彈出 Billing>transfer (cashier_transfer)
+        $(document).on('click', ".cashier_transfer", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_transfer-message").removeClass('hide').dialog({
+                modal: true,
+                title: "請選擇要轉出的消費資料",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 Billing>adjustment (cashier_adjustment)
+        $(document).on('click', ".cashier_adjustment", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_adjustment-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Adjustment",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 Billing>Folio (cashier_folio)
+        $(document).on('click', ".cashier_folio", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_folio-message").removeClass('hide').dialog({
+                modal: true,
+                title: "帳單列印",
+                title_html: true,
+                width: 600,
+                height: 200,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 Billing>folioStatus (cashier_folioStatus)
+        $(document).on('click', ".cashier_folioStatus", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_folioStatus-message").removeClass('hide').dialog({
+                modal: true,
+                title: "開關帳",
+                title_html: true,
+                width: 300,
+                height: 150,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true,
+                buttons: [
+                    {
+                        text: "是(Y)",
+                        "class" : "btn btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    {
+                        text: "否(N)",
+                        "class" : "btn btn-primary btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ]
+            });
+        });
+
+        // 彈出 Billing>partialSettle (cashier_partialSettle_s1)
+        $(document).on('click', ".cashier_partialSettle_s1", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_partialSettle_s1-message").removeClass('hide').dialog({
+                modal: true,
+                title: "開關帳",
+                title_html: true,
+                width: 300,
+                height: 150,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true,
+                buttons: [
+                    {
+                        text: "是(Y)",
+                        "class" : "btn btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+
+                        //todo 連接到“cashier_partialSettle_s2”
+                    },
+                    {
+                        text: "否(N)",
+                        "class" : "btn btn-primary btn-minier cashier_partialSettle_s2",
+                        click: function() {
+                            alert('123');
+                            $('.cashier_partialSettle_s2').dialog( "open" );
+                        }
+                    }
+                ]
+            });
+        });
+
+        // 彈出 Billing>partialSettle_s2 (cashier_partialSettle_s2)
+        $(document).on('click', ".cashier_partialSettle_s2", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_partialSettle_s2-message").removeClass('hide').dialog({
+                modal: true,
+                title: "住客帳結帳作業",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 Billing>breakDown (cashier_breakDown)
+        $(document).on('click', ".cashier_breakDown", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_breakDown-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Break Down",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 PMS0310010 Billing>split (cashier_split)
+        $(document).on('click', ".cashier_split", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_split-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Split",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                minheight: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         /***
          * PMS0320010 外幣匯兌
@@ -129,6 +288,84 @@
         /***
          * dataGrid
          */
+
+
+        <!-- ********* PMS0310010 dataGrid ********* -->
+
+        // 住客帳維護_單筆_分帳夾01 cashier_GstLedgerSgl01 dataGrid
+        $('#cashier_openCashAccDg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier_openCashAccDg.json',
+            method: 'get',
+            columns: [[
+                {field: 'rmNo', title: 'Rm No.', width: 80},
+                {field: 'fullName', title: 'Full Name', width: 100},
+                {field: 'coDate', title: 'C/O Date', width: 100},
+                {field: 'coAlert', title: 'C/O Alert', width: 260},
+                {field: 'company', title: 'Company', width: 140}
+            ]]
+        });
+
+        // PMS0310010 Billing>Transfer (cashier_transferDg-table) dataGrid
+        $('#cashier_transferDg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier/cashier_transferDg.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '選擇', width: 40, align: 'center'},
+                {field: 'consumeNum', title: '消費單號', width: 150},
+                {field: 'consumeItem', title: '消費項目', width: 150},
+                {field: 'quantity', title: '數量', width: 60, align: 'right'},
+                {field: 'money', title: '金額', width: 60, align: 'right'},
+                {field: 'consumeDate', title: '消費日期', width: 140},
+                {field: 'billDate', title: '帳單日期', width: 140},
+                {field: 'bill', title: '帳單', width: 140}
+            ]]
+        });
+
+        // Billing>Adjustment cashier_adjustmentDg (cashier_adjustmentDg-table) dataGrid
+        $('#cashier_adjustmentCslDg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier/cashier_adjustmentCslDg.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '選擇', width: 40, align: 'center'},
+                {field: 'consumeNum', title: '消費單號', width: 150},
+                {field: 'consumeCode', title: '消費代號', width: 150},
+                {field: 'quantity', title: '數量', width: 60, align: 'right'},
+                {field: 'subTotal', title: '小計', width: 60, align: 'right'},
+                {field: 'reasonCancel', title: '註銷原因', width: 200},
+                {field: 'tax', title: '稅別', width: 140},
+                {field: 'roomNum', title: '房號', width: 140}
+            ]]
+        });
+
+        // Billing>Adjustment cashier_partialSettle_s2Dg (cashier_adjustmentDg-table) dataGrid
+        $('#cashier_partialSettle_s2Dg-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/cashier/cashier_partialSettle_s2Dg.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkbox', title: '結帳', width: 40, align: 'center'},
+                {field: 'consumeNum', title: '消費單號', width: 150},
+                {field: 'billDate', title: '帳單日期', width: 150},
+                {field: 'code', title: '代號', width: 80},
+                {field: 'consumeName', title: '消費名稱', width: 150},
+                {field: 'quantity', title: '數量', width: 60, align: 'right'},
+                {field: 'total', title: '消費總額', width: 60, align: 'right'},
+                {field: 'tax', title: '稅別', width: 140}
+            ]]
+        });
+
+        <!-- ********* PMS0320010 dataGrid ********* -->
 
         // 外幣匯兌 cashier_FX-table dataGrid
         $('#cashier_FX-table').datagrid({
