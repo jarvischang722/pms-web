@@ -4,6 +4,7 @@
  */
 var moment = require("moment");
 var _ = require("underscore");
+var fs = require("fs");
 
 module.exports = {
     /**
@@ -68,20 +69,34 @@ module.exports = {
      * @param arg2 : 乘數
      * @returns {Number} : 結果
      */
-    accMul : function(arg1, arg2) {
+    accMul: function (arg1, arg2) {
         var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
         try {
-            m += s1.split(".")[1].length
+            m += s1.split(".")[1].length;
         } catch (e) {
         }
         try {
-            m += s2.split(".")[1].length
+            m += s2.split(".")[1].length;
         } catch (e) {
         }
-        return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+        return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
     },
 
-    getMsgByCod: function(msgCod){
-        return i18n.__("ErrorMsg")[msgCod];
+    getMsgByCod: function (msgCod, locale) {
+
+        var appRootPath = require('app-root-path').path;
+        var localeContent = {};
+        var localesPath = appRootPath + "/locales/";
+
+        var isExist = fs.existsSync(localesPath + locale.toLowerCase() + ".json");
+        if (isExist) {
+            localeContent = require(localesPath + locale.toLowerCase() + ".json");
+
+        } else {
+            console.error("找不到多語系對應檔案[" + localesPath + locale.toLowerCase() + ".json]");
+            localeContent = require(localesPath + "en.json");
+        }
+
+        return localeContent.ErrorMsg[msgCod];
     }
 };

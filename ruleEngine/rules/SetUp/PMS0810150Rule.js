@@ -19,107 +19,58 @@ module.exports = {
         var dpreqTmp = postData.singleRowData.dp_req;
         var lo_result = new ReturnClass();
         var lo_error = null;
-        if(dpreqTmp == "N"){
+        if (dpreqTmp == "N") {
             postData.singleRowData.dp_rat = "0";
             lo_result.effectValues = postData.singleRowData;
             callback(lo_error, lo_result);
-        }else {
+        } else {
             callback(lo_error, lo_result);
         }
     },
     //新增儲存時驗證dp_req(需收訂金)
     r_svr2msg_rf_ins_save: function (postData, session, callback) {
-        var dpreqTemp = postData.singleRowData.dp_req;
-        var dpratTemp = postData.singleRowData.dp_rat;
-
-        var guarenrmkTmp = postData.singleRowData.guarentee_rmk;  //內容
-        var viewSeqTmp = postData.singleRowData.view_seq;  //排序
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-
-        if(guarenrmkTmp == "") {
-            lo_error = new ErrorClass();
-            lo_result.success = false;
-            lo_error.errorMsg = "請輸入內容";
-            lo_error.errorCod = "1111";
-            callback(lo_error, lo_result);
-        }else if (viewSeqTmp == ""){
-            lo_error = new ErrorClass();
-            lo_result.success = false;
-            lo_error.errorMsg = "請輸入顯示順序";
-            lo_error.errorCod = "1111";
-            callback(lo_error, lo_result);
-
-        }else {
-            if (dpreqTemp == "Y") {
-                if (dpratTemp > 0) {
-                    callback(lo_error, lo_result);
-                } else {
-                    lo_error = new ErrorClass();
-                    lo_result.success = false;
-                    lo_error.errorMsg = "%需大於0";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, lo_result);
-                }
-            }
-            else {
-                if (dpratTemp != 0) {
-                    postData.singleRowData.dp_rat = "0";
-                    lo_result.effectValues = postData.singleRowData;
-                    callback(lo_error, lo_result);
-                } else {
-                    callback(lo_error, lo_result);
-                }
-            }
-        }
+        this.ins_modify_func(postData, session, callback);
     },
     //修改儲存時驗證dp_req(需收訂金)
     r_svr2msg_rf_modify_save: function (postData, session, callback) {
+        this.ins_modify_func(postData, session, callback);
+    },
+
+    ins_modify_func: function(postData, session, callback){
         var dpreqTemp = postData.singleRowData.dp_req;
         var dpratTemp = postData.singleRowData.dp_rat;
 
-        var guarenrmkTmp = postData.singleRowData.guarentee_rmk;  //內容
+        var guarenrmkTmp = postData.singleRowData.guarentee_rmk.trim();  //內容
         var viewSeqTmp = postData.singleRowData.view_seq;  //排序
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(guarenrmkTmp == "") {
+        if (guarenrmkTmp == "") {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "請輸入內容";
-            lo_error.errorCod = "1111";
-            callback(lo_error, lo_result);
-        }else if (viewSeqTmp == ""){
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg25", session.locale);
+        } else if (viewSeqTmp == "") {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "請輸入顯示順序";
-            lo_error.errorCod = "1111";
-            callback(lo_error, lo_result);
-
-        }else {
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg26", session.locale);
+        } else {
 
             if (dpreqTemp == "Y") {
-                if (dpratTemp > 0) {
-                    callback(lo_error, lo_result);
-                } else {
+                if (dpratTemp <= 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "%需大於0";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, lo_result);
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms81msg27", session.locale);
                 }
             } else {
                 if (dpratTemp != 0) {
                     postData.singleRowData.dp_rat = "0";
                     lo_result.effectValues = postData.singleRowData;
-                    callback(lo_error, lo_result);
-                }
-                else {
-                    callback(lo_error, lo_result);
                 }
             }
         }
+        callback(lo_error, lo_result);
     },
+
     //訂房主黨有使用代號則不可刪除
     chk_hfd_guarentee_rf_is_exist_order_mn: function (postData, session, callback) {
 
@@ -137,21 +88,15 @@ module.exports = {
                     if (guestData.guarentee_typ_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "訂房保證方式有在用的,不可刪除";
-                        lo_error.errorCod = "1111";
-
-                        callback(lo_error, lo_result);
-                    } else {
-                        callback(lo_error, lo_result);
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg28", session.locale);
                     }
                 } else {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
                     lo_error.errorMsg = err;
                     lo_error.errorCod = "1111";
-
-                    callback(err, lo_result);
                 }
+                callback(lo_error, lo_result);
             });
         }
     }

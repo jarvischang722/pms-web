@@ -43,7 +43,7 @@ exports.getLocaleContent = function (req, res) {
         if (isExist) {
             localeContent = require(localesPath + req.session.locale.toLowerCase() + ".json");
         } else {
-            console.error("找不到多語系對應檔案[" + localesPath + req.session.locale.toLowerCase() + ".json" + "]");
+            console.error("找不到多語系對應檔案[" + localesPath + req.session.locale.toLowerCase() + ".json]");
             localeContent = require(localesPath + "en.json");
         }
         res.json({success: true, localeContent: localeContent});
