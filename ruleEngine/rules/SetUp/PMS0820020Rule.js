@@ -2,6 +2,7 @@
  * Created by a14020 on 2017/9/12.
  */
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -55,16 +56,14 @@ module.exports = {
         else if (ls_roomNos == "") {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "房號未填";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg3", session.locale);
             return callback(lo_error, lo_result);
         }
 
         if (ls_connRoom == ls_roomNos) {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "不能與自己房號相同";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg4", session.locale);
             return callback(lo_error, lo_result);
         }
 
@@ -86,8 +85,7 @@ module.exports = {
                 if (getResult.room_count == 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "查無此房號";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms82msg5", session.locale);
                     lo_result.effectValues = postData.oriSingleRowData;
                 }
 
@@ -109,8 +107,9 @@ module.exports = {
                     if (getResult.conn_room.trim() != "" && getResult.conn_room.trim() != ls_roomNos) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "房號【" + ls_connRoom + "】已經有設定連通房號【" + getResult.conn_room.trim() + "】,不能再指定";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms82msg6", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, ls_connRoom, getResult.conn_room.trim());
+
                         cb(lo_error, lo_result);
                     }
                     else {
@@ -166,8 +165,7 @@ module.exports = {
         if (roomSta == "O" || roomSta == "R" || roomSta == "S") {
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "房間狀況為住人、修理及參觀,不可刪除";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg7", session.locale);
             callback(lo_error, lo_result);
         } else {
 
@@ -195,8 +193,9 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "此房間於【" + getResult.batchdat + "】已有排房，請取消排房後再執行刪除";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms82msg8", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+
                     }
                     cb(lo_error, lo_result);
                 });
@@ -208,8 +207,8 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "此房間於【" + getResult.batchdat + "】尚有修理設定，請刪除修理後再執行刪除";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms82msg9", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
                     }
                     cb(lo_error, lo_result);
                 });
@@ -221,8 +220,8 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "此房間於【" + getResult.batchdat + "】尚有參觀設定，請刪除參觀後再執行刪除";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms82msg10", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
                     }
                     cb(lo_error, lo_result);
                 });
@@ -355,8 +354,8 @@ module.exports = {
         else if (ls_conn_room == "" && li_ctrmIsExist != -1) {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "房間特色有CTRM選項，連通房為必填";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg11", session.locale);
+
             return callback(lo_error, lo_result);
         }
         else if (ls_conn_room != "" && li_ctrmIsExist == -1) {
@@ -481,8 +480,8 @@ module.exports = {
                     if (ls_conn_room != "" && ls_conn_room != lo_newSingleData.room_nos) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "房號 " + lo_newSingleData.conn_room + " 已設定連通房 " + getResult.conn_room + "，不允許指定為連通房";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms82msg6", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_newSingleData.conn_room, getResult.conn_room);
                     }
                     cb(lo_error, lo_result);
                 });
@@ -647,8 +646,7 @@ module.exports = {
                 if (li_ctrmIsExist != -1 && lo_newSingleData.conn_room == "") {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "房間特色有CTRM選項，連通房為必填";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms82msg11", session.locale);
                     return cb(lo_error, lo_result);
                 }
 
@@ -838,8 +836,7 @@ module.exports = {
             lo_error = new ErrorClass();
             lo_return.success = false;
             lo_return.effectValues = {room_leng: 6};
-            lo_error.errorMsg = "至多不可超過6碼";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg12", session.locale);
         }
         callback(lo_error, lo_return);
     },
@@ -859,8 +856,7 @@ module.exports = {
         if (li_room_leng == 0) {
             lo_error = new ErrorClass();
             lo_return.success = false;
-            lo_error.errorMsg = "房號長度未填";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms82msg13", session.locale);
             lo_return.effectValues = {room_leng: "2", room_begin_nos: "", room_end_nos: ""};
             return callback(lo_error, lo_return);
         }
@@ -874,8 +870,7 @@ module.exports = {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
                 lo_return.effectValues = {room_begin_nos: ""};
-                lo_error.errorMsg = "房號開始號碼超過房號長度";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms82msg14", session.locale);
                 return callback(lo_error, lo_return);
             }
         }
@@ -885,8 +880,7 @@ module.exports = {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
                 lo_return.effectValues = {room_end_nos: ""};
-                lo_error.errorMsg = "房號結束號碼超過房號長度";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms82msg15", session.locale);
                 return callback(lo_error, lo_return);
             }
         }
@@ -895,8 +889,7 @@ module.exports = {
             if (Number(ls_room_begin_nos) > Number(ls_room_end_nos)) {
                 lo_error = new ErrorClass();
                 lo_return.success = false;
-                lo_error.errorMsg = "開始號碼不可大於結束號碼";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms82msg16", session.locale);
                 lo_return.effectValues = {room_begin_nos: "", room_end_nos: ""};
                 return callback(lo_error, lo_return);
             }

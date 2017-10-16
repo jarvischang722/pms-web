@@ -19,28 +19,22 @@ module.exports = {
     chk_hfd_transport_rf_del: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        var params = {
+        var lo_params = {
             athena_id: session.user.athena_id,
             hotel_cod: session.user.fun_hotel_cod,
             transport_cod: postData.singleRowData.transport_cod
         };
 
         if (!_.isEmpty(postData.singleRowData.transport_cod.trim())) {
-            queryAgent.query("QRY_HFD_PICKUP_DT_COUNT", params, function (err, guestData) {
+            queryAgent.query("QRY_HFD_PICKUP_DT_COUNT", lo_params, function (err, guestData) {
                 if (!err) {
                     if (guestData.pickupcount > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "已被交通接駁記錄使用，無法刪除";
-                        lo_error.errorCod = "1111";
-                        callback(lo_error, lo_result);
-                    } else {
-                        callback(lo_error, lo_result);
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg32", session.locale);
                     }
-                } else {
-                    callback(err, lo_result);
                 }
-
+                callback(err, lo_result);
             });
         }
     }
