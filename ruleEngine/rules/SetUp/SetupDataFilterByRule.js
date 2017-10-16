@@ -39,7 +39,60 @@ exports.PMS0830070Filter = function (rows, session, searchCond, callback) {
 };
 
 exports.PMS0830090Filter = function(rows, session, searchCond, callback) {
-    callback(rows);
+
+    async.waterfall([
+            function (callback) {
+                //show_cod
+                if (!_.isUndefined(searchCond.show_cod) && searchCond.show_cod.length > 0) {
+                    let lo_params = {
+                        show_cod: searchCond.show_cod
+                    };
+
+                    queryAgent.query("QRY_CUST_COD_BY_SHOW_COD", lo_params, function (err, getResult) {
+                        if (getResult == null) {
+                            rows = {};
+                        }
+                        else {
+                            let ls_cust_cod = getResult.cust_cod;
+                            rows = _.filter(rows, function (d) {
+                                return _.indexOf([d.cust_cod], ls_cust_cod) > -1;
+                            });
+                        }
+                        callback(null, rows);
+                    });
+                }
+                else {
+                    callback(null, rows);
+                }
+            },
+        function (rows, callback) {
+            //alt_nam
+            if (!_.isUndefined(searchCond.alt_nam) && searchCond.alt_nam.length > 0) {
+                let lo_params = {
+                    cust_nam: searchCond.alt_nam
+                };
+
+                queryAgent.query("QRY_CUST_COD_BY_CUST_NAM", lo_params, function (err, getResult) {
+                    if (getResult == null) {
+                        rows = {};
+                    }
+                    else {
+                        let ls_cust_cod = getResult.cust_cod;
+                        rows = _.filter(rows, function (d) {
+                            return _.indexOf([d.cust_cod], ls_cust_cod) > -1;
+                        });
+                    }
+                    callback(null, rows);
+                });
+            }
+            else {
+                callback(null, rows);
+            }
+        }
+        ], function (errMsg, rows) {
+            callback(rows);
+        }
+    );
 };
 
 /**
@@ -50,6 +103,35 @@ exports.PMS0830090Filter = function(rows, session, searchCond, callback) {
  * @constructor
  */
 exports.PMS0810180Filter = function (rows, session, searchCond, callback) {
+
+    //ashow_cod
+    if (!_.isUndefined(searchCond.ashow_cod) && searchCond.ashow_cod.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf([d.ashow_cod.trim()], searchCond.ashow_cod.trim()) > -1;
+        });
+    }
+
+    //acust_nam
+    if (!_.isUndefined(searchCond.acust_nam) && searchCond.acust_nam.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf([d.acust_nam.trim()], searchCond.acust_nam.trim()) > -1;
+        });
+    }
+
+    //cshow_cod
+    if (!_.isUndefined(searchCond.cshow_cod) && searchCond.cshow_cod.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf([d.cshow_cod.trim()], searchCond.cshow_cod.trim()) > -1;
+        });
+    }
+
+    //ccust_nam
+    if (!_.isUndefined(searchCond.ccust_nam) && searchCond.ccust_nam.length > 0) {
+        rows = _.filter(rows, function (d) {
+            return _.indexOf([d.ccust_nam.trim()], searchCond.ccust_nam.trim()) > -1;
+        });
+    }
+
     callback(rows);
 };
 

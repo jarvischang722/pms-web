@@ -91,4 +91,29 @@
         <parameter type="int" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">area_cod</parameter>
     </dao>
+
+    <!--[PMS0830090] 查詢對應的客戶內碼by 客戶代號 -->
+    <dao name="QRY_CUST_COD_BY_SHOW_COD">
+        <statement><![CDATA[
+              select cust_cod
+              from cust_mn
+              where trim(show_cod) = trim(:show_cod)
+              and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">show_cod</parameter>
+    </dao>
+
+    <!--[PMS0830090] 查詢對應的客戶內碼by 客戶名稱 -->
+    <dao name="QRY_CUST_COD_BY_CUST_NAM">
+        <statement><![CDATA[
+              select cust_cod
+              from cust_mn
+              where trim(cust_nam) = trim(:cust_nam)
+              and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_nam</parameter>
+    </dao>
+
 </root>

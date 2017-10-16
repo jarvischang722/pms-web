@@ -1021,49 +1021,56 @@
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0100", 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581183"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0200", 
-    "rule_func_name" : ""
+    "rule_func_name" : "r_defaultValueAdd", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581184"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0300", 
-    "rule_func_name" : "r_RoommnDel"
+    "rule_func_name" : "r_RoommnDel", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581185"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : "0400", 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581186"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1009), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581187"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1010), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59b734a0896f2f0520581188"), 
     "prg_id" : "PMS0820020", 
     "tab_page_id" : NumberInt(1), 
     "func_id" : NumberInt(1011), 
-    "rule_func_name" : ""
+    "rule_func_name" : "", 
+    "page_id" : NumberInt(1)
 }
 { 
     "_id" : ObjectId("59c1ddcb1af7d633f8830934"), 
@@ -1094,4 +1101,49 @@
     "prg_id" : "PMS0810020", 
     "func_id" : "0401", 
     "rule_func_name" : "chk_edit_rvrmcod_rf"
+}
+{ 
+    "_id" : ObjectId("59d75d2c8c50201fc486f756"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "1010", 
+    "rule_func_name" : "r_Salesmn1010", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59d75d2c8c50201fc486f757"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "1020", 
+    "rule_func_name" : "r_Salesmn1020", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a00"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0620020"
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a01"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0300", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59ddadf58c50201fd0130a02"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0400", 
+    "rule_func_name" : "", 
+    "link_prg_id" : "PMS0620020"
 }

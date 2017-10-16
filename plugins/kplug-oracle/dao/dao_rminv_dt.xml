@@ -6,12 +6,13 @@
         <statement><![CDATA[
              SELECT  MIN(BATCH_DAT) as batchDat
              FROM  RMINV_DT
-             WHERE  trim(ATHENA_ID) = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ? AND  ASSIGN_STA = 'Y'
+             WHERE  trim(ATHENA_ID) = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
+             AND  trim(ROOM_NOS) = trim(?) AND  ASSIGN_STA = 'Y'
         ]]>
         </statement>
-        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="date" kind="1">batch_dat</parameter>
         <parameter type="string" kind="1">room_nos</parameter>
     </dao>
 
@@ -25,7 +26,7 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="date" kind="1">batch_dat</parameter>
         <parameter type="string" kind="1">room_nos</parameter>
     </dao>
 
@@ -39,7 +40,7 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">batch_dat</parameter>
+        <parameter type="date" kind="1">batch_dat</parameter>
         <parameter type="string" kind="1">room_nos</parameter>
     </dao>
 </root>

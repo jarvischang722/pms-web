@@ -7,3 +7,16 @@
     "func_id" : "0500", 
     "trans_code" : "PMS08200500500"
 }
+{ 
+    "_id" : ObjectId("59ddadc98c50201fd01309f3"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "sales_mn", 
+    "rule_func_name" : "qry_sales_mn", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}

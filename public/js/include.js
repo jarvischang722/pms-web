@@ -112,7 +112,7 @@ $(function () {
         $(this).parents(".search-content").find('.rece-search-detail').slideToggle();
         $(this).children().toggleClass("active");
     });
-    // resevation toggle 依房型訂房
+    // reservation toggle 依房型訂房
     $(document).on('click',".show-extendContent",function (e) {
         $('.extendContent').slideToggle();
         $(this).children().toggleClass("active");
