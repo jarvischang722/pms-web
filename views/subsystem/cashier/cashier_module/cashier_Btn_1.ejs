@@ -1481,8 +1481,7 @@
             </div>
         </div>
     </div>
-    <!-- /.訂房卡 resv_deposits -->
-
+    <!-- /.PMS0310010 Billing>split (cashier_split) -->
 
     <!-- PMS0320010 外幣匯兌 add 彈出視窗 -->
     <div id="cashier_FXDialog-add-message" class="hide padding-5">
@@ -1996,16 +1995,16 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_folio"
                                                 role="button">帳單列印</button>
                                     </li>
 
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth foCnt_prePayment"
                                                 role="button">預估款</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashier_billEmail"
                                                 role="button">帳單E-Mail</button>
                                     </li>
                                 </ul>
@@ -2190,11 +2189,11 @@
                             <div class="right-menu-co">
                                 <ul style="margin-top: 252px;">
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashier_invoiceDetail"
                                                 role="button">發票明細</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashier_paymentDetail"
                                                 role="button">付款明細</button>
                                     </li>
                                 </ul>
@@ -2446,11 +2445,11 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashier_invoiceDetail"
                                                 role="button">發票明細</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth cashier_paymentDetail"
                                                 role="button">付款明細</button>
                                     </li>
                                 </ul>
@@ -2463,5 +2462,356 @@
         </div>
     </div>
     <!-- /.PMS0310030 已結帳處理-住客帳明細 edit 彈出視窗 -->
+
+    <!-- PMS0310010 Settlemented > 明細 > 帳單Email (cashier_billEmail) 彈出視窗-->
+    <!-- 同訂房確認書(Email) resv_BtnPage12 彈出視窗-->
+    <div id="cashier_billEmail-message" class="hide padding-5" style="top: 0 !important;">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+
+                        <div class="main-content-data">
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>訂房卡號</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="0028001" disabled>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>聯絡人姓名</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="rick rsai" disabled>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>Format</label>
+                                    <select class="input-medium popWindow-s1-col2">
+                                        <option value="">1.訂房確認書_103五月版</option>
+                                        <option value="">2.訂房確認書_103六月版</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>電子郵件地址</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>內容格式名稱</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>主旨</label>
+                                    <input type="text" class="input-medium popWindow-s1-col2" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="block-item-content">
+                                        <label class="pull-left">內容</label>
+                                        <div class="relative pull-left">
+                                            <textarea class="input-medium popWindow-s1-col2 pull-left margin-adjust height-auto" rows="5"></textarea>
+                                            <p class="redTip">請用ctrl+Enter換行</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">發送
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.PMS0310010 Settlemented > 明細 > 帳單Email (cashier_billEmail)-->
+
+
+    <!-- PMS0310030 Settlemented > 明細 > 發票明細 (cashier_invoiceDetail) 彈出視窗 -->
+    <div id="cashier_invoiceDetail-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>發票日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="2017/05/11"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>發票號碼</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="KU2398041"/>
+                                    </div>
+                                </div>
+
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>買受人</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>統一編號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>發票種類</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="電子發票"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>稅率</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="0.05"/>
+                                    </div>
+                                </div>
+
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>發票稅別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="應稅"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>發票稅額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="220"/>
+                                    </div>
+                                </div>
+
+                                <!--5-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>發票金額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="4,620"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>開立班別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="1"/>
+                                    </div>
+                                </div>
+
+                                <!--6-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>電子發票</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="Y">是</option>
+                                            <option value="N">否</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>電子發票是否列印</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="Y">是</option>
+                                            <option value="N">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--7-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>是否捐贈</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="Y">是</option>
+                                            <option value="N">否</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>愛心碼</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <!--8-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>載具類別</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <!--9-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>載具顯碼ID</label>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <!--10-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>載具隱碼ID</label>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder=""/>
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+                            <div class="clearfix"></div>
+                            <div class="space-6"></div>
+
+                            <div class="horizTable-outer">
+                                <table class="css_table horizTable" style="width:100%;">
+                                    <thead class="css_thead">
+                                        <tr class="css_tr text-center">
+                                            <th class="css_th" style="width:40%;">品名</th>
+                                            <th class="css_th" style="width:15%;">單價</th>
+                                            <th class="css_th" style="width:15%;">數量</th>
+                                            <th class="css_th" style="width:15%;">含稅總金額</th>
+                                            <th class="css_th" style="width:15%;">稅額</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="css_tbody">
+                                        <tr class="css_tr">
+                                            <td class="css_td">客房房租收入</td>
+                                            <td class="css_td text-right">4,200</td>
+                                            <td class="css_td text-right">1</td>
+                                            <td class="css_td text-right">4,200</td>
+                                            <td class="css_td text-right">200</td>
+                                        </tr>
+                                        <tr class="css_tr">
+                                            <td class="css_td">客房服務費收入</td>
+                                            <td class="css_td text-right">4,200</td>
+                                            <td class="css_td text-right">1</td>
+                                            <td class="css_td text-right">4,200</td>
+                                            <td class="css_td text-right">200</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0310030 Settlemented > 明細 > 發票明細 (cashier_invoiceDetail)  -->
+
+
+    <!-- PMS0310030 Settlemented > 明細 > 付款明細 (cashier_paymentDetail) 彈出視窗 -->
+    <div id="cashier_paymentDetail-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>消費日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="2017/05/11"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>銷售點代號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="FO:客務櫃檯"/>
+                                    </div>
+                                </div>
+
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>信用卡卡號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="5555"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>信用卡有效日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <!--3-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>信用卡付款方式代號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="323"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>結帳日期</label>
+                                        <input type="date" class="input-medium medium-c1" placeholder="2017/05/14"/>
+                                    </div>
+                                </div>
+
+                                <!--4-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>刷卡金額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="9,000"/>
+                                    </div>
+                                </div>
+
+                            </div><!--main-content-data-->
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0310030 Settlemented > 明細 > 付款明細 (cashier_paymentDetail)  -->
 
 </div>
