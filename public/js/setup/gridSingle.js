@@ -549,12 +549,10 @@ Vue.component('sigle-grid-dialog-tmp', {
                 if (this.timer == null) {
                     this.timer = setInterval(this.doSaveGrid(saveAfterAction), 5000);
                 }
-                console.log("waiting rule complete");
                 return;
             }
             else {
                 clearInterval(this.timer);
-                console.log("rule complete");
                 this.timer = null;
             }
 
@@ -1139,7 +1137,6 @@ var vm = new Vue({
             var params = _.extend({prg_id: prg_id}, vm.tmpCud);
             $.post("/api/saveGridSingleData", params, function (result) {
                 vm.isSaving = false;
-                console.log(vm.isSaving);
                 if (result.success) {
                     vm.initTmpCUD();
                     vm.loadDataGridByPrgID(function (success) {

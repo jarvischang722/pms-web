@@ -29,10 +29,11 @@ module.exports = {
         lo_result.defaultValues = commandRules.getCreateCommonDefaultDataRule(session);
 
         var lo_max_key_nos = 0;
-        for(i = 0; i < postData.gridDataInfo.rows.length; i++) {
+        for (i = 0; i < postData.gridDataInfo.rows.length; i++) {
             var lo_current_key_nos = Number(postData.gridDataInfo.rows[i].key_nos);
-            if(lo_current_key_nos > lo_max_key_nos)
+            if (lo_current_key_nos > lo_max_key_nos) {
                 lo_max_key_nos = lo_current_key_nos;
+            }
         }
 
         lo_result.defaultValues.key_nos = lo_max_key_nos += 1;
@@ -52,49 +53,49 @@ module.exports = {
         callback(lo_error, lo_result);
     },
     //Sam:確認開始日期小於結束日期
-    chk_begin_day_correct : function (postData, session, callback) {
+    chk_begin_day_correct: function (postData, session, callback) {
 
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(postData.rowData.end_dat == null || postData.rowData.end_dat == '') return; //如沒資料就跳過規則判斷
+        //如沒資料就跳過規則判斷
+        if (postData.rowData.end_dat == null || postData.rowData.end_dat == '') {
+            return callback(lo_error, lo_result);
+        }
 
         var startDate = postData.newValue;
         var endDate = postData.rowData.end_dat;
 
-        if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
-            callback(lo_error, lo_result);
-        } else {
+        if ((Date.parse(startDate)).valueOf() > (Date.parse(endDate)).valueOf()) {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "開始日期不能大於結束日期";
-            lo_error.errorCod = "1111";
-            postData.rowData.begin_dat = "";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
+            postData.rowData.begin_dat = postData.oldValue;
             lo_result.effectValues = postData.rowData;
-            callback(lo_error, lo_result);
         }
+        callback(lo_error, lo_result);
     },
     //Sam:確認開始日期小於結束日期
-    chk_end_day_correct : function (postData, session, callback) {
+    chk_end_day_correct: function (postData, session, callback) {
 
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        if(postData.rowData.begin_dat == null || postData.rowData.begin_dat == '') return; //如沒資料就跳過規則判斷
+        //如沒資料就跳過規則判斷
+        if (postData.rowData.begin_dat == null || postData.rowData.begin_dat == '') {
+            return callback(lo_error, lo_result);
+        }
 
         var startDate = postData.rowData.begin_dat;
         var endDate = postData.newValue;
 
-        if ((Date.parse(startDate)).valueOf() <= (Date.parse(endDate)).valueOf()) {
-            callback(lo_error, lo_result);
-        } else {
+        if ((Date.parse(startDate)).valueOf() > (Date.parse(endDate)).valueOf()) {
             lo_error = new ErrorClass();
             lo_result.success = false;
-            lo_error.errorMsg = "結束日期不能小於開始日期";
-            lo_error.errorCod = "1111";
-            postData.rowData.end_dat = "";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
+            postData.rowData.end_dat = postData.oldValue;
             lo_result.effectValues = postData.rowData;
-            callback(lo_error, lo_result);
         }
+        callback(lo_error, lo_result);
     }
 };

@@ -56,8 +56,7 @@ module.exports = {
                 if (getResult.sales_mn_count > 0) {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
-                    lo_error.errorMsg = "業務員資料維護已使用，不可刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms86msg2", session.locale);
                     callback(lo_error, lo_return);
                     return true;
                 }

@@ -286,6 +286,62 @@
         });
 
         /***
+         * PMS0310030 已結帳處理(Settlemented)
+         */
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 帳單Email (cashier_billEmail)
+        $(document).on('click', ".cashier_billEmail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_billEmail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "帳單Email",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                height: 400,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 發票明細 (cashier_invoiceDetail)
+        $(document).on('click', ".cashier_invoiceDetail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_invoiceDetail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "發票明細",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: 400,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 付款明細 (cashier_paymentDetail)
+        $(document).on('click', ".cashier_paymentDetail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_paymentDetail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "付款明細",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        /***
          * dataGrid
          */
 
