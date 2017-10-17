@@ -12,9 +12,6 @@
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="likestring" kind="2" condition="rmk_cod like ?" >rmk_cod</parameter>
         <parameter type="likestring" kind="2" condition="msg_tax1 like ?" >msg_tax1</parameter>
-        <parameter type="likestring" kind="2" condition="msg_tax2 like ?" >msg_tax2</parameter>
-        <parameter type="likestring" kind="2" condition="msg_tax3 like ?" >msg_tax3</parameter>
-        <parameter type="likestring" kind="2" condition="msg_tax4 like ?" >msg_tax4</parameter>
     </dao>
 
     <!-- ['PMS0820060'] 取得單筆留言紀錄 -->
