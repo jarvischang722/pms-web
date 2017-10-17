@@ -170,7 +170,7 @@ module.exports = {
                         if (lb_chkOverLap && postData.editRowData.day_sta == eachRowData.day_sta) {
 
                             ls_repeatMsg = commandRules.getMsgByCod("pms83msg15", session.locale);
-                            ls_repeatMsg = _s.sprintf(ls_repeatMsg, (li_curIdx + 1), postData.editRowData.begin_dat, postData.editRowData.end_dat, postData.editRowData.day_sta, (i + 1), ls_eachRowBeginDat, ls_eachRowEndDat, eachRowData.day_sta);
+                            ls_repeatMsg = _s.sprintf(ls_repeatMsg, (li_curIdx + 1), ls_now_begin_dat, ls_now_end_dat, postData.editRowData.day_sta, (i + 1), ls_eachRowBeginDat, ls_eachRowEndDat, eachRowData.day_sta);
                             lo_error = new ErrorClass();
                             lo_result.success = false;
                             lo_error.errorMsg = ls_repeatMsg;
