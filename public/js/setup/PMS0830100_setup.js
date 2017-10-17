@@ -494,7 +494,9 @@ Vue.component('single-grid-pms0830100-tmp', {
             }
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
+            if (delRow.createRow != "Y") {
+                PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
+            }
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -689,7 +691,6 @@ var PMS0830100VM = new Vue({
                     });
                     alert('save success!');
                     waitingDialog.hide();
-
                 } else {
                     waitingDialog.hide();
                     alert(result.errorMsg);
