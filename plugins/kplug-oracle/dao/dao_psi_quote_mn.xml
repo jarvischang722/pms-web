@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- ['PSIW500030'] 門市web訂單作業(多筆) -->
+    <dao name="QRY_PSI_QUOTE_MN">
+        <statement><![CDATA[
+               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
+               from room_mn
+               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">key_cod1</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 門市web訂單作業(單筆mn) -->
+    <dao name="QRY_PSI_QUOTE_SINGLE_MN">
+        <statement><![CDATA[
+               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
+               from room_mn
+               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">key_cod1</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 門市web訂單作業(單筆dt) -->
+    <dao name="QRY_PSI_QUOTE_SINGLE_DT">
+        <statement><![CDATA[
+               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
+               from room_mn
+               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">key_cod1</parameter>
+    </dao>
+
+</root>

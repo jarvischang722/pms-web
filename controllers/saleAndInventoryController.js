@@ -24,6 +24,16 @@ exports.getQueryResult = function (req, res) {
                 res.json({data: result, errorMsg: err});
             });
             break;
+        case "getSingleDataMN":
+            PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
+                res.json({data: result, errorMsg: err});
+            });
+            break;
+        case "getSingleDataDT":
+            PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
+                res.json({data: result, errorMsg: err});
+            });
+            break;
     }
 
 

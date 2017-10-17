@@ -59,6 +59,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_pg_ais2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_quote_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>

@@ -20,9 +20,9 @@ let fieldAttrSvc = require("./FieldsAttrService");
 
 
 /**
- * QuerySQL
+ * 取得多筆
+ * @param params
  * @param session
- * @param prg_id
  * @param callback
  */
 exports.getDataGridRows = function (params ,session, callback) {
@@ -30,13 +30,11 @@ exports.getDataGridRows = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        athena_id : "1",
-        hotel_cod : "02",
         comp_cod: params.comp_cod,
         key_cod1: params.key_cod1
     };
 
-    queryAgent.queryList("QRY_HKMTYPE_RF", lo_params, 0, 0, function (err, Result) {
+    queryAgent.queryList("QRY_PSI_QUOTE_MN", lo_params, 0, 0, function (err, Result) {
         if (Result) {
             callback(lo_error, Result);
         }
@@ -47,7 +45,6 @@ exports.getDataGridRows = function (params ,session, callback) {
             callback(lo_error, Result);
         }
     });
-
 };
 
 
