@@ -322,7 +322,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     let go_dataGridField;
     let lo_pageField;
     async.waterfall([
-            function (callback){
+            function (callback) {
                 mongoAgent.UI_PageField.find({
                     prg_id: prg_id,
                     page_id: 2
@@ -770,7 +770,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     function combineDtDeleteExecData(checkResult, callback) {
         try {
             _.each(dt_deleteData, function (data) {
-                var tmpDel = {"function": "0", "table_name": dtTableName,"kindOfRel":'dt'}; //0 代表刪除
+                var tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": 'dt'}; //0 代表刪除
                 tmpDel.condition = [];
                 //組合where 條件
                 _.each(la_dtkeyFields, function (keyField, keyIdx) {
@@ -1061,7 +1061,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
         try {
             //dt 新增
             _.each(dt_createData, function (data) {
-                var tmpIns = {"function": "1", "table_name": dtTableName,"kindOfRel":"dt"}; //1  新增
+                var tmpIns = {"function": "1", "table_name": dtTableName, "kindOfRel": "dt"}; //1  新增
                 tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
                 var mnRowData = data["mnRowData"] || {};
                 delete data["mnRowData"];
@@ -1114,7 +1114,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
             //dt 編輯
             _.each(dt_editData, function (data) {
-                var tmpEdit = {"function": "2", "table_name": dtTableName,"kindOfRel":"dt"}; //2  編輯
+                var tmpEdit = {"function": "2", "table_name": dtTableName, "kindOfRel": "dt"}; //2  編輯
                 var mnRowData = data["mnRowData"] || {};
 
                 delete data["mnRowData"];
@@ -1229,8 +1229,6 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                         callback(null, '0400');
                     });
 
-                } else {
-                    callback(null, '0400');
                 }
             });
 
@@ -1318,7 +1316,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
 
     //組要刪除的dt資料
     function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
-        let tmpDel = {"function": "0", "table_name": dtTableName,"kindOfRel":"dt"}; //0 代表刪除
+        let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt"}; //0 代表刪除
         tmpDel.condition = [];
         //組合where 條件
         _.each(la_dtkeyFields, function (keyField, keyIdx) {
@@ -1374,7 +1372,7 @@ function dataValueChange(fields, data) {
 //將要顯示在頁面上的欄位格式做轉換
 function changeValueFormat(value, ui_type) {
     var valueTemp = "";
-    if(value == null) {
+    if (value == null) {
         return valueTemp;
     }
     if (ui_type == "time") {
@@ -1399,7 +1397,7 @@ function changeValueFormat(value, ui_type) {
             valueTemp.push(array[i]);
         }
     }
-    else if(ui_type.toLocaleLowerCase() == "number"){
+    else if (ui_type.toLocaleLowerCase() == "number") {
         valueTemp = Number(value);
     }
 
@@ -1410,7 +1408,7 @@ function changeValueFormat(value, ui_type) {
 function changeValueFormat4Save(value, ui_type) {
     var valueTemp;
 
-    if(value == null || value == ""){
+    if (value == null || value == "") {
         return "";
     }
 
@@ -1427,7 +1425,7 @@ function changeValueFormat4Save(value, ui_type) {
     } else if (ui_type == "multiselect") {
         valueTemp = "'" + value.join() + "'";
     }
-    else if(ui_type.toLocaleLowerCase() == "number"){
+    else if (ui_type.toLocaleLowerCase() == "number") {
         valueTemp = Number(value);
     }
 
