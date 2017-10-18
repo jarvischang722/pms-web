@@ -4,6 +4,7 @@
  */
 
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -35,8 +36,7 @@ module.exports = {
             } else {
                 lo_result.success = false;
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = "最多只能設定10筆";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms81msg20", session.locale);
             }
             callback(lo_error, lo_result);
         });
@@ -61,8 +61,8 @@ module.exports = {
                     lo_result.success = false;
 
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "此大類別代號[" + type_cod + "]資料不可刪除";
-                    lo_error.errorCod = "1111";
+                    let ls_errMsg = commandRules.getMsgByCod("pms81msg21", session.locale);
+                    lo_error.errorMsg = _s.sprintf(ls_errMsg, type_cod);
                 }
             }
 
@@ -91,8 +91,8 @@ module.exports = {
                     lo_result.success = false;
 
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "訂房卡已使用[" + type_cod + "]類別代號, 不可刪除！";
-                    lo_error.errorCod = "1111";
+                    let ls_errMsg = commandRules.getMsgByCod("pms81msg22", session.locale);
+                    lo_error.errorMsg = _s.sprintf(ls_errMsg, type_cod);
                 }
             }
 

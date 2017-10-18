@@ -18,9 +18,8 @@ module.exports = {
     chk_holiday_kind_rf_is_exist_holiday_rf: function (postData, session, callback) {
         var lo_result = new ReturnClass();
         var lo_error = null;
-        var isDeleteRow = false;
 
-        var lb_isDefault = postData.singleRowData.sys_default == "Y" ? false : true;
+        var lb_isDefault = postData.singleRowData.sys_default == "Y" ? true : false;
 
         var params = {
             athena_id: session.user.athena_id,
@@ -28,46 +27,28 @@ module.exports = {
             day_sta: postData.singleRowData.day_sta
         };
 
-        if (lb_isDefault == false) {
+        if (lb_isDefault) {
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "系統預設,不可異動";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg29", session.locale);
+            return callback(lo_error, lo_result);
         }
 
-        async.waterfall([
-            function (callback) {
-                //取得假日類別設定數量
-                queryAgent.query("QRY_HOLIDAY_RF_NUM", params, function (err, holidayData) {
-                    if (!err) {
-                        if (holidayData.count > 0) {
-                            isDeleteRow = false;
-                            callback(null, isDeleteRow);
-                        } else {
-                            isDeleteRow = true;
-                            callback(null, isDeleteRow);
-                        }
-                    } else {
-                        callback(err, lo_result);
-                    }
-                });
-            }
-            ], function (errMsg, result) {
-                if (errMsg == null) {
-
-                    if (result == false) {
-                        lo_error = new ErrorClass();
-                        lo_result.success = false;
-                        lo_error.errorCod = "1111";
-                        lo_error.errorMsg = "假日日期設定有用到,不可刪除";
-                    }
-
-                    callback(lo_error, lo_result);
-
-                } else {
-                    callback(lo_error, lo_result);
+        //取得假日類別設定數量
+        queryAgent.query("QRY_HOLIDAY_RF_NUM", params, function (err, holidayData) {
+            if (!err) {
+                if (holidayData.count > 0) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms81msg30", session.locale);
                 }
+            } else {
+                lo_error = new ErrorClass();
+                lo_result.success = false;
+                lo_error.errorCod = "1111";
+                lo_error.errorMsg = err;
             }
-        );
+            callback(lo_error, lo_result);
+        });
     }
 };

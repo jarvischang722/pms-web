@@ -27,31 +27,22 @@ module.exports = {
                     if (guestData.source_count == 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "此群組代號不在群組中";
-                        lo_error.errorCod = "1111";
-
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg17", session.locale);
                         lo_result.effectValues = postData.rowData;
-
-                        callback(lo_error, lo_result);
                     } else {
                         lo_error = new ErrorClass();
                         lo_result.success = true;
                         postData.rowData.source_grp = postData.newValue;
                         lo_result.effectValues = postData.rowData;
-
-                        callback(lo_error, lo_result);
-
                     }
                 } else {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
                     lo_error.errorMsg = err;
                     lo_error.errorCod = "1111";
-
-                    callback(err, lo_result);
                 }
-
-            })
+                callback(lo_error, lo_result);
+            });
         }
     },
     chkSourcerfModifysta: function (postData, session, callback) {
@@ -64,7 +55,7 @@ module.exports = {
 
         var createSubFunc = [];
         var isDeleteRow = false;
-        var error_message = '';
+        var ls_errCod = '';
 
         createSubFunc.push(
             function (callback) {
@@ -73,7 +64,7 @@ module.exports = {
                             var modifySta = postData.singleRowData.modify_sta.trim();
                             if (modifySta == "N") {
                                 isDeleteRow = false;
-                                error_message = '系統預設，不能刪除';
+                                ls_errCod = "pms81msg18";
                             } else {
                                 isDeleteRow = true;
                             }
@@ -85,7 +76,7 @@ module.exports = {
                                     if (!err) {
                                         if (guestData.source_count > 0) {
                                             isDeleteRow = false;
-                                            error_message = '已經有使用到此類別，不能刪除';
+                                            ls_errCod = "pms81msg19";
                                         } else {
                                             isDeleteRow = true;
                                         }
@@ -93,7 +84,7 @@ module.exports = {
                                     } else {
                                         callback(err, []);
                                     }
-                                })
+                                });
                             }
                             else {
                                 callback(null, data);
@@ -105,7 +96,7 @@ module.exports = {
                                     if (!err) {
                                         if (guestData.source_count > 0) {
                                             isDeleteRow = false;
-                                            error_message = '已經有使用到此類別，不能刪除';
+                                            ls_errCod = "pms81msg19";
                                         } else {
                                             isDeleteRow = true;
                                         }
@@ -113,7 +104,7 @@ module.exports = {
                                     } else {
                                         callback(err, []);
                                     }
-                                })
+                                });
                             }
                             else {
                                 callback(null, data);
@@ -124,19 +115,18 @@ module.exports = {
                             if (result == false) {
                                 lo_error = new ErrorClass();
                                 lo_result.success = false;
-                                lo_error.errorCod = "1111";
-                                lo_error.errorMsg = error_message;
+                                lo_error.errorMsg = commandRules.getMsgByCod(ls_errCod, session.locale);
                             }
                             callback(lo_error, lo_result);
                         } else {
                             callback(lo_error, lo_result);
                         }
-                    })
+                    });
             }
         );
 
         async.parallel(createSubFunc, function (err, result) {
             callback(err, result);
-        })
+        });
     }
 }

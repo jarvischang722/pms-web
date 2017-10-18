@@ -29,8 +29,7 @@ module.exports ={
                     if(guestData.guest_count > 0){
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "住客類別設定有使用此代號時，不可刪除";
-                        lo_error.errorCod="1111";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg14", session.locale);
                         callback(lo_error,lo_result);
                     }else {
                         callback(lo_error,lo_result);

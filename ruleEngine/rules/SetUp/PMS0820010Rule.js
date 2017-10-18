@@ -19,13 +19,11 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        var lb_isDefault = (postData.rowData.sys_default == "Y") ? false : true;
-        if (lb_isDefault == false) {
-
+        var lb_isDefault = (postData.rowData.sys_default == "Y") ? true : false;
+        if (lb_isDefault) {
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "系統預設,不可異動";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg29", session.locale);
             if (postData.oldValue != "") {
                 postData.rowData.character_nam = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
@@ -37,7 +35,7 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
         var isDeleteRow = false;
-        var error_message = '';
+        let ls_errCod;
 
         var params = {
             athena_id: session.user.athena_id,
@@ -47,23 +45,23 @@ module.exports = {
 
         async.waterfall([
             function (callback) {
-                var lb_isDefault = postData.singleRowData.sys_default == "Y" ? false:true;
-                if (lb_isDefault == false) {
+                var lb_isDefault = postData.singleRowData.sys_default == "Y" ? true : false;
+                if (lb_isDefault) {
                     isDeleteRow = false;
-                    error_message = '系統預設，不能刪除';
+                    ls_errCod = "pms81msg18";
                 } else {
                     isDeleteRow = true;
                 }
                 callback(null, isDeleteRow);
             },
             function (deleteResult, callback) {
-                if(deleteResult) {
+                if (deleteResult) {
                     //房間設定
                     queryAgent.query("CHK_ROOM_MN_ISEXIST_CHARACTER_COD", params, function (err, guestData) {
                         if (!err) {
                             if (guestData.character_cod_count > 0) {
                                 isDeleteRow = false;
-                                error_message = '房間設定已使用,不可刪除';
+                                ls_errCod = "pms82msg1";
                             } else {
                                 isDeleteRow = true;
                             }
@@ -71,13 +69,13 @@ module.exports = {
                         } else {
                             callback(err, lo_result);
                         }
-                    })
-                }else {
+                    });
+                } else {
                     callback(null, deleteResult);
                 }
             },
             function (deleteResult, callback) {
-                if(deleteResult) {
+                if (deleteResult) {
                     //查詢滾房租日
                     queryAgent.query("CHK_EDIT_RVEMCOD_RF_DAT", {athena_id: params.athena_id}, function (err, getResult) {
                         if (!err) {
@@ -88,7 +86,7 @@ module.exports = {
                                     if (chkResult) {
                                         if (chkResult.order_dt_count > 0) {
                                             isDeleteRow = false;
-                                            error_message = '訂房卡已使用,不可刪除';
+                                            ls_errCod = "pms82msg2";
                                         } else {
                                             isDeleteRow = true;
                                         }
@@ -97,7 +95,7 @@ module.exports = {
                                     else {
                                         callback(null, deleteResult);
                                     }
-                                })
+                                });
                             } else {
                                 callback(err, deleteResult);
                             }
@@ -105,7 +103,7 @@ module.exports = {
                         } else {
                             callback(err, lo_result);
                         }
-                    })
+                    });
                 }
                 else {
                     callback(null, deleteResult);
@@ -116,15 +114,10 @@ module.exports = {
                 if (result == false) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorCod = "1111";
-                    lo_error.errorMsg = error_message;
+                    lo_error.errorMsg = commandRules.getMsgByCod(ls_errCod, session.locale);
                 }
-                callback(lo_error, lo_result);
-            } else {
-                callback(lo_error, lo_result);
             }
-        })
-
-
+            callback(lo_error, lo_result);
+        });
     }
 }

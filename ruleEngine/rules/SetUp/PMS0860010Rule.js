@@ -27,11 +27,10 @@ module.exports = {
                 if (chkResult.cust_mn_count > 0) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "商務公司資料維護已使用,不可刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms86msg1", session.locale);
                 }
-                callback(lo_error, lo_result);
             }
+            callback(lo_error, lo_result);
         });
     }
 };

@@ -168,7 +168,7 @@
            select distinct room_cod as value, room_sna as display from rvrmcod_rf where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and end_dat >= :rent_cal_dat
         ]]>
         </statement>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="date" kind="3">rent_cal_dat</parameter>
     </dao>

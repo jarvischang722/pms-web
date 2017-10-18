@@ -15,20 +15,19 @@ var ErrorClass = require(ruleRootPath+"/errorClass");
 module.exports = {
     chkContactrfContacttyp: function (postData, session, callback) {
         var deleteFlag = postData.rowData.delete_flag;
-        var error = null;
-        var result = new ReturnClass();
+        var lo_error = null;
+        var lo_result = new ReturnClass();
 
         if(deleteFlag == 'N'  && postData.oldValue != ""){
-            result.success = false;
-            error = new ErrorClass();
-            error.errorMsg = "聯絡類別，不可異動";
-            error.errorCod = "1111";
+            lo_result.success = false;
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = commandRules.getMsgByCod("cmm11msg1", session.locale);
             if (postData.oldValue != "") {
                 postData.rowData.contact_typ = postData.oldValue;
-                result.effectValues = postData.rowData;
+                lo_result.effectValues = postData.rowData;
             }
         }
-        callback(error, result);
+        callback(lo_error, lo_result);
     },
     chk_contact_rf_del:function (postData, session, callback) {
         var lo_error = null;
@@ -45,8 +44,7 @@ module.exports = {
         if (lb_canDelete == false) {
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "系統預設,不可刪除";
-            lo_error.errorCod = "1111";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg18", session.locale);
         }
 
         async.waterfall([
@@ -64,25 +62,19 @@ module.exports = {
                         } else {
                             callback(err, lo_result);
                         }
-                    })
+                    });
                 }
             ], function (errMsg, result) {
                 if (errMsg == null) {
-
                     if (result == false) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorCod = "1111";
-                        lo_error.errorMsg = "已於聯絡資料中使用，不可刪除";
+                        lo_error.errorMsg = commandRules.getMsgByCod("cmm11msg2", session.locale);
                     }
-
-                    callback(lo_error, lo_result);
-
-                } else {
-                    callback(lo_error, lo_result);
                 }
+            callback(lo_error, lo_result);
             }
-        )
+        );
 
     }
 }

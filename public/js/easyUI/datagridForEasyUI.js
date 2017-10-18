@@ -126,7 +126,6 @@ var EZfieldClass = {
                 }
                 return new Date();
             };
-
             tmpFieldObj.formatter = dateFunc;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.editor.options.parser = dateParserFunc;
@@ -136,7 +135,6 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
-
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
@@ -334,9 +332,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             newValue: newValue,
             oldValue: oldValue
         };
-
         isUserEdit = false;
         $.post('/api/chkFieldRule', postData, function (result) {
+            isUserEdit = true;
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -413,7 +411,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).textbox("readonly", true);
                 });
             }
-            isUserEdit = true;
         });
     }
 }
