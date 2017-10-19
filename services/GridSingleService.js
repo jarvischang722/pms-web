@@ -1235,7 +1235,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                 }
             });
 
-            if(dt_editData.length == 0){
+            if(_.isUndefined(dt_editData) || dt_editData.length == 0){
                 callback(null, savaExecDatas);
             }
         } catch (err) {
