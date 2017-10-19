@@ -821,6 +821,11 @@ var PMS0830090VM = new Vue({
         },
         //資料儲存
         doSaveCUD: function (callback) {
+
+            if(_.isUndefined(callback)){
+                callback = function(){};
+            }
+
             if(PMS0830090VM.isbatchAdd){
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && PMS0830090VM.tmpCud.deleteData.length == 0) {

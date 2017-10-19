@@ -344,7 +344,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                     deleteData: [self.singleData]
                 }, function (result) {
                     if (result.success) {
-                        self.deleteStatue = true;
+                        self.deleteStatus = true;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
                         if (result.showAlert) {
@@ -382,7 +382,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             if (this.endDtEditing()) {
                 var self = this;
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
-                if (this.deleteStatue) {
+                if (this.deleteStatus) {
                     var rowsNum = $("#PMS0830100_dg").datagrid('getRows').length;
                     var currentRowIdx = $("#PMS0830100_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                     if (currentRowIdx == rowsNum - 1) {
@@ -415,7 +415,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                             self.emitAppendRow();
                         }
 
-                        if (self.deleteStatue) {
+                        if (self.deleteStatus) {
                             /**
                              * 刪除成功
                              * 1.取下一筆
@@ -683,6 +683,9 @@ var PMS0830100VM = new Vue({
             var self = this;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, PMS0830100VM.tmpCud);
+
+            console.log(PMS0830100VM.tmpCud);
+            // return;
             $.post("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0830100VM.initTmpCUD();

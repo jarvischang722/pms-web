@@ -169,7 +169,6 @@ Vue.component('text-select-grid-dialog-tmp', {
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-            // console.log(updateFieldName, updateFieldName, selectTable);
             if (selectTable != null) {
                 _.each(selectTable, function (selectValue, selectField) {
                     _.each(updateFieldName, function (updateValue, updateField) {
@@ -183,7 +182,6 @@ Vue.component('text-select-grid-dialog-tmp', {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
             }
-            console.log(chooseData);
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -213,7 +211,9 @@ Vue.component('single-grid-pms0820020-tmp', {
             isFistData: false,
             isLastData: false,
             dtDataGridIsCreate: false,
-            BTN_action: false
+            BTN_action: false,
+            isRuleComplete: true,
+            timer: null
         };
     },
     created: function () {
@@ -289,7 +289,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                     deleteData: [self.singleData]
                 }, function (result) {
                     if (result.success) {
-                        self.deleteStatue = true;
+                        self.deleteStatus = true;
                         self.editStatus = false;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
@@ -322,11 +322,30 @@ Vue.component('single-grid-pms0820020-tmp', {
             this.$emit('append-row');
         },
 
+        initRuleComplete: function (ui_field_name, rule_func_name) {
+            if (!_.isEmpty(rule_func_name.trim())) {
+                this.isRuleComplete = false;
+            }
+        },
+
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
             var self = this;
+            if (this.isRuleComplete == false) {
+                if (this.timer == null) {
+                    this.timer = setInterval(function () {
+                        self.doSaveGrid(saveAfterAction);
+                    }, 1000);
+                }
+                return;
+            }
+            else {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+
             var targetRowAfterDelete = {}; //刪除後要指向的資料
-            if (this.deleteStatue) {
+            if (this.deleteStatus) {
                 var rowsNum = $("#PMS0820020_dg").datagrid('getRows').length;
                 var currentRowIdx = $("#PMS0820020_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                 if (currentRowIdx == rowsNum - 1) {
@@ -383,6 +402,7 @@ Vue.component('single-grid-pms0820020-tmp', {
 
             //先驗證有無欄位沒驗證過的
             this.$emit('do-save-cud', function (success) {
+                self.isRuleComplete = true;
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
@@ -391,11 +411,17 @@ Vue.component('single-grid-pms0820020-tmp', {
                     }
                     //新增完再新增另一筆
                     else if (saveAfterAction == "addOther") {
-                        self.singleData = {};
-                        self.emitAppendRow();
+                        if (PMS0820020VM.isbatchAdd) {
+                            PMS0820020VM.batchappendRow();
+                        }
+                        else {
+                            self.singleData = {};
+                            self.emitAppendRow();
+                        }
+
                     }
 
-                    if (self.deleteStatue) {
+                    if (self.deleteStatus) {
                         /**
                          * 刪除成功
                          * 1.取下一筆
@@ -431,6 +457,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                     oriSingleRowData: PMS0820020VM.originData
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
+                    self.isRuleComplete = true;
                     if (result.success) {
                         // PMS0820020VM.originData = _.clone(lo_singleData);
                         //是否要show出訊息
@@ -496,7 +523,7 @@ Vue.component('single-grid-pms0820020-tmp', {
             }
         },
 
-        closeRmListDialog: function(){
+        closeRmListDialog: function () {
             PMS0820020VM.roomListDialogVisiable = false;
             $("#PMS0820020RmList").dialog("close");
         }
@@ -535,6 +562,7 @@ var PMS0820020VM = new Vue({
         this.loadDataGridByPrgID(function (success) {
         });
         this.loadSingleGridPageField();
+        this.$on("batchAppendRow", this.batchappendRow());
     },
     components: {
         "search-comp": go_searchComp,
@@ -573,7 +601,9 @@ var PMS0820020VM = new Vue({
         isAction: false,
         roomListData: [],               //房間清單資料
         roomTotal: 0,
-        roomListDialogVisiable: false
+        roomListDialogVisiable: false,
+        isRuleComplete: true,
+        timer: null
     },
     methods: {
         //Init CUD
@@ -592,7 +622,6 @@ var PMS0820020VM = new Vue({
                 };
             }
 
-            console.log(this.searchCond);
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: this.searchCond}, function (result) {
                 PMS0820020VM.searchFields = result.searchFields;
                 PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
@@ -680,7 +709,6 @@ var PMS0820020VM = new Vue({
             this.fetchBatchFieldData(function (fieldData) {
                 PMS0820020VM.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
                 PMS0820020VM.oriPageTwoFieldData = fieldData;
-
                 PMS0820020VM.showSingleGridDialog();
             });
         },
@@ -1065,6 +1093,7 @@ var PMS0820020VM = new Vue({
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
             PMS0820020VM.initTmpCUD();
+            PMS0820020VM.deleteStatus = false;
             PMS0820020VM.editStatus = true;
             PMS0820020VM.editingRow = editingRow;
             editingRow["prg_id"] = prg_id;
