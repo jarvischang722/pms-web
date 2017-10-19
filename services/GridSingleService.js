@@ -7,6 +7,7 @@ var sysConf = require("../configs/SystemConfig");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var mongoAgent = require("../plugins/mongodb");
 var _ = require("underscore");
+var _s = require("underscore.string");
 var async = require("async");
 var i18n = require("i18n");
 var moment = require("moment");
@@ -1228,12 +1229,15 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     async.parallel(langProcessFunc, function (err, results) {
                         callback(null, '0400');
                     });
-
+                }
+                else{
+                    callback(null, savaExecDatas);
                 }
             });
 
-
-            callback(null, savaExecDatas);
+            if(dt_editData.length == 0){
+                callback(null, savaExecDatas);
+            }
         } catch (err) {
             callback(err, savaExecDatas);
         }
@@ -1285,11 +1289,18 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
                     chk_result.success = false;
                     err = {};
                     err.errorMsg = apiErr;
+
                 } else if (data["RETN-CODE"] != "0000") {
                     chk_result.success = false;
                     err = {};
                     console.error(data["RETN-CODE-DESC"]);
-                    err.errorMsg = "save error!";
+                    if (prg_id == "PMS0820050") {
+                        let ls_errMsg = commonRule.getMsgByCod("pms82msg23", session.locale);
+                        err.errorMsg = _s.sprintf(ls_errMsg, data.item_cod, data.item_nam, data.batch_dat);
+                    }
+                    else {
+                        err.errorMsg = "save error!";
+                    }
                 }
 
                 //寄出exceptionMail
