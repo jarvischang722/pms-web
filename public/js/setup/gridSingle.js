@@ -340,7 +340,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             isEditingForFieldRule: false,
             isVerified: true,
             fieldChecking: false,  //是否在檢查欄位中
-            BTN_action: false
+            BTN_action: false,
+            isRuleComplete: true,
+            timer: null
         };
     },
     watch: {
@@ -544,10 +546,12 @@ Vue.component('sigle-grid-dialog-tmp', {
         },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
-
+            var self = this;
             if (this.isRuleComplete == false) {
                 if (this.timer == null) {
-                    this.timer = setInterval(this.doSaveGrid(saveAfterAction), 5000);
+                    this.timer = setInterval(function () {
+                        self.doSaveGrid(saveAfterAction);
+                    }, 1000);
                 }
                 return;
             }
@@ -556,7 +560,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                 this.timer = null;
             }
 
-            var self = this;
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
                 if (this.deleteStatue) {
@@ -901,9 +904,7 @@ var vm = new Vue({
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: [],
-        isSaving: false,
-        isRuleComplete: true,
-        timer: null
+        isSaving: false
     },
     watch: {
         editStatus: function (newVal) {
