@@ -151,6 +151,14 @@ module.exports = {
      * 4.如果有連通房,一併清除
      */
     r_RoommnDel: function (postData, session, callback) {
+        this.chkRoomSta(postData, session, callback, 2);
+    },
+
+    chkRoommnRoomcod: function (postData, session, callback) {
+        this.chkRoomSta(postData, session, callback, 3);
+    },
+
+    chkRoomSta: function (postData, session, callback, msgType) {
         let roomSta = postData.singleRowData.room_sta;
         roomSta = roomSta.trim();
         let lo_result = new ReturnClass();
@@ -161,8 +169,7 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
         let params4BatchDat = params;
-
-        if (roomSta == "O" || roomSta == "R" || roomSta == "S") {
+        if (msgType == 2 && (roomSta == "O" || roomSta == "R" || roomSta == "S")) {
             lo_result.success = false;
             lo_error = new ErrorClass();
             lo_error.errorMsg = commandRules.getMsgByCod("pms82msg7", session.locale);
@@ -194,8 +201,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg8", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg8", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg24", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
 
                     }
                     cb(lo_error, lo_result);
@@ -208,8 +221,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg9", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg9", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg25", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
                     }
                     cb(lo_error, lo_result);
                 });
@@ -221,8 +240,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg10", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg10", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg26", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
                     }
                     cb(lo_error, lo_result);
                 });
@@ -299,7 +324,7 @@ module.exports = {
                     room_nos: postData.singleRowData.conn_room
                 };
 
-                qrySingleRoomMnByRoomNos(postData.singleRowData.conn_room, function(err, getResult){
+                qrySingleRoomMnByRoomNos(postData.singleRowData.conn_room, function (err, getResult) {
                     var ctrmIsExist = _.findIndex(getResult.character_rmk, function (eachData) {
                         return eachData.trim() == "CTRM";
                     });
