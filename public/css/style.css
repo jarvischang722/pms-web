@@ -3823,7 +3823,7 @@ span.triangle-text {
 }
 
 .townPage {
-  height: 600px;
+  height: 500px;
   overflow: auto;
 }
 .townPage .townRow .townBlock {
@@ -3866,6 +3866,11 @@ span.triangle-text {
 }
 .townPage .townRow .townBlock.active {
   border: 2px solid red;
+}
+.townPage .townRow .townBlock .foCnt_icon {
+  width: 12px;
+  height: 12px;
+  margin: 4px 1px auto 1px;
 }
 
 .roomAssign .select-group {
@@ -4189,6 +4194,10 @@ span.triangle-text {
 
 .marginLeft-90 {
   margin-left: 90px;
+}
+
+.cardDetail_margin {
+  margin-top: -20px;
 }
 
 .height87 {

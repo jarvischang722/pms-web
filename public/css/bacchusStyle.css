@@ -64,6 +64,10 @@ body {
   margin-left: 90px;
 }
 
+.cardDetail_margin {
+  margin-top: -20px;
+}
+
 .height87 {
   height: 87px;
 }
