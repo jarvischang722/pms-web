@@ -213,6 +213,7 @@ Vue.component('single-grid-pms0820020-tmp', {
             dtDataGridIsCreate: false,
             BTN_action: false,
             isRuleComplete: true,
+            isVerified: true,
             timer: null
         };
     },
@@ -342,6 +343,9 @@ Vue.component('single-grid-pms0820020-tmp', {
             else {
                 clearInterval(this.timer);
                 this.timer = null;
+                if (this.isVerified == false) {
+                    return;
+                }
             }
 
             var targetRowAfterDelete = {}; //刪除後要指向的資料
@@ -459,6 +463,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                 $.post('/api/chkFieldRule', postData, function (result) {
                     self.isRuleComplete = true;
                     if (result.success) {
+                        self.isVerified = true;
                         // PMS0820020VM.originData = _.clone(lo_singleData);
                         //是否要show出訊息
                         if (result.showAlert) {
@@ -472,11 +477,13 @@ Vue.component('single-grid-pms0820020-tmp', {
                         }
                     } else {
                         alert(result.errorMsg);
+                        self.isVerified = false;
                     }
 
                     //連動帶回的值
                     if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                         PMS0820020VM.singleData = _.extend(PMS0820020VM.singleData, result.effectValues);
+                        self.isVerified = true;
                     }
 
                     //有沒有要再打一次ajax到後端
