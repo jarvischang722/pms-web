@@ -293,7 +293,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                         self.deleteStatus = true;
                         self.editStatus = false;
                         self.tmpCud.deleteData = [self.singleData];
-                        self.doSaveGrid();
+                        self.doSaveGrid("closeDialog");
                         if (result.showAlert) {
                             alert(result.alertMsg);
                         }

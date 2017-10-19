@@ -167,7 +167,8 @@ module.exports = {
             lo_error = new ErrorClass();
             lo_error.errorMsg = commandRules.getMsgByCod("pms82msg7", session.locale);
             callback(lo_error, lo_result);
-        } else {
+        }
+        else {
 
             async.waterfall([
                 qryHotelSval,           //滾房租日
@@ -288,7 +289,6 @@ module.exports = {
 
         //如果有連通房,一併清除【例如自己是101,而連通房舊值是102,新值是空】
         function updRmMn(result, cb) {
-
             if (ls_connRoom.trim() == "") {
                 cb(null, "");
             }
@@ -298,13 +298,21 @@ module.exports = {
                     hotel_cod: userInfo.hotel_cod,
                     room_nos: postData.singleRowData.conn_room
                 };
-                queryAgent.query("QRY_SINGLE_ROOM_MN", lo_singleParams, function (err, getResult) {
+
+                qrySingleRoomMnByRoomNos(postData.singleRowData.conn_room, function(err, getResult){
                     var ctrmIsExist = _.findIndex(getResult.character_rmk, function (eachData) {
                         return eachData.trim() == "CTRM";
                     });
 
                     if (ctrmIsExist != -1) {
                         getResult.character_rmk = _.without(getResult.character_rmk, "CTRM");
+                    }
+
+                    if (getResult.character_rmk.length == 0) {
+                        getResult.character_rmk = "";
+                    }
+                    else {
+                        getResult.character_rmk = "'" + getResult.character_rmk.join() + "'";
                     }
 
                     lo_result.extendExecDataArrSet.push({
@@ -329,6 +337,31 @@ module.exports = {
                     cb(null, lo_result);
                 });
             }
+        }
+
+        //透過房號查詢單筆資料func
+        function qrySingleRoomMnByRoomNos(room_nos, cb) {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                room_nos: room_nos
+            };
+            lo_params.room_nos = room_nos.trim();
+            queryAgent.query("QRY_SINGLE_ROOM_MN", lo_params, function (err, getResult) {
+                getResult.character_rmk = getResult.character_rmk || "";
+                if (getResult.character_rmk != "") {
+                    var array = getResult.character_rmk.replace(/'/g, "").split(',');
+                    valueTemp = [];
+                    for (i = 0; i < array.length; i++) {
+                        valueTemp.push(array[i]);
+                    }
+                    getResult.character_rmk = valueTemp;
+                }
+                else {
+                    getResult.character_rmk = [];
+                }
+                cb(null, getResult);
+            });
         }
     },
 
