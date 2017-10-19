@@ -237,6 +237,7 @@ module.exports = {
         let ls_hotel_sval;
         let lo_result = new ReturnClass();
         let lo_error = null;
+        let ls_connRoom = postData.singleRowData.conn_room || "";
 
         let lo_params = {
             athena_id: userInfo.athena_id,
@@ -288,7 +289,7 @@ module.exports = {
         //如果有連通房,一併清除【例如自己是101,而連通房舊值是102,新值是空】
         function updRmMn(result, cb) {
 
-            if (postData.singleRowData.conn_room.trim() == "") {
+            if (ls_connRoom.trim() == "") {
                 cb(null, "");
             }
             else {
@@ -477,7 +478,7 @@ module.exports = {
                 qrySingleRoomMnByRoomNos(lo_newSingleData.conn_room, function (err, getResult) {
                     let ls_conn_room = getResult.conn_room || "";
                     ls_conn_room = ls_conn_room.trim();
-                    if (ls_conn_room != "" && ls_conn_room != lo_newSingleData.room_nos) {
+                    if (ls_conn_room != "" && ls_conn_room != lo_newSingleData.room_nos.trim()) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         let ls_errMsg = commandRules.getMsgByCod("pms82msg6", session.locale);

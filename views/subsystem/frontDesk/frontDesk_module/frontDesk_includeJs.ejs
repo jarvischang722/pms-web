@@ -1422,9 +1422,21 @@
         });
 
         //顯示排房明細
+        $(".cardDetail-table").panel({closed:true});
         $('.showCardDetail').click(function () {
-            $(".cardDetail-table").toggle().css('height','auto');
-        })
+
+            if ($('input.showCardDetail').is(':checked')) {
+                $("#roomDetail-table").datagrid('reload');
+                $(".cardDetail-table").panel({closed:false});
+                $(".roomDetail-table2").removeClass('cardDetail_margin');
+            }
+            else {
+                $(".cardDetail-table").panel({closed:true});
+                $(".roomDetail-table2").addClass('cardDetail_margin');
+            }
+
+        });
+
         //排房選中active
         $('.townPage').on('click', ".townBlock", function (e) {
             $('.townBlock').removeClass("active");

@@ -143,6 +143,7 @@
         //房務管理切換
             $('.hk-graphics-btn').hide();
             $('.hk-dataList-container').hide();
+        $('.hk-PMS0410010').panel({closed:true});
 
             $('.foCounter').on('click', ".hk-list-btn", function (e) {
                 $('.hk-list-btn').hide();
@@ -151,12 +152,15 @@
                 $('.hk-dataList-container').show();
                 // 解決datagrid 原本隱藏，按了click顯示後資料回不見問題
                 $('#hk-PMS0410010-table').datagrid('reload');
+                $('.hk-PMS0410010').panel({closed:false}).removeClass('panel-body');
+
             });
             $('.foCounter').on('click', ".hk-graphics-btn", function (e) {
                 $('.hk-graphics-btn').hide();
                 $('.hk-dataList-container').hide();
                 $('.hk-table-container').show();
                 $('.hk-list-btn').show();
+                $('.hk-PMS0410010').panel({closed:true});
             });
         //.End房務管理切換
 

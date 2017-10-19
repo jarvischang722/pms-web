@@ -50,7 +50,6 @@
             <li class="info">
                 <span id="datetimeSpan"></span>
                 | <span>  <%= session.user.usr_cname %>  </span>
-                | 距離登出時間 : <span id="timeLeft">  00 : 00   </span>
             </li>
 
             <li class="purple dropdown-modal">
@@ -172,7 +171,7 @@
 <script>
     var g_socket = io.connect('/system');
     var gs_clientSocketID = randomWord(false, 30); //產生網頁唯一的ID
-    g_socket.emit("checkSessionExist");
+    //g_socket.emit("checkSessionExist");
 
     //接收session 剩餘時間
     g_socket.on("sessionTimeLeft", function (data) {

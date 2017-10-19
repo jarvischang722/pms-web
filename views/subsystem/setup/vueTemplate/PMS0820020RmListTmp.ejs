@@ -17,10 +17,10 @@
                         </div>
                         <div class="col-xs-11 horizTable-outer">
                             <div class="row">
-                                <table class="css_table horizTable" style="width: 100%;">
+                                <table class="css_table horizTable" style="max-width: 100%;">
                                     <tbody class="css_tbody text-center">
                                     <tr class="css_tr" v-for="tr_item in la_roomListData">
-                                        <td class="css_td" v-for="td_item in tr_item">
+                                        <td class="css_td" v-for="td_item in tr_item" style="width: 100px;">
                                             {{td_item.room_nos}}
                                         </td>
                                     </tr>
