@@ -211,7 +211,10 @@ Vue.component('single-grid-pms0820020-tmp', {
             isFistData: false,
             isLastData: false,
             dtDataGridIsCreate: false,
-            BTN_action: false
+            BTN_action: false,
+            isRuleComplete: true,
+            isVerified: true,
+            timer: null
         };
     },
     created: function () {
@@ -290,7 +293,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                         self.deleteStatus = true;
                         self.editStatus = false;
                         self.tmpCud.deleteData = [self.singleData];
-                        self.doSaveGrid();
+                        self.doSaveGrid("closeDialog");
                         if (result.showAlert) {
                             alert(result.alertMsg);
                         }
@@ -320,9 +323,31 @@ Vue.component('single-grid-pms0820020-tmp', {
             this.$emit('append-row');
         },
 
+        initRuleComplete: function (ui_field_name, rule_func_name) {
+            if (!_.isEmpty(rule_func_name.trim())) {
+                this.isRuleComplete = false;
+            }
+        },
+
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
             var self = this;
+            if (this.isRuleComplete == false) {
+                if (this.timer == null) {
+                    this.timer = setInterval(function () {
+                        self.doSaveGrid(saveAfterAction);
+                    }, 1000);
+                }
+                return;
+            }
+            else {
+                clearInterval(this.timer);
+                this.timer = null;
+                if (this.isVerified == false) {
+                    return;
+                }
+            }
+
             var targetRowAfterDelete = {}; //刪除後要指向的資料
             if (this.deleteStatus) {
                 var rowsNum = $("#PMS0820020_dg").datagrid('getRows').length;
@@ -381,6 +406,7 @@ Vue.component('single-grid-pms0820020-tmp', {
 
             //先驗證有無欄位沒驗證過的
             this.$emit('do-save-cud', function (success) {
+                self.isRuleComplete = true;
                 if (success) {
                     //儲存後離開
                     if (saveAfterAction == "closeDialog") {
@@ -435,7 +461,9 @@ Vue.component('single-grid-pms0820020-tmp', {
                     oriSingleRowData: PMS0820020VM.originData
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
+                    self.isRuleComplete = true;
                     if (result.success) {
+                        self.isVerified = true;
                         // PMS0820020VM.originData = _.clone(lo_singleData);
                         //是否要show出訊息
                         if (result.showAlert) {
@@ -449,11 +477,13 @@ Vue.component('single-grid-pms0820020-tmp', {
                         }
                     } else {
                         alert(result.errorMsg);
+                        self.isVerified = false;
                     }
 
                     //連動帶回的值
                     if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                         PMS0820020VM.singleData = _.extend(PMS0820020VM.singleData, result.effectValues);
+                        self.isVerified = true;
                     }
 
                     //有沒有要再打一次ajax到後端
@@ -578,7 +608,9 @@ var PMS0820020VM = new Vue({
         isAction: false,
         roomListData: [],               //房間清單資料
         roomTotal: 0,
-        roomListDialogVisiable: false
+        roomListDialogVisiable: false,
+        isRuleComplete: true,
+        timer: null
     },
     methods: {
         //Init CUD
