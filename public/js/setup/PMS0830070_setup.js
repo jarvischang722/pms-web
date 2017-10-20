@@ -164,7 +164,7 @@ var Pms0830070Comp = Vue.extend({
 
             var singleDataDtInfo = PMS0830070VM.singleDataDt;
             _.each(singleDataDtInfo,function (row,index) {
-                if(singleDataDtInfo.deleted == "false" || typeof singleDataDtInfo.deleted == "undefined") {
+                if(typeof row.deleted == "false" || typeof row.deleted == "undefined") {
                     if (row.seq_nos == deleteIndex && row.edited == "true") {
                         PMS0830070VM.singleDataDt[index].deleted = "true";
                         PMS0830070VM.singleDataDt[index].created = "false";
