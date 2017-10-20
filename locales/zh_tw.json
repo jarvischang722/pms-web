@@ -182,7 +182,8 @@
     "Logout": "登出",
     "Loading": "讀取中",
     "ProgramID": "程式編號",
-    "ChangeLog": "異動紀錄"
+    "ChangeLog": "異動紀錄",
+    "LogOutTime": "距離登出時間"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

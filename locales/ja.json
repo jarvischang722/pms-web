@@ -182,7 +182,8 @@
     "Logout": "登出",
     "Loading": "讀取中",
     "ProgramID": "程式編號",
-    "ChangeLog": "異動紀錄"
+    "ChangeLog": "異動紀錄",
+    "LogOutTime": "距離登出時間"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
@@ -296,6 +297,5 @@
     "cmm11msg1": "聯絡類別，不可異動(日文)",
     "cmm11msg2": "已於聯絡資料中使用，不可刪除(日文)",
     "cmm11msg3": "地址類別，不可異動(日文)"
-
   }
 }

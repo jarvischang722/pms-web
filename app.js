@@ -1,7 +1,6 @@
 let express = require('express');
 let session = require("express-session");
 let MongoStore = require('connect-mongo')(session);
-let expressLayouts = require('express-ejs-layouts');
 let path = require('path');
 let i18n = require("i18n");
 let favicon = require('serve-favicon');
@@ -19,7 +18,6 @@ let port = 8888;
 let app = express();// initail express
 let server = http.createServer(app);
 let io = require('socket.io')(server);
-let ios = require('socket.io-express-session');
 let dbSvc = require("./services/DbTableService");
 let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 let mongoAgent = require("./plugins/mongodb");
@@ -29,7 +27,6 @@ let compression = require('compression');
 
 // compress all responses
 app.use(compression());
-
 
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
@@ -115,20 +112,9 @@ io.use(function (socket, next) {
 
 app.use(sessionMiddleware);
 
-//Layout 設定
-// app.use(expressLayouts);
-// app.set("layout extractScripts", true);
-// app.set('layout', 'layouts/mainLayout');
-
 //初始化io event
 require("./plugins/socket.io/socketEvent")(io);
 
-//一直保持session 不閒置
-// app.use(function (req, res, next) {
-//     req.session._touchSession = new Date();
-//     req.session.touch();
-//     next();
-// });
 
 app.use(function (req, res, next) {
     res.locals.session = req.session;
