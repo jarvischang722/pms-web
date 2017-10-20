@@ -151,6 +151,14 @@ module.exports = {
      * 4.如果有連通房,一併清除
      */
     r_RoommnDel: function (postData, session, callback) {
+        this.chkRoomSta(postData, session, callback, 2);
+    },
+
+    chkRoommnRoomcod: function (postData, session, callback) {
+        this.chkRoomSta(postData, session, callback, 3);
+    },
+
+    chkRoomSta: function (postData, session, callback, msgType) {
         let roomSta = postData.singleRowData.room_sta;
         roomSta = roomSta.trim();
         let lo_result = new ReturnClass();
@@ -161,13 +169,13 @@ module.exports = {
             hotel_cod: session.user.hotel_cod
         };
         let params4BatchDat = params;
-
-        if (roomSta == "O" || roomSta == "R" || roomSta == "S") {
+        if (msgType == 2 && (roomSta == "O" || roomSta == "R" || roomSta == "S")) {
             lo_result.success = false;
             lo_error = new ErrorClass();
             lo_error.errorMsg = commandRules.getMsgByCod("pms82msg7", session.locale);
             callback(lo_error, lo_result);
-        } else {
+        }
+        else {
 
             async.waterfall([
                 qryHotelSval,           //滾房租日
@@ -193,8 +201,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg8", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg8", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg24", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
 
                     }
                     cb(lo_error, lo_result);
@@ -207,8 +221,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg9", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg9", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg25", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
                     }
                     cb(lo_error, lo_result);
                 });
@@ -220,8 +240,14 @@ module.exports = {
                     if (getResult.batchdat != null) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        let ls_errMsg = commandRules.getMsgByCod("pms82msg10", session.locale);
-                        lo_error.errorMsg = _s.sprintf(ls_errMsg, getResult.batchdat);
+                        let ls_errMsg;
+                        if (msgType == 2) {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg10", session.locale);
+                        }
+                        else {
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg26", session.locale);
+                        }
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, moment(new Date(getResult.batchdat)).format("YYYY/MM/DD"));
                     }
                     cb(lo_error, lo_result);
                 });
@@ -237,6 +263,7 @@ module.exports = {
         let ls_hotel_sval;
         let lo_result = new ReturnClass();
         let lo_error = null;
+        let ls_connRoom = postData.singleRowData.conn_room || "";
 
         let lo_params = {
             athena_id: userInfo.athena_id,
@@ -287,8 +314,7 @@ module.exports = {
 
         //如果有連通房,一併清除【例如自己是101,而連通房舊值是102,新值是空】
         function updRmMn(result, cb) {
-
-            if (postData.singleRowData.conn_room.trim() == "") {
+            if (ls_connRoom.trim() == "") {
                 cb(null, "");
             }
             else {
@@ -297,13 +323,21 @@ module.exports = {
                     hotel_cod: userInfo.hotel_cod,
                     room_nos: postData.singleRowData.conn_room
                 };
-                queryAgent.query("QRY_SINGLE_ROOM_MN", lo_singleParams, function (err, getResult) {
+
+                qrySingleRoomMnByRoomNos(postData.singleRowData.conn_room, function (err, getResult) {
                     var ctrmIsExist = _.findIndex(getResult.character_rmk, function (eachData) {
                         return eachData.trim() == "CTRM";
                     });
 
                     if (ctrmIsExist != -1) {
                         getResult.character_rmk = _.without(getResult.character_rmk, "CTRM");
+                    }
+
+                    if (getResult.character_rmk.length == 0) {
+                        getResult.character_rmk = "";
+                    }
+                    else {
+                        getResult.character_rmk = "'" + getResult.character_rmk.join() + "'";
                     }
 
                     lo_result.extendExecDataArrSet.push({
@@ -328,6 +362,31 @@ module.exports = {
                     cb(null, lo_result);
                 });
             }
+        }
+
+        //透過房號查詢單筆資料func
+        function qrySingleRoomMnByRoomNos(room_nos, cb) {
+            let lo_params = {
+                athena_id: session.user.athena_id,
+                hotel_cod: session.user.hotel_cod,
+                room_nos: room_nos
+            };
+            lo_params.room_nos = room_nos.trim();
+            queryAgent.query("QRY_SINGLE_ROOM_MN", lo_params, function (err, getResult) {
+                getResult.character_rmk = getResult.character_rmk || "";
+                if (getResult.character_rmk != "") {
+                    var array = getResult.character_rmk.replace(/'/g, "").split(',');
+                    valueTemp = [];
+                    for (i = 0; i < array.length; i++) {
+                        valueTemp.push(array[i]);
+                    }
+                    getResult.character_rmk = valueTemp;
+                }
+                else {
+                    getResult.character_rmk = [];
+                }
+                cb(null, getResult);
+            });
         }
     },
 
@@ -477,7 +536,7 @@ module.exports = {
                 qrySingleRoomMnByRoomNos(lo_newSingleData.conn_room, function (err, getResult) {
                     let ls_conn_room = getResult.conn_room || "";
                     ls_conn_room = ls_conn_room.trim();
-                    if (ls_conn_room != "" && ls_conn_room != lo_newSingleData.room_nos) {
+                    if (ls_conn_room != "" && ls_conn_room != lo_newSingleData.room_nos.trim()) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         let ls_errMsg = commandRules.getMsgByCod("pms82msg6", session.locale);

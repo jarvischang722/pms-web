@@ -1,4 +1,4 @@
-var config = require("../configs/DB_config");
+var config = require("../configs/database");
 require('../plugins/kplug-oracle/DB').create(config.oracle);
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 

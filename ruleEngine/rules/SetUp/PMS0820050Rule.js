@@ -103,7 +103,7 @@ module.exports = {
 
             // 判斷修改時，小於滾房租日不能修改
             if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
-                if (lo_endDat != "" || lo_beginDat != "") {
+                if (lo_endDat != "") {
                     // 2) 判斷結束日與滾房租日，不能修改
                     if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
                         if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
@@ -112,7 +112,9 @@ module.exports = {
                         ls_errMsg = commandRules.getMsgByCod("pms82msg18", session.locale);
                         return cb(false, ls_errMsg);
                     }
+                }
 
+                if (lo_beginDat != "") {
                     // 3) 判斷開始日與滾房租日，不能修改
                     if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
                         if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
