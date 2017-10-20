@@ -3,8 +3,10 @@
  */
 var vmHub = new Vue;
 waitingDialog.hide();
+
 function DatagridSingleGridClass() {
 }
+
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
 
@@ -21,25 +23,26 @@ var Pms0830070Comp = Vue.extend({
             dialogServiceItemVisible: false,
             adjfolioDataItem: {},
             singleDataDt2: {},
-            singleDataAll2: {}
+            singleDataAll2: {},
+            deleteDtTmp: []
         };
     },
-    created:function(){
+    created: function () {
         var self = this;
-        vmHub.$on('updateDetail2',function () {
-            self.singleDataDt2={};
+        vmHub.$on('updateDetail2', function () {
+            self.singleDataDt2 = {};
         });
     },
     methods: {
         //點擊明細跳窗
-        btnDt4Dt: function (index,itemName) {
+        btnDt4Dt: function (index, itemName) {
 
-            if(itemName != "") {
+            if (itemName != "") {
                 this.getSingleDtAll2();
                 this.getSingleDt2(index);
                 this.openDetail4Detail(index);
                 this.showDialogServerItem();
-            }else {
+            } else {
                 alert("請輸入帳單明細");
             }
         },
@@ -102,11 +105,11 @@ var Pms0830070Comp = Vue.extend({
             $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
                 if (PMS0830070VM.singleData4DetialTmp.length > 0) {
                     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                        if(typeof row != "undefined") {
+                        if (typeof row != "undefined") {
                             if (row.seq_nos == index && row.checking == "true") {
                                 response.routeDtList.push(row);
-                            }else if(row.seq_nos == index && row.checking == "false" && row.checked == "true" ){
-                                response.routeDtList.splice(detailIndex,1);
+                            } else if (row.seq_nos == index && row.checking == "false" && row.checked == "true") {
+                                response.routeDtList.splice(detailIndex, 1);
                             }
                         }
                     });
@@ -138,9 +141,9 @@ var Pms0830070Comp = Vue.extend({
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
 
-                _.each(singleDataDtInfo,function (row,index) {
-                    if(seqNosTmp < row.seq_nos){
-                        seqNosTmp =  row.seq_nos;
+                _.each(singleDataDtInfo, function (row, index) {
+                    if (seqNosTmp < row.seq_nos) {
+                        seqNosTmp = row.seq_nos;
                     }
                 });
 
@@ -153,79 +156,132 @@ var Pms0830070Comp = Vue.extend({
                         item_nam: "",
                         created: "true",
                         edited: "false",
-                        deleted:"false"
+                        deleted: "false"
                     };
                 PMS0830070VM.singleDataDt.push(row);
             } else {
                 alert("請輸入代號");
             }
         },
-        clickDeleteDt:function (deleteIndex) {
-
-            var singleDataDtInfo = PMS0830070VM.singleDataDt;
-            _.each(singleDataDtInfo,function (row,index) {
-                if(typeof row.deleted == "false" || typeof row.deleted == "undefined") {
-                    if (row.seq_nos == deleteIndex && row.edited == "true") {
-                        PMS0830070VM.singleDataDt[index].deleted = "true";
-                        PMS0830070VM.singleDataDt[index].created = "false";
-                        PMS0830070VM.singleDataDt[index].edited = "true";
-                    } else if (row.seq_nos == deleteIndex && row.created == "true") {
-                        PMS0830070VM.singleDataDt[index].deleted = "true";
-                        PMS0830070VM.singleDataDt[index].created = "true";
-                        PMS0830070VM.singleDataDt[index].edited = "false";
-                    }
-                }else{
-                    if (row.seq_nos == deleteIndex && row.edited == "true") {
-                        PMS0830070VM.singleDataDt[index].deleted = "false";
-                        PMS0830070VM.singleDataDt[index].created = "false";
-                        PMS0830070VM.singleDataDt[index].edited = "true";
-                    } else if (row.seq_nos == deleteIndex && row.created == "true") {
-                        PMS0830070VM.singleDataDt[index].deleted = "false";
-                        PMS0830070VM.singleDataDt[index].created = "true";
-                        PMS0830070VM.singleDataDt[index].edited = "false";
-                    }
-                }
-            })
+        clickDeleteDt: function () {
+            console.log(this.deleteDtTmp);
+            // var singleDataDtInfo = PMS0830070VM.singleDataDt;
+            // _.each(singleDataDtInfo,function (row,index) {
+            //     if(typeof row.deleted == "false" || typeof row.deleted == "undefined") {
+            //         if (row.seq_nos == deleteIndex && row.edited == "true") {
+            //             PMS0830070VM.singleDataDt[index].deleted = "true";
+            //             PMS0830070VM.singleDataDt[index].created = "false";
+            //             PMS0830070VM.singleDataDt[index].edited = "true";
+            //         } else if (row.seq_nos == deleteIndex && row.created == "true") {
+            //             PMS0830070VM.singleDataDt[index].deleted = "true";
+            //             PMS0830070VM.singleDataDt[index].created = "true";
+            //             PMS0830070VM.singleDataDt[index].edited = "false";
+            //         }
+            //     }else{
+            //         if (row.seq_nos == deleteIndex && row.edited == "true") {
+            //             PMS0830070VM.singleDataDt[index].deleted = "false";
+            //             PMS0830070VM.singleDataDt[index].created = "false";
+            //             PMS0830070VM.singleDataDt[index].edited = "true";
+            //         } else if (row.seq_nos == deleteIndex && row.created == "true") {
+            //             PMS0830070VM.singleDataDt[index].deleted = "false";
+            //             PMS0830070VM.singleDataDt[index].created = "true";
+            //             PMS0830070VM.singleDataDt[index].edited = "false";
+            //         }
+            //     }
+            // });
         },
         //刪除明細
         btnDeleteDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
             var self = this;
             //刪除明細也要將detail有的刪除
+
+            if (this.deleteDtTmp.length != 0) {
+                _.each(this.deleteDtTmp, function (lo_delDtTmp) {
+                    var lo_singleDataDt = _.findWhere(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
+                    if(lo_singleDataDt.createRow == "Y"){
+                        PMS0830070VM.singleDataDt = _.without(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
+                    }
+                    else{
+                        PMS0830070VM.tmpCUD.dt_deleteData.push(lo_singleDataDt);
+                    }
+                });
+            }
+
+            console.log(PMS0830070VM.tmpCUD.dt_deleteData);
+
+            return;
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
-                _.each(singleDataDtInfo,function (row,index) {
+                _.each(singleDataDtInfo, function (row, index) {
 
-                    if( typeof row != "undefined") {
+                    if (typeof row != "undefined") {
                         if (row.deleted == "true" && row.created == "true") {
                             _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
-                                if(detailRow.seq_nos != "undefined") {
+                                if (detailRow.seq_nos != "undefined") {
                                     if (row.seq_nos == detailRow.seq_nos) {
-                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp,detailRow);
+                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp, detailRow);
                                     }
                                 }
                             });
-                            PMS0830070VM.singleDataDt =_.without(PMS0830070VM.singleDataDt,row);
-                            self.singleDataDt2={};
+                            PMS0830070VM.singleDataDt = _.without(PMS0830070VM.singleDataDt, row);
+                            self.singleDataDt2 = {};
                         } else if (row.deleted == "true" && row.edited == "true") {
                             _.each(PMS0830070VM.singleData4DetialTmp, function (detailRow, detailIndex) {
-                                if(detailRow.seq_nos != "undefined") {
+                                if (detailRow.seq_nos != "undefined") {
                                     if (row.seq_nos == detailRow.seq_nos) {
-                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp,detailRow);
+                                        PMS0830070VM.singleData4DetialTmp = _.without(PMS0830070VM.singleData4DetialTmp, detailRow);
                                     }
                                 }
                             });
 
                             PMS0830070VM.singleDataDtEdit4DeleteTmp.push(row);
-                            PMS0830070VM.singleDataDt=_.without(PMS0830070VM.singleDataDt,row);
-                            self.singleDataDt2={};
+                            PMS0830070VM.singleDataDt = _.without(PMS0830070VM.singleDataDt, row);
+                            self.singleDataDt2 = {};
                         }
                     }
                 });
-            } else {
+            }
+            else {
                 alert("請輸入代號");
             }
         },
+
+        doSaveGrid: function () {
+            var self = this;
+
+            if (self.isCreateStatus) {
+                PMS0830070VM.tmpCUD.createData = self.singleData;
+                PMS0830070VM.tmpCUD.dt_createData = self.singleDataDt;
+                PMS0830070VM.tmpCUD.dt2_createData = self.singleData4DetialTmp;
+            } else if (self.isEditStatus) {
+                PMS0830070VM.tmpCUD.updateData = self.singleData;
+                PMS0830070VM.tmpCUD.dt_updateData = self.singleDataDt.concat(self.singleDataDtEdit4DeleteTmp);
+                PMS0830070VM.tmpCUD.dt2_updateData = self.singleData4DetialTmp;
+            }
+
+            waitingDialog.show('Saving...');
+            var params = _.extend({prg_id: gs_prg_id}, PMS0830070VM.tmpCUD);
+
+            $.post("/api/doSavePMS0830070", params, function (result) {
+                if (result.success) {
+
+                    PMS0830070VM.initTmpCUD();
+                    PMS0830070VM.loadDataGridByPrgID(function (success) {
+
+                    });
+                    alert('save success!');
+                    PMS0830070VM.isCreateStatus = false;
+                    PMS0830070VM.isEditStatus = true;
+                    waitingDialog.hide();
+
+                } else {
+                    waitingDialog.hide();
+                    alert(result.errorMsg);
+                }
+            });
+        },
+
         //勾選後暫存
         chkAdjfolioData: function (index, status) {
             this.adjfolioDataItem[index]["checking"] = status == "false" ? "true" : "false";
@@ -237,28 +293,28 @@ var Pms0830070Comp = Vue.extend({
             var savedItemData = PMS0830070VM.singleData4DetialTmp;
 
             var singleData4ShowDt = [];
-            var isInclude= false;
+            var isInclude = false;
             //看哪些有被打勾
             _.each(saveItemDataTmp, function (row, index) {
 
                 //新勾選以及取消原本的勾選都寫入到暫存
                 if (row["checking"] == "true" && row["checked"] == "false" && row["disabled"] == "false") {
-                    if(savedItemData.length > 0) {
+                    if (savedItemData.length > 0) {
                         _.each(savedItemData, function (savedRow, savedIndex) {
-                            if (savedRow["item_nos"] != row["item_nos"] && (PMS0830070VM.singleData4DetialTmp.indexOf(row) == -1))  {
+                            if (savedRow["item_nos"] != row["item_nos"] && (PMS0830070VM.singleData4DetialTmp.indexOf(row) == -1)) {
                                 PMS0830070VM.singleData4DetialTmp.push(row);
                                 singleData4ShowDt.push(row);
                             }
                         });
-                    }else {
+                    } else {
                         PMS0830070VM.singleData4DetialTmp.push(row);
                         singleData4ShowDt.push(row);
                     }
-                }else if(row["checking"] == "false" && row["checked"] == "true" && row["disabled"] == "false"){
+                } else if (row["checking"] == "false" && row["checked"] == "true" && row["disabled"] == "false") {
                     PMS0830070VM.singleData4DetialTmp.push(row);
-                } else if(row["checking"] == "false" && row["checked"] == "false" && row["disabled"] == "false"){
+                } else if (row["checking"] == "false" && row["checked"] == "false" && row["disabled"] == "false") {
                     delete PMS0830070VM.singleData4DetialTmp[row];
-                }else if(row["checking"] == "true" && row["checked"] == "true" && row["disabled"] == "false"){
+                } else if (row["checking"] == "true" && row["checked"] == "true" && row["disabled"] == "false") {
                     singleData4ShowDt.push(row);
                 }
             });
@@ -303,11 +359,6 @@ var PMS0830070VM = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {}   //搜尋條件
     },
-    created: function () {
-        // this.$on("updateTmpCUD", function (data) {
-        //     this.tmpCUD = data.tmpCUD;
-        // })
-    },
     mounted: function () {
         this.getRouteData();
     },
@@ -317,7 +368,7 @@ var PMS0830070VM = new Vue({
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         editingRow: {
-            handler(val){
+            handler(val) {
                 if (this.isCreateStatus) {
                     this.tmpCUD.createData = val;
                     this.tmpCUD.updateData = {};
@@ -348,7 +399,7 @@ var PMS0830070VM = new Vue({
         //新增單筆
         addRoute: function () {
             var self = this;
-            self.singleData = {adjfolio_cod: '', adjfolio_rmk: ''};
+            self.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
             self.singleDataDt = [];
             self.isCreateStatus = true;
             self.isEditStatus = false;
@@ -378,7 +429,7 @@ var PMS0830070VM = new Vue({
                 dt2_updateData: [],
                 dt2_deleteData: []
             };
-            PMS0830070VM.singleData4DetialTmp=[];
+            PMS0830070VM.singleData4DetialTmp = [];
         },
         //取得單筆
         fetchSingleData: function (editingRow) {
@@ -400,7 +451,7 @@ var PMS0830070VM = new Vue({
             this.openRouteDialog();
         },
         //取的單筆Dt(要共用)
-        getSingleGridDataDt(editingRow){
+        getSingleGridDataDt(editingRow) {
             $.post('/api/qryPMS0830070SingleDt', editingRow)
                 .done(function (response) {
                     PMS0830070VM.singleDataDt = response.routeDtList;
@@ -426,8 +477,8 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.singleData = {};
             PMS0830070VM.singleDataDt = {};
             PMS0830070VM.singleData4DetialTmp = [];
-            PMS0830070VM.singleDataDtEdit4DeleteTmp= [],
-            PMS0830070VM.initTmpCUD();
+            PMS0830070VM.singleDataDtEdit4DeleteTmp = [],
+                PMS0830070VM.initTmpCUD();
             $("#PMS0830070Dialog").dialog('close');
         },
         doSave: function () {
@@ -453,40 +504,6 @@ var PMS0830070VM = new Vue({
             });
 
         },
-        doSaveGrid: function (callback) {
-            var self = this;
-
-            if (self.isCreateStatus) {
-                PMS0830070VM.tmpCUD.createData = self.singleData;
-                PMS0830070VM.tmpCUD.dt_createData = self.singleDataDt;
-                PMS0830070VM.tmpCUD.dt2_createData = self.singleData4DetialTmp;
-            }else if(self.isEditStatus){
-                PMS0830070VM.tmpCUD.updateData = self.singleData;
-                PMS0830070VM.tmpCUD.dt_updateData = self.singleDataDt.concat(self.singleDataDtEdit4DeleteTmp);
-                PMS0830070VM.tmpCUD.dt2_updateData = self.singleData4DetialTmp;
-            }
-
-            waitingDialog.show('Saving...');
-            var params = _.extend({prg_id: gs_prg_id}, PMS0830070VM.tmpCUD);
-
-            $.post("/api/doSavePMS0830070", params, function (result) {
-                if (result.success) {
-
-                    PMS0830070VM.initTmpCUD();
-                    PMS0830070VM.loadDataGridByPrgID(function (success) {
-
-                    });
-                    alert('save success!');
-                    PMS0830070VM.isCreateStatus = false;
-                    PMS0830070VM.isEditStatus = true;
-                    waitingDialog.hide();
-
-                } else {
-                    waitingDialog.hide();
-                    alert(result.errorMsg);
-                }
-            });
-        },
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
@@ -495,8 +512,8 @@ var PMS0830070VM = new Vue({
                 PMS0830070VM.pageOneFieldData = result.fieldData;
                 callback(result.success);
             });
-            var params={
-                adjfolio_cod:PMS0830070VM.singleData.adjfolio_cod
+            var params = {
+                adjfolio_cod: PMS0830070VM.singleData.adjfolio_cod
             }
             this.getSingleGridDataDt(params);
         },

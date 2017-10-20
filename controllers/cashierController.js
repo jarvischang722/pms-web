@@ -56,18 +56,18 @@ exports.getRouteDtByRouteCod = function (req, res) {
 /**
  * PMS0830080 分帳規則儲存
  */
-exports.doSavePMS0830080 = function (req ,res) {
-    dbTableSvc.doSavePMS0830080(req.session, req.body,function(errorMsg, success){
-        res.json({success:success,errorMsg:errorMsg});
+exports.doSavePMS0830080 = function (req, res) {
+    dbTableSvc.doSavePMS0830080(req.session, req.body, function (errorMsg, success) {
+        res.json({success: success, errorMsg: errorMsg});
     });
 };
 
 /**
  * PMS0830070 虛擬帳單項目設定
  */
-exports.doSavePMS0830070 = function (req ,res) {
-    dbTableSvc.doSavePMS0830070(req.session, req.body,function(errorMsg, success){
-        res.json({success:success,errorMsg:errorMsg});
+exports.doSavePMS0830070 = function (req, res) {
+    dbTableSvc.doSavePMS0830070(req.session, req.body, function (errorMsg, success) {
+        res.json({success: success, errorMsg: errorMsg});
     });
 };
 
@@ -75,7 +75,7 @@ exports.doSavePMS0830070 = function (req ,res) {
  * 取得虛擬帳單項目設定>單筆
  */
 exports.qryPMS0830070SingleMn = function (req, res) {
-   var params={
+    var params = {
         athena_id: req.session.user.athena_id,
         hotel_cod: req.session.user.hotel_cod,
         adjfolio_cod: req.body.adjfolio_cod.trim()
@@ -101,14 +101,14 @@ exports.qryPMS0830070SingleDt = function (req, res) {
 
 /**
  * 取得虛擬帳單項目設定>單筆>DT2
-*/
+ */
 exports.qryPMS0830070SingleDt2 = function (req, res) {
 
     queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", {
         athena_id: req.session.user.athena_id,
         hotel_cod: req.session.user.hotel_cod,
         seq_nos: req.body.seq_nos,
-        adjfolio_cod:  req.body.adjfolio_cod
+        adjfolio_cod: req.body.adjfolio_cod
     }, 0, 0, function (err, routeDtList) {
         res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
     });
@@ -122,7 +122,7 @@ exports.qryPMS0830070SingleAllDt2 = function (req, res) {
     queryAgent.queryList("QRY_HC_ADJFOLIO_ALL_DT2", {
         athena_id: req.session.user.athena_id,
         hotel_cod: req.session.user.hotel_cod,
-        adjfolio_cod:  req.body.adjfolio_cod
+        adjfolio_cod: req.body.adjfolio_cod
     }, 0, 0, function (err, routeDtList) {
         res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
     });
