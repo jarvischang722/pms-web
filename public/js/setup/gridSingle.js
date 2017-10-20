@@ -558,6 +558,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             else {
                 clearInterval(this.timer);
                 this.timer = null;
+                if (this.isVerified == false) {
+                    return;
+                }
             }
 
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {

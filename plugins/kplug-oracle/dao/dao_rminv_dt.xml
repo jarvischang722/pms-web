@@ -6,7 +6,7 @@
         <statement><![CDATA[
              SELECT  MIN(BATCH_DAT) as batchDat
              FROM  RMINV_DT
-             WHERE  trim(ATHENA_ID) = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
+             WHERE  ATHENA_ID = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
              AND  trim(ROOM_NOS) = trim(?) AND  ASSIGN_STA = 'Y'
         ]]>
         </statement>
@@ -21,7 +21,8 @@
         <statement><![CDATA[
               SELECT  MIN(BATCH_DAT) as batchDat
                FROM  RMINV_DT
-              WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ?  AND  ROOM_STA = 'R'
+              WHERE  ATHENA_ID = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
+             AND  trim(ROOM_NOS) = trim(?) AND  ROOM_STA = 'R'
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
@@ -35,7 +36,8 @@
         <statement><![CDATA[
               SELECT  MIN(BATCH_DAT) as batchDat
                FROM  RMINV_DT
-              WHERE  ATHENA_ID = ?  AND  HOTEL_COD = ?  AND  BATCH_DAT >= ? AND  ROOM_NOS = ?  AND  ROOM_STA = 'S'
+              WHERE  ATHENA_ID = ?  AND  trim(HOTEL_COD) = trim(?)  AND  BATCH_DAT >= ?
+             AND  trim(ROOM_NOS) = trim(?) AND  ROOM_STA = 'S'
         ]]>
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
