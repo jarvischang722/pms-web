@@ -5,6 +5,7 @@ var tools = require("../utils/CommonTools");
 var moment = require("moment");
 var dgSvc = require("../services/DatagridService");
 var _ = require("underscore");
+var dbSVC = require("../services/DbTableService");
 
 
 var dtValue  = "NaN/NaN/NaN"

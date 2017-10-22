@@ -14,6 +14,12 @@ var ruleAgent = require("../ruleEngine/ruleAgent");
 var moment = require("moment");
 var go_sysConf = require("../configs/SystemConfig");
 var commonRule = require("../ruleEngine/rules/CommonRule");
+let optSaveAdapter = require("../ruleEngine/operationSaveAdapter");
+let async = require("async");
+let mongoAgent = require("../plugins/mongodb");
+let dataRuleSvc = require('../services/DataRuleService');
+let ReturnClass = require("../ruleEngine/returnClass");
+let ErrorClass = require("../ruleEngine/errorClass");
 /**
  *
  * @param prg_id{String} : 程式編號
@@ -574,7 +580,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
 
         let tmpDtUpdData = {"function": "2", "table_name": "hc_adjfolio_dt"};
 
-        if(la_dtUpdateData[i].deleted == "true" && la_dtUpdateData[i].edited == "true"){    //刪除DT
+        if (la_dtUpdateData[i].deleted == "true" && la_dtUpdateData[i].edited == "true") {    //刪除DT
             tmpDtUpdData.function = "0";
             tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
             tmpDtUpdData.condition.push({
@@ -608,14 +614,14 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
             lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdDataDt2, ruleAgent.getEditDefaultDataRule(session));
             ln_exec_seq++;
 
-        }else if(la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].created == "true"){    //新增DT
+        } else if (la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].created == "true") {    //新增DT
             tmpDtUpdData.function = "1";
             tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
             tmpDtUpdData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
             lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
             ln_exec_seq++;
 
-        }else  if(la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].edited == "true"){    //更新DT
+        } else if (la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].edited == "true") {    //更新DT
             tmpDtUpdData.function = "2";
             tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
             tmpDtUpdData.condition.push({
@@ -636,7 +642,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     }
     //dt2 新增資料
     for (var i = 0; i < la_dt2CreateData.length; i++) {
-        if(la_dt2CreateData[i].checking == "true" && la_dt2CreateData[i].checked == "false") {
+        if (la_dt2CreateData[i].checking == "true" && la_dt2CreateData[i].checked == "false") {
             let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
             tmpCreateData = _.extend(tmpCreateData, la_dt2CreateData[i]);
             tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
@@ -654,7 +660,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         //先刪除dt2
         let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
 
-        if(la_dt2UpdateData[i].checking == "false" && la_dt2UpdateData[i].checked == "true"){
+        if (la_dt2UpdateData[i].checking == "false" && la_dt2UpdateData[i].checked == "true") {
 
             tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
             tmpDelData.condition.push(
@@ -677,7 +683,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
 
             lo_savaExecDatas[ln_exec_seq] = tmpDelData;
             ln_exec_seq++;
-        }else {
+        } else {
             let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
             tmpCreateData = _.extend(tmpCreateData, la_dt2UpdateData[i]);
             tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
@@ -690,7 +696,8 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
             lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
             ln_exec_seq++;
         }
-    };
+    }
+    ;
 
     let apiParams = {
         "REVE-CODE": "BAC03009010000",
@@ -717,3 +724,110 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     });
 
 };
+
+/**
+ * 執行作業特殊交易
+ */
+exports.execTransSQL = function (postData, session, callback) {
+    let lo_saveProc = new operationSaveProc(postData, session);
+    async.waterfall([
+        lo_saveProc.doOptSaveAdapter,
+        lo_saveProc.doSaveDataByAPI
+    ]);
+};
+
+/**
+ * 執行作業一般儲存
+ */
+exports.execNormalSQL = function (postData, session, callback) {
+    let lo_saveProc = new operationSaveProc(postData, session);
+    async.waterfall([
+        lo_saveProc.doRuleProcBeforeSave,
+        lo_saveProc.doOptSaveAdapter,
+        lo_saveProc.doSaveDataByAPI
+    ], function (err, result) {
+        console.log(err, result);
+        callback(err, result);
+    });
+};
+
+// 作業儲存流程
+function operationSaveProc(postData, session) {
+    let ls_page_nam = "";
+    let savaExecDatas = {};  //要打API 所有exec data
+    let exec_seq = 1;        // 執行順序 從1開始
+
+    this.doRuleProcBeforeSave = function (callback) {
+        chkRuleIsExist(function (err, la_rules) {
+            if (la_rules.length != 0) {
+                dataRuleSvc.doOperationRuleProcBeforeSave(postData, session, la_rules, function (err, chkResult) {
+                    if (!err && chkResult.extendExecDataArrSet.length > 0) {
+                        _.each(chkResult.extendExecDataArrSet, function (execData) {
+                            savaExecDatas[exec_seq] = execData;
+                            exec_seq++;
+                        });
+                    }
+
+                    if (!err && !_.isUndefined(chkResult.effectValues)) {
+                        postData = _.extend(postData, chkResult.effectValues);
+                    }
+                    callback(err, postData);
+                });
+            }
+            callback(null, "");
+        });
+    };
+    this.doOptSaveAdapter = function () {
+        let lo_saveData = null;
+        let callback = null;
+        if (arguments.length == 2) {
+            lo_saveData = arguments[0];
+            callback = arguments[1];
+        }
+        else {
+            callback = arguments[0];
+        }
+        callback(null, new optSaveAdapter(lo_saveData, session));
+
+    };
+    this.doSaveDataByAPI = function (optSaveAdapter, callback) {
+        let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
+        if (lb_isOptSaveAdpt == false) {
+            let ls_errMsg = "Data format is not from operationSaveAdapter";
+            console.error(ls_errMsg);
+            callback(ls_errMsg, "");
+        }
+        else {
+            console.log(optSaveAdapter.getApiParams());
+            callback(null, "");
+        }
+    };
+
+    function chkRuleIsExist(callback) {
+        if (postData.page_id == 1) {
+            qryDataGridFuncRule(postData.page_id, callback);
+        }
+        else if (postData.page_id == 2) {
+            qryPageFuncRule(postData.page_id, callback);
+        }
+    }
+
+    function qryDataGridFuncRule(ls_page_id, callback) {
+        mongoAgent.DatagridFunction.find({
+            prg_id: postData.prg_id,
+            page_id: ls_page_id
+        }, function (err, getResult) {
+            callback(err, tools.mongoDocToObject(getResult));
+        });
+    }
+
+    function qryPageFuncRule(ls_page_id, callback) {
+        mongoAgent.PageFunction.find({
+            prg_id: postData.prg_id,
+            page_id: ls_page_id
+        }, function (err, getResult) {
+            callback(err, tools.mongoDocToObject(getResult));
+        });
+    }
+}
+

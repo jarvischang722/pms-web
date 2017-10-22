@@ -10,7 +10,7 @@ var mailSvc = require("../services/MailService");
 
 /**
  * @param {String} apiUrl : 要打API的URL
- * @param {JSON} params :　參數
+ * @param {Object} params :　參數
  * @param callback : 回調函數
  * **/
 exports.requestApi = function (apiUrl, params, callback) {
