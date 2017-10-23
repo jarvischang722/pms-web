@@ -33,34 +33,43 @@ let ga_dtCreateData = [];
 let ga_dtUpdateData = [];
 let ga_dtDeleteData = [];
 
+function initData() {
+    go_saveExecDatas = {};
+    gn_exec_seq = 1;
+}
+
 function operationSaveAdapterClass(postData, session) {
-    let go_apiParams = {};
     go_postData = postData;
     go_session = session;
     go_userInfo = session.user;
-    ga_createData = postData.createData || [];
-    ga_updateData = postData.updateData || [];
-    ga_deleteData = postData.deleteData || [];
-    ga_dtCreateData = postData.dt_createData || [];
-    ga_dtUpdateData = postData.dt_updateData || [];
-    ga_dtDeleteData = postData.dt_deleteData || [];
-    this.getApiParams = function(){
-        return go_apiParams;
-    }
+    ga_createData = postData.tmpCUD.createData || [];
+    ga_updateData = postData.tmpCUD.updateData || [];
+    ga_deleteData = postData.tmpCUD.deleteData || [];
+    ga_dtCreateData = postData.tmpCUD.dt_createData || [];
+    ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
+    ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
 
-    async.waterfall([
-        // qryTemplateRfData,
-        // chkTmpType,
-        // qryFieldData,
-        // combineDtDeleteExecData,
-        // combineMainData,
-        // combineDtCreateEditExecData,
-        doSaveDataByAPI
-    ], function(err, result){
-        if(!err){
-            go_apiParams = result;
-        }
-    });
+    initData();
+
+    this.set_saveExecDatas = function (ln_exec_seq, lo_saveExecDatas) {
+        go_saveExecDatas = lo_saveExecDatas || {};
+        ln_exec_seq++;
+        gn_exec_seq = ln_exec_seq || 1;
+    };
+
+    this.exec = function (callback) {
+        async.waterfall([
+            qryTemplateRfData,
+            chkTmpType,
+            qryFieldData,
+            combineDtDeleteExecData,
+            combineMainData,
+            combineDtCreateEditExecData,
+            convertToApiFormat
+        ], function (err, data) {
+            callback(err, data);
+        });
+    };
 }
 
 /**
@@ -107,7 +116,7 @@ function chkTmpType(rfData, callback) {
 
 /**
  * 查詢欄位資料
- * @param rfData
+ * @param {Object} rfData: templateRf 欄位資料
  */
 function qryFieldData(rfData, callback) {
     async.parallel([
@@ -115,7 +124,8 @@ function qryFieldData(rfData, callback) {
             if (gs_template_id == "datagrid" || gs_template_id == "mn-dt" || gs_template_id == "special") {
                 mongoAgent.UIDatagridField.find({
                     prg_id: go_postData.prg_id,
-                    page_id: go_postData.page_id
+                    page_id: go_postData.page_id,
+                    tab_page_id: go_postData.tab_page_id || 1
                 }, function (err, la_dgFieldsData) {
                     ga_dgFieldsData = commonTools.mongoDocToObject(la_dgFieldsData);
                     ga_dgKeyFields = _.where(ga_dgFieldsData, {keyable: 'Y'}) || [];
@@ -186,13 +196,10 @@ function combineDtDeleteExecData(rfData, callback) {
             go_saveExecDatas[gn_exec_seq] = tmpDel;
             gn_exec_seq++;
         });
-
         callback(null, '0300');
-
-    } catch (err) {
-
+    }
+    catch (err) {
         callback(err, '0300');
-
     }
 }
 
@@ -209,8 +216,6 @@ function combineMainData(rfData, callback) {
             }
             _.each(ga_createData, function (data) {
                 var tmpIns = {"function": "1", "table_name": gs_mainTableName}; //1  新增
-
-
                 _.each(Object.keys(data), function (objKey) {
                     if (!_.isUndefined(data[objKey])) {
                         var value = data[objKey];
@@ -229,6 +234,11 @@ function combineMainData(rfData, callback) {
                         tmpIns[objKey] = value;
                     }
                 });
+                go_session.user = {
+                    athena_id: 1,
+                    fun_hotel_cod: '02',
+                    usr_id: "a16010"
+                };
                 tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
                 go_saveExecDatas[gn_exec_seq] = tmpIns;
                 gn_exec_seq++;
@@ -271,6 +281,7 @@ function combineMainData(rfData, callback) {
             }
             _.each(ga_deleteData, function (data) {
                 var tmpDel = {"function": "0", "table_name": gs_mainTableName}; //0 代表刪除
+                data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
                 tmpDel.condition = [];
                 //組合where 條件
                 _.each(ga_mainKeyFields, function (keyField, keyIdx) {
@@ -313,10 +324,9 @@ function combineMainData(rfData, callback) {
                     }
                 });
                 var lo_keysData = {};
-                tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
 
-                delete tmpEdit["ins_dat"];
-                delete tmpEdit["ins_usr"];
+                data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
+                tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
 
                 tmpEdit.condition = [];
                 //組合where 條件
@@ -422,6 +432,7 @@ function combineMainData(rfData, callback) {
 
         }
     ], function (err, result) {
+        console.log(go_saveExecDatas);
         callback(err, result);
     });
 }
@@ -436,7 +447,7 @@ function combineDtCreateEditExecData(rfData, callback) {
         //dt 新增
         _.each(ga_dtCreateData, function (data) {
             var tmpIns = {"function": "1", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //1  新增
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(session));
+            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
             var mnRowData = data["mnRowData"] || {};
             delete data["mnRowData"];
 
@@ -473,13 +484,13 @@ function combineDtCreateEditExecData(rfData, callback) {
                                 field_name: fieldName,
                                 words: langVal
                             };
-                            _.each(_.pluck(la_dtkeyFields, "ui_field_name"), function (keyField) {
+                            _.each(_.pluck(ga_dgKeyFields, "ui_field_name"), function (keyField) {
                                 if (!_.isUndefined(data[keyField])) {
                                     lo_langTmp[keyField] = typeof data[keyField] === "string" ? data[keyField].trim() : data[keyField];
                                 }
                             });
-                            savaExecDatas[exec_seq] = lo_langTmp;
-                            exec_seq++;
+                            go_saveExecDatas[gn_exec_seq] = lo_langTmp;
+                            gn_exec_seq++;
                         }
                     });
                 });
@@ -508,7 +519,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                 }
             });
 
-            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(session));
+            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
 
             tmpEdit.condition = [];
             //組合where 條件
@@ -531,7 +542,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                 _.each(data.multiLang, function (lo_lang) {
                     var ls_locale = lo_lang.locale || "";
                     langProcessFunc.push(
-                        function (callback) {
+                        function (cb) {
                             var chkFuncs = [];
                             _.each(lo_lang, function (langVal, fieldName) {
                                 if (fieldName != "locale" && fieldName != "display_locale" && !_.isEmpty(langVal)) {
@@ -592,7 +603,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                                 }
                             });
                             async.parallel(chkFuncs, function (err, results) {
-                                callback(null, results);
+                                cb(null, results);
                             });
                         }
                     );
@@ -608,7 +619,7 @@ function combineDtCreateEditExecData(rfData, callback) {
             }
         });
 
-        if (_.isUndefined(ga_dtUpdateData) || ga_dtUpdateData.length == 0) {
+        if (ga_dtUpdateData.length == 0) {
             callback(null, go_saveExecDatas);
         }
     } catch (err) {
@@ -617,41 +628,17 @@ function combineDtCreateEditExecData(rfData, callback) {
 
 }
 
-function doSaveDataByAPI(callback) {
+//轉換為API格式
+function convertToApiFormat(rfData, callback) {
     var apiParams = {
         "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
-        "user": go_userInfo.usr_id,
+        "user": go_session.user.usr_id,
         "table_name": gs_mainTableName,
         "count": Object.keys(go_saveExecDatas).length,
         "exec_data": go_saveExecDatas
     };
     callback(null, apiParams);
-}
-
-/**
- * 根據field 屬性格式化日期格式
- * @param prgFields
- * @param rowData
- * @return {*}
- */
-function handleDateFormat(prgFields, rowData) {
-    prgFields = _.filter(prgFields, function (field) {
-        return field.ui_type == 'date' || field.ui_type == 'datetime';
-    });
-
-    _.each(rowData, function (val, field_name) {
-        var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
-        if (!_.isUndefined(la_tmpField)) {
-            if (la_tmpField.ui_type == 'date') {
-                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD");
-            } else if (la_tmpField.ui_type == 'datetime') {
-                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD HH:mm:ss");
-            }
-        }
-    });
-
-    return rowData;
 }
 
 //將儲存或修改的欄位格式做轉換

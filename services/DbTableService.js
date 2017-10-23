@@ -18,8 +18,6 @@ let optSaveAdapter = require("../ruleEngine/operationSaveAdapter");
 let async = require("async");
 let mongoAgent = require("../plugins/mongodb");
 let dataRuleSvc = require('../services/DataRuleService');
-let ReturnClass = require("../ruleEngine/returnClass");
-let ErrorClass = require("../ruleEngine/errorClass");
 /**
  *
  * @param prg_id{String} : 程式編號
@@ -697,7 +695,6 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
             ln_exec_seq++;
         }
     }
-    ;
 
     let apiParams = {
         "REVE-CODE": "BAC03009010000",
@@ -733,7 +730,9 @@ exports.execTransSQL = function (postData, session, callback) {
     async.waterfall([
         lo_saveProc.doOptSaveAdapter,
         lo_saveProc.doSaveDataByAPI
-    ]);
+    ], function (err, result) {
+        callback(err, result);
+    });
 };
 
 /**
@@ -746,18 +745,18 @@ exports.execNormalSQL = function (postData, session, callback) {
         lo_saveProc.doOptSaveAdapter,
         lo_saveProc.doSaveDataByAPI
     ], function (err, result) {
-        console.log(err, result);
         callback(err, result);
     });
 };
 
 // 作業儲存流程
 function operationSaveProc(postData, session) {
-    let ls_page_nam = "";
     let savaExecDatas = {};  //要打API 所有exec data
     let exec_seq = 1;        // 執行順序 從1開始
 
+    // 儲存前規則檢查
     this.doRuleProcBeforeSave = function (callback) {
+        var lo_err = {};
         chkRuleIsExist(function (err, la_rules) {
             if (la_rules.length != 0) {
                 dataRuleSvc.doOperationRuleProcBeforeSave(postData, session, la_rules, function (err, chkResult) {
@@ -771,12 +770,18 @@ function operationSaveProc(postData, session) {
                     if (!err && !_.isUndefined(chkResult.effectValues)) {
                         postData = _.extend(postData, chkResult.effectValues);
                     }
-                    callback(err, postData);
+                    lo_err.errorMsg = err;
+                    callback(lo_err, postData);
                 });
             }
-            callback(null, "");
+            else {
+                lo_err.errorMsg = err;
+                callback(lo_err, postData);
+            }
         });
     };
+
+    // 作業儲存轉接器 tmpCUD 轉 API格式
     this.doOptSaveAdapter = function () {
         let lo_saveData = null;
         let callback = null;
@@ -785,24 +790,75 @@ function operationSaveProc(postData, session) {
             callback = arguments[1];
         }
         else {
+            lo_saveData = postData;
             callback = arguments[0];
         }
-        callback(null, new optSaveAdapter(lo_saveData, session));
 
+        let lo_optSaveAdapter = new optSaveAdapter(lo_saveData, session);
+        if (exec_seq != 1) {
+            lo_optSaveAdapter.set_saveExecDatas(exec_seq, savaExecDatas);
+        }
+        callback(null, lo_optSaveAdapter);
     };
+
+    // 打API
     this.doSaveDataByAPI = function (optSaveAdapter, callback) {
+        if(_.isUndefined(optSaveAdapter)){
+            return callback("optAdapter is undefined", null);
+        }
+        // 一定樣經過轉接器才能打API
         let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
         if (lb_isOptSaveAdpt == false) {
-            let ls_errMsg = "Data format is not from operationSaveAdapter";
-            console.error(ls_errMsg);
-            callback(ls_errMsg, "");
+            var lo_err = {
+                errorMsg: "Data format is not from operationSaveAdapter"
+            };
+            console.error(lo_err.errorMsg);
+            return callback(lo_err, "");
         }
-        else {
-            console.log(optSaveAdapter.getApiParams());
-            callback(null, "");
-        }
+
+        //轉換後打API
+        optSaveAdapter.exec(function (err, result) {
+            let lo_apiParams = result.effectValues;
+            tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
+                var log_id = moment().format("YYYYMMDDHHmmss");
+                var lo_err = null;
+                var lb_success = true;
+                if (apiErr || !data) {
+                    lb_success = false;
+                    lo_err = {};
+                    lo_err.errorMsg = apiErr;
+                } else if (data["RETN-CODE"] != "0000") {
+                    lb_success = false;
+                    lo_err = {};
+                    console.error(data["RETN-CODE-DESC"]);
+                    lo_err.errorMsg = "save error!";
+                }
+
+                //寄出exceptionMail
+                if (lb_success == false) {
+                    mailSvc.sendExceptionMail({
+                        log_id: log_id,
+                        exceptionType: "execSQL",
+                        errorMsg: lo_err.errorMsg
+                    });
+                }
+                //log 紀錄
+                logSvc.recordLogAPI({
+                    log_id: log_id,
+                    success: lb_success,
+                    prg_id: postData.prg_id,
+                    api_prg_code: postData.trans_cod,
+                    req_content: lo_apiParams,
+                    res_content: data
+                });
+
+                callback(lo_err, lb_success);
+            });
+
+        });
     };
 
+    //檢查是否有rule
     function chkRuleIsExist(callback) {
         if (postData.page_id == 1) {
             qryDataGridFuncRule(postData.page_id, callback);
@@ -812,6 +868,7 @@ function operationSaveProc(postData, session) {
         }
     }
 
+    //查詢DatagridFunc
     function qryDataGridFuncRule(ls_page_id, callback) {
         mongoAgent.DatagridFunction.find({
             prg_id: postData.prg_id,
@@ -821,6 +878,7 @@ function operationSaveProc(postData, session) {
         });
     }
 
+    //查詢PageFunc
     function qryPageFuncRule(ls_page_id, callback) {
         mongoAgent.PageFunction.find({
             prg_id: postData.prg_id,
