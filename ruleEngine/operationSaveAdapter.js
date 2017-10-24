@@ -5,22 +5,17 @@
 
 let _ = require("underscore");
 let async = require("async");
+let moment = require("moment");
 let mongoAgent = require("../plugins/mongodb");
 let commonRule = require("../ruleEngine/rules/CommonRule");
 let commonTools = require("../utils/CommonTools");
 let langSvc = require("../services/LangService");
-let ReturnClass = require("../ruleEngine/returnClass");
-let ErrorClass = require("../ruleEngine/errorClass");
-let logSvc = require("../services/LogService");
-let mailSvc = require("../services/MailService");
 let go_postData = null;
 let go_session = null;
 let gs_template_id = null;
 let ga_mainFieldsData = [];
-let ga_mainKeyFields = [];
 let ga_gsFieldsData = [];
 let ga_dgFieldsData = [];
-let ga_dgKeyFields = [];
 let go_saveExecDatas = {};
 let gn_exec_seq = 1;
 let go_userInfo = null;
@@ -57,15 +52,17 @@ function operationSaveAdapterClass(postData, session) {
         gn_exec_seq = ln_exec_seq || 1;
     };
 
+    // 執行程序
     this.exec = function (callback) {
         async.waterfall([
-            qryTemplateRfData,
-            chkTmpType,
-            qryFieldData,
-            combineDtDeleteExecData,
-            combineMainData,
-            combineDtCreateEditExecData,
-            convertToApiFormat
+            qryTemplateRfData,              //查templateRf資料
+            chkTmpType,                     //檢查為多筆、單筆、mn-dt或特殊
+            qryFieldData,                   //取欄位資料
+            combineDtDeleteExecData,        //組dt刪除資料
+            combineMainData,                //組此筆新刪修資料
+            combineDtCreateEditExecData,    //組dt新增修改資料
+            sortByEventTime,                //依事件時間(event_time)調整儲存順序
+            convertToApiFormat              //將temCUD轉換為打API格式
         ], function (err, data) {
             callback(err, data);
         });
@@ -124,11 +121,9 @@ function qryFieldData(rfData, callback) {
             if (gs_template_id == "datagrid" || gs_template_id == "mn-dt" || gs_template_id == "special") {
                 mongoAgent.UIDatagridField.find({
                     prg_id: go_postData.prg_id,
-                    page_id: go_postData.page_id,
-                    tab_page_id: go_postData.tab_page_id || 1
+                    page_id: go_postData.page_id
                 }, function (err, la_dgFieldsData) {
                     ga_dgFieldsData = commonTools.mongoDocToObject(la_dgFieldsData);
-                    ga_dgKeyFields = _.where(ga_dgFieldsData, {keyable: 'Y'}) || [];
                     cb(null, ga_dgFieldsData);
                 });
             }
@@ -151,26 +146,22 @@ function qryFieldData(rfData, callback) {
             }
         }
     ], function (err, result) {
-        ga_createData = commonTools.handlePreprocessData(ga_createData, ga_gsFieldsData);
-        ga_deleteData = commonTools.handlePreprocessData(ga_deleteData, ga_gsFieldsData);
-        ga_updateData = commonTools.handlePreprocessData(ga_updateData, ga_gsFieldsData);
+        ga_createData = commonTools.handleOperationProcData(ga_createData, ga_gsFieldsData);
+        ga_deleteData = commonTools.handleOperationProcData(ga_deleteData, ga_gsFieldsData);
+        ga_updateData = commonTools.handleOperationProcData(ga_updateData, ga_gsFieldsData);
 
-        ga_dtCreateData = commonTools.handlePreprocessData(ga_dtCreateData, ga_dgFieldsData);
-        ga_dtDeleteData = commonTools.handlePreprocessData(ga_dtDeleteData, ga_dgFieldsData);
-        ga_dtUpdateData = commonTools.handlePreprocessData(ga_dtUpdateData, ga_dgFieldsData);
+        ga_dtCreateData = commonTools.handleOperationProcData(ga_dtCreateData, ga_dgFieldsData);
+        ga_dtDeleteData = commonTools.handleOperationProcData(ga_dtDeleteData, ga_dgFieldsData);
+        ga_dtUpdateData = commonTools.handleOperationProcData(ga_dtUpdateData, ga_dgFieldsData);
 
         if (gs_template_id == "datagrid") {
             ga_mainFieldsData = ga_dgFieldsData;
-            ga_mainKeyFields = _.where(ga_dgFieldsData, {keyable: 'Y'}) || [];
         }
         else if (gs_template_id == "gridsingle") {
             ga_mainFieldsData = ga_gsFieldsData;
-            ga_mainKeyFields = _.where(ga_gsFieldsData, {keyable: 'Y'}) || [];
         }
         else {
             ga_mainFieldsData = ga_gsFieldsData;
-            ga_mainKeyFields = _.where(ga_gsFieldsData, {keyable: 'Y'}) || [];
-            ga_dgKeyFields = _.where(ga_dgFieldsData, {keyable: "Y"}) || [];
         }
         callback(err, rfData);
     });
@@ -180,10 +171,16 @@ function qryFieldData(rfData, callback) {
 function combineDtDeleteExecData(rfData, callback) {
     try {
         _.each(ga_dtDeleteData, function (data) {
-            var tmpDel = {"function": "0", "table_name": gs_dgTableName, "kindOfRel": 'dt'}; //0 代表刪除
+            var lo_fieldsData = qryFieldsDataByTabPageID(data);
+            var tmpDel = {
+                "function": "0",
+                "table_name": gs_dgTableName,
+                "kindOfRel": 'dt',
+                event_time: data.event_time
+            }; //0 代表刪除
             tmpDel.condition = [];
             //組合where 條件
-            _.each(ga_dgKeyFields, function (keyField, keyIdx) {
+            _.each(lo_fieldsData.dgKeyFields, function (keyField, keyIdx) {
                 if (!_.isUndefined(data[keyField.ui_field_name])) {
                     tmpDel.condition.push({
                         key: keyField.ui_field_name,
@@ -215,12 +212,13 @@ function combineMainData(rfData, callback) {
                 return callback(null, '0200');
             }
             _.each(ga_createData, function (data) {
+                var lo_fieldsData = qryFieldsDataByTabPageID(data);
                 var tmpIns = {"function": "1", "table_name": gs_mainTableName}; //1  新增
                 _.each(Object.keys(data), function (objKey) {
                     if (!_.isUndefined(data[objKey])) {
                         var value = data[objKey];
 
-                        _.each(ga_mainFieldsData, function (row) {
+                        _.each(lo_fieldsData.mainFieldsData, function (row) {
                             if (row.ui_field_name == objKey) {
                                 var finalValue = changeValueFormat4Save(value, row.ui_type);
                                 value = finalValue ? finalValue : value;
@@ -256,8 +254,8 @@ function combineMainData(rfData, callback) {
                                     locale: ls_locale,
                                     field_name: fieldName,
                                     words: langVal
-                                };
-                                _.each(_.pluck(ga_mainKeyFields, "ui_field_name"), function (keyField) {
+                                }
+                                _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
                                     if (!_.isUndefined(data[keyField])) {
                                         lo_langTmp[keyField] = typeof data[keyField] === "string"
                                             ? data[keyField].trim() : data[keyField];
@@ -280,11 +278,12 @@ function combineMainData(rfData, callback) {
                 return callback(null, '0300');
             }
             _.each(ga_deleteData, function (data) {
-                var tmpDel = {"function": "0", "table_name": gs_mainTableName}; //0 代表刪除
+                var lo_fieldsData = qryFieldsDataByTabPageID(data);
+                var tmpDel = {"function": "0", "table_name": gs_mainTableName, event_time: data.event_time}; //0 代表刪除
                 data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
                 tmpDel.condition = [];
                 //組合where 條件
-                _.each(ga_mainKeyFields, function (keyField, keyIdx) {
+                _.each(lo_fieldsData.mainKeyFields, function (keyField, keyIdx) {
                     if (!_.isUndefined(data[keyField.ui_field_name])) {
                         tmpDel.condition.push({
                             key: keyField.ui_field_name,
@@ -298,7 +297,7 @@ function combineMainData(rfData, callback) {
                 gn_exec_seq++;
 
                 if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, ga_dgKeyFields, data);
+                    combineDelDetailData(gs_dgTableName, lo_fieldsData.dgKeyFields, data);
                 }
             });
             callback(null, '0300');
@@ -310,12 +309,13 @@ function combineMainData(rfData, callback) {
             }
 
             _.each(ga_updateData, function (data) {
+                var lo_fieldsData = qryFieldsDataByTabPageID(data);
                 var tmpEdit = {"function": "2", "table_name": gs_mainTableName}; //2  編輯
                 _.each(Object.keys(data), function (objKey) {
                     if (!_.isUndefined(data[objKey])) {
                         tmpEdit[objKey] = data[objKey];
 
-                        _.each(ga_mainFieldsData, function (row) {
+                        _.each(lo_fieldsData.mainFieldsData, function (row) {
                             if (row.ui_field_name == objKey) {
                                 var finalValue = changeValueFormat4Save(tmpEdit[objKey], row.ui_type);
                                 tmpEdit[objKey] = finalValue ? finalValue : tmpEdit[objKey];
@@ -330,7 +330,7 @@ function combineMainData(rfData, callback) {
 
                 tmpEdit.condition = [];
                 //組合where 條件
-                _.each(ga_mainKeyFields, function (keyField) {
+                _.each(lo_fieldsData.mainKeyFields, function (keyField) {
                     if (!_.isUndefined(data[keyField.ui_field_name])) {
                         tmpEdit.condition.push({
                             key: keyField.ui_field_name,
@@ -371,7 +371,7 @@ function combineMainData(rfData, callback) {
                                                         value: fieldName
                                                     }
                                                 ];
-                                                _.each(_.pluck(ga_mainKeyFields, "ui_field_name"), function (keyField) {
+                                                _.each(_.pluck(lo_fieldsData.mainKeyFields, "ui_field_name"), function (keyField) {
                                                     if (!_.isUndefined(data[keyField])) {
                                                         lo_condition.push({
                                                             key: keyField,
@@ -422,7 +422,8 @@ function combineMainData(rfData, callback) {
                         gn_exec_seq++;
                         callback(null, '0400');
                     });
-                } else {
+                }
+                else {
                     go_saveExecDatas[gn_exec_seq] = tmpEdit;
                     gn_exec_seq++;
                     callback(null, '0400');
@@ -437,6 +438,7 @@ function combineMainData(rfData, callback) {
     });
 }
 
+
 //組合DT 新增修改執行資料
 function combineDtCreateEditExecData(rfData, callback) {
     var la_dtMultiLangFields = _.filter(ga_dgFieldsData, function (field) {
@@ -446,6 +448,7 @@ function combineDtCreateEditExecData(rfData, callback) {
     try {
         //dt 新增
         _.each(ga_dtCreateData, function (data) {
+            var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpIns = {"function": "1", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //1  新增
             tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
             var mnRowData = data["mnRowData"] || {};
@@ -462,7 +465,7 @@ function combineDtCreateEditExecData(rfData, callback) {
             });
 
             //塞入mn pk
-            _.each(ga_mainKeyFields, function (keyField) {
+            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
                 if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
                     tmpIns[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
                 }
@@ -484,7 +487,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                                 field_name: fieldName,
                                 words: langVal
                             };
-                            _.each(_.pluck(ga_dgKeyFields, "ui_field_name"), function (keyField) {
+                            _.each(_.pluck(lo_fieldsData.dgKeyFields, "ui_field_name"), function (keyField) {
                                 if (!_.isUndefined(data[keyField])) {
                                     lo_langTmp[keyField] = typeof data[keyField] === "string" ? data[keyField].trim() : data[keyField];
                                 }
@@ -499,6 +502,7 @@ function combineDtCreateEditExecData(rfData, callback) {
 
         //dt 編輯
         _.each(ga_dtUpdateData, function (data) {
+            var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
 
@@ -513,7 +517,7 @@ function combineDtCreateEditExecData(rfData, callback) {
             });
 
             //塞入mn pk
-            _.each(ga_mainKeyFields, function (keyField) {
+            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
                 if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
                     tmpEdit[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
                 }
@@ -523,7 +527,7 @@ function combineDtCreateEditExecData(rfData, callback) {
 
             tmpEdit.condition = [];
             //組合where 條件
-            _.each(ga_dgKeyFields, function (keyField) {
+            _.each(lo_fieldsData.dgKeyFields, function (keyField) {
                 if (!_.isUndefined(data[keyField.ui_field_name])) {
                     tmpEdit.condition.push({
                         key: keyField.ui_field_name,
@@ -628,6 +632,15 @@ function combineDtCreateEditExecData(rfData, callback) {
 
 }
 
+//依事件時間(event_time)調整儲存順序
+function sortByEventTime(data, callback) {
+    console.log(go_saveExecDatas);
+    var tmp_saveExecDatas = _.sortBy(_.values(go_saveExecDatas), function (lo_saveExecData) {
+        return lo_saveExecData.event_time;
+    });
+    callback(null, "");
+}
+
 //轉換為API格式
 function convertToApiFormat(rfData, callback) {
     var apiParams = {
@@ -641,6 +654,7 @@ function convertToApiFormat(rfData, callback) {
     callback(null, apiParams);
 }
 
+//region //func area
 //將儲存或修改的欄位格式做轉換
 function changeValueFormat4Save(value, ui_type) {
     var valueTemp;
@@ -671,7 +685,8 @@ function changeValueFormat4Save(value, ui_type) {
 
 //組要刪除的dt資料
 function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
-    let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt"}; //0 代表刪除
+    var ls_event_time = moment(new Date(mnData.event_time)).subtract("1", "seconds").format("YYYY/MM/DD HH:mm:ss");
+    let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt", event_time: ls_event_time}; //0 代表刪除
     tmpDel.condition = [];
     //組合where 條件
     _.each(la_dtkeyFields, function (keyField, keyIdx) {
@@ -686,6 +701,24 @@ function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
     });
     go_saveExecDatas[gn_exec_seq] = tmpDel;
     gn_exec_seq++;
+}
+
+//endregion
+
+function qryFieldsDataByTabPageID(lo_data) {
+    let ln_tab_page_id = lo_data.tab_page_id || 1;
+    let la_mainFieldsData = _.where(ga_mainFieldsData, {tab_page_id: ln_tab_page_id}) || ga_mainFieldsData;
+    let la_mainKeyFields = _.where(la_mainFieldsData, {keyable: "Y"}) || [];
+    let la_dgFieldsData = _.where(ga_dgFieldsData, {tab_page_id: ln_tab_page_id}) || ga_dgFieldsData;
+    let la_dgKeyFields = _.where(la_dgFieldsData, {keyable: "Y"}) || [];
+    let rtnData = {
+        mainFieldsData: _.clone(la_mainFieldsData),
+        mainKeyFields: _.clone(la_mainKeyFields),
+        dgFieldsData: _.clone(la_dgFieldsData),
+        dgKeyFields: _.clone(la_dgKeyFields)
+    };
+
+    return rtnData;
 }
 
 module.exports = operationSaveAdapterClass;

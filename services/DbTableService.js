@@ -756,7 +756,6 @@ function operationSaveProc(postData, session) {
 
     // 儲存前規則檢查
     this.doRuleProcBeforeSave = function (callback) {
-        var lo_err = {};
         chkRuleIsExist(function (err, la_rules) {
             if (la_rules.length != 0) {
                 dataRuleSvc.doOperationRuleProcBeforeSave(postData, session, la_rules, function (err, chkResult) {
@@ -770,13 +769,11 @@ function operationSaveProc(postData, session) {
                     if (!err && !_.isUndefined(chkResult.effectValues)) {
                         postData = _.extend(postData, chkResult.effectValues);
                     }
-                    lo_err.errorMsg = err;
-                    callback(lo_err, postData);
+                    callback(err, postData);
                 });
             }
             else {
-                lo_err.errorMsg = err;
-                callback(lo_err, postData);
+                callback(err, postData);
             }
         });
     };
@@ -817,21 +814,20 @@ function operationSaveProc(postData, session) {
         }
 
         //轉換後打API
-        optSaveAdapter.exec(function (err, result) {
-            let lo_apiParams = result.effectValues;
+        optSaveAdapter.exec(function (err, lo_apiParams) {
+            callback(err, lo_apiParams);
+            return;
             tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
                 var log_id = moment().format("YYYYMMDDHHmmss");
-                var lo_err = null;
+                var ls_err = null;
                 var lb_success = true;
                 if (apiErr || !data) {
                     lb_success = false;
-                    lo_err = {};
-                    lo_err.errorMsg = apiErr;
+                    lo_err = apiErr;
                 } else if (data["RETN-CODE"] != "0000") {
                     lb_success = false;
-                    lo_err = {};
                     console.error(data["RETN-CODE-DESC"]);
-                    lo_err.errorMsg = "save error!";
+                    ls_err = "save error!";
                 }
 
                 //寄出exceptionMail
@@ -839,7 +835,7 @@ function operationSaveProc(postData, session) {
                     mailSvc.sendExceptionMail({
                         log_id: log_id,
                         exceptionType: "execSQL",
-                        errorMsg: lo_err.errorMsg
+                        errorMsg: ls_err
                     });
                 }
                 //log 紀錄
@@ -852,7 +848,7 @@ function operationSaveProc(postData, session) {
                     res_content: data
                 });
 
-                callback(lo_err, lb_success);
+                callback(ls_err, lb_success);
             });
 
         });
