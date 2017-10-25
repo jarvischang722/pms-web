@@ -364,6 +364,7 @@
 
 .page-header {
   padding-bottom: 0;
+  margin: 0 0 4px;
 }
 
 h3 {
@@ -3268,8 +3269,7 @@ ul.newVisitOther-btn {
 }
 
 .plan-btn-group {
-  text-align: center;
-  width: 300px;
+  width: auto;
   margin: 0 0 4px 0;
 }
 .plan-btn-group ul {
@@ -3282,17 +3282,16 @@ ul.newVisitOther-btn {
 }
 .plan-btn-group ul li button {
   border: 0;
+  width: auto;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 .plan-btn-group ul li span {
   font-weight: bold;
 }
-
-.btn-inlineWidth {
-  width: 19%;
+.plan-btn-group .btn-inlineWidth {
   padding: 3px 9px;
   font-size: 12px;
-  padding-left: 0;
-  padding-right: 0;
   white-space: normal;
 }
 
@@ -4428,6 +4427,18 @@ a {
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
+}
+
+.btn-gray {
+  padding: 3px 9px;
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #929292 !important;
+}
+.btn-gray:hover {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #929292 !important;
 }
 
 .space-6 {
