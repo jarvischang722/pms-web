@@ -179,7 +179,15 @@ function DatagridBaseClass() {
             alert("請選擇要刪除的資料");
         }
 
-        self.tmpCUD.deleteData.push(delRow);
+        // 新增tab_page_id、event_time屬性
+        delRow["tab_page_id"] = 1;
+        delRow["event_time"] = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+        //判斷是否為新加的一筆，若是的話則不放入暫存
+        if(delRow.createRow != 'Y'){
+            self.tmpCUD.deleteData.push(delRow);
+        }
+
         $("#gridEdit").val(self.tmpCUD);
 
         $.post("/api/handleDataGridDeleteEventRule", {
@@ -230,8 +238,6 @@ function DatagridBaseClass() {
      * @param rowData 要處理的那筆資料
      */
     this.doTmpExecData = function (rowData) {
-
-
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
@@ -239,12 +245,20 @@ function DatagridBaseClass() {
         _.each(keyVals, function (field_name) {
             condKey[field_name] = rowData[field_name] || "";
         });
+
         //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
+
         if (existIdx > -1) {
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
+
+        // 新增tab_page_id、event_time屬性
+        rowData["tab_page_id"] = 1;
+        rowData["event_time"] = moment().format('MMMM Do YYYY, h:mm:ss a');
+
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);
+
     };
 }

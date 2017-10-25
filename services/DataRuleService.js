@@ -103,7 +103,8 @@ exports.getSelectOptions = function (params, selRow, callback) {
             });
             callback(selData);
         });
-    } else {
+    }
+    else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             ruleAgent[selRow.rule_func_name](params, function (err, data) {
@@ -119,7 +120,8 @@ exports.getSelectOptions = function (params, selRow, callback) {
                     callback(data.selectOptions);
                 }
             });
-        } else {
+        }
+        else {
             callback([]);
         }
     }
@@ -512,6 +514,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let page_id = postData.page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
+
     mongoAgent.DatagridFunction.findOne({
         prg_id: prg_id,
         page_id: Number(page_id),
@@ -533,7 +536,6 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                     }
                 );
 
-
             });
             async.parallel(delChkFuncs, function (err, result) {
                 var lo_result = new ReturnClass();
@@ -542,7 +544,8 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                 }
                 callback(err, lo_result);
             });
-        } else {
+        }
+        else {
             callback(null, new ReturnClass());
         }
 

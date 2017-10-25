@@ -116,4 +116,26 @@
         <parameter type="string" kind="3">cust_nam</parameter>
     </dao>
 
+
+    <!--
+    [PMS0620010] 未於商務公司資料指定者可刪除
+    訊息『商務公司資料已使用，不可刪除』
+    [PMS0620020] 業務員狀態由「N:在職」改「Q:離職」時，檢查商務公司業務員是否指定此業務員資料，若有指定則不允許修改
+    訊息『商務公司資料已使用，不可修改狀態』
+    -->
+    <dao name="CHK_SALES_COD_IS_EXIST_IN_CUST_MN">
+        <statement><![CDATA[
+            select count(*) as cust_sales_Count
+            from cust_mn
+            where athena_id = :athena_id
+            and trim(sales_cod) = trim(:sales_cod)
+            and rownum = 1
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+
+
+
 </root>

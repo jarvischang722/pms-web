@@ -1,12 +1,14 @@
-<div>
+<link rel="stylesheet" href="/css/element_ui/element.css">
+
+<div id="PMS0620010App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 業務員(Sales Rep) Page-->
-    <div class="pageMain">
 
+    <div class="pageMain">
+        <!--搜尋列-->
         <div class="col-xs-12">
             <div class="search-content">
                 <div class="search-co">
-
                     <div class="row">
                         <div class="search-co-content col-xs-12 search-S2">
                             <div class="width-95 searchMain-S2">
@@ -96,13 +98,13 @@
             </div> <!-- /.row  search-content-->
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-
+        <!--業務員資料(多筆)-->
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="gridTableHt">
-                        <!-- 業務員多筆 dataGrid -->
-                        <table id="clerkDataGridResult-table"></table>
+                        <!--<table id="clerkDataGridResult-table"></table>-->
+                        <table id="PMS0620010_dg"></table>
                     </div>
                 </div>
             </div>
@@ -111,19 +113,18 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth sales_changeBusiness"
-                                        role="button">Add
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="appendRow">Add
                                 </button>
                             </li>
-
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth"
-                                        role="button">Delete
+                                        role="button" @click="removeRow">Delete
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth sales_changeBusiness"
-                                        role="button">Edit
+                                <button class="btn btn-primary btn-white btn-defaultWidth "
+                                        role="button" @click="editRow">Edit
                                 </button>
                             </li>
                         </ul>
@@ -133,7 +134,24 @@
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
     </div>
+    <div type="hidden" id="gridEdit" name="gridEdit"></div>
 
+    <single-grid-pms0620020-tmp
+            :ori-single-grid-field-data="oriSingleGridFieldData"
+            :field-data="pageOneSingleGridFieldData"
+            :row-data="pageOneSingleGridRowData"
+            :is-modifiable="isModifiable"
+            :edit-status="isEditStatus"
+            :create-status="isCreateStatus"
+            :hotel-dt-field-data="hotelDTFieldData"
+            :hotel-dt-row-data="hotelDTDataGridRows"
+            :class-hs-field-data="classHSFieldData"
+            :class-hs-row-data="classHSDataGridRows"
+            >
+    </single-grid-pms0620020-tmp>
+
+    <!--popup grid-->
+    <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
     <!--  業務 彈出視窗內容(jing)-->
     <%- include sales_module/sales_Btn_1.ejs %>
@@ -142,12 +160,13 @@
 <!--<div style="background: url('./images/initialPageImg.gif') no-repeat;"></div>-->
 
 <div style=" margin: 0 auto; display: none;" align="center">
-    <img src="../images/initialPageImg2.jpg" style=" opacity: 0.4;" />
+    <img src="../images/initialPageImg2.jpg" style=" opacity: 0.4;"/>
     <!--<img src="../images/initialPageImg.gif" style=" width: 25%; height: 25%; margin-left: -70px;"/>-->
     <!--<img src="../images/initialPageImg.gif" style="  width: 25%; height: 25%;margin-left: -70px;"/>-->
     <!--<img src="../images/initialPageImg.gif" style=" width: 25%; height: 25%;margin-left: -70px;"/>-->
     <!--<img src="../images/initialPageImg.gif" style="  width: 25%; height: 25%;margin-left: -70px;"/>-->
 </div>
+
 <!--  業務 initial js -->
 <%- include sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 initial js  -->
@@ -155,3 +174,22 @@
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
+
+<%- include ./vueTemplate/chooseDataDialogTmp.ejs%>
+<%- include ./vueTemplate/PMS0620020Tmp.ejs %>
+
+<script src="/js/sales/PMS0620010.js"></script>
+<script>
+    //                        console.log(navigator.userAgent);
+    //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+    //0822 有些mac的scrollBar 會推，有些不會(jun會)
+    //                        if(navigator.userAgent.indexOf("Window") !=-1){
+    $(window).on("load resize ", function () {
+        var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+        $('.tbl-header').css({'padding-right': '17px'});
+        var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+    }).resize();
+    //                        }
+    // /.end 判斷如果不是window不執行
+
+</script>

@@ -123,7 +123,8 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                         fieldData = tools.mongoDocToObject(commonFields);
                         callback(err, fieldData);
                     });
-                } else {
+                }
+                else {
                     fieldData = tools.mongoDocToObject(UserFieldData);
                     callback(err, fieldData);
                 }
@@ -234,7 +235,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                 callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
                             }
                         }
-                    );
+                    );``
                 }
             });
 
@@ -857,6 +858,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     ], function (err, result) {
         callback(null, lo_result);
     });
+
 };
 
 /**

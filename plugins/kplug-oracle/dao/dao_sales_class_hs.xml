@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--[PMS0620020] 組別異動記錄-->
+    <dao name="qry_sales_class_hs">
+        <statement><![CDATA[
+        SELECT CLASS_COD, BEGIN_DAT,END_DAT, INS_DAT, INS_USR, UPD_DAT, UPD_USR
+        FROM SALES_CLASS_HS WHERE ATHENA_ID = :athena_id AND trim(SALES_COD) = trim(:sales_cod)
+        ORDER BY END_DAT DESC
+        ]]></statement>
+        <parameter type="number" kind="3" >athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+</root>
