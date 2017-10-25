@@ -268,18 +268,18 @@ function DatagridBaseClass() {
      * @param rowData: mn 單筆資料
      */
     this.updateTmpDtOfMnData = function (rowData) {
+        var self = this;
         _.each(this.tmpCUD.dt_createData, function (cData, cIdx) {
-            this.tmpCUD.dt_createData[cIdx] = _.extend(cData, rowData);
-            this.tmpCUD.dt_createData[cIdx]["mnRowData"] = rowData;
+            self.tmpCUD.dt_createData[cIdx] = _.extend(cData, rowData);
+            self.tmpCUD.dt_createData[cIdx]["mnRowData"] = rowData;
         });
         _.each(this.tmpCUD.dt_updateData, function (uData, uIdx) {
-            this.tmpCUD.dt_updateData[uIdx] = _.extend(uData, rowData);
-            this.tmpCUD.dt_updateData[uIdx]["mnRowData"] = rowData;
+            self.tmpCUD.dt_updateData[uIdx] = _.extend(uData, rowData);
+            self.tmpCUD.dt_updateData[uIdx]["mnRowData"] = rowData;
         });
         _.each(this.tmpCUD.dt_deleteData, function (dData, dIdx) {
-            this.tmpCUD.dt_deleteData[dIdx] = _.extend(dData, rowData);
-            this.tmpCUD.dt_deleteData[dIdx]["mnRowData"] = rowData;
-
+            self.tmpCUD.dt_deleteData[dIdx] = _.extend(dData, rowData);
+            self.tmpCUD.dt_deleteData[dIdx]["mnRowData"] = rowData;
         });
     };
 
