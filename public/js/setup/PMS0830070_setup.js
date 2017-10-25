@@ -199,10 +199,10 @@ var Pms0830070Comp = Vue.extend({
             if (this.deleteDtTmp.length != 0) {
                 _.each(this.deleteDtTmp, function (lo_delDtTmp) {
                     var lo_singleDataDt = _.findWhere(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
-                    if(lo_singleDataDt.createRow == "Y"){
+                    if (lo_singleDataDt.createRow == "Y") {
                         PMS0830070VM.singleDataDt = _.without(PMS0830070VM.singleDataDt, {seq_nos: lo_delDtTmp});
                     }
-                    else{
+                    else {
                         PMS0830070VM.tmpCUD.dt_deleteData.push(lo_singleDataDt);
                     }
                 });
@@ -366,18 +366,6 @@ var PMS0830070VM = new Vue({
         pageOneFieldData: function () {
             this.initDataGrid();
             this.dgIns.loadDgData(this.pageOneDataGridRows);
-        },
-        editingRow: {
-            handler(val) {
-                if (this.isCreateStatus) {
-                    this.tmpCUD.createData = val;
-                    this.tmpCUD.updateData = {};
-                } else if (this.isEditStatus) {
-                    this.tmpCUD.updateData = val;
-                    this.tmpCUD.createData = {};
-                }
-            },
-            deep: true
         }
     },
     methods: {
@@ -387,6 +375,7 @@ var PMS0830070VM = new Vue({
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(this.p, "PMS0830070_dg", colOption, this.pageOneFieldData, {singleSelect: false});
         },
+
         //撈多筆
         getRouteData: function () {
             $.post('/api/prgDataGridDataQuery', {prg_id: gs_prg_id, searchCond: this.searchCond})
@@ -396,6 +385,7 @@ var PMS0830070VM = new Vue({
                     PMS0830070VM.pageOneFieldData = response.fieldData;
                 });
         },
+
         //新增單筆
         addRoute: function () {
             var self = this;
@@ -413,10 +403,12 @@ var PMS0830070VM = new Vue({
                 }
             });
         },
+
         delRoutes: function () {
             this.tmpCUD.deleteData = $("#PMS0830070_dg").datagrid("getChecked");
             this.doSave();
         },
+
         initTmpCUD: function () {
             this.tmpCUD = {
                 createData: {},
@@ -431,6 +423,7 @@ var PMS0830070VM = new Vue({
             };
             PMS0830070VM.singleData4DetialTmp = [];
         },
+
         //取得單筆
         fetchSingleData: function (editingRow) {
             this.isCreateStatus = false;
@@ -443,13 +436,14 @@ var PMS0830070VM = new Vue({
 
             this.getSingleGridData(editingRow);
         },
+
         //取得單筆Dt
         getSingleGridData: function (editingRow) {
-
             this.getSingleGridDataDt(editingRow);
             //this.getSingleGridData2(editingRow);
             this.openRouteDialog();
         },
+
         //取的單筆Dt(要共用)
         getSingleGridDataDt(editingRow) {
             $.post('/api/qryPMS0830070SingleDt', editingRow)
@@ -457,6 +451,7 @@ var PMS0830070VM = new Vue({
                     PMS0830070VM.singleDataDt = response.routeDtList;
                 });
         },
+
         //開起單筆頁
         openRouteDialog: function () {
             this.initTmpCUD();
@@ -472,15 +467,17 @@ var PMS0830070VM = new Vue({
                 resizable: true
             });
         },
+
         closeGridDialog: function () {
             PMS0830070VM.editingRow = {};
             PMS0830070VM.singleData = {};
             PMS0830070VM.singleDataDt = {};
             PMS0830070VM.singleData4DetialTmp = [];
-            PMS0830070VM.singleDataDtEdit4DeleteTmp = [],
-                PMS0830070VM.initTmpCUD();
+            PMS0830070VM.singleDataDtEdit4DeleteTmp = [];
+            PMS0830070VM.initTmpCUD();
             $("#PMS0830070Dialog").dialog('close');
         },
+
         doSave: function () {
             var self = this;
             if (self.tmpCUD.deleteData.length == 0) {
@@ -504,6 +501,7 @@ var PMS0830070VM = new Vue({
             });
 
         },
+
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
@@ -517,6 +515,7 @@ var PMS0830070VM = new Vue({
             }
             this.getSingleGridDataDt(params);
         },
+
         combineSQLData: function () {
             var la_oriRouteDtList = this.routeDtList;
             var allAccData = [];
