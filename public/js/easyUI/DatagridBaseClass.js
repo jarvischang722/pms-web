@@ -255,10 +255,9 @@ function DatagridBaseClass() {
 
         // 新增tab_page_id、event_time屬性
         rowData["tab_page_id"] = 1;
-        rowData["event_time"] = moment().format('MMMM Do YYYY, h:mm:ss a');
+        rowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);
-
     };
 }

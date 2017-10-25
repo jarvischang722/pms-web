@@ -204,6 +204,7 @@ var EZfieldClass = {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
+                        oldValue = oldValue || undefined;
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
