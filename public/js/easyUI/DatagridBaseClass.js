@@ -179,14 +179,6 @@ function DatagridBaseClass() {
             alert("請選擇要刪除的資料");
         }
 
-        // 新增tab_page_id、event_time屬性
-        delRow["tab_page_id"] = 1;
-        delRow["event_time"] = moment().format('MMMM Do YYYY, h:mm:ss a');
-
-        //判斷是否為新加的一筆，若是的話則不放入暫存
-        if(delRow.createRow != 'Y'){
-            self.tmpCUD.deleteData.push(delRow);
-        }
 
         $("#gridEdit").val(self.tmpCUD);
 
@@ -253,9 +245,6 @@ function DatagridBaseClass() {
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
-        // 新增tab_page_id、event_time屬性
-        rowData["tab_page_id"] = 1;
-        rowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);

@@ -154,7 +154,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                 });
             }
         },
-        showDtDataGrid: function () {            
+        showDtDataGrid: function () {
             this.dgHoatelDt = new DatagridBaseClass();
             this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", EZfieldClass.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
@@ -170,7 +170,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         appendDtRow: function () {
             this.dgHoatelDt.appendRow();
         },
-        removeDtRow: function () {
+        removeDtRow: function(){
             this.dgHoatelDt.removeRow();
         },
         loadChangeLog: function () {
@@ -403,7 +403,7 @@ var vm = new Vue({
         pageOneDataGridRows: [],
         pageOneFieldData: [],
         pageOneSingleGridFieldData: [],     // PMS0620020 業務員(單筆)欄位
-        pageOneSingleGridRowData: [],       // PMS0620020 業務員(單筆)資料
+        pageOneSingleGridRowData: {},       // PMS0620020 業務員(單筆)資料
         oriSingleData: [],
         oriSingleGridFieldData: [],
         hotelDTDataGridRows: [],            // PMS0620020 Property(多筆)欄位
@@ -430,7 +430,7 @@ var vm = new Vue({
             });
         },
         initTmpCUD: function () {
-            vm.tmpCud = {
+            this.tmpCud = {
                 createData: [],
                 updateData: [],
                 deleteData: [],

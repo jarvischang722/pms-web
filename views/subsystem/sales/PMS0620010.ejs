@@ -1,3 +1,7 @@
+<%- include ../../common/head %>
+
+<%- include ../../common/importFiles %>
+
 <link rel="stylesheet" href="/css/element_ui/element.css">
 
 <div id="PMS0620010App">
@@ -137,16 +141,10 @@
     <div type="hidden" id="gridEdit" name="gridEdit"></div>
 
     <single-grid-pms0620020-tmp
-            :ori-single-grid-field-data="oriSingleGridFieldData"
-            :field-data="pageOneSingleGridFieldData"
-            :row-data="pageOneSingleGridRowData"
+            :single-data="editingRow"
             :is-modifiable="isModifiable"
             :edit-status="isEditStatus"
             :create-status="isCreateStatus"
-            :hotel-dt-field-data="hotelDTFieldData"
-            :hotel-dt-row-data="hotelDTDataGridRows"
-            :class-hs-field-data="classHSFieldData"
-            :class-hs-row-data="classHSDataGridRows"
             >
     </single-grid-pms0620020-tmp>
 
