@@ -24,11 +24,15 @@ var params = {
     contact1_cod:'04'
 }
 var co = require("co");
-var await = require("await");
+// var await = require("await");
+var pohaoParams = {
+    athena_id: 1,
+    sales_cod: "RD        "
+}
 
-
-
-test2();
+// test1(params);
+// test2();
+pohaoTest(pohaoParams);
 
 function test1(params) {
     queryAgent.query("CHK_ORDER_MN_RV_TYP_IS_EXIST", params, function (err, data) {
@@ -64,3 +68,14 @@ function test2(params) {
 //     console.log(quickMenuRows);
 //
 // });
+
+function pohaoTest(params) {
+    queryAgent.queryList("qry_sales_hotel_dt", params, 0, 0, function(errDTData, dtData){
+        console.log(errDTData);
+        console.log(dtData);
+    });
+    // queryAgent.query("qry_sales_hotel_dt", params, function (err, guestData) {
+    //     console.log(err);
+    //     console.log(guestData);
+    // });
+}

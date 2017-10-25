@@ -14,16 +14,14 @@ DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
-// DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
-// };
+DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+};
 
 /*** Class End  ***/
 
-
 Vue.component('single-grid-pms0620020-tmp', {
     template: '#singleGridPMS0620020Tmp',
-    props: ["fieldData", "rowData", "isModifiable", "editStatus", "createStatus", "hotelDtFieldData",
-        "hotelDtRowData", "classHsFieldData", "classHsRowData", "oriSingleGridFieldData"],
+    props: ["singleData","isModifiable", "editStatus", "createStatus"],
     data: function () {
         return {
             dgHoatelDt: {},
@@ -34,7 +32,15 @@ Vue.component('single-grid-pms0620020-tmp', {
             allChangeLogList: [],
             testChk: false,
             postRowData: {},
-            postDtData: []
+            originRowData: {},
+            rowData: {},
+            fieldData: [],
+            originFieldData: [],
+            hotelDtRowData: [],
+            hotelDtFieldData: [],
+            classHsRowData: [],
+            classHsFieldData: [],
+            dtEditIndex: undefined
         };
     },
     created: function () {
@@ -42,12 +48,10 @@ Vue.component('single-grid-pms0620020-tmp', {
         vmHub.$on('updateBackSelectData', function (chooseData) {
             self.rowData = _.extend(self.rowData, chooseData);
         });
+
     },
     mounted: function () {
         this.gs_active = "hotelDt";
-    },
-    updated: function () {
-        this.showDtDataGrid();
     },
     watch: {
         gs_active: function (active) {
@@ -61,6 +65,10 @@ Vue.component('single-grid-pms0620020-tmp', {
             }
 
             this.showDtDataGrid();
+        },
+        singleData: function(val){
+            this.initData();
+            this.fetchFieldData();
         }
     },
     methods: {
@@ -154,6 +162,54 @@ Vue.component('single-grid-pms0620020-tmp', {
                 });
             }
         },
+        initData: function(){
+            this.rowData = {};
+            this.originRowData = {};
+            this.hotelDtRowData.length = 0;
+            this.classHsRowData.length = 0;
+        },
+        fetchFieldData: function(){
+            var self = this;
+
+            $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
+                self.originFieldData = result.salesMnField;
+                self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
+                self.hotelDtFieldData = result.hotelDtField;
+                self.classHsFieldData = result.classHsField;
+
+                self.fetchRowData(self.singleData);
+            });
+        },
+        fetchRowData: function(singleData){
+            var self = this;
+
+            //新增的狀況
+            if(Object.keys(this.singleData).length  == 0){
+                $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+                    if (result.success) {
+                        self.rowData = result.defaultValues;
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                    self.showDtDataGrid();
+                });
+            }
+            //編輯的狀況
+            else {
+                $.post("/api/sales/qrySalesMn_PM0620020", singleData, function (result) {
+                    if (result.success) {
+                        self.originRowData = _.clone(result.rtnObject[0]['rowData']);
+                        self.rowData = result.rtnObject[0]['rowData'];
+                        self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
+                        self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
+                    }
+                    else {
+                        console.log(result.errorMsg);
+                    }
+                    self.showDtDataGrid();
+                });
+            }
+        },
         showDtDataGrid: function () {
             this.dgHoatelDt = new DatagridBaseClass();
             this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", EZfieldClass.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
@@ -163,15 +219,17 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
             this.dgClassHs.loadDgData(this.classHsRowData);
 
-        },
-        doChangeTraff: function (tab, event) {
-            this.gs_active = tab.name;
+
         },
         appendDtRow: function () {
             this.dgHoatelDt.appendRow();
         },
         removeDtRow: function(){
             this.dgHoatelDt.removeRow();
+        },
+
+        doChangeTraff: function (tab, event) {
+            this.gs_active = tab.name;
         },
         loadChangeLog: function () {
             this.openChangeLogDialog = true;
@@ -197,8 +255,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             var lo_checkResult;
 
             // 單筆資料檢查
-            for (var i = 0; i < this.oriSingleGridFieldData.length; i++) {
-                var lo_field = this.oriSingleGridFieldData[i];
+            for (var i = 0; i < this.originFieldData.length; i++) {
+                var lo_field = this.originFieldData[i];
                 //必填
                 if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
                     lo_checkResult = go_validateClass.required(self.rowData[lo_field.ui_field_name], lo_field.ui_display_name);
@@ -228,11 +286,11 @@ Vue.component('single-grid-pms0620020-tmp', {
                 this.isSaving = false;
             }
             else {
-                var postRowData =  this.convertChkVal(this.oriSingleGridFieldData, this.rowData);
+                var postRowData =  this.convertChkVal(this.originFieldData, this.rowData);
                 var postDTdata = {};
 
                 postRowData["tab_page_id"] = 1;
-                postRowData["event_time"] = moment();
+                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
                 if (this.createStatus) {
                     vm.tmpCud.createData.push(postRowData);
@@ -462,6 +520,7 @@ var vm = new Vue({
             vm.isLoading = true;
             vm.editingRow = editingRow;
 
+
             editingRow["prg_id"] = "PMS0620020";
             $.post("/api/sales/qrySalesMn_PM0620020", editingRow, function (result) {
                 if (result.success) {
@@ -487,9 +546,12 @@ var vm = new Vue({
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         appendRow: function () {
-            vm.initTmpCUD();
-            vm.isCreateStatus = true;
-            vm.isEditStatus = false;
+            this.initTmpCUD();
+            this.hotelDTDataGridRows.length = 0;
+            this.classHSDataGridRows.length = 0;
+            this.isCreateStatus = true;
+            this.isEditStatus = false;
+            this.editingRow = {};
 
             $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                 if (result.success) {
