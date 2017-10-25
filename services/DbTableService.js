@@ -18,6 +18,8 @@ let optSaveAdapter = require("../ruleEngine/operationSaveAdapter");
 let async = require("async");
 let mongoAgent = require("../plugins/mongodb");
 let dataRuleSvc = require('../services/DataRuleService');
+let ErrorClass = require("../ruleEngine/errorClass");
+let ReturnClass = require("../ruleEngine/returnClass");
 /**
  *
  * @param prg_id{String} : 程式編號
@@ -751,8 +753,8 @@ exports.execNormalSQL = function (postData, session, callback) {
 
 // 作業儲存流程
 function operationSaveProc(postData, session) {
-    let savaExecDatas = {};  //要打API 所有exec data
-    let exec_seq = 1;        // 執行順序 從1開始
+    let lo_saveExecDatas = {};  //要打API 所有exec data
+    let ln_exec_seq = 1;        // 執行順序 從1開始
 
     // 儲存前規則檢查
     this.doRuleProcBeforeSave = function (callback) {
@@ -761,8 +763,8 @@ function operationSaveProc(postData, session) {
                 dataRuleSvc.doOperationRuleProcBeforeSave(postData, session, la_rules, function (err, chkResult) {
                     if (!err && chkResult.extendExecDataArrSet.length > 0) {
                         _.each(chkResult.extendExecDataArrSet, function (execData) {
-                            savaExecDatas[exec_seq] = execData;
-                            exec_seq++;
+                            lo_saveExecDatas[ln_exec_seq] = execData;
+                            ln_exec_seq++;
                         });
                     }
 
@@ -792,38 +794,41 @@ function operationSaveProc(postData, session) {
         }
 
         let lo_optSaveAdapter = new optSaveAdapter(lo_saveData, session);
-        if (exec_seq != 1) {
-            lo_optSaveAdapter.set_saveExecDatas(exec_seq, savaExecDatas);
+        if (ln_exec_seq != 1) {
+            lo_optSaveAdapter.set_saveExecDatas(ln_exec_seq, lo_saveExecDatas);
         }
         callback(null, lo_optSaveAdapter);
     };
 
     // 打API
     this.doSaveDataByAPI = function (optSaveAdapter, callback) {
-        if(_.isUndefined(optSaveAdapter)){
-            return callback("optAdapter is undefined", null);
+        let lo_error = null;
+        let lo_result = new ReturnClass();
+        if (_.isUndefined(optSaveAdapter)) {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = "optAdapter is undefined";
+            lo_result.success = false;
+            return callback(lo_error, lo_result);
         }
         // 一定樣經過轉接器才能打API
         let lb_isOptSaveAdpt = (optSaveAdapter.constructor.name == "operationSaveAdapterClass") ? true : false;
         if (lb_isOptSaveAdpt == false) {
-            var lo_err = {
-                errorMsg: "Data format is not from operationSaveAdapter"
-            };
-            console.error(lo_err.errorMsg);
-            return callback(lo_err, "");
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = "Data format is not from operationSaveAdapter";
+            lo_result.success = false;
+            console.error(lo_error.errorMsg);
+            return callback(lo_error, lo_result);
         }
 
         //轉換後打API
         optSaveAdapter.exec(function (err, lo_apiParams) {
-            callback(err, lo_apiParams);
-            return;
             tools.requestApi(go_sysConf.api_url, lo_apiParams, function (apiErr, apiRes, data) {
                 var log_id = moment().format("YYYYMMDDHHmmss");
                 var ls_err = null;
                 var lb_success = true;
                 if (apiErr || !data) {
                     lb_success = false;
-                    lo_err = apiErr;
+                    ls_err = apiErr;
                 } else if (data["RETN-CODE"] != "0000") {
                     lb_success = false;
                     console.error(data["RETN-CODE-DESC"]);
@@ -837,6 +842,9 @@ function operationSaveProc(postData, session) {
                         exceptionType: "execSQL",
                         errorMsg: ls_err
                     });
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = ls_err;
+                    lo_result.success = false;
                 }
                 //log 紀錄
                 logSvc.recordLogAPI({
@@ -848,7 +856,7 @@ function operationSaveProc(postData, session) {
                     res_content: data
                 });
 
-                callback(ls_err, lb_success);
+                callback(lo_error, lo_result);
             });
 
         });

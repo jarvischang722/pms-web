@@ -62,7 +62,7 @@ function operationSaveAdapterClass(postData, session) {
             combineMainData,                //組此筆新刪修資料
             combineDtCreateEditExecData,    //組dt新增修改資料
             sortByEventTime,                //依事件時間(event_time)調整儲存順序
-            convertToApiFormat              //將temCUD轉換為打API格式
+            convertToApiFormat              //將tmpCUD轉換為打API格式
         ], function (err, data) {
             callback(err, data);
         });
@@ -178,6 +178,8 @@ function combineDtDeleteExecData(rfData, callback) {
                 "kindOfRel": 'dt',
                 event_time: data.event_time
             }; //0 代表刪除
+            var mnRowData = data["mnRowData"] || {};
+            delete data["mnRowData"];
             tmpDel.condition = [];
             //組合where 條件
             _.each(lo_fieldsData.dgKeyFields, function (keyField, keyIdx) {
@@ -191,6 +193,23 @@ function combineDtDeleteExecData(rfData, callback) {
 
             });
             go_saveExecDatas[gn_exec_seq] = tmpDel;
+            gn_exec_seq++;
+
+            // 修改Mn: 此目的為了更新Mn最後異動日
+            var mnEvent_time = moment(new Date(data.event_time)).add(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            var tmpMnUpd = {
+                "function": "2",
+                "table_name": gs_mainTableName,
+                athena_id: go_session.user.athena_id,
+                event_time: mnEvent_time
+            };
+            //塞入mn pk
+            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
+                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
+                }
+            });
+            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
             gn_exec_seq++;
         });
         callback(null, '0300');
@@ -232,6 +251,7 @@ function combineMainData(rfData, callback) {
                         tmpIns[objKey] = value;
                     }
                 });
+                //TODO: 暫時給session
                 go_session.user = {
                     athena_id: 1,
                     fun_hotel_cod: '02',
@@ -433,11 +453,9 @@ function combineMainData(rfData, callback) {
 
         }
     ], function (err, result) {
-        console.log(go_saveExecDatas);
         callback(err, result);
     });
 }
-
 
 //組合DT 新增修改執行資料
 function combineDtCreateEditExecData(rfData, callback) {
@@ -473,6 +491,23 @@ function combineDtCreateEditExecData(rfData, callback) {
             go_saveExecDatas[gn_exec_seq] = tmpIns;
             gn_exec_seq++;
 
+            // 修改Mn: 此目的為了更新Mn最後異動日
+            var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            var tmpMnUpd = {
+                "function": "2",
+                "table_name": gs_mainTableName,
+                athena_id: go_session.user.athena_id,
+                event_time: mnEvent_time
+            };
+            //塞入mn pk
+            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
+                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
+                }
+            });
+            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
+            gn_exec_seq++;
+
             /** 處理每一筆多語系 handleSaveMultiLang **/
             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                 _.each(data.multiLang, function (lo_lang) {
@@ -505,7 +540,6 @@ function combineDtCreateEditExecData(rfData, callback) {
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
-
             delete data["mnRowData"];
 
             _.each(Object.keys(data), function (objKey) {
@@ -540,6 +574,23 @@ function combineDtCreateEditExecData(rfData, callback) {
             go_saveExecDatas[gn_exec_seq] = tmpEdit;
             gn_exec_seq++;
 
+            // 修改Mn: 此目的為了更新Mn最後異動日
+            var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            var tmpMnUpd = {
+                "function": "2",
+                "table_name": gs_mainTableName,
+                athena_id: go_session.user.athena_id,
+                event_time: mnEvent_time
+            };
+            //塞入mn pk
+            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
+                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
+                }
+            });
+            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
+            gn_exec_seq++;
+
             /** 處理每一筆多語系 handleSaveMultiLang **/
             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
                 var langProcessFunc = [];
@@ -570,7 +621,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                                                 }
                                             ];
                                             var lo_keysData = {};
-                                            _.each(_.pluck(ga_dgKeyFields, "ui_field_name"), function (keyField) {
+                                            _.each(_.pluck(lo_fieldsData.dgKeyFields, "ui_field_name"), function (keyField) {
                                                 if (!_.isUndefined(tmpEdit[keyField])) {
                                                     lo_condition.push({
                                                         key: keyField,
@@ -635,21 +686,21 @@ function combineDtCreateEditExecData(rfData, callback) {
 //依事件時間(event_time)調整儲存順序
 function sortByEventTime(data, callback) {
     console.log(go_saveExecDatas);
-    var tmp_saveExecDatas = _.sortBy(_.values(go_saveExecDatas), function (lo_saveExecData) {
-        return lo_saveExecData.event_time;
+    var lo_saveExecDatasSorted = _.sortBy(_.values(go_saveExecDatas), function (lo_saveExecData) {
+        return moment(new Date(lo_saveExecData.event_time)).format("YYYY/MM/DD HH:mm:ss");
     });
-    callback(null, "");
+    callback(null, lo_saveExecDatasSorted);
 }
 
 //轉換為API格式
-function convertToApiFormat(rfData, callback) {
+function convertToApiFormat(lo_saveExecDatasSorted, callback) {
     var apiParams = {
         "REVE-CODE": go_postData.trans_cod,
         "program_id": go_postData.prg_id,
         "user": go_session.user.usr_id,
         "table_name": gs_mainTableName,
-        "count": Object.keys(go_saveExecDatas).length,
-        "exec_data": go_saveExecDatas
+        "count": Object.keys(lo_saveExecDatasSorted).length,
+        "exec_data": lo_saveExecDatasSorted
     };
     callback(null, apiParams);
 }
