@@ -19,6 +19,7 @@ function DatagridBaseClass() {
     this.page_id = 1;
     this.fieldsData = [];
     this.editIndex = undefined;
+    this.mnRowData = {};
 
     /**
      * datagrid 初始化
@@ -248,5 +249,24 @@ function DatagridBaseClass() {
 
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);
+
     };
+
+    /**
+     *
+     * @param rowData
+     */
+    this.updatMnRowData = function (rowData) {
+
+    };
+
+    /**
+     *
+     * @param rowData
+     */
+    this.updateTmpDtOfMnData = function (rowData) {
+
+    };
+
+
 }

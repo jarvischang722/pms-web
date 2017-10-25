@@ -15,13 +15,19 @@ DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     //
 };
 DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+
 };
 
 /*** Class End  ***/
 
+function gridSingleDtClasss() {
+};
+gridSingleDtClasss.prototype = new DatagridBaseClass();
+
+
 Vue.component('single-grid-pms0620020-tmp', {
     template: '#singleGridPMS0620020Tmp',
-    props: ["singleData","isModifiable", "editStatus", "createStatus"],
+    props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
         return {
             dgHoatelDt: {},
@@ -66,7 +72,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             this.showDtDataGrid();
         },
-        singleData: function(val){
+        singleData: function (val) {
             this.initData();
             this.fetchFieldData();
         }
@@ -162,13 +168,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                 });
             }
         },
-        initData: function(){
+        initData: function () {
             this.rowData = {};
             this.originRowData = {};
             this.hotelDtRowData.length = 0;
             this.classHsRowData.length = 0;
         },
-        fetchFieldData: function(){
+        fetchFieldData: function () {
             var self = this;
 
             $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
@@ -180,11 +186,11 @@ Vue.component('single-grid-pms0620020-tmp', {
                 self.fetchRowData(self.singleData);
             });
         },
-        fetchRowData: function(singleData){
+        fetchRowData: function (singleData) {
             var self = this;
 
             //新增的狀況
-            if(Object.keys(this.singleData).length  == 0){
+            if (Object.keys(this.singleData).length == 0) {
                 $.post("/api/sales/addFuncRule_PMS0620020", {prg_id: "PMS0620020", page_id: 1}, function (result) {
                     if (result.success) {
                         self.rowData = result.defaultValues;
@@ -224,7 +230,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         appendDtRow: function () {
             this.dgHoatelDt.appendRow();
         },
-        removeDtRow: function(){
+        removeDtRow: function () {
             this.dgHoatelDt.removeRow();
         },
 
@@ -280,55 +286,57 @@ Vue.component('single-grid-pms0620020-tmp', {
         doSave: function () {
             this.isSaving = true;
 
-            var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
-                alert(lo_chkResult.msg);
-                this.isSaving = false;
-            }
-            else {
-                var postRowData =  this.convertChkVal(this.originFieldData, this.rowData);
-                var postDTdata = {};
-
-                postRowData["tab_page_id"] = 1;
-                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-                if (this.createStatus) {
-                    vm.tmpCud.createData.push(postRowData);
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+            if (this.dgHoatelDt.endEditing()) {
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
+                    alert(lo_chkResult.msg);
+                    this.isSaving = false;
                 }
-                else if (this.editStatus) {
-                    vm.tmpCud.updateData.push(postRowData);
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                else {
+                    var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
+
+                    postRowData["tab_page_id"] = 1;
+                    postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                    if (this.createStatus) {
+                        vm.tmpCud.createData.push(postRowData);
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                    }
+                    else if (this.editStatus) {
+                        vm.tmpCud.updateData.push(postRowData);
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                    }
+
+                    var lo_params = {
+                        prg_id: "PMS0620020",
+                        page_id: 1,
+                        tmpCUD: vm.tmpCud
+                    };
+
+                    console.log(lo_params);
+                    vm.initTmpCUD();
+                    this.dgHoatelDt.initTmpCUD();
                 }
-
-                var lo_params = {
-                    prg_id: "PMS0620020",
-                    page_id: 1,
-                    tmpCUD: vm.tmpCud
-                };
-
-                console.log(lo_params);
-                vm.initTmpCUD();
-                this.dgHoatelDt.initTmpCUD();
             }
+
 
         },
         //轉換checkbox值
-        convertChkVal: function(pageField, singleData){
+        convertChkVal: function (pageField, singleData) {
             var lo_SingleData = _.clone(singleData);
 
-            for(var i = 0;i < pageField.length;i ++){
+            for (var i = 0; i < pageField.length; i++) {
                 var lo_field = pageField[i];
 
-                if(lo_field.ui_type == "checkbox"){
-                    if(lo_SingleData[lo_field.ui_field_name] == "" || lo_SingleData[lo_field.ui_field_name] == false){
+                if (lo_field.ui_type == "checkbox") {
+                    if (lo_SingleData[lo_field.ui_field_name] == "" || lo_SingleData[lo_field.ui_field_name] == false) {
                         lo_SingleData[lo_field.ui_field_name] = "N";
                     }
-                    else{
+                    else {
                         lo_SingleData[lo_field.ui_field_name] = "Y";
                     }
                 }
