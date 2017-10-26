@@ -55,11 +55,13 @@ module.exports = {
                                 if (guestData.guest_count > 0) {
                                     isUsed = true;
                                     callback(isUsed, []);
-                                } else {
+                                }
+                                else {
                                     isUsed = false;
                                     callback(isUsed, []);
                                 }
-                            } else {
+                            }
+                            else {
                                 callback(err, []);
                             }
                         });
@@ -134,10 +136,10 @@ module.exports = {
                         }
                         callback(lo_error, lo_result);
 
-                    } else {
+                    }
+                    else {
                         callback(lo_error, lo_result);
                     }
-
                 });
             }
         );

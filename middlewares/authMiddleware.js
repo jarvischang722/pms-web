@@ -5,6 +5,9 @@ var _ = require("underscore");
 
 module.exports = function(req, res, next){
 
+
+    req.session._touchSession = new Date();
+    req.session.touch();
     if(_.isUndefined(req.session.user) || _.isNull(req.session.user)){
         res.redirect("/login");
     }else if(!_.isUndefined(req.session.user) && _.isUndefined(req.session.user.sys_id)){

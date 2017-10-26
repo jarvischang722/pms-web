@@ -1,14 +1,12 @@
 /**
  * Created by Jun on 2017/5/23.
  */
-waitingDialog.hide();
 var gs_prg_id = "PMS0810050";
 var vueMain = new Vue({
     el: '#app-PMS0810050',
     mounted: function () {
         $("#pickupPanel").show();
         $("#dropoffPanel").hide();
-        waitingDialog.hide();
         this.fetchDgFieldData();
     },
     data: {

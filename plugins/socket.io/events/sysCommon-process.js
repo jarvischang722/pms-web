@@ -84,8 +84,6 @@ module.exports = function (io) {
         socket.on('disconnect', function () {
             let lo_socket = _.findWhere(ga_lockPrgIDList, {socket_id: socket.client.id});
             doTableUnlock(socket.client.id, go_session, {prg_id: lo_socket ? lo_socket.lockingPrgID || "" : ""});
-
-
         });
 
     });

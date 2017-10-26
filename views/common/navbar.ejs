@@ -37,9 +37,8 @@
                     </a>
                 </li>
                 <li class="123"><%= session.user["sys_name_" + session.locale] %></li>
-                <!--    <li class="active">依房號訂房</li> -->
+
             </ul><!-- /.breadcrumb -->
-            <!--    <span class="brand-txt">[AISUTFB] [TSETE6] [User.cio]</span> -->
         </div> <!-- /.breadcrumbs -->
         <div class="clearfix"></div>
     </div>
@@ -50,93 +49,8 @@
             <li class="info">
                 <span id="datetimeSpan"></span>
                 | <span>  <%= session.user.usr_cname %>  </span>
+                | <%=__("SystemCommon.LogOutTime")%> : <span id="timeLeft">  00 : 00   </span>
             </li>
-
-            <li class="purple dropdown-modal">
-                <!--<a data-toggle="dropdown" class="dropdown-toggle" href="#">-->
-                <!--<i class="ace-icon fa fa-bell icon-animated-bell"></i>-->
-                <!--<span class="badge badge-important">8</span>-->
-                <!--</a>-->
-
-                <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-                    <!-- 通知內容-->
-                    <!--  <li class="dropdown-header">
-                         <i class="ace-icon fa fa-exclamation-triangle"></i>
-                         8 Notifications
-                     </li>
-
-                     <li class="dropdown-content">
-                         <ul class="dropdown-menu dropdown-navbar navbar-pink">
-                             <li>
-                                 <a href="#">
-                                     <div class="clearfix">
-                                         <span class="pull-left">
-                                             <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
-                                             New Comments
-                                         </span>
-                                         <span class="pull-right badge badge-info">+12</span>
-                                     </div>
-                                 </a>
-                             </li>
-
-                             <li>
-                                 <a href="#">
-                                     <i class="btn btn-xs btn-primary fa fa-user"></i>
-                                     Bob just signed up as an editor ...
-                                 </a>
-                             </li>
-
-                             <li>
-                                 <a href="#">
-                                     <div class="clearfix">
-                                                     <span class="pull-left">
-                                                         <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
-                                                         New Orders
-                                                     </span>
-                                         <span class="pull-right badge badge-success">+8</span>
-                                     </div>
-                                 </a>
-                             </li>
-
-                             <li>
-                                 <a href="#">
-                                     <div class="clearfix">
-                                                     <span class="pull-left">
-                                                         <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
-                                                         Followers
-                                                     </span>
-                                         <span class="pull-right badge badge-info">+11</span>
-                                     </div>
-                                 </a>
-                             </li>
-                         </ul>
-                     </li>
-
-                     <li class="dropdown-footer">
-                         <a href="#">
-                             See all notifications
-                             <i class="ace-icon fa fa-arrow-right"></i>
-                         </a>
-                     </li> -->
-                </ul>
-            </li>
-
-            <!-- /section:basics/navbar.user_menu -->
-            <!--<li class="light-orange dropdown-modal">-->
-            <!--<a data-toggle="dropdown" href="#" class="dropdown-toggle">-->
-            <!--<i class="ace-icon fa fa-th"></i>-->
-            <!--</a>-->
-            <!--<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">-->
-            <!--<li class="dropdown-content">-->
-            <!--<ul class="dropdown-menu dropdown-navbar">-->
-            <!--<li style="text-align:center;">-->
-            <!--<img src="/images/flow04.png"/>-->
-            <!--</li>-->
-
-            <!--</ul>-->
-            <!--</li>-->
-            <!--</ul>-->
-            <!--</li>-->
 
             <!-- #section:basics/navbar.user_menu -->
             <li class="light-blue dropdown-modal">
@@ -170,68 +84,78 @@
 
 <script>
     var g_socket = io.connect('/system');
-    var gs_clientSocketID = randomWord(false, 30); //產生網頁唯一的ID
-    //g_socket.emit("checkSessionExist");
-
-    //接收session 剩餘時間
-    g_socket.on("sessionTimeLeft", function (data) {
-        var timeLeft = data.timeLeft;
-        var mm = String(Math.floor(timeLeft / 60));
-        var ss = timeLeft % 60 >= 10 ? String(timeLeft % 60) : "0" + String(timeLeft % 60);
-        $("#timeLeft").text(mm + ":" + ss);
-    })
-
-    //接收socket 回傳
-    g_socket.on("sessionStatus", function (session) {
-        var inst = $('[data-remodal-id=sessionModal]').remodal();
-        inst.open();
-    })
+    var gs_cookieExpires = '';
+    var gf_chkSessionInterval;
 
     $(function () {
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-
-
+        updateCurrentDateTime();
+        updateExpiresTime();
+        setInterval(updateCurrentDateTime, 1000);
+        setInterval(updateExpiresTime, 10000);
         $(document).on('closing', '.remodal', function (e) {
-            location.href = "/login";
+            doLogout();
         });
     })
 
-    function updateDateTime() {
+    /**
+     * 更新Session 時間
+     */
+    function updateExpiresTime() {
+        $.post('/api/getSessionExpireTime', function (result) {
+            if (result.session.cookie.expires !== gs_cookieExpires) {
+                gs_cookieExpires = result.session.cookie.expires;
+                clearInterval(gf_chkSessionInterval);
+                doDownCount();
+            }
+        })
+    }
+
+    /**
+     * 更新目前時間
+     */
+    function updateCurrentDateTime() {
         var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
         $("#datetimeSpan").html(datetime);
     }
+
+    /**
+     * 倒數登出時間
+     */
+    function doDownCount() {
+        let lastTimes = moment(gs_cookieExpires).diff(moment(), "seconds");
+        gf_chkSessionInterval = setInterval(function () {
+
+            var mm = String(Math.floor(lastTimes / 60));
+            var ss = lastTimes % 60 >= 10 ? String(lastTimes % 60) : "0" + String(lastTimes % 60);
+            $("#timeLeft").text(mm + ":" + ss);
+            if (lastTimes > 0) {
+                lastTimes--;
+            } else {
+                $('[data-remodal-id=sessionModal]').remodal().open();
+                clearInterval(gf_chkSessionInterval);
+            }
+
+        }, 1000);
+    }
+
+    /**
+     * 登出
+     */
     function doLogout() {
         $.post("/cas/logout", function (data) {
             location.reload();
         });
     }
+
+    /**
+     * 換館別
+     */
     function changeHotelCod(hotel_cod) {
         $.post("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
             if (data.success) {
                 location.reload();
             }
         })
-    }
-
-    /*
-     ** randomWord 產生任意長度随機字母數字组合
-     ** randomFlag-是否任意长度 min-任意长度最小位[固定位数] max-任意長度最大位
-     */
-    function randomWord(randomFlag, min, max) {
-        var str = "",
-            range = min,
-            arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-        // 隨機產生
-        if (randomFlag) {
-            range = Math.round(Math.random() * (max - min)) + min;
-        }
-        for (var i = 0; i < range; i++) {
-            var pos = Math.round(Math.random() * (arr.length - 1));
-            str += arr[pos];
-        }
-        return str;
     }
 
 </script>

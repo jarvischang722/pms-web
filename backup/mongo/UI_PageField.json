@@ -7038,7 +7038,7 @@
     "keyable" : "", 
     "multi_lang_table" : "", 
     "format_func_name" : "", 
-    "rule_func_name" : "", 
+    "rule_func_name" : "chkRoommnRoomcod", 
     "attr_func_name" : ""
 }
 { 

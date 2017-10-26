@@ -34,27 +34,35 @@ var EZfieldClass = {
     },
     /** Page Field 轉換　easyUI datagrid欄位屬性**/
     fieldConvEzAttr: function (fieldAttrObj, dgName) {
-
         var dataType = "";
         if (fieldAttrObj.ui_type == "text") {
             dataType = 'textbox';
-        } else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
+        }
+        else if (fieldAttrObj.ui_type == "number" || fieldAttrObj.ui_type == "percent") {
             dataType = 'numberbox';
-        } else if (fieldAttrObj.ui_type == "date") {
+        }
+        else if (fieldAttrObj.ui_type == "date") {
             dataType = 'datebox';
-        } else if (fieldAttrObj.ui_type == "datetime") {
+        }
+        else if (fieldAttrObj.ui_type == "datetime") {
             dataType = 'datetimebox';
-        } else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
+        }
+        else if (fieldAttrObj.ui_type == "select" || fieldAttrObj.ui_type == "multiselect") {
             dataType = 'combobox';
-        } else if (fieldAttrObj.ui_type == "checkbox") {
+        }
+        else if (fieldAttrObj.ui_type == "checkbox") {
             dataType = 'checkbox';
-        } else if (fieldAttrObj.ui_type == "color") {
+        }
+        else if (fieldAttrObj.ui_type == "color") {
             dataType = 'color';
-        } else if (fieldAttrObj.ui_type == "time") {
+        }
+        else if (fieldAttrObj.ui_type == "time") {
             dataType = 'timespinner';
-        } else if (fieldAttrObj.ui_type == "selectgrid") {
+        }
+        else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
-        } else {
+        }
+        else {
             dataType = 'textbox';
         }
 
@@ -126,6 +134,7 @@ var EZfieldClass = {
                 }
                 return new Date();
             };
+
             tmpFieldObj.formatter = dateFunc;
             tmpFieldObj.editor.options.editable = false;
             tmpFieldObj.editor.options.parser = dateParserFunc;
@@ -135,13 +144,15 @@ var EZfieldClass = {
             if (fieldAttrObj.rule_func_name != "") {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
             }
 
-        } else if (dataType == "datetimebox") {
+        }
+        else if (dataType == "datetimebox") {
 
             var datetimeFunc = function (date) {
                 if (date != "" && !_.isUndefined(date)) {
@@ -161,7 +172,8 @@ var EZfieldClass = {
             tmpFieldObj.editor.options.parser = datetimeFuncParser;
             tmpFieldObj.editor.options.formatter = datetimeFunc;
 
-        } else if (dataType == "combobox") {
+        }
+        else if (dataType == "combobox") {
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.valueField = 'value';
             tmpFieldObj.editor.options.textField = 'display';
@@ -192,11 +204,13 @@ var EZfieldClass = {
                 tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                     var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
                     if (isUserEdit) {
+                        oldValue = oldValue || undefined;
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 };
             }
-        } else if (fieldAttrObj.ui_type == "checkbox") {
+        }
+        else if (dataType == "checkbox") {
 
             tmpFieldObj.formatter = function (val, row, index) {
                 var lo_checkboxVal = fieldAttrObj.selectData[1];
@@ -209,7 +223,8 @@ var EZfieldClass = {
                 return val == 'Y' ? lo_checkboxVal.Y : lo_checkboxVal.N;
             };
 
-        } else if (fieldAttrObj.ui_type == "color") {
+        }
+        else if (dataType == "color") {
             var lf_colorFormatter = function (color_cod, row, index) {
 
                 if (_.isUndefined(index)) {
@@ -265,7 +280,8 @@ var EZfieldClass = {
                 }
             };
 
-        } else if (dataType == "numberbox") {
+        }
+        else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
 
             if (fieldAttrObj.ui_type == "percent") {
@@ -274,7 +290,8 @@ var EZfieldClass = {
                     return fieldName;
                 };
             }
-        } else if (dataType == "timespinner") {
+        }
+        else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
                 if (!_.isNull(val)) {
                     var lo_val = String(val);
@@ -289,7 +306,8 @@ var EZfieldClass = {
 
                 return "";
             };
-        } else if (dataType == "combogrid") {
+        }
+        else if (dataType == "combogrid") {
             //參數設定於各對照擋的Rule
             tmpFieldObj.editor.options.panelWidth = fieldAttrObj.selectGridOptions.panelWidth;
             tmpFieldObj.editor.options.idField = fieldAttrObj.selectGridOptions.idField;
@@ -301,6 +319,7 @@ var EZfieldClass = {
                 onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
             };
         }
+
         return tmpFieldObj;
     }
 };
@@ -332,9 +351,10 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             newValue: newValue,
             oldValue: oldValue
         };
+
         isUserEdit = false;
+
         $.post('/api/chkFieldRule', postData, function (result) {
-            isUserEdit = true;
             if (result.success) {
                 //是否要show出訊息
                 if (result.showAlert) {
@@ -358,7 +378,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             else {
                 alert(result.errorMsg);
             }
-
             //連動帶回的值
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
@@ -378,7 +397,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
                     $('#' + dgName).datagrid('beginEdit', indexRow);
 
-                } else {
+                }
+                else {
                     _.each(effectValues, function (item, index) {
 
                         var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
@@ -392,6 +412,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                 }
 
             }
+
             if (!result.isModifiable) {
                 ga_readonlyFields = _.uniq(result.readonlyFields);
                 _.each(ga_readonlyFields, function (field) {
@@ -411,6 +432,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     $(lo_editor.target).textbox("readonly", true);
                 });
             }
+
+            isUserEdit = true;
         });
     }
 }

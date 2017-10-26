@@ -96,22 +96,23 @@ exports.getSelectOptions = function (params, selRow, callback) {
                 selData = [];
             }
 
-            _.each(selData, function(lo_selData, index){
-                if(!_.isUndefined(lo_selData.value)) {
+            _.each(selData, function (lo_selData, index) {
+                if (!_.isUndefined(lo_selData.value)) {
                     selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
                 }
             });
             callback(selData);
         });
-    } else {
+    }
+    else {
         if (!_.isUndefined(ruleAgent[selRow.rule_func_name])) {
             //方法訂義都需傳入一個Object參數集合
             ruleAgent[selRow.rule_func_name](params, function (err, data) {
                 if (err) {
                     callback([]);
                 } else {
-                    _.each(data.selectOptions, function(lo_selData, index){
-                        if(!_.isUndefined(lo_selData.value)){
+                    _.each(data.selectOptions, function (lo_selData, index) {
+                        if (!_.isUndefined(lo_selData.value)) {
                             data.selectOptions[index].display = lo_selData.value + " : " + lo_selData.display;
                         }
 
@@ -119,7 +120,8 @@ exports.getSelectOptions = function (params, selRow, callback) {
                     callback(data.selectOptions);
                 }
             });
-        } else {
+        }
+        else {
             callback([]);
         }
     }
@@ -181,7 +183,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
         },
-        function(cb){
+        function (cb) {
             mongoAgent.UI_Type_Select.find({prg_id: prg_id}, function (err, selectData) {
                 cb(err, selectData);
             });
@@ -215,7 +217,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
 
                     //取typeSelect的預設值
                     _.each(selectData, function (value, index) {
-                        if(value.defaultVal != ""){
+                        if (value.defaultVal != "") {
                             result.defaultValues[value.ui_field_name] = value.defaultVal;
                         }
                     });
@@ -228,12 +230,12 @@ exports.handleAddFuncRule = function (postData, session, callback) {
             } else {
 
                 //取typeSelect的預設值
-                 var result = {};
-                 _.each(selectData, function (value, index) {
-                     if(value.defaultVal != ""){
-                         result[value.ui_field_name] = value.defaultVal;
-                     }
-                 });
+                var result = {};
+                _.each(selectData, function (value, index) {
+                    if (value.defaultVal != "") {
+                        result[value.ui_field_name] = value.defaultVal;
+                    }
+                });
 
                 result = _.extend(lo_initField, result);
                 callback(null, {success: true, defaultValues: result});
@@ -281,7 +283,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
     mongoAgent[dbName].findOne({
         prg_id: prg_id,
         func_id: '0300',
-        "$or" : [ { "page_id": { $not: { $exists: true } } }, { "page_id": page_id } ]
+        "$or": [{"page_id": {$not: {$exists: true}}}, {"page_id": page_id}]
     }, function (err, func) {
         var lo_result = new ReturnClass();
         if (!err && func) {
@@ -391,6 +393,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
         if (ruleFuncs.length > 0) {
             ruleFuncs = commonTools.mongoDocToObject(ruleFuncs);
         }
+
         //檢查新增資料
         function chkCreateData(callback) {
             var createChkFuncs = [];
@@ -512,6 +515,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let page_id = postData.page_id || 1;
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
+
     mongoAgent.DatagridFunction.findOne({
         prg_id: prg_id,
         page_id: Number(page_id),
@@ -533,7 +537,6 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                     }
                 );
 
-
             });
             async.parallel(delChkFuncs, function (err, result) {
                 var lo_result = new ReturnClass();
@@ -542,7 +545,8 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
                 }
                 callback(err, lo_result);
             });
-        } else {
+        }
+        else {
             callback(null, new ReturnClass());
         }
 
@@ -585,7 +589,7 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                         ruleAgent[createRuleFuncName](postData, session, function (err, result) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
-                                                if(!_.isEmpty(result.effectValues)){
+                                                if (!_.isEmpty(result.effectValues)) {
                                                     postData.singleRowData = result.effectValues;
                                                 }
                                             }
@@ -600,7 +604,8 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                 callback(err, 'create');
                             });
 
-                        } else {
+                        }
+                        else {
                             callback(null, 'create');
                         }
 
@@ -624,7 +629,7 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
                                         ruleAgent[updateRuleFuncName](postData, session, function (err, result) {
                                             if (!err) {
                                                 tmpExtendExecDataArrSet = _.union(tmpExtendExecDataArrSet, result.extendExecDataArrSet);
-                                                if(!_.isEmpty(result.effectValues)){
+                                                if (!_.isEmpty(result.effectValues)) {
                                                     postData.singleRowData = result.effectValues;
                                                 }
                                             }
@@ -727,21 +732,176 @@ exports.doChkSingleGridAfterSave = function (postData, session, callback) {
 /**
  * 特殊版型多筆，按下特殊按鈕，規則檢查
  */
-exports.chkSpecialDataGridBtnEventRule = function(postData, session, callback){
+exports.chkSpecialDataGridBtnEventRule = function (postData, session, callback) {
     let func_id = postData.func_id || "";
     let prg_id = postData.prg_id || "";
 
-    if(_.isUndefined(ruleAgent[prg_id + "_" + func_id])){
+    if (_.isUndefined(ruleAgent[prg_id + "_" + func_id])) {
         callback(null, '');
         return;
     }
-    else if(func_id == "" || prg_id == ""){
+    else if (func_id == "" || prg_id == "") {
         console.error("prg_id 或 func_id為空值");
         callback(null, '');
         return;
     }
 
-    ruleAgent[prg_id + "_" + func_id](postData, session, function(err, result){
+    ruleAgent[prg_id + "_" + func_id](postData, session, function (err, result) {
         callback(err, result);
     });
-}
+};
+
+/**
+ * 儲存"前"，執行作業規則檢查
+ */
+exports.doOperationRuleProcBeforeSave = function (postData, session, rules, callback) {
+    let la_createData = postData["createData"] || [];
+    let la_updateData = postData["updateData"] || [];
+    let la_deleteData = postData["deleteData"] || [];
+    let la_tmpExtendExecDataArrSet = [];  //新刪修回傳要執行的SQL API 組合
+    let lo_result = new ReturnClass();
+    let lo_error = null;
+    session.user = {
+        athena_id: 1,
+        hotel_cod: '02'
+    };
+
+    try {
+        async.parallel([
+            //新增資料檢查
+            function (para_cb) {
+                var createRuleFuncName = _.findIndex(rules, {func_id: '0521'}) > -1
+                    ? _.findWhere(rules, {func_id: '0521'}).rule_func_name
+                    : "";
+                if (la_createData.length > 0 && !_.isEmpty(createRuleFuncName)) {
+                    var createSubFunc = [];
+                    _.each(la_createData, function (c_data, index) {
+                        createSubFunc.push(
+                            function (cb) {
+                                if (_.isUndefined(ruleAgent[createRuleFuncName])) {
+                                    cb(null, 'create');
+                                    return;
+                                }
+                                postData["singleRowData"] = c_data;
+                                ruleAgent[createRuleFuncName](postData, session, function (err, result) {
+                                    if (!err) {
+                                        la_tmpExtendExecDataArrSet = _.union(la_tmpExtendExecDataArrSet, result.extendExecDataArrSet);
+                                        if (!_.isEmpty(result.effectValues)) {
+                                            postData.createData[index] = _.extend(postData.createData[index], result.effectValues);
+                                        }
+                                    }
+                                    cb(err, 'create');
+                                });
+
+                            }
+                        );
+                    });
+
+                    async.parallel(createSubFunc, function (err, result) {
+                        para_cb(err, 'create');
+                    });
+
+                }
+                else {
+                    para_cb(null, 'create');
+                }
+
+            },
+            //修改資料檢查
+            function (para_cb) {
+                var updateRuleFuncName = _.findIndex(rules, {func_id: '0541'}) > -1
+                    ? _.findWhere(rules, {func_id: '0541'}).rule_func_name
+                    : "";
+                if (la_updateData.length > 0 && !_.isEmpty(updateRuleFuncName)) {
+                    var updateSubFunc = [];
+                    _.each(la_updateData, function (u_data, index) {
+                        updateSubFunc.push(
+                            function (cb) {
+                                if (_.isUndefined(ruleAgent[updateRuleFuncName])) {
+                                    cb(null, 'update');
+                                    return;
+                                }
+
+                                postData["singleRowData"] = u_data;
+                                ruleAgent[updateRuleFuncName](postData, session, function (err, result) {
+                                    if (!err) {
+                                        la_tmpExtendExecDataArrSet = _.union(la_tmpExtendExecDataArrSet, result.extendExecDataArrSet);
+                                        if (!_.isEmpty(result.effectValues)) {
+                                            postData.updateData[index] = _.extend(postData.updateData[index], result.effectValues);
+                                        }
+                                    }
+                                    cb(err, 'update');
+                                });
+
+                            }
+                        );
+                    });
+
+                    async.parallel(updateSubFunc, function (err, result) {
+                        para_cb(err, 'update');
+                    });
+
+                }
+                else {
+                    para_cb(null, 'update');
+                }
+            },
+            //刪除資料檢查
+            function (para_cb) {
+                var deleteRuleFuncName = _.findIndex(rules, {func_id: '0531'}) > -1
+                    ? _.findWhere(rules, {func_id: '0531'}).rule_func_name
+                    : "";
+                if (la_deleteData.length > 0 && !_.isEmpty(deleteRuleFuncName)) {
+                    var deleteSubFunc = [];
+                    _.each(la_deleteData, function (d_data, index) {
+                        deleteSubFunc.push(
+                            function (cb) {
+                                if (_.isUndefined(ruleAgent[deleteRuleFuncName])) {
+                                    cb(null, 'delete');
+                                    return;
+                                }
+                                postData["singleRowData"] = d_data;
+                                ruleAgent[deleteRuleFuncName](postData, session, function (err, result) {
+                                    if (!err) {
+                                        la_tmpExtendExecDataArrSet = _.union(la_tmpExtendExecDataArrSet, result.extendExecDataArrSet);
+                                        if (!_.isEmpty(result.effectValues)) {
+                                            postData.deleteData[index] = _.extend(postData.deleteData[index], result.effectValues);
+                                        }
+                                    }
+                                    cb(err, 'delete');
+                                });
+
+                            }
+                        );
+                    });
+
+                    async.parallel(deleteSubFunc, function (err, result) {
+                        para_cb(err, 'delete');
+                    });
+
+                } else {
+                    para_cb(null, 'delete');
+                }
+            }
+        ], function (err, chkResult) {
+            if (err) {
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err.errorMsg;
+                lo_error.errorCod = "1111";
+                lo_result.success = false;
+            }
+            lo_result.extendExecDataArrSet = la_tmpExtendExecDataArrSet;
+            delete postData.singleRowData;
+            lo_result.effectValues = postData;
+
+            callback(lo_error, lo_result);
+        });
+    }
+    catch (err) {
+        lo_error = new ErrorClass();
+        lo_result.success = false;
+        lo_error.errorMsg = err;
+        lo_error.errorCod = "1111";
+        callback(lo_error, lo_result);
+    }
+};

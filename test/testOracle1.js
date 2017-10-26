@@ -8,30 +8,27 @@ var _ = require("underscore");
 var moment = require("moment");
 var async = require("async");
 var params = {
-    user_comp_cod: 'CHIPN',
-    user_id: 'cio',
+    user_comp_cod: 'MIRACHU',
+    user_id: 'a14017',
     // usr_pwd: '111',
-    cmp_id: 'CHIPN',
+    cmp_id: 'MIRACHU',
     sys_id: 'PMS0000000',
     fun_hotel_cod:'02',
-    subsys_id : "PMS0300000",
-    hotel_cod:'99',
+    hotel_cod:'01',
+
     athena_id: 1,
-    rv2_typ:"1",
     rv7_typ :"7",
     begin_dat:'2017/03/06',
     begin_dat1:'2017/03/06',
     contact1_cod:'04'
 }
-var co = require("co");
-var await = require("await");
 
 
 
-test2();
+test1();
 
 function test1(params) {
-    queryAgent.query("CHK_ORDER_MN_RV_TYP_IS_EXIST", params, function (err, data) {
+    queryAgent.query("QRY_ROOM_RF", params, function (err, data) {
         console.error(err);
         console.log(data);
     });
