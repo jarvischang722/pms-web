@@ -1147,3 +1147,12 @@
     "rule_func_name" : "", 
     "link_prg_id" : "PMS0620020"
 }
+{ 
+    "_id" : ObjectId("59e9d368fa730426ec343d45"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "defaultStatusCod1", 
+    "link_prg_id" : ""
+}
