@@ -72,7 +72,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.initData();
             this.fetchFieldData();
         },
-        rowData: function(val){
+        rowData: function (val) {
             this.dgHoatelDt.updateMnRowData(val);
             this.dgHoatelDt.updateTmpDtOfMnData(val);
         }
@@ -283,6 +283,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             return lo_checkResult;
         },
         doSave: function () {
+            var self = this;
             this.isSaving = true;
 
             if (this.dgHoatelDt.endEditing()) {
@@ -310,7 +311,15 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
 
-                    vm.doSaveCud("PMS0620020", 1);
+                    vm.doSaveCud("PMS0620020", 1, function (result) {
+                        if (result.success) {
+                            alert("Save Successful!")
+                            self.closeSingleGridDialog();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+                    });
 
 
                 }
@@ -583,13 +592,21 @@ var vm = new Vue({
                 }
                 $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
                     if (result.success) {
-                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                        self.doSaveCud("PMS0620010", 1);
+                        self.doSaveCud("PMS0620010", 1, function (result) {
+                            if (result.success) {
+                                alert("Delete Success");
+                                $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
+                            }
+                            else {
+                                alert(result.errorMsg);
+                            }
+                        });
                     }
                     else {
                         alert(result.errorMsg);
                         _.without(vm.tmpCud.deleteData, delRow);
                     }
+                    vm.initTmpCUD();
                 });
             }
 
@@ -646,20 +663,15 @@ var vm = new Vue({
             });
             dialog.dialog("open");
         },
-        doSaveCud: function(prg_id, page_id){
+        doSaveCud: function (prg_id, page_id, callback) {
             var lo_params = {
                 prg_id: prg_id,
                 page_id: page_id,
                 tmpCUD: this.tmpCud
             }
 
-            $.post("/api/gateway/doOperationSave", lo_params, function (result){
-               if(result.success){
-                   alert("Successs");
-               }
-               else{
-                   alert("Fail");
-               }
+            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+                callback(result);
             });
         }
     }
