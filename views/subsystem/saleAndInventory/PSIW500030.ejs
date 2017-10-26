@@ -1,185 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<%- include ../../common/head %>
+<%- include ../../common/importFiles %>
 
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta charset="utf-8"/>
-    <title>dominos</title>
-    <meta name="description" content="overview &amp; stats" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <!-- CSS Block -->
-    <link rel="stylesheet" href="../../../public/css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" href="../../../public/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../../public/css/jquery-ui.css">
-    <!-- 警式視窗彈出 -->
-    <link rel="stylesheet" href="../../../public/css/gritter/jquery.gritter.css">
-    <link rel="stylesheet" href="../../../public/css/ace.css">
-
-    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/icon.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/demo.css">
-    <!-- 多選chosen -->
-    <link rel="stylesheet" href="../../../public/css/chosenchosen.css" />
-
-    <!-- color picker 套件 -->
-    <link rel="stylesheet" type="text/css" href="../../../public/css/spectrum/spectrum.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/spectrum/docs/docs.css">
-    <!-- 全頁日曆 -->
-    <link rel="stylesheet" type="text/css" href="../../../public/css/bs-calendar/bootstrap-year-calendar.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-timepicker.min.css">
-
-    <link rel="stylesheet" href="../../../public/css/remodal.css">
-    <link rel="stylesheet" href="../../../public/css/remodal-default-theme.css">
-
-    <!--fixTable-->
-    <link rel="stylesheet" href="../../../public/css/fixtable/960.css" />
-    <link rel="stylesheet" href="../../../public/css/fixtable/fixTable.css" />
-
-
-    <!-- dropzone 圖片上傳套件  -->
-    <link rel="stylesheet" href="../../../public/css/dropzone/dropzone.css">
-
-    <!-- jsTree -->
-    <link rel="stylesheet" href="../../../public/css/jsTree/jsTree.min.css">
-
-    <!-- 自定義style 擺最後 -->
-    <link rel="stylesheet" href="../../../public/css/style.css">
-    <link rel="stylesheet" href="../../../public/css/bacchusStyle.css">
-
-    <!-- Element CSS for Vue.js  -->
-    <link rel="stylesheet" href="../../../public/css/element_ui/element.css">
-
-    <style>
-        .panel.window {
-            z-index: 1500 !important;
-        }
-
-        .window-shadow {
-            z-index: 1499 !important;
-        }
-
-        .window-mask {
-            z-index: 1498 !important;
-        }
-    </style>
-    <!-- JS Block -->
-    <script src="../../../public/js/jquery/jquery.js"></script>
-    <script src="../../../public/js/jquery/jquery-ui.js"></script>
-
-    <script src="../../../public/js/bootstrap/bootstrap.js"></script>
-    <script src="../../../public/js/ace.js"></script>
-    <script src="../../../public/js/ace.sidebar.js"></script>
-    <!-- socket.io -->
-    <script src="../../../public/js/socket.io.js"></script>
-
-    <!-- boostrap modal -->
-    <script src="../../../public/js/modal-dialog.js"></script>
-
-    <!-- validate 類別-->
-    <script type="text/javascript" src="../../../public/js/easyUI/validateClass.js"></script>
-    <!-- Load i18n 語系內容-->
-
-    <script src="../../../public/js/sprintf.js"></script>
-
-    <!-- easy ui -->
-    <script>
-//        $.noConflict(true);
-    </script>
-    <script type="text/javascript" src="../../../public/js/easyUI/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="../../../public/js/easyUI/columns-ext.js"></script>
-    <script>
-        //remodal 套件全域變數設定, 需放在remodal.js套件前
-        window.REMODAL_GLOBALS = {
-            DEFAULTS: {
-                hashTracking: false  //打開modal 時網址不出現 hash #
-            }
-        };
-    </script>
-    <script type="text/javascript" src="../../../public/js/remodal.min.js"></script>
-
-    <!-- 多選chosen -->
-    <script src="../../../public/js/chosen/chosen.jquery.js"></script>
-    <!-- vue 套件 -->
-    <script src="../../../public/js/vue/vue.min.js"></script>
-    <script src="../../../public/js/vue/vee-validate.min.js"></script>
-    <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
-    <!-- Element JS for Vue.js  -->
-    <script src="../../../public/js/element_ui/element.js"></script>
-    <script src="../../../public/js/element_ui/locales/en.js"></script>
-    <script src="../../../public/js/element_ui/locales/zh_CN.js"></script>
-    <script src="../../../public/js/element_ui/locales/zh_TW.js"></script>
-    <script src="../../../public/js/element_ui/locales/ja.js"></script>
-    <script src="../../../public/js/element_ui/locales/ko.js"></script>
-    <script src="/js/saleAndInventory/PSIW500030.js"></script>
-
-    <script>
-        var gs_locale = '<%=session.locale%>';
-        ELEMENT.locale(ELEMENT.lang[gs_locale.replace("_","")])
-    </script>
-
-    <!-- 驗證easyUI 欄位自訂義規則 -->
-    <script type="text/javascript" src="../../../public/js/easyUI/extendValidation.js" ></script>
-
-    <script type="text/javascript" src="../../../public/js/easyUI/datagridForEasyUI.js" ></script>
-
-
-    <!-- underscore 套件 -->
-    <script src="../../../public/js/underscore/underscore-min.js" type="text/javascript"></script>
-    <!--<script src="/js/underscore/underscore.string.min.js" type="text/javascript"></script>-->
-    <!--<script type="text/javascript"> _.mixin(_.str.exports()) </script>-->
-
-    <!-- 時間套件 -->
-    <script src="../../../public/js/moment/moment.min.js"></script>
-
-    <script src="../../../public/js/include.js"></script>
-
-    <script src="../../../public/js/cookieFunc.js"></script>
-
-    <script src="../../../public/js/colorTool.js"></script>
-
-    <!-- color picker 套件 -->
-    <script src="../../../public/js/spectrum/spectrum.js"></script>
-    <script src="../../../public/js/spectrum/docs/toc.js"></script>
-    <script src="../../../public/js/spectrum/docs/docs.js"></script>
-    <script src="../../../public/js/spectrum/docs/prettify.js"></script>
-
-    <!-- Boostrap date 套件 -->
-    <script src="../../../public/js/bootstrap/bootstrap-datepicker.min.js"></script>
-    <script src="../../../public/js/bootstrap/bootstrap-datetimepicker.min.js"></script>
-    <script src="../../../public/js/bootstrap/bootstrap-timepicker.min.js"></script>
-    <!-- 全頁日曆 -->
-    <script src="../../../public/js/bs-calendar/bootstrap-year-calendar.min.js"></script>
-
-    <!--treeTable-->
-    <script type="text/javascript" src="../../../public/js/tree/jquery.treetable-ajax-persist.js"></script>
-    <script type="text/javascript" src="../../../public/js/tree/jquery.treetable-3.0.0.js"></script>
-    <script type="text/javascript" src="../../../public/js/tree/persist-min.js"></script>
-    <!--fixTable-->
-    <script type="text/javascript" src="../../../public/js/fixTable/jquery.fixedheadertable.js"></script>
-
-    <!-- 警式視窗彈出 -->
-    <script src="../../../public/js/gritter/jquery.gritter.min.js"></script>
-
-    <!-- 多選chosen -->
-    <script src="../../../public/js/chosen/chosen.jquery.js"></script>
-
-    <!-- datagrid 類別 -->
-    <script type="text/javascript" src="../../../public/js/easyUI/DatagridBaseClass.js"></script>
-
-    <!-- axios ajax Lib -->
-    <script src="../../../public/js/axios/axios.min.js"></script>
-
-    <!-- easyui diolg 預設z-index 9000  會影響到element ui -->
-
-    <!-- dropzone 上傳圖片套件 -->
-    <script src="../../../public/js/dropzone/dropzone.js"></script>
-
-    <!-- jsTree -->
-    <script src="../../../public/js/tree/jstree.min.js"></script>
-
-</head>
 <body class="no-skin" data-feedly-mini="yes">
 
     <div id="MainApp" class="main-container ace-save-state" style="margin-top: 35px;">
@@ -201,101 +24,7 @@
                         <div class="dominos-inventory-left">
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
-
                                     <table id="PSIW500030_dg" class="css_table horizTable"></table>
-
-                                    <table class="css_table horizTable">
-                                        <thead class="css_thead">
-                                        <tr class="css_tr text-center">
-                                            <th class="css_th" style="min-width:70px;">訂單編號</th>
-                                            <th class="css_th" style="min-width:70px;">員工編號</th>
-                                            <th class="css_th" style="min-width:70px;">訂單日期</th>
-                                            <th class="css_th" style="min-width:70px;">交貨日期</th>
-                                            <th class="css_th" style="min-width:60px;">狀態</th>
-                                            <th class="css_th" style="min-width:80px;">訂單格式</th>
-                                            <th class="css_th" style="min-width:70px;">客戶代號</th>
-                                            <th class="css_th" style="min-width:70px;">客戶名稱</th>
-                                            <th class="css_th" style="min-width:100px;">訂單備註</th>
-                                            <th class="css_th" style="min-width:70px;">輸入者</th>
-                                            <th class="css_th" style="min-width:70px;">異動者</th>
-                                            <th class="css_th" style="min-width:70px;">核准者</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="css_tbody text-center">
-                                        <tr class="css_tr">
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">2017/05/20</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">核准</td>
-                                            <td class="css_td">零零七</td>
-                                            <td class="css_td">RICK</td>
-                                            <td class="css_td">A65</td>
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">2017/05/20</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">核准</td>
-                                            <td class="css_td">零零七</td>
-                                            <td class="css_td">RICK</td>
-                                            <td class="css_td">A65</td>
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">2017/05/20</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">核准</td>
-                                            <td class="css_td">零零七</td>
-                                            <td class="css_td">RICK</td>
-                                            <td class="css_td">A65</td>
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">2017/05/20</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">核准</td>
-                                            <td class="css_td">零零七</td>
-                                            <td class="css_td">RICK</td>
-                                            <td class="css_td">A65</td>
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                        </tr>
-                                        <tr class="css_tr">
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">2017/05/20</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td">核准</td>
-                                            <td class="css_td">零零七</td>
-                                            <td class="css_td">RICK</td>
-                                            <td class="css_td">A65</td>
-                                            <td class="css_td">123</td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                            <td class="css_td"></td>
-                                        </tr>
-
-
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -306,25 +35,28 @@
                             <div class="dominos-btn-group">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" onclick="addData()" role="button">新增</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" @click="addData()" :disabled="!addEnable" role="button">新增</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" onclick="editData()" role="button">修改</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" @click="editData()" :disabled="!editEnable" role="button">修改</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="deleteData()" role="button">刪除</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="approved()" role="button">核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" onclick="cancel()" role="button">取消核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth" onclick="save()" role="button">儲存</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" @click="save()" :disabled="!saveEnable" role="button">儲存</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
                                         <li class="btn-120">
-                                            <button class="btn btn-primary btn-white btn-defaultWidth" role="button">空白訂貨表單下載</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" :disabled="!downloadEnable" role="button">空白訂貨表單下載</button>
                                         </li>
                                     </ul>
                             </div>
@@ -333,91 +65,93 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂單編號</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.order_nos" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂單日期</label>
-                                        <input id="order_dat" type="text" class="input-medium resvCardSpec1" placeholder="">
+                                        <input v-model="singleData.order_dat" type="date" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>狀態</label>
-                                        <input id="order_sta" type="text" class="input-medium resvCard" placeholder="核准" disabled>
+                                        <select v-model="singleData.order_sta" class="input-medium resvCard" style="-webkit-appearance: menulist;" disabled>
+                                            <option v-for="opt in statusSelectData" :value="opt.value">
+                                                {{opt.display}}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>交貨日期</label>
-                                        <input id="ship_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.ship_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂單格式</label>
-                                        <select name="" id="order_format" class="input-medium resvCardSpec1" style="-webkit-appearance: menulist;">
-                                            <option value="">123</option>
-                                            <option value="">test</option>
+                                        <select v-model="singleData.format_sta" class="input-medium resvCardSpec1" @change="orderFormatVerify()" :disabled="!isModificableFormat">
+                                            <option v-for="opt in orderSelectData" :value="opt.format_sta">
+                                                {{opt.format_sta}} : {{opt.quote_rmk}}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶代號</label>
-                                        <select name="" id="show_cod" class="input-medium w118px" style="-webkit-appearance: menulist;">
-                                            <option value="">123</option>
-                                            <option value="">test</option>
+                                        <select v-model="singleData.cust_cod" class="input-medium w118px" style="-webkit-appearance: menulist;" @change="custSelectChange()" :disabled="!isModificableFormat">
+                                            <option v-for="opt in custSelectData" :value="opt.cust_cod">
+                                                {{opt.show_cod}}
+                                            </option>
                                         </select>
-                                        <input type="text" class="input-medium w388px input-second-2" placeholder="" disabled>
+                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w388px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>送貨地點</label>
-                                        <input id="ship1_add" type="text" class="input-medium w253px address-frist" placeholder="" disabled>
-                                        <input id="ship2_add" type="text" class="input-medium w253px address-second" placeholder="" disabled>
+                                        <input v-model="singleData.ship1_add" type="text" class="input-medium w253px address-frist" placeholder="" disabled>
+                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w253px address-second" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>員工編號</label>
-                                        <input type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
-                                    </div>
-                                    <div class="grid-item">
                                         <label>員工姓名</label>
-                                        <input id="atten_nam" type="text" class="input-medium resvCardSpec1" placeholder="">
+                                        <input v-model="singleData.atten_nam" type="text" class="input-medium resvCardSpec1" placeholder="" :disabled="!isModificable">
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂單備註</label>
-                                        <input id="order_rmk" type="text" class="input-medium w510px" placeholder="">
+                                        <input v-model="singleData.order_rmk" type="text" class="input-medium w510px" placeholder="" :disabled="!isModificable">
                                     </div>
                                 </div>
                                 <div class="grid">
                                 <div class="grid-item">
                                     <label>輸入者</label>
-                                    <input id="ins_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    <input v-model="singleData.ins_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                 </div>
                                 <div class="grid-item">
                                     <label>輸入日</label>
-                                    <input id="ins_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    <input v-model="singleData.ins_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                 </div>
                             </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>異動者</label>
-                                        <input id="upd_usr" type="text" class="input-medium resvCardSpec1" placeholder="JAMES" disabled>
+                                        <input v-model="singleData.upd_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>異動日</label>
-                                        <input id="upd_dat" type="text" class="input-medium resvCardSpec1" placeholder="2016/05/07" disabled>
+                                        <input v-model="singleData.upd_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>核准者</label>
-                                        <input id="cnfirm_cod" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.cnfirm_cod" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                     <div class="grid-item">
                                         <label>核准日</label>
-                                        <input id="cnfirm_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.cnfirm_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -426,134 +160,7 @@
                             <div class="dominos-inventory-details">
                                 <div class="main-content-data">
                                     <div class="horizTable-outer">
-                                        <table class="css_table horizTable">
-                                            <thead class="css_thead">
-                                            <tr class="css_tr text-center">
-                                                <th class="css_th" style="min-width:60px;">序號</th>
-                                                <th class="css_th" style="min-width:90px;">貨號</th>
-                                                <th class="css_th" style="min-width:200px;">貨品描述</th>
-                                                <th class="css_th" style="min-width:90px;">單位</th>
-                                                <th class="css_th" style="min-width:80px">庫存量</th>
-                                                <th class="css_th" style="min-width:80px;">建議訂購量</th>
-                                                <th class="css_th" style="min-width:80px;">訂購量</th>
-                                                <th class="css_th" style="min-width:200px;">備註</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="css_tbody">
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">以定轉明友文育解圖西體家代，朋怎土又有功，是他先高怕用感經：快而一才的部康然一氣，讀失麼：臺綠害到去處重府足男友？六十字</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr">
-                                                <td class="css_td">1</td>
-                                                <td class="css_td">370100001</td>
-                                                <td class="css_td">JAMESON 8YRS 700ml</td>
-                                                <td class="css_td">瓶chipn</td>
-                                                <td class="css_td text-right">2.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td text-right">1.00</td>
-                                                <td class="css_td">快而一才的部康然一氣</td>
-                                            </tr>
-                                            <tr class="css_tr BgBacchusBlue text-center">
-                                                <td class="css_td" colspan="3"></td>
-                                                <td class="css_td">
-                                                    合計
-                                                </td>
-                                                <td class="text-right">100</td>
-                                                <td class="text-right">100</td>
-                                                <td class="text-right">100</td>
-                                                <td></td>
-                                                <td></td>
-
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <table id="PSIW500030_dt" class="css_table horizTable"></table>
                                     </div>
                                 </div>
                             </div>
@@ -809,5 +416,7 @@
         });
 
     </script>
+
+    <script src="/js/saleAndInventory/PSIW500030.js"></script>
 </body>
 </html>

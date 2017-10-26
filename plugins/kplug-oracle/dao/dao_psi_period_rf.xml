@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- ['PSIW500030'] 取得期別 -->
+    <dao name="QRY_PSI_PERIOD_RF">
+        <statement><![CDATA[
+            select period_cod from psi_period_rf
+            where period_dat = to_date(:order_dat, 'YYYY/MM/DD')
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">order_dat</parameter>
+    </dao>
+
+</root>

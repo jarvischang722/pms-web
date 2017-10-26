@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PSIW500030'] 檢查[銷售]有無值 -->
+    <dao name="CHK_SELL_MN">
+        <statement><![CDATA[
+
+            SELECT count(*) as count FROM SELL_MN, RSPT_RF
+            WHERE SELL_MN.RSPT_COD = RSPT_RF.RSPT_COD
+            AND trim(RSPT_RF.TAXCOMP_COD) = trim(:show_cod)
+            AND sell_mn.CO_DAT = to_date(:order_dat, 'YYYY/MM/DD')
+            And sell_mn.order_sta='C'
+
+        ]]></statement>
+        <parameter type="string" kind="3">show_cod</parameter>
+        <parameter type="string" kind="3">order_dat</parameter>
+    </dao>
+
+</root>

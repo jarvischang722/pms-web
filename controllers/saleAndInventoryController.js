@@ -21,20 +21,80 @@ exports.getQueryResult = function (req, res) {
     {
         case "getDataGridRows":
             PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
-                res.json({data: result, errorMsg: err});
+                res.json({data: result, error: err});
             });
             break;
         case "getSingleDataMN":
-            PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
-                res.json({data: result, errorMsg: err});
+            PSIWService.getSingleDataMN(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
             });
             break;
         case "getSingleDataDT":
-            PSIWService.getDataGridRows(req.body, req.session, function (err, result) {
-                res.json({data: result, errorMsg: err});
+            PSIWService.getSingleDataDT(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getSystemParam":
+            PSIWService.getSystemParam(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getShowCodSelect":
+            PSIWService.getShowCodSelect(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getCustInfo":
+            PSIWService.getCustInfo(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getCustAdd":
+            PSIWService.getCustAdd(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getCustContact":
+            PSIWService.getCustContact(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getPeriod":
+            PSIWService.getPeriod(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getFormatSta":
+            PSIWService.getFormatSta(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "chkFormatSta":
+            PSIWService.chkFormatSta(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
             });
             break;
     }
-
-
 };
+
+//call Save API
+exports.callSaveAPI = function (req, res) {
+    PSIWService.callSaveAPI(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};
+
+//call API
+exports.callAPI = function (req, res) {
+    PSIWService.callAPI(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};
+
+//call 貨品API
+exports.callOrderAPI = function (req, res) {
+    PSIWService.callOrderAPI(req.body, req.session, function (err, result, data) {
+        res.json({data: data, result: result, error: err});
+    });
+};
+

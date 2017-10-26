@@ -179,7 +179,7 @@
         var timeLeft = data.timeLeft;
         var mm = String(Math.floor(timeLeft / 60));
         var ss = timeLeft % 60 >= 10 ? String(timeLeft % 60) : "0" + String(timeLeft % 60);
-        $("#timeLeft").text(mm + ":" + ss);
+        //$("#timeLeft").text(mm + ":" + ss);
     })
 
     //接收socket 回傳
@@ -200,7 +200,7 @@
 
     function updateDateTime() {
         var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
-        $("#datetimeSpan").html(datetime);
+        //$("#datetimeSpan").html(datetime);
     }
     function doLogout() {
         $.post("/cas/logout", function (data) {

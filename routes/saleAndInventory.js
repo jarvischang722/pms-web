@@ -15,4 +15,10 @@ module.exports = function(app) {
     app.get('/saleAndInventory/PSIW500030', saleAndInventoryCrtl.getPSIW500030);
 
     app.post('/api/getQueryResult', saleAndInventoryCrtl.getQueryResult);
+
+    app.post('/api/callSaveAPI', saleAndInventoryCrtl.callSaveAPI);
+
+    app.post('/api/callAPI', saleAndInventoryCrtl.callAPI);
+
+    app.post('/api/callOrderAPI', saleAndInventoryCrtl.callOrderAPI);
 };

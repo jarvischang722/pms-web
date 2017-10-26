@@ -4,9 +4,12 @@
     <!-- ['PSIW500030'] 門市web訂單作業(多筆) -->
     <dao name="QRY_PSI_QUOTE_MN">
         <statement><![CDATA[
-               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
-               from room_mn
-               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+            select mn.order_nos, mn.order_dat, mn.order_sta, mn.format_sta, cust.show_cod, cust.cust_nam , mn.atten_nam, mn.order_rmk, mn.ins_usr, mn.upd_usr, mn.cnfirm_cod from psi_quote_mn mn
+            join sec_typ_ctrl sec on mn.comp_cod = sec.comp_cod and mn.cust_cod = sec.key_cod2
+            left join cust_mn cust on mn.cust_cod = cust.cust_cod
+            where trim(sec.comp_cod) = trim(:comp_cod)
+            And sec.sys_cod='PSI_WEB' And sec.remark_cod='usr_cust' And trim(sec.key_cod1) = trim(:key_cod1)
+            order by mn.order_nos
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>
@@ -16,25 +19,31 @@
     <!-- ['PSIW500030'] 門市web訂單作業(單筆mn) -->
     <dao name="QRY_PSI_QUOTE_SINGLE_MN">
         <statement><![CDATA[
-               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
-               from room_mn
-               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+            select mn.order_nos, mn.order_dat, mn.format_sta, mn.order_sta, cust.cust_cod, cust.show_cod, cust.cust_nam, mn.atten_nam, mn.ship1_add, mn.ship2_add, mn.ship_dat, mn.ins_usr, mn.ins_dat, mn.upd_usr, mn.upd_dat, mn.cnfirm_cod, mn.cnfirm_dat, mn.order_rmk
+            from psi_quote_mn mn
+            left join cust_mn cust on mn.cust_cod = cust.cust_cod
+            where trim(mn.comp_cod) = trim(:comp_cod)
+            and trim(mn.order_nos) = trim(:order_nos)
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>
-        <parameter type="string" kind="3">key_cod1</parameter>
+        <parameter type="string" kind="3">order_nos</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 門市web訂單作業(單筆dt) -->
-    <dao name="QRY_PSI_QUOTE_SINGLE_DT">
+    <!-- ['PSIW500030'] 檢查是否有相同格式的訂單 -->
+    <dao name="CHK_PSI_FORMAT_STA">
         <statement><![CDATA[
-               select athena_id, hotel_cod, room_nos, room_cod, room_sta, assign_sta, clean_sta, bed_sta
-               from room_mn
-               where trim(athena_id) = ? and trim(hotel_cod) = ? order by view_seq, room_nos
+            select count(*) as count from psi_quote_mn
+            where comp_cod = :comp_cod
+            and cust_cod = :cust_cod
+            and order_dat = to_date(:order_dat, 'YYYY/MM/DD')
+            and format_sta = :format_sta
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>
-        <parameter type="string" kind="3">key_cod1</parameter>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">order_dat</parameter>
+        <parameter type="string" kind="3">format_sta</parameter>
     </dao>
 
 </root>

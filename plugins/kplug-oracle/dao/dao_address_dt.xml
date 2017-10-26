@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- ['PSIW500030'] 取得客戶住址 -->
+    <dao name="QRY_ADDRESS_DT_SELECT">
+        <statement><![CDATA[
+            select  trim(nvl(add1_rmk, ' ')||nvl(add2_rmk,' ')||nvl(add3_rmk,' '))
+            from address_dt
+            where trim(cust_cod) = trim(:cust_cod)
+            and trim(add_cod) = trim(:add_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">add_cod</parameter>
+    </dao>
+
+</root>
