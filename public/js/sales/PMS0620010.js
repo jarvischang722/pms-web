@@ -592,7 +592,7 @@ var vm = new Vue({
                 }
                 $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
                     if (result.success) {
-                        self.doSaveCud("PMS0620010", 1, function (result) {
+                        self.doSaveCud("PMS0620020", 1, function (result) {
                             if (result.success) {
                                 alert("Delete Success");
                                 $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
@@ -664,6 +664,7 @@ var vm = new Vue({
             dialog.dialog("open");
         },
         doSaveCud: function (prg_id, page_id, callback) {
+            var self = this;
             var lo_params = {
                 prg_id: prg_id,
                 page_id: page_id,
@@ -671,6 +672,7 @@ var vm = new Vue({
             }
 
             $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+                self.loadDataGridByPrgID();
                 callback(result);
             });
         }

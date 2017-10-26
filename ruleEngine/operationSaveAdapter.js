@@ -196,21 +196,27 @@ function combineDtDeleteExecData(rfData, callback) {
             gn_exec_seq++;
 
             // 修改Mn: 此目的為了更新Mn最後異動日
-            var mnEvent_time = moment(new Date(data.event_time)).add(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
-            var tmpMnUpd = {
-                "function": "2",
-                "table_name": gs_mainTableName,
-                athena_id: go_session.user.athena_id,
-                event_time: mnEvent_time
-            };
-            //塞入mn pk
-            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
-                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
-                }
-            });
-            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
-            gn_exec_seq++;
+            // var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            // var tmpMnUpd = {
+            //     "function": "2",
+            //     "table_name": gs_mainTableName,
+            //     event_time: mnEvent_time
+            // };
+            // tmpMnUpd = _.extend(tmpMnUpd, commonRule.getEditDefaultDataRule(go_session));
+            // tmpMnUpd.condition = [];
+            // //組合where 條件
+            // _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+            //     if (!_.isUndefined(data[keyField.ui_field_name])) {
+            //         tmpMnUpd.condition.push({
+            //             key: keyField.ui_field_name,
+            //             operation: "=",
+            //             value: data[keyField.ui_field_name]
+            //         });
+            //     }
+            //
+            // });
+            // go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
+            // gn_exec_seq++;
         });
         callback(null, '0300');
     }
@@ -492,21 +498,27 @@ function combineDtCreateEditExecData(rfData, callback) {
             gn_exec_seq++;
 
             // 修改Mn: 此目的為了更新Mn最後異動日
-            var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
-            var tmpMnUpd = {
-                "function": "2",
-                "table_name": gs_mainTableName,
-                athena_id: go_session.user.athena_id,
-                event_time: mnEvent_time
-            };
-            //塞入mn pk
-            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
-                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
-                }
-            });
-            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
-            gn_exec_seq++;
+            // var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            // var tmpMnUpd = {
+            //     "function": "2",
+            //     "table_name": gs_mainTableName,
+            //     event_time: mnEvent_time
+            // };
+            // tmpMnUpd = _.extend(tmpMnUpd, commonRule.getEditDefaultDataRule(go_session));
+            // tmpMnUpd.condition = [];
+            // //組合where 條件
+            // _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+            //     if (!_.isUndefined(data[keyField.ui_field_name])) {
+            //         tmpMnUpd.condition.push({
+            //             key: keyField.ui_field_name,
+            //             operation: "=",
+            //             value: data[keyField.ui_field_name]
+            //         });
+            //     }
+            //
+            // });
+            // go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
+            // gn_exec_seq++;
 
             /** 處理每一筆多語系 handleSaveMultiLang **/
             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
@@ -576,21 +588,27 @@ function combineDtCreateEditExecData(rfData, callback) {
             gn_exec_seq++;
 
             // 修改Mn: 此目的為了更新Mn最後異動日
-            var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
-            var tmpMnUpd = {
-                "function": "2",
-                "table_name": gs_mainTableName,
-                athena_id: go_session.user.athena_id,
-                event_time: mnEvent_time
-            };
-            //塞入mn pk
-            _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                if (!_.isUndefined(mnRowData[keyField.ui_field_name])) {
-                    tmpMnUpd[keyField.ui_field_name] = mnRowData[keyField.ui_field_name].trim();
-                }
-            });
-            go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
-            gn_exec_seq++;
+            // var mnEvent_time = moment(new Date(data.event_time)).subtract(1, "seconds").format("YYYY/MM/DD HH:mm:ss");
+            // var tmpMnUpd = {
+            //     "function": "2",
+            //     "table_name": gs_mainTableName,
+            //     event_time: mnEvent_time
+            // };
+            // tmpMnUpd = _.extend(tmpMnUpd, commonRule.getEditDefaultDataRule(go_session));
+            // tmpMnUpd.condition = [];
+            // //組合where 條件
+            // _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+            //     if (!_.isUndefined(data[keyField.ui_field_name])) {
+            //         tmpMnUpd.condition.push({
+            //             key: keyField.ui_field_name,
+            //             operation: "=",
+            //             value: data[keyField.ui_field_name]
+            //         });
+            //     }
+            //
+            // });
+            // go_saveExecDatas[gn_exec_seq] = tmpMnUpd;
+            // gn_exec_seq++;
 
             /** 處理每一筆多語系 handleSaveMultiLang **/
             if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
