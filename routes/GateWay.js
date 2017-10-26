@@ -15,7 +15,7 @@ module.exports = function (app) {
     app.post('/api/gateway/uploadRoomTypePic',middles, gateWayCrtl.uploadRoomTypePic);
 
     /** 作業多筆儲存 **/
-    app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationDgSave);
+    app.post("/api/gateway/doOperationDgSave", gateWayCrtl.doOperationDgSave);
 
     /** 作業單筆儲存 **/
     app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationSingleSave);
