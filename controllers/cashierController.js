@@ -149,7 +149,7 @@ exports.qryPMS0830070SingleDt2 = function (req, res) {
 /*
 * 取得虛擬帳單項目設定>單筆>DT2(全部資料)
 */
-exports.qryPMS0830070SingleAllDt2 = function (req, res) {
+exports.qryPMS0830070Dt2AllData = function (req, res) {
 
     let lo_userInfo = req.session.user;
     let lo_params = {
@@ -167,11 +167,13 @@ exports.qryPMS0830070SingleAllDt2 = function (req, res) {
  * 取得虛擬帳單項目設定>單筆>DT
  */
 exports.qryPMS0830070SingleDt4Dt = function (req, res) {
+    let lo_userInfo = req.session.user;
+    let lo_params = {
+        athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod
+    };
 
-    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", {
-        athena_id: req.session.user.athena_id,
-        hotel_cod: req.session.user.hotel_cod
-    }, 0, 0, function (err, routeDtList) {
-        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", lo_params, 0, 0, function (err, routeDtList) {
+        res.json({success: true, dt2ItemNosDataList: commonTools.trimObjectAllVal(routeDtList)});
     });
 };

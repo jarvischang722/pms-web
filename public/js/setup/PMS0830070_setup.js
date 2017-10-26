@@ -40,7 +40,7 @@ var Pms0830070Comp = Vue.extend({
             if (itemName != "") {
             //     this.getSingleDtAll2();
             //     this.getSingleDt2(index);
-            //     this.openDetail4Detail(index);
+                this.openDetail4Detail(index);
             //     this.showDialogServerItem();
             }
             else {
@@ -54,33 +54,34 @@ var Pms0830070Comp = Vue.extend({
             //SAM:為了判斷值是否有被選過做disable
             $.post('/api/qryPMS0830070SingleDt4Dt', singleData, function (response) {
                 //取得所有項目
-                _.each(response.routeDtList, function (dt4DtRow, dt4DtIndex) {
-                    response.routeDtList[dt4DtIndex]["seq_nos"] = index;
+                _.each(response.dt2ItemNosDataList, function (dt4DtRow, dt4DtIndex) {
+                    response.dt2ItemNosDataList[dt4DtIndex]["seq_nos"] = index;
                     //取得此代號的項目
                     _.each(self.dt2AllData, function (allDtRow, idx) {
                         if (dt4DtRow["item_nos"] == allDtRow["item_nos"]) {
-                            response.routeDtList[dt4DtIndex]["checked"] = "true";
-                            response.routeDtList[dt4DtIndex]["checking"] = "true";
+                            response.dt2ItemNosDataList[dt4DtIndex]["checked"] = "true";
+                            response.dt2ItemNosDataList[dt4DtIndex]["checking"] = "true";
                             if (self.singleDataDt2.length > 0) {
                                 var isSame = false;
                                 //取得此代號+序號項目
                                 _.each(self.singleDataDt2, function (row) {
                                     if (!isSame) {
                                         if (allDtRow["item_nos"] == row["item_nos"]) {
-                                            response.routeDtList[dt4DtIndex]["disabled"] = "false";
+                                            response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "false";
                                             isSame = true;
                                         } else {
-                                            response.routeDtList[dt4DtIndex]["disabled"] = "true";
+                                            response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "true";
                                         }
                                     }
                                 });
                             } else {
-                                response.routeDtList[dt4DtIndex]["disabled"] = "true";
+                                response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "true";
                             }
                         }
                     });
                 });
-                self.adjfolioDataItem = response.routeDtList;
+                self.adjfolioDataItem = response.dt2ItemNosDataList;
+                self.dialogServiceItemVisible = true;
             });
         },
 
@@ -437,7 +438,7 @@ var PMS0830070VM = new Vue({
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            $.post('/api/qryPMS0830070SingleAllDt2', params, function (response) {
+            $.post('/api/qryPMS0830070Dt2AllData', params, function (response) {
                 // _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
                 //     response.routeDtList.push(row);
                 // });
@@ -459,6 +460,7 @@ var PMS0830070VM = new Vue({
                 dialogClass: "test",
                 resizable: true
             });
+            this.qryDt2AllData();
         },
 
         closeGridDialog: function () {

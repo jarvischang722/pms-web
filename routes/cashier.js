@@ -41,5 +41,5 @@ module.exports = function(app  ) {
     //取得DT的DT
     app.post('/api/qryPMS0830070SingleDt4Dt', cashierCrtl.qryPMS0830070SingleDt4Dt);
     //取得DT2全部資料
-    app.post('/api/qryPMS0830070SingleAllDt2', cashierCrtl.qryPMS0830070SingleAllDt2);
+    app.post('/api/qryPMS0830070Dt2AllData', cashierCrtl.qryPMS0830070Dt2AllData);
 };

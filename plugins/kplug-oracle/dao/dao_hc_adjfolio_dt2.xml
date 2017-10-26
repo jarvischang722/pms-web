@@ -19,6 +19,7 @@
                select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
                from hc_adjfolio_dt2
                where athena_id = ? and trim(hotel_cod) = trim(?) and trim(seq_nos) = trim(?) and trim(adjfolio_cod)= trim(?)
+               order by seq_nos
         ]]>
         </statement>
         <parameter type="number" kind="1">athena_id</parameter>
