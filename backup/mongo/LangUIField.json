@@ -7267,7 +7267,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "status_cod", 
+    "ui_field_name" : "status_cod1", 
     "ui_display_name_zh_TW" : "狀態", 
     "hint_zh_TW" : "狀態", 
     "ui_display_name_en" : "", 
