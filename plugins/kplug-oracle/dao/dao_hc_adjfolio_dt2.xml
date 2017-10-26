@@ -27,4 +27,18 @@
         <parameter type="string" kind="1">seq_nos</parameter>
         <parameter type="string" kind="1">adjfolio_cod</parameter>
     </dao>
+
+    <!-- ['PMS0830070'] 查詢dt2不能使用項目 -->
+    <dao name="QRY_HC_ADJFOLIO_DT2_DISABLE_ITEM">
+        <statement><![CDATA[
+               select DISTINCT item_nos, seq_nos from hc_adjfolio_dt2
+               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+               and trim(seq_nos) != trim(:seq_nos) and trim(adjfolio_cod)= trim(:adjfolio_cod) order by seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">seq_nos</parameter>
+        <parameter type="string" kind="3">adjfolio_cod</parameter>
+    </dao>
 </root>

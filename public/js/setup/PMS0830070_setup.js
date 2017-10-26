@@ -52,7 +52,7 @@ var Pms0830070Comp = Vue.extend({
             var self = this;
             var singleData = PMS0830070VM.singleData;
             //SAM:為了判斷值是否有被選過做disable
-            $.post('/api/qryPMS0830070SingleDt4Dt', singleData, function (response) {
+            $.post('/api/qryDt2SelectedItemNos', singleData, function (response) {
                 //取得所有項目
                 _.each(response.dt2ItemNosDataList, function (dt4DtRow, dt4DtIndex) {
                     response.dt2ItemNosDataList[dt4DtIndex]["seq_nos"] = index;
