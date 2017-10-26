@@ -23,7 +23,7 @@ exports.requestApi = function (apiUrl, params, callback) {
 
     params = JSON.stringify(params);
 
-    deUrl = apiUrl + '?lang=' + lang + '&' + 'testLog=Y&TxnData=' + params;
+    deUrl = apiUrl + '?lang=' + lang + '&testLog=Y&TxnData=' + params;
 
     params = new Buffer(params).toString('base64');    //編碼
 

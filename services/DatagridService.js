@@ -203,7 +203,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                    callback(null, {ui_field_idx: fIdx, field: field});
                                 }
                             } else if (field.modificable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
@@ -216,7 +216,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                    callback(null, {ui_field_idx: fIdx, field: field});
                                 }
                             } else if (field.requirable == "C") {
                                 if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
@@ -229,7 +229,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                         }
                                     });
                                 } else {
-                                    callback(null, {ui_field_idx: fIdx, field: result});
+                                    callback(null, {ui_field_idx: fIdx, field: field});
                                 }
                             } else {
                                 callback(null, {ui_field_idx: fIdx, visiable: field.visiable});

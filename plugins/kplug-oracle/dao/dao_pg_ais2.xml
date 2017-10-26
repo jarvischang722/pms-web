@@ -32,11 +32,11 @@
     <!-- ['PMS0820020'] 參數:參數滾房租日 -->
     <dao name="QRY_HOTEL_SVAL">
         <statement><![CDATA[
-               select pg_ais2.sf_get_hotel_sval(:hotel_cod, 'HFD', 'rent_cal_dat',  :athena_id ) as hotel_sval from dual
+               select pg_ais2.sf_get_hotel_sval(trim(:hotel_cod), 'HFD', 'rent_cal_dat',  :athena_id ) as hotel_sval from dual
         ]]>
         </statement>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="int" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
     <!-- ['PMS0820050', 'PMS0830010'] 參數:滾房租日-->
@@ -46,7 +46,7 @@
         ]]>
         </statement>
         <parameter type="string" kind="3">hotel_cod</parameter>
-        <parameter type="string" kind="3">athena_id</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
     <!-- ['PMS0830010'] 參數:是否用班別開班 -->

@@ -28,8 +28,8 @@ module.exports = {
                     if (guestData.source_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "訂房來源對照檔有使用此代號時，不可刪除";
-                        lo_error.errorCod = "1111";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg16", session.locale);
+
                         callback(lo_error, lo_result);
                     } else {
                         callback(lo_error, lo_result);

@@ -20,10 +20,6 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 /*** Class End  ***/
 
-function gridSingleDtClasss() {
-};
-gridSingleDtClasss.prototype = new DatagridBaseClass();
-
 
 Vue.component('single-grid-pms0620020-tmp', {
     template: '#singleGridPMS0620020Tmp',
@@ -73,8 +69,13 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.showDtDataGrid();
         },
         singleData: function (val) {
+            console.log(val);
             this.initData();
             this.fetchFieldData();
+        },
+        rowData: function(val){
+            this.dgHoatelDt.updateMnRowData(val);
+            this.dgHoatelDt.updateTmpDtOfMnData(val);
         }
     },
     methods: {
@@ -176,7 +177,6 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         fetchFieldData: function () {
             var self = this;
-
             $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
                 self.originFieldData = result.salesMnField;
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
@@ -197,7 +197,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     } else {
                         alert(result.errorMsg);
                     }
-                    self.showDtDataGrid();
+
                 });
             }
             //編輯的狀況
@@ -212,9 +212,11 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         console.log(result.errorMsg);
                     }
-                    self.showDtDataGrid();
+
                 });
             }
+
+            self.showDtDataGrid();
         },
         showDtDataGrid: function () {
             this.dgHoatelDt = new DatagridBaseClass();
@@ -224,7 +226,6 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgClassHs = new DatagridBaseClass();
             this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
             this.dgClassHs.loadDgData(this.classHsRowData);
-
 
         },
         appendDtRow: function () {
@@ -311,15 +312,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
 
-                    var lo_params = {
-                        prg_id: "PMS0620020",
-                        page_id: 1,
-                        tmpCUD: vm.tmpCud
-                    };
+                    vm.doSaveCud();
 
-                    console.log(lo_params);
-                    vm.initTmpCUD();
-                    this.dgHoatelDt.initTmpCUD();
+                    // this.dgHoatelDt.initTmpCUD();
                 }
             }
 
@@ -571,13 +566,18 @@ var vm = new Vue({
             });
         },
         removeRow: function () {
+            var self = this;
             var delRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!delRow) {
                 alert("請選擇要刪除的資料");
             }
             else {
+
+                delRow["tab_page_id"] = 1;
+                delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
                 vm.tmpCud.deleteData.push(delRow);
+
                 $("#gridEdit").val(vm.tmpCUD);
 
                 var params = {
@@ -586,13 +586,13 @@ var vm = new Vue({
                 }
                 $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
                     if (result.success) {
-
-                        alert("ID: " + params.deleteData[0].sales_cod + " 已刪除");
+                        $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
+                        self.doSaveCud();
                     }
                     else {
-                        alert("ID: " + params.deleteData[0].sales_cod + " " + result.errorMsg);
+                        alert(result.errorMsg);
+                        _.without(vm.tmpCud.deleteData, delRow);
                     }
-                    vm.initTmpCUD();
                 });
             }
 
@@ -648,6 +648,16 @@ var vm = new Vue({
                 resizable: true
             });
             dialog.dialog("open");
+        },
+        doSaveCud: function(){
+            var lo_params = {
+                prg_id: "PMS0620020",
+                page_id: 1,
+                tmpCUD: this.tmpCud
+            }
+            console.log(lo_params);
+            //success
+            this.initTmpCUD();
         }
     }
 });

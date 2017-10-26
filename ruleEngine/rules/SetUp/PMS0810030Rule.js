@@ -3,6 +3,7 @@
  */
 
 var _ = require("underscore");
+let _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -29,8 +30,8 @@ module.exports = {
                     if (guestData != null) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "[" + session.user.hotel_cod + "]館-住客歷史參數-本國國籍, 已設定, 不可刪除";
-                        lo_error.errorCod = "1111";
+                        let ls_errMsg = commandRules.getMsgByCod("pms81msg12", session.locale);
+                        lo_error.errorMsg = _s.sprintf(ls_errMsg, session.user.hotel_cod);
                         callback(lo_error, lo_result);
                     } else {
                         callback(lo_error, lo_result);
@@ -126,7 +127,7 @@ module.exports = {
                 } else {
                     callback(err, lo_result);
                 }
-            })
+            });
         }else {
             callback(null, lo_result);
         }

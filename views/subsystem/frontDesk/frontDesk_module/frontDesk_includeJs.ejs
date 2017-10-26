@@ -449,10 +449,10 @@
 
 
         /***
-         * PMS0210030 Room Assign
+         * PMS0210070 Departures
          */
 
-        // 彈出 Room Assign-auto Assign foCnt_autoAssign
+        // 彈出 PMS0210070 Departures-fastCo foCnt_fastCo
         $(document).on('click', ".foCnt_fastCo", function (e) {
             e.preventDefault();
             var dialog = $("#foCnt_fastCo-message").removeClass('hide').dialog({
@@ -468,7 +468,70 @@
             });
         });
 
+        // 彈出 PMS0210070 Departure-group-tourGuide (foCnt_tourGuide)
+        $(document).on('click', ".foCnt_tourGuide", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_tourGuide-message").removeClass('hide').dialog({
+                modal: true,
+                title: "導遊",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                minheight: 250,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
+        // 彈出 PMS0210070 Departure > postMaster foCnt_cslPostMaster
+        $(document).on('click', ".foCnt_cslPostMaster", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_cslPostMaster-message").removeClass('hide').dialog({
+                modal: true,
+                title: "取消公帳號",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 PMS0210070 Departure > Folio (foCnt_folio)
+        $(document).on('click', ".foCnt_folio", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_folio-message").removeClass('hide').dialog({
+                modal: true,
+                title: "帳單列印",
+                title_html: true,
+                width: 800,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 PMS0210070 Departure > 房租總額 (foCnt_totalRent)
+        $(document).on('click', ".foCnt_totalRent", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_totalRent-message").removeClass('hide').dialog({
+                modal: true,
+                title: "房租總額",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
 
         /***
          * 櫃檯備品 screen小於1280縮小
@@ -746,7 +809,6 @@
             ]]
 
         });
-
 
         // 團體管理 dataGrid
         $('#front_groups-table').datagrid({
@@ -1337,10 +1399,44 @@
             ]]
         });
 
+        /***
+         * PMS0210070 Departures
+         */
+
+        // PMS0210070 Group > Post Master (foCnt_cslPostMaster) dataGrid
+        $('#foCnt_cslPostMaster-table').datagrid({
+            singleSelect: true,
+            collapsible: true,
+            // 從json 撈
+            url: '/jsonData/frontDesk/foCnt_cslPostMaster-table.json',
+            method: 'get',
+            columns: [[
+                {field: 'checkBox', title: '選擇', width: 80},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'sort', title: '序號', width: 40},
+                {field: 'fullName', title: 'Full Name', width: 150},
+                {field: 'ciDate', title: 'C/I日期', width: 80},
+                {field: 'expectCo', title: '預計C/O', width: 80},
+                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+            ]]
+        });
+
         //顯示排房明細
+        $(".cardDetail-table").panel({closed:true});
         $('.showCardDetail').click(function () {
-            $(".cardDetail-table").toggle().css('height','auto');
-        })
+
+            if ($('input.showCardDetail').is(':checked')) {
+                $("#roomDetail-table").datagrid('reload');
+                $(".cardDetail-table").panel({closed:false});
+                $(".roomDetail-table2").removeClass('cardDetail_margin');
+            }
+            else {
+                $(".cardDetail-table").panel({closed:true});
+                $(".roomDetail-table2").addClass('cardDetail_margin');
+            }
+
+        });
+
         //排房選中active
         $('.townPage').on('click', ".townBlock", function (e) {
             $('.townBlock').removeClass("active");

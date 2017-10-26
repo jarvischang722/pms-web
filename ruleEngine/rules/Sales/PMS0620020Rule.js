@@ -22,7 +22,6 @@ module.exports = {
         let lo_error = null;
         lo_result.defaultValues = {
             status_cod1: "N",
-            hotel_cod: session.user.hotel_cod,
             status_cod: "01",
             class_cod: "000001"
         };
@@ -71,13 +70,14 @@ module.exports = {
      */
     chkNousedat: function (postData, session, callback) {
         var nouse_dat = postData.newValue;
-        var status_cod = postData.rowData.status_cod;
+        var status_cod = postData.rowData.status_cod1;
         var lo_result = new ReturnClass();
         var lo_error = null;
 
         if (nouse_dat == '') {
             if (status_cod == 'X') {
                 lo_result.success = false;
+                lo_result.effectValues = {status_cod1: status_cod};
                 lo_error = new ErrorClass();
                 lo_error.errorMsg = '請輸入停用年月';
                 lo_error.errorCod = 'pms62msg5';

@@ -653,7 +653,6 @@
     </div>
     <div class="clearfix"></div>
 </div>
-
 <!--訂房確認書-預覽列印頁面-->
 
 
@@ -1389,6 +1388,210 @@
 </div>
 <!-- /.option Share Rate -->
 
+<!-- option coupon (resv_coupon) 彈出視窗 -->
+<div id="resv_coupon-message" class="hide padding-5">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row no-margin-right">
+                <div class="main-content-data">
+                    <div class="search-content">
+                        <div class="search-co">
+                            <div class="search-co-h">
+                                <i class="ace-icon fa fa-search search-icon"></i>
+                                <span>Search</span>
+                            </div>
+                            <div class="row">
+                                <div class="search-co-content col-xs-12 rece-search-detail">
+                                    <div class="row search-footer-btn">
+                                        <div class="footer-btn-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="查詢">
+                                                        <div class="icon-reStyle icon-co-14"></div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="" data-rel="tooltip" data-placement="bottom" title="清除">
+                                                        <div class="icon-reStyle icon-co-11"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>  <!-- /.footer-btn-menu-co -->
+                                    </div> <!-- /.search-footer-btn -->
+                                    <div class="width-95">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>條碼</label>
+                                                <input type="text" class="input-medium resvCard-col2" placeholder="" />
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>連號</label>
+                                                <input type="text" class="input-medium rateCode-s2" placeholder="1" />
+                                                <span>張</span>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>住客</label>
+                                                <select class="input-medium medium-c1-col2">
+                                                    <option value="1">陳小瑛</option>
+                                                    <option value="2">李大名</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div> <!-- row-->
+                        </div> <!-- /.search-co -->
+                    </div> <!-- /.row  search-content-->
+                </div><!--main-content-data-->
+            </div>
+            <div class="space-6"></div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="main-content-data">
+                            <!--Reservation > Option > Coupon(resv_coupon)-->
+                            <table id="resv_coupon-table" style="height: 200px;"></table>
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">指定</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">刪除</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.option coupon (resv_coupon) -->
+
+<!-- option Registration Card (resv_RegistrationCard) 彈出視窗-->
+<div id="resv_RegistrationCard-message" class="hide padding-5">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="main-content-data">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <label>格式</label>
+                                <select class="input-medium popWindow-s1-col2">
+                                    <option value="1">旅客登記卡</option>
+                                    <option value="2">旅客紀錄卡</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div><!--main-content-data-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">預覽
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">列印
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- /.option Registration Card (resv_RegistrationCard)-->
+
+<!-- Reservation > PaxList > Imports (resv_PaxImports) 彈出視窗 -->
+<div id="resv_PaxImports-message" class="hide padding-5">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="main-content-data">
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>行動電話代號</label>
+                                        <select class="input-medium medium-c1">
+                                            <option value="1">陳小瑛</option>
+                                            <option value="2">李大名</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>E-mail代號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="1" />
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>地址代號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="1" />
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>本次結轉檔名</label>
+                                        <input type="text" class="input-medium medium-c1-col2v2" placeholder="" disabled />
+                                        <input type="text" class="input-medium medium-c1" placeholder="" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-6"></div>
+                            <!-- Reservation > PaxList > Imports(resv_PaxImports) table-->
+                            <table id="resv_PaxImports-table" style="height: 200px;"></table>
+                        </div><!--main-content-data-->
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">匯入</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger btn-white btn-defaultWidth"
+                                            role="button">匯入刪除</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">匯出格式</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.option coupon (PaxImports) -->
 
 <!-- 選項 saveAsBtn 彈出視窗 -->
 <div id="saveAsBtn-message" class="hide padding-5">

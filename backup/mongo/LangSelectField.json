@@ -185,3 +185,27 @@
     "ui_display_name_en" : "", 
     "hint_en" : ""
 }
+{ 
+    "_id" : ObjectId("59d75c3a8c50201fc486f736"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "user_nos", 
+    "ui_field_name" : "usr_id", 
+    "ui_display_name_zh_TW" : "使用者代號", 
+    "hint_zh_TW" : "使用者代號", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59d75c3a8c50201fc486f737"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "select_id" : "user_nos", 
+    "ui_field_name" : "usr_cname", 
+    "ui_display_name_zh_TW" : "使用者名稱", 
+    "hint_zh_TW" : "使用者名稱", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}

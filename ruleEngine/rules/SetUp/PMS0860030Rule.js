@@ -31,8 +31,7 @@ module.exports = {
                 if (getResult.areacount > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms86msg1", session.locale);
                     callback(lo_error, lo_result);
                     return true;
                 }

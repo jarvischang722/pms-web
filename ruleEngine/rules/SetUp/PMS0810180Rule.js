@@ -131,7 +131,7 @@ module.exports = {
                     lo_result.effectValues = postData.singleRowData;
 
                     lo_result.showAlert = true;
-                    lo_result.alertMsg = "一個通路代號只能一筆，不可重複";
+                    lo_error.alertMsg = commandRules.getMsgByCod("pms81msg31", session.locale);
                 }
                 callback(lo_error, lo_result);
             }

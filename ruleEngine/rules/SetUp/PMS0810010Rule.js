@@ -38,9 +38,7 @@ module.exports = {
             if (data.room_count > 0) {
                 result.success = false;
                 error = new ErrorClass();
-                error.errorMsg = "房間小類設定存在時，不可刪除";
-                error.errorCod = "1111";
-
+                error.errorMsg = commandRules.getMsgByCod("pms81msg11", session.locale);
             }
             callback(error, result);
         });

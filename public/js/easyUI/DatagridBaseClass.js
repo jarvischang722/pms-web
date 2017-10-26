@@ -183,6 +183,10 @@ function DatagridBaseClass() {
             alert("請選擇要刪除的資料");
         }
 
+        delRow["tab_page_id"] = 1;
+        delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+        self.tmpCUD.deleteData.push(delRow);
 
         $("#gridEdit").val(self.tmpCUD);
 
@@ -234,6 +238,9 @@ function DatagridBaseClass() {
      * @param rowData 要處理的那筆資料
      */
     this.doTmpExecData = function (rowData) {
+
+        rowData = _.extend(rowData, this.mnRowData);
+
         var dataType = rowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
@@ -249,6 +256,9 @@ function DatagridBaseClass() {
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
+        rowData["mnRowData"] = this.mnRowData;
+        rowData["tab_page_id"] = 1;
+        rowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
         self.tmpCUD[dataType].push(rowData);
         $("#gridEdit").val(self.tmpCUD);
@@ -259,8 +269,8 @@ function DatagridBaseClass() {
      *
      * @param rowData: mn 單筆資料
      */
-    this.updatMnRowData = function (rowData) {
-
+    this.updateMnRowData = function (rowData) {
+        this.mnRowData = rowData;
     };
 
     /**

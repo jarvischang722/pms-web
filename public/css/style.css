@@ -3823,7 +3823,7 @@ span.triangle-text {
 }
 
 .townPage {
-  height: 600px;
+  height: 500px;
   overflow: auto;
 }
 .townPage .townRow .townBlock {
@@ -3866,6 +3866,11 @@ span.triangle-text {
 }
 .townPage .townRow .townBlock.active {
   border: 2px solid red;
+}
+.townPage .townRow .townBlock .foCnt_icon {
+  width: 12px;
+  height: 12px;
+  margin: 4px 1px auto 1px;
 }
 
 .roomAssign .select-group {
@@ -4121,6 +4126,15 @@ span.triangle-text {
   font-weight: bold;
 }
 
+.folioRadio .folioWrap {
+  float: left;
+  margin-left: 85px;
+}
+.folioRadio .folioWrap .radio {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4180,6 +4194,10 @@ span.triangle-text {
 
 .marginLeft-90 {
   margin-left: 90px;
+}
+
+.cardDetail_margin {
+  margin-top: -20px;
 }
 
 .height87 {
@@ -4604,8 +4622,23 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.consumeCode-g1-s {
+  width: 50px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.consumeCode-g1-m {
+  width: 102px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.popWindow-s1Remark {
   width: 128px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.popWindow-s1-col3 {
+  width: 672px;
   max-width: 100%;
   height: 25px;
 }
@@ -4961,6 +4994,17 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
+}
+.searchCheckbox.routingCkbox {
+  margin: 3px 0;
+}
+.searchCheckbox.routingCkbox label {
+  text-align: left;
+  width: 100px;
+}
+.searchCheckbox.routingCkbox .checkbox-width {
+  padding: 0;
+  margin: 0;
 }
 
 .text-right {
