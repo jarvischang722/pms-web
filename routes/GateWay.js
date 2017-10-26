@@ -14,5 +14,7 @@ module.exports = function (app) {
     /** 上傳房型圖片**/
     app.post('/api/gateway/uploadRoomTypePic',middles, gateWayCrtl.uploadRoomTypePic);
 
+    app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationDgSave);
+
     app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationSingleSave);
 };
