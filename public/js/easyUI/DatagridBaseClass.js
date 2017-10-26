@@ -12,10 +12,7 @@ function DatagridBaseClass() {
     this.tmpCUD = {
         createData: [],
         updateData: [],
-        deleteData: [],
-        dt_createData: [],
-        dt_updateData: [],
-        dt_deleteData: []
+        deleteData: []
     };
     this.dgName = "";
     this.prg_id = "";
@@ -52,7 +49,7 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn,
+            onSortColumn: this.doSortColumn
         }).datagrid('columnMoving');
     };
 
@@ -239,6 +236,7 @@ function DatagridBaseClass() {
      */
     this.doTmpExecData = function (rowData) {
 
+        var delRow = _.clone(rowData);
         rowData = _.extend(rowData, this.mnRowData);
 
         var dataType = rowData.createRow == 'Y'
@@ -254,6 +252,7 @@ function DatagridBaseClass() {
 
         if (existIdx > -1) {
             this.tmpCUD[dataType].splice(existIdx, 1);
+            console.log(delRow);
         }
 
         rowData["mnRowData"] = this.mnRowData;
@@ -278,18 +277,17 @@ function DatagridBaseClass() {
      * @param rowData: mn 單筆資料
      */
     this.updateTmpDtOfMnData = function (rowData) {
-        var self = this;
-        _.each(this.tmpCUD.dt_createData, function (cData, cIdx) {
-            self.tmpCUD.dt_createData[cIdx] = _.extend(cData, rowData);
-            self.tmpCUD.dt_createData[cIdx]["mnRowData"] = rowData;
+        _.each(this.tmpCUD.createData, function (cData, cIdx) {
+            self.tmpCUD.createData[cIdx] = _.extend(cData, rowData);
+            self.tmpCUD.createData[cIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_updateData, function (uData, uIdx) {
-            self.tmpCUD.dt_updateData[uIdx] = _.extend(uData, rowData);
-            self.tmpCUD.dt_updateData[uIdx]["mnRowData"] = rowData;
+        _.each(this.tmpCUD.updateData, function (uData, uIdx) {
+            self.tmpCUD.updateData[uIdx] = _.extend(uData, rowData);
+            self.tmpCUD.updateData[uIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_deleteData, function (dData, dIdx) {
-            self.tmpCUD.dt_deleteData[dIdx] = _.extend(dData, rowData);
-            self.tmpCUD.dt_deleteData[dIdx]["mnRowData"] = rowData;
+        _.each(this.tmpCUD.deleteData, function (dData, dIdx) {
+            self.tmpCUD.deleteData[dIdx] = _.extend(dData, rowData);
+            self.tmpCUD.deleteData[dIdx]["mnRowData"] = rowData;
         });
     };
 

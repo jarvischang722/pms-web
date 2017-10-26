@@ -69,7 +69,6 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.showDtDataGrid();
         },
         singleData: function (val) {
-            console.log(val);
             this.initData();
             this.fetchFieldData();
         },
@@ -197,7 +196,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     } else {
                         alert(result.errorMsg);
                     }
-
+                    self.showDtDataGrid();
                 });
             }
             //編輯的狀況
@@ -212,11 +211,10 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         console.log(result.errorMsg);
                     }
-
+                    self.showDtDataGrid();
                 });
             }
 
-            self.showDtDataGrid();
         },
         showDtDataGrid: function () {
             this.dgHoatelDt = new DatagridBaseClass();
@@ -300,13 +298,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                     postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
                     if (this.createStatus) {
-                        vm.tmpCud.createData.push(postRowData);
+                        vm.tmpCud.createData = [postRowData];
                         vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
                         vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
                     else if (this.editStatus) {
-                        vm.tmpCud.updateData.push(postRowData);
+                        vm.tmpCud.updateData = [postRowData];
                         vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
                         vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
@@ -586,7 +584,7 @@ var vm = new Vue({
                 }
                 $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
                     if (result.success) {
-                        $('#' + self.dgName).datagrid('deleteRow', $('#' + self.dgName).datagrid('getRowIndex', delRow));
+                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
                         self.doSaveCud();
                     }
                     else {
@@ -656,8 +654,11 @@ var vm = new Vue({
                 tmpCUD: this.tmpCud
             }
             console.log(lo_params);
-            //success
-            this.initTmpCUD();
+            $.post("/api/gateway/doOperationSingleSave", lo_params, function (result){
+               if(result.success){
+                   alert("Successs");
+               }
+            });
         }
     }
 });
