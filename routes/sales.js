@@ -25,5 +25,15 @@ module.exports = function (app) {
     app.get('/sales/PMS0620050', middles, salesCrtl.getPMS0620050);
 
     //[PMS0860060_業務員組別設定] 取得業務員多筆
-    app.post("/api/sales/qrySalesMn", apiMiddles, salesCrtl.qrySalesMn);
+    app.post("/api/sales/qrySalesMn", apiMiddles,salesCrtl.qrySalesMn);
+
+    //[PMS0620020_業務員資料編輯] 取得業務員單筆欄位
+    app.post("/api/sales/qrySingleGridFieldData_PM0620020", apiMiddles,salesCrtl.qrySingleGridFieldData_PM0620020);
+
+    //[PMS0620020_業務員資料編輯] 取得業務員單筆資料
+    app.post("/api/sales/qrySalesMn_PM0620020", apiMiddles, salesCrtl.qrySalesMn_PM0620020);
+
+    //[PMS0620020_業務員] 新增按鈕規則驗證
+    app.post("/api/sales/addFuncRule_PMS0620020",apiMiddles, salesCrtl.addFuncRule_PMS0620020);
+
 };

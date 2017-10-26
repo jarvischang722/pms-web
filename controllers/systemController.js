@@ -172,6 +172,13 @@ exports.execSQLProcess = function (req, res) {
     });
 };
 
+/**
+ * 執行作業sql 程序
+ */
+exports.execOperationSQL = function(req, res){
+
+}
+
 // 上傳檔案
 exports.uploadFile = function (req, res) {
     uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {

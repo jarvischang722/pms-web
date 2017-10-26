@@ -1170,7 +1170,6 @@ var vm = new Vue({
                     if (result.success) {
                         vm.singleData = result.defaultValues;
                         vm.showSingleGridDialog();
-                        vmHub.$emit('showDtDataGrid', []);
                     } else {
                         alert(result.errorMsg);
                     }
