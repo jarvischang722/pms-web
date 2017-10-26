@@ -4418,6 +4418,10 @@ a {
   text-align: center;
 }
 
+.grayDisable {
+  color: #a2a2a2;
+}
+
 .btn-sm-font {
   padding: 3px 9px;
   font-size: 12px;
@@ -4430,15 +4434,29 @@ a {
 }
 
 .btn-gray {
-  padding: 3px 9px;
-  background-color: #ebebeb !important;
-  border: 1px solid #ebebeb !important;
-  color: #929292 !important;
+  font-weight: 300;
+  text-shadow: none;
 }
-.btn-gray:hover {
+.btn-gray.btn.disabled, .btn-gray.btn[disabled] {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
-  color: #929292 !important;
+  color: #a2a2a2 !important;
+}
+.btn-gray.btn.disabled:hover, .btn-gray.btn[disabled]:hover {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+
+.btn_secStage {
+  border: 1px solid #888 !important;
+  box-shadow: 1px 1px #848484 !important;
+}
+.btn_secStage:hover {
+  background: #eee !important;
+}
+.btn_secStage span {
+  color: #888;
 }
 
 .space-6 {
@@ -5032,17 +5050,6 @@ select {
   background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
-}
-
-.btn_secStage {
-  border: 1px solid #888 !important;
-  box-shadow: 1px 1px #848484 !important;
-}
-.btn_secStage:hover {
-  background: #eee !important;
-}
-.btn_secStage span {
-  color: #888;
 }
 
 /*-------------- responsive -------------- */
