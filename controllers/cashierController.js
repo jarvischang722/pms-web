@@ -3,6 +3,7 @@ let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 let roleFuncSvc = require("../services/RoleFuncService");
 let fs = require("fs");
 let path = require('path');
+let async = require("async");
 let appRootDir = path.dirname(require.main.filename);
 let roleSvc = require("../services/RoleFuncService");
 let commonTools = require("../utils/CommonTools");
@@ -72,45 +73,76 @@ exports.doSavePMS0830070 = function (req, res) {
 };
 
 /**
- * 取得虛擬帳單項目設定>單筆
+ * 取得虛擬帳單項目設定 單筆資料
  */
-exports.qryPMS0830070SingleMn = function (req, res) {
-    var params = {
+exports.qryPMS0830070SingleData = function(req, res){
+    var lo_params = {
         athena_id: req.session.user.athena_id,
         hotel_cod: req.session.user.hotel_cod,
-        adjfolio_cod: req.body.adjfolio_cod.trim()
+        adjfolio_cod: req.body.adjfolio_cod
     };
-    queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), params, function (err, routeDt) {
-        res.json({success: true, routeDt: routeDt});
+
+    async.parallel([
+        function(cb){
+            queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), lo_params, function (err, mnData) {
+                cb(null, mnData);
+            });
+        },
+        function(cb){
+            queryAgent.queryList("QRY_HC_ADJFOLIO_DT", lo_params, 0, 0, function (err, dtData) {
+                cb(null, dtData);
+            });
+        }
+    ], function(err, result){
+        res.json({success: true, mnData: result[0], dtData: result[1]});
     });
+
+
+
 };
+
+/**
+ * 取得虛擬帳單項目設定>單筆
+ */
+// exports.qryPMS0830070SingleMn = function (req, res) {
+//     var params = {
+//         athena_id: req.session.user.athena_id,
+//         hotel_cod: req.session.user.hotel_cod,
+//         adjfolio_cod: req.body.adjfolio_cod.trim()
+//     };
+//     queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), params, function (err, routeDt) {
+//         res.json({success: true, routeDt: routeDt});
+//     });
+// };
 
 /**
  * 取得虛擬帳單項目設定>單筆>DT
  */
-exports.qryPMS0830070SingleDt = function (req, res) {
-
-    queryAgent.queryList("QRY_HC_ADJFOLIO_DT", {
-        athena_id: req.session.user.athena_id,
-        hotel_cod: req.session.user.hotel_cod,
-        adjfolio_cod: req.body.adjfolio_cod
-    }, 0, 0, function (err, routeDtList) {
-        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
-    });
-};
+// exports.qryPMS0830070SingleDt = function (req, res) {
+//
+//     queryAgent.queryList("QRY_HC_ADJFOLIO_DT", {
+//         athena_id: req.session.user.athena_id,
+//         hotel_cod: req.session.user.hotel_cod,
+//         adjfolio_cod: req.body.adjfolio_cod
+//     }, 0, 0, function (err, routeDtList) {
+//         res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+//     });
+// };
 
 /**
  * 取得虛擬帳單項目設定>單筆>DT2
  */
 exports.qryPMS0830070SingleDt2 = function (req, res) {
-
-    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", {
-        athena_id: req.session.user.athena_id,
-        hotel_cod: req.session.user.hotel_cod,
+    let lo_userInfo = req.session.user;
+    let lo_params = {
+        athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod,
         seq_nos: req.body.seq_nos,
         adjfolio_cod: req.body.adjfolio_cod
-    }, 0, 0, function (err, routeDtList) {
-        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    };
+
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", lo_params, 0, 0, function (err, routeDtList) {
+        res.json({success: true, dt2Data: commonTools.trimObjectAllVal(routeDtList)});
     });
 };
 
@@ -119,12 +151,15 @@ exports.qryPMS0830070SingleDt2 = function (req, res) {
 */
 exports.qryPMS0830070SingleAllDt2 = function (req, res) {
 
-    queryAgent.queryList("QRY_HC_ADJFOLIO_ALL_DT2", {
-        athena_id: req.session.user.athena_id,
-        hotel_cod: req.session.user.hotel_cod,
+    let lo_userInfo = req.session.user;
+    let lo_params = {
+        athena_id: lo_userInfo.athena_id,
+        hotel_cod: lo_userInfo.hotel_cod,
         adjfolio_cod: req.body.adjfolio_cod
-    }, 0, 0, function (err, routeDtList) {
-        res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
+    };
+
+    queryAgent.queryList("QRY_HC_ADJFOLIO_ALL_DT2", lo_params, 0, 0, function (err, dt2Data) {
+        res.json({success: true, dt2Data: commonTools.trimObjectAllVal(dt2Data)});
     });
 };
 

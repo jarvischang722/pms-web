@@ -29,10 +29,13 @@ module.exports = function(app  ) {
     app.post('/api/doSavePMS0830080', cashierCrtl.doSavePMS0830080);
     //儲存
     app.post('/api/doSavePMS0830070', cashierCrtl.doSavePMS0830070);
+
+    //取得單筆資料
+    app.post("/api/qryPMS0830070SingleData", cashierCrtl.qryPMS0830070SingleData);
     //取得單筆
-    app.post('/api/qryPMS0830070SingleMn', cashierCrtl.qryPMS0830070SingleMn);
+    // app.post('/api/qryPMS0830070SingleMn', cashierCrtl.qryPMS0830070SingleMn);
     //取得DT
-    app.post('/api/qryPMS0830070SingleDt', cashierCrtl.qryPMS0830070SingleDt);
+    // app.post('/api/qryPMS0830070SingleDt', cashierCrtl.qryPMS0830070SingleDt);
     //取得DT2
     app.post('/api/qryPMS0830070SingleDt2', cashierCrtl.qryPMS0830070SingleDt2);
     //取得DT的DT

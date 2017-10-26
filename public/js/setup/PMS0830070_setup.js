@@ -35,17 +35,19 @@ var Pms0830070Comp = Vue.extend({
     },
     methods: {
         //點擊明細跳窗
-        btnDt4Dt: function (index, itemName) {
+        openDt2: function (index, itemName) {
 
             if (itemName != "") {
-                this.getSingleDtAll2();
-                this.getSingleDt2(index);
-                this.openDetail4Detail(index);
-                this.showDialogServerItem();
-            } else {
+            //     this.getSingleDtAll2();
+            //     this.getSingleDt2(index);
+            //     this.openDetail4Detail(index);
+            //     this.showDialogServerItem();
+            }
+            else {
                 alert("請輸入帳單明細");
             }
         },
+
         openDetail4Detail: function (index) {
             var self = this;
             var singleData = PMS0830070VM.singleData;
@@ -81,59 +83,55 @@ var Pms0830070Comp = Vue.extend({
                 self.adjfolioDataItem = response.routeDtList;
             });
         },
+
         //Show Dt的Dt
         showDialogServerItem: function () {
             this.dialogServiceItemVisible = true;
         },
+
         changeDtInfo: function (data) {
             alert(data);
         },
-        //點擊Dt
-        clickDt: function (index) {
-            this.getSingleDt2(index);
-        },
-        //點擊Dt跳Dt2
-        getSingleDt2: function (index) {
+
+        //查詢此筆dt2資料
+        qrySingleDt2: function (index) {
             var self = this;
             var params = {
-                athena_id: self.singleData.athena_id,
-                hotel_cod: self.singleData.hotel_cod,
                 seq_nos: index,
-                adjfolio_cod: self.singleData.adjfolio_cod
+                adjfolio_cod: this.singleData.adjfolio_cod
             };
 
             $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
-                if (PMS0830070VM.singleData4DetialTmp.length > 0) {
-                    _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                        if (typeof row != "undefined") {
-                            if (row.seq_nos == index && row.checking == "true") {
-                                response.routeDtList.push(row);
-                            } else if (row.seq_nos == index && row.checking == "false" && row.checked == "true") {
-                                response.routeDtList.splice(detailIndex, 1);
-                            }
-                        }
-                    });
-                }
-                self.singleDataDt2 = response.routeDtList;
+                // if (PMS0830070VM.singleData4DetialTmp.length > 0) {
+                //     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
+                //         if (typeof row != "undefined") {
+                //             if (row.seq_nos == index && row.checking == "true") {
+                //                 response.routeDtList.push(row);
+                //             } else if (row.seq_nos == index && row.checking == "false" && row.checked == "true") {
+                //                 response.routeDtList.splice(detailIndex, 1);
+                //             }
+                //         }
+                //     });
+                // }
+                self.singleDataDt2 = response.dt2Data;
             });
         },
 
-        //點擊Dt"..."需撈取所有detail資料
+        //點擊Dt"..."需撈取所有dt2資料
         getSingleDtAll2: function () {
             var self = this;
             var params = {
-                athena_id: self.singleData.athena_id,
-                hotel_cod: self.singleData.hotel_cod,
-                adjfolio_cod: self.singleData.adjfolio_cod
+                adjfolio_cod: this.singleData.adjfolio_cod
             };
 
             $.post('/api/qryPMS0830070SingleAllDt2', params, function (response) {
-                _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                    response.routeDtList.push(row);
-                });
-                self.singleDataAll2 = response.routeDtList;
+                // _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
+                //     response.routeDtList.push(row);
+                // });
+                self.singleDataAll2 = response.dt2Data;
             });
         },
+
         //新增明細
         btnAddDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
@@ -163,6 +161,7 @@ var Pms0830070Comp = Vue.extend({
                 alert("請輸入代號");
             }
         },
+
         clickDeleteDt: function () {
             console.log(this.deleteDtTmp);
             // var singleDataDtInfo = PMS0830070VM.singleDataDt;
@@ -190,6 +189,7 @@ var Pms0830070Comp = Vue.extend({
             //     }
             // });
         },
+
         //刪除明細
         btnDeleteDtDetail: function () {
             var singleData = PMS0830070VM.singleData;
@@ -286,6 +286,7 @@ var Pms0830070Comp = Vue.extend({
         chkAdjfolioData: function (index, status) {
             this.adjfolioDataItem[index]["checking"] = status == "false" ? "true" : "false";
         },
+
         //勾選的選項暫存
         saveDt2Dt: function () {
 
@@ -360,7 +361,7 @@ var PMS0830070VM = new Vue({
         searchCond: {}   //搜尋條件
     },
     mounted: function () {
-        this.getRouteData();
+        this.loadDataGridByPrgID();
     },
     watch: {
         pageOneFieldData: function () {
@@ -376,14 +377,20 @@ var PMS0830070VM = new Vue({
             this.dgIns.init(this.p, "PMS0830070_dg", colOption, this.pageOneFieldData, {singleSelect: false});
         },
 
-        //撈多筆
-        getRouteData: function () {
-            $.post('/api/prgDataGridDataQuery', {prg_id: gs_prg_id, searchCond: this.searchCond})
-                .done(function (response) {
-                    PMS0830070VM.searchFields = response.searchFields;
-                    PMS0830070VM.pageOneDataGridRows = response.dataGridRows;
-                    PMS0830070VM.pageOneFieldData = response.fieldData;
-                });
+        //抓取顯示資料
+        loadDataGridByPrgID: function (callback) {
+
+            if(_.isUndefined(callback)){
+                callback = function(){};
+            }
+
+            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, searchCond: this.searchCond}, function (result) {
+                waitingDialog.hide();
+                PMS0830070VM.searchFields = result.searchFields;
+                PMS0830070VM.pageOneDataGridRows = result.dataGridRows;
+                PMS0830070VM.pageOneFieldData = result.fieldData;
+                callback(result.success);
+            });
         },
 
         //新增單筆
@@ -426,29 +433,14 @@ var PMS0830070VM = new Vue({
 
         //取得單筆
         fetchSingleData: function (editingRow) {
+            var self = this;
             this.isCreateStatus = false;
             this.isEditStatus = true;
-            this.editingRow["prg_id"] = gs_prg_id;
-            $.post('/api/qryPMS0830070SingleMn', editingRow)
+            $.post('/api/qryPMS0830070SingleData', editingRow)
                 .done(function (response) {
-                    PMS0830070VM.singleData = response.routeDt;
-                });
-
-            this.getSingleGridData(editingRow);
-        },
-
-        //取得單筆Dt
-        getSingleGridData: function (editingRow) {
-            this.getSingleGridDataDt(editingRow);
-            //this.getSingleGridData2(editingRow);
-            this.openRouteDialog();
-        },
-
-        //取的單筆Dt(要共用)
-        getSingleGridDataDt(editingRow) {
-            $.post('/api/qryPMS0830070SingleDt', editingRow)
-                .done(function (response) {
-                    PMS0830070VM.singleDataDt = response.routeDtList;
+                    PMS0830070VM.singleData = response.mnData;
+                    PMS0830070VM.singleDataDt = response.dtData;
+                    self.openRouteDialog();
                 });
         },
 
@@ -493,27 +485,13 @@ var PMS0830070VM = new Vue({
                         PMS0830070VM.closeRouteDialog();
                     }
                     alert("save success!");
-                    self.getRouteData();
+                    self.loadDataGridByPrgID();
                 } else {
                     alert("save error!");
                 }
 
             });
 
-        },
-
-        //抓取顯示資料
-        loadDataGridByPrgID: function (callback) {
-            $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id}, function (result) {
-                waitingDialog.hide();
-                PMS0830070VM.pageOneDataGridRows = result.dataGridRows;
-                PMS0830070VM.pageOneFieldData = result.fieldData;
-                callback(result.success);
-            });
-            var params = {
-                adjfolio_cod: PMS0830070VM.singleData.adjfolio_cod
-            }
-            this.getSingleGridDataDt(params);
         },
 
         combineSQLData: function () {
