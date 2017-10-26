@@ -16,15 +16,15 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Sales ID</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_cod"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>Name</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_nam"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>Team</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.class_cod"/>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                         <li>
                                             <div class="" data-rel="tooltip" data-placement="bottom"
                                                  title="查詢">
-                                                <div class="icon-reStyle icon-co-14"></div>
+                                                <div class="icon-reStyle icon-co-14" @click="doSearch"></div>
                                             </div>
                                         </li>
                                         <li>
@@ -58,35 +58,36 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Hotel</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <select class="input-medium medium-c1" v-model="searchCond.hotel_sales">
+                                            <option value="y">Yes</option>
+                                            <option value="N">No</option>
+                                            <option value="all">All</option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
                                         <label>F&B</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <select class="input-medium medium-c1" v-model="searchCond.bq_sales">
+                                            <option value="y">Yes</option>
+                                            <option value="N">No</option>
+                                            <option value="all">All</option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
                                         <label>Membership</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <select class="input-medium medium-c1" v-model="searchCond.member_sales">
+                                            <option value="y">Yes</option>
+                                            <option value="N">No</option>
+                                            <option value="all">All</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Status</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Q:離職</option>
-                                            <option value="2">N:在職</option>
+                                        <select class="input-medium medium-c1" v-model="searchCond.status_cod">
+                                            <option value="Q">Q:離職</option>
+                                            <option value="N">N:在職</option>
+                                            <option value="all">All</option>
                                         </select>
                                     </div>
                                 </div>

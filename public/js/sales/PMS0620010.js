@@ -478,7 +478,15 @@ var vm = new Vue({
         classHSDataGridRows: [],            // PMS0620020 組別異動紀錄(多筆)欄位
         classHSFieldData: [],               // PMS0620020 組別異動紀錄(多筆)資料
         searchFields: [],
-        searchCond: {},
+        searchCond: {
+            sales_cod: "",
+            sales_nam: "",
+            class_cod: "",
+            hotel_sales: "all",
+            bq_sales: "all",
+            member_sales: "all",
+            status_cod: "all"
+        },
         dialogVisible: false,
         dgIns: {},
         editingRow: {},
@@ -554,6 +562,25 @@ var vm = new Vue({
             vm.dgIns = new DatagridSingleGridClass();
             vm.dgIns.init("PMS0620010", "PMS0620010_dg", EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
+        },
+        doSearch: function () {
+            var lo_searcgCond = _.clone(this.searchCond);
+
+            lo_searcgCond = _.pick(lo_searcgCond, function (val) {
+                return val != "all";
+            });
+
+            lo_searcgCond = _.pick(lo_searcgCond, function (val) {
+                return val != "";
+            });
+
+            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010", searchCond: lo_searcgCond }, function (result) {
+                vm.searchFields = result.searchFields;
+                vm.pageOneDataGridRows = result.dataGridRows;
+                vm.pageOneFieldData = result.fieldData;
+                vm.showDataGrid();
+            });
+
         },
         appendRow: function () {
             this.initTmpCUD();

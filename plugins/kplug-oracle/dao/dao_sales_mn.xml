@@ -27,9 +27,17 @@
     <dao name="QRY_SALES_MN_ORDER_BY_SALE_COD_AND_DECODE_STATUS_COD">
         <statement><![CDATA[
         SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS  FROM  SALES_MN
-        WHERE  ATHENA_ID = :athena_id ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD
+        WHERE  ATHENA_ID = :athena_id
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="2" condition="trim(SALES_COD) = trim(:SALES_COD) ">sales_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(SALES_NAM) = trim(:SALES_NAM) ">sales_nam</parameter>
+        <parameter type="string" kind="2" condition="trim(STATUS_COD) = trim(:STATUS_COD) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(CLASS_COD) = trim(:CLASS_COD) ">class_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(HOTEL_SALES) = trim(:HOTEL_SALES) ">hotel_sales</parameter>
+        <parameter type="string" kind="2" condition="trim(BQ_SALES) = trim(:BQ_SALES) ">bq_sales</parameter>
+        <parameter type="string" kind="2" condition="trim(MEMBER_SALES) = trim(:MEMBER_SALES) ">member_sales</parameter>
+        <orderby>ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
     </dao>
 
     <!--[PMS0620020] 取得業務員sales_mn-->
