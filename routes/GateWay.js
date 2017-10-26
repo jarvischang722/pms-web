@@ -14,7 +14,9 @@ module.exports = function (app) {
     /** 上傳房型圖片**/
     app.post('/api/gateway/uploadRoomTypePic',middles, gateWayCrtl.uploadRoomTypePic);
 
+    /** 作業多筆儲存 **/
     app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationDgSave);
 
+    /** 作業單筆儲存 **/
     app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationSingleSave);
 };
