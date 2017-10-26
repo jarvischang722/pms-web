@@ -33,4 +33,6 @@ module.exports = function(app  ) {
 
     app.post("api/execOperationSQL", middles, systCrtl.execOperationSQL);
 
+    app.post("api/execOperationSQL", middles, systCrtl.execOperationSQL);
+
 };

@@ -507,9 +507,10 @@ var vm = new Vue({
             };
         },
         loadDataGridByPrgID: function () {
-            var parms =  ;
+
 
             $.post("/api/prgDataGridDataQuery", _.extend( {prg_id: "PMS0620010"},onk), function (result) {
+            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010"}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
