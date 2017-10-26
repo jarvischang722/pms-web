@@ -23,7 +23,7 @@ var Pms0830070Comp = Vue.extend({
             dialogServiceItemVisible: false,
             adjfolioDataItem: {},
             singleDataDt2: {},
-            singleDataAll2: {},
+            dt2AllData: {},
             deleteDtTmp: []
         };
     },
@@ -57,7 +57,7 @@ var Pms0830070Comp = Vue.extend({
                 _.each(response.routeDtList, function (dt4DtRow, dt4DtIndex) {
                     response.routeDtList[dt4DtIndex]["seq_nos"] = index;
                     //取得此代號的項目
-                    _.each(self.singleDataAll2, function (allDtRow, idx) {
+                    _.each(self.dt2AllData, function (allDtRow, idx) {
                         if (dt4DtRow["item_nos"] == allDtRow["item_nos"]) {
                             response.routeDtList[dt4DtIndex]["checked"] = "true";
                             response.routeDtList[dt4DtIndex]["checking"] = "true";
@@ -114,21 +114,6 @@ var Pms0830070Comp = Vue.extend({
                 //     });
                 // }
                 self.singleDataDt2 = response.dt2Data;
-            });
-        },
-
-        //點擊Dt"..."需撈取所有dt2資料
-        getSingleDtAll2: function () {
-            var self = this;
-            var params = {
-                adjfolio_cod: this.singleData.adjfolio_cod
-            };
-
-            $.post('/api/qryPMS0830070SingleAllDt2', params, function (response) {
-                // _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                //     response.routeDtList.push(row);
-                // });
-                self.singleDataAll2 = response.dt2Data;
             });
         },
 
@@ -345,6 +330,7 @@ var PMS0830070VM = new Vue({
         singleDataDt: {},
         singleDataDtEdit4DeleteTmp: [],
         singleData4DetialTmp: [],
+        dt2AllData: [],
         dgIns: {},
         tmpCUD: {
             createData: {},
@@ -442,6 +428,21 @@ var PMS0830070VM = new Vue({
                     PMS0830070VM.singleDataDt = response.dtData;
                     self.openRouteDialog();
                 });
+        },
+
+        //點擊Dt"..."需撈取所有dt2資料
+        qryDt2AllData: function () {
+            var self = this;
+            var params = {
+                adjfolio_cod: this.singleData.adjfolio_cod
+            };
+
+            $.post('/api/qryPMS0830070SingleAllDt2', params, function (response) {
+                // _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
+                //     response.routeDtList.push(row);
+                // });
+                self.dt2AllData = response.dt2Data;
+            });
         },
 
         //開起單筆頁
