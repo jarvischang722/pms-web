@@ -686,11 +686,17 @@ function combineDtCreateEditExecData(rfData, callback) {
 
 //依事件時間(event_time)調整儲存順序
 function sortByEventTime(data, callback) {
-    console.log(go_saveExecDatas);
+    var lo_reformatExecDatas = {};
     var lo_saveExecDatasSorted = _.sortBy(_.values(go_saveExecDatas), function (lo_saveExecData) {
         return moment(new Date(lo_saveExecData.event_time)).format("YYYY/MM/DD HH:mm:ss");
     });
-    callback(null, lo_saveExecDatasSorted);
+
+    _.each(lo_saveExecDatasSorted, function(lo_data, index){
+        index++;
+        lo_reformatExecDatas[index] = lo_data;
+    });
+
+    callback(null, lo_reformatExecDatas);
 }
 
 //轉換為API格式

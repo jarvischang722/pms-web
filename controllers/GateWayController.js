@@ -34,18 +34,10 @@ exports.uploadRoomType = function (req, res) {
 };
 
 /**
- * 儲存作業(多筆)
+ * 儲存作業
  */
-exports.doOperationDgSave = function (req, res) {
+exports.doOperationSave = function (req, res) {
     req.body.page_id = req.body.page_id || 1;
-    doOperationProc(req, res);
-};
-
-/**
- * 儲存作業(單筆)
- */
-exports.doOperationSingleSave = function(req, res){
-    req.body.page_id = req.body.page_id || 2;
     doOperationProc(req, res);
 };
 

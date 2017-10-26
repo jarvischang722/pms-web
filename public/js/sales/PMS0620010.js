@@ -310,12 +310,11 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
 
-                    vm.doSaveCud();
+                    vm.doSaveCud("PMS0620020", 1);
 
-                    // this.dgHoatelDt.initTmpCUD();
+
                 }
             }
-
 
         },
         //轉換checkbox值
@@ -585,7 +584,7 @@ var vm = new Vue({
                 $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
                     if (result.success) {
                         $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                        self.doSaveCud();
+                        self.doSaveCud("PMS0620010", 1);
                     }
                     else {
                         alert(result.errorMsg);
@@ -647,16 +646,19 @@ var vm = new Vue({
             });
             dialog.dialog("open");
         },
-        doSaveCud: function(){
+        doSaveCud: function(prg_id, page_id){
             var lo_params = {
-                prg_id: "PMS0620020",
-                page_id: 1,
+                prg_id: prg_id,
+                page_id: page_id,
                 tmpCUD: this.tmpCud
             }
-            console.log(lo_params);
-            $.post("/api/gateway/doOperationSingleSave", lo_params, function (result){
+
+            $.post("/api/gateway/doOperationSave", lo_params, function (result){
                if(result.success){
                    alert("Successs");
+               }
+               else{
+                   alert("Fail");
                }
             });
         }
