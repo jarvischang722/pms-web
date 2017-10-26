@@ -286,6 +286,62 @@
         });
 
         /***
+         * PMS0310030 已結帳處理(Settlemented)
+         */
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 帳單Email (cashier_billEmail)
+        $(document).on('click', ".cashier_billEmail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_billEmail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "帳單Email",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                height: 400,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 發票明細 (cashier_invoiceDetail)
+        $(document).on('click', ".cashier_invoiceDetail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_invoiceDetail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "發票明細",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: 400,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        // 彈出 PMS0310030 Settlemented > 明細 > 付款明細 (cashier_paymentDetail)
+        $(document).on('click', ".cashier_paymentDetail", function (e) {
+            e.preventDefault();
+            var dialog = $("#cashier_paymentDetail-message").removeClass('hide').dialog({
+                modal: true,
+                title: "付款明細",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+
+        /***
          * dataGrid
          */
 
@@ -297,7 +353,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_openCashAccDg.json',
+            url: '/jsonData/cashier/cashier_openCashAccDg.json',
             method: 'get',
             columns: [[
                 {field: 'rmNo', title: 'Rm No.', width: 80},
@@ -372,7 +428,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_FX.json',
+            url: '/jsonData/cashier/cashier_FX.json',
             method: 'get',
             columns: [[
                 {field: 'exchangeMemoNo', title: '水單號碼', width: 100},
@@ -396,7 +452,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_GstLedgerMulti.json',
+            url: '/jsonData/cashier/cashier_GstLedgerMulti.json',
             method: 'get',
             columns: [[
                 {field: 'roomNum', title: 'Room Num.', width: 60},
@@ -420,7 +476,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_GstLedgerSgl01.json',
+            url: '/jsonData/cashier/cashier_GstLedgerSgl01.json',
             method: 'get',
             columns: [[
                 {field: 'consumeDate', title: '1.消費日期', width: 100},
@@ -447,7 +503,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/cashier_GstLedgerSgl02.json',
+            url: '/jsonData/cashier/cashier_GstLedgerSgl02.json',
             method: 'get',
             columns: [[
                 {field: 'consumeDate', title: '2.消費日期', width: 100},
@@ -477,7 +533,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/PMS0310030_InHouse.json',
+            url: '/jsonData/cashier/PMS0310030_InHouse.json',
             method: 'get',
             columns: [[
                 {field: 'roomNum', title: '房號', width: 50},
@@ -508,7 +564,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/PMS0310030_Co.json',
+            url: '/jsonData/cashier/PMS0310030_Co.json',
             method: 'get',
             columns: [[
                 {field: 'roomNum', title: '房號', width: 50},
@@ -538,7 +594,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/PMS0310030-customer.json',
+            url: '/jsonData/cashier/PMS0310030-customer.json',
             method: 'get',
             columns: [[
                 {field: 'reset', title: '還原', width: 40},
@@ -559,7 +615,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/PMS0310030-customerDetail.json',
+            url: '/jsonData/cashier/PMS0310030-customerDetail.json',
             method: 'get',
             columns: [[
                 {field: 'consumeDate', title: '消費日期', width: 100},

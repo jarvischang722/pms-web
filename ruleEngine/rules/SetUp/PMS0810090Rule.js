@@ -55,11 +55,13 @@ module.exports = {
                                 if (guestData.guest_count > 0) {
                                     isUsed = true;
                                     callback(isUsed, []);
-                                } else {
+                                }
+                                else {
                                     isUsed = false;
                                     callback(isUsed, []);
                                 }
-                            } else {
+                            }
+                            else {
                                 callback(err, []);
                             }
                         });
@@ -122,43 +124,22 @@ module.exports = {
                             }
                         });
                     }
-                    //因SD有變，這個不做檢查
-                    // },
-                    // function (data, callback) {
-                    //     queryAgent.query("CHK_HOTEL_SVAL_MN_IS_EXIST_ORDER_MN".toUpperCase(), params, function (err, guestData) {
-                    //         if (!err) {
-                    //             if (data != false) {
-                    //                 if (guestData.hotel_sval_mn_count > 0) {
-                    //                     isUsed = true;
-                    //                     callback(isUsed, []);
-                    //                 } else {
-                    //                     isUsed = false;
-                    //                     callback(isUsed, []);
-                    //                 }
-                    //             } else {
-                    //                 callback(isUsed, []);
-                    //             }
-                    //         } else {
-                    //             callback(err, []);
-                    //         }
-                    //     })
-                    // }
                 ], function (errMsg, result) {
                     if (errMsg) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        if (errMsg == true)
-                            {lo_error.errorMsg = "已使用此類別，不可刪除";}
-                        else
-                            {lo_error.errorMsg = errMsg;}
-
-                        lo_error.errorCod = "1111";
+                        if (errMsg == true) {
+                            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg15", session.locale);
+                        }
+                        else {
+                            lo_error.errorMsg = errMsg;
+                        }
                         callback(lo_error, lo_result);
 
-                    } else {
+                    }
+                    else {
                         callback(lo_error, lo_result);
                     }
-
                 });
             }
         );

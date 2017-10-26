@@ -4,6 +4,7 @@
  */
 
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -82,6 +83,7 @@ module.exports = {
         }
 
         function chkBeginAndEndDat(rent_cal_dat, cb) {
+            let ls_errMsg = "";
             let lo_beginDat = "";
             let lo_endDat = "";
             rent_cal_dat = new Date(rent_cal_dat);
@@ -101,45 +103,53 @@ module.exports = {
 
             // 判斷修改時，小於滾房租日不能修改
             if (postData.rowData.createRow != "Y" && postData.oldValue == "") {
-                if (lo_endDat != "" || lo_beginDat != "") {
+                if (lo_endDat != "") {
                     // 2) 判斷結束日與滾房租日，不能修改
                     if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
                         if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
                             lb_end_dat_enable = true;
                         }
+                        ls_errMsg = commandRules.getMsgByCod("pms82msg18", session.locale);
+                        return cb(false, ls_errMsg);
                     }
+                }
+
+                if (lo_beginDat != "") {
                     // 3) 判斷開始日與滾房租日，不能修改
                     if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
                         if (moment(new Date(lo_oldValue)).diff(moment(rent_cal_dat), "days") < 0) {
                             lb_begin_dat_enable = true;
                         }
+                        ls_errMsg = commandRules.getMsgByCod("pms82msg17", session.locale);
+                        return cb(false, ls_errMsg);
                     }
-                    return cb(false, "開始日不可小於滾房租日");
                 }
             }
 
             // 2) 判斷結束日與滾房租日
             if (lo_endDat != "") {
                 if (lo_endDat.diff(moment(rent_cal_dat), "days") < 0) {
-                    return cb(true, "結束日不可小於滾房租日");
+                    ls_errMsg = commandRules.getMsgByCod("pms82msg18", session.locale);
+                    return cb(true, ls_errMsg);
                 }
             }
             // 3) 判斷開始日與滾房租日
             if (lo_beginDat != "") {
                 if (lo_beginDat.diff(moment(rent_cal_dat), "days") < 0) {
-                    return cb(true, "開始日不可小於滾房租日");
+                    ls_errMsg = commandRules.getMsgByCod("pms82msg17", session.locale);
+                    return cb(true, ls_errMsg);
                 }
             }
 
             if (lo_beginDat != "" && lo_endDat != "") {
                 // 1) 判斷開始日語結束日
                 if (lo_endDat.diff(lo_beginDat) < 0) {
-                    return cb(true, "結束日期不可以早於開始日期");
+                    ls_errMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
+                    return cb(true, ls_errMsg);
                 }
 
                 // 4) 判斷區間是否重疊
                 let lb_chkOverLap;
-                let ls_repeatMsg;
                 let li_curIdx;
                 if (!_.isUndefined(postData.editRowData.key_nos)) {
                     li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editRowData.key_nos});
@@ -155,9 +165,9 @@ module.exports = {
                         lb_chkOverLap = commandRules.chkDateIsBetween(ls_begin_dat, ls_end_dat, lo_beginDat, lo_endDat);
                         if (lb_chkOverLap) {
                             let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
-                            ls_repeatMsg = "第" + (li_curIdx + 1) + "行" + lo_beginDat.format("YYYY/MM/DD") + "~" + lo_endDat.format("YYYY/MM/DD") +
-                                "與第" + (li_allRowDataIdx + 1) + "行" + moment(ls_begin_dat).format("YYYY/MM/DD") + "~" + moment(ls_end_dat).format("YYYY/MM/DD") + ",日期區間重疊";
-                            return cb(true, ls_repeatMsg);
+                            ls_errMsg = commandRules.getMsgByCod("pms82msg19", session.locale);
+                            ls_errMsg = _s.sprintf(ls_errMsg, (li_curIdx + 1), lo_beginDat.format("YYYY/MM/DD"), lo_endDat.format("YYYY/MM/DD"), (li_allRowDataIdx + 1), moment(ls_begin_dat).format("YYYY/MM/DD"), moment(ls_end_dat).format("YYYY/MM/DD"));
+                            return cb(true, ls_errMsg);
                         }
                     });
                     cb(false, "");
@@ -192,7 +202,8 @@ module.exports = {
 
         function chkSysDefault(cb) {
             if (postData.singleRowData.sys_default == "Y") {
-                return cb(true, "系統預設,不可刪除");
+                let ls_errMsg = commandRules.getMsgByCod("pms81msg18", session.locale);
+                return cb(true, ls_errMsg);
             }
             cb(null, "");
         }
@@ -205,7 +216,8 @@ module.exports = {
             };
             queryAgent.query("QRY_HFD_USE_DT_COUNT", params, function (err, qryResult) {
                 if (qryResult.item_count > 0) {
-                    return cb(true, "已使用中,不可刪除");
+                    let ls_errMsg = commandRules.getMsgByCod("pms82msg20", session.locale);
+                    return cb(true, ls_errMsg);
                 }
                 cb(null, "");
             });
@@ -227,12 +239,3 @@ module.exports = {
 
     }
 };
-
-// function chkDateIsBetween(compar_begin_dat, compar_end_dat, now_begin_dat, now_end_dat) {
-//     if(compar_begin_dat.diff(now_end_dat, "days") <= 0 && compar_end_dat.diff(now_begin_dat, "days") >= 0){
-//         return true;
-//     }
-//     else{
-//         return false;
-//     }
-// }

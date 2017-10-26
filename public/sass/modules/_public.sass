@@ -17,18 +17,20 @@
   margin: 0 !important
 .no-margin-top
   margin-top: 0 !important
-.margin-top91
+.mt-91
   margin-top: 87px
 .margin-5
   margin: 5px
 .margin-3
   margin: 3px
-.marginLeft-3
+.ml-3
   margin-left: 3px
-.marginLeft-5
+.ml-5
   margin-left: 5px
-.marginLeft-90
+.ml-90
   margin-left: 90px
+.cardDetail_margin
+  margin-top: -20px
 .height87
   height: 87px
 //border: none
@@ -149,7 +151,8 @@ a
   padding: 2px
   width: 65px
   text-align: center
-
+.grayDisable
+  color: $grayDisable
 // btn
 .btn-sm-font
   padding: 3px 9px
@@ -160,6 +163,35 @@ a
   font-size: $font-btn
   //margin-top: 1px
 // space height
+
+//<!--PMS(light) excample:"
+//    加：btn-gray disabled" "
+//    減:btn-white 原本的(ex.btn-primary)"
+//    -->
+.btn-gray
+  font-weight: 300
+  text-shadow: none
+  &.btn.disabled,&.btn[disabled]
+    //padding: 3px 9px
+    background-color: #ebebeb !important
+    border: 1px solid #ebebeb !important
+    color: $grayDisable !important
+    &:hover
+      background-color: #ebebeb !important
+      border: 1px solid #ebebeb !important
+      color: $grayDisable !important
+//第二階段btn
+//<!--
+//    加：btn_secStage 第二層加:<span></span>"
+//    -->
+.btn_secStage
+  border: 1px solid #888 !important
+  box-shadow: 1px 1px #848484 !important
+  &:hover
+    background: #eee !important
+  span
+    color: #888
+
 .space-6
   max-height: 1px
   min-height: 1px
@@ -568,11 +600,3 @@ select
   background-repeat: no-repeat !important
   cursor: pointer
 
-//第二階段btn
-.btn_secStage
-  border: 1px solid #888 !important
-  box-shadow: 1px 1px #848484 !important
-  &:hover
-    background: #eee !important
-  span
-    color: #888

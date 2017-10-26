@@ -2149,40 +2149,7 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "msg_tax1", 
-    "ui_display_name_zh_TW" : "留言內容1", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d20"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax2", 
-    "ui_display_name_zh_TW" : "留言內容2", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d21"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax3", 
-    "ui_display_name_zh_TW" : "留言內容3", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d22"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax4", 
-    "ui_display_name_zh_TW" : "留言內容4", 
+    "ui_display_name_zh_TW" : "留言內容", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
@@ -6197,7 +6164,7 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "msg_tax1", 
-    "ui_display_name_zh_TW" : "留言內容1", 
+    "ui_display_name_zh_TW" : "留言內容", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
@@ -7300,7 +7267,7 @@
     "page_id" : NumberInt(1), 
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
-    "ui_field_name" : "status_cod", 
+    "ui_field_name" : "status_cod1", 
     "ui_display_name_zh_TW" : "狀態", 
     "hint_zh_TW" : "狀態", 
     "ui_display_name_en" : "", 
@@ -7581,4 +7548,26 @@
     "hint_zh_TW" : "使用者代號(訂席用)", 
     "ui_display_name_en" : "User Id", 
     "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59e6b3b8726c3e288c220e0c"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "rmk_cod", 
+    "ui_display_name_zh_TW" : "代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Message code", 
+    "hint_en" : "Frequently used message code"
+}
+{ 
+    "_id" : ObjectId("59e6b3da726c3e288c220e0d"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax1", 
+    "ui_display_name_zh_TW" : "留言內容", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Message", 
+    "hint_en" : "Frequently used message"
 }

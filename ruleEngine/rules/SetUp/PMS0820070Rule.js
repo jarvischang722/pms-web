@@ -34,11 +34,10 @@ module.exports = {
                 if (chkResult.use_count > 0) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "已於住客歷史喜好資料中使用，不可刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms82msg22", session.locale);
                 }
-                callback(lo_error, lo_result);
             }
+            callback(lo_error, lo_result);
         });
     }
 }

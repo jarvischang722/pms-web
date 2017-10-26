@@ -305,6 +305,25 @@ exports.getIsCanUse = function () {
 };
 
 /**
+ * 取得聯絡設定是否刪除
+ * @returns {Array}
+ */
+exports.getIsCanUse = function () {
+    var useList = [
+        {
+            display: '是',
+            value: 'Y'
+        },
+        {
+            display: '否',
+            value: 'N'
+        }
+    ];
+
+    return useList;
+};
+
+/**
  * 取得需收訂金
  * @returns {Array}
  */
@@ -383,6 +402,22 @@ exports.getCashierrfUseSta = function () {
         }, {
             Y: '啟用',
             N: '不啟用'
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
+ * [PMS0620020_業務員資料編輯] 是否飯店、餐飲、會員業務
+ */
+exports.getSalesChkeckedList = function(){
+    var lo_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '是',
+            N: '否'
         }
     ];
     return lo_optionList;
@@ -629,7 +664,7 @@ exports.getHfdarriverfday = function () {
  * 搜尋AreapntSta下拉資料
  * @returns {[*,*]}
  */
-exports.searchAreapntSta = function(){
+exports.searchAreapntSta = function () {
     var la_optionList = [
         {
             display: "使用",
@@ -642,6 +677,46 @@ exports.searchAreapntSta = function(){
     ];
     return la_optionList;
 }
+
+/**
+ * PMS0620010 業務員作業
+ * 欄位 status下拉資料
+ * @returns {[*,*]}
+ */
+exports.getSalesStatus = function () {
+    var la_optionList = [
+        {
+            display: "在職",
+            value: "N"
+        },
+        {
+            display: "離職",
+            value: "Q"
+
+        }
+    ];
+    return la_optionList;
+};
+
+/**
+ * PMS0620020 業務員資料編輯
+ * 館別 欄位 status下拉資料
+ * @returns {[null,null]}
+ */
+exports.getSalesHotelDtStatus = function(){
+    var la_optionList = [
+        {
+            display: "正常",
+            value: "N"
+        },
+        {
+            display: "停用",
+            value: "X"
+
+        }
+    ];
+    return la_optionList;
+};
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -858,6 +933,46 @@ exports.qry_address_rf_ghist_use = function (params, callback) {
 };
 
 /**
+ *
+ * 業務員作業(PMS0620010)取得狀態是否在職
+ */
+exports.lang_status_cod = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getSalesStatus();
+    callback(null, lo_result);
+};
+
+/**
+ *
+ * 業務員作業(PMS0620010)取得是否飯店、餐飲、會員業務
+ **/
+exports.lang_yn = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null, lo_result);
+};
+
+/**
+ * 業務員資料編輯(PMS0620020)取得是否飯店、餐飲、會員業務
+ */
+exports.lang_yn_chkBox = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getSalesChkeckedList();
+    callback(null, lo_result);
+};
+
+/**
+ *
+ *業務員資料編輯(PMS0620020)取得狀態是否停用
+ */
+exports.lang_sales_hotel_dt_status_cod = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getSalesHotelDtStatus();
+    callback(null, lo_result);
+};
+
+
+/**
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
  */
 exports.qryCharacterrfSysdefault = function (params, callback) {
@@ -1019,30 +1134,30 @@ exports.qryHfdarriverfday = function (params, callback) {
  * PMS0820020 房間狀況
  * @param params
  */
-exports.qryRoommnRoomsta = function(params,callback){
+exports.qryRoommnRoomsta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnRoomSta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0820020 排房狀況
  * @param params
  */
-exports.qryRoommnAssignsta = function(params,callback){
+exports.qryRoommnAssignsta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnAssignSta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**
  * PMS0820020 清掃狀況
  * @param params
  */
-exports.qryRoommnCleansta = function(params,callback){
+exports.qryRoommnCleansta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.roomMnCleanSta();
-    callback(null,lo_result);
+    callback(null, lo_result);
 };
 
 /**

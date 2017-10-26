@@ -53,6 +53,7 @@
                                                    :disabled="field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
                                                    @blur="chkFieldRule(field.ui_field_name,field.rule_func_name)"
                                                    @click="chkClickPopUpGrid(field)"
+                                                   @focus="initRuleComplete(field.ui_field_name,field.rule_func_name)"
                                             >
 
                                             <!--  label -->

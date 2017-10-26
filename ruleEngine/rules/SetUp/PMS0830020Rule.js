@@ -27,9 +27,8 @@ module.exports = {
                 postData.rowData.use_typ = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
-            lo_error.errorCod = "1111";
             lo_result.success = false;
-            lo_error.errorMsg = "使用規則不能修改";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms83msg5", session.locale);
         }
         callback(lo_error, lo_result);
     },
@@ -45,9 +44,9 @@ module.exports = {
                 postData.rowData.type_nam = postData.oldValue;
                 lo_result.effectValues = postData.rowData;
             }
-            lo_error.errorCod = "1111";
             lo_result.success = false;
-            lo_error.errorMsg = "類別名稱不能修改";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms83msg6", session.locale);
+
         }
         callback(lo_error, lo_result);
     },
@@ -60,10 +59,8 @@ module.exports = {
         if(modifySta != "Y"){
             lo_result.success = false;
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "欄位modify_sta不為Y，不可刪除";
-            lo_error.errorCod = "1111";
-            callback(lo_error, lo_result);
-            return;
+            lo_error.errorMsg = commandRules.getMsgByCod("pms83msg7", session.locale);
+            return callback(lo_error, lo_result);
         }
 
         var params = {
@@ -78,8 +75,7 @@ module.exports = {
                 if (chkResult.service_count > 0) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "服務項目有使用，則不可刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms83msg8", session.locale);
                 }
                 callback(lo_error, lo_result);
             }

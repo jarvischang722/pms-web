@@ -50,6 +50,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_holiday_kind_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_holiday_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_hotel_sval_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_hotel_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_lang_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_msggtrmk_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_open_rf.xml"/>
@@ -70,8 +71,10 @@
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rvtyp_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_s99_user.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_sales_class_hs.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_class_kvrf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_sales_hotel_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_service_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_servtype_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_session.xml"/>

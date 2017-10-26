@@ -131,11 +131,13 @@ Vue.component('single-grid-pms0830100-tmp', {
                 //已經到第一筆
                 this.isFistData = true;
                 this.isLastData = false;
-            } else if ($("#PMS0830100_dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
+            }
+            else if ($("#PMS0830100_dg").datagrid('getRowIndex', newRow) == this.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFistData = false;
                 this.isLastData = true;
-            } else {
+            }
+            else {
 
                 this.isFistData = false;
                 this.isLastData = false;
@@ -344,7 +346,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                     deleteData: [self.singleData]
                 }, function (result) {
                     if (result.success) {
-                        self.deleteStatue = true;
+                        self.deleteStatus = true;
                         self.tmpCud.deleteData = [self.singleData];
                         self.doSaveGrid();
                         if (result.showAlert) {
@@ -382,7 +384,7 @@ Vue.component('single-grid-pms0830100-tmp', {
             if (this.endDtEditing()) {
                 var self = this;
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
-                if (this.deleteStatue) {
+                if (this.deleteStatus) {
                     var rowsNum = $("#PMS0830100_dg").datagrid('getRows').length;
                     var currentRowIdx = $("#PMS0830100_dg").datagrid('getRowIndex', self.editingRow); //目前索引
                     if (currentRowIdx == rowsNum - 1) {
@@ -415,7 +417,7 @@ Vue.component('single-grid-pms0830100-tmp', {
                             self.emitAppendRow();
                         }
 
-                        if (self.deleteStatue) {
+                        if (self.deleteStatus) {
                             /**
                              * 刪除成功
                              * 1.取下一筆
@@ -424,12 +426,15 @@ Vue.component('single-grid-pms0830100-tmp', {
                              **/
                             if ($("#PMS0830100_dg").datagrid('getRows').length > 0) {
                                 self.editingRow = targetRowAfterDelete;
+                                self.emitFetchSingleData();
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
+
                         }
-                        self.emitFetchSingleData(); //做完操作，重load單筆
+
+
                     }
                 });
             }
@@ -491,8 +496,9 @@ Vue.component('single-grid-pms0830100-tmp', {
             }
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            if(delRow.createRow != "Y")
+            if (delRow.createRow != "Y") {
                 PMS0830100VM.tmpCud.dt_deleteData.push(delRow);
+            }
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -679,6 +685,9 @@ var PMS0830100VM = new Vue({
             var self = this;
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: prg_id}, PMS0830100VM.tmpCud);
+
+            console.log(PMS0830100VM.tmpCud);
+            // return;
             $.post("/api/saveGridSingleData", params, function (result) {
                 if (result.success) {
                     PMS0830100VM.initTmpCUD();

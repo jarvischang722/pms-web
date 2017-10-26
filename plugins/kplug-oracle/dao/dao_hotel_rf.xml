@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!--[PMS0620010] 取得業務員館別((selectOptionList))-->
+    <dao name="QRY_HOTEL_COD">
+        <statement><![CDATA[
+        select trim(hotel_cod) as value, hotel_nam as display from hotel_rf where athena_id = :athena_id order by hotel_cod
+        ]]></statement>
+        <parameter type="number" kind="3" >athena_id</parameter>
+    </dao>
+</root>
