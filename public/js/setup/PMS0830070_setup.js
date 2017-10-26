@@ -414,7 +414,7 @@ var PMS0830070VM = new Vue({
                 modal: true,
                 title: "虛擬帳單",
                 title_html: true,
-                width: 1000,
+                width: 800,
                 maxwidth: 1920,
                 height: $(window).height(),
                 dialogClass: "test",
