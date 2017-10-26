@@ -1,7 +1,7 @@
 <script type="text/x-template" id="PMS0830070Tmp">
     <div id="PMS0830070Dialog" class="hide padding-5" style="top:0 !important;">
         <div class="businessComapnyData">
-            <div class="col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-12 margin-top10">
                 <div class="row">
                     <div class="grid-item">
                         <label>代號</label>
@@ -16,51 +16,50 @@
                 </div>
             </div>
             <!--DTandDT2-->
-            <div class="col-xs-12 col-sm-12">
-                <input id="addDtDetail" type="submit" name="addDtDetail" value="新增明細" @click="btnAddDtDetail">
-                <input id="deleteDtDetail" type="submit" name="deleteDtDetail" value="刪除明細" @click="btnDeleteDtDetail">
-            </div>
-            <div class="col-xs-12 col-sm-12">
-                <div class="col-xs-6 col-sm-6">
+            <div class="col-xs-12 col-sm-12 margin-top10">
+                <div class="col-xs-8 col-sm-8 margin-top5">
                     <div class="row">
-                        <div class="grid-item">
-                            <table id="PMS0830070_dt" class="css_table horizTable" width="100%">
+                            <table id="PMS0830070_dt" class="css_table horizTable PMS0830070_table" width="100%">
                                 <tr class="css_tr">
-                                    <th class="ccs_th">選項</th>
+                                    <th class="ccs_th width-7">選項</th>
                                     <th class="css_th">序號</th>
                                     <th class="css_th">帳單明細</th>
-                                    <th class="css_th"></th>
+                                    <th class="css_th width-7"></th>
                                 </tr>
 
                                 <tr class="css_tr" v-for="(item,index) in singleDataDt">
 
                                     <td class="css_td">
-                                        <form>
-                                            <input type="checkbox" @click="clickDeleteDt(item.seq_nos)">
-                                        </form>
+                                        <div class="checkbox float-right open-cardDetail">
+                                            <label class="no-padding-left">
+                                                <input type="checkbox"
+                                                       class="ace" @click="clickDeleteDt(item.seq_nos)"/>
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </div>
                                     </td>
 
                                     <!--<td class="css_td" contenteditable="true" @click="clickDt(item.seq_nos)" @change="changeDtInfo(item.seq_nos)" >{{item.seq_nos}}-->
                                     <td>
-                                        <input class="input-medium medium-c1" type="text" name="seqNos"  disabled
+                                        <input class="input-medium medium-c1 width-100" type="text" name="seqNos"  disabled
                                                @click="clickDt(item.seq_nos)" v-model="item.seq_nos">
                                     </td>
                                     <!--<td class="css_td" contenteditable="true" @click="clickDt(item.seq_nos)" @change="changeDtInfo(item.item_nam)">{{item.item_nam}}-->
                                     <td>
-                                        <input class="input-medium medium-c1" type="text" name="itemNnam"
+                                        <input class="input-medium medium-c1 width-100" type="text" name="itemNnam"
                                                @click="clickDt(item.seq_nos)" v-model="item.item_nam">
                                     </td>
+<td>
+    <button class="btn btn-primary btn-white btn-defaultWidth"   @click="btnDt4Dt(item.seq_nos,item.item_nam)">...</button>
 
-                                     <button   @click="btnDt4Dt(item.seq_nos,item.item_nam)">...</button>
+</td>
                                 </tr>
                             </table>
-                        </div>
                     </div>
                 </div>
-                <div class="col-xs-6 col-sm-6">
-                    <div class="row">
-                        <div class="grid-item">
-                            <table id="PMS0830070_dt2" class="css_table horizTable" width="100%">
+                <div class="col-xs-3 col-sm-3 margin-top5">
+
+                            <table id="PMS0830070_dt2" class="css_table horizTable PMS0830070_dtTable" width="100%">
                                 <tr class="css_tr">
                                     <th class="css_th">序號</th>
                                     <th class="css_th">服務項目</th>
@@ -71,18 +70,27 @@
                                     <td class="css_td">{{item.item_nos}}</td>
                                 </tr>
                             </table>
-                        </div>
+
+                </div>
+                <div class="col-xs-1 col-sm-1 margin-top5">
+                    <div class="row">
+                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                id="addDtDetail" type="submit" name="addDtDetail" value="新增明細" @click="btnAddDtDetail">新增明細
+                        </button>
+                        <button class="btn btn-primary btn-white btn-defaultWidth margin-top5"
+                                id="deleteDtDetail" type="submit" name="deleteDtDetail" value="刪除明細" @click="btnDeleteDtDetail">刪除明細
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12">
+            <div class="col-xs-12 col-sm-12 margin-top10">
                 <div id="dialgBtns">
                     <div class="singleBtnBottom">
-                        <button class="btn btn-primary btn-white"
+                        <button class="btn width-10 btn-primary btn-white btn-defaultWidth"
                                 @click="$parent.doSaveGrid()">
                             <%= __("SystemCommon").Save %>
                         </button>
-                        <button class="btn btn-primary btn-white" @click="$parent.closeGridDialog()">
+                        <button class="btn width-10 btn-primary btn-white btn-defaultWidth" @click="$parent.closeGridDialog()">
                             <%= __("SystemCommon").Leave %>
                         </button>
                     </div>
