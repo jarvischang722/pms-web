@@ -10,7 +10,7 @@ var mailSvc = require("../services/MailService");
 
 /**
  * @param {String} apiUrl : 要打API的URL
- * @param {JSON} params :　參數
+ * @param {Object} params :　參數
  * @param callback : 回調函數
  * **/
 exports.requestApi = function (apiUrl, params, callback) {
@@ -110,6 +110,24 @@ exports.checkRequireParams = function (params, checkKeys) {
     return result;
 };
 
+/**
+ * 作業資料預處理
+ * @param la_data {Array|Object} : 資料
+ * @param la_fieldAttrs {Array[Object]}  所有欄位屬性
+ */
+exports.handleOperationProcData = function (la_data, la_fieldAttrs) {
+    if (_.isArray(la_data)) {
+        _.each(la_data, function (lo_data) {
+            var la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: lo_data.tab_page_id});
+            convUtcToDate(lo_data, la_fieldAttrFilter);
+        });
+    } else if (_.isObject(la_data)) {
+        var la_fieldAttrFilter = _.where(la_fieldAttrs, {tab_page_id: la_data.tab_page_id});
+        convUtcToDate(la_data, la_fieldAttrFilter);
+    }
+
+    return la_data;
+};
 
 /**
  * 資料預處理

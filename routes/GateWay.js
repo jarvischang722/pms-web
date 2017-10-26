@@ -13,4 +13,6 @@ module.exports = function (app) {
     app.post('/api/gateway/uploadRoomType',middles, gateWayCrtl.uploadRoomType);
     /** 上傳房型圖片**/
     app.post('/api/gateway/uploadRoomTypePic',middles, gateWayCrtl.uploadRoomTypePic);
+
+    app.post("/api/gateway/doOperationSingleSave", gateWayCrtl.doOperationSingleSave);
 };

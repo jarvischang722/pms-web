@@ -29,4 +29,6 @@ module.exports = function(app  ) {
     /** 取得異動紀錄　**/
     app.post("/api/getSetupPrgChangeLog", middles, systCrtl.getSetupPrgChangeLog);　
 
+    app.post("api/execOperationSQL", middles, systCrtl.execOperationSQL);
+
 };
