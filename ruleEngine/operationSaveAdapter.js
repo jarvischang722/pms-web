@@ -252,11 +252,11 @@ function combineMainData(rfData, callback) {
                     }
                 });
                 //TODO: 暫時給session
-                go_session.user = {
-                    athena_id: 1,
-                    fun_hotel_cod: '02',
-                    usr_id: "a16010"
-                };
+                // go_session.user = {
+                //     athena_id: 1,
+                //     fun_hotel_cod: '02',
+                //     usr_id: "a16010"
+                // };
                 tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
                 go_saveExecDatas[gn_exec_seq] = tmpIns;
                 gn_exec_seq++;
@@ -468,7 +468,6 @@ function combineDtCreateEditExecData(rfData, callback) {
         _.each(ga_dtCreateData, function (data) {
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpIns = {"function": "1", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //1  新增
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
             var mnRowData = data["mnRowData"] || {};
             delete data["mnRowData"];
 
@@ -481,6 +480,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                     tmpIns[objKey] = value;
                 }
             });
+            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
 
             //塞入mn pk
             _.each(lo_fieldsData.mainKeyFields, function (keyField) {
@@ -557,6 +557,7 @@ function combineDtCreateEditExecData(rfData, callback) {
                 }
             });
 
+            data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
             tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
 
             tmpEdit.condition = [];
@@ -757,7 +758,7 @@ function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
 //endregion
 
 function qryFieldsDataByTabPageID(lo_data) {
-    let ln_tab_page_id = lo_data.tab_page_id || 1;
+    let ln_tab_page_id = Number(lo_data.tab_page_id) || 1;
     let la_mainFieldsData = _.where(ga_mainFieldsData, {tab_page_id: ln_tab_page_id}) || ga_mainFieldsData;
     let la_mainKeyFields = _.where(la_mainFieldsData, {keyable: "Y"}) || [];
     let la_dgFieldsData = _.where(ga_dgFieldsData, {tab_page_id: ln_tab_page_id}) || ga_dgFieldsData;
