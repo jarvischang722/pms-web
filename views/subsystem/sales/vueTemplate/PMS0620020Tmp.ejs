@@ -13,7 +13,7 @@
                                        :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
                                        @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                <label :style="{width:field.label_width + 'px'}" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
+                                <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
                                     <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                     <span>{{ field.ui_display_name }}</span>
                                 </label>

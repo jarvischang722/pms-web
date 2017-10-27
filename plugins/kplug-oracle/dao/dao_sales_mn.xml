@@ -56,7 +56,7 @@
     <dao name="QRY_USER_NOS_IN_SALES_MN">
         <statement><![CDATA[
         select count(*) as user_nos_count from sales_mn
-        where athena_id = :athena and trim(sales_cod)= trim(:sales_cod) and trim(user_nos) = trim(:user_nos)
+        where athena_id = :athena_id and trim(sales_cod)= trim(:sales_cod) and trim(user_nos) = trim(:user_nos)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>

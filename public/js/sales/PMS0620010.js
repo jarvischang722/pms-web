@@ -708,7 +708,7 @@ var vm = new Vue({
                 prg_id: prg_id,
                 page_id: page_id,
                 tmpCUD: this.tmpCud
-            }
+            };
 
             $.post("/api/gateway/doOperationSave", lo_params, function (result) {
                 self.loadDataGridByPrgID();

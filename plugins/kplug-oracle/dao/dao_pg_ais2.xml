@@ -58,4 +58,15 @@
         <parameter type="string" kind="3">hotel_cod</parameter>
         <parameter type="int" kind="3">athena_id</parameter>
     </dao>
+
+
+    <!--[PMS0620020] 參數: 取訂房中心滾租日-->
+    <dao name="QRY_RENT_DAT_HQ">
+        <statement><![CDATA[
+               select sf_hfd_get_rent_dat_hq( :athena_id, :hotel_cod ) as rent_dat_hq from dual
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+    </dao>
 </root>
