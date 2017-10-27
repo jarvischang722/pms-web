@@ -4,10 +4,9 @@
  * 程式名稱: 門市WEB訂單作業
  */
 
-var prg_id = $("#prg_id").val();
+var prg_id = "PSIW500030";
 
-var go_userid;  //員工編號
-
+var psiw50030_socket = io.connect('/dominos');
 //多筆
 /** DatagridRmSingleGridClass ***/
 function DatagridRmSingleGridClass() {
@@ -31,7 +30,6 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
         PSIW500030.cancelEnable = true;
         PSIW500030.saveEnable = false;
         PSIW500030.dropEnable = false;
-        PSIW500030.downloadEnable = true;
 
         //endregion
     }
@@ -47,46 +45,31 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
 };
 /*** Class End  ***/
 
-//DT
-/** DatagridRmSingleGridClass ***/
-function SingleDatagridDT() {
-}
-
-SingleDatagridDT.prototype = new DatagridBaseClass();
-SingleDatagridDT.prototype.onClickCell = function (idx, row) {};
-
-SingleDatagridDT.prototype.onClickRow = function (idx, row) {
-    console.log(row);
-    //PSIW500030.fetchSingleData(row);
-    //撈select data
-
-
-    // vm.editingRow = row;
-    // vm.editStatus = true;
-    // vm.fetchSingleData(row, function (success) {
-    //     vm.showSingleGridDialog();
-    //});
-};
-/*** Class End  ***/
-
 var PSIW500030 = new Vue({
     el: '#MainApp',
     mounted: function () {
-        if(this.verify()){
-            this.initTmpCUD();
-            this.fetchUserInfo();
-            this.loadDataGrid();
-            this.initCustSelect();
-        }else{
-            //導回首頁
-        }
+        this.fetchUserInfo();
+        this.loadDataGrid();
+        this.initCustSelect();
+        this.initSearchComp();
+        this.getSystemParam();
+    },
+    components: {
+        "search-comp": go_searchComp
     },
     data: {
-        createStatus: false,    //新增狀態
-        editStatus: false,      //編輯狀態
-        deleteStatus: false,    //刪除狀態
+        userid :"",                 //員工編號
 
-        isModificable: false,   //決定是否可以修改資料
+        isVerify :  false,            //驗證畫面切換
+        isLoading : false,          //Loading畫面切換
+
+        userInfo: {},               //登入的使用者資料
+
+        createStatus: false,        //新增狀態
+        editStatus: false,          //編輯狀態
+        deleteStatus: false,        //刪除狀態
+
+        isModificable: false,       //決定是否可以修改資料
         isModificableFormat:false,  //決定是否可以修改訂單格式
 
         addEnable: true,
@@ -96,92 +79,159 @@ var PSIW500030 = new Vue({
         cancelEnable: false,
         saveEnable: false,
         dropEnable: false,
-        downloadEnable: false,
-
-        pageOneDataGridRows: [],//page_id 1 的 datagrid資料
-        pageOneFieldData: [],   //page_id 1 datagird欄位
-        pageTwoFieldData: [],   //page_id 2 欄位
-        oriPageTwoFieldData: [],   //page_id 2 原始欄位資料
-        pageTwoDataGridFieldData: [],   //page_id 2 datagird欄位
-        pageTwoDataGridDTRows: [],//page_id 2 的 DT資料
-        oripageTwoDataGridDTRows: [], //page_id 2 的 DT2原始資料
-        pageTwoDTFieldData: [],   //page_id 2 DT欄位
-        editingRow: {},         //編輯中的資料
-        userInfo: {},            //登入的使用者資料
-        tmpCud: {               //新刪修暫存
-            createData: [],
-            editData: [],
-            deleteData: [],
-            dt_createData: [],
-            dt_editData: [],
-            dt_deleteData: []
-        },
-        originData: {},         //原始資料
-        singleData: {},         //單檔資訊
-        singleDataTemp: {},     //單檔資訊暫存
-
-        custSelectData:[],      //客戶代號下拉
-        orderSelectData:[],     //訂單格式下拉
-        statusSelectData:[{value:'N', display:'N:待核'}, {value:'C', display:'C:核准'}, {value:'O', display:'O:出貨中'}, {value:'S', display:'S:結清'}, {value:'H', display:'H:保留'}, {value:'X', display:'X:出貨完畢'}],    //狀態下拉
 
         dgIns: {},
         dgInsDT :{},
-        labelPosition: 'right',
+
+        FieldData: [],              //多筆欄位
+        DataGridRows: [],           //多筆資料
+
+        originData: {},             //原始單筆資料
+        singleData: {},             //單筆資料
+        singleDataTemp: {},         //單筆資料暫存
+
+        pageTwoDTFieldData: [],     //單筆 DT 欄位
+        singleDataGridRows: [],     //單筆 DT 資料
+        oriSingleDataGridRows: [],  //單筆 DT 原始資料
+
+        custSelectData:[],          //客戶代號下拉
+        orderSelectData:[],         //訂單格式下拉
+        statusSelectData:[{value:'N', display:'N:待核'}, {value:'C', display:'C:核准'}, {value:'O', display:'O:出貨中'}, {value:'S', display:'S:結清'}, {value:'H', display:'H:保留'}, {value:'X', display:'X:出貨完畢'}],    //狀態下拉
+
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
 
-        //系統參數
-        order_dat_change_time:""    //訂貨日期切換的時間參數
+        ship_mn_round_nos:"",       //(系統參數)單據主檔金額小數位數
+        ship_dt_round_nos:"",       //(系統參數)單據明細小計小數位數
+        order_dat_change_time:""    //(系統參數)訂貨日期切換的時間參數
     },
     methods: {
 
-        //驗證人員編號
-        verify: function() {
-            return true;    //暫時
-            var lo_check = false;
+        //初始化Search
+        initSearchComp: function () {
 
-            while(true) {
-                if(str = prompt("請輸入員工編號","")) {
-                    if(str.trim().length != 8){
-                        alert("員工編號應為8碼!");
-                        continue;
-                    }
-                    else{
-                        go_userid = str.trim();
-                        lo_check = true;
-                    }
-                }
-                break;
-            }
-
-            return(lo_check);
-
-        },
-
-        //Init CUD
-        initTmpCUD: function () {
-            this.tmpCud = {
-                createData: [],
-                editData: [],
-                deleteData: [],
-                dt_createData: [],
-                dt_editData: [],
-                dt_deleteData: []
+            //訂單格式(查詢用)
+            var lo_params = {
+                func : "getSearchFormatSta",
             };
-        },
-
-        //取得使用者資料
-        fetchUserInfo: function () {
-            $.post('/api/getUserInfo', function (result) {
-                if (result.success) {
-                    PSIW500030.userInfo = result.userInfo;
+            var self = this;
+            self.isLoading = true;
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.searchFields = [
+                        {
+                            ui_field_name: "order_nos",
+                            ui_type: "text",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            ui_display_name: "訂單編號"
+                        },
+                        {
+                            ui_field_name: "doc_nos",
+                            ui_type: "text",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            ui_display_name: "歸檔編號"
+                        },
+                        {
+                            ui_field_name: "order_dat",
+                            ui_type: "date",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            ui_display_name: "訂單日期"
+                        },
+                        {
+                            ui_field_name: "format_sta",
+                            ui_type: "select",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            selectData: result.data,
+                            ui_display_name: "訂單格式"
+                        },
+                        {
+                            ui_field_name: "atten_nam",
+                            ui_type: "text",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            ui_display_name: "訂貨人姓名"
+                        }
+                    ];
+                } else {
+                    alert(result.error.errorMsg);
                 }
             });
         },
 
-        //tempExecData
-        tempExecData: function(row){
+        //取系統參數
+        getSystemParam: function () {
+            var self = this;
 
+            //訂貨日期切換的時間
+            var lo_params = {
+                func : "getSystemParam",
+                paramName: "ship_mn_round_nos"
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                if (!_.isUndefined(result.data)) {
+                    self.ship_mn_round_nos = result.data.ship_mn_round_nos;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //訂貨日期切換的時間
+            var lo_params = {
+                func : "getSystemParam",
+                paramName: "ship_dt_round_nos"
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                if (!_.isUndefined(result.data)) {
+                    self.ship_dt_round_nos = result.data.ship_dt_round_nos;
+                    console.log(self.ship_dt_round_nos);
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //訂貨日期切換的時間
+            var lo_params = {
+                func : "getSystemParam",
+                paramName: "order_dat_change_time"
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                if (!_.isUndefined(result.data)) {
+                    self.order_dat_change_time = result.data.order_dat_change_time;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+        },
+
+        //驗證人員編號
+        verify: function() {
+
+            if(this.userid.trim().length == 8){
+                this.isVerify = true;
+            }
+            else {
+                alert("員工編號應為8碼!");
+            }
+        },
+
+        //取得使用者資料
+        fetchUserInfo: function () {
+            var self = this;
+            $.post('/api/getUserInfo', function (result) {
+                if (result.success) {
+                    self.userInfo = result.userInfo;
+                }
+            });
         },
 
         //組多筆的欄位
@@ -199,7 +249,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -221,7 +271,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -243,7 +293,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -265,7 +315,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -287,7 +337,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -309,7 +359,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -331,7 +381,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -353,7 +403,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -375,7 +425,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -397,7 +447,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -419,7 +469,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -441,7 +491,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_mn",
                     keyable : "",
                     format_func_name : "",
@@ -470,7 +520,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -492,7 +542,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -513,8 +563,8 @@ var PSIW500030 = new Vue({
                     col_seq : 2,
                     width : 100,
                     visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
+                    modificable : "N",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -536,7 +586,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -558,7 +608,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -580,7 +630,7 @@ var PSIW500030 = new Vue({
                     width : 100,
                     visiable : "Y",
                     modificable : "N",
-                    requirable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -601,11 +651,11 @@ var PSIW500030 = new Vue({
                     col_seq : 6,
                     width : 100,
                     visiable : "Y",
-                    modificable : "N",
+                    modificable : "Y",
                     requirable : "Y",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
-                    format_func_name : "",
+                    format_func_name : "ChkGreaterZeroNum",
                     rule_func_name : "",
                     user_athena_id : "",
                     multi_lang_table : "",
@@ -623,8 +673,8 @@ var PSIW500030 = new Vue({
                     col_seq : 7,
                     width : 100,
                     visiable : "Y",
-                    modificable : "N",
-                    requirable : "Y",
+                    modificable : "Y",
+                    requirable : "N",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
                     format_func_name : "",
@@ -642,20 +692,24 @@ var PSIW500030 = new Vue({
         loadDataGrid: function () {
 
             var lo_params = {
-                func : "getDataGridRows"
+                prg_id: prg_id,
+                func : "getDataGridRows",
+                searchCond: this.searchCond
             };
             var self = this;
+            self.isLoading = true;
             //撈多筆資料
             $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    self.pageOneDataGridRows = result.data;
-                    self.pageOneFieldData = self.bindingFieldData();
+                    self.DataGridRows = result.data;
+                    self.FieldData = self.bindingFieldData();
                     self.dgIns = new DatagridRmSingleGridClass();
-                    self.dgIns.init(prg_id, 'PSIW500030_dg', EZfieldClass.combineFieldOption(self.pageOneFieldData, 'PSIW500030_dg'));
-                    self.dgIns.loadDgData(self.pageOneDataGridRows);
+                    self.dgIns.init(prg_id, 'PSIW500030_dg', EZfieldClass.combineFieldOption(self.FieldData, 'PSIW500030_dg'));
+                    self.dgIns.loadDgData(self.DataGridRows);
 
                     self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
-                    self.dgInsDT = new SingleDatagridDT();
+                    self.dgInsDT = new DatagridBaseClass();
                     self.dgInsDT.init(prg_id, 'PSIW500030_dt', EZfieldClass.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
                 } else {
                     alert(result.error.errorMsg);
@@ -672,14 +726,14 @@ var PSIW500030 = new Vue({
                 postData: editingRow
             };
             var self = this;
-            waitingDialog.show('Loading...');
+            this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
 
                 if (!_.isUndefined(result.data)) {
 
                     self.singleDataTemp = result.data;
 
-                    self.singleDataTemp.order_dat = moment(new Date(self.singleDataTemp.order_dat)).format("YYYY-MM-DD");
+                    self.singleDataTemp.order_dat = moment(new Date(self.singleDataTemp.order_dat)).format("YYYY/MM/DD");
                     self.singleDataTemp.ship_dat = moment(new Date(self.singleDataTemp.ship_dat)).format("YYYY/MM/DD");
 
                     self.singleDataTemp.ins_dat = moment(new Date(self.singleDataTemp.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
@@ -700,13 +754,14 @@ var PSIW500030 = new Vue({
                 postData: editingRow
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-                waitingDialog.hide();
+
+                self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    self.pageTwoDataGridDTRows = result.data;
-                    self.dgInsDT.loadDgData(self.pageTwoDataGridDTRows);
+                    self.singleDataGridRows = result.data;
+                    self.dgInsDT.loadDgData(self.singleDataGridRows);
 
                     //保留原始資料, 供放棄使用
-                    self.oripageTwoDataGridDTRows = _.clone(self.pageTwoDataGridDTRows);
+                    self.oriSingleDataGridRows = _.clone(self.singleDataGridRows);
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -715,37 +770,23 @@ var PSIW500030 = new Vue({
 
         //按新增按鈕
         addData: function() {
-            var self = this;
-            //取系統參數
-            var lo_params = {
-                func : "getSystemParam",
-                paramName: "order_dat_change_time"
-            };
-            $.post("/api/getQueryResult", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
-                    self.order_dat_change_time = result.data;
-                    self.defaultValue();
+            this.defaultValue();
+            this.createStatus = true;
 
-                    self.createStatus = true;
+            //region//修改UI狀態
 
-                    //region//修改UI狀態
-                    self.isModificable = true;
-                    self.isModificableFormat = true;
+            this.isModificable = true;
+            this.isModificableFormat = true;
 
-                    self.addEnable = false;
-                    self.editEnable = false;
-                    self.deleteEnable = false;
-                    self.cnfirmEnable = false;
-                    self.cancelEnable = false;
-                    self.saveEnable = true;
-                    self.dropEnable = true;
-                    self.downloadEnable = false;
+            this.addEnable = false;
+            this.editEnable = false;
+            this.deleteEnable = false;
+            this.cnfirmEnable = false;
+            this.cancelEnable = false;
+            this.saveEnable = true;
+            this.dropEnable = true;
 
-                    //endregion
-                } else {
-                    alert(result.error.errorMsg);
-                }
-            });
+            //endregion
         },
 
         //新增資料預設值
@@ -755,15 +796,20 @@ var PSIW500030 = new Vue({
 
             //初始化主檔MN
 
-            // TODO:Session如何取
-            //this.singleData.comp_cod = Session.user.comp_id;
-            this.singleData.order_nos = "";
-            //TODO: 訂單時間要照系統參數判斷
-            //if(moment(this.order_dat_change_time))
-            //console.log(this.order_dat_change_time);
+            //判斷系統參數, 看訂單日是否為前一天
+            this.singleData.order_dat = moment().format('YYYY/MM/DD');
+            if(this.order_dat_change_time != null){
+                paramDate = new Date();
+                paramDate.setHours(this.order_dat_change_time.toString().substr(0,2), this.order_dat_change_time.toString().substr(2,2));
+                if(moment().format('HHmm') < moment(paramDate).format('HHmm')){
+                    this.singleData.order_dat = moment().add(-1, 'day').format('YYYY/MM/DD');
+                }
+            }
 
-            this.singleData.order_dat = moment().format('YYYY-MM-DD');
-            this.singleData.order_sta = "N";
+            this.singleData.order_nos = "";
+            this.singleData.comp_cod = this.userInfo.cmp_id;
+
+            this.singleData.order_sta = "";
             this.singleData.cust_cod = "";
             this.singleData.show_cod = "";
             this.singleData.cust_nam = "";
@@ -795,7 +841,6 @@ var PSIW500030 = new Vue({
             this.singleData.suply_sta = "";
             this.singleData.trans_typ = "";
             this.singleData.doc_cod = "2100";
-            this.singleData.doc_nos = "";   //TODO: 須詢問是API在入還是我要先call
 
             //Week 格式代號用
             var day;
@@ -826,8 +871,8 @@ var PSIW500030 = new Vue({
             this.singleData.week = day;
 
             //初始化明細DT
-            this.pageTwoDataGridDTRows = [];
-            this.dgInsDT.loadDgData(this.pageTwoDataGridDTRows);
+            this.singleDataGridRows = [];
+            this.dgInsDT.loadDgData(this.singleDataGridRows);
 
             //endregion
 
@@ -846,9 +891,10 @@ var PSIW500030 = new Vue({
             var lo_params = {
                 func : "getShowCodSelect"
             };
-            waitingDialog.show('Loading...');
+            this.isLoading = true;
+
             $.post("/api/getQueryResult", lo_params, function (result) {
-                waitingDialog.hide();
+                self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     //result.data.push({cust_cod:"123", show_cod:"321", cust_nam:"asd"});
                     self.custSelectData = result.data;
@@ -867,8 +913,8 @@ var PSIW500030 = new Vue({
                 func : "getPeriod",
                 singleData : self.singleDataTemp
             };
+            self.isLoading = true;
 
-            waitingDialog.show('Loading...');
             $.post("/api/getQueryResult", lo_params, function (result) {
 
                 self.singleDataTemp.period_cod = result.data;
@@ -879,7 +925,8 @@ var PSIW500030 = new Vue({
                 };
 
                 $.post("/api/getQueryResult", lo_params2, function (result) {
-                    waitingDialog.hide();
+                    self.isLoading = false;
+
                     if (!_.isUndefined(result.data)) {
                         self.orderSelectData = result.data;
                     } else {
@@ -888,159 +935,6 @@ var PSIW500030 = new Vue({
                     self.singleData = self.singleDataTemp;
                 });
             });
-        },
-
-        //按修改按鈕
-        editData: function() {
-            this.editStatus = true;
-
-            //region//修改UI狀態
-            this.isModificable = true;
-            this.isModificableFormat = false;
-
-            this.addEnable = false;
-            this.editEnable = false;
-            this.deleteEnable = false;
-            this.cnfirmEnable = false;
-            this.cancelEnable = false;
-            this.saveEnable = true;
-            this.dropEnable = true;
-            this.downloadEnable = false;
-
-            //endregion
-
-            //TODO
-            //call 『修改API』檢查資料可否修改,
-            //如不能修改,則mndt畫面要readonly,儲存button不能按
-            //如可修改『訂單格式』、『客戶代號』欄位改成readonly
-        },
-
-        //按刪除按鈕
-        deleteData: function() {
-            //TODO
-            //在多筆刪除資料
-            //組資料
-            //call 『刪除API』
-        },
-
-        //核准
-        approved: function() {
-            //TODO
-            //組資料
-            //call『核准API』
-            //接收回傳訊息更新狀態
-        },
-
-        //取消核准
-        cancel: function() {
-            //TODO
-            //組資料
-            //call『取消核准API』
-            //接收回傳訊息更新狀態
-        },
-
-        //按儲存按鈕
-        save: function() {
-            //TODO
-            //判斷是新增還是修改
-
-            //將dt貨號空白的貨品清除,這些不需要透過API入到DB
-            //主檔稅額與明細稅額合計的差異數，調到最後一筆計稅明細的稅額
-            //換句話說『將差額調到psi_quote_dt.SORDER_TAX最後一筆有值的明細』
-
-            //region//組資料
-
-
-
-            //endreigon
-
-            if(this.singleData.format_sta == "C"){
-                this.singleData.cnfirm_cod = go_userid;
-                this.singleData.cnfirm_dat = moment().format('MMMM/DD/YYYY hh:mm:ss');
-            }
-
-            this.singleData.ins_usr = go_userid;
-            this.singleData.upd_usr = go_userid;
-            this.singleData.ins_dat = moment().format('YYYY/MM/DD hh:mm:ss');
-            this.singleData.upd_dat = moment().format('YYYY/MM/DD hh:mm:ss');
-
-            console.log(this.singleData);
-
-            var prg_id;
-            if(this.createStatus) prg_id = "PSIW5100300520";
-            else prg_id = "PSIW5100300540";
-
-            this.callSaveAPI(prg_id);
-
-            this.createStatus = false;
-            this.editStatus = false;
-
-            //region//修改UI狀態
-            this.isModificable = false;
-            this.isModificableFormat = false;
-
-            this.addEnable = true;
-            this.editEnable = false;
-            this.deleteEnable = false;
-            this.cnfirmEnable = false;
-            this.cancelEnable = false;
-            this.saveEnable = false;
-            this.dropEnable = false;
-            this.downloadEnable = false;
-
-            //endregion
-        },
-
-        //按放棄按鈕
-        drop: function() {
-            //TODO
-
-            //如果是新增情況下，需清空頁面資料
-            if(this.createStatus){
-                this.singleData = {};
-                this.pageTwoDataGridDTRows = [];
-                this.dgInsDT.loadDgData(this.pageTwoDataGridDTRows);
-
-                //region//修改UI狀態
-                this.isModificable = false;
-                this.isModificableFormat = false;
-
-                this.addEnable = true;
-                this.editEnable = false;
-                this.deleteEnable = false;
-                this.cnfirmEnable = false;
-                this.cancelEnable = false;
-                this.saveEnable = false;
-                this.dropEnable = false;
-                this.downloadEnable = false;
-
-                //endregion
-            }
-            //修改狀況
-            else{
-                this.singleData = this.oriSingleData;
-                this.dgInsDT.loadDgData(this.oripageTwoDataGridDTRows);
-
-                //region//修改UI狀態
-                PSIW500030.isModificable = false;
-                PSIW500030.isModificableFormat = false;
-
-                PSIW500030.addEnable = true;
-                PSIW500030.editEnable = true;
-                PSIW500030.deleteEnable = true;
-                PSIW500030.cnfirmEnable = true;
-                PSIW500030.cancelEnable = true;
-                PSIW500030.saveEnable = false;
-                PSIW500030.dropEnable = false;
-                PSIW500030.downloadEnable = true;
-
-                //endregion
-            }
-
-            this.createStatus = false;
-            this.editStatus = false;
-
-            //改DB狀態
         },
 
         //客戶代號Change event
@@ -1087,8 +981,21 @@ var PSIW500030 = new Vue({
                     };
                     $.post("/api/getQueryResult", lo_params, function (result) {
                         if (!_.isUndefined(result.data)) {
-                            //不知道怎麼切
-                            self.singleData.ship1_add = result.data;
+                            if(result.data.address == null){
+                                self.singleData.ship1_add = "";
+                                self.singleData.ship2_add = "";
+                            }
+                            else
+                            {
+                                if(result.data.address.toString().length > 60){
+
+                                }
+                                else {
+                                    self.singleData.ship1_add = result.data.address;
+                                    self.singleData.ship2_add = "";
+                                }
+                            }
+
                             cb(null, result.data);
                         } else {
                             alert(result.error.errorMsg);
@@ -1105,7 +1012,7 @@ var PSIW500030 = new Vue({
                     }
                     $.post("/api/getQueryResult", lo_params, function (result) {
                         if (!_.isUndefined(result.data)) {
-                            self.singleData.cust_tel = result.data;
+                            self.singleData.cust_tel = result.data.cust_tel;
                             cb(null, result.data);
                         } else {
                             alert(result.error.errorMsg);
@@ -1143,82 +1050,263 @@ var PSIW500030 = new Vue({
             };
 
             $.post("/api/getQueryResult", lo_params, function (result) {
-                waitingDialog.hide();
+                self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     if(result.error){
                         alert(result.data.errorMsg);
                     }
                     //檢查有過
                     else {
-                        //畫面沒切換，待查原因
                         if(self.singleData.order_time != null && self.singleData.order_time.trim() == "PXW1")
-                            self.singleData.order_sta = "C";
+                            self.singleData.order_sta = "N";
                         else
                             self.singleData.order_sta = "C";
-                        // console.log(self.singleData.order_sta);
 
-                        //通過檢查後call訂單格式API,回傳dt的貨品,依貨號當做dt的序號排序
-                        //return;
+                        //Call貨品API
                         self.callOrderAPI();
                     }
                 } else {
                     alert(result.data.errorMsg);
                 }
             });
+        },
 
+        //TODO:按修改按鈕
+        editData: function() {
 
+            this.callAPI('PSIW5100300540', function () {
+                this.editStatus = true;
+
+                //region//修改UI狀態
+                this.isModificable = true;
+                this.isModificableFormat = false;
+
+                this.addEnable = false;
+                this.editEnable = false;
+                this.deleteEnable = false;
+                this.cnfirmEnable = false;
+                this.cancelEnable = false;
+                this.saveEnable = true;
+                this.dropEnable = true;
+
+                //endregion
+
+                //TODO
+                //call 『修改API』檢查資料可否修改,
+                //如不能修改,則mndt畫面要readonly,儲存button不能按
+                //如可修改『訂單格式』、『客戶代號』欄位改成readonly
+            });
+        },
+
+        //TODO:按刪除按鈕
+        deleteData: function() {
+            this.callAPI('PSIW5100300530',function () {
+                alert('刪除成功!');
+                this.loadDataGrid();
+                this.singleData = {};
+                this.singleDataGridRows = [];
+                this.dgInsDT.loadDgData(this.singleDataGridRows);
+            });
+        },
+
+        //TODO:核准
+        approved: function() {
+
+            this.callAPI('PSIW5100301010',function () {
+                //call『核准API』
+                //接收回傳訊息更新狀態
+            });
+
+        },
+
+        //TODO:取消核准
+        cancel: function() {
+
+            this.callAPI('PSIW5100301020',function () {
+                //call『取消核准API』
+                //接收回傳訊息更新狀態
+            });
 
 
         },
 
-        //資料驗證
-        dataValidate: function () {
+        //TODO:按儲存按鈕
+        save: function() {
+
+            this.dgInsDT.endEditing();
+
             var self = this;
-            var lo_chkResult;
-
-            for (var i = 0; i < this.oriPageTwoFieldData.length; i++) {
-                var lo_field = this.oriPageTwoFieldData[i];
-                //必填
-                if (lo_field.requirable == "Y" && lo_field.modificable == "Y") {
-                    lo_chkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
-                    if (lo_chkResult.success == false) {
-                        break;
-                    }
-                }
-
-                //有format
-
-                if (lo_field.format_func_name != "") {
-                    lo_chkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
-                    if (lo_chkResult.success == false) {
-                        break;
-                    }
-                }
+            if(_.isUndefined(self.singleData.format_sta) || self.singleData.format_sta == ""){
+                alert("請選擇訂單格式");
+                return;
             }
-            return lo_chkResult;
 
+            //檢查訂購量必須大於0
+            var check = false;
+            _.each(self.singleDataGridRows, function (value, index) {
+                if(value.item_qnt == 0){
+                    alert('貨號:' + value.goods_cod + '的訂購量不可為0');
+                    check = true;
+                }
+            });
+
+            if(check) return;
+
+            //region//組資料
+
+            self.singleData.order_amt = 0;
+            self.singleData.order_tax = 0;
+
+            _.each(self.singleDataGridRows, function (value, index) {
+                value.order_nos = self.singleData.order_nos;
+                value.disc_rat = 0;
+                value.gift_flag = 'N';
+                value.trans_nos = '';
+                value.trans_typ = '';
+
+                value.sorder_amt = formatFloat(value.sale_amt * value.item_qnt, self.ship_dt_round_nos) || 0;    // 小計 = 售價 * 數量(訂購量) (取單據明細小計小數位數)
+                value.sorder_tax = formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
+                value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
+
+                console.log(value.sorder_amt);
+                console.log(value.sorder_tax);
+
+                self.singleData.order_amt += value.sorder_amt;
+                self.singleData.order_tax += value.sorder_tax;
+            });
+
+            var lf_temp_amt = self.singleData.order_amt;
+            var lf_temp_tax = self.singleData.order_tax;
+
+            console.log(lf_temp_amt);
+            console.log(lf_temp_tax);
+
+            self.singleData.order_amt = formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
+            self.singleData.order_tax = formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
+            self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
+
+            console.log(self.singleData.order_amt);
+            console.log(self.singleData.order_tax);
+
+            var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
+            var lf_div_tax = self.singleData.order_tax - lf_temp_tax;
+
+            //找最後一筆有稅額的明細
+            var index = _.findLastIndex(this.singleDataGridRows, function (value) {
+                return parseFloat(value.sorder_tax) != 0;
+            });
+
+            if(index != -1){
+                self.singleDataGridRows[index].sorder_amt = formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
+                self.singleDataGridRows[index].sorder_tax = formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
+                console.log(self.singleDataGridRows[index]);
+                console.log(self.singleDataGridRows[index]);
+            }
+
+            //endregion
+
+            if(this.singleData.format_sta == "C"){
+                this.singleData.cnfirm_cod = this.userid;
+                this.singleData.cnfirm_dat = moment().format('MMMM/DD/YYYY hh:mm:ss');
+            }
+
+            this.singleData.ins_usr = this.userid;
+            this.singleData.upd_usr = this.userid;
+            this.singleData.ins_dat = moment().format('YYYY/MM/DD hh:mm:ss');
+            this.singleData.upd_dat = moment().format('YYYY/MM/DD hh:mm:ss');
+            console.log(this.singleData.ins_usr);
+            var prg_id;
+            if(this.createStatus) prg_id = "PSIW5100300520";
+            else prg_id = "PSIW5100300540";
+
+            this.callSaveAPI(prg_id, function () {
+                this.createStatus = false;
+                this.editStatus = false;
+
+                //region//修改UI狀態
+                this.isModificable = false;
+                this.isModificableFormat = false;
+
+                this.addEnable = true;
+                this.editEnable = true;
+                this.deleteEnable = true;
+                this.cnfirmEnable = true;
+                this.cancelEnable = true;
+                this.saveEnable = false;
+                this.dropEnable = false;
+                //endregion
+            });
+        },
+
+        //TODO:按放棄按鈕
+        drop: function() {
+            //新增，清空頁面資料
+            if(this.createStatus){
+                this.singleData = {};
+                this.singleDataGridRows = [];
+                this.dgInsDT.loadDgData(this.singleDataGridRows);
+
+                //region//修改UI狀態
+                this.isModificable = false;
+                this.isModificableFormat = false;
+
+                this.addEnable = true;
+                this.editEnable = false;
+                this.deleteEnable = false;
+                this.cnfirmEnable = false;
+                this.cancelEnable = false;
+                this.saveEnable = false;
+                this.dropEnable = false;
+
+                //endregion
+
+                this.createStatus = false;
+                this.editStatus = false;
+            }
+            //修改
+            else{
+                //打放棄修改API
+
+                this.singleData = this.oriSingleData;
+                this.dgInsDT.loadDgData(this.oriSingleDataGridRows);
+
+                //region//修改UI狀態
+                PSIW500030.isModificable = false;
+                PSIW500030.isModificableFormat = false;
+
+                PSIW500030.addEnable = true;
+                PSIW500030.editEnable = true;
+                PSIW500030.deleteEnable = true;
+                PSIW500030.cnfirmEnable = true;
+                PSIW500030.cancelEnable = true;
+                PSIW500030.saveEnable = false;
+                PSIW500030.dropEnable = false;
+
+                //endregion
+
+                this.createStatus = false;
+                this.editStatus = false;
+            }
         },
 
         //call Save API
-        callSaveAPI: function (prg_id) {
+        callSaveAPI: function (trans_cod, callback) {
 
             var self = this;
-            waitingDialog.show('Saving...');
 
+            self.isLoading = true;
             var lo_params = {
-                REVE_CODE : prg_id,
-                singleData: self.singleData,
-                pageTwoDataGridDTRows: self.pageTwoDataGridDTRows
+                REVE_CODE : trans_cod,
+                prg_id: prg_id,
+                singleData : this.singleData,
+                singleDataGridRows : this.singleDataGridRows,
             };
 
             $.post("/api/callSaveAPI", lo_params, function (result) {
-                waitingDialog.hide();
-                if (result.success) {
-                    //TODO:儲存後reload頁面
-                    self.loadDataGrid(function (success) {
-                        callback(success);
-                    });
-                    alert('save success!');
+                self.isLoading = false;
+                if (result.data) {
+                    alert('儲存成功!');
+                    callback();
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -1227,60 +1315,311 @@ var PSIW500030 = new Vue({
 
         },
 
-        //call API
-        callAPI: function (prg_id) {
+        //TODO:call API
+        callAPI: function (prg_id, callback) {
 
             var self = this;
-            waitingDialog.show('Loading...');
+            self.isLoading = true;
 
             var lo_params = {
                 REVE_CODE : prg_id,
-                ORDER_NOS: this.singleData.order_nos
+                order_nos: this.singleData.order_nos
             };
 
             $.post("/api/callAPI", lo_params, function (result) {
-                waitingDialog.hide();
-                if (result) {
+                console.log(result);
+                self.isLoading = false;
+                if (result.data) {
                     console.log(result);
+                    callback();
                 } else {
                     alert(result.error.errorMsg);
-                    callback(result);
+                    callback();
                 }
             });
 
         },
-
 
         //call 貨品 API
         callOrderAPI: function () {
 
             var self = this;
-            waitingDialog.show('Loading...');
-            //var params = _.extend({prg_id: prg_id}, self.tmpCud); //留著儲存用
+            self.isLoading = true;
             var lo_params = {
                 REVE_CODE : "PSIW5100302020",
                 singleData: this.singleData
             };
 
             $.post("/api/callOrderAPI", lo_params, function (result) {
-                waitingDialog.hide();
-                if (result) {
-                    self.pageTwoDataGridDTRows = result.data.psi_tmp_order_dt.tmp_order_dt;
-                    self.dgInsDT.loadDgData(self.pageTwoDataGridDTRows);
-
+                self.isLoading = false;
+                if (result.data) {
+                    self.singleDataGridRows = result.data.psi_tmp_order_dt.tmp_order_dt;
+                    self.dgInsDT.loadDgData(self.singleDataGridRows);
                 } else {
                     alert(result.error.errorMsg);
-                    callback(result);
                 }
             });
 
         },
 
+        //tempExecData
+        tempExecData: function(row){
+
+        },
     }
 
 });
 
-// Vue.filter("showDropdownDisplayName", function (val) {
-// });
+//四捨五入
+function formatFloat(num, pos)
+{
+    var size = Math.pow(10, pos);
+    return Math.round(num * size) / size;
+}
 
 var adpterDg = new AdapterDatagrid(PSIW500030);
+
+
+//region//套件
+
+//監測div寬度套件
+(function($,window,undefined){
+    '$:nomunge'; // Used by YUI compressor.
+
+    // A jQuery object containing all non-window elements to which the resize
+    // event is bound.
+    var elems = $([]),
+
+        // Extend $.resize if it already exists, otherwise create it.
+        jq_resize = $.resize = $.extend( $.resize, {} ),
+
+        timeout_id,
+
+        // Reused strings.
+        str_setTimeout = 'setTimeout',
+        str_resize = 'resize',
+        str_data = str_resize + '-special-event',
+        str_delay = 'delay',
+        str_throttle = 'throttleWindow';
+
+    // Property: jQuery.resize.delay
+    //
+    // The numeric interval (in milliseconds) at which the resize event polling
+    // loop executes. Defaults to 250.
+
+    jq_resize[ str_delay ] = 250;
+
+    // Property: jQuery.resize.throttleWindow
+    //
+    // Throttle the native window object resize event to fire no more than once
+    // every <jQuery.resize.delay> milliseconds. Defaults to true.
+    //
+    // Because the window object has its own resize event, it doesn't need to be
+    // provided by this plugin, and its execution can be left entirely up to the
+    // browser. However, since certain browsers fire the resize event continuously
+    // while others do not, enabling this will throttle the window resize event,
+    // making event behavior consistent across all elements in all browsers.
+    //
+    // While setting this property to false will disable window object resize
+    // event throttling, please note that this property must be changed before any
+    // window object resize event callbacks are bound.
+
+    jq_resize[ str_throttle ] = true;
+
+    // Event: resize event
+    //
+    // Fired when an element's width or height changes. Because browsers only
+    // provide this event for the window element, for other elements a polling
+    // loop is initialized, running every <jQuery.resize.delay> milliseconds
+    // to see if elements' dimensions have changed. You may bind with either
+    // .resize( fn ) or .bind( "resize", fn ), and unbind with .unbind( "resize" ).
+    //
+    // Usage:
+    //
+    // > jQuery('selector').bind( 'resize', function(e) {
+    // >   // element's width or height has changed!
+    // >   ...
+    // > });
+    //
+    // Additional Notes:
+    //
+    // * The polling loop is not created until at least one callback is actually
+    //   bound to the 'resize' event, and this single polling loop is shared
+    //   across all elements.
+    //
+    // Double firing issue in jQuery 1.3.2:
+    //
+    // While this plugin works in jQuery 1.3.2, if an element's event callbacks
+    // are manually triggered via .trigger( 'resize' ) or .resize() those
+    // callbacks may double-fire, due to limitations in the jQuery 1.3.2 special
+    // events system. This is not an issue when using jQuery 1.4+.
+    //
+    // > // While this works in jQuery 1.4+
+    // > $(elem).css({ width: new_w, height: new_h }).resize();
+    // >
+    // > // In jQuery 1.3.2, you need to do this:
+    // > var elem = $(elem);
+    // > elem.css({ width: new_w, height: new_h });
+    // > elem.data( 'resize-special-event', { width: elem.width(), height: elem.height() } );
+    // > elem.resize();
+
+    $.event.special[ str_resize ] = {
+
+        // Called only when the first 'resize' event callback is bound per element.
+        setup: function() {
+            // Since window has its own native 'resize' event, return false so that
+            // jQuery will bind the event using DOM methods. Since only 'window'
+            // objects have a .setTimeout method, this should be a sufficient test.
+            // Unless, of course, we're throttling the 'resize' event for window.
+            if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+
+            var elem = $(this);
+
+            // Add this element to the list of internal elements to monitor.
+            elems = elems.add( elem );
+
+            // Initialize data store on the element.
+            $.data( this, str_data, { w: elem.width(), h: elem.height() } );
+
+            // If this is the first element added, start the polling loop.
+            if ( elems.length === 1 ) {
+                loopy();
+            }
+        },
+
+        // Called only when the last 'resize' event callback is unbound per element.
+        teardown: function() {
+            // Since window has its own native 'resize' event, return false so that
+            // jQuery will unbind the event using DOM methods. Since only 'window'
+            // objects have a .setTimeout method, this should be a sufficient test.
+            // Unless, of course, we're throttling the 'resize' event for window.
+            if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+
+            var elem = $(this);
+
+            // Remove this element from the list of internal elements to monitor.
+            elems = elems.not( elem );
+
+            // Remove any data stored on the element.
+            elem.removeData( str_data );
+
+            // If this is the last element removed, stop the polling loop.
+            if ( !elems.length ) {
+                clearTimeout( timeout_id );
+            }
+        },
+
+        // Called every time a 'resize' event callback is bound per element (new in
+        // jQuery 1.4).
+        add: function( handleObj ) {
+            // Since window has its own native 'resize' event, return false so that
+            // jQuery doesn't modify the event object. Unless, of course, we're
+            // throttling the 'resize' event for window.
+            if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+
+            var old_handler;
+
+            // The new_handler function is executed every time the event is triggered.
+            // This is used to update the internal element data store with the width
+            // and height when the event is triggered manually, to avoid double-firing
+            // of the event callback. See the "Double firing issue in jQuery 1.3.2"
+            // comments above for more information.
+
+            function new_handler( e, w, h ) {
+                var elem = $(this),
+                    data = $.data( this, str_data );
+
+                // If called from the polling loop, w and h will be passed in as
+                // arguments. If called manually, via .trigger( 'resize' ) or .resize(),
+                // those values will need to be computed.
+                data.w = w !== undefined ? w : elem.width();
+                data.h = h !== undefined ? h : elem.height();
+
+                old_handler.apply( this, arguments );
+            };
+
+            // This may seem a little complicated, but it normalizes the special event
+            // .add method between jQuery 1.4/1.4.1 and 1.4.2+
+            if ( $.isFunction( handleObj ) ) {
+                // 1.4, 1.4.1
+                old_handler = handleObj;
+                return new_handler;
+            } else {
+                // 1.4.2+
+                old_handler = handleObj.handler;
+                handleObj.handler = new_handler;
+            }
+        }
+
+    };
+
+    function loopy() {
+
+        // Start the polling loop, asynchronously.
+        timeout_id = window[ str_setTimeout ](function(){
+
+            // Iterate over all elements to which the 'resize' event is bound.
+            elems.each(function(){
+                var elem = $(this),
+                    width = elem.width(),
+                    height = elem.height(),
+                    data = $.data( this, str_data );
+
+                // If element size has changed since the last time, update the element
+                // data store and trigger the 'resize' event.
+                if ( width !== data.w || height !== data.h ) {
+                    elem.trigger( str_resize, [ data.w = width, data.h = height ] );
+                }
+
+            });
+
+            // Loop.
+            loopy();
+
+        }, jq_resize[ str_delay ] );
+
+    };
+
+})(jQuery,this);
+
+//啟動拖拉
+$(".dominos-inventory-left").resizable({
+    handleSelector: ".splitter",
+    resizeHeight: false
+});
+
+//右邊被拉小時，維持右邊欄位版面整齊
+$('.dominos-inventory-right').resize(function(){
+    var elem = $(this);
+    var inventoryRightW = elem.width();
+    console.log(inventoryRightW);
+    if(inventoryRightW < 614){
+        $(".w510px").css("margin-left","92px");
+    }else{
+        $(".w510px").css("margin-left","0");
+    }
+
+    if(inventoryRightW < 611) {
+        $(".address-second").css("margin-left","93px");
+        $(".input-second-2").css("margin-left","93px");
+    }else{
+        $(".address-second").css("margin-left","0");
+        $(".input-second-2").css("margin-left","0");
+    }
+
+    if(inventoryRightW < 355) {
+        $(".address-frist").css("margin-left","93px");
+    }else{
+        $(".address-frist").css("margin-left","0");
+    }
+
+    if(inventoryRightW < 306) {
+        $(".w510px").css("margin-left","0");
+        $(".address-frist").css("margin-left","0");
+        $(".input-second-2").css("margin-left","0");
+        $(".address-second").css("margin-left","0");
+        $(".w510px").css("margin-left","0");
+    }
+});
+
+//endregion

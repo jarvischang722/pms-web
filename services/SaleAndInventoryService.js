@@ -31,6 +31,7 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
  */
 exports.getDataGridRows = function (params ,session, callback) {
 
+    var lo_searchCond = params.searchCond || {};    //搜尋條件
     var lo_error = null;
 
     var lo_params = {
@@ -38,13 +39,31 @@ exports.getDataGridRows = function (params ,session, callback) {
         //key_cod1: session.user.usr_id
         comp_cod: "EIP_HQ    ",
         key_cod1: "admin"
-
     };
+
+    //過濾掉無效條件
+    _.each(lo_searchCond, function (condVal, condKey) {
+        if (_.isArray(condVal) && condVal.length > 0) {
+            lo_params[condKey] = condVal;
+        } else if (!_.isUndefined(condVal) && !_.isEmpty(condVal)) {
+            lo_params[condKey] = condVal;
+        }
+    });
 
     queryAgent.queryList("QRY_PSI_QUOTE_MN", lo_params, 0, 0, function (err, Result) {
         if (!err) {
             if(Result)
-                callback(lo_error, Result);
+            {
+                //  ) 條件過濾
+                if (!_.isUndefined(ruleAgent[params.prg_id + "Filter"])) {
+                    ruleAgent[params.prg_id + "Filter"](Result, session, lo_searchCond, function (dataRow) {
+                        callback(lo_error, dataRow);
+                    });
+                } else {
+                    callback(lo_error, Result);
+                }
+            }
+
             else
                 callback(lo_error, "");
         }
@@ -493,12 +512,58 @@ exports.chkFormatSta = function (params ,session, callback) {
     });
 };
 
+/**
+ * 取得訂單格式下拉(查詢欄位用)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getSearchFormatSta = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "EIP_HQ    ",
+    };
+
+    queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
 //call Save API
 exports.callSaveAPI = function (params ,session, callback) {
+
+    index = 1;
+    var exec_data = {};
+    exec_data[index] = params.singleData;
+    index++;
+
+    _.each(params.singleDataGridRows, function (value, index2) {
+        value.kindOfRel = 'dt';
+        exec_data[index] = value;
+        index++;
+    });
+
     var apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "PSI_QUOTE_MN": params.singleData,
-        "PSI_QUOTE_DT": params.pageTwoDataGridDTRows
+        "program_id": params.prg_id,
+        "user": session.user.usr_id,
+        "table_name": 'psi_quote_mn',
+        "count": index - 1,
+        "exec_data": exec_data
     };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
@@ -542,8 +607,9 @@ exports.callSaveAPI = function (params ,session, callback) {
 exports.callAPI = function (params ,session, callback) {
     var apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "COMP_COD": session.user.cmp_id,
-        "ORDER_NOS": params.singleData.order_nos
+        //"COMP_COD": session.user.cmp_id,
+        "comp_cod": "EIP_HQ    ",
+        "order_nos": params.order_nos
     };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
@@ -558,7 +624,7 @@ exports.callAPI = function (params ,session, callback) {
             success = false;
             err = {};
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = "save error!";
+            err.errorMsg = data["RETN-CODE-DESC"];
         }
 
         //寄出exceptionMail

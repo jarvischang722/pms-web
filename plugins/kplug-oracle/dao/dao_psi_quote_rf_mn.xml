@@ -15,4 +15,14 @@
         <parameter type="string" kind="3">week</parameter>
     </dao>
 
+    <!-- ['PSIW500030'] 取得訂單格式(查詢用) -->
+    <dao name="QRY_SEARCH_PSI_FORMAT_STA">
+        <statement><![CDATA[
+            select format_sta as value ,quote_rmk as display from psi_quote_rf_mn
+            where trim(comp_cod) = trim(:comp_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
 </root>

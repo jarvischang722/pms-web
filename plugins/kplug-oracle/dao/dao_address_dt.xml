@@ -4,7 +4,7 @@
     <!-- ['PSIW500030'] 取得客戶住址 -->
     <dao name="QRY_ADDRESS_DT_SELECT">
         <statement><![CDATA[
-            select  trim(nvl(add1_rmk, ' ')||nvl(add2_rmk,' ')||nvl(add3_rmk,' '))
+            select trim(nvl(add1_rmk, ' ')||nvl(add2_rmk,' ')||nvl(add3_rmk,' ')) as address
             from address_dt
             where trim(cust_cod) = trim(:cust_cod)
             and trim(add_cod) = trim(:add_cod)

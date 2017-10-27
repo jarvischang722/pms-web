@@ -8,18 +8,25 @@
             join sec_typ_ctrl sec on mn.comp_cod = sec.comp_cod and mn.cust_cod = sec.key_cod2
             left join cust_mn cust on mn.cust_cod = cust.cust_cod
             where trim(sec.comp_cod) = trim(:comp_cod)
-            And sec.sys_cod='PSI_WEB' And sec.remark_cod='usr_cust' And trim(sec.key_cod1) = trim(:key_cod1)
-            order by mn.order_nos
+            and sec.sys_cod='PSI_WEB' And sec.remark_cod='usr_cust' And trim(sec.key_cod1) = trim(:key_cod1)
         ]]>
         </statement>
+        <statement test="_v(param.format_sta)"><![CDATA[and format_sta in(:format_sta)]]></statement>
+
         <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">key_cod1</parameter>
+
+        <parameter type="likestring" kind="2" condition="order_nos like ?">order_nos</parameter>
+        <parameter type="likestring" kind="2" condition="doc_nos like ?">doc_nos</parameter>
+        <parameter type="likestring" kind="2" condition="atten_nam like ?">atten_nam</parameter>
+        <parameter type="instring" kind="3">format_sta</parameter>
+        <orderby>order by mn.order_nos</orderby>
     </dao>
 
     <!-- ['PSIW500030'] 門市web訂單作業(單筆mn) -->
     <dao name="QRY_PSI_QUOTE_SINGLE_MN">
         <statement><![CDATA[
-            select mn.order_nos, mn.order_dat, mn.format_sta, mn.order_sta, cust.cust_cod, cust.show_cod, cust.cust_nam, mn.atten_nam, mn.ship1_add, mn.ship2_add, mn.ship_dat, mn.ins_usr, mn.ins_dat, mn.upd_usr, mn.upd_dat, mn.cnfirm_cod, mn.cnfirm_dat, mn.order_rmk
+            select *
             from psi_quote_mn mn
             left join cust_mn cust on mn.cust_cod = cust.cust_cod
             where trim(mn.comp_cod) = trim(:comp_cod)
