@@ -1011,8 +1011,15 @@ var PSIW500030 = new Vue({
                         singleData: self.singleData
                     }
                     $.post("/api/getQueryResult", lo_params, function (result) {
+                        console.log(result);
                         if (!_.isUndefined(result.data)) {
-                            self.singleData.cust_tel = result.data.cust_tel;
+                            if(result.data.cust_tel == null){
+                                self.singleData.cust_tel = "";
+                            }
+                            else {
+                                self.singleData.cust_tel = result.data.cust_tel;
+                            }
+
                             cb(null, result.data);
                         } else {
                             alert(result.error.errorMsg);
