@@ -33,20 +33,9 @@ module.exports = function (app) {
     //取得單筆資料
     app.post("/api/qryPMS0830070SingleData", apiMiddles, cashierCrtl.qryPMS0830070SingleData);
 
-    //取得單筆
-    // app.post('/api/qryPMS0830070SingleMn', cashierCrtl.qryPMS0830070SingleMn);
-    //取得DT
-    // app.post('/api/qryPMS0830070SingleDt', cashierCrtl.qryPMS0830070SingleDt);
-
-    //取得DT2
-    app.post('/api/qryPMS0830070SingleDt2', apiMiddles, cashierCrtl.qryPMS0830070SingleDt2);
-
-    //取得DT的DT
+    //取得此筆已選DT2服務項目
     app.post('/api/qryDt2SelectedItemNos', apiMiddles, cashierCrtl.qryDt2SelectedItemNos);
 
-    //取得DT2全部資料
-    app.post('/api/qryPMS0830070Dt2AllData', apiMiddles, cashierCrtl.qryPMS0830070Dt2AllData);
-
     //取得dt2禁用服務項目
-    app.post('/api/qryDt2DisableItem', apiMiddles, cashierCrtl.qryDt2DisableItem);
+    app.post('/api/qryDt2DisableItemNos', apiMiddles, cashierCrtl.qryDt2DisableItemNos);
 };

@@ -75,7 +75,7 @@ exports.doSavePMS0830070 = function (req, res) {
 /**
  * 取得虛擬帳單項目設定 單筆資料
  */
-exports.qryPMS0830070SingleData = function(req, res){
+exports.qryPMS0830070SingleData = function (req, res) {
     var lo_params = {
         athena_id: req.session.user.athena_id,
         hotel_cod: req.session.user.hotel_cod,
@@ -83,91 +83,44 @@ exports.qryPMS0830070SingleData = function(req, res){
     };
 
     async.parallel([
-        function(cb){
+        function (cb) {
             queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), lo_params, function (err, mnData) {
                 cb(null, mnData);
             });
         },
-        function(cb){
+        function (cb) {
             queryAgent.queryList("QRY_HC_ADJFOLIO_DT", lo_params, 0, 0, function (err, dtData) {
                 cb(null, dtData);
             });
-        }
-    ], function(err, result){
-        res.json({success: true, mnData: result[0], dtData: result[1]});
-    });
-
-
-
-};
-
-/**
- * 取得虛擬帳單項目設定>單筆
- */
-// exports.qryPMS0830070SingleMn = function (req, res) {
-//     var params = {
-//         athena_id: req.session.user.athena_id,
-//         hotel_cod: req.session.user.hotel_cod,
-//         adjfolio_cod: req.body.adjfolio_cod.trim()
-//     };
-//     queryAgent.query("QRY_SINGLE_HC_ADJFOLIO_MN".toUpperCase(), params, function (err, routeDt) {
-//         res.json({success: true, routeDt: routeDt});
-//     });
-// };
-
-/**
- * 取得虛擬帳單項目設定>單筆>DT
- */
-// exports.qryPMS0830070SingleDt = function (req, res) {
-//
-//     queryAgent.queryList("QRY_HC_ADJFOLIO_DT", {
-//         athena_id: req.session.user.athena_id,
-//         hotel_cod: req.session.user.hotel_cod,
-//         adjfolio_cod: req.body.adjfolio_cod
-//     }, 0, 0, function (err, routeDtList) {
-//         res.json({success: true, routeDtList: commonTools.trimObjectAllVal(routeDtList)});
-//     });
-// };
-
-/**
- * 取得虛擬帳單項目設定>單筆>DT2
- */
-exports.qryPMS0830070SingleDt2 = function (req, res) {
-    let lo_userInfo = req.session.user;
-    let lo_params = {
-        athena_id: lo_userInfo.athena_id,
-        hotel_cod: lo_userInfo.hotel_cod,
-        seq_nos: req.body.seq_nos,
-        adjfolio_cod: req.body.adjfolio_cod
-    };
-
-    async.parallel([
-        function(cb){
-            queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", lo_params, 0, 0, function (err, routeDtList) {
-                res.json({success: true, dt2Data: commonTools.trimObjectAllVal(routeDtList)});
-            });
         },
         function(cb){
-
+            queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", lo_params, 0, 0, function (err, dt2ItemNosDataList) {
+                // res.json({success: true, dt2ItemNosDataList: commonTools.trimObjectAllVal(routeDtList)});
+                cb(null, dt2ItemNosDataList);
+            });
         }
-    ]);
+    ], function (err, result) {
+        res.json({success: true, mnData: result[0], dtData: result[1], dt2ItemNosDataList: result[2]});
+    });
+
 
 };
 
 /*
-* 取得虛擬帳單項目設定>單筆>DT2(全部資料)
+* [PMS0830070] 查詢此筆已選服務項目
 */
-exports.qryPMS0830070Dt2AllData = function (req, res) {
+exports.qryDt2SelectedItemNos = function (req, res) {
 
     let lo_userInfo = req.session.user;
     let lo_params = {
         athena_id: lo_userInfo.athena_id,
         hotel_cod: lo_userInfo.hotel_cod,
-        adjfolio_cod: req.body.adjfolio_cod
+        adjfolio_cod: req.body.adjfolio_cod,
+        seq_nos: req.body.seq_nos
     };
 
-    queryAgent.queryList("QRY_HC_ADJFOLIO_ALL_DT2", lo_params, 0, 0, function (err, dt2Data) {
-        res.json({success: true, dt2Data: commonTools.trimObjectAllVal(dt2Data)});
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2", lo_params, 0, 0, function (err, dt2Data) {
+        res.json({success: true, selectedData: commonTools.trimObjectAllVal(dt2Data)});
     });
 };
 
@@ -189,7 +142,7 @@ exports.qryDt2AllItemNos = function (req, res) {
 /**
  * [PMS0830070] 取禁用服務項目
  */
-exports.qryDt2DisableItem = function(req, res){
+exports.qryDt2DisableItemNos = function (req, res) {
     let lo_userInfo = req.session.user;
     let lo_params = {
         athena_id: lo_userInfo.athena_id,
@@ -198,7 +151,7 @@ exports.qryDt2DisableItem = function(req, res){
         adjfolio_cod: req.body.adjfolio_cod
     };
 
-    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_DISABLE_ITEM", lo_params, 0, 0, function(err, result){
-        res.json({success: true, dt2DisableItem: commonTools.trimObjectAllVal(result)});
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_DISABLE_ITEM", lo_params, 0, 0, function (err, result) {
+        res.json({success: true, dt2DisableItemNos: commonTools.trimObjectAllVal(result)});
     });
 };

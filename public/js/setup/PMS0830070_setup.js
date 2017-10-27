@@ -17,14 +17,17 @@ DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
 
 var Pms0830070Comp = Vue.extend({
     template: '#PMS0830070Tmp',
-    props: ['editingRow', 'singleData', "tmpCUD", 'singleDataDt', 'singleData4DetialTmp'],
+    props: ['editingRow', 'singleData', "tmpCUD", 'singleDataDt', 'singleData4DetialTmp', 'dt2ItemNosDataList'],
     data: function () {
         return {
             dialogServiceItemVisible: false,
-            adjfolioDataItem: {},
             singleDataDt2: {},
-            dt2AllData: {},
-            deleteDtTmp: []
+            deleteDtTmp: [],
+            dt2ShowList: [],
+            dt2SelectedItemNos: [],              //dt2已選擇項目
+            dt2DisableItemNos: [],               //dt2禁用項目
+            itemNosCheckedTemp: []               //服務項目勾選暫存(優先權高)
+
         };
     },
     created: function () {
@@ -32,89 +35,81 @@ var Pms0830070Comp = Vue.extend({
         vmHub.$on('updateDetail2', function () {
             self.singleDataDt2 = {};
         });
+        vmHub.$on("clearItemNosCheckedTemp", function () {
+            self.itemNosCheckedTemp = [];
+            self.oriItemNosChecked = [];
+        });
     },
     methods: {
         //點擊明細跳窗
         openDt2: function (index, itemName) {
-
-            if (itemName != "") {
-            //     this.getSingleDtAll2();
-            //     this.getSingleDt2(index);
-                this.openDetail4Detail(index);
-            //     this.showDialogServerItem();
-            }
-            else {
+            if (itemName == "") {
                 alert("請輸入帳單明細");
+                return;
             }
-        },
 
-        openDetail4Detail: function (index) {
             var self = this;
-            var singleData = PMS0830070VM.singleData;
+            var lo_singleData = PMS0830070VM.singleData;
+            lo_singleData.seq_nos = index;
             //SAM:為了判斷值是否有被選過做disable
-            $.post('/api/qryDt2SelectedItemNos', singleData, function (response) {
-                //取得所有項目
-                _.each(response.dt2ItemNosDataList, function (dt4DtRow, dt4DtIndex) {
-                    response.dt2ItemNosDataList[dt4DtIndex]["seq_nos"] = index;
-                    //取得此代號的項目
-                    _.each(self.dt2AllData, function (allDtRow, idx) {
-                        if (dt4DtRow["item_nos"] == allDtRow["item_nos"]) {
-                            response.dt2ItemNosDataList[dt4DtIndex]["checked"] = "true";
-                            response.dt2ItemNosDataList[dt4DtIndex]["checking"] = "true";
-                            if (self.singleDataDt2.length > 0) {
-                                var isSame = false;
-                                //取得此代號+序號項目
-                                _.each(self.singleDataDt2, function (row) {
-                                    if (!isSame) {
-                                        if (allDtRow["item_nos"] == row["item_nos"]) {
-                                            response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "false";
-                                            isSame = true;
-                                        } else {
-                                            response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "true";
-                                        }
-                                    }
-                                });
-                            } else {
-                                response.dt2ItemNosDataList[dt4DtIndex]["disabled"] = "true";
-                            }
-                        }
-                    });
+            $.post('/api/qryDt2SelectedItemNos', lo_singleData, function (response) {
+                self.qryDt2DisableItemNos(lo_singleData, function (result) {
+                    self.dt2SelectedItemNos = response.selectedData;
+                    self.chkItemNosStatus();
+                    self.dialogServiceItemVisible = true;
                 });
-                self.adjfolioDataItem = response.dt2ItemNosDataList;
-                self.dialogServiceItemVisible = true;
             });
         },
 
-        //Show Dt的Dt
-        showDialogServerItem: function () {
-            this.dialogServiceItemVisible = true;
+        //查詢dt2禁用項目
+        qryDt2DisableItemNos: function (lo_singleData, callback) {
+            var self = this;
+            $.post("/api/qryDt2DisableItemNos", lo_singleData, function (result) {
+                self.dt2DisableItemNos = result.dt2DisableItemNos;
+                callback(result.success);
+            });
         },
 
-        changeDtInfo: function (data) {
-            alert(data);
+        //驗證此筆服務項目狀態
+        chkItemNosStatus: function () {
+            var self = this;
+
+            // self.dt2ShowList.push(lo_itemNos);
+        },
+
+        updateCheckData: function (item_nos) {
+            var ln_checkedTemp = _.findIndex(this.itemNosCheckedTemp, {item_nos: item_nos});
+            var ln_selItemNosTemp = _.findIndex(this.dt2SelectedItemNos, {item_nos: item_nos});
+            var ln_DisItemNosTemp = _.findIndex(this.dt2DisableItemNos, {item_nos: item_nos});
+            console.log(ln_checkedTemp, ln_selItemNosTemp, ln_DisItemNosTemp);
+            if (ln_checkedTemp == -1) {
+                var lb_checked = (ln_selItemNosTemp != -1 || ln_DisItemNosTemp != -1) ? false : true;
+                this.itemNosCheckedTemp.push({
+                    item_nos: item_nos,
+                    seq_nos: PMS0830070VM.singleData.seq_nos,
+                    checked: lb_checked
+                });
+            }
+            else {
+                this.itemNosCheckedTemp = _.without(this.itemNosCheckedTemp, _.findWhere(this.itemNosCheckedTemp, {item_nos: item_nos}));
+                this.itemNosCheckedTemp.push({
+                    item_nos: item_nos,
+                    seq_nos: PMS0830070VM.singleData.seq_nos,
+                    checked: false
+                });
+            }
         },
 
         //查詢此筆dt2資料
-        qrySingleDt2: function (index) {
+        qrySelectedItemNos: function (index) {
             var self = this;
             var params = {
                 seq_nos: index,
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            $.post('/api/qryPMS0830070SingleDt2', params, function (response) {
-                // if (PMS0830070VM.singleData4DetialTmp.length > 0) {
-                //     _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                //         if (typeof row != "undefined") {
-                //             if (row.seq_nos == index && row.checking == "true") {
-                //                 response.routeDtList.push(row);
-                //             } else if (row.seq_nos == index && row.checking == "false" && row.checked == "true") {
-                //                 response.routeDtList.splice(detailIndex, 1);
-                //             }
-                //         }
-                //     });
-                // }
-                self.singleDataDt2 = response.dt2Data;
+            $.post('/api/qryDt2SelectedItemNos', params, function (response) {
+                self.dt2SelectedItemNos = response.selectedData;
             });
         },
 
@@ -149,7 +144,6 @@ var Pms0830070Comp = Vue.extend({
         },
 
         clickDeleteDt: function () {
-            console.log(this.deleteDtTmp);
             // var singleDataDtInfo = PMS0830070VM.singleDataDt;
             // _.each(singleDataDtInfo,function (row,index) {
             //     if(typeof row.deleted == "false" || typeof row.deleted == "undefined") {
@@ -193,8 +187,6 @@ var Pms0830070Comp = Vue.extend({
                     }
                 });
             }
-
-            console.log(PMS0830070VM.tmpCUD.dt_deleteData);
 
             return;
             if (singleData.adjfolio_cod != "") {
@@ -268,11 +260,6 @@ var Pms0830070Comp = Vue.extend({
             });
         },
 
-        //勾選後暫存
-        chkAdjfolioData: function (index, status) {
-            this.adjfolioDataItem[index]["checking"] = status == "false" ? "true" : "false";
-        },
-
         //勾選的選項暫存
         saveDt2Dt: function () {
 
@@ -331,7 +318,7 @@ var PMS0830070VM = new Vue({
         singleDataDt: {},
         singleDataDtEdit4DeleteTmp: [],
         singleData4DetialTmp: [],
-        dt2AllData: [],
+        dt2ItemNosDataList: [],             //dt2所有服務項目
         dgIns: {},
         tmpCUD: {
             createData: {},
@@ -367,8 +354,9 @@ var PMS0830070VM = new Vue({
         //抓取顯示資料
         loadDataGridByPrgID: function (callback) {
 
-            if(_.isUndefined(callback)){
-                callback = function(){};
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
             }
 
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, searchCond: this.searchCond}, function (result) {
@@ -427,23 +415,9 @@ var PMS0830070VM = new Vue({
                 .done(function (response) {
                     PMS0830070VM.singleData = response.mnData;
                     PMS0830070VM.singleDataDt = response.dtData;
+                    PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
                     self.openRouteDialog();
                 });
-        },
-
-        //點擊Dt"..."需撈取所有dt2資料
-        qryDt2AllData: function () {
-            var self = this;
-            var params = {
-                adjfolio_cod: this.singleData.adjfolio_cod
-            };
-
-            $.post('/api/qryPMS0830070Dt2AllData', params, function (response) {
-                // _.each(PMS0830070VM.singleData4DetialTmp, function (row, detailIndex) {
-                //     response.routeDtList.push(row);
-                // });
-                self.dt2AllData = response.dt2Data;
-            });
         },
 
         //開起單筆頁
@@ -460,7 +434,7 @@ var PMS0830070VM = new Vue({
                 dialogClass: "test",
                 resizable: true
             });
-            this.qryDt2AllData();
+            vmHub.$emit("clearItemNosCheckedTemp");
         },
 
         closeGridDialog: function () {
