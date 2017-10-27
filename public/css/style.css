@@ -4164,15 +4164,12 @@ span.triangle-text {
   margin: 0 20px;
 }
 
-.dominos-btn-group {
-  float: left;
-}
-.dominos-btn-group li {
+.dominos-btn-group ul li {
   display: inline-block;
   width: 81px;
   margin-bottom: 5px;
 }
-.dominos-btn-group li.btn-120 {
+.dominos-btn-group ul li.btn-120 {
   width: 120px;
 }
 
@@ -4181,6 +4178,14 @@ span.triangle-text {
 }
 .dominos-input-group .input-medium {
   margin-bottom: 3px;
+}
+
+.order-down {
+  float: right;
+}
+
+.PSIW500030-down .grid-item label {
+  vertical-align: text-bottom;
 }
 
 /*------  共用區public ------ */
