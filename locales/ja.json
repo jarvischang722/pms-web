@@ -159,6 +159,20 @@
       "route_nam": "規則名稱(日)",
       "is_master": "丟公帳(日)",
       "to_master": "移至公帳(日)"
+    },
+    "PMS0620020": {
+      "sales_cod": "業務員代號",
+      "sales_nam": "業務員姓名",
+      "class_cod": "組別",
+      "hotel_sales": "飯店業務",
+      "bq_sales": "餐飲業務",
+      "member_sales": "會員業務",
+      "status_cod": "狀態",
+      "selectYes": "是",
+      "selectNo": "否",
+      "selectAll": "全部",
+      "selectQuit": "離職",
+      "selectEmp": "在職"
     }
   },
   "table_in_use": "%s 使用中",

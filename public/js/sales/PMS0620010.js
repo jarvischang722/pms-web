@@ -582,6 +582,17 @@ var vm = new Vue({
             });
 
         },
+        doClear: function () {
+            this.searchCond = {
+                sales_cod: "",
+                sales_nam: "",
+                class_cod: "",
+                hotel_sales: "all",
+                bq_sales: "all",
+                member_sales: "all",
+                status_cod: "all"
+            };
+        },
         appendRow: function () {
             this.initTmpCUD();
             this.hotelDTDataGridRows.length = 0;

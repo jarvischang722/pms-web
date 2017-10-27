@@ -15,15 +15,15 @@
                             <div class="width-95 searchMain-S2">
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Sales ID</label>
+                                        <label><%= __("program")["PMS0620020"]["sales_cod"] %></label>
                                         <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_cod"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Name</label>
+                                        <label><%= __("program")["PMS0620020"]["sales_nam"] %></label>
                                         <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_nam"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Team</label>
+                                        <label><%= __("program")["PMS0620020"]["class_cod"] %></label>
                                         <input type="text" class="input-medium medium-c1" v-model="searchCond.class_cod"/>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                                         <li>
                                             <div class="" data-rel="tooltip" data-placement="bottom"
                                                  title="清除">
-                                                <div class="icon-reStyle icon-co-11"></div>
+                                                <div class="icon-reStyle icon-co-11" @click="doClear"></div>
                                             </div>
                                         </li>
                                         <li>
@@ -57,37 +57,37 @@
                             <div class="width-95">
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Hotel</label>
+                                        <label><%= __("program")["PMS0620020"]["hotel_sales"] %></label>
                                         <select class="input-medium medium-c1" v-model="searchCond.hotel_sales">
-                                            <option value="y">Yes</option>
-                                            <option value="N">No</option>
-                                            <option value="all">All</option>
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>F&B</label>
+                                        <label><%= __("program")["PMS0620020"]["bq_sales"] %></label>
                                         <select class="input-medium medium-c1" v-model="searchCond.bq_sales">
-                                            <option value="y">Yes</option>
-                                            <option value="N">No</option>
-                                            <option value="all">All</option>
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Membership</label>
+                                        <label><%= __("program")["PMS0620020"]["member_sales"] %></label>
                                         <select class="input-medium medium-c1" v-model="searchCond.member_sales">
-                                            <option value="y">Yes</option>
-                                            <option value="N">No</option>
-                                            <option value="all">All</option>
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Status</label>
+                                        <label><%= __("program")["PMS0620020"]["status_cod"] %></label>
                                         <select class="input-medium medium-c1" v-model="searchCond.status_cod">
-                                            <option value="Q">Q:離職</option>
-                                            <option value="N">N:在職</option>
-                                            <option value="all">All</option>
+                                            <option value="Q">Q:<%= __("program")["PMS0620020"]["selectQuit"] %></option>
+                                            <option value="N">N:<%= __("program")["PMS0620020"]["selectEmp"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                 </div>
@@ -116,17 +116,17 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="appendRow">Add
+                                        role="button" @click="appendRow"><%= __("SystemCommon")["Add"]%>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth"
-                                        role="button" @click="removeRow">Delete
+                                        role="button" @click="removeRow"><%= __("SystemCommon")["Delete"]%>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="editRow">Edit
+                                        role="button" @click="editRow"><%= __("SystemCommon")["Modify"]%>
                                 </button>
                             </li>
                         </ul>
