@@ -547,7 +547,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         tmpDelData.condition.push({
             key: "adjfolio_cod",
             operation: "=",
-            value: delData.adjfolio_cod
+            value: lo_mnData.adjfolio_cod
         });
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
