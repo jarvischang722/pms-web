@@ -44,8 +44,9 @@
                                            @click="qrySelectedItemNos(item.seq_nos)" v-model="item.seq_nos">
                                 </td>
                                 <td>
-                                    <input class="input-medium medium-c1 width-100" type="text" name="itemNnam"
-                                           @click="qrySelectedItemNos(item.seq_nos)" v-model="item.item_nam">
+                                    <input class="input-medium medium-c1 width-100" type="text" name="itemNam"
+                                           @click="qrySelectedItemNos(item.seq_nos)" v-model="item.item_nam"
+                                            @keyup="updateDtData(item)">
                                 </td>
 
                                 <td>
@@ -66,7 +67,7 @@
                             <th class="css_th">服務項目</th>
                         </tr>
 
-                        <tr class="css_tr" v-for="(item,index) in dt2SelectedItemNos">
+                        <tr class="css_tr" v-for="(item,index) in dtSelItemNosShowList">
                             <td class="css_td">{{item.seq_nos}}</td>
                             <td class="css_td">{{item.item_nos}}</td>
                         </tr>
@@ -75,7 +76,10 @@
                 </div>
                 <div class="col-xs-1 col-sm-1 margin-top5">
                     <div class="row">
-                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                        <!--<button class="btn btn-primary btn-white btn-defaultWidth"-->
+                                <!--:disabled="isFistData || $parent.isLoading" @click="toFirstData"><%= __("SystemCommon").First %>-->
+                        <!--</button>-->
+                        <button class="btn btn-primary btn-white btn-defaultWidth margin-top5"
                                 id="addDtDetail" type="submit" name="addDtDetail" value="新增明細" @click="btnAddDtDetail">
                             新增明細
                         </button>
@@ -123,7 +127,7 @@
                                         <!--:disabled="item.disabled =='true' " name="chk" id="ckItem"-->
                                         <!--@click="chkAdjfolioData(index,item.checking)">-->
                                         <input type="checkbox" :checked="item.checked"
-                                               :disabled="item.disabled" :value="item.item_nos" @click="updateCheckData(item.item_nos)">
+                                               :disabled="item.disabled" :value="item.item_nos" @click="updateCheckData(index)">
                                     </form>
                                 </td>
                                 <td class="css_td">{{item.item_nos}}</td>
