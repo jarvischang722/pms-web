@@ -239,14 +239,17 @@ function DatagridBaseClass() {
      */
     this.doTmpExecData = function (rowData) {
 
-        rowData = _.extend(rowData, this.mnRowData);
+        var lo_chkKeyRowData = _.clone(rowData);
 
-        var dataType = rowData.createRow == 'Y'
+        lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
+        // rowData = _.extend(rowData, this.mnRowData);
+
+        var dataType = lo_chkKeyRowData.createRow == 'Y'
             ? "createData" : "updateData";  //判斷此筆是新增或更新
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
         _.each(keyVals, function (field_name) {
-            condKey[field_name] = rowData[field_name] || "";
+            condKey[field_name] = lo_chkKeyRowData[field_name] || "";
         });
 
         //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
@@ -256,11 +259,11 @@ function DatagridBaseClass() {
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
-        rowData["mnRowData"] = this.mnRowData;
-        rowData["tab_page_id"] = 1;
-        rowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+        lo_chkKeyRowData["mnRowData"] = this.mnRowData;
+        lo_chkKeyRowData["tab_page_id"] = 1;
+        lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
-        self.tmpCUD[dataType].push(rowData);
+        self.tmpCUD[dataType].push(lo_chkKeyRowData);
         $("#gridEdit").val(self.tmpCUD);
 
     };
