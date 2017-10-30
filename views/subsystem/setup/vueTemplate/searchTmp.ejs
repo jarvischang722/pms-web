@@ -17,16 +17,14 @@
                                                :required="field.requirable == 'Y'"/>
                                     </template>
 
-                                    <div style="background: red;">
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                         <el-select v-model="searchCond[field.ui_field_name]"
-                                                   multiple="field.ui_type == 'multiselect'" size="small">
+                                                   multiple="field.ui_type == 'multiselect'" size="mini">
                                             <el-option v-for="item in field.selectData" :key="item.value"
                                                        :label="item.display" :value="item.value">
                                             </el-option>
                                         </el-select>
                                     </template>
-                                    </div>
 
                                     <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
@@ -140,3 +138,4 @@
     </div>
     <div class="clearfix"></div>
 </script>
+
