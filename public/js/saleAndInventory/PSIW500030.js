@@ -1496,6 +1496,13 @@ $('.dominos-inventory-right').resize(function(){
     var elem = $(this);
     var inventoryRightW = elem.width();
     console.log(inventoryRightW);
+
+    if(inventoryRightW < 750){
+        $(".order-down").css("float","none");
+    }else{
+        $(".order-down").css("float","right");
+    }
+
     if(inventoryRightW < 614){
         $(".w510px").css("margin-left","92px");
     }else{
