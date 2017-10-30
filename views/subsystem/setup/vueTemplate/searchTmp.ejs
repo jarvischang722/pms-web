@@ -2,7 +2,6 @@
 <script type="text/x-template" id="searchTmp">
     <div class="col-xs-12" v-if="searchFields.length > 0 ">
         <div class="search-content">
-            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
             <div class="search-co">
                 <div class="row">
                     <div class="search-co-content col-xs-12">
@@ -12,12 +11,13 @@
                                     <label>{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                               class="numStyle-none"
+                                               class="numStyle-none defHt"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                min="0"
                                                :required="field.requirable == 'Y'"/>
                                     </template>
 
+                                    <div style="background: red;">
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                         <el-select v-model="searchCond[field.ui_field_name]"
                                                    multiple="field.ui_type == 'multiselect'" size="small">
@@ -26,6 +26,7 @@
                                             </el-option>
                                         </el-select>
                                     </template>
+                                    </div>
 
                                     <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
@@ -88,7 +89,7 @@
                                         <label>{{field.ui_display_name}}</label>
                                         <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                             <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                                   class="numStyle-none"
+                                                   class="numStyle-none defHt "
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    min="0"
                                                    :required="field.requirable == 'Y'"/>

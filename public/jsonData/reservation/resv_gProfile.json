@@ -1,15 +1,10 @@
 {"total":28,
   "rows":[
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"Y","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
-    {"historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
-    {"historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
-    {"historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""},
-    {"historyNO":"","personID":"","fullName":"","sex":"","birthDate":"","status":"","country":"","visitNum":"","visitDay":"","totalSpend":"","getDM":""}
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"VIP","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"黑名單","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
+    {"historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","birthDate":"2015/04/30","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"}
     ]}
 
