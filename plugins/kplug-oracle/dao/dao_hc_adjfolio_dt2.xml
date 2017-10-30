@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <!-- ['PMS0830070'] 明細的明細虛擬帳單項目DT2 -->
-    <dao name="QRY_HC_ADJFOLIO_ALL_DT2">
-        <statement><![CDATA[
-               select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
-               from hc_adjfolio_dt2
-               where athena_id = ? and trim(hotel_cod) = ? and trim(adjfolio_cod)= trim(?)
-        ]]>
-        </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">adjfolio_cod</parameter>
-    </dao>
+    <!--<dao name="QRY_HC_ADJFOLIO_DT2">-->
+        <!--<statement><![CDATA[-->
+               <!--select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos-->
+               <!--from hc_adjfolio_dt2-->
+               <!--where athena_id = ? and trim(hotel_cod) = trim(?) and trim(adjfolio_cod)= trim(?)-->
+        <!--]]>-->
+        <!--</statement>-->
+        <!--<parameter type="number" kind="1">athena_id</parameter>-->
+        <!--<parameter type="string" kind="1">hotel_cod</parameter>-->
+        <!--<parameter type="string" kind="1">adjfolio_cod</parameter>-->
+    <!--</dao>-->
 
     <!-- ['PMS0830070'] 明細的明細虛擬帳單項目DT2 -->
     <dao name="QRY_HC_ADJFOLIO_DT2">
         <statement><![CDATA[
                select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
                from hc_adjfolio_dt2
-               where athena_id = ? and trim(hotel_cod) = ? and seq_nos=? and trim(adjfolio_cod)= trim(?)
+               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(seq_nos) = trim(:seq_nos) and trim(adjfolio_cod) = trim(:adjfolio_cod) order by seq_nos
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
-        <parameter type="string" kind="1">hotel_cod</parameter>
-        <parameter type="string" kind="1">seq_nos</parameter>
-        <parameter type="string" kind="1">adjfolio_cod</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">seq_nos</parameter>
+        <parameter type="string" kind="3">adjfolio_cod</parameter>
+    </dao>
+
+    <!-- ['PMS0830070'] 查詢dt2不能使用項目 -->
+    <dao name="QRY_HC_ADJFOLIO_DT2_DISABLE_ITEM">
+        <statement><![CDATA[
+               select DISTINCT item_nos, seq_nos from hc_adjfolio_dt2
+               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod)
+               and trim(seq_nos) != trim(:seq_nos) and trim(adjfolio_cod)= trim(:adjfolio_cod) order by seq_nos
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">seq_nos</parameter>
+        <parameter type="string" kind="3">adjfolio_cod</parameter>
     </dao>
 </root>

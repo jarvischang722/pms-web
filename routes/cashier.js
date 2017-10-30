@@ -29,14 +29,13 @@ module.exports = function (app) {
     app.post('/api/doSavePMS0830080', apiMiddles, cashierCrtl.doSavePMS0830080);
     //儲存
     app.post('/api/doSavePMS0830070', apiMiddles, cashierCrtl.doSavePMS0830070);
-    //取得單筆
-    app.post('/api/qryPMS0830070SingleMn', apiMiddles, cashierCrtl.qryPMS0830070SingleMn);
-    //取得DT
-    app.post('/api/qryPMS0830070SingleDt', apiMiddles, cashierCrtl.qryPMS0830070SingleDt);
-    //取得DT2
-    app.post('/api/qryPMS0830070SingleDt2', apiMiddles, cashierCrtl.qryPMS0830070SingleDt2);
-    //取得DT的DT
-    app.post('/api/qryPMS0830070SingleDt4Dt', apiMiddles, cashierCrtl.qryPMS0830070SingleDt4Dt);
-    //取得DT2全部資料
-    app.post('/api/qryPMS0830070SingleAllDt2', apiMiddles, cashierCrtl.qryPMS0830070SingleAllDt2);
+
+    //取得單筆資料
+    app.post("/api/qryPMS0830070SingleData", apiMiddles, cashierCrtl.qryPMS0830070SingleData);
+
+    //取得此筆已選DT2服務項目
+    app.post('/api/qryDt2SelectedItemNos', apiMiddles, cashierCrtl.qryDt2SelectedItemNos);
+
+    //取得dt2禁用服務項目
+    app.post('/api/qryDt2DisableItemNos', apiMiddles, cashierCrtl.qryDt2DisableItemNos);
 };
