@@ -840,7 +840,7 @@ function operationSaveProc(postData, session) {
 
     //查詢DatagridFunc
     function qryDataGridFuncRule(ls_page_id, callback) {
-        mongoAgent.DatagridFunction.find({
+        mongoAgent.SetupDatagridFunction.find({
             prg_id: postData.prg_id,
             page_id: ls_page_id
         }, function (err, getResult) {
@@ -850,7 +850,7 @@ function operationSaveProc(postData, session) {
 
     //查詢PageFunc
     function qryPageFuncRule(ls_page_id, callback) {
-        mongoAgent.PageFunction.find({
+        mongoAgent.SetupPageFunction.find({
             prg_id: postData.prg_id,
             page_id: ls_page_id
         }, function (err, getResult) {

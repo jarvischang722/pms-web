@@ -38,7 +38,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
             async.waterfall([
                 //取sales_mn欄位資料
                 function (cb) {
-                    mongoAgent.UI_PageField.find({
+                    mongoAgent.UIPageField.find({
                         prg_id: prg_id,
                         page_id: 1
                     }, function (errPageField, pageField) {
@@ -75,7 +75,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                     var lo_rowData = postData.rowData;
                     var lo_pageField = postData.pageField;
 
-                    mongoAgent.PageFunction.findOne({
+                    mongoAgent.SetupPageFunction.findOne({
                         prg_id: prg_id,
                         func_id: '0401'
                     }, function (err, func) {
@@ -263,7 +263,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
 
                         selectDSFunc.push(
                             function (cb) {
-                                mongoAgent.UI_Type_Select.findOne({
+                                mongoAgent.UITypeSelect.findOne({
                                     prg_id: prg_id,
                                     ui_field_name: field.ui_field_name
                                 }).exec(function (err, selRow) {
@@ -447,7 +447,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
             async.waterfall([
                 //1) 撈出全部的欄位屬性
                 function (cbw) {
-                    mongoAgent.UI_PageField.find({page_id: 1, prg_id: prg_id}).sort({
+                    mongoAgent.UIPageField.find({page_id: 1, prg_id: prg_id}).sort({
                         row_seq: 1,
                         col_seq: 1
                     }).exec(function (err, fields) {
@@ -470,7 +470,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
 
                             selectDSFunc.push(
                                 function(cbw) {
-                                    mongoAgent.UI_Type_Select.findOne({
+                                    mongoAgent.UITypeSelect.findOne({
                                         prg_id: prg_id,
                                         ui_field_name: field.ui_field_name
                                     }).exec(function (err, selRow) {
@@ -534,7 +534,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
         function (cb) {
             async.waterfall([
                 function (cbw) {
-                    mongoAgent.UI_PageField.findOne({
+                    mongoAgent.UIPageField.findOne({
                         prg_id: prg_id,
                         page_id: 1,
                         tab_page_id: 1,
@@ -605,7 +605,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
 
                         selectDSFunc.push(
                             function (cbw) {
-                                mongoAgent.UI_Type_Select.findOne({
+                                mongoAgent.UITypeSelect.findOne({
                                     prg_id: prg_id,
                                     ui_field_name: field.ui_field_name
                                 }).exec(function (err, selRow) {
@@ -641,7 +641,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
         function (cb) {
             async.waterfall([
                 function (cbw) {
-                    mongoAgent.UI_PageField.findOne({
+                    mongoAgent.UIPageField.findOne({
                         prg_id: prg_id,
                         page_id: 1,
                         tab_page_id: 2,
@@ -712,7 +712,7 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
 
                         selectDSFunc.push(
                             function (cbw) {
-                                mongoAgent.UI_Type_Select.findOne({
+                                mongoAgent.UITypeSelect.findOne({
                                     prg_id: prg_id,
                                     ui_field_name: field.ui_field_name
                                 }).exec(function (err, selRow) {
@@ -755,12 +755,12 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.parallel([
         function (cb) {
-            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
+            mongoAgent.UIPageField.find({prg_id: prg_id, page_id: page_id}, function (err, fieldNameList) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
         },
         function(cb){
-            mongoAgent.UI_Type_Select.find({prg_id: prg_id}, function (err, selectData) {
+            mongoAgent.UITypeSelect.find({prg_id: prg_id}, function (err, selectData) {
                 cb(err, selectData);
             });
         }
@@ -779,7 +779,7 @@ exports.handleAddFuncRule_PMS0620020 = function (session, postData, callback) {
                 lo_initField[name] = "";
             }
         });
-        mongoAgent.DatagridFunction.findOne({
+        mongoAgent.SetupDatagridFunction.findOne({
             prg_id: prg_id,
             func_id: '0200',
             page_id: page_id

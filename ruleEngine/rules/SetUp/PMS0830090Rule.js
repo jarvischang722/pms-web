@@ -96,7 +96,7 @@ module.exports = {
         if (ui_field_name != "") {
             selectDSFunc.push(
                 function (callback) {
-                    mongoAgent.UI_Type_Select.findOne({
+                    mongoAgent.UITypeSelect.findOne({
                         prg_id: prg_id,
                         ui_field_name: ui_field_name
                     }).exec(function (err, selRow) {
@@ -164,7 +164,7 @@ module.exports = {
             if (ui_field_name != "") {
                 selectDSFunc.push(
                     function (callback) {
-                        mongoAgent.UI_Type_Select.findOne({
+                        mongoAgent.UITypeSelect.findOne({
                             prg_id: prg_id,
                             ui_field_name: ui_field_name
                         }).exec(function (err, selRow) {

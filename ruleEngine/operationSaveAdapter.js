@@ -133,7 +133,7 @@ function qryFieldData(rfData, callback) {
         },
         function (cb) {
             if (gs_template_id == "gridsingle" || gs_template_id == "mn-dt" || gs_template_id == "special") {
-                mongoAgent.UI_PageField.find({
+                mongoAgent.UIPageField.find({
                     prg_id: go_postData.prg_id,
                     page_id: go_postData.page_id
                 }, function (err, la_gsFieldsData) {
