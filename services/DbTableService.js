@@ -495,8 +495,10 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     let la_deleteData = postData.deleteData || [];
     let la_dtCreateData = postData.dt_createData || [];
     let la_dtUpdateData = postData.dt_updateData || [];
+    let la_dtDeleteData = postData.dt_deleteData || [];
     let la_dt2CreateData = postData.dt2_createData || [];
-    let la_dt2UpdateData = postData.dt2_updateData || [];
+    // let la_dt2UpdateData = postData.dt2_updateData || [];
+    let la_dt2DeleteData = postData.dt2_deleteData || [];
     let lo_mnData = {};  // 主檔資料(一次儲存只會有一筆)
     let lo_savaExecDatas = {};
     let ln_exec_seq = 1;
@@ -516,187 +518,150 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     //組合新增資料
     if (_.size(lo_createData) > 0) {
         lo_mnData = lo_createData;
-        delete lo_mnData["hc_adjfolio_dt"];
-        delete lo_mnData["hc_adjfolio_dt2"];
+        // delete lo_mnData["hc_adjfolio_dt"];
+        // delete lo_mnData["hc_adjfolio_dt2"];
         let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_mn"};
         tmpCreateData = _.extend(tmpCreateData, lo_mnData);
-        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpCreateData, ruleAgent.getCreateCommonDefaultDataRule(session));
+        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpCreateData, commonRule.getCreateCommonDefaultDataRule(session));
         ln_exec_seq++;
     }
     //組合編輯資料
     if (_.size(lo_updateData) > 0) {
         lo_mnData = lo_updateData;
         let tmpUpdData = {"function": "2", "table_name": "hc_adjfolio_mn"};
-        tmpUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
+        tmpUpdData.condition = _.clone(la_commonCond);
         tmpUpdData.condition.push({
             key: "adjfolio_cod",
             operation: "=",
             value: lo_mnData.adjfolio_cod
         });
         tmpUpdData = _.extend(tmpUpdData, {adjfolio_rmk: lo_mnData.adjfolio_rmk.trim()});
-        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpUpdData, ruleAgent.getEditDefaultDataRule(session));
-        delete lo_savaExecDatas[ln_exec_seq]["ins_dat"];
-        delete lo_savaExecDatas[ln_exec_seq]["ins_usr"];
+        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpUpdData, commonRule.getEditDefaultDataRule(session));
         ln_exec_seq++;
     }
     //組合刪除資料
     _.each(la_deleteData, function (delData) {
         //先刪除dt2
         let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
-        tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
+        tmpDelData.condition = _.clone(la_commonCond);
         tmpDelData.condition.push({
-                key: "adjfolio_cod",
-                operation: "=",
-                value: delData.adjfolio_cod
-            }
-        );
-
+            key: "adjfolio_cod",
+            operation: "=",
+            value: lo_mnData.adjfolio_cod
+        });
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
 
         //先刪除dt
-        tmpDelData = JSON.parse(JSON.stringify(tmpDelData));
+        tmpDelData = _.clone(tmpDelData);
         tmpDelData.table_name = "hc_adjfolio_dt";
-
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
 
         //再刪除mn
-        tmpDelData = JSON.parse(JSON.stringify(tmpDelData));
+        tmpDelData = _.clone(tmpDelData);
         tmpDelData.table_name = "hc_adjfolio_mn";
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
     });
+
+
     //dt 新增資料
-    for (var i = 0; i < la_dtCreateData.length; i++) {
-        let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt"};
-        tmpCreateData = _.extend(tmpCreateData, la_dtCreateData[i]);
-        tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-        lo_savaExecDatas[ln_exec_seq] = _.extend(tmpCreateData, ruleAgent.getCreateCommonDefaultDataRule(session));
+    _.each(la_dtCreateData, function (lo_dtCreateData) {
+        let dtCreateData = {"function": "1", "table_name": "hc_adjfolio_dt"};
+        dtCreateData = _.extend(dtCreateData, lo_dtCreateData);
+        dtCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
+        lo_savaExecDatas[ln_exec_seq] = _.extend(dtCreateData, commonRule.getCreateCommonDefaultDataRule(session));
         ln_exec_seq++;
-    }
-    //dt 編輯資料
-    for (var i = 0; i < la_dtUpdateData.length; i++) {
-
-        let tmpDtUpdData = {"function": "2", "table_name": "hc_adjfolio_dt"};
-
-        if (la_dtUpdateData[i].deleted == "true" && la_dtUpdateData[i].edited == "true") {    //刪除DT
-            tmpDtUpdData.function = "0";
-            tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-            tmpDtUpdData.condition.push({
-                    key: "adjfolio_cod",
-                    operation: "=",
-                    value: lo_mnData.adjfolio_cod
-                },
-                {
-                    key: "seq_nos",
-                    operation: "=",
-                    value: la_dtUpdateData[i].seq_nos
-                });
-            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
-            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
-            ln_exec_seq++;
-
-            let tmpDtUpdDataDt2 = {"function": "0", "table_name": "hc_adjfolio_dt2"};
-
-            tmpDtUpdDataDt2.condition = JSON.parse(JSON.stringify(la_commonCond));
-            tmpDtUpdDataDt2.condition.push({
-                    key: "adjfolio_cod",
-                    operation: "=",
-                    value: lo_mnData.adjfolio_cod
-                },
-                {
-                    key: "seq_nos",
-                    operation: "=",
-                    value: la_dtUpdateData[i].seq_nos
-                });
-            tmpDtUpdDataDt2 = _.extend(tmpDtUpdDataDt2, la_dtUpdateData[i]);
-            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdDataDt2, ruleAgent.getEditDefaultDataRule(session));
-            ln_exec_seq++;
-
-        } else if (la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].created == "true") {    //新增DT
-            tmpDtUpdData.function = "1";
-            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
-            tmpDtUpdData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
-            ln_exec_seq++;
-
-        } else if (la_dtUpdateData[i].deleted == "false" && la_dtUpdateData[i].edited == "true") {    //更新DT
-            tmpDtUpdData.function = "2";
-            tmpDtUpdData.condition = JSON.parse(JSON.stringify(la_commonCond));
-            tmpDtUpdData.condition.push({
-                    key: "adjfolio_cod",
-                    operation: "=",
-                    value: lo_mnData.adjfolio_cod
-                },
-                {
-                    key: "seq_nos",
-                    operation: "=",
-                    value: la_dtUpdateData[i].seq_nos
-                });
-            tmpDtUpdData = _.extend(tmpDtUpdData, la_dtUpdateData[i]);
-            tmpDtUpdData["item_nam"] = la_dtUpdateData[i].item_nam;
-            lo_savaExecDatas[ln_exec_seq] = _.extend(tmpDtUpdData, ruleAgent.getEditDefaultDataRule(session));
-            ln_exec_seq++;
-        }
-    }
-    //dt2 新增資料
-    for (var i = 0; i < la_dt2CreateData.length; i++) {
-        if (la_dt2CreateData[i].checking == "true" && la_dt2CreateData[i].checked == "false") {
-            let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
-            tmpCreateData = _.extend(tmpCreateData, la_dt2CreateData[i]);
-            tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-            tmpCreateData["athena_id"] = session.user.athena_id;
-            tmpCreateData["hotel_cod"] = session.user.fun_hotel_cod;
-            delete tmpCreateData["item_sna"];
-            delete tmpCreateData["checked"];
-            delete tmpCreateData["disabled"];
-            lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
-            ln_exec_seq++;
-        }
-    }
-    //dt 編輯資料
-    for (var i = 0; i < la_dt2UpdateData.length; i++) {
+    });
+    //dt 刪除資料
+    _.each(la_dtDeleteData, function (lo_dtDeleteData) {
         //先刪除dt2
-        let tmpDelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
+        let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
+        dt2DelData.condition = _.clone(la_commonCond);
+        dt2DelData.condition.push(
+            {
+                key: "adjfolio_cod",
+                operation: "=",
+                value: lo_mnData.adjfolio_cod
+            },
+            {
+                key: "seq_nos",
+                operation: "=",
+                value: lo_dtDeleteData.seq_nos
+            });
+        lo_savaExecDatas[ln_exec_seq] = dt2DelData;
+        ln_exec_seq++;
 
-        if (la_dt2UpdateData[i].checking == "false" && la_dt2UpdateData[i].checked == "true") {
+        //刪除dt資料
+        let dtDelData = {"function": "0", "table_name": "hc_adjfolio_dt"};
+        dtDelData.condition = _.clone(la_commonCond);
+        dtDelData.condition.push(
+            {
+                key: "adjfolio_cod",
+                operation: "=",
+                value: lo_mnData.adjfolio_cod
+            },
+            {
+                key: "seq_nos",
+                operation: "=",
+                value: lo_dtDeleteData.seq_nos
+            });
+        lo_savaExecDatas[ln_exec_seq] = dtDelData;
+        ln_exec_seq++;
+    });
+    //dt 編輯資料
+    _.each(la_dtUpdateData, function (lo_dtUpdateData) {
+        let dtUpdateData = {"function": "2", "table_name": "hc_adjfolio_dt"};
+        dtUpdateData.condition = _.clone(la_commonCond);
+        dtUpdateData.condition.push({
+                key: "adjfolio_cod",
+                operation: "=",
+                value: lo_mnData.adjfolio_cod
+            },
+            {
+                key: "seq_nos",
+                operation: "=",
+                value: lo_dtUpdateData.seq_nos
+            });
+        dtUpdateData = _.extend(dtUpdateData, lo_dtUpdateData);
+        lo_savaExecDatas[ln_exec_seq] = _.extend(dtUpdateData, commonRule.getEditDefaultDataRule(session));
+        ln_exec_seq++;
+    });
 
-            tmpDelData.condition = JSON.parse(JSON.stringify(la_commonCond));
-            tmpDelData.condition.push(
-                {
-                    key: "adjfolio_cod",
-                    operation: "=",
-                    value: lo_mnData.adjfolio_cod
-                },
-                {
-                    key: "item_nos",
-                    operation: "=",
-                    value: la_dt2UpdateData[i].item_nos
-                },
-                {
-                    key: "seq_nos",
-                    operation: "=",
-                    value: la_dt2UpdateData[i].seq_nos
-                }
-            );
 
-            lo_savaExecDatas[ln_exec_seq] = tmpDelData;
-            ln_exec_seq++;
-        } else {
-            let tmpCreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
-            tmpCreateData = _.extend(tmpCreateData, la_dt2UpdateData[i]);
-            tmpCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-            tmpCreateData["athena_id"] = session.user.athena_id;
-            tmpCreateData["hotel_cod"] = session.user.fun_hotel_cod;
-            delete tmpCreateData["item_sna"];
-            delete tmpCreateData["checked"];
-            delete tmpCreateData["disabled"];
-
-            lo_savaExecDatas[ln_exec_seq] = tmpCreateData;
-            ln_exec_seq++;
-        }
-    }
+    //dt2 新增資料
+    _.each(la_dt2CreateData, function(lo_dt2CreateData){
+        let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
+        dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
+        dt2CreateData["athena_id"] = session.user.athena_id;
+        dt2CreateData["hotel_cod"] = session.user.fun_hotel_cod;
+        lo_savaExecDatas[ln_exec_seq] = _.extend(dt2CreateData, commonRule.getCreateCommonDefaultDataRule(session));
+        ln_exec_seq++;
+    });
+    //dt2 刪除資料
+    _.each(la_dt2DeleteData, function(lo_dt2DeleteData){
+        let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
+        dt2DelData.condition = _.clone(la_commonCond);
+        dt2DelData.condition.push(
+            {
+                key: "adjfolio_cod",
+                operation: "=",
+                value: lo_mnData.adjfolio_cod
+            },
+            {
+                key: "seq_nos",
+                operation: "=",
+                value: lo_dt2DeleteData.seq_nos
+            },
+            {
+                key: "item_nos",
+                operation: "=",
+                value: lo_dt2DeleteData.item_nos
+            });
+        lo_savaExecDatas[ln_exec_seq] = dt2DelData;
+        ln_exec_seq++;
+    });
 
     let apiParams = {
         "REVE-CODE": "BAC03009010000",
@@ -706,6 +671,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         "exec_data": lo_savaExecDatas
     };
 
+    // return callback(null, true);
     tools.requestApi(go_sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
         var err = null;
         var success = true;

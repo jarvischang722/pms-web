@@ -10,7 +10,7 @@
     <search-comp
             :search-fields="searchFields"
             :search-cond.sync="searchCond"
-            :fetch-data="getRouteData">
+            :fetch-data="loadDataGridByPrgID">
     </search-comp>
 
     <div class="col-xs-12 col-sm-12">
@@ -42,7 +42,8 @@
             :editing-row="editingRow"
             :single-data="singleData"
             :single-data-dt="singleDataDt"
-            :tmp-c-u-d="tmpCUD">
+            :tmp-c-u-d="tmpCUD"
+            :dt2-item-nos-data-list="dt2ItemNosDataList">
     </pms0830070-comp>
 </div>
 
