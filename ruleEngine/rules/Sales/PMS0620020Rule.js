@@ -29,6 +29,29 @@ module.exports = {
     },
 
     /**
+     * 館別編號檢查，若已使用此編號則無法使用
+     */
+    chkHotelCod: function(postData, session, callback){
+        var la_allRowData = postData["allRowData"];
+        var newValue = postData["newValue"];
+        var oldValue = postData["oldValue"];
+
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+        for(var i = 0;i < la_allRowData.length - 1;i ++){
+            if(la_allRowData[i]["hotel_cod"] == newValue){
+                lo_result.success = false;
+                lo_result.effectValues = {hotel_cod: oldValue};
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = "此館別代號已使用過，請刪除此筆資料";
+                break;
+            }
+        }
+
+        callback(lo_error, lo_result);
+    },
+
+    /**
      * 業務員狀態由「N:在職」改「Q:離職」時，檢查商務公司業務員是否指定此業務員資料，若有指定則不允許修改
      * 訊息『商務公司資料已使用，不可修改狀態』pms62msg6
      */
