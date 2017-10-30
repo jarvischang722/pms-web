@@ -1386,9 +1386,6 @@ function formatFloat(num, pos)
 
 var adpterDg = new AdapterDatagrid(PSIW500030);
 
-
-//region//套件
-
 //監測div寬度套件
 (function($,window,undefined){
     '$:nomunge'; // Used by YUI compressor.
@@ -1600,6 +1597,13 @@ $('.dominos-inventory-right').resize(function(){
     var elem = $(this);
     var inventoryRightW = elem.width();
     console.log(inventoryRightW);
+
+    if(inventoryRightW < 750){
+        $(".order-down").css("float","none");
+    }else{
+        $(".order-down").css("float","right");
+    }
+
     if(inventoryRightW < 614){
         $(".w510px").css("margin-left","92px");
     }else{
@@ -1629,4 +1633,19 @@ $('.dominos-inventory-right').resize(function(){
     }
 });
 
-//endregion
+
+// 彈出 空白訂單下載
+$(document).on('click', ".PSIW500030-down", function (e) {
+    e.preventDefault();
+    var dialog = $("#PSIW500030-down").removeClass('hide').dialog({
+        modal: true,
+        title: "空白訂貨表單下載",
+        title_html: true,
+        width: 500,
+        maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+        dialogClass: "test",
+        resizable: true
+    });
+});
