@@ -149,6 +149,103 @@
     <!--popup grid-->
     <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
+    <!-- 異動紀錄 -->
+    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+               :visible.sync="openChangeLogDialog" size="large">
+
+        <div class="col-xs-12">
+            <div class="col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="fixHeadTable">
+                        <div class="tbl-header">
+                            <table class=" custab">
+                                <thead class="custab-head">
+                                <tr>
+                                    <th class="width-15 text-center">Time</th>
+                                    <th class="width-10 text-center">User</th>
+                                    <th class="width-15 text-center">Action Type</th>
+                                    <th class="width-20 text-center">Description MN</th>
+                                    <th class="width-20 text-center">Description DT</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="tbl-content" style="height: 300px;">
+                            <table class=" custab">
+
+                                <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                <tr v-for="logData in allChangeLogList">
+                                    <td class="width-15">{{logData.event_time}}</td>
+                                    <td class="width-10">{{logData.user}}</td>
+                                    <td class="width-15">
+                                        <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                    </td>
+                                    <td class="width-20">
+                                        <div class="blue bold" style="text-transform: capitalize;">
+                                            {{logData.action }}
+                                        </div>
+                                        <span v-for="mnData in logData.desc_mn">
+                                        {{mnData.field_name}} :
+                                        {{mnData.oldVal}}
+                                        <span v-if="logData.action == 'update'"> →  </span>
+                                        {{mnData.newVal}}
+                                        <br>
+                                    </span>
+                                    </td>
+                                    <td class="width-20">
+                                        <template v-if="logData.desc_dt.length > 0">
+                                            <div  v-for="dtLogData in logData.desc_dt" >
+                                                <div class="blue bold" style="text-transform: capitalize;">
+                                                    {{dtLogData.action }}
+                                                </div>
+                                                <span v-for="dtData in dtLogData.changes">
+                                                {{dtData.field_name}} :
+                                                {{dtData.oldVal}}
+
+                                                <span v-if="dtLogData.action == 'update'"> →  </span>
+                                                {{dtData.newVal}}
+                                                       <br>
+                                            </span>
+
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            N/A
+                                        </template>
+
+
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <script>
+                        //                        console.log(navigator.userAgent);
+                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+                        $(window).on("load resize ", function () {
+                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+                            $('.tbl-header').css({'padding-right': '17px'});
+                            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                        }).resize();
+                        //                        }
+                        // /.end 判斷如果不是window不執行
+
+                    </script>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+        <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">確定</el-button>
+         </span>
+    </el-dialog>
+
     <!--  業務 彈出視窗內容(jing)-->
     <%- include sales_module/sales_Btn_1.ejs %>
     <!--  /.End 業務 彈出視窗內容 -->

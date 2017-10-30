@@ -29,9 +29,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             dgHoatelDt: {},
             dgClassHs: {},
             gs_active: "", //正在使用 hotelDt(館別)| classHs(組別異動紀錄),
-            openChangeLogDialog: false,
             isSaving: false,
-            allChangeLogList: [],
             testChk: false,
             postRowData: {},
             originRowData: {},
@@ -237,7 +235,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
-            this.openChangeLogDialog = true;
+            vm.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
                 vm.allChangeLogList = result.allChangeLogList;
             });
@@ -286,43 +284,40 @@ Vue.component('single-grid-pms0620020-tmp', {
             var self = this;
             this.isSaving = true;
 
-            if (this.dgHoatelDt.endEditing()) {
-                var lo_chkResult = this.dataValidate();
-                if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
-                    alert(lo_chkResult.msg);
-                    this.isSaving = false;
+            this.dgHoatelDt.endEditing();
+            var lo_chkResult = this.dataValidate();
+            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
+                alert(lo_chkResult.msg);
+                this.isSaving = false;
+            }
+            else {
+                var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
+
+                postRowData["tab_page_id"] = 1;
+                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                if (this.createStatus) {
+                    vm.tmpCud.createData = [postRowData];
+                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                 }
-                else {
-                    var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
-
-                    postRowData["tab_page_id"] = 1;
-                    postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-                    if (this.createStatus) {
-                        vm.tmpCud.createData = [postRowData];
-                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                    }
-                    else if (this.editStatus) {
-                        vm.tmpCud.updateData = [postRowData];
-                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                    }
-
-                    vm.doSaveCud("PMS0620020", 1, function (result) {
-                        if (result.success) {
-                            alert("Save Successful!")
-                            self.closeSingleGridDialog();
-                        }
-                        else {
-                            alert(result.errorMsg);
-                        }
-                    });
-
-
+                else if (this.editStatus) {
+                    vm.tmpCud.updateData = [postRowData];
+                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                 }
+
+                vm.doSaveCud("PMS0620020", 1, function (result) {
+                    if (result.success) {
+                        alert("Save Successful!")
+                        self.closeSingleGridDialog();
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                });
             }
 
         },
@@ -494,7 +489,9 @@ var vm = new Vue({
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
         isLoading: false,
-        isModifiable: true        //決定是否可以修改
+        isModifiable: true,       //決定是否可以修改
+        allChangeLogList: [],
+        openChangeLogDialog: false
     },
     methods: {
         fetchUserInfo: function () {
@@ -574,7 +571,7 @@ var vm = new Vue({
                 return val != "";
             });
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010", searchCond: lo_searcgCond }, function (result) {
+            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010", searchCond: lo_searcgCond}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
@@ -710,10 +707,11 @@ var vm = new Vue({
                 tmpCUD: this.tmpCud
             };
 
-            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
-                self.loadDataGridByPrgID();
-                callback(result);
-            });
+            console.log(lo_params);
+            // $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+            //     self.loadDataGridByPrgID();
+            //     callback(result);
+            // });
         }
     }
 });
