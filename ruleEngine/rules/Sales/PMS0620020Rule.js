@@ -171,45 +171,184 @@ module.exports = {
         let lo_error = null;
 
         async.waterfall([
-            chkNouseDat,
+            chkNouseDat,//檢查停用狀態及停用年月
             chkUserNos,//檢查使用者代號(訂席用)欄位設定資料是否於其他業務員資料已設定
             addClassHs//新增組別異動狀態
-        ],function(err, result){
+        ], function (err, result) {
             callback(err, result);
         });
 
-        function chkNouseDat(cb){
-            for(var i = 0;i < la_dt_createData.length;i ++){
-                if(la_dt_createData[i]["nouse_dat"] == ''){
-                    if(la_dt_createData[i]["status_cod1"] == 'X'){
+        function chkNouseDat(cb) {
+            for (var i = 0; i < la_dt_createData.length; i++) {
+                if (la_dt_createData[i]["nouse_dat"] == '') {
+                    if (la_dt_createData[i]["status_cod1"] == 'X') {
                         lo_result.success = false;
                         lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = '請輸入停用年月';
                         lo_error.errorCod = 'pms62msg5';
+                        break;
                     }
                 }
-                else{
-                    if(la_dt_createData[i]["status_cod1"] == 'N'){
+                else {
+                    if (la_dt_createData[i]["status_cod1"] == 'N') {
                         lo_result.success = false;
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = '非停用,停用年月不可輸入';
                         lo_error.errorCode = 'pms62msg4';
+                        break;
                     }
                 }
 
             }
+            cb(lo_error, lo_result);
         }
 
-        function chkUserNos(result, cb){
+        function chkUserNos(result, cb) {
             var params = {
                 athena_id: userInfo.athena_id,
                 sales_cod: lo_createData.sales_cod,
                 user_nos: lo_createData.user_nos
             };
-            queryAgent.query("QRY_USER_NOS_IN_SALES_MN".toUpperCase(), params, function(err, getResult){
+            queryAgent.query("QRY_USER_NOS_IN_SALES_MN".toUpperCase(), params, function (err, getResult) {
+                if (err) {
+                    lo_error = new ErrorClass();
+                    lo_result.success = false;
+                    lo_error.errorMsg = err;
+                    lo_error.errorCod = "1111";
+                }
+                else {
+                    if (getResult.user_nos_count > 0) {
+                        lo_error = new ErrorClass();
+                        lo_result.success = false;
+                        lo_error.errorMsg = "使用者代號(訂席用)" + lo_createData.user_nos + " 已於其他業務員資料指定";
+                    }
+                }
+                cb(lo_error, lo_result);
+            });
+        }
+
+        function addClassHs(result, cb) {
+            queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), params, function (err, getResult) {
+                var lo_rentDatHq = getResult;
+                if (err) {
+                    lo_result.success = false;
+                    lo_error = new ErrorClass();
+                    lo_error.errorMsg = err;
+
+                    cb(lo_error, lo_result);
+                }
+                else {
+                    lo_result.extendExecDataArrSet.push({
+                        function: '1',
+                        table_name: 'sales_class_hs',
+                        athena_id: userInfo.athena_id,
+                        hotel_cod: userInfo.hotel_cod,
+                        sales_cod: lo_createData.sales_cod,
+                        class_cod: lo_createData.class_cod,
+                        begin_dat: moment(new Date(lo_rentDatHq.rent_dat_hq)).format("YYYY/MM/DD"),
+                        end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD"),
+                        ins_dat: moment().format("YYYY/MM/DD"),
+                        ins_usr: userInfo.usr_id,
+                        upd_dat: moment().format("YYYY/MM/DD"),
+                        upd_usr: userInfo.usr_id,
+                        event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                        kindOfRel: 'dt'
+                    });
+
+                    cb(lo_error, lo_result);
+                }
+            });
+        }
+
+    },
+
+    r_SalesmnUpdate: function (postData, session, callback) {
+        var lo_updateData = postData["tmpCUD"]["updateData"][0] || {};
+        var la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
+        var la_dt_updateData = postData["tmpCUD"]["dt_updataData"] || [];
+        var userInfo = session.user;
+
+        var salesParsms = {
+            athena_id: userInfo.athena_id,
+            sales_cod: lo_updateData.sales_cod
+        };
+        var rentDatParams = {
+            athena_id: userInfo.athena_id,
+            hotel_cod: userInfo.hotel_cod
+        };
+
+        let lo_result = new ReturnClass();
+        let lo_error = null;
+
+        async.waterfall([
+            chkNouseDat,//檢查停用狀態及停用年月
+            chkUserNos,//檢查使用者代號(訂席用)欄位設定資料是否於其他業務員資料已設定
+            updateClassHs//修改組別異動狀態
+        ], function (err, result) {
+            callback(err, result);
+        });
+
+        function chkNouseDat(cb) {
+            for (var i = 0; i < la_dt_createData.length; i++) {
+                if (la_dt_createData[i]["nouse_dat"] == '') {
+                    if (la_dt_createData[i]["status_cod1"] == 'X') {
+                        lo_result.success = false;
+                        lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = '請輸入停用年月';
+                        lo_error.errorCod = 'pms62msg5';
+                        break;
+                    }
+                }
+                else {
+                    if (la_dt_createData[i]["status_cod1"] == 'N') {
+                        lo_result.success = false;
+                        lo_result.effectValues = {nouse_dat: ''};
+                        lo_result.readonlyFields = 'nouse_dat';
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = '非停用,停用年月不可輸入';
+                        lo_error.errorCode = 'pms62msg4';
+                        break;
+                    }
+                }
+
+            }
+            for (var j = 0; j < la_dt_updateData.length; j++) {
+                if (la_dt_createData[j]["nouse_dat"] == '') {
+                    if (la_dt_updateData[j]["status_cod1"] == 'X') {
+                        lo_result.success = false;
+                        lo_result.effectValues = {status_cod1: la_dt_createData[j]["status_cod1"]};
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = '請輸入停用年月';
+                        lo_error.errorCod = 'pms62msg5';
+                        break;
+                    }
+                }
+                else {
+                    if (la_dt_createData[j]["status_cod1"] == 'N') {
+                        lo_result.success = false;
+                        lo_result.effectValues = {nouse_dat: ''};
+                        lo_result.readonlyFields = 'nouse_dat';
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = '非停用,停用年月不可輸入';
+                        lo_error.errorCode = 'pms62msg4';
+                        break;
+                    }
+                }
+            }
+            cb(lo_error, lo_result);
+        }
+
+        function chkUserNos(result, cb) {
+            var params = {
+                athena_id: userInfo.athena_id,
+                sales_cod: lo_updateData.sales_cod,
+                user_nos: lo_updateData.user_nos
+            };
+            queryAgent.query("QRY_USER_NOS_IN_SALES_MN".toUpperCase(), params, function (err, getResult) {
                 if (err) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
@@ -227,109 +366,123 @@ module.exports = {
             });
         }
 
-        function addClassHs(result, cb) {
-            queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), params, function (err, getResult) {
-                var lo_rentDatHq = getResult;
-                if (err) {
-                    lo_result.success = false;
-                    lo_error = new ErrorClass();
-                    lo_error.errorMsg = err;
-
-                    cb(lo_error, lo_result);
-                }
-                else{
-                    lo_result.extendExecDataArrSet.push({
-                        function: '1',
-                        table_name: 'sales_class_hs',
-                        athena_id: userInfo.athena_id,
-                        hotel_cod: userInfo.hotel_cod,
-                        sales_cod: lo_createData.sales_cod,
-                        class_cod: lo_createData.class_cod,
-                        begin_dat: moment(new Date(lo_rentDatHq.rent_dat_hq)).format("YYYY/MM/DD"),
-                        end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD"),
-                        ins_dat: moment().format("YYYY/MM/DD"),
-                        ins_usr: userInfo.usr_id,
-                        event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                        kindOfRel: 'dt'
+        function updateClassHs(result, cb) {
+            async.waterfall([
+                //取舊資料
+                function (part_cb) {
+                    queryAgent.query("QRY_SALES_MN_ALL_FIELDS".toUpperCase(), salesParsms, function (err, getSalesResult) {
+                        part_cb(err, getSalesResult);
                     });
+                },
+                function (salesData, part_cb) {
+                    var ls_oldClassCod = salesData.class_cod;
+                    var ls_newClassCod = lo_updateData.class_cod;
+                    //若class_cod改變
+                    if (ls_newClassCod != ls_oldClassCod) {
+                        //取sales_class_hs最後一筆資料
+                        queryAgent.query("qry_last_sales_class_hs", salesParsms, function (errClassHsData, classHsData) {
+                            if(errClassHsData){
+                                lo_result.success = false;
+                                lo_error = new ErrorClass();
+                                lo_error.errorMsg = errClassHsData;
 
-                    cb(lo_error, lo_result);
+                                part_cb(lo_error, lo_result);
+                            }
+                            else{
+                                var ls_beginDat = classHsData.begin_dat;
+                                // 取訂房中心滾房租日
+                                queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult){
+                                    if(err){
+                                        lo_result.success = false;
+                                        lo_error = new ErrorClass();
+                                        lo_error.errorMsg = err;
+
+                                        part_cb(lo_error, lo_result);
+                                    }
+                                    else{
+                                        if(ls_beginDat == getResult.rent_dat_hq){
+                                            lo_result.extendExecDataArrSet.push({
+                                                function: 2,
+                                                table_name: 'sales_class_hs',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'sales_cod',
+                                                    operation: "=",
+                                                    value: lo_updateData.sales_cod.trim()
+                                                }, {
+                                                    key: 'class_cod',
+                                                    operation: "=",
+                                                    value: ls_oldClassCod
+                                                }
+                                                ],
+                                                class_cod: ls_newClassCod,
+                                                upd_dat: moment().format("YYYY/MM/DD"),
+                                                upd_usr: userInfo.usr_id,
+                                                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                                                kindOfRel: 'dt'
+                                            });
+
+                                            part_cb(lo_error, lo_result);
+                                        }
+                                        else{
+                                            lo_result.extendExecDataArrSet.push({
+                                                function: 2,
+                                                table_name: 'sales_class_hs',
+                                                condition: [{
+                                                    key: 'athena_id',
+                                                    operation: "=",
+                                                    value: userInfo.athena_id
+                                                }, {
+                                                    key: 'sales_cod',
+                                                    operation: "=",
+                                                    value: lo_updateData.sales_cod
+                                                }, {
+                                                    key: 'class_cod',
+                                                    operation: "=",
+                                                    value: ls_oldClassCod
+                                                }
+                                                ],
+                                                end_dat: moment(new Date(getResult.rent_dat_hq)).add(-1, 'days').format("YYYY/MM/DD"),
+                                                upd_dat: moment().format("YYYY/MM/DD"),
+                                                upd_usr: userInfo.usr_id,
+                                                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                                                kindOfRel: 'dt'
+                                            });
+                                            lo_result.extendExecDataArrSet.push({
+                                                function: '1',
+                                                table_name: 'sales_class_hs',
+                                                athena_id: userInfo.athena_id,
+                                                hotel_cod: userInfo.hotel_cod,
+                                                sales_cod: lo_updateData.sales_cod,
+                                                class_cod: ls_newClassCod,
+                                                begin_dat: moment(new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD"),
+                                                end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD"),
+                                                ins_dat: moment().format("YYYY/MM/DD"),
+                                                ins_usr: userInfo.usr_id,
+                                                upd_dat: moment().format("YYYY/MM/DD"),
+                                                upd_usr: userInfo.usr_id,
+                                                event_time: moment().add(1, 'seconds').format("YYYY/MM/DD HH:mm:ss"),
+                                                kindOfRel: 'dt'
+                                            });
+
+                                            part_cb(lo_error, lo_result);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        part_cb(lo_error, lo_result);
+                    }
                 }
+            ], function (err, result) {
+                cb(err, result);
             });
         }
-
-    },
-
-    r_SalesmnUpdate: function (postData, session, callback) {
-        var lo_updateData = postData["tmpCUD"]["updateData"][0] || {};
-        var userInfo = session.user;
-        var salesParsms = {
-            athena_id: userInfo.athena_id,
-            sales_cod: lo_updateData.sales_cod
-        };
-        var rentDatParams = {
-            athena_id: userInfo.athena_id,
-            hotel_cod: userInfo.hotel_cod
-        };
-
-        let lo_result = new ReturnClass();
-        let lo_error = null;
-
-        async.waterfall([
-            //取舊資料
-            function (cb) {
-                queryAgent.query("QRY_SALES_MN_ALL_FIELDS".toUpperCase(), salesParsms, function(err, getSalesResult){
-                    cb(err, getSalesResult);
-                });
-            },
-            function (salesData, cb) {
-                var ls_oldClassCod = salesData.class_cod;
-                var ls_newClassCod = lo_updateData.class_cod;
-                //若class_cod改變
-                if(ls_newClassCod != ls_oldClassCod){
-                    queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult) {
-                        var lo_rentDatHq = getResult;
-                        if (err) {
-                            lo_result.success = false;
-                            lo_error = new ErrorClass();
-                            lo_error.errorMsg = err;
-
-                            cb(lo_error, lo_result);
-                        }
-                        else {
-                            lo_result.extendExecDataArrSet.push({
-                                function: 2,
-                                table_name: 'sales_class_hs',
-                                condition: [{
-                                    key: 'athena_id',
-                                    operation: "=",
-                                    value: userInfo.athena_id
-                                }, {
-                                    key: 'sales_cod',
-                                    operation: "=",
-                                    value: lo_updateData.sales_cod
-                                }],
-                                end_dat: moment(new Date(lo_rentDatHq.rent_dat_hq)).add(-1, 'days').format("YYYY/MM/DD")
-                            });
-                            lo_result.extendExecDataArrSet.push({
-                                function: '1',
-                                table_name: 'sales_class_hs',
-                                class_cod: lo_updateData.class_cod,
-                                begin_dat: moment(new Date(lo_rentDatHq.rent_dat_hq)).format("YYYY/MM/DD"),
-                                end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD")
-                            });
-
-                            cb(lo_error, lo_result);
-                        }
-                    });
-                }
-                else{
-                    cb(lo_error, lo_result);
-                }
-            }
-        ], function(err, result){
-            callback(err, result);
-        });
     }
 
 };
