@@ -6,7 +6,7 @@
         <statement><![CDATA[
             Select cust_cod, show_cod , cust_nam
             From psi_cust_mn
-            Where cust_cod in (Select key_cod2 from sec_typ_ctrl
+            Where trim(comp_cod) = trim(:comp_cod) and cust_cod in (Select key_cod2 from sec_typ_ctrl
             Where trim(comp_cod) = trim(:comp_cod)
             And sys_cod='PSI_WEB'
             And remark_cod='usr_cust'
@@ -20,12 +20,14 @@
     <!-- ['PSIW500030'] 取客戶代號資料 -->
     <dao name="QRY_CUST_INFO">
         <statement><![CDATA[
+
             Select show_cod, cust_nam, accunt_sta, accunt_nos , ship_typ , sales_cod
             From psi_cust_mn
-            Where trim(cust_cod) = trim(:cust_cod)
+            Where trim(comp_cod) = trim(:comp_cod) and trim(cust_cod) = trim(:cust_cod)
 
         ]]>
         </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
     </dao>
 

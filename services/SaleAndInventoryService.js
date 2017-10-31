@@ -36,9 +36,8 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        //key_cod1: session.user.usr_id
-        comp_cod: "EIP_HQ    ",
-        key_cod1: "admin"
+        key_cod1: session.user.usr_id,
+        comp_cod: "CHIPN     ",
     };
 
     //過濾掉無效條件
@@ -88,7 +87,7 @@ exports.getSingleDataMN = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    ",
+        comp_cod: "CHIPN     ",
         order_nos: params.postData.order_nos
     };
 
@@ -120,7 +119,7 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    ",
+        comp_cod: "CHIPN     ",
         order_nos: params.postData.order_nos
     };
 
@@ -152,9 +151,8 @@ exports.getShowCodSelect = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        //key_cod1: session.user.usr_id
-        comp_cod: "EIP_HQ    ",
-        key_cod1: "admin"
+        key_cod1: session.user.usr_id,
+        comp_cod: "CHIPN     ",
     };
 
     queryAgent.queryList("QRY_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
@@ -184,6 +182,8 @@ exports.getCustInfo = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "CHIPN     ",
         cust_cod: params.singleData.cust_cod
     };
 
@@ -215,7 +215,7 @@ exports.getCustAdd = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    "
+        comp_cod: "CHIPN     "
     };
 
     queryAgent.query("QRY_SHIP_ADD_COD", lo_params, function (err, Result) {
@@ -262,7 +262,7 @@ exports.getCustContact = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    "
+        comp_cod: "CHIPN     "
     };
 
     queryAgent.query("QRY_CONTACT_COD", lo_params, function (err, Result) {
@@ -340,10 +340,9 @@ exports.getFormatSta = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    ",
+        comp_cod: "CHIPN     ",
         cust_cod: params.singleData.cust_cod,
-        //period_cod: params.singleData.period_cod,
-        period_cod: "PXW1",
+        period_cod: params.singleData.period_cod,
         week: params.singleData.week
     };
 
@@ -375,7 +374,7 @@ exports.getAllFormatSta = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    "
+        comp_cod: "CHIPN     "
     };
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
@@ -406,7 +405,7 @@ exports.getGoodsData = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    ",
+        comp_cod: "CHIPN     ",
         format_sta : params.select_format_sta
     };
 
@@ -442,7 +441,7 @@ exports.chkFormatSta = function (params ,session, callback) {
 
             var lo_params = {
                 //comp_cod: session.user.cmp_id,
-                comp_cod: "EIP_HQ    ",
+                comp_cod: "CHIPN     ",
                 cust_cod: params.singleData.cust_cod,
                 order_dat: params.singleData.order_dat,
                 format_sta: params.singleData.format_sta
@@ -473,7 +472,7 @@ exports.chkFormatSta = function (params ,session, callback) {
 
             if(params.singleData.order_time.toString().substr(0, 1) != 'P'){
                 var lo_params = {
-                    cust_cod: params.singleData.show_cod,
+                    show_cod: params.singleData.show_cod,
                     order_dat: params.singleData.order_dat,
                 };
 
@@ -506,9 +505,9 @@ exports.chkFormatSta = function (params ,session, callback) {
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
                     //comp_cod: session.user.cmp_id,
-                    comp_cod: "EIP_HQ    ",
+                    comp_cod: "CHIPN     ",
                     order_dat: params.singleData.order_dat,
-                    cust_cod: params.singleData.cust_cod,
+                    cust_cod: params.singleData.show_cod,
                 };
 
                 queryAgent.query("CHK_PSI_POSINV_MN", lo_params, function (err, Result) {
@@ -540,12 +539,12 @@ exports.chkFormatSta = function (params ,session, callback) {
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
                     //comp_cod: session.user.cmp_id,
-                    comp_cod: "EIP_HQ    ",
+                    comp_cod: "CHIPN     ",
                     order_dat: params.singleData.order_dat,
-                    cust_cod: params.singleData.cust_cod,
+                    cust_cod: params.singleData.show_cod,
                 };
 
-                queryAgent.query("CHK_PSI_POSINV_MN", lo_params, function (err, Result) {
+                queryAgent.query("CHK_PSI_BUG_SALES", lo_params, function (err, Result) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
@@ -587,7 +586,7 @@ exports.getSearchFormatSta = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    ",
+        comp_cod: "CHIPN     ",
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
@@ -606,7 +605,12 @@ exports.getSearchFormatSta = function (params ,session, callback) {
     });
 };
 
-//call Save API
+/**
+ * Call Save API
+ * @param params
+ * @param session
+ * @param callback
+ */
 exports.callSaveAPI = function (params ,session, callback) {
 
     index = 1;
@@ -626,22 +630,24 @@ exports.callSaveAPI = function (params ,session, callback) {
         "user": session.user.usr_id,
         "table_name": 'psi_quote_mn',
         "count": index - 1,
-        "exec_data": exec_data
+        "exec_data": exec_data,
+        "ip" : params.ip
     };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
         var log_id = moment().format("YYYYMMDDHHmmss");
         var success = true;
-        var err = null;
+        var errorMsg = "";
         if (apiErr || !data) {
             success = false;
-            err = {};
-            err.errorMsg = apiErr;
+            errorMsg = apiErr;
         } else if (data["RETN-CODE"] != "0000") {
             success = false;
-            err = {};
+            errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+        } else
+        {
+            errorMsg = data["RETN-CODE-DESC"];
         }
 
         //寄出exceptionMail
@@ -649,7 +655,7 @@ exports.callSaveAPI = function (params ,session, callback) {
             mailSvc.sendExceptionMail({
                 log_id: log_id,
                 exceptionType: "execSQL",
-                errorMsg: err.errorMsg
+                errorMsg: errorMsg
             });
         }
 
@@ -662,36 +668,43 @@ exports.callSaveAPI = function (params ,session, callback) {
         //     req_content: apiParams,
         //     res_content: data
         // });
-        callback(err, success, data);
+        callback(errorMsg, success, data);
     });
 };
 
-//call API
+/**
+ * Call API
+ * @param params
+ * @param session
+ * @param callback
+ */
 exports.callAPI = function (params ,session, callback) {
     var apiParams = {
         "REVE-CODE": params.REVE_CODE,
         //"COMP_COD": session.user.cmp_id,
-        "comp_cod": "EIP_HQ    ",
+        "comp_cod": "CHIPN     ",
         "program_id": params.prg_id,
         "user": session.user.usr_id,
         "table_name": 'psi_quote_mn',
         "count": 1,
+        "ip" : params.ip,
         "order_nos": params.order_nos
     };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
         var log_id = moment().format("YYYYMMDDHHmmss");
         var success = true;
-        var err = null;
+        var errorMsg = "";
         if (apiErr || !data) {
             success = false;
-            err = {};
-            err.errorMsg = apiErr;
+            errorMsg = apiErr;
         } else if (data["RETN-CODE"] != "0000") {
             success = false;
-            err = {};
+            errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+        } else
+        {
+            errorMsg = data["RETN-CODE-DESC"];
         }
 
         //寄出exceptionMail
@@ -699,7 +712,7 @@ exports.callAPI = function (params ,session, callback) {
             mailSvc.sendExceptionMail({
                 log_id: log_id,
                 exceptionType: "execSQL",
-                errorMsg: err.errorMsg
+                errorMsg: errorMsg
             });
         }
 
@@ -712,7 +725,7 @@ exports.callAPI = function (params ,session, callback) {
         //     req_content: apiParams,
         //     res_content: data
         // });
-        callback(err, success, data);
+        callback(errorMsg, success, data);
     });
 };
 
@@ -723,36 +736,37 @@ exports.callAPI = function (params ,session, callback) {
  * @param callback
  */
 exports.callOrderAPI = function (params ,session, callback) {
-    // var apiParams = {
-    //     "REVE-CODE": params.REVE_CODE,
-    //     "COMP_COD":"CHIPN    ",
-    //     //"COMP_COD": session.user.cmp_id,
-    //     "CUST_COD": params.singleData.cust_cod,
-    //     "FORMAT_STA": params.singleData.format_sta,
-    //     "ORDER_DAT": moment(params.singleData.order_dat).format('YYYY/MM/DD')
-    // };
-
     var apiParams = {
-        "REVE-CODE":"PSIW5100302020",
+        "REVE-CODE": params.REVE_CODE,
         "COMP_COD":"CHIPN    ",
-        "CUST_COD": "PSI000000000000201",
-        "FORMAT_STA": "002",
-        "ORDER_DAT": "2017/5/4"
+        //"COMP_COD": session.user.cmp_id,
+        "CUST_COD": params.singleData.cust_cod,
+        "FORMAT_STA": params.singleData.format_sta,
+        "ORDER_DAT": moment(params.singleData.order_dat).format('YYYY/MM/DD')
     };
+    //
+    // var apiParams = {
+    //     "REVE-CODE":"PSIW5100302020",
+    //     "COMP_COD":"CHIPN    ",
+    //     "CUST_COD": "PSI000000000000201",
+    //     "FORMAT_STA": "002",
+    //     "ORDER_DAT": "2017/5/4"
+    // };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
         var log_id = moment().format("YYYYMMDDHHmmss");
         var success = true;
-        var err = null;
+        var errorMsg = "";
         if (apiErr || !data) {
             success = false;
-            err = {};
-            err.errorMsg = apiErr;
+            errorMsg = apiErr;
         } else if (data["RETN-CODE"] != "0000") {
             success = false;
-            err = {};
+            errorMsg = data["RETN-CODE-DESC"];
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = "load error!";
+        } else
+        {
+            errorMsg = data["RETN-CODE-DESC"];
         }
 
         //寄出exceptionMail
@@ -760,7 +774,7 @@ exports.callOrderAPI = function (params ,session, callback) {
             mailSvc.sendExceptionMail({
                 log_id: log_id,
                 exceptionType: "execSQL",
-                errorMsg: err.errorMsg
+                errorMsg: errorMsg
             });
         }
 
@@ -773,7 +787,7 @@ exports.callOrderAPI = function (params ,session, callback) {
         //     req_content: apiParams,
         //     res_content: data
         // });
-        callback(err, success, data);
+        callback(errorMsg, success, data);
     });
 };
 
@@ -825,31 +839,6 @@ exports.doCheckFieldFormatVerify = function (prg_id, ui_field_name, verifyValue,
 };
 
 /**
- * 根據field 屬性格式化日期格式
- * @param prgFields
- * @param rowData
- * @return {*}
- */
-function handleDateFormat(prgFields, rowData) {
-    prgFields = _.filter(prgFields, function (field) {
-        return field.ui_type == 'date' || field.ui_type == 'datetime';
-    });
-
-    _.each(rowData, function (val, field_name) {
-        var la_tmpField = _.findWhere(prgFields, {ui_field_name: field_name});
-        if (!_.isUndefined(la_tmpField)) {
-            if (la_tmpField.ui_type == 'date') {
-                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD");
-            } else if (la_tmpField.ui_type == 'datetime') {
-                rowData[field_name] = moment(new Date(val)).format("YYYY/MM/DD HH:mm:ss");
-            }
-        }
-    });
-
-    return rowData;
-}
-
-/**
  * 取系統參數
  * @param params
  * @param session
@@ -861,7 +850,7 @@ exports.getSystemParam = function (params ,session, callback) {
 
     var lo_params = {
         //comp_cod: session.user.cmp_id,
-        comp_cod: "EIP_HQ    "
+        comp_cod: "CHIPN     "
     };
 
     var paramName = "QRY_" + params.paramName.toUpperCase();
@@ -882,3 +871,103 @@ exports.getSystemParam = function (params ,session, callback) {
     });
 };
 
+//WebService
+
+/**
+ * 萬元用量表轉檔(PSI0000001)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.PSI0000001 = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "CHIPN     "
+    };
+
+    var paramName = "QRY_" + params.paramName.toUpperCase();
+
+    queryAgent.query(paramName, lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
+ * 預估業績轉檔(PSI0000002)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.PSI0000002 = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "CHIPN     "
+    };
+
+    var paramName = "QRY_" + params.paramName.toUpperCase();
+
+    queryAgent.query(paramName, lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
+ * POS資料轉檔(PSI0000003)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.PSI0000003 = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "CHIPN     "
+    };
+
+    var paramName = "QRY_" + params.paramName.toUpperCase();
+
+    queryAgent.query(paramName, lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};

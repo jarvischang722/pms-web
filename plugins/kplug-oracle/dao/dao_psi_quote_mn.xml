@@ -26,11 +26,9 @@
     <!-- ['PSIW500030'] 門市web訂單作業(單筆mn) -->
     <dao name="QRY_PSI_QUOTE_SINGLE_MN">
         <statement><![CDATA[
-            select *
-            from psi_quote_mn mn
-            left join cust_mn cust on mn.cust_cod = cust.cust_cod
-            where trim(mn.comp_cod) = trim(:comp_cod)
-            and trim(mn.order_nos) = trim(:order_nos)
+            select * from psi_quote_mn
+            where trim(comp_cod) = trim(:comp_cod)
+            and trim(order_nos) = trim(:order_nos)
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>

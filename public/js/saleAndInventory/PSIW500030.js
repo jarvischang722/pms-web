@@ -760,6 +760,20 @@ var PSIW500030 = new Vue({
                     self.singleDataTemp.upd_dat = moment(new Date(self.singleDataTemp.upd_dat)).format("YYYY/MM/DD HH:mm:ss");
                     self.singleDataTemp.cnfirm_dat = moment(new Date(self.singleDataTemp.cnfirm_dat)).format("YYYY/MM/DD HH:mm:ss");
 
+
+                    if(self.singleDataTemp.ship1_add != null && self.singleDataTemp.ship1_add.toString().length > 60){
+                        self.singleDataTemp.ship2_add = self.singleDataTemp.ship1_add.toString().substr(60);
+                        self.singleDataTemp.ship1_add = self.singleDataTemp.ship1_add.toString().substr(0,60);
+                    }
+
+                    //撈客戶名稱(cust_nam)
+                    _.each(self.custSelectData, function (value, index) {
+                        if(value.cust_cod == self.singleDataTemp.cust_cod){
+                            self.singleDataTemp.cust_nam = value.cust_nam;
+                            self.singleDataTemp.show_cod = value.show_cod;
+                        }
+                    });
+
                     self.oriSingleData = _.clone(self.singleDataTemp);
                     self.initOrderSelect();
 
@@ -916,7 +930,6 @@ var PSIW500030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    //result.data.push({cust_cod:"123", show_cod:"321", cust_nam:"asd"});
                     self.custSelectData = result.data;
                 } else {
                     alert(result.error.errorMsg);
@@ -937,7 +950,7 @@ var PSIW500030 = new Vue({
 
             $.post("/api/getQueryResult", lo_params, function (result) {
 
-                self.singleDataTemp.period_cod = result.data;
+                self.singleDataTemp.period_cod = result.data.period_cod;
                 //訂單格式
                 var lo_params2 = {
                     func : "getFormatSta",
@@ -963,10 +976,13 @@ var PSIW500030 = new Vue({
 
             var self = this;
 
+            self.isLoading = true;
+
             //撈客戶名稱(cust_nam)
             _.each(this.custSelectData, function (value, index) {
                 if(value.cust_cod == self.singleData.cust_cod){
                     self.singleData.cust_nam = value.cust_nam;
+                    self.singleData.show_cod = value.show_cod;
                 }
             });
 
@@ -1008,7 +1024,8 @@ var PSIW500030 = new Vue({
                             else
                             {
                                 if(result.data.address.toString().length > 60){
-
+                                    self.singleData.ship1_add = result.data.address.toString().substr(0,60);
+                                    self.singleData.ship2_add = result.data.address.toString().substr(60);
                                 }
                                 else {
                                     self.singleData.ship1_add = result.data.address;
@@ -1049,6 +1066,7 @@ var PSIW500030 = new Vue({
             ], function(err, result){
                 if(!err) {
                     self.singleDataTemp = self.singleData;
+                    self.isLoading = false;
                     self.initOrderSelect();
                 }
             });
@@ -1080,6 +1098,16 @@ var PSIW500030 = new Vue({
                 if (!_.isUndefined(result.data)) {
                     if(result.error){
                         alert(result.data.errorMsg);
+
+                        //region//測試階段，暫時通過檢查
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim() == "PXW1")
+                            self.singleData.order_sta = "N";
+                        else
+                            self.singleData.order_sta = "C";
+
+                        self.callOrderAPI();
+
+                        //endregion
                     }
                     //檢查有過
                     else {
@@ -1402,13 +1430,11 @@ var PSIW500030 = new Vue({
 
             $.post("/api/callSaveAPI", lo_params, function (result) {
                 self.isLoading = false;
-                if (result.data) {
+                if (result.success) {
                     alert('儲存成功!');
                     callback();
-                } else {
-                    alert(result.error.errorMsg);
                 }
-
+                if(result.errorMsg != "") alert(result.errorMsg);
             });
 
         },
@@ -1427,13 +1453,11 @@ var PSIW500030 = new Vue({
 
             $.post("/api/callAPI", lo_params, function (result) {
                 self.isLoading = false;
-                if (result.data) {
+                if (result.success) {
                     callback();
-                } else {
-                    alert(result.error.errorMsg);
                 }
+                if(result.errorMsg != "") alert(result.errorMsg);
             });
-
         },
 
         //call 貨品 API
@@ -1448,12 +1472,12 @@ var PSIW500030 = new Vue({
 
             $.post("/api/callOrderAPI", lo_params, function (result) {
                 self.isLoading = false;
-                if (result.data) {
+
+                if (result.success) {
                     self.singleDataGridRows = result.data.psi_tmp_order_dt.tmp_order_dt;
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
-                } else {
-                    alert(result.error.errorMsg);
                 }
+                if(result.errorMsg != "") alert(result.errorMsg);
             });
 
         },

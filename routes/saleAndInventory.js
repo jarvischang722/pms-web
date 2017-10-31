@@ -23,5 +23,6 @@ module.exports = function(app) {
 
     app.post('/api/callOrderAPI', middles2, saleAndInventoryCrtl.callOrderAPI);
 
-    //app.post('/api/dominos/:prg_id', middles2, saleAndInventoryCrtl.callOrderAPI);
+    //WebService
+    app.post('/api/dominos/:trans_cod', middles2, saleAndInventoryCrtl.dominosWebService);
 };

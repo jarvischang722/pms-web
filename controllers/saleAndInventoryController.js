@@ -94,23 +94,55 @@ exports.getQueryResult = function (req, res) {
 
 //call Save API
 exports.callSaveAPI = function (req, res) {
-    PSIWService.callSaveAPI(req.body, req.session, function (err, result) {
-        res.json({data: result, error: err});
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
+    PSIWService.callSaveAPI(req.body, req.session, function (errorMsg, success) {
+        res.json({success: success, errorMsg: errorMsg});
     });
 };
 
 //call API
 exports.callAPI = function (req, res) {
-    PSIWService.callAPI(req.body, req.session, function (err, result) {
-        res.json({data: result, error: err});
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
+    PSIWService.callAPI(req.body, req.session, function (errorMsg, success) {
+        res.json({success: success, errorMsg: errorMsg});
     });
 };
 
 //call 貨品API
 exports.callOrderAPI = function (req, res) {
-    //req.param.prg_id;
-    PSIWService.callOrderAPI(req.body, req.session, function (err, result, data) {
-        res.json({data: data, result: result, error: err});
+    PSIWService.callOrderAPI(req.body, req.session, function (errorMsg, success, data) {
+        res.json({data: data, success: success, errorMsg: errorMsg});
     });
 };
+
+//WebService
+exports.dominosWebService = function (req, res) {
+    var trans_cod = req.param.trans_cod;
+    switch (trans_cod)
+    {
+        case 'PSI0000001':
+            PSIWService.PSI0000001(req.body, req.session, function (errorMsg, success, data) {
+                res.json({data: data, success: success, errorMsg: errorMsg});
+            });
+            break;
+        case 'PSI0000002':
+            PSIWService.PSI0000002(req.body, req.session, function (errorMsg, success, data) {
+                res.json({data: data, success: success, errorMsg: errorMsg});
+            });
+            break;
+        case 'PSI0000003':
+            PSIWService.PSI0000003(req.body, req.session, function (errorMsg, success, data) {
+                res.json({data: data, success: success, errorMsg: errorMsg});
+            });
+            break;
+        default:
+            break;
+
+    }
+
+};
+
+
 

@@ -16,11 +16,12 @@ module.exports = function (io) {
 
 
         //TODO on method  做table lock ; clien 做 emit method
-        socket.on('checkTableLock', function (data) {
+        socket.on('doTableLock', function (data) {
             socket.emit("tttttt", {sssss:xxxx});
         });
+
         //TODO on method  做table unlock ; clien 做 emit method
-        socket.on('checkTableLock', function (data) {
+        socket.on('doTableUnLock', function (data) {
 
         });
 
