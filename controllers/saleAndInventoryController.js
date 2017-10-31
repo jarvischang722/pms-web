@@ -69,6 +69,16 @@ exports.getQueryResult = function (req, res) {
                 res.json({data: result, error: err});
             });
             break;
+        case "getAllFormatSta":
+            PSIWService.getAllFormatSta(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
+        case "getGoodsData":
+            PSIWService.getGoodsData(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
         case "getSearchFormatSta":
             PSIWService.getSearchFormatSta(req.body, req.session, function (err, result) {
                 res.json({data: result, error: err});
@@ -98,6 +108,7 @@ exports.callAPI = function (req, res) {
 
 //call 貨品API
 exports.callOrderAPI = function (req, res) {
+    //req.param.prg_id;
     PSIWService.callOrderAPI(req.body, req.session, function (err, result, data) {
         res.json({data: data, result: result, error: err});
     });

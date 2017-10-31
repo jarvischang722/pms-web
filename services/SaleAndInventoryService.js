@@ -364,6 +364,69 @@ exports.getFormatSta = function (params ,session, callback) {
 };
 
 /**
+ * 取得所有訂單格式(空白表單下載用)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getAllFormatSta = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "EIP_HQ    "
+    };
+
+    queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
+ * 取得所有訂單格式(空白表單下載用)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getGoodsData = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        //comp_cod: session.user.cmp_id,
+        comp_cod: "EIP_HQ    ",
+        format_sta : params.select_format_sta
+    };
+
+    queryAgent.queryList("QRY_GOODS_DATA", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
  * 判斷訂單格式
  * @param params
  * @param session
@@ -578,7 +641,7 @@ exports.callSaveAPI = function (params ,session, callback) {
             success = false;
             err = {};
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = "save error!";
+            err.errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
         }
 
         //寄出exceptionMail
@@ -609,6 +672,10 @@ exports.callAPI = function (params ,session, callback) {
         "REVE-CODE": params.REVE_CODE,
         //"COMP_COD": session.user.cmp_id,
         "comp_cod": "EIP_HQ    ",
+        "program_id": params.prg_id,
+        "user": session.user.usr_id,
+        "table_name": 'psi_quote_mn',
+        "count": 1,
         "order_nos": params.order_nos
     };
 
@@ -624,7 +691,7 @@ exports.callAPI = function (params ,session, callback) {
             success = false;
             err = {};
             console.error(data["RETN-CODE-DESC"]);
-            err.errorMsg = data["RETN-CODE-DESC"];
+            err.errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
         }
 
         //寄出exceptionMail

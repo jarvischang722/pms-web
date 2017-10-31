@@ -5,8 +5,9 @@
  */
 
 var prg_id = "PSIW500030";
-
+var go_current_row;
 var psiw50030_socket = io.connect('/dominos');
+
 //多筆
 /** DatagridRmSingleGridClass ***/
 function DatagridRmSingleGridClass() {
@@ -16,9 +17,10 @@ DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
 
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
+
     if(!PSIW500030.createStatus && !PSIW500030.editStatus) {
         PSIW500030.fetchSingleData(row);
-
+        go_current_row = row;
         //region//修改UI狀態
         PSIW500030.isModificable = false;
         PSIW500030.isModificableFormat = false;
@@ -60,7 +62,7 @@ var PSIW500030 = new Vue({
     data: {
         userid :"",                 //員工編號
 
-        isVerify :  false,            //驗證畫面切換
+        isVerify :  true,            //驗證畫面切換
         isLoading : false,          //Loading畫面切換
 
         userInfo: {},               //登入的使用者資料
@@ -96,10 +98,15 @@ var PSIW500030 = new Vue({
 
         custSelectData:[],          //客戶代號下拉
         orderSelectData:[],         //訂單格式下拉
+
         statusSelectData:[{value:'N', display:'N:待核'}, {value:'C', display:'C:核准'}, {value:'O', display:'O:出貨中'}, {value:'S', display:'S:結清'}, {value:'H', display:'H:保留'}, {value:'X', display:'X:出貨完畢'}],    //狀態下拉
 
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
+
+        //空白表單下載用
+        allOrderSelectData:[],         //全部訂單格式下拉
+        select_format_sta:"1 ",
 
         ship_mn_round_nos:"",       //(系統參數)單據主檔金額小數位數
         ship_dt_round_nos:"",       //(系統參數)單據明細小計小數位數
@@ -193,7 +200,6 @@ var PSIW500030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.ship_dt_round_nos = result.data.ship_dt_round_nos;
-                    console.log(self.ship_dt_round_nos);
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -211,6 +217,20 @@ var PSIW500030 = new Vue({
                     alert(result.error.errorMsg);
                 }
             });
+
+            //取得所有訂單格式
+            var lo_params = {
+                func : "getAllFormatSta"
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.allOrderSelectData = result.data;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
         },
 
         //驗證人員編號
@@ -1011,7 +1031,6 @@ var PSIW500030 = new Vue({
                         singleData: self.singleData
                     }
                     $.post("/api/getQueryResult", lo_params, function (result) {
-                        console.log(result);
                         if (!_.isUndefined(result.data)) {
                             if(result.data.cust_tel == null){
                                 self.singleData.cust_tel = "";
@@ -1080,61 +1099,55 @@ var PSIW500030 = new Vue({
 
         //TODO:按修改按鈕
         editData: function() {
-
-            this.callAPI('PSIW5100300540', function () {
-                this.editStatus = true;
+            var self = this;
+            self.callAPI('PSIW5100300400', function () {
+                self.editStatus = true;
 
                 //region//修改UI狀態
-                this.isModificable = true;
-                this.isModificableFormat = false;
+                self.isModificable = true;
+                self.isModificableFormat = false;
 
-                this.addEnable = false;
-                this.editEnable = false;
-                this.deleteEnable = false;
-                this.cnfirmEnable = false;
-                this.cancelEnable = false;
-                this.saveEnable = true;
-                this.dropEnable = true;
+                self.addEnable = false;
+                self.editEnable = false;
+                self.deleteEnable = false;
+                self.cnfirmEnable = false;
+                self.cancelEnable = false;
+                self.saveEnable = true;
+                self.dropEnable = true;
 
                 //endregion
-
-                //TODO
-                //call 『修改API』檢查資料可否修改,
-                //如不能修改,則mndt畫面要readonly,儲存button不能按
-                //如可修改『訂單格式』、『客戶代號』欄位改成readonly
             });
         },
 
         //TODO:按刪除按鈕
         deleteData: function() {
-            this.callAPI('PSIW5100300530',function () {
+            var self = this;
+            self.callAPI('PSIW5100300530',function () {
                 alert('刪除成功!');
-                this.loadDataGrid();
-                this.singleData = {};
-                this.singleDataGridRows = [];
-                this.dgInsDT.loadDgData(this.singleDataGridRows);
+                self.loadDataGrid();
+                self.singleData = {};
+                self.singleDataGridRows = [];
+                self.dgInsDT.loadDgData(self.singleDataGridRows);
             });
         },
 
         //TODO:核准
         approved: function() {
-
-            this.callAPI('PSIW5100301010',function () {
-                //call『核准API』
-                //接收回傳訊息更新狀態
+            var self = this;
+            self.callAPI('PSIW5100301010',function () {
+                alert('核准成功!');
+                self.fetchSingleData(go_current_row);
             });
 
         },
 
         //TODO:取消核准
         cancel: function() {
-
-            this.callAPI('PSIW5100301020',function () {
-                //call『取消核准API』
-                //接收回傳訊息更新狀態
+            var self = this;
+            self.callAPI('PSIW5100301020',function () {
+                alert('取消核准成功!');
+                self.fetchSingleData(go_current_row);
             });
-
-
         },
 
         //TODO:按儲存按鈕
@@ -1175,8 +1188,8 @@ var PSIW500030 = new Vue({
                 value.sorder_tax = formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
                 value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
 
-                console.log(value.sorder_amt);
-                console.log(value.sorder_tax);
+                // console.log(value.sorder_amt);
+                // console.log(value.sorder_tax);
 
                 self.singleData.order_amt += value.sorder_amt;
                 self.singleData.order_tax += value.sorder_tax;
@@ -1185,15 +1198,15 @@ var PSIW500030 = new Vue({
             var lf_temp_amt = self.singleData.order_amt;
             var lf_temp_tax = self.singleData.order_tax;
 
-            console.log(lf_temp_amt);
-            console.log(lf_temp_tax);
+            // console.log(lf_temp_amt);
+            // console.log(lf_temp_tax);
 
             self.singleData.order_amt = formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
             self.singleData.order_tax = formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
 
-            console.log(self.singleData.order_amt);
-            console.log(self.singleData.order_tax);
+            // console.log(self.singleData.order_amt);
+            // console.log(self.singleData.order_tax);
 
             var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
             var lf_div_tax = self.singleData.order_tax - lf_temp_tax;
@@ -1206,8 +1219,8 @@ var PSIW500030 = new Vue({
             if(index != -1){
                 self.singleDataGridRows[index].sorder_amt = formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
                 self.singleDataGridRows[index].sorder_tax = formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
-                console.log(self.singleDataGridRows[index]);
-                console.log(self.singleDataGridRows[index]);
+                // console.log(self.singleDataGridRows[index]);
+                // console.log(self.singleDataGridRows[index]);
             }
 
             //endregion
@@ -1221,7 +1234,7 @@ var PSIW500030 = new Vue({
             this.singleData.upd_usr = this.userid;
             this.singleData.ins_dat = moment().format('YYYY/MM/DD hh:mm:ss');
             this.singleData.upd_dat = moment().format('YYYY/MM/DD hh:mm:ss');
-            console.log(this.singleData.ins_usr);
+
             var prg_id;
             if(this.createStatus) prg_id = "PSIW5100300520";
             else prg_id = "PSIW5100300540";
@@ -1247,55 +1260,133 @@ var PSIW500030 = new Vue({
 
         //TODO:按放棄按鈕
         drop: function() {
+            var self = this;
             //新增，清空頁面資料
-            if(this.createStatus){
-                this.singleData = {};
-                this.singleDataGridRows = [];
-                this.dgInsDT.loadDgData(this.singleDataGridRows);
+            if(self.createStatus){
+                self.singleData = {};
+                self.singleDataGridRows = [];
+                self.dgInsDT.loadDgData(this.singleDataGridRows);
 
                 //region//修改UI狀態
-                this.isModificable = false;
-                this.isModificableFormat = false;
+                self.isModificable = false;
+                self.isModificableFormat = false;
 
-                this.addEnable = true;
-                this.editEnable = false;
-                this.deleteEnable = false;
-                this.cnfirmEnable = false;
-                this.cancelEnable = false;
-                this.saveEnable = false;
-                this.dropEnable = false;
+                self.addEnable = true;
+                self.editEnable = false;
+                self.deleteEnable = false;
+                self.cnfirmEnable = false;
+                self.cancelEnable = false;
+                self.saveEnable = false;
+                self.dropEnable = false;
 
                 //endregion
 
-                this.createStatus = false;
-                this.editStatus = false;
+                self.createStatus = false;
+                self.editStatus = false;
             }
             //修改
             else{
-                //打放棄修改API
 
-                this.singleData = this.oriSingleData;
-                this.dgInsDT.loadDgData(this.oriSingleDataGridRows);
+                self.callAPI('PSIW5100302010',function () {
+                    self.singleData = self.oriSingleData;
+                    self.dgInsDT.loadDgData(self.oriSingleDataGridRows);
 
-                //region//修改UI狀態
-                PSIW500030.isModificable = false;
-                PSIW500030.isModificableFormat = false;
+                    //region//修改UI狀態
+                    self.isModificable = false;
+                    self.isModificableFormat = false;
 
-                PSIW500030.addEnable = true;
-                PSIW500030.editEnable = true;
-                PSIW500030.deleteEnable = true;
-                PSIW500030.cnfirmEnable = true;
-                PSIW500030.cancelEnable = true;
-                PSIW500030.saveEnable = false;
-                PSIW500030.dropEnable = false;
+                    self.addEnable = true;
+                    self.editEnable = true;
+                    self.deleteEnable = true;
+                    self.cnfirmEnable = true;
+                    self.cancelEnable = true;
+                    self.saveEnable = false;
+                    self.dropEnable = false;
 
-                //endregion
+                    //endregion
 
-                this.createStatus = false;
-                this.editStatus = false;
+                    self.createStatus = false;
+                    self.editStatus = false;
+
+                });
             }
         },
 
+        //TODO:
+        orderSearch: function() {
+
+            //e.preventDefault();
+            var dialog = $("#PSIW500030-down").removeClass('hide').dialog({
+                modal: true,
+                title: "空白訂貨表單下載",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        },
+
+        download: function() {
+            var self = this;
+            var lo_columns = ["Goods-cod", "Goods-rmk", "Goods-unit", "Num"];
+            var lo_datas = [];
+
+            var quote_rmk;
+            var order_time;
+
+            //取得貨品資料
+            var lo_params = {
+                func : "getGoodsData",
+                select_format_sta : self.select_format_sta
+            };
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+
+                    var temp = result.data;
+
+                    _.each(temp, function (value, index) {
+                        var row = [];
+                        row.push(value.goods_cod);
+                        row.push(value.goods_rmk);
+                        row.push(value.goods_unit);
+                        lo_datas.push(row);
+                    });
+
+                    var doc = new jsPDF();
+
+                    var pageContent = function (data) {
+                        // HEADER
+                        doc.setFontSize(14);
+                        doc.setTextColor(40);
+                        doc.setFontStyle('normal');
+
+                        //取quote_rmk, order_time
+                        _.each(self.allOrderSelectData, function (value, index) {
+                            if(value.format_sta == self.select_format_sta){
+                                quote_rmk = value.quote_rmk || '';
+                                order_time = value.order_time || '';
+                            }
+                        });
+
+                        var content = self.select_format_sta + '   ' + quote_rmk + '    ' + order_time;
+                        doc.text(content, data.settings.margin.left + 15, 22);
+                    };
+
+                    doc.autoTable(lo_columns, lo_datas, {
+                        addPageContent: pageContent,
+                        margin: {top: 30}
+                    });
+                    doc.save('空白訂貨表單-'+ quote_rmk +'.pdf');
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+        },
         //call Save API
         callSaveAPI: function (trans_cod, callback) {
 
@@ -1305,8 +1396,8 @@ var PSIW500030 = new Vue({
             var lo_params = {
                 REVE_CODE : trans_cod,
                 prg_id: prg_id,
-                singleData : this.singleData,
-                singleDataGridRows : this.singleDataGridRows,
+                singleData : self.singleData,
+                singleDataGridRows : self.singleDataGridRows,
             };
 
             $.post("/api/callSaveAPI", lo_params, function (result) {
@@ -1323,25 +1414,23 @@ var PSIW500030 = new Vue({
         },
 
         //TODO:call API
-        callAPI: function (prg_id, callback) {
+        callAPI: function (trans_cod, callback) {
 
             var self = this;
             self.isLoading = true;
 
             var lo_params = {
-                REVE_CODE : prg_id,
-                order_nos: this.singleData.order_nos
+                REVE_CODE : trans_cod,
+                prg_id: prg_id,
+                order_nos: self.singleData.order_nos
             };
 
             $.post("/api/callAPI", lo_params, function (result) {
-                console.log(result);
                 self.isLoading = false;
                 if (result.data) {
-                    console.log(result);
                     callback();
                 } else {
                     alert(result.error.errorMsg);
-                    callback();
                 }
             });
 
@@ -1354,7 +1443,7 @@ var PSIW500030 = new Vue({
             self.isLoading = true;
             var lo_params = {
                 REVE_CODE : "PSIW5100302020",
-                singleData: this.singleData
+                singleData: self.singleData
             };
 
             $.post("/api/callOrderAPI", lo_params, function (result) {
@@ -1385,6 +1474,8 @@ function formatFloat(num, pos)
 }
 
 var adpterDg = new AdapterDatagrid(PSIW500030);
+
+//region//套件
 
 //監測div寬度套件
 (function($,window,undefined){
@@ -1596,7 +1687,6 @@ $(".dominos-inventory-left").resizable({
 $('.dominos-inventory-right').resize(function(){
     var elem = $(this);
     var inventoryRightW = elem.width();
-    console.log(inventoryRightW);
 
     if(inventoryRightW < 750){
         $(".order-down").css("float","none");
@@ -1633,19 +1723,5 @@ $('.dominos-inventory-right').resize(function(){
     }
 });
 
+//endregion
 
-// 彈出 空白訂單下載
-$(document).on('click', ".PSIW500030-down", function (e) {
-    e.preventDefault();
-    var dialog = $("#PSIW500030-down").removeClass('hide').dialog({
-        modal: true,
-        title: "空白訂貨表單下載",
-        title_html: true,
-        width: 500,
-        maxwidth: 1920,
-//                height: $(window).height(),
-//                autoOpen: true,
-        dialogClass: "test",
-        resizable: true
-    });
-});
