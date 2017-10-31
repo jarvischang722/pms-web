@@ -179,6 +179,9 @@
   background: #7f7f7f;
   color: #fff;
 }
+.css_table .css_td.customW1 {
+  width: 80px;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -245,6 +248,9 @@
 .horizTable-outer .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
+}
+.horizTable-outer .css_table .css_td.customW1 {
+  width: 80px;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -2874,6 +2880,9 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock .foot-right span {
   color: #D15B47;
 }
+.rulesOfSeparation.customHt {
+  max-height: 400px;
+}
 
 .foCounter .counterPage {
   max-height: 600px;
@@ -3555,10 +3564,6 @@ td div.triangle-box:after {
 
 .rules-notice {
   color: red;
-}
-
-.rules-wrap {
-  margin-bottom: 30px;
 }
 
 .purple-text {

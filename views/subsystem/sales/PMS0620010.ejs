@@ -103,9 +103,9 @@
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <div class="gridTableHt">
+                    <div>
                         <!--<table id="clerkDataGridResult-table"></table>-->
-                        <table id="PMS0620010_dg"></table>
+                        <table id="PMS0620010_dg" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -162,13 +162,14 @@
     <!--<img src="../images/initialPageImg.gif" style="  width: 25%; height: 25%;margin-left: -70px;"/>-->
 </div>
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <!--  業務 initial js -->
 <%- include sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 initial js  -->
 
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->
 
 <%- include ./vueTemplate/chooseDataDialogTmp.ejs%>
 <%- include ./vueTemplate/PMS0620020Tmp.ejs %>

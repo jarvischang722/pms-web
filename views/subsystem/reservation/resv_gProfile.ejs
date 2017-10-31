@@ -160,9 +160,9 @@
                         <table id="resv_gProfile_Chk-table"></table>
                     </div>
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- rateCode-查詢結果 dataGrid -->
-                        <table id="resv_gProfile-table"></table>
+                        <table id="resv_gProfile-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -216,6 +216,9 @@
     <!--  /.End 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
 
 <!--&lt;!&ndash;treeTable&ndash;&gt;-->
 <!--<script type="text/javascript" src="/js/tree/jquery.treetable-ajax-persist.js"></script>-->
@@ -227,7 +230,3 @@
 <!--  訂房卡共用 initial js -->
 <%- include PMS0100000_module/resv_includeJs %>
 <!--  /.End 訂房卡共用 initial js  -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->
