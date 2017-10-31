@@ -281,18 +281,17 @@ function DatagridBaseClass() {
      * @param rowData: mn 單筆資料
      */
     this.updateTmpDtOfMnData = function (rowData) {
-        var self = this;
-        _.each(this.tmpCUD.dt_createData, function (cData, cIdx) {
-            self.tmpCUD.dt_createData[cIdx] = _.extend(cData, rowData);
-            self.tmpCUD.dt_createData[cIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.createData, function (cData, cIdx) {
+            self.tmpCUD.createData[cIdx] = _.extend(cData, rowData);
+            self.tmpCUD.createData[cIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_updateData, function (uData, uIdx) {
-            self.tmpCUD.dt_updateData[uIdx] = _.extend(uData, rowData);
-            self.tmpCUD.dt_updateData[uIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.updateData, function (uData, uIdx) {
+            self.tmpCUD.updateData[uIdx] = _.extend(uData, rowData);
+            self.tmpCUD.updateData[uIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_deleteData, function (dData, dIdx) {
-            self.tmpCUD.dt_deleteData[dIdx] = _.extend(dData, rowData);
-            self.tmpCUD.dt_deleteData[dIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.deleteData, function (dData, dIdx) {
+            self.tmpCUD.deleteData[dIdx] = _.extend(dData, rowData);
+            self.tmpCUD.deleteData[dIdx]["mnRowData"] = rowData;
         });
     };
 

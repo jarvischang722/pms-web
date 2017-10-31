@@ -278,6 +278,28 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             }
 
+            // dt資料檢查
+            var lo_checkHotelDtRowData = _.clone(this.hotelDtRowData);
+            _.each(lo_checkHotelDtRowData, function (hotelData) {
+                return _.extend(hotelData, self.rowData);
+            });
+
+            for (var j = 0; j < this.hotelDtRowData.length; j++) {
+                var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
+                var la_keyVals = _.pluck(_.where(this.hotelDtFieldData, {keyable: 'Y'}), "ui_field_name");
+                var condKey = {};
+                _.each(la_keyVals, function (field_name) {
+                    condKey[field_name] = lo_checkValue[field_name] || "";
+                });
+                for (var k = 0; k < j; k++) {
+                    if(_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1){
+                        lo_checkResult.success = false;
+                        lo_checkResult.msg = "館別代號重複，請刪除";
+                        break;
+                    }
+                }
+            }
+
             return lo_checkResult;
         },
         doSave: function () {
