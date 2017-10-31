@@ -253,8 +253,25 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
-        else if (fieldAttrObj.ui_type == "text") {
-            var isTextTouchEvent = true;
+        else if (dataType == "textbox") {
+            function timeFormater(val) {
+                console.log(val);
+                if (tmpFieldObj.ui_type == "time") {
+                    if (!_.isNull(val)) {
+                        var lo_val = String(val);
+                        if (lo_val.indexOf(":") == "-1") {
+                            var hour = lo_val.substring(0, 2);
+                            var min = lo_val.substring(2, 4);
+
+                            return hour + ":" + min;
+                        }
+                        return val;
+                    }
+                    return "";
+                } else {
+                    return val;
+                }
+            }
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
@@ -273,34 +290,15 @@ var EZfieldClass = {
                     }
                 }
 
-
                 if (fieldAttrObj.rule_func_name != "") {
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
             };
-            tmpFieldObj.formatter = function (val, row, index) {
-                console.log(val);
-                if(!_.isNull(val)){
-                    var reg = /([0-1][0-9]|2[0-3])\:[0-5][0-9]/;
-                    console.log(reg.test(val));
-                    if (!reg.test(val)) {
-                        var lo_val = String(val);
-                        var hour = lo_val.substring(0, 2);
-                        var min = lo_val.substring(2, 4);
+            // tmpFieldObj.formatter = timeFormater;
+            tmpFieldObj.editor.options.formatter = timeFormater;
 
-                        return hour + ":" + min;
-                    }
-                    else{
-                        return val;
-                    }
-                }
-                else{
-                    return "";
-                }
-
-            };
 
         }
         else if (dataType == "numberbox") {
