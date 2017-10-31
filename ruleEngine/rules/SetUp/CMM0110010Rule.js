@@ -12,6 +12,8 @@ var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath+"/returnClass");
 var ErrorClass = require(ruleRootPath+"/errorClass");
 
+
+
 module.exports = {
     chkContactrfContacttyp: function (postData, session, callback) {
         var deleteFlag = postData.rowData.delete_flag;

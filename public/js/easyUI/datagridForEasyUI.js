@@ -57,7 +57,8 @@ var EZfieldClass = {
             dataType = 'color';
         }
         else if (fieldAttrObj.ui_type == "time") {
-            dataType = 'timespinner';
+            dataType = "textbox";
+            // dataType = 'timespinner';
         }
         else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
@@ -279,6 +280,27 @@ var EZfieldClass = {
                     }
                 }
             };
+            tmpFieldObj.formatter = function (val, row, index) {
+                console.log(val);
+                if(!_.isNull(val)){
+                    var reg = /([0-1][0-9]|2[0-3])\:[0-5][0-9]/;
+                    console.log(reg.test(val));
+                    if (!reg.test(val)) {
+                        var lo_val = String(val);
+                        var hour = lo_val.substring(0, 2);
+                        var min = lo_val.substring(2, 4);
+
+                        return hour + ":" + min;
+                    }
+                    else{
+                        return val;
+                    }
+                }
+                else{
+                    return "";
+                }
+
+            };
 
         }
         else if (dataType == "numberbox") {
@@ -333,6 +355,7 @@ var EZfieldClass = {
  * @param dgName
  */
 var ga_readonlyFields = [];
+
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
