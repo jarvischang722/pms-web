@@ -15,8 +15,8 @@ module.exports = function (req, res, next) {
 
     if (_v(req.query["locale"]) != "") {
         i18n.overrideLocaleFromQuery(req);
-        req.session.locale = _v(req.query["locale"]);
-    } else if (_v(req.session.locale) != "") {
+        res.cookie('locale', _v(req.query["locale"]));
+    } else if (_v(req.cookies.locale) != "") {
         if (req.url.indexOf("?") > 1) {
             req.url = req.url + "&locale=" + req.session.locale;
         } else {
@@ -24,7 +24,7 @@ module.exports = function (req, res, next) {
         }
         i18n.overrideLocaleFromQuery(req);
     } else {
-        req.session.locale = "en";
+        res.cookie('locale', judgeBrowserLang(req));
         if (req.url.indexOf("?") > 1) {
             req.url = req.url + "&locale=" + req.session.locale;
         } else {
@@ -33,8 +33,30 @@ module.exports = function (req, res, next) {
         i18n.overrideLocaleFromQuery(req);
 
     }
+    req.session.locale = req.cookies.locale;
     next();
 
+}
+
+/**
+ * 抓取瀏覽器預設語言
+ * @param req
+ * @return {string}
+ */
+function judgeBrowserLang(req) {
+    let defaultLocale = "en";
+    let haveLangList = ["zh_TW", "ja", "en"];
+    if (req.language == "zh") {
+        if (req.region == 'cn') {
+            defaultLocale = 'zh_CN';
+        } else {
+            defaultLocale = 'zh_TW';
+        }
+    } else {
+        defaultLocale = req.language;
+    }
+
+    return _.findIndex(haveLangList, defaultLocale) > -1 ? defaultLocale : "en";
 }
 
 function _v(value) {
