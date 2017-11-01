@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <dao name="QRY_SELECT_COMPANY">
+        <statement><![CDATA[
+            select  cmp_id as value, cmp_name as display
+            from s99_company
+        ]]></statement>
+    </dao>
+</root>
