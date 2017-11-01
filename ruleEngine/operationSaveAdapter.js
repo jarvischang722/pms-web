@@ -486,7 +486,13 @@ function combineDtCreateEditExecData(rfData, callback) {
                     tmpIns[objKey] = value;
                 }
             });
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
+
+            let lo_default = commonRule.getCreateCommonDefaultDataRule(go_session);
+            if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
+                delete lo_default["hotel_cod"];
+            }
+            tmpIns = _.extend(tmpIns, lo_default);
+
 
             //塞入mn pk
             _.each(lo_fieldsData.mainKeyFields, function (keyField) {
@@ -569,8 +575,12 @@ function combineDtCreateEditExecData(rfData, callback) {
                 }
             });
 
-            data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
-            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
+            let lo_default = commonRule.getEditDefaultDataRule(go_session);
+            if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
+                delete lo_default["hotel_cod"];
+            }
+            data = _.extend(data, lo_default);
+            tmpEdit = _.extend(tmpEdit, lo_default);
 
             tmpEdit.condition = [];
             //組合where 條件
@@ -709,7 +719,7 @@ function sortByEventTime(data, callback) {
         return moment(new Date(lo_saveExecData.event_time)).format("YYYY/MM/DD HH:mm:ss");
     });
 
-    _.each(lo_saveExecDatasSorted, function(lo_data, index){
+    _.each(lo_saveExecDatasSorted, function (lo_data, index) {
         index++;
         lo_reformatExecDatas[index] = lo_data;
     });

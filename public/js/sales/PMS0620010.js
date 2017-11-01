@@ -70,9 +70,12 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.initData();
             this.fetchFieldData();
         },
-        rowData: function (val) {
-            this.dgHoatelDt.updateMnRowData(val);
-            this.dgHoatelDt.updateTmpDtOfMnData(val);
+        rowData: {
+            handler: function (val) {
+                this.dgHoatelDt.updateMnRowData(val);
+                this.dgHoatelDt.updateTmpDtOfMnData(val);
+            },
+            deep: true
         }
     },
     methods: {
@@ -230,7 +233,6 @@ Vue.component('single-grid-pms0620020-tmp', {
         removeDtRow: function () {
             this.dgHoatelDt.removeRow();
         },
-
         doChangeTraff: function (tab, event) {
             this.gs_active = tab.name;
         },
@@ -286,7 +288,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             for (var j = 0; j < this.hotelDtRowData.length; j++) {
                 var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
-                var la_keyVals = _.pluck(_.where(this.hotelDtFieldData, {keyable: 'Y'}), "ui_field_name");
+                var la_keyVals = ["hotel_cod", "sales_cod"];
                 var condKey = {};
                 _.each(la_keyVals, function (field_name) {
                     condKey[field_name] = lo_checkValue[field_name] || "";
@@ -670,14 +672,19 @@ var vm = new Vue({
 
         },
         editRow: function () {
+            this.initTmpCUD();
+            this.hotelDTDataGridRows.length = 0;
+            this.classHSDataGridRows.length = 0;
+            this.isCreateStatus = false;
+            this.isEditStatus = true;
+            this.editingRow = {};
+
             var editRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!editRow) {
                 alert("請選擇要編輯的資料");
             }
             else {
-                vm.isCreateStatus = false;
-                vm.isEditStatus = true;
                 vm.fetchSingleData(editRow, function (result) {
                     if (result) {
                         vm.showSingleGridDialog();
@@ -729,11 +736,10 @@ var vm = new Vue({
                 tmpCUD: this.tmpCud
             };
 
-            console.log(lo_params);
-            // $.post("/api/gateway/doOperationSave", lo_params, function (result) {
-            //     self.loadDataGridByPrgID();
-            //     callback(result);
-            // });
+            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+                self.loadDataGridByPrgID();
+                callback(result);
+            });
         }
     }
 });

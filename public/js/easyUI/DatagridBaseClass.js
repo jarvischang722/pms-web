@@ -183,10 +183,29 @@ function DatagridBaseClass() {
             alert("請選擇要刪除的資料");
         }
 
+        delRow = _.extend(delRow, self.mnRowData);
         delRow["tab_page_id"] = 1;
         delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+        delRow["mnRowData"] = self.mnRowData;
 
-        self.tmpCUD.deleteData.push(delRow);
+        if(delRow.createRow != 'Y'){
+            self.tmpCUD.deleteData.push(delRow);
+        }
+        else if(delRow.createRow == 'Y'){
+
+            var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
+            var condKey = {};
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = delRow[field_name] || "";
+            });
+
+            //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+            var existIdx = _.findIndex(self.tmpCUD.createData, condKey);
+
+            if (existIdx > -1) {
+                this.tmpCUD.createData.splice(existIdx, 1);
+            }
+        }
 
         $("#gridEdit").val(self.tmpCUD);
 
