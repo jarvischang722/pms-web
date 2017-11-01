@@ -11,23 +11,21 @@ var dbSVC = require("../../../services/DbTableService");
 module.exports = function (io) {
     let ga_lockPrgIDList = [];
     io.of("/dominos").on('connection', function (socket) {
-        //console.log(socket.client.id + "連線囉!!");
+        console.log(socket.client.id + "連線囉!!");
         let go_session = socket.request.session;
 
-
-        //TODO on method  做table lock ; clien 做 emit method
         socket.on('doTableLock', function (data) {
-            socket.emit("tttttt", {sssss:xxxx});
+            console.log("table lock");
         });
 
-        //TODO on method  做table unlock ; clien 做 emit method
+
         socket.on('doTableUnLock', function (data) {
-
+            doTableUnlock(socket.client.id, go_session, data);
         });
 
-        socket.on('disconnect', function () {
-            //TODO 做table unlock
-            //console.log(socket.client.id + "斷線囉!!");
+        socket.on('disconnect', function (data) {
+            doTableUnlock(socket.client.id, go_session, data);
+            console.log(socket.client.id + "斷線囉!!");
         });
 
     });
@@ -40,7 +38,6 @@ module.exports = function (io) {
      * @param data :{
           prg_id {String}
           page_id {Number}   : default  1
-
      }
      */
     function doTableUnlock(socket_id, go_session, data) {
@@ -71,17 +68,11 @@ module.exports = function (io) {
                     }
 
                 });
-            } else {
-                dbSVC.doTableUnLockBySocketID(socket_id, function (errorMsg, success) {
-                    deleteLockListBySocketID(socket_id);
-                });
             }
-
         } catch (ex) {
             console.error(ex);
         }
     }
-
 
     /**
      * 更新暫存的lock中的program
@@ -99,30 +90,4 @@ module.exports = function (io) {
         }
     }
 
-    /**
-     * 刪除暫存
-     * @param socket_id
-     * @param lockingPrgID
-     */
-    function deleteLockList(socket_id, lockingPrgID) {
-        ga_lockPrgIDList = _.filter(ga_lockPrgIDList, function (data) {
-            if (!_.isUndefined(lockingPrgID)) {
-                return _.findIndex(ga_lockPrgIDList, {socket_id, lockingPrgID}) == -1;
-            }
-            return _.findIndex(ga_lockPrgIDList, {socket_id}) == -1;
-
-        });
-
-    }
-
-    /**
-     * 刪除指定SocketID暫存
-     * @param socket_id
-     */
-    function deleteLockListBySocketID(socket_id) {
-        ga_lockPrgIDList = _.filter(ga_lockPrgIDList, function (data) {
-            return !_.isEqual(socket_id, data.socket_id);
-        });
-
-    }
 };

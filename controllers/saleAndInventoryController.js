@@ -119,7 +119,19 @@ exports.callOrderAPI = function (req, res) {
 
 //WebService
 exports.dominosWebService = function (req, res) {
-    var trans_cod = req.param.trans_cod;
+    var trans_cod = req.params.trans_cod;
+
+    var data = Object.values(req.body).toString();
+    console.log(data);
+    var index = data.indexOf("data");
+    data = data.substr(index + 4);
+    data = data.replace(/\r/g, '');
+    data = data.replace(/\n/g, '');
+    data = data.replace(/"/g, '');
+
+    var endindex = data.lastIndexOf("------");
+
+
     switch (trans_cod)
     {
         case 'PSI0000001':
