@@ -81,10 +81,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c08"), 
@@ -92,10 +92,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c09"), 
@@ -103,10 +103,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c0a"), 
@@ -114,10 +114,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c0b"), 
@@ -180,10 +180,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added date", 
-    "hint_en" : "Added date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c12"), 
@@ -191,10 +191,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added by", 
-    "hint_en" : "Added by"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c13"), 
@@ -202,10 +202,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified date", 
-    "hint_en" : "Modified date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c14"), 
@@ -213,10 +213,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified by", 
-    "hint_en" : "Modified by"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c44"), 
@@ -356,10 +356,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c51"), 
@@ -367,10 +367,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c52"), 
@@ -378,10 +378,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c53"), 
@@ -389,10 +389,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c54"), 
@@ -444,10 +444,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b58315bf47ec910c59"), 
@@ -455,10 +455,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c5a"), 
@@ -466,10 +466,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c5b"), 
@@ -477,10 +477,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c7e"), 
@@ -543,10 +543,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c84"), 
@@ -554,10 +554,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c85"), 
@@ -565,10 +565,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c86"), 
@@ -576,10 +576,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c87"), 
@@ -620,10 +620,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c8b"), 
@@ -631,10 +631,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c8c"), 
@@ -642,10 +642,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c8d"), 
@@ -653,10 +653,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c8e"), 
@@ -752,10 +752,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c97"), 
@@ -763,10 +763,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c98"), 
@@ -774,10 +774,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c99"), 
@@ -785,10 +785,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c9a"), 
@@ -829,10 +829,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c9e"), 
@@ -840,10 +840,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910c9f"), 
@@ -851,10 +851,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca0"), 
@@ -862,10 +862,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca1"), 
@@ -917,10 +917,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca6"), 
@@ -928,10 +928,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca7"), 
@@ -939,10 +939,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca8"), 
@@ -950,10 +950,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910ca9"), 
@@ -972,10 +972,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cab"), 
@@ -983,10 +983,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cac"), 
@@ -994,10 +994,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cad"), 
@@ -1005,10 +1005,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cae"), 
@@ -1071,10 +1071,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cb4"), 
@@ -1082,10 +1082,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cb5"), 
@@ -1093,10 +1093,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cb6"), 
@@ -1104,10 +1104,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b68315bf47ec910cb7"), 
@@ -1335,10 +1335,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ccc"), 
@@ -1346,10 +1346,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ccd"), 
@@ -1357,10 +1357,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cce"), 
@@ -1368,10 +1368,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cd7"), 
@@ -1412,10 +1412,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cdb"), 
@@ -1423,10 +1423,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cdc"), 
@@ -1434,10 +1434,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cdd"), 
@@ -1445,10 +1445,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cde"), 
@@ -1489,10 +1489,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ce2"), 
@@ -1500,10 +1500,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ce3"), 
@@ -1511,10 +1511,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ce4"), 
@@ -1522,10 +1522,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910ce5"), 
@@ -1610,10 +1610,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cee"), 
@@ -1621,10 +1621,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cef"), 
@@ -1632,10 +1632,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cf0"), 
@@ -1643,10 +1643,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cf1"), 
@@ -1709,10 +1709,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cf7"), 
@@ -1720,10 +1720,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cf8"), 
@@ -1731,10 +1731,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cfa"), 
@@ -1742,10 +1742,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910cfb"), 
@@ -1852,9 +1852,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -1863,9 +1863,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -1874,9 +1874,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -1885,9 +1885,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -1951,10 +1951,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d0e"), 
@@ -1962,10 +1962,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d0f"), 
@@ -1973,10 +1973,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d10"), 
@@ -1984,10 +1984,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d11"), 
@@ -2017,10 +2017,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d14"), 
@@ -2028,10 +2028,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d15"), 
@@ -2039,10 +2039,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d16"), 
@@ -2050,10 +2050,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d17"), 
@@ -2094,10 +2094,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d1b"), 
@@ -2105,10 +2105,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d1c"), 
@@ -2116,10 +2116,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d1d"), 
@@ -2127,10 +2127,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d1e"), 
@@ -2149,40 +2149,7 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "msg_tax1", 
-    "ui_display_name_zh_TW" : "留言內容1", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d20"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax2", 
-    "ui_display_name_zh_TW" : "留言內容2", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d21"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax3", 
-    "ui_display_name_zh_TW" : "留言內容3", 
-    "hint_zh_TW" : "", 
-    "ui_display_name_en" : "", 
-    "hint_en" : ""
-}
-{ 
-    "_id" : ObjectId("593e37b78315bf47ec910d22"), 
-    "prg_id" : "PMS0820060", 
-    "page_id" : NumberInt(1), 
-    "template_id" : "datagrid", 
-    "ui_field_name" : "msg_tax4", 
-    "ui_display_name_zh_TW" : "留言內容4", 
+    "ui_display_name_zh_TW" : "留言內容", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
@@ -2193,10 +2160,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d24"), 
@@ -2204,10 +2171,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d25"), 
@@ -2215,10 +2182,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d26"), 
@@ -2226,10 +2193,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d2e"), 
@@ -2237,10 +2204,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d2f"), 
@@ -2248,10 +2215,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d30"), 
@@ -2259,10 +2226,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d31"), 
@@ -2270,10 +2237,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b78315bf47ec910d32"), 
@@ -2325,10 +2292,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d37"), 
@@ -2336,10 +2303,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d38"), 
@@ -2347,10 +2314,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d39"), 
@@ -2358,10 +2325,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d3a"), 
@@ -2413,10 +2380,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d3f"), 
@@ -2424,10 +2391,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d40"), 
@@ -2435,10 +2402,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d41"), 
@@ -2446,10 +2413,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d42"), 
@@ -2512,10 +2479,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d4a"), 
@@ -2523,10 +2490,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d4b"), 
@@ -2534,10 +2501,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d4c"), 
@@ -2545,10 +2512,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d4d"), 
@@ -2611,10 +2578,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d55"), 
@@ -2622,10 +2589,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d56"), 
@@ -2633,10 +2600,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d57"), 
@@ -2644,10 +2611,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d58"), 
@@ -2721,10 +2688,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d5f"), 
@@ -2732,10 +2699,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d60"), 
@@ -2743,10 +2710,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d61"), 
@@ -2754,10 +2721,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d62"), 
@@ -2831,10 +2798,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d69"), 
@@ -2842,10 +2809,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d6a"), 
@@ -2853,10 +2820,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d6b"), 
@@ -2864,10 +2831,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d6c"), 
@@ -3051,10 +3018,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d7d"), 
@@ -3062,10 +3029,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d7e"), 
@@ -3073,10 +3040,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d7f"), 
@@ -3084,10 +3051,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d80"), 
@@ -3172,10 +3139,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d88"), 
@@ -3183,10 +3150,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d89"), 
@@ -3194,10 +3161,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d8a"), 
@@ -3205,10 +3172,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("593e37b88315bf47ec910d8b"), 
@@ -3238,9 +3205,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -3249,9 +3216,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -3260,9 +3227,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -3271,9 +3238,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -3304,9 +3271,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -3315,9 +3282,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -3326,9 +3293,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -3337,9 +3304,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -3370,9 +3337,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -3381,9 +3348,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -3392,9 +3359,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -3403,9 +3370,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -3436,9 +3403,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -3447,9 +3414,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -3458,9 +3425,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -3469,9 +3436,9 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -3513,10 +3480,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("593e37b98315bf47ec910da7"), 
@@ -3524,10 +3491,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("593e37b98315bf47ec910da8"), 
@@ -3535,10 +3502,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("593e37b98315bf47ec910da9"), 
@@ -3546,10 +3513,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd88307"), 
@@ -3606,10 +3573,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd8830c"), 
@@ -3618,10 +3585,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd8830d"), 
@@ -3630,10 +3597,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd8830e"), 
@@ -3642,10 +3609,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd8830f"), 
@@ -3702,10 +3669,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd88314"), 
@@ -3714,10 +3681,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd88315"), 
@@ -3726,10 +3693,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("594208ecd199903ddcd88316"), 
@@ -3738,10 +3705,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59423c72d199903ddcd88347"), 
@@ -3793,10 +3760,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added date", 
-    "hint_en" : "Added date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59423c73d199903ddcd8834c"), 
@@ -3804,10 +3771,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added by", 
-    "hint_en" : "Added by"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59423c73d199903ddcd8834d"), 
@@ -3815,10 +3782,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified date", 
-    "hint_en" : "Modified date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59423c73d199903ddcd8834e"), 
@@ -3826,10 +3793,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified by", 
-    "hint_en" : "Modified by"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59423c73d199903ddcd8834f"), 
@@ -4004,10 +3971,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59423c83d199903ddcd8835e"), 
@@ -4016,10 +3983,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59423c83d199903ddcd8835f"), 
@@ -4028,10 +3995,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59423c83d199903ddcd88360"), 
@@ -4040,10 +4007,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59423c83d199903ddcd88361"), 
@@ -4220,10 +4187,10 @@
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59423c84d199903ddcd88370"), 
@@ -4232,10 +4199,10 @@
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59423c84d199903ddcd88371"), 
@@ -4244,10 +4211,10 @@
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59423c84d199903ddcd88372"), 
@@ -4256,10 +4223,10 @@
     "tab_page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38ec"), 
@@ -4355,10 +4322,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added date", 
-    "hint_en" : "Added date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38f5"), 
@@ -4366,10 +4333,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added by", 
-    "hint_en" : "Added by"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38f6"), 
@@ -4377,10 +4344,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified date", 
-    "hint_en" : "Modified date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38f7"), 
@@ -4388,10 +4355,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified by", 
-    "hint_en" : "Modified by"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38f8"), 
@@ -4421,10 +4388,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added date", 
-    "hint_en" : "Added date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38fb"), 
@@ -4432,10 +4399,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added by", 
-    "hint_en" : "Added by"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38fc"), 
@@ -4443,10 +4410,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified date", 
-    "hint_en" : "Modified date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596c8ecc1ce4521c686b38fd"), 
@@ -4454,10 +4421,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified by", 
-    "hint_en" : "Modified by"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec04671f"), 
@@ -4550,10 +4517,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046727"), 
@@ -4562,10 +4529,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046728"), 
@@ -4574,10 +4541,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046729"), 
@@ -4586,10 +4553,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec04672a"), 
@@ -4658,10 +4625,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046730"), 
@@ -4670,10 +4637,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046731"), 
@@ -4682,10 +4649,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046732"), 
@@ -4694,10 +4661,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046733"), 
@@ -4742,10 +4709,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046737"), 
@@ -4754,10 +4721,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046738"), 
@@ -4766,10 +4733,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596dbc4e1ce45229ec046739"), 
@@ -4778,10 +4745,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("596ec759d199900da00c7200"), 
@@ -4850,10 +4817,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("596ec759d199900da00c7206"), 
@@ -4862,10 +4829,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("596ec759d199900da00c7207"), 
@@ -4874,10 +4841,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("596ec759d199900da00c7208"), 
@@ -4886,10 +4853,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59786a341ce45221e87fd730"), 
@@ -5042,9 +5009,9 @@
     "tab_page_id" : "", 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
+    "ui_display_name_en" : "Add Date", 
     "hint_en" : ""
 }
 { 
@@ -5054,9 +5021,9 @@
     "tab_page_id" : "", 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
+    "ui_display_name_en" : "Add By", 
     "hint_en" : ""
 }
 { 
@@ -5066,9 +5033,9 @@
     "tab_page_id" : "", 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
+    "ui_display_name_en" : "Upd Date", 
     "hint_en" : ""
 }
 { 
@@ -5078,9 +5045,9 @@
     "tab_page_id" : "", 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
+    "ui_display_name_en" : "Upd By", 
     "hint_en" : ""
 }
 { 
@@ -5500,10 +5467,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
+    "ui_display_name_zh_TW" : "新增日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("597950fcdc48a453c5d09069"), 
@@ -5512,10 +5479,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
+    "ui_display_name_zh_TW" : "新增者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("5979510ddc48a453c5d0906a"), 
@@ -5524,10 +5491,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
+    "ui_display_name_zh_TW" : "修改日", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("5979511fdc48a453c5d0906b"), 
@@ -5536,10 +5503,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
+    "ui_display_name_zh_TW" : "修改者", 
     "hint_zh_TW" : "", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("5979580ddc48a453c5d0906c"), 
@@ -5584,10 +5551,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59795893dc48a453c5d09070"), 
@@ -5596,10 +5563,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("597958a7dc48a453c5d09071"), 
@@ -5608,10 +5575,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("597958cadc48a453c5d09072"), 
@@ -5620,10 +5587,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59795d4adc48a453c5d09073"), 
@@ -5656,10 +5623,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59795d94dc48a453c5d09076"), 
@@ -5668,10 +5635,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59795daddc48a453c5d09077"), 
@@ -5680,10 +5647,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59795dbddc48a453c5d09078"), 
@@ -5692,10 +5659,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59795e02dc48a453c5d09079"), 
@@ -5761,10 +5728,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("597af443f6341e843b1bbcc7"), 
@@ -5772,10 +5739,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("597af443f6341e843b1bbcc8"), 
@@ -5783,10 +5750,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("597af443f6341e843b1bbcc9"), 
@@ -5794,10 +5761,10 @@
     "page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("597af443f6341e843b1bbcca"), 
@@ -5863,10 +5830,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c1fa"), 
@@ -5875,10 +5842,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c1fb"), 
@@ -5887,10 +5854,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c1fc"), 
@@ -5899,10 +5866,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c1fd"), 
@@ -5935,10 +5902,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c200"), 
@@ -5947,10 +5914,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c201"), 
@@ -5959,10 +5926,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c202"), 
@@ -5971,10 +5938,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c203"), 
@@ -6139,10 +6106,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c211"), 
@@ -6151,10 +6118,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c212"), 
@@ -6163,10 +6130,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("59803100818df4286420c213"), 
@@ -6175,10 +6142,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("5982d2e2b746b633bcb0b2b2"), 
@@ -6197,7 +6164,7 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "msg_tax1", 
-    "ui_display_name_zh_TW" : "留言內容1", 
+    "ui_display_name_zh_TW" : "留言內容", 
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "", 
     "hint_en" : ""
@@ -6278,10 +6245,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("598a744e40a1f15603733401"), 
@@ -6290,10 +6257,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("598a746240a1f15603733402"), 
@@ -6302,10 +6269,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("598a747540a1f15603733403"), 
@@ -6314,10 +6281,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c73"), 
@@ -6350,10 +6317,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c76"), 
@@ -6362,10 +6329,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c77"), 
@@ -6374,10 +6341,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c78"), 
@@ -6386,10 +6353,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c79"), 
@@ -6422,10 +6389,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c7c"), 
@@ -6434,10 +6401,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c7d"), 
@@ -6446,10 +6413,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c7e"), 
@@ -6458,10 +6425,10 @@
     "tab_page_id" : NumberInt(1), 
     "template_id" : "datagrid", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("598ad703b746b64e2c220c7f"), 
@@ -6824,10 +6791,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_dat", 
-    "ui_display_name_zh_TW" : "輸入日", 
-    "hint_zh_TW" : "輸入日", 
-    "ui_display_name_en" : "Added Date", 
-    "hint_en" : "Added Date"
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae5"), 
@@ -6835,10 +6802,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "ins_usr", 
-    "ui_display_name_zh_TW" : "輸入者", 
-    "hint_zh_TW" : "輸入者", 
-    "ui_display_name_en" : "Added By", 
-    "hint_en" : "Added By"
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae6"), 
@@ -6846,10 +6813,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_dat", 
-    "ui_display_name_zh_TW" : "最後異動日", 
-    "hint_zh_TW" : "最後異動日", 
-    "ui_display_name_en" : "Modified Date", 
-    "hint_en" : "Modified Date"
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae7"), 
@@ -6857,10 +6824,10 @@
     "page_id" : NumberInt(2), 
     "template_id" : "gridsingle", 
     "ui_field_name" : "upd_usr", 
-    "ui_display_name_zh_TW" : "最後異動者", 
-    "hint_zh_TW" : "最後異動者", 
-    "ui_display_name_en" : "Modified By", 
-    "hint_en" : "Modified By"
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
 }
 { 
     "_id" : ObjectId("598d4e8ad199904ac07f6ae8"), 
@@ -7065,4 +7032,542 @@
     "hint_zh_TW" : "", 
     "ui_display_name_en" : "Status", 
     "hint_en" : "In use or not"
+}
+{ 
+    "_id" : ObjectId("59ddaac48c50201fd0130963"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddaac48c50201fd0130964"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddaac48c50201fd0130965"), 
+    "prg_id" : "prg_id", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "func_id(按鈕編號)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("59ddaac48c50201fd0130968"), 
+    "prg_id" : "", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "", 
+    "ui_field_name" : "", 
+    "ui_display_name_zh_TW" : "", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddaac48c50201fd0130969"), 
+    "prg_id" : "prg_id\n(作業代號)", 
+    "page_id" : "", 
+    "tab_page_id" : "", 
+    "template_id" : "select(下拉清單)", 
+    "ui_field_name" : "value(值)", 
+    "ui_display_name_zh_TW" : "ui_display_name_zh_TW", 
+    "hint_zh_TW" : "ui_display_name_en", 
+    "ui_display_name_en" : "hint_zh_TW", 
+    "hint_en" : "hint_en"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309ba"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "Sales Id", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309bb"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "Name", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309bc"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309bd"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "class_cod", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "Team", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309be"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "tel_nos", 
+    "ui_display_name_zh_TW" : "電話", 
+    "hint_zh_TW" : "電話", 
+    "ui_display_name_en" : "telephone", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309bf"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "Hotel", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c0"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "F&B", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c1"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "Membership", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c2"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "user_nos", 
+    "ui_display_name_zh_TW" : "使用者代號(訂席用)", 
+    "hint_zh_TW" : "使用者代號(訂席用)", 
+    "ui_display_name_en" : "User Id", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c3"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c4"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c5"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c6"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c7"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "hotel_cod", 
+    "ui_display_name_zh_TW" : "館別", 
+    "hint_zh_TW" : "館別", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c8"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod1", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309c9"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "nouse_dat", 
+    "ui_display_name_zh_TW" : "停用年月", 
+    "hint_zh_TW" : "停用年月", 
+    "ui_display_name_en" : "", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309ca"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "class_cod", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "Team", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309cb"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "begin_dat", 
+    "ui_display_name_zh_TW" : "開始日期", 
+    "hint_zh_TW" : "開始日期", 
+    "ui_display_name_en" : "Start Date", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309cc"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "end_dat", 
+    "ui_display_name_zh_TW" : "結束日期", 
+    "hint_zh_TW" : "結束日期", 
+    "ui_display_name_en" : "End Date", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309cd"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_dat", 
+    "ui_display_name_zh_TW" : "新增日", 
+    "hint_zh_TW" : "新增日", 
+    "ui_display_name_en" : "Add Date", 
+    "hint_en" : "Add Date"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309ce"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "ins_usr", 
+    "ui_display_name_zh_TW" : "新增者", 
+    "hint_zh_TW" : "新增者", 
+    "ui_display_name_en" : "Add By", 
+    "hint_en" : "Add By"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309cf"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_dat", 
+    "ui_display_name_zh_TW" : "修改日", 
+    "hint_zh_TW" : "修改日", 
+    "ui_display_name_en" : "Upd Date", 
+    "hint_en" : "Upd Date"
+}
+{ 
+    "_id" : ObjectId("59ddad538c50201fd01309d0"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "upd_usr", 
+    "ui_display_name_zh_TW" : "修改者", 
+    "hint_zh_TW" : "修改者", 
+    "ui_display_name_en" : "Upd By", 
+    "hint_en" : "Upd By"
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309d8"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "Sales Id", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309d9"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "Name", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309da"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309db"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "class_cod", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "Team", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309dc"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "Hotel", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309dd"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "F&B", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309de"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(3), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "Membership", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309df"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_cod", 
+    "ui_display_name_zh_TW" : "業務員代號", 
+    "hint_zh_TW" : "業務員代號", 
+    "ui_display_name_en" : "Sales Id", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e0"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "sales_nam", 
+    "ui_display_name_zh_TW" : "業務員姓名", 
+    "hint_zh_TW" : "業務員姓名", 
+    "ui_display_name_en" : "Name", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e1"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "status_cod", 
+    "ui_display_name_zh_TW" : "狀態", 
+    "hint_zh_TW" : "狀態", 
+    "ui_display_name_en" : "Status", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e2"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "class_cod", 
+    "ui_display_name_zh_TW" : "組別", 
+    "hint_zh_TW" : "組別", 
+    "ui_display_name_en" : "Team", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e3"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "hotel_sales", 
+    "ui_display_name_zh_TW" : "飯店業務", 
+    "hint_zh_TW" : "飯店業務", 
+    "ui_display_name_en" : "Hotel", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e4"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "bq_sales", 
+    "ui_display_name_zh_TW" : "餐飲業務", 
+    "hint_zh_TW" : "餐飲業務", 
+    "ui_display_name_en" : "F&B", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e5"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "member_sales", 
+    "ui_display_name_zh_TW" : "會員業務", 
+    "hint_zh_TW" : "會員業務", 
+    "ui_display_name_en" : "Membership", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59ddad7f8c50201fd01309e6"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "ui_field_name" : "user_nos", 
+    "ui_display_name_zh_TW" : "使用者代號(訂席用)", 
+    "hint_zh_TW" : "使用者代號(訂席用)", 
+    "ui_display_name_en" : "User Id", 
+    "hint_en" : ""
+}
+{ 
+    "_id" : ObjectId("59e6b3b8726c3e288c220e0c"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "rmk_cod", 
+    "ui_display_name_zh_TW" : "代號", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Message code", 
+    "hint_en" : "Frequently used message code"
+}
+{ 
+    "_id" : ObjectId("59e6b3da726c3e288c220e0d"), 
+    "prg_id" : "PMS0820060", 
+    "page_id" : NumberInt(3), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "msg_tax1", 
+    "ui_display_name_zh_TW" : "留言內容", 
+    "hint_zh_TW" : "", 
+    "ui_display_name_en" : "Message", 
+    "hint_en" : "Frequently used message"
 }

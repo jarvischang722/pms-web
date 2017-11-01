@@ -282,8 +282,8 @@
                                     <div class="pull-left">
                                         <div class="grid-item">
                                             <label class="pull-left">Guest Remark</label>
-                                            <textarea class="input-medium resvCard-col2Remark pull-left input-hCol2 marginLeft-5" placeholder="pick guy"></textarea>
-                                            <span class="moreClick pull-left marginLeft-5">...</span>
+                                            <textarea class="input-medium resvCard-col2Remark pull-left input-hCol2 ml-5" placeholder="pick guy"></textarea>
+                                            <span class="moreClick pull-left ml-5">...</span>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -506,7 +506,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="pull-left">換房備註</label>
-                                        <textarea class="input-medium popWindow-s1v2-lg pull-left input-hCol2 marginLeft-5" placeholder=""></textarea>
+                                        <textarea class="input-medium popWindow-s1v2-lg pull-left input-hCol2 ml-5" placeholder=""></textarea>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
@@ -929,5 +929,528 @@
         </div>
     </div>
     <!-- /.PMS0210070 開立現金帳 彈出視窗 -->
+
+    <!-- PMS0210070 Departure > group > tourGuide (foCnt_tourGuide) 彈出視窗 -->
+    <div id="foCnt_tourGuide-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-10 col-sm-10">
+                        <div class="main-content-data">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>團號/團名</label>
+                                    <input type="text" class="input-medium popWindow-s1v2-col2 input_sta_required" placeholder="Long Chua Chen">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>導遊姓名</label>
+                                    <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>聯絡電話</label>
+                                    <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>房號</label>
+                                    <input type="time" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <label>晨呼時間</label>
+                                    <input type="text" class="input-medium popWindow-s1v2-col2" placeholder="">
+                                </div>
+                            </div>
+                        </div><!--main-content-data-->
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth resv_depositsStep2"
+                                                role="button">確定
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.PMS0210070 Departure > group > tourGuide (foCnt_tourGuide) -->
+
+    <!-- PMS0210070 Departure > group > post master (foCnt_cslPostMaster) 彈出視窗 -->
+    <div id="foCnt_cslPostMaster-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data">
+
+                                <!--PMS0210020 editCoDate table-->
+                                <table id="foCnt_cslPostMaster-table" style="height: 200px;"></table>
+
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">確定</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">離開</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下全選</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">以下不選</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0210070 Departure > group > post master (foCnt_cslPostMaster) -->
+
+    <!-- PMS0210070 Departure > group > Folio (foCnt_folio) 彈出視窗 -->
+    <div id="foCnt_folio-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <div class="grid-item">
+                                    <label>Type</label>
+                                    <select class="input-medium medium-c5">
+                                        <option value="">前台出納帳單</option>
+                                        <option value="">後台出納帳單</option>
+                                    </select>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="folioRadio">
+                                    <div class="folioWrap">
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">標準帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">標準帳單(含消費備註)</span>
+                                              </label>
+                                            </span>
+                                        </div>
+
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">項目帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">小分類帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="folioWrap">
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">中分類帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">日期帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">日期/項目帳單</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">彙總一筆(房費)</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        <div class="searchRadio lineHeight24">
+                                            <span class="radio">
+                                              <label class="checkbox-width width-auto">
+                                                  <input name="form-field-checkbox" value="addMorningRadio3" type="radio" class="ace">
+                                                  <span class="lbl">房務掛帳明細列印</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div><!--main-content-data-->
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">預覽</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">列印</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">取消</button>
+                                    </li>
+                                    <li>
+                                        <input type="text" class="input-medium form-control text-right defHt" placeholder="1" />
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">調整帳單</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0210070 Departure > group > post master (foCnt_cslPostMaster) -->
+
+    <!-- PMS0210070 Departure > group > 房租總額 (foCnt_totalRent) 彈出視窗 -->
+    <div id="foCnt_totalRent-message" class="hide padding-5">
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <div class="main-content-data borderFrame">
+                                <!--1-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂房卡號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="00489001"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>公帳號</label>
+                                        <input type="text" class="input-medium medium-c1" placeholder="Ｇ52"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>預估FOC金額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="0"/>
+                                    </div>
+                                </div>
+
+                                <!--2-->
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>房租總額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="4,488"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>其他總額</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>總計</label>
+                                        <input type="text" class="input-medium medium-c1 text-right" placeholder="4,488"/>
+                                    </div>
+                                </div>
+                            </div><!--main-content-data-->
+                            <div class="clearfix"></div>
+                            <div class="space-6"></div>
+
+                            <!-------- tabPage -------->
+                            <div class="easyui-tabs easyUi-custom1" style="height: 400px; overflow-y: auto;">
+                                <!--大標題寫法：titleInfo-->
+                                <div title="預估帳款" class="padding-tabs">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable" style="width:100%;">
+                                                    <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th" style="width:10%;">服務日期</th>
+                                                        <th class="css_th" style="width:20%;">住房房種</th>
+                                                        <th class="css_th" style="width:10%;">間數</th>
+                                                        <th class="css_th" style="width:15%;">房價</th>
+                                                        <th class="css_th" style="width:15%;">服務費</th>
+                                                        <th class="css_th" style="width:15%;">Package</th>
+                                                        <th class="css_th" style="width:15%;">合計</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2017/05/14</td>
+                                                        <td class="css_td">DXT:豪華雙人</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">4,080</td>
+                                                        <td class="css_td text-right">408</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">4,088</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2017/05/14</td>
+                                                        <td class="css_td">DXT:豪華雙人</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">4,080</td>
+                                                        <td class="css_td text-right">408</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">4,088</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2017/05/14</td>
+                                                        <td class="css_td">DXT:豪華雙人</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">4,080</td>
+                                                        <td class="css_td text-right">408</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">4,088</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td"></td>
+                                                        <td class="css_td">合計：</td>
+                                                        <td class="css_td">3</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">12,264</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="space-6"></div>
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable" style="width:100%;">
+                                                    <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th" style="width:20%;">服務日期</th>
+                                                        <th class="css_th" style="width:20%;">服務項目</th>
+                                                        <th class="css_th" style="width:20%;">數量</th>
+                                                        <th class="css_th" style="width:20%;">單價</th>
+                                                        <th class="css_th" style="width:20%;">總金額</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">2017/05/14</td>
+                                                            <td class="css_td">旅遊-山之旅</td>
+                                                            <td class="css_td text-right">1</td>
+                                                            <td class="css_td text-right">500</td>
+                                                            <td class="css_td text-right">500</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">2017/05/14</td>
+                                                            <td class="css_td">旅遊-山之旅</td>
+                                                            <td class="css_td text-right">1</td>
+                                                            <td class="css_td text-right">500</td>
+                                                            <td class="css_td text-right">500</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td"></td>
+                                                            <td class="css_td text-right"></td>
+                                                            <td class="css_td text-right">合計:</td>
+                                                            <td class="css_td text-right">13,042</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div title="已產生帳款" class="padding-tabs">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="row">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable" style="width:100%;">
+                                                    <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th" style="width:10%;">服務日期</th>
+                                                        <th class="css_th" style="width:20%;">住房房種</th>
+                                                        <th class="css_th" style="width:10%;">間數</th>
+                                                        <th class="css_th" style="width:15%;">房價</th>
+                                                        <th class="css_th" style="width:15%;">服務費</th>
+                                                        <th class="css_th" style="width:15%;">Package</th>
+                                                        <th class="css_th" style="width:15%;">合計</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2005/11/06</td>
+                                                        <td class="css_td">JWS:和洋房</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2005/11/06</td>
+                                                        <td class="css_td">JWS:和洋房</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2005/11/06</td>
+                                                        <td class="css_td">JWS:和洋房</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2005/11/06</td>
+                                                        <td class="css_td">JWS:和洋房</td>
+                                                        <td class="css_td">1</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">0</td>
+                                                        <td class="css_td text-right">2,800</td>
+                                                        <td class="css_td text-right">42,800</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td"></td>
+                                                        <td class="css_td">合計：</td>
+                                                        <td class="css_td">14</td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">12,264</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="space-6"></div>
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable" style="width:100%;">
+                                                    <thead class="css_thead">
+                                                    <tr class="css_tr">
+                                                        <th class="css_th" style="width:20%;">服務日期</th>
+                                                        <th class="css_th" style="width:20%;">服務項目</th>
+                                                        <th class="css_th" style="width:20%;">數量</th>
+                                                        <th class="css_th" style="width:20%;">單價</th>
+                                                        <th class="css_th" style="width:20%;">總金額</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="css_tbody">
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2017/05/14</td>
+                                                        <td class="css_td">自助燭光晚餐</td>
+                                                        <td class="css_td text-right">1</td>
+                                                        <td class="css_td text-right">1,280</td>
+                                                        <td class="css_td text-right">1,280</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td">2017/05/14</td>
+                                                        <td class="css_td">組合六</td>
+                                                        <td class="css_td text-right">2</td>
+                                                        <td class="css_td text-right">1,900</td>
+                                                        <td class="css_td text-right">3,800</td>
+                                                    </tr>
+                                                    <tr class="css_tr">
+                                                        <td class="css_td"></td>
+                                                        <td class="css_td"></td>
+                                                        <td class="css_td text-right"></td>
+                                                        <td class="css_td text-right">合計:</td>
+                                                        <td class="css_td text-right">13,042</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-------- /.tabPage -------->
+
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /.PMS0210070 Departure > group > 房租總額 (foCnt_totalRent)  -->
 
 </div>

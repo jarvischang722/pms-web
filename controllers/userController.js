@@ -154,6 +154,21 @@ exports.getSubsysQuickMenu = function (req, res) {
     });
 };
 
+
+/**
+ * 取得選擇的公司
+ */
+exports.getSelectCompony = function(req, res){
+    queryAgent.queryList("QRY_SELECT_COMPANY", {}, 0, 0, function(err, getData){
+        if(err){
+            res.json({success: false, errorMsg: err});
+        }
+        else{
+            res.json({success: true, selectCompany: getData});
+        }
+    });
+}
+
 /**
  * 取得使用者資料
  */

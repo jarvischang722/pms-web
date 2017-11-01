@@ -340,8 +340,9 @@ Vue.component('sigle-grid-dialog-tmp', {
             isEditingForFieldRule: false,
             isVerified: true,
             fieldChecking: false,  //是否在檢查欄位中
-            BTN_action: false
-
+            BTN_action: false,
+            isRuleComplete: true,
+            timer: null
         };
     },
     watch: {
@@ -399,7 +400,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
             if (!_.isEmpty(rule_func_name.trim())) {
-
                 _.each(this.singleData, function (value, key) {
                     if (_.isUndefined(value)) {
                         self.singleData[key] = "";
@@ -413,9 +413,10 @@ Vue.component('sigle-grid-dialog-tmp', {
                     singleRowData: JSON.parse(JSON.stringify(this.singleData)),
                     oriSingleRowData: this.$parent.oriSingleData
                 };
+
                 $.post('/api/chkFieldRule', postData, function (result) {
                     self.isEditingForFieldRule = false;
-
+                    self.isRuleComplete = true;
                     if (result.success) {
                         self.isVerified = true;
                     } else {
@@ -537,9 +538,31 @@ Vue.component('sigle-grid-dialog-tmp', {
         emitAppendRow: function () {
             this.$emit('append-row');
         },
+
+        initRuleComplete: function (ui_field_name, rule_func_name) {
+            if (!_.isEmpty(rule_func_name.trim())) {
+                this.isRuleComplete = false;
+            }
+        },
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
             var self = this;
+            if (this.isRuleComplete == false) {
+                if (this.timer == null) {
+                    this.timer = setInterval(function () {
+                        self.doSaveGrid(saveAfterAction);
+                    }, 1000);
+                }
+                return;
+            }
+            else {
+                clearInterval(this.timer);
+                this.timer = null;
+                if (this.isVerified == false) {
+                    return;
+                }
+            }
+
             if (!this.isEditingForFieldRule && this.isVerified && this.endDtEditing()) {
                 var targetRowAfterDelete = {}; //刪除後要指向的資料
                 if (this.deleteStatue) {
@@ -584,15 +607,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                              **/
                             if ($("#dg").datagrid('getRows').length > 0) {
                                 self.editingRow = targetRowAfterDelete;
-                                self.emitFetchSingleData();
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
-
                         }
-
-
+                        self.emitFetchSingleData(); //做完操作，重load單筆
                     }
                 });
             }
@@ -787,7 +807,8 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            vm.tmpCud.dt_deleteData.push(delRow);
+            if(delRow.createRow != "Y")
+                vm.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
                 prg_id: prg_id,
@@ -884,7 +905,7 @@ var vm = new Vue({
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: [],
-        isSaving :false
+        isSaving: false
     },
     watch: {
         editStatus: function (newVal) {
@@ -1113,6 +1134,7 @@ var vm = new Vue({
             var lo_chkResult = this.dataValidate();
             if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                 alert(lo_chkResult.msg);
+                vm.isSaving = false;
                 return callback(false);
             }
 
@@ -1148,7 +1170,6 @@ var vm = new Vue({
                     if (result.success) {
                         vm.singleData = result.defaultValues;
                         vm.showSingleGridDialog();
-                        vmHub.$emit('showDtDataGrid', []);
                     } else {
                         alert(result.errorMsg);
                     }

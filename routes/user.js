@@ -4,6 +4,7 @@ var i18nMW = require("../middlewares/i18nMiddleware");
 
 var middles = [authMW, i18nMW];
 var middles2 = [i18nMW];
+var apiMiddles = [authMW];
 module.exports = function (app, passport) {
 
 
@@ -30,6 +31,8 @@ module.exports = function (app, passport) {
     //取得使用者子系統權限
     app.post('/api/getUserSubsys', userCrtl.getUserSubsys);
 
+    //取得公司選項
+    app.post('/api/getSelectCompany', userCrtl.getSelectCompony)
 
     //取得QuickMenu
     app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);

@@ -22,4 +22,36 @@
         <parameter type="string" kind="3">class_cod</parameter>
     </dao>
 
+
+    <!--[PMS0620010] 取得業務員多筆-->
+    <dao name="QRY_SALES_MN_ORDER_BY_SALE_COD_AND_DECODE_STATUS_COD">
+        <statement><![CDATA[
+        SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS  FROM  SALES_MN
+        WHERE  ATHENA_ID = :athena_id ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+    <!--[PMS0620020] 取得業務員sales_mn-->
+    <dao name="QRY_SALES_MN_ALL_FIELDS">
+        <statement><![CDATA[
+        SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR, TEL_NOS
+        FROM  SALES_MN WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+
+
+    <!--[PMS0620020] 檢查使用者代號(訂席用)欄位設定資料是否於其他業務員資料已設定
+    訊息「使用者代號(訂席用) [%% user_nos%%] 已於其他業務員資料指定」-->
+    <dao name="QRY_USER_NOS_IN_SALES_MN">
+        <statement><![CDATA[
+        select count(*) as user_nos_count from sales_mn
+        where athena_id = :athena and trim(sales_cod)= trim(:sales_cod) and trim(user_nos) = trim(:user_nos)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+        <parameter type="string" kind="3">user_nos</parameter>
+    </dao>
 </root>

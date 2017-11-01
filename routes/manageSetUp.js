@@ -6,12 +6,11 @@ var setCrtl = require("../controllers/manageSetting");
 var authMW = require("../middlewares/authMiddleware");
 var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
-
-var middles = [i18nMW,authMW,sysMW];
-
+var middles = [i18nMW, authMW, sysMW];
+var apiMiddles = [authMW];
 
 /* GET  page. */
-module.exports = function(app  ) {
+module.exports = function (app) {
 
     //設定
     //app.get('/manageSetting', middles, setCrtl.manageSetting);
@@ -28,9 +27,9 @@ module.exports = function(app  ) {
 
     app.get('/specialSetUp/:prg_id', middles, setCrtl.specialSetUp);
 
-    app.post('/api/dbTableLock',  setCrtl.dbTableLock);
+    app.post('/api/dbTableLock', apiMiddles, setCrtl.dbTableLock);
 
-    app.post('/api/dbTableUnLock', setCrtl.dbTableUnLock);
+    app.post('/api/dbTableUnLock', apiMiddles, setCrtl.dbTableUnLock);
 
 
 };

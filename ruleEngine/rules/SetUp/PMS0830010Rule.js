@@ -147,7 +147,8 @@ module.exports = {
             lo_chkParams.shift_cod = postData.oriSingleRowData.def_shift_cod.trim();
             queryAgent.query("QRY_OPEN_RF_COUNT", lo_chkParams, function (err, getResult) {
                 if (getResult.openrfcount > 0) {
-                    cb(true, "今天已經有開班，不能異動");
+                    let ls_errMsg = commandRules.getMsgByCod("pms83msg1", session.locale);
+                    cb(true, ls_errMsg);
                 }
                 else {
                     cb(null, "");
@@ -161,7 +162,8 @@ module.exports = {
             lo_chkParams.cashier_cod = postData.singleRowData.cashier_cod;
             queryAgent.query("QRY_CASHIER_RF_COUNT", lo_chkParams, function (err, getResult) {
                 if (getResult.cashierrfcount > 0) {
-                    cb(true, "預設班別不可重複");
+                    let ls_errMsg = commandRules.getMsgByCod("pms83msg2", session.locale);
+                    cb(true, ls_errMsg);
                 }
                 else {
                     cb(null, "");
@@ -202,8 +204,7 @@ module.exports = {
                 if (postData.singleRowData.def_shift_cod.trim() == "") {
                     lo_error = new ErrorClass();
                     lo_return.success = false;
-                    lo_error.errorMsg = "欄位預設班別必輸入值";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms83msg3", session.locale);
                     return callback(lo_error, lo_return);
                 }
 
@@ -214,8 +215,7 @@ module.exports = {
                     if (getResult.cashierrfcount > 0) {
                         lo_error = new ErrorClass();
                         lo_return.success = false;
-                        lo_error.errorMsg = "預設班別不可重複";
-                        lo_error.errorCod = "1111";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms83msg2", session.locale);
                     }
                     return callback(lo_error, lo_return);
                 });
@@ -258,8 +258,7 @@ module.exports = {
                 if (getResult.openrfcount > 0) {
                     lo_return.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "開班檔已有資料，不能刪除";
-                    lo_error.errorCod = "1111";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms83msg4", session.locale);
                 }
 
                 if (li_counter == postData.deleteData.length) {

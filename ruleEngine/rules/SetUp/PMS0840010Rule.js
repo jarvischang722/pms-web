@@ -4,6 +4,7 @@
  */
 
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -32,8 +33,7 @@ module.exports = {
             middle_typ: postData.createData[0].middle_typ
         };
 
-        if(postData.dt_createData != null)
-        {
+        if (postData.dt_createData != null) {
             var li_totalCreateDT = postData.dt_createData.length;
             var li_dt_counter = 0;
             _.each(postData.dt_createData, function (eachDT) {
@@ -42,8 +42,7 @@ module.exports = {
                     if (chkResult.length > 0) {
                         lo_result.success = false;
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = "小分類『" + eachDT.small_typ + "』 已被中分類『" + chkResult[0].middle_typ.trim() + "』使用,不允許新增";
-                        lo_error.errorCod = "1111";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms84msg1", session.locale);
                         callback(lo_error, lo_result);
                         return false;
                     }
@@ -54,8 +53,10 @@ module.exports = {
                 });
             });
         }
-        else
+        else {
             callback(lo_error, lo_result);
+        }
+
     },
     /**
      * 1.中分類已被使用，則不可刪除
@@ -93,7 +94,9 @@ module.exports = {
             };
             queryAgent.query("GET_MIDDLE_TYP_COUNT", lo_params, function (err, result) {
                 if (result.middle_typ_count > 0) {
-                    cb(true, "中分類『" + lo_params.middle_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
+                    let ls_errMsg = commandRules.getMsgByCod("pms84msg2", session.locale);
+                    ls_errMsg = _s.sprintf(ls_errMsg, lo_params.middle_typ.trim());
+                    cb(true, ls_errMsg);
                 }
                 else {
                     cb(null, "");
@@ -101,18 +104,18 @@ module.exports = {
             });
         }
 
-        function getSmallTypData(middleResult, cb){
+        function getSmallTypData(middleResult, cb) {
             let lo_params = {
                 athena_id: session.user.athena_id,
                 hotel_cod: session.user.hotel_cod,
                 middle_typ: postData.deleteData[0].middle_typ
             };
-            queryAgent.queryList("QRY_HKSTYPE_RF", lo_params, 0, 0, function(err, smallTypResult){
-                if(!err){
-                    if(smallTypResult.length > 0){
+            queryAgent.queryList("QRY_HKSTYPE_RF", lo_params, 0, 0, function (err, smallTypResult) {
+                if (!err) {
+                    if (smallTypResult.length > 0) {
                         cb(null, smallTypResult);
                     }
-                    else{
+                    else {
                         cb(false, []);
                     }
                 }
@@ -124,7 +127,7 @@ module.exports = {
 
             let li_smallTyp_count = smallTypData.length;
             let li_counter = 0;
-            _.each(smallTypData, function(eachData){
+            _.each(smallTypData, function (eachData) {
 
                 let lo_params = {
                     athena_id: session.user.athena_id,
@@ -133,22 +136,24 @@ module.exports = {
                 };
 
                 laf_checkFunc.push(
-                    function(callback){
+                    function (callback) {
                         queryAgent.query("GET_SMALL_TYP_COUNT", lo_params, function (err, result) {
                             if (result.small_typ_count > 0) {
-                                callback(true ,"小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除");
-                            }else{
+                                let ls_errMsg = commandRules.getMsgByCod("pms84msg3", session.locale);
+                                ls_errMsg = _s.sprintf(ls_errMsg, lo_params.small_typ.trim());
+                                callback(true, ls_errMsg);
+                            } else {
                                 callback(null, "");
                             }
 
                         });
                     }
-                )
+                );
 
             });
-            async.parallel(laf_checkFunc,function(err,result){
+            async.parallel(laf_checkFunc, function (err, result) {
                 cb(err, result);
-            })
+            });
         }
     },
 
@@ -178,13 +183,14 @@ module.exports = {
                 if (result.small_typ_count > 0) {
                     lo_result.success = false;
                     lo_error = new ErrorClass();
-                    lo_error.errorMsg = "小分類『" + lo_params.small_typ.trim() + "』,已被『房務入帳明細項目設定』使用,不可刪除";
-                    lo_error.errorCod = "1111";
+                    let ls_errMsg = commandRules.getMsgByCod("pms84msg3", session.locale);
+                    lo_error.errorMsg = _s.sprintf(ls_errMsg, lo_params.small_typ.trim());
                     callback(lo_error, lo_result);
                     return false;
                 }
-                if (li_del_counter == li_totalDelData)
+                if (li_del_counter == li_totalDelData) {
                     callback(lo_error, lo_result);
+                }
             });
         });
     }

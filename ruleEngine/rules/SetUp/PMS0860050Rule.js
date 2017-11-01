@@ -30,16 +30,10 @@ module.exports = {
                     if (guestData.visitcount > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "在商務公司資料維護已使用,不可刪除";
-                        lo_error.errorCod = "1111";
-                        callback(lo_error, lo_result);
-                    } else {
-                        callback(lo_error, lo_result);
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms86msg1", session.locale);
                     }
-                } else {
-                    callback(err, lo_result);
                 }
-
+                callback(lo_error, lo_result);
             });
         }
     }

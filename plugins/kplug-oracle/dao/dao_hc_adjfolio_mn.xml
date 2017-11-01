@@ -19,10 +19,10 @@
         <statement><![CDATA[
               select athena_id, hotel_cod, adjfolio_cod, adjfolio_rmk, ins_dat, ins_usr, upd_dat, upd_usr
               from hc_adjfolio_mn
-              where athena_id = ? and trim(hotel_cod) = ? and trim(adjfolio_cod) = ?
+              where athena_id = ? and trim(hotel_cod) = trim(?) and trim(adjfolio_cod) = trim(?)
         ]]>
         </statement>
-        <parameter type="int" kind="1">athena_id</parameter>
+        <parameter type="number" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="string" kind="1">adjfolio_cod</parameter>
     </dao>

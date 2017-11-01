@@ -63,4 +63,14 @@
 
     </dao>
 
+    <!-- [PMS0620020] 業務員編輯資料 取得使用者代號(popupgrid)
+        經由athena_id找尋user_id,user_cname
+    -->
+    <dao name="QRY_USER_NOS">
+        <statement><![CDATA[
+        select distinct usr_id value, usr_cname as display from s99_user where user_athena_id = :athena_id order by usr_id
+        ]]> </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
 </root>

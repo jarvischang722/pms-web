@@ -6,26 +6,28 @@ var authMW = require("../middlewares/authMiddleware");
 var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
 var middles = [i18nMW, authMW, sysMW];
+var apiMiddles = [authMW];
 
 module.exports = function (app) {
 
     //欄位規則檢查
-    app.post('/api/chkFieldRule', middles, ruleCrtl.chkFieldRule);
+    app.post('/api/chkFieldRule', apiMiddles, ruleCrtl.chkFieldRule);
 
     //dt欄位規則檢查
-    app.post('/api/chkDtFieldRule', middles, ruleCrtl.chkDtFieldRule);
+    app.post('/api/chkDtFieldRule', apiMiddles, ruleCrtl.chkDtFieldRule);
 
     //新增功能規則
-    app.post('/api/addFuncRule', middles, ruleCrtl.addFuncRule);
+    app.post('/api/addFuncRule', apiMiddles, ruleCrtl.addFuncRule);
 
     //編輯功能規則
-    app.post('/api/editFuncRule', middles, ruleCrtl.editFuncRule);
+    app.post('/api/editFuncRule', apiMiddles, ruleCrtl.editFuncRule);
 
     //刪除功能規則
-    app.post('/api/deleteFuncRule', middles, ruleCrtl.deleteFuncRule);
+    app.post('/api/deleteFuncRule', apiMiddles, ruleCrtl.deleteFuncRule);
 
     //取得回復房間名稱與簡稱
-    app.post('/api/revertRoomNam',middles,ruleCrtl.revertRoomNam);
-    app.post('/api/revertRoomSna',middles,ruleCrtl.revertRoomSna);
+    app.post('/api/revertRoomNam', apiMiddles, ruleCrtl.revertRoomNam);
+
+    app.post('/api/revertRoomSna', apiMiddles, ruleCrtl.revertRoomSna);
 };
 

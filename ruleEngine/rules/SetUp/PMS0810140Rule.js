@@ -29,9 +29,7 @@ module.exports = {
                     if (guestData.source_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "已經用到的,此筆資料不可刪除";
-                        lo_error.errorCod = "1111";
-
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms81msg23", session.locale);
                         callback(lo_error, lo_result);
                     } else {
                         callback(lo_error, lo_result);
@@ -68,19 +66,14 @@ module.exports = {
     chk_foc_rf_free_qnt: function (postData, session, callback) {
         var freeQntNewValue = postData.singleRowData.free_qnt;
         var roleStaValue = postData.singleRowData.role_sta;
-        // var freeQntNewValue = postData.newValue;
-        // var roleStaValue = postData.rowData.role_sta;
         var lo_result = new ReturnClass();
         var lo_error = null;
 
-        //if (freeQntNewValue != "1" && roleStaValue == "4") {
         if (freeQntNewValue != "1" && roleStaValue == "4") {
-            //postData.rowData.free_qnt = "1";
             lo_error = new ErrorClass();
-            lo_error.errorMsg = "FREE規則為『4.指定金額』,FREE間數(分子)必須為1";
+            lo_error.errorMsg = commandRules.getMsgByCod("pms81msg24", session.locale);
+
             lo_result.success = false;
-            lo_error.errorCod = "1111";
-            //lo_result.effectValues = postData.rowData;
             callback(lo_error, lo_result);
         } else {
             callback(lo_error, lo_result);

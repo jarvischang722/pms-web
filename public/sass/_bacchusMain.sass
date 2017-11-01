@@ -216,8 +216,6 @@ a
     //    //text-decoration: none
 
 
-
-
 /*-- footer --*/
 /*-- top-sec-menu --*/
 .top-sec-ul
@@ -1383,8 +1381,7 @@ ul.newVisitOther-btn
 
 //ho 房號訂房首頁
 .plan-btn-group
-  text-align: center
-  width: 300px
+  width: auto
   margin: 0 0 4px 0
   ul
     margin-left: 0
@@ -1394,19 +1391,17 @@ ul.newVisitOther-btn
       display: inline
       button
         border: 0
+        width: auto
+        padding-right: 20px
+        padding-left: 20px
       span
         font-weight: bold
-.btn-inlineWidth
-  width: 19%
-  padding: 3px 9px
-  font-size: 12px
-  padding-left: 0
-  padding-right: 0
-  white-space: normal
+  .btn-inlineWidth
+    padding: 3px 9px
+    font-size: 12px
+    white-space: normal
 .roomPlan-btn
   margin-top: 42px
-.roomPlan-table
-//min-width: 100%
 .empty-color
   background: #e3efdb !important
 .room-color
@@ -1842,7 +1837,7 @@ span
 // Room Assign 排房
 .townPage
   //position: relative
-  height: 600px
+  height: 500px
   overflow: auto
   .townRow
     //margin: 3px auto auto 3px
@@ -1893,6 +1888,10 @@ span
         //padding: 2px !important
         //margin: 0 3px 3px 0
 
+      .foCnt_icon
+        width: 12px
+        height: 12px
+        margin: 4px 1px auto 1px
 
 .roomAssign
   .select-group
@@ -2071,6 +2070,8 @@ span
 //rateInfo
 .margin-top10
   margin-top: 10px
+.margin-top5
+  margin-top: 5px
 .navy-line
   margin-top: 10px
   margin-bottom: 10px
@@ -2163,3 +2164,24 @@ span
   //  input
   //    &.input-medium.w510px
   //      margin-left: 93px
+
+
+//Departure > Folio
+.folioRadio
+  .folioWrap
+    float: left
+    margin-left: 85px
+    .radio
+      margin-top: 5px
+      margin-bottom: 5px
+
+.PMS0830070_table
+  th
+    padding: 3px
+  td
+    padding: 5px
+.PMS0830070_dtTable
+  th,td
+    padding: 3px 5px
+.width-7
+  width: 7%

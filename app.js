@@ -1,7 +1,6 @@
 let express = require('express');
 let session = require("express-session");
 let MongoStore = require('connect-mongo')(session);
-let expressLayouts = require('express-ejs-layouts');
 let path = require('path');
 let i18n = require("i18n");
 let favicon = require('serve-favicon');
@@ -19,7 +18,6 @@ let port = 8888;
 let app = express();// initail express
 let server = http.createServer(app);
 let io = require('socket.io')(server);
-let ios = require('socket.io-express-session');
 let dbSvc = require("./services/DbTableService");
 let dbconn = ["mongodb://", dbConfig.mongo.username, ":", dbConfig.mongo.password, "@", dbConfig.mongo.host, ":", dbConfig.mongo.port, "/", dbConfig.mongo.dbname].join("");
 let mongoAgent = require("./plugins/mongodb");
@@ -29,9 +27,6 @@ let compression = require('compression');
 
 // compress all responses
 app.use(compression());
-
-//靜態檔案指定路徑
-app.use(express.static(__dirname + '/public'));
 
 //時間記錄
 require("console-stamp")(console, {pattern: "yyyy/mm/dd ddd HH:MM:ss"});
@@ -73,7 +68,10 @@ app.set('port', process.env.PORT || port);
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
 
-//Sam:暫時為了post擴充可傳的資料量，做修改 20170705
+//靜態檔案指定路徑
+app.use(express.static(__dirname + '/public'));
+
+//為了post擴充可傳的資料量
 app.use(bodyParser.json({limit: "10mb"}));
 app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 10000}));
 
@@ -114,20 +112,9 @@ io.use(function (socket, next) {
 
 app.use(sessionMiddleware);
 
-//Layout 設定
-// app.use(expressLayouts);
-// app.set("layout extractScripts", true);
-// app.set('layout', 'layouts/mainLayout');
-
 //初始化io event
 require("./plugins/socket.io/socketEvent")(io);
 
-//一直保持session 不閒置
-app.use(function (req, res, next) {
-    req.session._touchSession = new Date();
-    req.session.touch();
-    next();
-});
 
 app.use(function (req, res, next) {
     res.locals.session = req.session;
@@ -150,6 +137,7 @@ app.use(function (req, res, next) {
     res.cookie('sys_locales', localeInfo, options);
     next();
 });
+
 routing(app, passport);
 
 // catch 404 and forward to error handler

@@ -1,4 +1,5 @@
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -42,7 +43,7 @@ module.exports = {
         }
 
         function qryRoomCod(rent_cal_dat, cb) {
-            lo_params.rent_cal_dat = moment(rent_cal_dat).format("YYYY-MM-DD");
+            lo_params.rent_cal_dat = rent_cal_dat;
             queryAgent.queryList("QRY_HFD_REST_MN_ROOM_COD", lo_params, 0, 0, function (err, getResult) {
                 if (!err) {
                     cb(null, getResult);
@@ -123,19 +124,14 @@ module.exports = {
             room_cod: postData.singleRowData.room_cod
         };
 
-
         queryAgent.query("QRY_REST_MN_COUNT", lo_params, function (err, result) {
-            if (result.restmncount == 0) {
-                callback(null, lo_result);
-            }
-            else {
+            if (result.restmncount != 0) {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "一個房型只能有一筆";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms83msg14", session.locale);
                 lo_result.effectValues = {room_cod: ""};
-                callback(lo_error, lo_result);
             }
+            callback(lo_error, lo_result);
         });
     },
 
@@ -157,8 +153,7 @@ module.exports = {
                 lo_result.success = false;
                 postData.editRowData[postData.validateField] = postData.oldValue;
                 lo_result.effectValues = postData.editRowData;
-                lo_error.errorMsg = "結束日不能早於開始日";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
                 return callback(lo_error, lo_result);
             }
 
@@ -174,13 +169,11 @@ module.exports = {
 
                         if (lb_chkOverLap && postData.editRowData.day_sta == eachRowData.day_sta) {
 
-                            ls_repeatMsg = "第[" + (li_curIdx + 1) + "]行 開始日[" + postData.editRowData.begin_dat + "]結束日[" + postData.editRowData.end_dat + "]假日類別[" + postData.editRowData.day_sta + "] " +
-                                "與 第[" + (i + 1) + "]行 開始日[" + ls_eachRowBeginDat + "]結束日[" + ls_eachRowEndDat + "]假日類別[" + eachRowData.day_sta + "] 日期重疊";
-
+                            ls_repeatMsg = commandRules.getMsgByCod("pms83msg15", session.locale);
+                            ls_repeatMsg = _s.sprintf(ls_repeatMsg, (li_curIdx + 1), ls_now_begin_dat, ls_now_end_dat, postData.editRowData.day_sta, (i + 1), ls_eachRowBeginDat, ls_eachRowEndDat, eachRowData.day_sta);
                             lo_error = new ErrorClass();
                             lo_result.success = false;
                             lo_error.errorMsg = ls_repeatMsg;
-                            lo_error.errorCod = "1111";
                             postData.rowData["day_sta"] = postData.oldValue;
                             lo_result.effectValues = postData.rowData;
                             break;
@@ -193,15 +186,7 @@ module.exports = {
     }
 
 
-}
-;
-
-// function chkDateIsBetween(begin_dat, end_dat, now_dat) {
-//     begin_dat = new Date(begin_dat);
-//     end_dat = new Date(end_dat);
-//     now_dat = new Date(now_dat);
-//     return moment(now_dat).isBetween(begin_dat, end_dat);
-// }
+};
 
 //反轉成16進位
 function colorCodToHex(colorCod) {

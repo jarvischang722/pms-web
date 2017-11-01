@@ -59,16 +59,6 @@ module.exports = {
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
                             callback(null, result);
                         });
-
-                        // queryAgent.query("QRY_HKPRODUCT_RF_GOODS_COD".toUpperCase(), params, function (err, selectData) {
-                        //     if (!err) {
-                        //         result.effectValues.showDataGrid = selectData;
-                        //         result.effectValues.updateFieldNameTmp = updateFieldName;
-                        //         result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
-                        //         callback(null, result);
-                        //     }
-                        // })
-
                     });
                 }
             );
@@ -110,30 +100,21 @@ module.exports = {
             {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "不要收服務費,不用輸入服務費率";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms84msg4", session.locale);
                 postData.singleRowData.serv_rat = "0";
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
-                callback(lo_error, lo_result);
             }
-            else {
-                callback(lo_error, lo_result);
-            }
+            callback(lo_error, lo_result);
         }else {
             if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
             {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "要收服務費,服務費率必須大於0";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms84msg5", session.locale);
                 postData.singleRowData.serv_rat = "";
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
-                callback(lo_error, lo_result);
             }
-            else{
-                callback(lo_error, lo_result);
-            }
-
+            callback(lo_error, lo_result);
         }
     },
     //0541若設要收服務費時，則值要大於0
@@ -148,30 +129,21 @@ module.exports = {
             {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "不要收服務費,不用輸入服務費率";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms84msg4", session.locale);
                 postData.singleRowData.serv_rat = "0";
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
-                callback(lo_error, lo_result);
             }
-            else {
-                callback(lo_error, lo_result);
-            }
+            callback(lo_error, lo_result);
         }else {
             if(isNaN(Number(postData.singleRowData.serv_rat)) || Number(postData.singleRowData.serv_rat) <= 0)
             {
                 lo_error = new ErrorClass();
                 lo_result.success = false;
-                lo_error.errorMsg = "要收服務費,服務費率必須大於0";
-                lo_error.errorCod = "1111";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms84msg5", session.locale);
                 postData.singleRowData.serv_rat = "";
                 lo_result.effectValues.serv_rat = postData.singleRowData.serv_rat;
-                callback(lo_error, lo_result);
             }
-            else{
-                callback(lo_error, lo_result);
-            }
-
+            callback(lo_error, lo_result);
         }
     },
     //顯示順序,目前已存在的資料的最大值+1
@@ -187,11 +159,8 @@ module.exports = {
         queryAgent.query("QRYHKPRODUCTRFINS".toUpperCase(), params, function (err, result) {
             if (!err) {
                 lo_result.defaultValues.view_seq = result.view_seq;
-                callback(lo_error, lo_result);
             }
-            else {
-                callback(lo_error, lo_result);
-            }
+            callback(lo_error, lo_result);
         });
     },
     r_HkproductrfSaveDel:function (postData, session, callback) {
@@ -209,17 +178,10 @@ module.exports = {
                 if(result.count > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "資料已被使用,不可刪除";
-                    lo_error.errorCod = "1111";
-                    callback(lo_error, lo_result);
-                }
-                else{
-                    callback(lo_error, lo_result);
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms84msg6", session.locale);
                 }
             }
-            else {
-                callback(lo_error, lo_result);
-            }
+            callback(lo_error, lo_result);
         });
     },
     //選擇小分類後，帶回中分類
@@ -234,16 +196,15 @@ module.exports = {
             small_typ: postData.singleRowData.small_typ
         };
         if(postData.singleRowData.small_typ == ""){
-            callback(lo_error, lo_result);
-            return;
+            return callback(lo_error, lo_result);
         }
         queryAgent.query("GETHKPRODUCTRFMIDDLETYP".toUpperCase(), params, function (err, result) {
             if (!err) {
                 postData.singleRowData.middle_typ = result.middle_typ;
                 lo_result.success = true;
                 lo_result.effectValues = postData.singleRowData;
-                callback(lo_error, lo_result);
             }
+            callback(lo_error, lo_result);
         });
     }
 }

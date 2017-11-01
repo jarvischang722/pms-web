@@ -4,6 +4,7 @@
  * 房間小類對照檔
  */
 let _ = require("underscore");
+let _s = require("underscore.string");
 let moment = require("moment");
 let async = require("async");
 let path = require('path');
@@ -59,7 +60,7 @@ module.exports = {
                 let belong_dat = moment(new Date(data.rent_cal_dat));
                 if (end_dat.diff(belong_dat, "days") < 0) {
                     result.showAlert = true;
-                    result.alertMsg = "此房型的結束日小於滾房租日，故無法修改";
+                    result.alertMsg = commandRules.getMsgByCod("pms81msg1", session.locale);
                     result.isModifiable = false;
                 }
             }
@@ -92,8 +93,7 @@ module.exports = {
                     error = new ErrorClass();
                 }
                 result.success = false;
-                error.errorMsg = "結束日期不可以早於開始日期";
-                error.errorCod = "1111";
+                error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
                 return callback(error,result);
             }
 
@@ -113,8 +113,7 @@ module.exports = {
                             error = new ErrorClass();
                         }
                         result.success = false;
-                        error.errorMsg = "房型的結束日小於滾房租日";
-                        error.errorCod = "1111";
+                        error.errorMsg = commandRules.getMsgByCod("pms81msg3", session.locale);
                     }
                     //2)
                     if (!_.isEmpty(begin_dat) && moment(new Date(begin_dat)).diff(belong_dat, "days") < 0) {
@@ -122,8 +121,7 @@ module.exports = {
                             error = new ErrorClass();
                         }
                         result.success = false;
-                        error.errorMsg = "房型的開始日小於滾房租日";
-                        error.errorCod = "1111";
+                        error.errorMsg = commandRules.getMsgByCod("pms81msg4", session.locale);
                     }
 
                 }
@@ -187,8 +185,7 @@ module.exports = {
                         if (!_.isUndefined(delDR.upload_sta) && delDR.upload_sta == "Y") {
                             delError = new ErrorClass();
                             delResult.success = false;
-                            delError.errorMsg = "上傳官網,不能刪除";
-                            delError.errorCod = '1111';
+                            delError.errorMsg = commandRules.getMsgByCod("pms81msg5", session.locale);
 
                             return callback(delError, delResult);
                         }
@@ -199,8 +196,8 @@ module.exports = {
                                     delResult.success = false;
 
                                     delError = new ErrorClass();
-                                    delError.errorMsg = "庫存已有此房型[" + delDR.room_cod + "], 不能刪除!";
-                                    delError.errorCod = '1111';
+                                    let errMsg = commandRules.getMsgByCod("pms81msg6", session.locale);
+                                    delError.errorMsg = _s.sprintf(errMsg, delDR.room_cod);
                                 }
                             } else {
                                 delResult.success = false;
@@ -274,7 +271,7 @@ module.exports = {
                                             queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT", c_data, function (err, data) {
 
                                                 if (Number(data.cover_count || 0) > 0) {
-                                                    callback("相同房型的開始結束日期不可重疊", []);
+                                                    callback(commandRules.getMsgByCod("pms81msg7", session.locale), []);
                                                 }else{
                                                     callback(null, data);
                                                 }
@@ -456,7 +453,7 @@ module.exports = {
                                             e_data["old_begin_dat"] = e_data.begin_dat || "1990/01/01";
                                             queryAgent.query("CHK_RVRMCOD_RF_IS_COVER_BEGIN_END_DAT",e_data,function (err,data) {
                                                 if (Number(data.cover_count || 0) > 0) {
-                                                    callback("相同房型的開始結束日期不可重疊", data);
+                                                    callback(commandRules.getMsgByCod("pms81msg7", session.locale), data);
                                                 }else{
                                                     callback(null, []);
                                                 }
@@ -729,7 +726,8 @@ module.exports = {
                     result.showConfirm = true;
                     result.isGoPostAjax = true;
                     result.ajaxURL = "/api/revertRoomNam";
-                    result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的名稱與其他期間設定不同，是否確定修改?』";
+                    var errMsg = commandRules.getMsgByCod("pms81msg8", session.locale);
+                    result.confirmMsg = _s.sprintf(errMsg, singleRowData.room_cod.trim());
                 }
                 callback(error, result);
             });
@@ -762,7 +760,8 @@ module.exports = {
                     result.showConfirm = true;
                     result.isGoPostAjax = true;
                     result.ajaxURL = "/api/revertRoomSna";
-                    result.confirmMsg = "『 [" + singleRowData.room_cod.trim() + "] 房型的簡稱與其他期間設定不同，是否確定修改?』";
+                    var errMsg = commandRules.getMsgByCod("pms81msg9", session.locale);
+                    result.confirmMsg = _s.sprintf(errMsg, singleRowData.room_cod.trim());
                 }
                 callback(error, result);
             });
@@ -823,7 +822,7 @@ module.exports = {
             if (room && !_.isEqual(room.room_typ, singleRowData.room_typ)) {
 
                 ruleResult.showAlert = true;
-                ruleResult.alertMsg = "房型類別不可修改";
+                ruleResult.alertMsg = commandRules.getMsgByCod("pms81msg10", session.locale);
                 ruleResult.effectValues = {
                     room_typ: room.room_typ
                 };
