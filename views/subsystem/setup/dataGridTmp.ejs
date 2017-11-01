@@ -1,4 +1,4 @@
-<div id="DGApp">
+<div id="datagridApp" >
     <div class="col-xs-12">
         <div class="row">
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -12,21 +12,13 @@
             :fetch-data="fetchDataGridData">
     </search-comp>
 
-    <div class="col-xs-12" v-show="!isTableLock">
+    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading"  element-loading-text="Saving..."  >
         <div class="col-sm-11 col-xs-11">
             <div class="row no-margin-right">
                 <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
 
                     <!--控制table 高度 jing add-->
-                    <table id="prg_dg" style="height: 400px;">
-                        <thead>
-                        <tr>
-
-                            <!-- data grid content-->
-
-                        </tr>
-                        </thead>
-                    </table>
+                    <table id="prg_dg" style="height: 400px;"></table>
 
                     <div class="clearfix"></div>
                 </div>
