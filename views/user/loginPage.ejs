@@ -8,7 +8,7 @@
 
 <body class="login-bg" id="app">
 
-<div class="loginPage" id="APP">
+<div class="loginPage" id="loginAPP">
     <div class="logoCompany">
         <img src="/images/athena_logo.png"/>
     </div>
@@ -25,30 +25,29 @@
                 <div class="main">
                     <form>
                         <div class="block input-icon input-icon-right">
-                            <input type="text" id="username" class="form-control"
+                            <input class="form-control" v-model="username"
                                    placeholder="<%= __("BAC01P0110")["user"] %>"/>
                             <i class="ace-icon fa fa-user"></i>
                         </div>
 
                         <div class="block input-icon input-icon-right">
-                            <input type="password" id="passwd" class="form-control"
+                            <input type="password" class="form-control" v-model="passwd"
                                    placeholder="<%= __("BAC01P0110")["passwd"] %>"/>
                             <i class="ace-icon fa fa-lock"></i>
                         </div>
 
                         <div>
-                            <select class="form-control "
-                                    id="dbname" placeholder=" <%= __("BAC01P0110")["database"] %>">
+                            <select class="form-control " v-model="dbname"
+                                    placeholder=" <%= __("BAC01P0110")["database"] %>">
                                 <option value="0"><%= __("BAC01P0110")["pleaseSel"] %><%= __("BAC01P0110")["database"] %></option>
                                 <option value="htce7">htce7</option>
                             </select>
                         </div>
-
                         <div>
-                            <select class="form-control"
-                                    id="comp_id" placeholder="<%= __("BAC01P0110")["company"] %>">
-                                <option v-for="company in companyData" :value="company.value">
-                                    {{company.value}} {{company.display}}
+                            <select class="form-control " v-model="comp_id">
+                                <option v-for="company in companyData"
+                                        :value="company.cmp_id.trim()">
+                                    {{company.cmp_name}}
                                 </option>
                             </select>
                         </div>
@@ -63,12 +62,12 @@
 
                         <div class="mainCheck">
                             <label class="inline">
-                                <input type="checkbox" class="ace" id="rememberMeCheck"/>
+                                <input type="checkbox" class="ace" id="rememberMeCheck" v-model="rememberMeCheck"/>
                                 <span class="lbl"> <%= __("BAC01P0110")["remember_me"] %></span>
                             </label>
 
                             <button type="button" id="login_btn" class="width-35 pull-right btn btn-sm btn-primary"
-                                    onclick="doLogin();">
+                                    @click="doLogin">
                                 <span class="bigger-110">  <%= __("BAC01P0110")["login"] %></span>
                             </button>
                         </div>
@@ -88,13 +87,15 @@
     <!--</div>-->
     <!-- 語言 -->
     <div class="navbar-fixed-top align-right lang">
-        <!--<select onchange="javascript:handleSelect(this)">-->
-        <select id="localeSelect" class="localeSelect" onchange="changeLang(this)">  </select>
+        <select id="localeSelect" class="localeSelect" @change="changeLang()" v-model="currentLocale">
+            <option v-for="locale in locales" :value="locale.lang">{{locale.name}}</option>
+        </select>
     </div>
 </div>
 </body>
 <script src="/js/system/loginPage.js"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+    var gs_locale = '<%= session.locale %>';
 </script>
 </html>
