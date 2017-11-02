@@ -209,8 +209,7 @@ exports.getCustAdd = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
+        comp_cod: session.user.cmp_id
     };
 
     queryAgent.query("QRY_SHIP_ADD_COD", lo_params, function (err, Result) {
@@ -256,8 +255,7 @@ exports.getCustContact = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
+        comp_cod: session.user.cmp_id
     };
 
     queryAgent.query("QRY_CONTACT_COD", lo_params, function (err, Result) {
@@ -367,8 +365,7 @@ exports.getAllFormatSta = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
+        comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
@@ -670,8 +667,7 @@ exports.callSaveAPI = function (params ,session, callback) {
 exports.callAPI = function (params ,session, callback) {
     var apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        //"COMP_COD": session.user.cmp_id,
-        "comp_cod": "CHIPN     ",
+        "comp_cod": session.user.cmp_id,
         "program_id": params.prg_id,
         "user": session.user.usr_id,
         "table_name": 'psi_quote_mn',
@@ -727,20 +723,11 @@ exports.callAPI = function (params ,session, callback) {
 exports.callOrderAPI = function (params ,session, callback) {
     var apiParams = {
         "REVE-CODE": params.REVE_CODE,
-        "COMP_COD":"CHIPN    ",
-        //"COMP_COD": session.user.cmp_id,
+        "COMP_COD": session.user.cmp_id,
         "CUST_COD": params.singleData.cust_cod,
         "FORMAT_STA": params.singleData.format_sta,
         "ORDER_DAT": moment(params.singleData.order_dat).format('YYYY/MM/DD')
     };
-    //
-    // var apiParams = {
-    //     "REVE-CODE":"PSIW5100302020",
-    //     "COMP_COD":"CHIPN    ",
-    //     "CUST_COD": "PSI000000000000201",
-    //     "FORMAT_STA": "002",
-    //     "ORDER_DAT": "2017/5/4"
-    // };
 
     tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
         var log_id = moment().format("YYYYMMDDHHmmss");
@@ -862,6 +849,24 @@ exports.getSystemParam = function (params ,session, callback) {
 
 //WebService
 
+function checkValue(object, keyfield) {
+    var lb_check = true;
+    _.each(Object.keys(object), function (objKey) {
+        if(keyfield.indexOf(objKey) != -1){
+            if (_.isUndefined(object[objKey])) {
+                lb_check = false;
+            }
+        }
+        else{
+            if (_.isUndefined(object[objKey])) {
+                object[objKey] = 0;
+            }
+        }
+
+    });
+    return [lb_check, object];
+}
+
 /**
  * 萬元用量表轉檔(PSI0000001)
  * @param params
@@ -870,15 +875,16 @@ exports.getSystemParam = function (params ,session, callback) {
  */
 exports.PSI0000001 = function (params ,session, callback) {
 
-    //var object = base64.decode(params);
-    var a = new Buffer(params, 'base64').toString();
+    var check = true;
 
-    var objJsonArray =JSON.parse(JSON.stringify(a));
-    console.log(a.tenKDosage);
-    console.log(objJsonArray.tenKDosage);
+    lo_mn_keyfield = ['batch_dat', 'taxcomp_cod', 'goods_cod'];
+    lo_dt_keyfield = ['batch_dat', 'goods_cod', 'otaxcomp_cod', 'itaxcomp_cod', 'hq_flag'];
 
+    var obj = JSON.parse(new Buffer(params, 'base64').toString());
 
+    var lo_mn = obj.tenKDosage[0];
 
+    lo_mn = checkValue(lo_mn, lo_mn_keyfield);
 
 };
 

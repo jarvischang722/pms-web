@@ -80,7 +80,7 @@ var PSIW500030 = new Vue({
     data: {
         userid :"",                 //員工編號
 
-        isVerify :  true,            //驗證畫面切換
+        isVerify :  false,            //驗證畫面切換
         isLoading : false,          //Loading畫面切換
 
         userInfo: {},               //登入的使用者資料
@@ -1125,7 +1125,7 @@ var PSIW500030 = new Vue({
             });
         },
 
-        //TODO:按修改按鈕
+        //按修改按鈕
         editData: function() {
             var self = this;
 
@@ -1150,7 +1150,7 @@ var PSIW500030 = new Vue({
             });
         },
 
-        //TODO:按刪除按鈕
+        //按刪除按鈕
         deleteData: function() {
             var self = this;
             self.callAPI('PSIW5100300530',function () {
@@ -1162,7 +1162,7 @@ var PSIW500030 = new Vue({
             });
         },
 
-        //TODO:核准
+        //核准
         approved: function() {
             var self = this;
             self.callAPI('PSIW5100301010',function () {
@@ -1172,7 +1172,7 @@ var PSIW500030 = new Vue({
 
         },
 
-        //TODO:取消核准
+        //取消核准
         cancel: function() {
             var self = this;
             self.callAPI('PSIW5100301020',function () {
@@ -1181,7 +1181,7 @@ var PSIW500030 = new Vue({
             });
         },
 
-        //TODO:按儲存按鈕
+        //按儲存按鈕
         save: function() {
 
             this.dgInsDT.endEditing();
@@ -1297,7 +1297,7 @@ var PSIW500030 = new Vue({
             });
         },
 
-        //TODO:按放棄按鈕
+        //按放棄按鈕
         drop: function() {
             var self = this;
             //新增，清空頁面資料
