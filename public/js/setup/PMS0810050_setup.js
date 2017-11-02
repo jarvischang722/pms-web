@@ -75,7 +75,7 @@ var vueMain = new Vue({
             this.dgInsPickUp = new DatagridBaseClass();
             this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_leave_rf'}));
             this.dgIns = this.dgInsPickUp;
 
         },

@@ -254,22 +254,24 @@ var EZfieldClass = {
             tmpFieldObj.formatter = lf_colorFormatter;
         }
         else if (dataType == "textbox") {
-            // if (tmpFieldObj.ui_type == "time") {
-            //     if (!_.isNull(val)) {
-            //         var lo_val = String(val);
-            //         console.log(lo_val);
-            //         if (lo_val.indexOf(":") == "-1") {
-            //             var hour = lo_val.substring(0, 2);
-            //             var min = lo_val.substring(2, 4);
-            //
-            //             return hour + ":" + min;
-            //         }
-            //         return val;
-            //     }
-            //     return "";
-            // } else {
-            //     return val;
-            // }
+            function timeFormater(val) {
+                if (tmpFieldObj.ui_type == "time") {
+                    if (!_.isNull(val)) {
+                        var lo_val = String(val);
+                        if (lo_val.indexOf(":") == "-1") {
+                            var hour = lo_val.substring(0, 2);
+                            var min = lo_val.substring(2, 4);
+
+                            return hour + ":" + min;
+                        }
+                        return val;
+                    }
+                    return "";
+                } else {
+                    return val;
+                }
+            }
+
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
@@ -294,6 +296,10 @@ var EZfieldClass = {
                     }
                 }
             };
+            tmpFieldObj.formatter = timeFormater;
+            // tmpFieldObj.editor.options.formatter = timeFormater;
+
+
         }
         else if (dataType == "numberbox") {
             tmpFieldObj.editor.options.precision = fieldAttrObj.ui_field_num_point;
