@@ -41,7 +41,9 @@ Vue.component('single-grid-pms0620020-tmp', {
             hotelDtFieldData: [],
             classHsRowData: [],
             classHsFieldData: [],
-            dtEditIndex: undefined
+            dtEditIndex: undefined,
+            openChangeLogDialog: false,
+            allChangeLogList: []
         };
     },
     created: function () {
@@ -243,13 +245,13 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
-            vm.openChangeLogDialog = true;
+            var self = this;
+            self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
-                vm.allChangeLogList = result.allChangeLogList;
+                self.allChangeLogList = result.allChangeLogList;
             });
-            // 給裡面table的高 值
-            var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
-            $("#chooseGrid").datagrid({height: chooseGridH});
+
+
         },
         closeSingleGridDialog: function () {
             vm.editingRow = {};
@@ -521,9 +523,8 @@ var vm = new Vue({
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
         isLoading: false,
-        isModifiable: true,       //決定是否可以修改
-        allChangeLogList: [],
-        openChangeLogDialog: false
+        isModifiable: true        //決定是否可以修改
+
     },
     methods: {
         fetchUserInfo: function () {
