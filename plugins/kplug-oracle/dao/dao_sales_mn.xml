@@ -43,7 +43,7 @@
     <!--[PMS0620020] 取得業務員sales_mn-->
     <dao name="QRY_SALES_MN_ALL_FIELDS">
         <statement><![CDATA[
-        SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR, TEL_NOS
+        SELECT  trim(SALES_COD) as sales_cod, trim(SALES_NAM) as sales_nam, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR, TEL_NOS
         FROM  SALES_MN WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>

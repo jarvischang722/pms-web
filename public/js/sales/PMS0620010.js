@@ -37,6 +37,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             fieldData: [],
             originFieldData: [],
             hotelDtRowData: [],
+            oriHotelDtRowData: [],
             hotelDtFieldData: [],
             classHsRowData: [],
             classHsFieldData: [],
@@ -206,6 +207,10 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
+                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'])) ;
+                        _.each(self.oriHotelDtRowData, function(data){
+                           data = _.extend(data, self.originRowData);
+                        });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
                     }
@@ -221,6 +226,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgHoatelDt = new DatagridBaseClass();
             this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", EZfieldClass.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
+            this.dgHoatelDt.getOriDtRowData(this.oriHotelDtRowData);
 
             this.dgClassHs = new DatagridBaseClass();
             this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
@@ -331,6 +337,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
                     vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
                     vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                    vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
                 }
 
                 vm.doSaveCud("PMS0620020", 1, function (result) {
@@ -484,7 +491,8 @@ var vm = new Vue({
             deleteData: [],
             dt_createData: [],
             dt_updateData: [],
-            dt_deleteData: []
+            dt_deleteData: [],
+            dt_ori_updateData: []
         },
         pageOneDataGridRows: [],
         pageOneFieldData: [],
@@ -532,7 +540,8 @@ var vm = new Vue({
                 deleteData: [],
                 dt_createData: [],
                 dt_updateData: [],
-                dt_deleteData: []
+                dt_deleteData: [],
+                dt_oriUpdateData: []
             };
         },
         loadDataGridByPrgID: function () {
@@ -558,7 +567,6 @@ var vm = new Vue({
             vm.initTmpCUD();
             vm.isLoading = true;
             vm.editingRow = editingRow;
-
 
             editingRow["prg_id"] = "PMS0620020";
             $.post("/api/sales/qrySalesMn_PM0620020", editingRow, function (result) {

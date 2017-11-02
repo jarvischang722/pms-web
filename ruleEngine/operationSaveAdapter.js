@@ -43,6 +43,7 @@ function operationSaveAdapterClass(postData, session) {
     ga_dtCreateData = postData.tmpCUD.dt_createData || [];
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
+    ga_dtOriUpdateData = postData.tmpCUD.dt_oriUpdateData || [];
 
     initData();
 
@@ -554,7 +555,7 @@ function combineDtCreateEditExecData(rfData, callback) {
         });
 
         //dt 編輯
-        _.each(ga_dtUpdateData, function (data) {
+        _.each(ga_dtUpdateData, function (data, index) {
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
@@ -585,14 +586,13 @@ function combineDtCreateEditExecData(rfData, callback) {
             tmpEdit.condition = [];
             //組合where 條件
             _.each(lo_fieldsData.dgKeyFields, function (keyField) {
-                if (!_.isUndefined(data[keyField.ui_field_name])) {
+                if (!_.isUndefined(ga_dtOriUpdateData[index][keyField.ui_field_name])) {
                     tmpEdit.condition.push({
                         key: keyField.ui_field_name,
                         operation: "=",
-                        value: data[keyField.ui_field_name]
+                        value: ga_dtOriUpdateData[index][keyField.ui_field_name]
                     });
                 }
-
             });
             go_saveExecDatas[gn_exec_seq] = tmpEdit;
             gn_exec_seq++;

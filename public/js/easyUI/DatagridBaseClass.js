@@ -13,6 +13,7 @@ function DatagridBaseClass() {
         createData: [],
         updateData: [],
         deleteData: [],
+        oriUpdateData: [],
         dt_createData: [],
         dt_updateData: [],
         dt_deleteData: []
@@ -23,6 +24,7 @@ function DatagridBaseClass() {
     this.fieldsData = [];
     this.editIndex = undefined;
     this.mnRowData = {};
+    this.dtOriRowData = [];
 
     /**
      * datagrid 初始化
@@ -101,9 +103,10 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
-//結束編輯
+    //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
+        self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
         row = self.filterRowData(row);
         self.doTmpExecData(row);
 
@@ -188,10 +191,10 @@ function DatagridBaseClass() {
         delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
         delRow["mnRowData"] = self.mnRowData;
 
-        if(delRow.createRow != 'Y'){
+        if (delRow.createRow != 'Y') {
             self.tmpCUD.deleteData.push(delRow);
         }
-        else if(delRow.createRow == 'Y'){
+        else if (delRow.createRow == 'Y') {
 
             var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
             var condKey = {};
@@ -288,11 +291,19 @@ function DatagridBaseClass() {
     };
 
     /**
-     *
+     * 取得
      * @param rowData: mn 單筆資料
      */
     this.updateMnRowData = function (rowData) {
         this.mnRowData = rowData;
+    };
+
+    /**
+     * 取得
+     * @param dtRowData: dt 原始資料
+     */
+    this.getOriDtRowData = function (dtRowData) {
+        this.dtOriRowData = dtRowData;
     };
 
     /**
