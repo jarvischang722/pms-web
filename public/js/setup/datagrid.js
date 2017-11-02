@@ -191,7 +191,7 @@ var vm = new Vue({
                 singleSelect: true,
                 selectOnCheck: true,
                 checkOnSelect: true,
-                width: "100%",
+                // width: "100%", // error:左側打開後table會擠壓到右側欄位
                 data: dgData,
                 onClickCell: vm.onClickCell,
                 onEndEdit: vm.onEndEdit,

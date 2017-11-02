@@ -672,7 +672,7 @@
                 {field: 'sort', title: '序號', width: 40},
                 {field: 'fullName', title: 'Full Name', width: 150},
                 {field: 'depositCode', title: '訂金代號', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+                {field: 'resvCardNum', title: '訂房卡號', width: 100}
             ]]
         });
 
@@ -684,13 +684,13 @@
             url: '/jsonData/frontDesk/foCnt_editCoDate.json',
             method: 'get',
             columns: [[
-                {field: 'checkBox', title: '選擇', width: 80},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomNum', title: '房號', width: 60},
                 {field: 'sort', title: '序號', width: 40},
                 {field: 'fullName', title: 'Full Name', width: 150},
                 {field: 'ciDate', title: 'C/I日期', width: 80},
                 {field: 'expectCo', title: '預計C/O', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+                {field: 'resvCardNum', title: '訂房卡號', width: 100}
             ]]
         });
 
@@ -819,11 +819,11 @@
             method: 'get',
             columns: [[
                 {field: 'publicAccount', title: '公帳號', width: 80},
-                {field: 'groups', title: '團號', width: 80},
+                {field: 'groups', title: '團號', width: 150},
                 {field: 'touristGuide', title: '導遊', width: 80},
                 {field: 'publicAccName', title: '公帳號名稱', width: 80},
                 {field: 'publicAccStatus', title: '公帳狀態', width: 80},
-                {field: 'resvCard', title: '訂房卡號', width: 80},
+                {field: 'resvCard', title: '訂房卡號', width: 100},
                 {field: 'resvStatus', title: '訂房卡狀態', width: 80},
                 {field: 'ciDate', title: '入住日期', width: 100},
                 {field: 'coDate', title: '退房日期', width: 100}
@@ -846,7 +846,7 @@
                 {field: 'ciDate', title: 'C/I日期', width: 100},
                 {field: 'ciTime', title: 'C/I時間', width: 60},
                 {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
-                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'resvNum', title: '訂房卡號', width: 100},
                 {field: 'coRemark', title: 'C/O備註', width: 250}
             ]]
         });
@@ -867,7 +867,7 @@
                 {field: 'ciDate', title: 'C/I日期', width: 100},
                 {field: 'ciTime', title: 'C/I時間', width: 60},
                 {field: 'balanceResidentAcc', title: '住客帳餘額', width: 80,align:"right"},
-                {field: 'resvNum', title: '訂房卡號', width: 80},
+                {field: 'resvNum', title: '訂房卡號', width: 100},
                 {field: 'coRemark', title: 'C/O備註', width: 250}
             ]]
         });
@@ -956,10 +956,11 @@
                 {field: 'time', title: 'Time', width: 80},
                 {field: 'from', title: 'From', width: 80},
                 {field: 'at', title: 'At', width: 80},
-                {field: 'replyTo', title: 'Reply to', width: 80},
+                {field: 'replyTo', title: 'Reply to', width: 100},
                 {field: 'message', title: 'Message', width: 150},
                 {field: 'status', title: 'Status', width: 80},
                 {field: 'addBy', title: 'Add By', width: 80},
+                {field: 'addDate', title: 'Add Date', width: 80},
                 {field: 'updby', title: 'Upd by', width: 80},
                 {field: 'updDate', title: 'Upd Date', width: 80}
             ]]
@@ -1021,22 +1022,7 @@
             ]]
         });
 
-        // PMS0210060 arrivals 單筆(checkbox)
-        $('#fd-checkIn_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/fd-checkIn_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-
-        });
-
-
-        //    新增晨呼 Wake Up
+        // 新增晨呼 Wake Up
         $(document).on('click', ".addMorning-btn", function (e) {
             e.preventDefault();
             var dialog = $("#addMorning-page").removeClass('hide').dialog({
@@ -1242,7 +1228,7 @@
             ]]
         });
 
-        // 接待單筆
+        // PMS0210060 arrivals 接待單筆
         $('#fd-checkIn-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1250,6 +1236,7 @@
             url: '/jsonData/frontDesk/fd-checkIn-table.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'scan', title: '掃描', width: 40},
                 {field: 'rem', title: '提醒', width: 40},
                 {field: 'money', title: '指定訂金', width: 70,align:"right"},
@@ -1267,19 +1254,8 @@
             ]]
         });
 
-        // PMS0210120 晨呼table(checkbox)
-        $('#front_morningCall_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/front_morningCall_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
 
-        });
+
         // 晨呼table
         $('#morningCallTable').datagrid({
             singleSelect: true,
@@ -1288,9 +1264,9 @@
             url: '/jsonData/frontDesk/morningCallTable.json',
             method: 'get',
             columns: [[
-    //            {field: 'box', title: '', width: 30},
-                {field: 'roomNum', title: '房號', width: 70},
-                {field: 'name', title: '住客姓名', width: 100},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                {field: 'roomNum', title: '房號', width: 80},
+                {field: 'name', title: '住客姓名', width: 150},
                 {field: 'callDate', title: '晨呼日期', width: 100},
                 {field: 'callTime', title: '晨呼時間', width: 100},
                 {field: 'callState', title: '晨呼狀態', width: 100},
@@ -1411,13 +1387,13 @@
             url: '/jsonData/frontDesk/foCnt_cslPostMaster-table.json',
             method: 'get',
             columns: [[
-                {field: 'checkBox', title: '選擇', width: 80},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomNum', title: '房號', width: 60},
                 {field: 'sort', title: '序號', width: 40},
                 {field: 'fullName', title: 'Full Name', width: 150},
                 {field: 'ciDate', title: 'C/I日期', width: 80},
                 {field: 'expectCo', title: '預計C/O', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 80}
+                {field: 'resvCardNum', title: '訂房卡號', width: 100}
             ]]
         });
 

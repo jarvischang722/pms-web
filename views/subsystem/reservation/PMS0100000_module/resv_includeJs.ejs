@@ -1022,11 +1022,11 @@
             url: '/jsonData/reservation/resv_gProfile.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'historyNO', title: '歷史編號', width: 80},
                 {field: 'personID', title: '身份證字號', width: 100},
                 {field: 'fullName', title: 'Full Name', width: 80},
                 {field: 'sex', title: '性別', width: 60},
-                {field: 'birthDate', title: '出生日期', width: 100},
                 {field: 'status', title: '狀態', width: 60},
                 {field: 'country', title: '國籍', width: 100},
                 {field: 'visitNum', title: '來訪次數', width: 60},
@@ -1046,27 +1046,13 @@
             method: 'get',
             columns: [[
                 {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
-                {field: 'status', title: '狀態', width: 100},
+                {field: 'status', title: '狀態', width: 80},
                 {field: 'startDate', title: '開始日期', width: 100},
                 {field: 'endDate', title: '結束日期', width: 100},
                 {field: 'bookingsNum', title: '訂房卡號', width: 100},
-                {field: 'roomNum', title: '房號', width: 80},
-                {field: 'tracesCon', title: '交辦事項內容', width: 350},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'tracesCon', title: '交辦事項內容', width: 400},
                 {field: 'processDepartment', title: '處理部門', width: 100}
-            ]]
-
-        });
-
-        // PMS0210010 住客歷史多筆資料(checkbox)
-        $('#resv_gProfile_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_gProfile_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
             ]]
 
         });
@@ -1118,6 +1104,14 @@
                 {field: 'firstName', title: 'First Name', width: 100},
                 {field: 'lastName', title: 'Last Name', width: 100}
             ]]
+        });
+
+        // 預約來館資料 dataGrid Resize
+        $(window).resize(function(){
+            gridTableHt = $(".gridTableHt").height();
+            $('#reservation_reserveShopInfo-table').datagrid('resize', {
+                width:function(){return document.body.clientWidth;},
+            });
         });
 
         // 住客來訪歷史 dataGrid
@@ -1185,6 +1179,7 @@
         $('#reservation_resvCard-table').datagrid({
             singleSelect: true,
             collapsible: true,
+            width: '94%',
             // 從json 撈
             url: '/jsonData/reservation/reservation_resvCard.json',
             method: 'get',
@@ -1374,6 +1369,7 @@
             url: '/jsonData/reservation/resv_PMS0110030-dg.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'rateCode', title: 'Rate Code', width: 80},
                 {field: 'rateName', title: 'Rate Name', width: 150},
                 {field: 'rmType', title: 'RM Type', width: 100},
@@ -1390,28 +1386,16 @@
             ]]
         });
 
-        // setRateCode rateCode-查詢結果(chk) dataGrid
-        $('#resv_RateCode_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_RateCode_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-
-        });
 
         // setRateCode rateCode-查詢結果 dataGrid
         $('#setRateCode-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/reservation/reservation_RateCode.json',
+            url: '/jsonData/reservation/resv_RateCode.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},
@@ -1431,28 +1415,18 @@
             url: '/jsonData/reservation/resv_traces.json',
             method: 'get',
             columns: [[
-                {field: 'status', title: '狀態', width: 100},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                {field: 'status', title: '狀態', width: 80},
                 {field: 'startDate', title: '開始日期', width: 100},
                 {field: 'endDate', title: '結束日期', width: 100},
                 {field: 'bookingsNum', title: '訂房卡號', width: 100},
-                {field: 'roomNum', title: '房號', width: 80},
-                {field: 'tracesCon', title: '交辦事項內容', width: 350},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'tracesCon', title: '交辦事項內容', width: 400},
                 {field: 'processDepartment', title: '處理部門', width: 100}
             ]]
 
         });
 
-        // PMS0120070 resv_traces 交辦事項(前面的checkbox) dataGrid
-        $('#dgCheckbox-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/dgCheckbox-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-        });
 
         // Option > Coupon (resv_coupon-table) dataGrid
         $('#resv_coupon-table').datagrid({
@@ -1512,10 +1486,11 @@
                 {field: 'time', title: 'Time', width: 80},
                 {field: 'from', title: 'From', width: 80},
                 {field: 'at', title: 'At', width: 80},
-                {field: 'replyTo', title: 'Reply to', width: 80},
+                {field: 'replyTo', title: 'Reply to', width: 100},
                 {field: 'message', title: 'Message', width: 150},
                 {field: 'status', title: 'Status', width: 80},
                 {field: 'addBy', title: 'Added By', width: 80},
+                {field: 'addDate', title: 'Added Date', width: 80},
                 {field: 'updby', title: 'Upd by', width: 80},
                 {field: 'updDate', title: 'Upd Date', width: 80}
             ]]
