@@ -99,14 +99,10 @@
             <!--<div class="blockSetting-heading">查詢結果</div>-->
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <!--假的checkbox table-->
-                    <div style="float:left; min-width: 30px; max-width: 3%;">
-                        <table id="dgCheckbox-table"></table>
-                    </div>
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 交辦事項多筆 resv_traces-table dataGrid -->
-                        <table id="resv_traces-table"></table>
+                        <table id="resv_traces-table" class="gridTableHt gridTableRz"></table>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -162,10 +158,10 @@
     <!--  /.End 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
-<!--  訂房卡共用 initial js -->
-<%- include PMS0100000_module/resv_includeJs %>
-<!--  /.End 訂房卡共用 initial js  -->
-
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
+
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

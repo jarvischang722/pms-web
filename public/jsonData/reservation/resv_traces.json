@@ -1,6 +1,6 @@
 {"total":28,
   "rows":[
-    {"status":"Y:已處理","startDate":"2016/07/01","endDate":"2016/07/03","bookingsNum":"","roomNum":"123456","tracesCon":"準備玫瑰花一束","processDepartment":"客務部"},
-    {"status":"N:未處理","startDate":"2016/07/01","endDate":"2016/07/03","bookingsNum":"","roomNum":"","tracesCon":"07/02安排外食餐盒","processDepartment":"客務部"}
+    {"checkbox":"<input type='checkbox'>","status":"Y:已處理","startDate":"2016/07/01","endDate":"2016/07/03","bookingsNum":"1234567890","roomNum":"123456","tracesCon":"準備玫瑰花一束","processDepartment":"客務部"},
+    {"checkbox":"<input type='checkbox'>","status":"N:未處理","startDate":"2016/07/01","endDate":"2016/07/03","bookingsNum":"1234567890","roomNum":"","tracesCon":"07/02安排外食餐盒","processDepartment":"客務部"}
   ]}
 

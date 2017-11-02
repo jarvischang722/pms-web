@@ -294,7 +294,8 @@ var PMS0830080VM = new Vue({
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-                height: $(window).height(),
+                // height: $(window).height(),
+                height: 600,
                 dialogClass: "test",
                 resizable: true
             });

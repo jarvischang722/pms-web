@@ -9,32 +9,35 @@
         <label class="prg_idLbH3"><%= prg_id %></label>
     </div>
 </div>
-<div class="row" id="PMS0830080App">
+<div class="" id="PMS0830080App">
     <div class="col-xs-12 col-sm-12">
-        <div class="col-xs-11 col-sm-11">
-            <table id="PMS0830080_dg" style="height: 300px; display: inline;"></table>
-        </div>
-        <div class="col-xs-1 col-sm-1">
-            <div class="row">
-                <div class="right-menu-co">
-                    <ul>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth cashierSetting-btn"
-                                    @click="addRoute"
-                                    role="button">Add
-                            </button>
-                        </li>
-                        <li>
-                            <button class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="delRoutes"
-                                    role="button">Delete
-                            </button>
-                        </li>
-                    </ul>
+        <div class="row">
+            <div class="col-xs-11 col-sm-11">
+                <div class="row no-margin-right">
+                    <table id="PMS0830080_dg" style="height: 300px; display: inline;"></table>
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth cashierSetting-btn"
+                                        @click="addRoute"
+                                        role="button">Add
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        @click="delRoutes"
+                                        role="button">Delete
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
     <pms0830080-comp
             :stype-rf-list="stypeRfList"

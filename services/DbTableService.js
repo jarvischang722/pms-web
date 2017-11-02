@@ -842,7 +842,7 @@ function operationSaveProc(postData, session) {
     function qryDataGridFuncRule(ls_page_id, callback) {
         mongoAgent.DatagridFunction.find({
             prg_id: postData.prg_id,
-            page_id: ls_page_id
+            page_id: _.isNaN(Number(ls_page_id))? 1 : Number(ls_page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });

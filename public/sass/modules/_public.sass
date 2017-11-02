@@ -168,18 +168,24 @@ a
 //    加：btn-gray disabled" "
 //    減:btn-white 原本的(ex.btn-primary)"
 //    -->
-.btn-gray
-  font-weight: 300
-  text-shadow: none
-  &.btn.disabled,&.btn[disabled]
-    //padding: 3px 9px
-    background-color: #ebebeb !important
-    border: 1px solid #ebebeb !important
-    color: $grayDisable !important
-    &:hover
+@mixin btn-gray-style
+  //padding: 3px 9px
+  background-color: #ebebeb !important
+  border: 1px solid #ebebeb !important
+  color: $grayDisable !important
+  &.btn
+    &:hover,&:active,&:focus,&:visited
       background-color: #ebebeb !important
       border: 1px solid #ebebeb !important
       color: $grayDisable !important
+.btn-gray
+  font-weight: 300
+  text-shadow: none
+  cursor: not-allowed !important
+  +btn-gray-style
+  &.btn.disabled,&.btn[disabled]
+    +btn-gray-style
+
 //第二階段btn
 //<!--
 //    加：btn_secStage 第二層加:<span></span>"

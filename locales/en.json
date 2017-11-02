@@ -159,6 +159,20 @@
       "route_nam": "Route Name",
       "is_master": "丟公帳(EN)",
       "to_master": "移至公帳(EN)"
+    },
+    "PMS0620020": {
+      "sales_cod": "Sales Id",
+      "sales_nam": "Name",
+      "class_cod": "Team",
+      "hotel_sales": "Hotel",
+      "bq_sales": "F&B",
+      "member_sales": "Membership",
+      "status_cod": "Status",
+      "selectYes": "Y",
+      "selectNo": "N",
+      "selectAll": "All",
+      "selectQuit": "Quite",
+      "selectEmp": "Employee"
     }
   },
   "table_in_use": "Table in use (%s)",

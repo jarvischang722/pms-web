@@ -755,16 +755,12 @@ exports.chkSpecialDataGridBtnEventRule = function (postData, session, callback) 
  * 儲存"前"，執行作業規則檢查
  */
 exports.doOperationRuleProcBeforeSave = function (postData, session, rules, callback) {
-    let la_createData = postData["createData"] || [];
-    let la_updateData = postData["updateData"] || [];
-    let la_deleteData = postData["deleteData"] || [];
+    let la_createData = postData["tmpCUD"]["createData"] || [];
+    let la_updateData = postData["tmpCUD"]["updateData"] || [];
+    let la_deleteData = postData["tmpCUD"]["deleteData"] || [];
     let la_tmpExtendExecDataArrSet = [];  //新刪修回傳要執行的SQL API 組合
     let lo_result = new ReturnClass();
     let lo_error = null;
-    session.user = {
-        athena_id: 1,
-        hotel_cod: '02'
-    };
 
     try {
         async.parallel([
