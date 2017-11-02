@@ -156,8 +156,25 @@ function DatagridBaseClass() {
      * @param row  {Object}
      */
     this.onClickRow = function (index, row) {
-    };
 
+        var la_timeField = _.where(self.fieldsData, {ui_type: "time"});
+        _.each(la_timeField, function (lo_timeField) {
+            var ls_field_name = String(row[lo_timeField.ui_field_name]) || "";
+            if (ls_field_name != "") {
+
+                if (ls_field_name.indexOf(":") == -1) {
+                    var hour = ls_field_name.substring(0, 2);
+                    var min = ls_field_name.substring(2, 4);
+
+                    ls_field_name = hour + ":" + min;
+                }
+            }
+            var editors = $('#' + self.dgName).datagrid('getEditors', index);
+            var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
+
+            $(lo_editor.target).textbox('setValue', ls_field_name);
+        });
+    };
 
     /**
      * 新增一個Row
