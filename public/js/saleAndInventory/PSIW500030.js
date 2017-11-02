@@ -10,17 +10,16 @@ var psiw50030_socket = io.connect('/dominos');
 
 //多筆
 /** DatagridRmSingleGridClass ***/
-function DatagridRmSingleGridClass() {
-}
+function DatagridRmSingleGridClass() {}
 
 DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
 
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
-
     if(!PSIW500030.createStatus && !PSIW500030.editStatus) {
         PSIW500030.fetchSingleData(row);
         go_current_row = row;
+
         //region//修改UI狀態
         PSIW500030.isModificable = false;
         PSIW500030.isModificableFormat = false;
@@ -35,16 +34,35 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
 
         //endregion
     }
-    else {
-        //提醒是否儲存目前資料
-    }
-
-    // vm.editingRow = row;
-    // vm.editStatus = true;
-    // vm.fetchSingleData(row, function (success) {
-    //     vm.showSingleGridDialog();
-    //});
 };
+/*** Class End  ***/
+
+//單筆DT
+/** DatagridRmSingleGridClass ***/
+function DatagridRmSingleDTGridClass() {}
+
+DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
+DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
+    if(PSIW500030.isModificable){
+        if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
+            if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
+                $('#PSIW500030_dt').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
+                if (ed) {
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+
+                DatagridRmSingleDTGridClass.prototype.editIndex = index;
+            } else {
+                setTimeout(function () {
+                    $('#PSIW500030_dt').datagrid('selectRow', DatagridRmSingleDTGridClass.prototype.editIndex);
+                }, 0);
+            }
+        }
+    }
+};
+
 /*** Class End  ***/
 
 var PSIW500030 = new Vue({
@@ -711,7 +729,7 @@ var PSIW500030 = new Vue({
                     self.dgIns.loadDgData(self.DataGridRows);
 
                     self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
-                    self.dgInsDT = new DatagridBaseClass();
+                    self.dgInsDT = new DatagridRmSingleDTGridClass();
                     self.dgInsDT.init(prg_id, 'PSIW500030_dt', EZfieldClass.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
                 } else {
                     alert(result.error.errorMsg);
