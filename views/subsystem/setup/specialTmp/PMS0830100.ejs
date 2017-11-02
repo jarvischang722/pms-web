@@ -16,41 +16,43 @@
     </search-comp>
 
     <div class="col-xs-12">
-        <div class="col-sm-11 col-xs-11">
-            <div class="row no-margin-right">
-                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                    <div style="float:left; min-width: 30px; max-width: 3%;">
-                        <table id="dgCheckbox"></table>
+        <div class="row">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="" style="padding: 0; box-sizing: border-box;">
+                        <div style="float:left; min-width: 30px; max-width: 3%;">
+                            <table id="dgCheckbox"></table>
+                        </div>
+                        <div style="float: left; max-width: 96%; width: 94%;">
+                            <table id="PMS0830100_dg"></table>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div style="float: left; max-width: 96%; width: 94%;">
-                        <table id="PMS0830100_dg"></table>
-                    </div>
-                    <div class="clearfix"></div>
+
                 </div>
-
             </div>
-        </div>
 
-        <div class="col-xs-1 col-sm-1">
-            <div class="row">
-                <div class="right-menu-co">
-                    <ul>
-                        <li>
-                            <button id="ins-btn" @click="appendRow"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Add %>
-                            </button>
-                        </li>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn" @click="appendRow"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Add %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="remove-btn" @click="removeRow"
-                                    class="btn btn-danger btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Delete %>
-                            </button>
-                        </li>
-                    </ul>
+                            <li>
+                                <button id="remove-btn" @click="removeRow"
+                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Delete %>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

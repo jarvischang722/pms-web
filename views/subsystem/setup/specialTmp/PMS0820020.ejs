@@ -15,65 +15,67 @@
     </search-comp>
 
     <div class="col-xs-12">
-        <div class="col-sm-11 col-xs-11">
-            <div class="row no-margin-right">
-                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                    <div style="float:left; min-width: 30px; max-width: 3%;">
-                        <table id="dgCheckbox"></table>
+        <div class="row">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="" style="padding: 0; box-sizing: border-box;">
+                        <div style="float:left; min-width: 30px; max-width: 3%;">
+                            <table id="dgCheckbox"></table>
+                        </div>
+                        <div style="float: left; max-width: 96%; width: 94%;">
+                            <table id="PMS0820020_dg"></table>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div style="float: left; max-width: 96%; width: 94%;">
-                        <table id="PMS0820020_dg"></table>
-                    </div>
-                    <div class="clearfix"></div>
+
                 </div>
-
             </div>
-        </div>
 
-        <div class="col-xs-1 col-sm-1">
-            <div class="row">
-                <div class="right-menu-co">
-                    <ul>
-                        <li>
-                            <button id="ins-btn" @click="appendRow"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Add %>
-                            </button>
-                        </li>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn" @click="appendRow"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Add %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="ins-btn" @click="batchappendRow"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("program")["PMS0820020"]["batch_add"] %>
-                            </button>
-                        </li>
+                            <li>
+                                <button id="ins-btn" @click="batchappendRow"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("program")["PMS0820020"]["batch_add"] %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="ins-btn" @click="showRmList"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("program")["PMS0820020"]["roomList"] %>
-                            </button>
-                        </li>
+                            <li>
+                                <button id="ins-btn" @click="showRmList"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("program")["PMS0820020"]["roomList"] %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="ins-btn" @click="showRoomSortDialog('')"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("program")["PMS0820020"]["sortRoom"] %>
-                            </button>
-                        </li>
+                            <li>
+                                <button id="ins-btn" @click="showRoomSortDialog('')"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("program")["PMS0820020"]["sortRoom"] %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="remove-btn" @click="removeRow"
-                                    class="btn btn-danger btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Delete %>
-                            </button>
-                        </li>
-                    </ul>
+                            <li>
+                                <button id="remove-btn" @click="removeRow"
+                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Delete %>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,38 +114,52 @@
                 <td class="css_td">
                     <input type="radio" id="sort_typ" value="0" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_room_nos %>
                 </td>
+                <td clas="css_td" style="float: right;"><button size="small" @click="reSortByTyp"><%= __("program")["PMS0820020"].reSortByTyp %></button></td>
+            </tr>
+            <tr class="css_tr">
                 <td class="css_td">
                     <input type="radio" id="sort_typ" value="1" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_room_nos_leng %>
                 </td>
+            </tr>
+            <tr class="css_tr">
                 <td class="css_td">
                     <input type="radio" id="sort_typ" value="2" v-model="sort_typ"> <%= __("program")["PMS0820020"].sort_by_build_nos %>
                 </td>
-                <td clas="css_td"><button size="small" @click="reSortByTyp"><%= __("program")["PMS0820020"].reSortByTyp %></button></td>
             </tr>
         </table>
         <br>
-        <table class="css_table horizTable" width="100％;">
-            <thead class="css_thead">
-            <tr class="css_tr">
-                <th class="css_th" style="width: 35%;"><%= __("program")["PMS0820020"].room_nos %></th>
-                <th class="css_th" style="width: 25%;"><%= __("program")["PMS0820020"].display_sort %></th>
-            </tr>
-            </thead>
-            <tbody class="css_tbody">
-            <tr class="css_tr" v-for="(item, index) in roomSortData">
-                <td class="css_td">{{item.room_nos}} {{testData}}</td>
-                <td class="css_td">
-                    <button type="button" size="small" class="el-icon-caret-top"
-                            @click="itemMove(index, index-1)" v-if="index != 0">
-                    </button>
-                    <button type="button" size="small" class="el-icon-caret-bottom"
-                            @click="itemMove(index, index+1)"
-                            v-if="index != roomSortData.length-1">
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="fixHeadTable" width="100％;">
+            <div class="tbl-header">
+                <table class="custab">
+                    <thead class="custab-head">
+                        <tr>
+                            <th class="width-60"><%= __("program")["PMS0820020"].room_nos %></th>
+                            <th class="width-40"><%= __("program")["PMS0820020"].display_sort %></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content" style="height: 300px;">
+                <table class=" custab">
+
+                    <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+
+                    <tr class="css_tr" v-for="(item, index) in roomSortData">
+                        <td class="width-60">{{item.room_nos}} {{testData}}</td>
+                        <td class="width-40">
+                            <button type="button" size="small" class="el-icon-caret-top"
+                                    @click="itemMove(index, index-1)" v-if="index != 0">
+                            </button>
+                            <button type="button" size="small" class="el-icon-caret-bottom"
+                                    @click="itemMove(index, index+1)"
+                                    v-if="index != roomSortData.length-1">
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div slot="footer" class="dialog-footer">
             <el-row>
                 <el-col :span="12" :offset="3">

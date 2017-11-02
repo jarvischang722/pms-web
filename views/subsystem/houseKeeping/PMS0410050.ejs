@@ -105,9 +105,9 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 失物管理  lostFound-table dataGrid -->
-                        <table id="lostFound-table"></table>
+                        <table id="lostFound-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -190,6 +190,9 @@
 
 </div><!--page-content-->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
 
 <!--  房務共用 initial js -->
 <%- include houseKeeping_module/houseKeeping_includeJs.ejs %>
@@ -199,7 +202,3 @@
 <!--  接待共用 initial js -->
 <%- include ../frontDesk/frontDesk_module/frontDesk_includeJs %>
 <!--  /.End 接待共用 initial js  -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

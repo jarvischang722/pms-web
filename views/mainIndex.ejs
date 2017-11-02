@@ -3,8 +3,9 @@
 
 <%- include ./common/head %>
 
-<%- include ./common/importFiles %>
+<%- include ./common/cssFile/importFiles_CssBase %>
 
+<%- include ./common/jsFile/importFiles_JsBase %>
 <body class="no-skin">
 
 <%- include ./common/navbar.ejs %>
@@ -129,7 +130,7 @@
                         ls_pro_url = tmpQuick.pro_url;
                     }
                 }
-//                ls_pro_url = '/sales/PMS0620020';
+//                ls_pro_url = '/authorityRole';
                 if (!_.isEmpty(ls_pro_url)) {
                     $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
                 }

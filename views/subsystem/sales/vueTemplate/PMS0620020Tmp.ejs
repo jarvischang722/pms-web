@@ -161,8 +161,84 @@
                         </div>
                     </div>
                 </div>
+                <!-- 異動紀錄 -->
+                <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+                           :visible.sync="openChangeLogDialog">
 
+                    <div class="col-xs-12">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="fixHeadTable">
+                                    <div class="tbl-header">
+                                        <table class=" custab">
+                                            <thead class="custab-head">
+                                            <tr>
+                                                <th class="width-15 text-center">Time</th>
+                                                <th class="width-10 text-center">User</th>
+                                                <th class="width-15 text-center">Action Type</th>
+                                                <th class="width-20 text-center">Description MN</th>
+                                                <th class="width-20 text-center">Description DT</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="tbl-content" style="height: 300px;">
+                                        <table class=" custab">
 
+                                            <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                            <tr v-for="logData in allChangeLogList">
+                                                <td class="width-15">{{logData.event_time}}</td>
+                                                <td class="width-10">{{logData.user}}</td>
+                                                <td class="width-15">
+                                                    <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                                </td>
+                                                <td class="width-20">
+                                                    <div class="blue bold" style="text-transform: capitalize;">
+                                                        {{logData.action }}
+                                                    </div>
+                                                    <span v-for="mnData in logData.desc_mn">
+                                                        {{mnData.field_name}} :
+                                                        {{mnData.oldVal}}
+                                                        <span v-if="logData.action == 'update'"> →  </span>
+                                                        {{mnData.newVal}}
+                                                        <br>
+                                                    </span>
+                                                </td>
+                                                <td class="width-20">
+                                                    <template v-if="logData.desc_dt.length > 0">
+                                                        <div v-for="dtLogData in logData.desc_dt">
+                                                            <div class="blue bold" style="text-transform: capitalize;">
+                                                                {{dtLogData.action }}
+                                                            </div>
+                                                            <span v-for="dtData in dtLogData.changes">
+                                                                {{dtData.field_name}} :
+                                                                {{dtData.oldVal}}
+                                                                <span v-if="dtLogData.action == 'update'"> →  </span>
+                                                                {{dtData.newVal}}
+                                                                <br>
+                                                            </span>
+                                                        </div>
+                                                    </template>
+                                                    <template v-else>
+                                                        N/A
+                                                    </template>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div> <!-- /.col-sm-12 -->
+                    <div class="clearfix"></div>
+
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="openChangeLogDialog = false">確定</el-button>
+                    </span>
+                </el-dialog>
             </div>
         </div>
     </div>
