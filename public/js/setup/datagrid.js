@@ -93,7 +93,7 @@ Vue.component("multi-lang-dialog-tmp", {
 });
 
 var vm = new Vue({
-    el: '#DGApp',
+    el: '#datagridApp',
     mounted: function () {
         this.initTmpCUD();
         this.fetchDataGridData();
@@ -109,13 +109,13 @@ var vm = new Vue({
         editIndex: undefined,
         multiLangEditIndex: undefined,
         tmpCUD: {},
-        // saving: false,
         sys_locales: JSON.parse(decodeURIComponent(getCookie("sys_locales")).replace("j:", "")),
         openChangeLogDialog: false,
         allChangeLogList: [],
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
-        multiLangDialogVisible: false
+        multiLangDialogVisible: false,
+        isLoading :false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -352,10 +352,9 @@ var vm = new Vue({
                     createData: vm.tmpCUD.createData,
                     updateData: vm.tmpCUD.updateData
                 };
-
-                waitingDialog.show('Saving...');
+                this.isLoading = true;
                 $.post("/api/saveDataRow", params, function (result) {
-                    waitingDialog.hide();
+                    self.isLoading = false;
                     if (result.success) {
                         $('#prg_dg').datagrid('acceptChanges');
                         vm.initTmpCUD();
@@ -495,3 +494,13 @@ function editFieldMultiLang(rowIdx) {
 }
 
 var adpterDg = new AdapterDatagrid(vm);
+
+/**
+ * 某種情況下datagrid裡驗證格式錯誤的tip會卡住不動
+ * 站無解決辦法，故寫一個interval每五秒去關掉所有tips
+ */
+if(prg_id =='PMS0810030'){
+    setInterval(function(){
+        $(".tooltip-right").remove();
+    },5000);
+}
