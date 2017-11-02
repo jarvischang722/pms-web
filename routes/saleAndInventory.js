@@ -13,7 +13,7 @@ var middles2 = [authMW];
 module.exports = function(app) {
 
     //門市WEB訂單作業
-    app.get('/saleAndInventory/PSIW500030', middles2, saleAndInventoryCrtl.getPSIW500030);
+    app.get('/psi/PSIW500030', middles2, saleAndInventoryCrtl.getPSIW500030);
 
     app.post('/api/getQueryResult', middles2, saleAndInventoryCrtl.getQueryResult);
 

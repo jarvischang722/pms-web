@@ -48,7 +48,7 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
 /*** Class End  ***/
 
 var PSIW500030 = new Vue({
-    el: '#MainApp',
+    el: '#MainApp2',
     mounted: function () {
         this.fetchUserInfo();
         this.loadDataGrid();
@@ -287,28 +287,6 @@ var PSIW500030 = new Vue({
                     athena_id : "",
                     user_id : "",
                     prg_id : "PSIW500030",
-                    ui_field_name : "sales_cod",
-                    ui_type : "text",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 1,
-                    width : 100,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"員工編號"
-                },
-                {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW500030",
                     ui_field_name : "order_dat",
                     ui_type : "date",
                     ui_field_length : 20,
@@ -326,28 +304,6 @@ var PSIW500030 = new Vue({
                     multi_lang_table : "",
                     page_id : 1,
                     ui_display_name:"訂單日期"
-                },
-                {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW500030",
-                    ui_field_name : "ship_dat",
-                    ui_type : "date",
-                    ui_field_length : 20,
-                    ui_field_num_point : 0,
-                    col_seq : 3,
-                    width : 100,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_mn",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name:"交貨日期"
                 },
                 {
                     athena_id : "",
@@ -441,6 +397,28 @@ var PSIW500030 = new Vue({
                     athena_id : "",
                     user_id : "",
                     prg_id : "PSIW500030",
+                    ui_field_name : "atten_nam",
+                    ui_type : "text",
+                    ui_field_length : 20,
+                    ui_field_num_point : 0,
+                    col_seq : 7,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_mn",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    ui_display_name:"訂貨人姓名"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW500030",
                     ui_field_name : "order_rmk",
                     ui_type : "text",
                     ui_field_length : 20,
@@ -501,7 +479,7 @@ var PSIW500030 = new Vue({
                     user_athena_id : "",
                     multi_lang_table : "",
                     page_id : 1,
-                    ui_display_name:"異動者"
+                    ui_display_name:"最後異動者"
                 },
                 {
                     athena_id : "",
@@ -845,8 +823,7 @@ var PSIW500030 = new Vue({
             }
 
             this.singleData.order_nos = "";
-            //this.singleData.comp_cod = this.userInfo.cmp_id;
-            this.singleData.comp_cod = "CHIPN     ";
+            this.singleData.comp_cod = this.userInfo.cmp_id;
 
             this.singleData.order_sta = "";
             this.singleData.cust_cod = "";
@@ -883,7 +860,7 @@ var PSIW500030 = new Vue({
 
             //Week 格式代號用
             var day;
-            switch (new Date('2017/10/24').getDay()){
+            switch (new Date().getDay()){
                 case 0:
                     day = 'D7';
                     break;
@@ -1261,9 +1238,9 @@ var PSIW500030 = new Vue({
 
             //endregion
 
-            if(self.singleData.format_sta == "C"){
+            if(self.singleData.order_sta == "C"){
                 self.singleData.cnfirm_cod = self.userid;
-                self.singleData.cnfirm_dat = moment().format('MMMM/DD/YYYY hh:mm:ss');
+                self.singleData.cnfirm_dat = moment().format('YYYY/MM/DD hh:mm:ss');
             }
 
             self.singleData.ins_usr = self.userid;
@@ -1278,7 +1255,7 @@ var PSIW500030 = new Vue({
             this.callSaveAPI(prg_id, function (data) {
 
                 if(self.createStatus) {  //新增狀態，多筆重撈
-                    //self.singleData.order_nos = data.order_nos;
+                    self.singleData.order_nos = data.order_nos;
                     self.loadDataGrid();
                 }
                 else{               //修改狀態，單筆重撈

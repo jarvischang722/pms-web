@@ -35,9 +35,8 @@ exports.getDataGridRows = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
+        comp_cod: session.user.cmp_id,
         key_cod1: session.user.usr_id,
-        comp_cod: "CHIPN     ",
     };
 
     //過濾掉無效條件
@@ -86,8 +85,7 @@ exports.getSingleDataMN = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
         order_nos: params.postData.order_nos
     };
 
@@ -118,8 +116,7 @@ exports.getSingleDataDT = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
         order_nos: params.postData.order_nos
     };
 
@@ -150,9 +147,8 @@ exports.getShowCodSelect = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        key_cod1: session.user.usr_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
+        key_cod1: session.user.usr_id
     };
 
     queryAgent.queryList("QRY_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
@@ -182,8 +178,7 @@ exports.getCustInfo = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
         cust_cod: params.singleData.cust_cod
     };
 
@@ -339,8 +334,7 @@ exports.getFormatSta = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
         cust_cod: params.singleData.cust_cod,
         period_cod: params.singleData.period_cod,
         week: params.singleData.week
@@ -404,8 +398,7 @@ exports.getGoodsData = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id,
         format_sta : params.select_format_sta
     };
 
@@ -440,8 +433,7 @@ exports.chkFormatSta = function (params ,session, callback) {
         function(cb){
 
             var lo_params = {
-                //comp_cod: session.user.cmp_id,
-                comp_cod: "CHIPN     ",
+                comp_cod: session.user.cmp_id,
                 cust_cod: params.singleData.cust_cod,
                 order_dat: params.singleData.order_dat,
                 format_sta: params.singleData.format_sta
@@ -504,8 +496,7 @@ exports.chkFormatSta = function (params ,session, callback) {
         function(result, cb){
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
-                    //comp_cod: session.user.cmp_id,
-                    comp_cod: "CHIPN     ",
+                    comp_cod: session.user.cmp_id,
                     order_dat: params.singleData.order_dat,
                     cust_cod: params.singleData.show_cod,
                 };
@@ -538,8 +529,7 @@ exports.chkFormatSta = function (params ,session, callback) {
         function(result, cb){
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
-                    //comp_cod: session.user.cmp_id,
-                    comp_cod: "CHIPN     ",
+                    comp_cod: session.user.cmp_id,
                     order_dat: params.singleData.order_dat,
                     cust_cod: params.singleData.show_cod,
                 };
@@ -585,8 +575,7 @@ exports.getSearchFormatSta = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     ",
+        comp_cod: session.user.cmp_id
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
@@ -881,29 +870,16 @@ exports.getSystemParam = function (params ,session, callback) {
  */
 exports.PSI0000001 = function (params ,session, callback) {
 
-    var lo_error = null;
+    //var object = base64.decode(params);
+    var a = new Buffer(params, 'base64').toString();
 
-    var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
-    };
+    var objJsonArray =JSON.parse(JSON.stringify(a));
+    console.log(a.tenKDosage);
+    console.log(objJsonArray.tenKDosage);
 
-    var paramName = "QRY_" + params.paramName.toUpperCase();
 
-    queryAgent.query(paramName, lo_params, function (err, Result) {
-        if (!err) {
-            if(Result)
-                callback(lo_error, Result);
-            else
-                callback(lo_error, "");
-        }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
-    });
+
+
 };
 
 /**

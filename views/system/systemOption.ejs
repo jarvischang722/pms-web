@@ -64,7 +64,16 @@
                                                     </div>
                                                     <h3>CS</h3>
                                                 </div>
+                                            <% }else if(sys.sys_id == 'PSI0000000'){ %>
+                                                <div class="inner-item"
+                                                     title="<%= sys["sys_name_" + session.locale] %>">
+                                                    <div class="sub circle-bg-green" style="background: #555;">
+                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
+                                                    </div>
+                                                    <h3>PSI</h3>
+                                                </div>
                                             <% } %>
+
                                             <!--<span class="text-content">-->
                                                 <!--<span class="optionTip"><%= sys["sys_name_" + session.locale] %></span>-->
                                             <!--</span>-->

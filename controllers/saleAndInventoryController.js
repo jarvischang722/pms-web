@@ -96,8 +96,8 @@ exports.getQueryResult = function (req, res) {
 exports.callSaveAPI = function (req, res) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     req.body.ip = ip.substr(ip.lastIndexOf(':') + 1);
-    PSIWService.callSaveAPI(req.body, req.session, function (errorMsg, success) {
-        res.json({success: success, errorMsg: errorMsg});
+    PSIWService.callSaveAPI(req.body, req.session, function (errorMsg, success, data) {
+        res.json({data: data, success: success, errorMsg: errorMsg});
     });
 };
 
@@ -122,15 +122,14 @@ exports.dominosWebService = function (req, res) {
     var trans_cod = req.params.trans_cod;
 
     var data = Object.values(req.body).toString();
-    console.log(data);
     var index = data.indexOf("data");
     data = data.substr(index + 4);
     data = data.replace(/\r/g, '');
     data = data.replace(/\n/g, '');
     data = data.replace(/"/g, '');
-
     var endindex = data.lastIndexOf("------");
-
+    data = data.substr(0, endindex);
+    req.body = data;
 
     switch (trans_cod)
     {
