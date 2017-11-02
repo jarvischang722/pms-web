@@ -15,16 +15,16 @@
                             <div class="width-95 searchMain-S2">
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Sales ID</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label><%= __("program")["PMS0620020"]["sales_cod"] %></label>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_cod"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Name</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label><%= __("program")["PMS0620020"]["sales_nam"] %></label>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.sales_nam"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Team</label>
-                                        <input type="text" class="input-medium medium-c1"/>
+                                        <label><%= __("program")["PMS0620020"]["class_cod"] %></label>
+                                        <input type="text" class="input-medium medium-c1" v-model="searchCond.class_cod"/>
                                     </div>
                                 </div>
                             </div>
@@ -34,13 +34,13 @@
                                         <li>
                                             <div class="" data-rel="tooltip" data-placement="bottom"
                                                  title="查詢">
-                                                <div class="icon-reStyle icon-co-14"></div>
+                                                <div class="icon-reStyle icon-co-14" @click="doSearch"></div>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="" data-rel="tooltip" data-placement="bottom"
                                                  title="清除">
-                                                <div class="icon-reStyle icon-co-11"></div>
+                                                <div class="icon-reStyle icon-co-11" @click="doClear"></div>
                                             </div>
                                         </li>
                                         <li>
@@ -57,36 +57,37 @@
                             <div class="width-95">
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Hotel</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <label><%= __("program")["PMS0620020"]["hotel_sales"] %></label>
+                                        <select class="input-medium medium-c1" v-model="searchCond.hotel_sales">
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>F&B</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <label><%= __("program")["PMS0620020"]["bq_sales"] %></label>
+                                        <select class="input-medium medium-c1" v-model="searchCond.bq_sales">
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>Membership</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
-                                            <option value="3">All</option>
+                                        <label><%= __("program")["PMS0620020"]["member_sales"] %></label>
+                                        <select class="input-medium medium-c1" v-model="searchCond.member_sales">
+                                            <option value="Y"><%= __("program")["PMS0620020"]["selectYes"] %></option>
+                                            <option value="N"><%= __("program")["PMS0620020"]["selectNo"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
-                                        <label>Status</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="1">Q:離職</option>
-                                            <option value="2">N:在職</option>
+                                        <label><%= __("program")["PMS0620020"]["status_cod"] %></label>
+                                        <select class="input-medium medium-c1" v-model="searchCond.status_cod">
+                                            <option value="Q">Q:<%= __("program")["PMS0620020"]["selectQuit"] %></option>
+                                            <option value="N">N:<%= __("program")["PMS0620020"]["selectEmp"] %></option>
+                                            <option value="all"><%= __("program")["PMS0620020"]["selectAll"] %></option>
                                         </select>
                                     </div>
                                 </div>
@@ -115,17 +116,17 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth"
-                                        role="button" @click="appendRow">Add
+                                        role="button" @click="appendRow"><%= __("SystemCommon")["Add"]%>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-danger btn-white btn-defaultWidth"
-                                        role="button" @click="removeRow">Delete
+                                        role="button" @click="removeRow"><%= __("SystemCommon")["Delete"]%>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth "
-                                        role="button" @click="editRow">Edit
+                                        role="button" @click="editRow"><%= __("SystemCommon")["Modify"]%>
                                 </button>
                             </li>
                         </ul>
@@ -147,6 +148,103 @@
 
     <!--popup grid-->
     <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
+
+    <!-- 異動紀錄 -->
+    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+               :visible.sync="openChangeLogDialog" size="large">
+
+        <div class="col-xs-12">
+            <div class="col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="fixHeadTable">
+                        <div class="tbl-header">
+                            <table class=" custab">
+                                <thead class="custab-head">
+                                <tr>
+                                    <th class="width-15 text-center">Time</th>
+                                    <th class="width-10 text-center">User</th>
+                                    <th class="width-15 text-center">Action Type</th>
+                                    <th class="width-20 text-center">Description MN</th>
+                                    <th class="width-20 text-center">Description DT</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="tbl-content" style="height: 300px;">
+                            <table class=" custab">
+
+                                <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                <tr v-for="logData in allChangeLogList">
+                                    <td class="width-15">{{logData.event_time}}</td>
+                                    <td class="width-10">{{logData.user}}</td>
+                                    <td class="width-15">
+                                        <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                    </td>
+                                    <td class="width-20">
+                                        <div class="blue bold" style="text-transform: capitalize;">
+                                            {{logData.action }}
+                                        </div>
+                                        <span v-for="mnData in logData.desc_mn">
+                                        {{mnData.field_name}} :
+                                        {{mnData.oldVal}}
+                                        <span v-if="logData.action == 'update'"> →  </span>
+                                        {{mnData.newVal}}
+                                        <br>
+                                    </span>
+                                    </td>
+                                    <td class="width-20">
+                                        <template v-if="logData.desc_dt.length > 0">
+                                            <div  v-for="dtLogData in logData.desc_dt" >
+                                                <div class="blue bold" style="text-transform: capitalize;">
+                                                    {{dtLogData.action }}
+                                                </div>
+                                                <span v-for="dtData in dtLogData.changes">
+                                                {{dtData.field_name}} :
+                                                {{dtData.oldVal}}
+
+                                                <span v-if="dtLogData.action == 'update'"> →  </span>
+                                                {{dtData.newVal}}
+                                                       <br>
+                                            </span>
+
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            N/A
+                                        </template>
+
+
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <script>
+                        //                        console.log(navigator.userAgent);
+                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
+                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+                        $(window).on("load resize ", function () {
+                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+                            $('.tbl-header').css({'padding-right': '17px'});
+                            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                        }).resize();
+                        //                        }
+                        // /.end 判斷如果不是window不執行
+
+                    </script>
+                </div>
+            </div>
+        </div> <!-- /.col-sm-12 -->
+        <div class="clearfix"></div>
+
+        <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">確定</el-button>
+         </span>
+    </el-dialog>
 
     <!--  業務 彈出視窗內容(jing)-->
     <%- include sales_module/sales_Btn_1.ejs %>

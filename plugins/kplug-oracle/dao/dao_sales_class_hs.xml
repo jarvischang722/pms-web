@@ -10,4 +10,15 @@
         <parameter type="number" kind="3" >athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
+
+    <dao name="qry_last_sales_class_hs">
+        <statement><![CDATA[
+        SELECT CLASS_COD, BEGIN_DAT,END_DAT, INS_DAT, INS_USR, UPD_DAT, UPD_USR
+        FROM SALES_CLASS_HS
+        WHERE ATHENA_ID = :athena_id AND trim(SALES_COD) = trim(:sales_cod) AND rownum<=1
+        ORDER BY END_DAT DESC
+        ]]></statement>
+        <parameter type="number" kind="3" >athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
 </root>
