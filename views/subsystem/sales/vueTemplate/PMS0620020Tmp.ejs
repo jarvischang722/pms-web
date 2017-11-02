@@ -56,7 +56,7 @@
                                     </el-date-picker>
                                 </template>
                                 <!-- 下拉選單 -->
-                                <span class="dropdown" align="left" :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                <span class="dropdown dropdownCustom" align="left" :class="{'input_sta_required' : field.requirable == 'Y' }"
                                       v-if="field.visiable == 'Y' && field.ui_type == 'select'" :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                         <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                 class="btn btn-default btn-white dropdown-toggle btn-height" style="text-align: left!important;"

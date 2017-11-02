@@ -549,6 +549,21 @@ label {
   overflow-y: auto;
 }
 
+.dropdownCustom {
+  position: relative;
+}
+.dropdownCustom .dropdown-toggle {
+  text-overflow: ellipsis;
+  /* text-overflow: clip; */
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dropdownCustom .caret {
+  position: absolute;
+  right: 3px;
+  top: 10px;
+}
+
 @media screen and (max-width: 992px) {
   .top-sec-ul {
     z-index: 1024;
@@ -4463,6 +4478,7 @@ a {
 .btn-gray {
   font-weight: 300;
   text-shadow: none;
+  cursor: not-allowed !important;
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
