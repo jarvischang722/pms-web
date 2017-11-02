@@ -179,6 +179,9 @@
   background: #7f7f7f;
   color: #fff;
 }
+.css_table .css_td.customW1 {
+  width: 80px;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -245,6 +248,9 @@
 .horizTable-outer .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
+}
+.horizTable-outer .css_table .css_td.customW1 {
+  width: 80px;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -543,6 +549,21 @@ label {
   overflow-y: auto;
 }
 
+.dropdownCustom {
+  position: relative;
+}
+.dropdownCustom .dropdown-toggle {
+  text-overflow: ellipsis;
+  /* text-overflow: clip; */
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dropdownCustom .caret {
+  position: absolute;
+  right: 3px;
+  top: 10px;
+}
+
 @media screen and (max-width: 992px) {
   .top-sec-ul {
     z-index: 1024;
@@ -725,6 +746,9 @@ label {
 .height600 {
   height: 600px;
   max-height: 100%;
+}
+.height600.fixTableBorder {
+  border: 1px solid #778899;
 }
 
 .fancyTable {
@@ -1488,7 +1512,7 @@ table.treetable span.indenter {
 }
 
 .bacchus-footer {
-  padding-top: 220px;
+  padding-top: 10px;
   /*----- 驗證碼圖片 ----- */
 }
 .bacchus-footer .footerImg {
@@ -2874,6 +2898,9 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock .foot-right span {
   color: #D15B47;
 }
+.rulesOfSeparation.customHt {
+  max-height: 400px;
+}
 
 .foCounter .counterPage {
   max-height: 600px;
@@ -3555,10 +3582,6 @@ td div.triangle-box:after {
 
 .rules-notice {
   color: red;
-}
-
-.rules-wrap {
-  margin-bottom: 30px;
 }
 
 .purple-text {
@@ -4455,13 +4478,22 @@ a {
 .btn-gray {
   font-weight: 300;
   text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+.btn-gray.btn:hover, .btn-gray.btn:active, .btn-gray.btn:focus, .btn-gray.btn:visited {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
 }
 .btn-gray.btn.disabled, .btn-gray.btn[disabled] {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
 }
-.btn-gray.btn.disabled:hover, .btn-gray.btn[disabled]:hover {
+.btn-gray.btn.disabled.btn:hover, .btn-gray.btn.disabled.btn:active, .btn-gray.btn.disabled.btn:focus, .btn-gray.btn.disabled.btn:visited, .btn-gray.btn[disabled].btn:hover, .btn-gray.btn[disabled].btn:active, .btn-gray.btn[disabled].btn:focus, .btn-gray.btn[disabled].btn:visited {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
@@ -4847,26 +4879,6 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w253px {
-  width: 253px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w510px {
-  width: 510px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w388px {
-  width: 388px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w118px {
-  width: 118px;
   max-width: 100%;
   height: 25px;
 }

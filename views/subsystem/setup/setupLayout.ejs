@@ -1,55 +1,41 @@
 <!-- Google Code for Booking Conversion Page -->
 <div id="main-container" class="controlReservation">
-    <div class="page-header">
-    </div><!-- /.page-header -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <!-- #section:elements.tab.position -->
-                                    <div class="tabbable tabs-left">
-                                        <ul class="nav nav-tabs" id="settingUl">
-                                            <li v-for="proc in prosList"
-                                                :class="{active: activePrgID == proc.pro_id}">
-                                                <a @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
-                                                    {{ proc['pro_name_<%= session.locale %>'] != undefined
-                                                    ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <!-- 對照檔內容 -->
-                                            <div id="prgContentDiv" v-show="!isTableLocked"
-                                                 style="overflow-x: hidden;display: none;"
-                                                 class="tab-pane in active">
-                                            </div>
-
-                                            <!-- table lock 訊息 -->
-                                            <div align="center" v-show="isTableLocked"
-                                                 style="display: none;">
-                                                <p>
-                                                    <image width="64" src="/images/lock.png"/>
-                                                </p>
-                                                <p>
-                                                    <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
+    <div class="page-header"></div><!-- /.page-header -->
+    <div class="">
+        <div class="col-sm-12">
+            <!-- #section:elements.tab.position -->
+            <div class="tabbable tabs-left">
+                <ul class="nav nav-tabs" id="settingUl">
+                    <li v-for="proc in prosList"
+                        :class="{active: activePrgID == proc.pro_id}">
+                        <a @click="loadSetUpPage(proc.pro_id)" href="javascript:void(0)">
+                            {{ proc['pro_name_<%= session.locale %>'] != undefined
+                            ? proc['pro_name_<%= session.locale %>'] : proc.pro_id }}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 對照檔內容 -->
+                    <div id="prgContentDiv" v-show="!isTableLocked"
+                         style="overflow-x: hidden;display: none;"
+                         class="tab-pane in active">
                     </div>
+
+                    <!-- table lock 訊息 -->
+                    <div align="center" v-show="isTableLocked"
+                         style="display: none;">
+                        <p>
+                            <image width="64" src="/images/lock.png"/>
+                        </p>
+                        <p>
+                            <span style="font-size: 2em !important;"> {{tableLockMsg}} </span>
+                        </p>
+
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -189,4 +175,24 @@
             waitingDialog.hide();
         }
     })
+
+
+    //common JS
+    jQuery(function () {
+        // Resize Table Height // Date:170920
+//        alert('menuHeight1');
+        var menuHeight1 = $(".navbar-container").height();
+        var menuHeight2 = $(".top-sec-ul").height() + 30 + $(".page-header").height() + $(".search-content").height();//padding-top: 5px
+        //    console.log('menuHeight1',menuHeight1);
+        //    console.log('gridTableHt',menuHeight2);
+        height = $(window).height() - menuHeight1 - menuHeight2 - 10;
+        $(".tab-content").css("height", height);
+//        $(".gridTableHt .panel-body").css("height", height-40);
+        //        console.log('gridTableHt .panel-body',height);
+        $(window).resize(function () {
+            height = $(window).height() - menuHeight1 - menuHeight2 - 10;
+            $(".tab-content").css("height", height);
+//            $(".gridTableHt .panel-body").css("height", height-40);
+        });
+    });
 </script>

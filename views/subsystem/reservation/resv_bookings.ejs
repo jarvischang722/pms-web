@@ -243,9 +243,9 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 訂房卡多筆 resv_bookings-table dataGrid -->
-                        <table id="resv_bookings-table"></table>
+                        <table id="resv_bookings-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -280,10 +280,10 @@
     <!--  /.End 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
-<!--  訂房卡共用 initial js -->
-<%- include PMS0100000_module/resv_includeJs %>
-<!--  /.End 訂房卡共用 initial js  -->
-
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
+
+<!--  訂房卡共用 initial js -->
+<%- include PMS0100000_module/resv_includeJs %>
+<!--  /.End 訂房卡共用 initial js  -->

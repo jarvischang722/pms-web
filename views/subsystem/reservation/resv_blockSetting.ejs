@@ -96,9 +96,9 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- rateCode-查詢結果 dataGrid -->
-                        <table id="blockSettingResult-table"></table>
+                        <table id="blockSettingResult-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -252,6 +252,10 @@
 
 </div>
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <script type="text/javascript">
     $(function () {
 
@@ -347,7 +351,3 @@
 //
     });
 </script>
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

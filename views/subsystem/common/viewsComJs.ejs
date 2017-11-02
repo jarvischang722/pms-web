@@ -3,18 +3,35 @@
     //common JS
     jQuery(function () {
         // Resize Table Height // Date:170920
-//        alert('menuHeight1');
+
+        // 藍色系統列
         var menuHeight1 = $(".navbar-container").height();
+
+        // quickMenus + 搜尋欄位
         var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
-        //    console.log('menuHeight1',menuHeight1);
-        //    console.log('gridTableHt',menuHeight2);
-        height = $(window).height()-menuHeight1-menuHeight2-10;
-        $(".gridTableHt .panel-body").css("height", height);
-        //        console.log('gridTableHt .panel-body',height);
+
+        // 前檯 selectgroup
+        var selectgroup = $(".select-group").height();
+
+        gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
+        frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+
+        // $(".gridTableHt .panel-body").css("height", height);
+        $(".gridTableHt").css("height", gridTableHt);
+        $(".frontTableHt").css("height", frontTableHt);
+
+        // 螢幕縮放時重新抓值
         $(window).resize(function() {
-            height = $(window).height()-menuHeight1-menuHeight2-10;
-            $(".gridTableHt .panel-body").css("height", height);
+            gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
+            frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+
+            $('.gridTableHt').datagrid('resize',{
+                height:gridTableHt
+            });
+
+            $(".frontTableHt").css("height", frontTableHt);
         });
+
         //.END Resize Table Height // Date:170920
 
 

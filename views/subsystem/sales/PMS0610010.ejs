@@ -131,9 +131,9 @@
         <div class="col-xs-12 col-sm-12 businessCompanyData">
             <div class="col-xs-11 col-sm-11">
                 <div class="row no-margin-right">
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 商務公司 table -->
-                        <table id="bs-companyMain-table"></table>
+                        <table id="bs-companyMain-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -201,15 +201,14 @@
 
 </div><!-- /.page-content -->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <!--  業務 initial js -->
 <%- include sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 initial js  -->
 
-
 <!--  訂房卡共用 initial js -->
 <%- include ../reservation/PMS0100000_module/resv_includeJs %>
 <!--  /.End 訂房卡共用 initial js  -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->
