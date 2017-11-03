@@ -15,6 +15,167 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0610010 相關人員(tabsPage) dataGrid
+            $('#relatedPerson-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                url:'/jsonData/sales/bsCompany_relatedMan.json',
+                method:'get',
+                columns:[[
+                    {field:'mainContact',title:'主要聯絡人',width:100},
+                    {field:'name',title:'姓名',width:80},
+                    {field:'department',title:'部門',width:80},
+                    {field:'jobTitle',title:'職稱',width:80},
+                    {field:'status',title:'狀態',width:80},
+                    {field:'telphone',title:'行動電話',width:80},
+                    {field:'companyPhone',title:'公司電話',width:80},
+                    {field:'homePhone',title:'住家電話',width:80},
+                    {field:'fax',title:'傳真電話',width:80},
+                    {field:'email',title:'電子郵件',width:80},
+                    {field:'remark',title:'備註',width:80},
+                    {field:'endDate',title:'離職日',width:80},
+                    {field:'sex',title:'性別',width:80},
+                    {field:'birth',title:'生日',width:80},
+                    {field:'pointNum',title:'<span class="grayDisable">秘書積點會員編號</span>',width:120
+                        // 單筆 styler
+//                styler: function(value,row,index){
+//                    if (value > 20){
+//                        return 'background-color:#ffee00; color:red;';
+//                        // the function can return predefined css class and inline style
+//                        // return {class:'c1',style:'color:red'}
+//                    }
+//                }
+                    }
+                ]]
+//        ,
+                // 整條 styler
+//        rowStyler:function(index,row){
+//            if (row.pointNum < 15){
+//                return 'background-color:pink; color:blue; font-weight:bold;';
+//            }
+//        }
+
+            });
+            //    console.log($('#dg').datagrid("getRows"));
+
+            // PMS0610010 業務員(tabsPage) dataGrid
+            $('#clerk-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_clerk.json',
+                method:'get',
+                columns:[[
+                    {field:'clerk',title:'業務員',width:100},
+                    {field:'startDate',title:'開始日期',width:100},
+                    {field:'endDate',title:'結束日期',width:100},
+                    {field:'inputDate',title:'輸入日',width:200},
+                    {field:'inputPerson',title:'輸入者',width:100},
+                    {field:'lastEditDate',title:'最後異動日',width:200},
+                    {field:'lastEditMan',title:'最後異動者',width:100}
+                ]]
+
+            });
+
+            // PMS0610010 合約內容(tabsPage) dataGrid
+            $('#dealContent-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_dealContent.json',
+                method:'get',
+                columns:[[
+                    {field:'dealNum',title:'合約編號',width:100},
+                    {field:'dealStartDate',title:'合約起始日',width:100},
+                    {field:'dealEndDate',title:'合約終止日',width:100},
+                    {field:'dealCompany',title:'館別',width:100},
+                    {field:'referPriceCode',title:'參考房價代號',width:100},
+                    {field:'housePriceName',title:'房價名稱',width:100},
+                    {field:'referDiscount',title:'參考餐廳折扣',width:100},
+                    {field:'remarks1',title:'備註1',width:100},
+                    {field:'remarks2',title:'備註2',width:100},
+                    {field:'addNewDate',title:'新增日',width:100},
+                    {field:'addNewParson',title:'新增者',width:100},
+                    {field:'lastChangeDate',title:'最後異動日',width:100},
+                    {field:'lastChangePerson',title:'最後異動者',width:100}
+                ]]
+
+            });
+
+            // PMS0610010 拜訪紀錄(tabsPage) dataGrid
+            $('#visitRecord-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_visitRecord.json',
+                method:'get',
+                columns:[[
+//                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field:'visitWay',title:'拜訪方式',width:70},
+                    {field:'visitDate',title:'預定拜訪日',width:100},
+                    {field:'visitStatus',title:'拜訪狀態',width:70},
+                    {field:'subject',title:'主旨',width:100},
+                    {field:'contentSum',title:'內容(摘要)',width:170},
+                    {field:'realVisitDate',title:'實際拜訪日',width:100},
+                    {field:'traffic',title:'交通費',width:70,align:'right'}
+                ]]
+            });
+
+            // PMS0610010 業務備註(tabsPage) dataGrid
+            $('#otherRemarks-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_otherRemarks.json',
+                method:'get',
+                columns:[[
+                    {field:'category',title:'備註類別',width:80},
+                    {field:'content',title:'備註內容',width:500}
+                ]]
+
+            });
+
+            // PMS0610010 歷史消費(tabsPage) dataGrid
+            $('#historyConsumption-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_historyConsumption.json',
+                method:'get',
+                columns:[[
+                    {field:'consumeDate',title:'消費日期',width:80},
+                    {field:'serialNum',title:'序號',width:40},
+                    {field:'consumeHall',title:'消費館別',width:80},
+                    {field:'consumePlace',title:'消費地點',width:80},
+                    {field:'consumePrice',title:'消費金額',width:80,align:'right'},
+                    {field:'subPay',title:'代支',width:80,align:'right'},
+                    {field:'consumeDescription',title:'消費說明',width:80},
+                    {field:'consumeTip',title:'小費',width:80,align:'right'},
+                    {field:'uniformNum',title:'統一編號',width:80},
+                    {field:'invoiceNum',title:'發票號碼',width:80}
+                ]]
+
+            });
+
+            // PMS0610010 貢獻度(tabsPage) dataGrid
+            $('#contribution-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_contribution.json',
+                method:'get',
+                columns:[[
+                    {field:'year',title:'年度',width:80},
+                    {field:'roomNum',title:'用房數',width:80},
+                    {field:'roomRent',title:'房租消費',width:80},
+                    {field:'foodConsume',title:'餐飲消費',width:80},
+                    {field:'otherConsume',title:'其他消費',width:80},
+                    {field:'totalConsume',title:'總消費',width:80}
+                ]]
+
+            });
+
         });
 
         // PMS0610010 彈出SettingNewDialog
@@ -90,6 +251,24 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0610010 貢獻度(tabsPage)-顯示月份明細 dataGrid
+            $('#displayMonth-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_displayMonth.json',
+                method:'get',
+                columns:[[
+                    {field:'yearMonth',title:'',width:70},
+                    {field:'useRoom',title:'用房數',width:70},
+                    {field:'roomRent',title:'房租消費',width:70},
+                    {field:'foodConsume',title:'餐飲消費',width:70},
+                    {field:'otherConsume',title:'其他消費',width:70},
+                    {field:'totalConsume',title:'總消費',width:70}
+                ]]
+            });
+
         });
 
         // PMS0610010 彈出 修改業務員
@@ -209,6 +388,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0620020 業務員資料維護-組別異動紀錄(tabsPage) dataGrid
+            $('#sales_clerkSGL-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/sales/sales_clerkSGL.json',
+                method: 'get',
+                columns: [[
+                    {field: 'classCod', title: 'Team', width: 100},
+                    {field: 'startDat', title: 'Start Date', width: 100},
+                    {field: 'endDat', title: 'End Date', width: 100},
+                    {field: 'insDat', title: 'Add Date', width: 130},
+                    {field: 'insUsr', title: 'Add By', width: 100},
+                    {field: 'updDat', title: 'Upd Date', width: 130},
+                    {field: 'updUsr', title: 'Upd By', width: 100}
+                ]]
+
+            });
+
         });
 
         // PMS0620010 Change Log
@@ -240,6 +439,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0620010 業務員指派 dataGrid
+            $('#sales_assign-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/sales/sales_assign.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
+                    {field: 'clerkNum', title: 'Sales ID', width: 100},
+                    {field: 'clerkName', title: 'Name', width: 100},
+                    {field: 'clerkStatus', title: 'Status', width: 100},
+                    {field: 'clerkTeam', title: 'Team', width: 100},
+                    {field: 'hotelBusiness', title: 'Hotel', width: 100},
+                    {field: 'foodBusiness', title: 'F&B', width: 100},
+                    {field: 'memberBusiness', title: 'Membership', width: 100}
+                ]]
+            });
+
         });
 
         /***
@@ -259,6 +478,34 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0620040 新增拜訪編輯
+            $('#newVisitRecord-table').datagrid({
+                singleSelect:true,
+                collapsible:true,
+                // 從json 撈
+                url:'/jsonData/sales/bsCompany_newVisitRecord.json',
+                method:'get',
+                columns:[[
+                    {field:'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field:'VisitNum',title:'Co. ID',width:80},
+                    {field:'VisitName',title:'Co. Name',width:230}
+// ,
+//                {field:'VisitStatus',title:'Status',width:50},
+//                {field:'VisitContract',title:'Contract',width:60},
+//                {field:'visitMethod',title:'Method',width:60},
+//                {field:'visitPlanned',title:'Planned',width:80},
+////                {field:'visitVStatus',title:'Visit Status',width:80},
+////                {field:'visitFeedback',title:'Feedback',width:70},
+//                {field:'visitPurpose',title:'Purpose',width:70},
+////                {field:'visitDocuments',title:'Documents',width:80},
+//                {field:'visitRemarks',title:'Remarks',width:70},
+//                {field:'visitActual',title:'Actual',width:80},
+//                {field:'visitExpense',title:'Expense',width:60}
+                ]]
+
+            });
+
         });
 
         /***
@@ -285,7 +532,7 @@
          * dataGrid
          */
 
-        // PMS0610010 商務公司主頁(多筆) dataGrid
+        // PMS0610010 商務公司主頁(多筆主檔) dataGrid
         $('#bs-companyMain-table').datagrid({
             singleSelect:true,
             collapsible:true,
@@ -309,204 +556,6 @@
 
         });
 
-        // PMS0610010 相關人員(tabsPage) dataGrid
-        var dgData = {"total":28,
-            "rows":[
-                {"mainContact":"<input type='checkbox' />","name":"<div style='width: 100%; height:100%; background: #ff0000;'></div>","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"02"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"43"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"52"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"42"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"22"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"12"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"02"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"05"},
-                {"mainContact":"<input type='checkbox' />","name":"王大明","department":"業務部","jobTitle":"業務經理","status":"上線","endDate":"2017/04/19","sex":"男","birth":"1917/04/19","telphone":"0987654321","companyPhone":"(02)12345678","homePhone":"(02)12345678","fax":"(02)12345678","email":"mingming@gmail.com","remark":"測試備註訊息測試備註訊息測試備註訊息測試備註訊息","pointNum":"04"}
-            ]};
-
-        $('#relatedPerson-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_relatedMan.json',
-            method:'get',
-            // 從上面(var dgData) 撈
-//        data:dgData,
-            columns:[[
-                {field:'mainContact',title:'主要聯絡人',width:100},
-                {field:'name',title:'姓名',width:80},
-                {field:'department',title:'部門',width:80},
-                {field:'jobTitle',title:'職稱',width:80},
-                {field:'status',title:'狀態',width:80},
-                {field:'telphone',title:'行動電話',width:80},
-                {field:'companyPhone',title:'公司電話',width:80},
-                {field:'homePhone',title:'住家電話',width:80},
-                {field:'fax',title:'傳真電話',width:80},
-                {field:'email',title:'電子郵件',width:80},
-                {field:'remark',title:'備註',width:80},
-                {field:'endDate',title:'離職日',width:80},
-                {field:'sex',title:'性別',width:80},
-                {field:'birth',title:'生日',width:80},
-                {field:'pointNum',title:'<span class="grayDisable">秘書積點會員編號</span>',width:120
-                    // 單筆 styler
-//                styler: function(value,row,index){
-//                    if (value > 20){
-//                        return 'background-color:#ffee00; color:red;';
-//                        // the function can return predefined css class and inline style
-//                        // return {class:'c1',style:'color:red'}
-//                    }
-//                }
-                }
-            ]]
-//        ,
-            // 整條 styler
-//        rowStyler:function(index,row){
-//            if (row.pointNum < 15){
-//                return 'background-color:pink; color:blue; font-weight:bold;';
-//            }
-//        }
-
-        });
-//        console.log($('#dg').datagrid("getRows"));
-
-        // PMS0610010 業務員(tabsPage) dataGrid
-        $('#clerk-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_clerk.json',
-            method:'get',
-            columns:[[
-                {field:'clerk',title:'業務員',width:100},
-                {field:'startDate',title:'開始日期',width:100},
-                {field:'endDate',title:'結束日期',width:100},
-                {field:'inputDate',title:'輸入日',width:200},
-                {field:'inputPerson',title:'輸入者',width:100},
-                {field:'lastEditDate',title:'最後異動日',width:200},
-                {field:'lastEditMan',title:'最後異動者',width:100}
-            ]]
-
-        });
-
-        // PMS0610010 合約內容(tabsPage) dataGrid
-        $('#dealContent-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_dealContent.json',
-            method:'get',
-            columns:[[
-                {field:'dealNum',title:'合約編號',width:100},
-                {field:'dealStartDate',title:'合約起始日',width:100},
-                {field:'dealEndDate',title:'合約終止日',width:100},
-                {field:'dealCompany',title:'館別',width:100},
-                {field:'referPriceCode',title:'參考房價代號',width:100},
-                {field:'housePriceName',title:'房價名稱',width:100},
-                {field:'referDiscount',title:'參考餐廳折扣',width:100},
-                {field:'remarks1',title:'備註1',width:100},
-                {field:'remarks2',title:'備註2',width:100},
-                {field:'addNewDate',title:'新增日',width:100},
-                {field:'addNewParson',title:'新增者',width:100},
-                {field:'lastChangeDate',title:'最後異動日',width:100},
-                {field:'lastChangePerson',title:'最後異動者',width:100}
-            ]]
-
-        });
-
-        // PMS0610010 拜訪紀錄(tabsPage) dataGrid
-        $('#visitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_visitRecord.json',
-            method:'get',
-            columns:[[
-//                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field:'visitWay',title:'拜訪方式',width:70},
-                {field:'visitDate',title:'預定拜訪日',width:100},
-                {field:'visitStatus',title:'拜訪狀態',width:70},
-                {field:'subject',title:'主旨',width:100},
-                {field:'contentSum',title:'內容(摘要)',width:170},
-                {field:'realVisitDate',title:'實際拜訪日',width:100},
-                {field:'traffic',title:'交通費',width:70,align:'right'}
-            ]]
-        });
-
-        // PMS0610010 業務備註(tabsPage) dataGrid
-        $('#otherRemarks-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_otherRemarks.json',
-            method:'get',
-            columns:[[
-                {field:'category',title:'備註類別',width:80},
-                {field:'content',title:'備註內容',width:500}
-            ]]
-
-        });
-
-        // PMS0610010 歷史消費(tabsPage) dataGrid
-        $('#historyConsumption-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_historyConsumption.json',
-            method:'get',
-            columns:[[
-                {field:'consumeDate',title:'消費日期',width:80},
-                {field:'serialNum',title:'序號',width:40},
-                {field:'consumeHall',title:'消費館別',width:80},
-                {field:'consumePlace',title:'消費地點',width:80},
-                {field:'consumePrice',title:'消費金額',width:80,align:'right'},
-                {field:'subPay',title:'代支',width:80,align:'right'},
-                {field:'consumeDescription',title:'消費說明',width:80},
-                {field:'consumeTip',title:'小費',width:80,align:'right'},
-                {field:'uniformNum',title:'統一編號',width:80},
-                {field:'invoiceNum',title:'發票號碼',width:80}
-            ]]
-
-        });
-
-        // PMS0610010 貢獻度(tabsPage) dataGrid
-        $('#contribution-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_contribution.json',
-            method:'get',
-            columns:[[
-                {field:'year',title:'年度',width:80},
-                {field:'roomNum',title:'用房數',width:80},
-                {field:'roomRent',title:'房租消費',width:80},
-                {field:'foodConsume',title:'餐飲消費',width:80},
-                {field:'otherConsume',title:'其他消費',width:80},
-                {field:'totalConsume',title:'總消費',width:80}
-            ]]
-
-        });
-
-        // PMS0610010 貢獻度(tabsPage)-顯示月份明細 dataGrid
-        $('#displayMonth-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_displayMonth.json',
-            method:'get',
-            columns:[[
-                {field:'yearMonth',title:'',width:70},
-                {field:'useRoom',title:'用房數',width:70},
-                {field:'roomRent',title:'房租消費',width:70},
-                {field:'foodConsume',title:'餐飲消費',width:70},
-                {field:'otherConsume',title:'其他消費',width:70},
-                {field:'totalConsume',title:'總消費',width:70}
-            ]]
-        });
-
-        /***
-         * PMS0620010 datagrid
-         */
-
-
         // PMS0620010 業務員資料維護(多筆主檔) dataGrid
         $('#clerkDataGridResult-table').datagrid({
             singleSelect: true,
@@ -526,53 +575,10 @@
 
         });
 
-        // PMS0620010 業務員資料維護-組別異動紀錄(tabsPage) dataGrid
-        $('#sales_clerkSGL-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/sales/sales_clerkSGL.json',
-            method: 'get',
-            columns: [[
-                {field: 'classCod', title: 'Team', width: 100},
-                {field: 'startDat', title: 'Start Date', width: 100},
-                {field: 'endDat', title: 'End Date', width: 100},
-                {field: 'insDat', title: 'Add Date', width: 130},
-                {field: 'insUsr', title: 'Add By', width: 100},
-                {field: 'updDat', title: 'Upd Date', width: 130},
-                {field: 'updUsr', title: 'Upd By', width: 100}
-            ]]
-
-        });
-
-        // PMS0620010 業務員指派 dataGrid
-        $('#sales_assign-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/sales/sales_assign.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox"/>',width: 28,align:"center"},
-                {field: 'clerkNum', title: 'Sales ID', width: 100},
-                {field: 'clerkName', title: 'Name', width: 100},
-                {field: 'clerkStatus', title: 'Status', width: 100},
-                {field: 'clerkTeam', title: 'Team', width: 100},
-                {field: 'hotelBusiness', title: 'Hotel', width: 100},
-                {field: 'foodBusiness', title: 'F&B', width: 100},
-                {field: 'memberBusiness', title: 'Membership', width: 100}
-            ]]
-        });
-
-        /***
-         * PMS0620040 datagrid
-         */
-
-        // PMS0620040 新增拜訪查詢
+        // PMS0620040 新增拜訪查詢(多筆主檔)
         $('#NewVisitResult-table').datagrid({
             singleSelect: true,
             collapsible: true,
-            // 從json 撈
             url: '/jsonData/sales/bsCompany_newVisit.json',
             method: 'get',
             columns: [[
@@ -587,39 +593,6 @@
             ]]
 
         });
-
-
-        // PMS0620040 新增拜訪編輯
-        $('#newVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/bsCompany_newVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field:'VisitNum',title:'Co. ID',width:80},
-                {field:'VisitName',title:'Co. Name',width:230}
-// ,
-//                {field:'VisitStatus',title:'Status',width:50},
-//                {field:'VisitContract',title:'Contract',width:60},
-//                {field:'visitMethod',title:'Method',width:60},
-//                {field:'visitPlanned',title:'Planned',width:80},
-////                {field:'visitVStatus',title:'Visit Status',width:80},
-////                {field:'visitFeedback',title:'Feedback',width:70},
-//                {field:'visitPurpose',title:'Purpose',width:70},
-////                {field:'visitDocuments',title:'Documents',width:80},
-//                {field:'visitRemarks',title:'Remarks',width:70},
-//                {field:'visitActual',title:'Actual',width:80},
-//                {field:'visitExpense',title:'Expense',width:60}
-            ]]
-
-        });
-
-        /***
-         * PMS0620050 datagrid
-         */
-
 
         // PMS0620050 拜訪紀錄(多筆主檔)
         $('#sales_visitRecord-table').datagrid({
@@ -641,34 +614,6 @@
                 {field:'visitRemarks',title:'Remarks',width:70},
                 {field:'visitActual',title:'Actual',width:80},
                 {field:'visitExpense',title:'Expense',width:60,align:'right'}
-            ]]
-
-        });
-
-        // PMS0620050 修改拜訪紀錄(彈出視窗)
-        $('#sales_editVisitRecord-table').datagrid({
-            singleSelect:true,
-            collapsible:true,
-            // 從json 撈
-            url:'/jsonData/sales/sales_editVisitRecord.json',
-            method:'get',
-            columns:[[
-                {field:'coID',title:'Co. ID',width:60},
-                {field:'coName',title:'Co. Name',width:170},
-                {field:'status',title:'Status',width:50},
-                {field:'contract',title:'Contract',width:60},
-                {field:'method',title:'Method',width:70},
-                {field:'planned',title:'Planned',width:70},
-                {field:'visitStatus',title:'Visit Status',width:70},
-                {field:'purpose',title:'Purpose',width:70},
-//                {field:'documents',title:'Documents',width:70},
-                {field:'visitRemarks',title:'Remarks',width:70},
-                {field:'visitActual',title:'Actual',width:80},
-                {field:'visitExpense',title:'Expense',width:60,align:'right'},
-                {field:'addDate',title:'Add Date',width:60},
-                {field:'addBy',title:'Add By',width:60},
-                {field:'updDate',title:'Upd Date',width:60},
-                {field:'updBy',title:'Upd By',width:60},
             ]]
 
         });

@@ -87,6 +87,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         rowData: {
             handler: function (val) {
+                val = _.extend(val, {athena_id: 1});
                 this.dgHoatelDt.updateMnRowData(val);
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
@@ -340,6 +341,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                 postRowData["tab_page_id"] = 1;
                 postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
+                _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+                _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+
                 if (this.createStatus) {
                     vm.tmpCud.createData = [postRowData];
                     vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
@@ -356,7 +364,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                 vm.doSaveCud("PMS0620020", 1, function (result) {
                     if (result.success) {
-                        alert("Save Successful!")
+                        alert("Save Successful!");
                         self.closeSingleGridDialog();
                     }
                     else {
