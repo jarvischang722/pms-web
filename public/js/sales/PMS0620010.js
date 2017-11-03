@@ -230,7 +230,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
             this.dgHoatelDt.getOriDtRowData(this.oriHotelDtRowData);
 
-            this.dgClassHs = new DatagridBaseClass();
+            this.dgClassHs = new DatagridSingleGridClass();
             this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
             this.dgClassHs.loadDgData(this.classHsRowData);
 
