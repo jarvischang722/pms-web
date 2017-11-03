@@ -23,7 +23,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 Vue.component('single-grid-pms0620020-tmp', {
     template: '#singleGridPMS0620020Tmp',
-    props: ["singleData", "isModifiable", "editStatus", "createStatus"],
+    props: ["singleData", "isModifiable", "editStatus", "createStatus", "classCodData"],
     data: function () {
         return {
             dgHoatelDt: {},
@@ -43,7 +43,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             classHsFieldData: [],
             dtEditIndex: undefined,
             openChangeLogDialog: false,
-            allChangeLogList: []
+            allChangeLogList: [],
+            classCodData:[]
         };
     },
     created: function () {
@@ -55,6 +56,18 @@ Vue.component('single-grid-pms0620020-tmp', {
     },
     mounted: function () {
         this.gs_active = "hotelDt";
+        this.classCodData.push({
+            value: 'zhinan',
+            label: '指南',
+            children: [{
+                value: 'shejiyuanze',
+                label: '设计原则',
+                children: [{
+                    value: 'yizhi',
+                    label: '一致'
+                }]
+            }]
+        });
     },
     watch: {
         gs_active: function (active) {
@@ -209,9 +222,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
-                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'])) ;
-                        _.each(self.oriHotelDtRowData, function(data){
-                           data = _.extend(data, self.originRowData);
+                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
+                        _.each(self.oriHotelDtRowData, function (data) {
+                            data = _.extend(data, self.originRowData);
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
@@ -523,7 +536,7 @@ var vm = new Vue({
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
         isLoading: false,
-        isModifiable: true        //決定是否可以修改
+        isModifiable: true,       //決定是否可以修改
 
     },
     methods: {

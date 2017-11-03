@@ -10,10 +10,10 @@
     </dao>
 
     <!--[PMS0620010] 取得業務員組別((selectOptionList))-->
-    <dao name="QRY_CLASS_COD">
-        <statement><![CDATA[
-        select class_cod as value, class_nam as display, parent_cod, sort_cod from sales_class_kvrf where athena_id = :athena_id
-        ]]></statement>
-        <parameter type="number" kind="3">athena_id</parameter>
-    </dao>
+    <!--<dao name="QRY_CLASS_COD">-->
+        <!--<statement><![CDATA[-->
+        <!--select class_cod as value, class_nam as display, parent_cod, sort_cod from sales_class_kvrf where athena_id = :athena_id-->
+        <!--]]></statement>-->
+        <!--<parameter type="number" kind="3">athena_id</parameter>-->
+    <!--</dao>-->
 </root>
