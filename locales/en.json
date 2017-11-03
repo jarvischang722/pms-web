@@ -173,7 +173,9 @@
       "selectAll": "All",
       "selectQuit": "Quite",
       "selectEmp": "Employee",
-      "hotel_cod_repeat": "館別代號重複，請刪除(英文)"
+      "hotel_cod_repeat": "館別代號重複，請刪除(英文)",
+      "Property": "Property(英)",
+      "group_change_record": "組別異動紀錄(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -199,7 +201,11 @@
     "ProgramID": "Program ID",
     "ChangeLog": "Change Log",
     "LogOutTime": "Logout remaining time",
-    "SelectData": "請選擇資料(英)"
+    "SelectData": "請選擇資料(英)",
+    "Time": "Time",
+    "User": "User",
+    "Action_type": "Action Type",
+    "Desciption_Mn": "Desciption MN"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
@@ -313,6 +319,14 @@
     "pms86msg4": "預設狀態要勾選一筆(英文)",
     "cmm11msg1": "聯絡類別，不可異動(英文)",
     "cmm11msg2": "已於聯絡資料中使用，不可刪除(英文)",
-    "cmm11msg3": "地址類別，不可異動(英文)"
+    "cmm11msg3": "地址類別，不可異動(英文)",
+    "pms62msg1": "商務公司資料已使用，不可刪除(英文)",
+    "pms62msg2": "訂房卡資料已使用，不可刪除(英文)",
+    "pms62msg3": "業務員營業目標設定已使用，不可刪除(英文)",
+    "pms62msg4": "非停用,停用年月不可輸入(英文)",
+    "pms62msg5": "請輸入停用年月(英文)",
+    "pms62msg6": "商務公司資料已使用，不可修改狀態(英文)",
+    "pms62msg7": "館別代號已使用，請刪除此筆資料(英文)",
+    "pms62msg8": "使用者代號(訂席用)[%s] 已於其他業務員資料指定(英文)"
   }
 }

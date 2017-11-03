@@ -28,6 +28,7 @@ module.exports = {
         callback(lo_error, lo_result);
     },
 
+
     /**
      * 館別編號檢查，若已使用此編號則無法使用
      */
@@ -43,13 +44,14 @@ module.exports = {
                 lo_result.success = false;
                 lo_result.effectValues = {hotel_cod: oldValue};
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = "此館別代號已使用過，請刪除此筆資料";
+                lo_error.errorMsg = commandRules.getMsgByCod("pms62msg7", session.locale);
                 break;
             }
         }
 
         callback(lo_error, lo_result);
     },
+
 
     /**
      * 業務員狀態由「N:在職」改「Q:離職」時，檢查商務公司業務員是否指定此業務員資料，若有指定則不允許修改
@@ -74,8 +76,7 @@ module.exports = {
                 if (salesData.cust_sales_count > 0) {
                     lo_error = new ErrorClass();
                     lo_result.success = false;
-                    lo_error.errorMsg = "商務公司資料已使用，不可修改狀態";
-                    lo_error.errorCod = "pms62msg6";
+                    lo_error.errorMsg = commandRules.getMsgByCod("pms62msg6", session.locale);
                     lo_result.effectValues = {status_cod: postData.oriSingleData[postData.validateField]};
                 }
             }
@@ -83,6 +84,7 @@ module.exports = {
         });
 
     },
+
 
     /** 館別狀態為X:停用時，停用年月必填
      * 1.status_cod欄位=N  ->nouse_dat欄位不可輸入
@@ -102,8 +104,7 @@ module.exports = {
                 lo_result.success = false;
                 lo_result.effectValues = {status_cod1: status_cod};
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = '請輸入停用年月';
-                lo_error.errorCod = 'pms62msg5';
+                lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
             }
         }
         else {
@@ -113,13 +114,13 @@ module.exports = {
                 lo_result.effectValues = {nouse_dat: nouse_dat};
                 lo_result.readonlyFields = 'nouse_dat';
                 lo_error = new ErrorClass();
-                lo_error.errorMsg = '非停用,停用年月不可輸入';
-                lo_error.errorCode = 'pms62msg4';
+                lo_error.errorMsg = commandRules.getMsgByCod("pms62msg4", session.locale);
             }
         }
 
         callback(lo_error, lo_result);
     },
+
 
     /**館別狀態為N:正常，清空停用年月
      *status_cod值=N  ->清空nouse_dat欄位
@@ -136,6 +137,7 @@ module.exports = {
 
         callback(lo_error, lo_result);
     },
+
 
     /**
      * use_nos欄位(多筆搜尋) popupgrid顯示內容
@@ -208,8 +210,7 @@ module.exports = {
                         lo_result.success = false;
                         lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '請輸入停用年月';
-                        lo_error.errorCod = 'pms62msg5';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
                         break;
                     }
                 }
@@ -219,8 +220,7 @@ module.exports = {
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '非停用,停用年月不可輸入';
-                        lo_error.errorCode = 'pms62msg4';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg4", session.locale);
                         break;
                     }
                 }
@@ -246,7 +246,7 @@ module.exports = {
                     if (getResult.user_nos_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "使用者代號(訂席用)" + lo_createData.user_nos + " 已於其他業務員資料指定";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg8", session.locale);
                     }
                 }
                 cb(lo_error, lo_result);
@@ -321,8 +321,7 @@ module.exports = {
                         lo_result.success = false;
                         lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '請輸入停用年月';
-                        lo_error.errorCod = 'pms62msg5';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
                         break;
                     }
                 }
@@ -332,8 +331,7 @@ module.exports = {
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '非停用,停用年月不可輸入';
-                        lo_error.errorCode = 'pms62msg4';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg4", session.locale);
                         break;
                     }
                 }
@@ -345,8 +343,7 @@ module.exports = {
                         lo_result.success = false;
                         lo_result.effectValues = {status_cod1: la_dt_createData[j]["status_cod1"]};
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '請輸入停用年月';
-                        lo_error.errorCod = 'pms62msg5';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
                         break;
                     }
                 }
@@ -356,8 +353,7 @@ module.exports = {
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
                         lo_error = new ErrorClass();
-                        lo_error.errorMsg = '非停用,停用年月不可輸入';
-                        lo_error.errorCode = 'pms62msg4';
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg4", session.locale);
                         break;
                     }
                 }
@@ -382,7 +378,7 @@ module.exports = {
                     if (getResult.user_nos_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "使用者代號(訂席用) [%% user_nos%%] 已於其他業務員資料指定";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg8", session.locale);
                     }
                 }
                 cb(lo_error, lo_result);
