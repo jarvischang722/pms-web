@@ -172,7 +172,8 @@
       "selectNo": "否",
       "selectAll": "全部",
       "selectQuit": "離職",
-      "selectEmp": "在職"
+      "selectEmp": "在職",
+      "hotel_cod_repeat": "館別代號重複，請刪除"
     }
   },
   "table_in_use": "%s 使用中",
@@ -197,7 +198,8 @@
     "Loading": "讀取中",
     "ProgramID": "程式編號",
     "ChangeLog": "異動紀錄",
-    "LogOutTime": "距離登出時間"
+    "LogOutTime": "距離登出時間",
+    "SelectData": "請選擇資料"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

@@ -304,7 +304,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                 for (var k = 0; k < j; k++) {
                     if (_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1) {
                         lo_checkResult.success = false;
-                        lo_checkResult.msg = "館別代號重複，請刪除";
+                        lo_checkResult.msg = go_i18nLang["program"]["PMS0620020"].hotel_cod_repeat;
                         break;
                     }
                 }
@@ -645,7 +645,7 @@ var vm = new Vue({
             var delRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!delRow) {
-                alert("請選擇要刪除的資料");
+                alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
 
@@ -685,7 +685,7 @@ var vm = new Vue({
             var editRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!editRow) {
-                alert("請選擇要編輯的資料");
+                alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
                 vm.fetchSingleData(editRow, function (result) {
@@ -693,7 +693,7 @@ var vm = new Vue({
                         vm.showSingleGridDialog();
                     }
                     else {
-                        alert("有東西出錯!");
+                        alert("error");
                     }
                 });
             }

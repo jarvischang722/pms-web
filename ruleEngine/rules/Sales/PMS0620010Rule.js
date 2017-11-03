@@ -47,8 +47,7 @@ module.exports = {
                     if (salesData.cust_sales_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "商務公司資料已使用，不可刪除";
-                        lo_error.errorCod = "pms62msg1";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
                     }
                 }
                 cb(lo_error, lo_result);
