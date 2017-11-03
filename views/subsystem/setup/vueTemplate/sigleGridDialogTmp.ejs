@@ -56,6 +56,16 @@
                                                    @click="chkClickPopUpGrid(field)"
                                             >
 
+                                            <!--  textarea -->
+                                            <textarea v-model="singleData[field.ui_field_name]"
+                                                      v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                      class="numStyle-none"
+                                                      :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                      :required="field.requirable == 'Y'"
+                                                      :maxlength="field.ui_field_length"
+                                                      :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                                      @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
+
                                             <!--  label -->
                                             <label
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
