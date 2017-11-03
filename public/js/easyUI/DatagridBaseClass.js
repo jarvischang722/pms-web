@@ -200,7 +200,7 @@ function DatagridBaseClass() {
     this.removeRow = function removeRow() {
         var delRow = $('#' + this.dgName).datagrid('getSelected');
         if (!delRow) {
-            alert("請選擇要刪除的資料");
+            alert(go_i18nLang["SystemCommon"].SelectData);
         }
 
         delRow = _.extend(delRow, self.mnRowData);
