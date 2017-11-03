@@ -209,9 +209,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
-                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'])) ;
-                        _.each(self.oriHotelDtRowData, function(data){
-                           data = _.extend(data, self.originRowData);
+                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
+                        _.each(self.oriHotelDtRowData, function (data) {
+                            data = _.extend(data, self.originRowData);
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
@@ -328,6 +328,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                 postRowData["tab_page_id"] = 1;
                 postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
+                _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+                _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+
                 if (this.createStatus) {
                     vm.tmpCud.createData = [postRowData];
                     vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
@@ -344,7 +351,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                 vm.doSaveCud("PMS0620020", 1, function (result) {
                     if (result.success) {
-                        alert("Save Successful!")
+                        alert("Save Successful!");
                         self.closeSingleGridDialog();
                     }
                     else {
