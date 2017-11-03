@@ -23,7 +23,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 
 Vue.component('single-grid-pms0620020-tmp', {
     template: '#singleGridPMS0620020Tmp',
-    props: ["singleData", "isModifiable", "editStatus", "createStatus", "classCodData"],
+    props: ["singleData", "isModifiable", "editStatus", "createStatus"],
     data: function () {
         return {
             dgHoatelDt: {},
@@ -44,7 +44,18 @@ Vue.component('single-grid-pms0620020-tmp', {
             dtEditIndex: undefined,
             openChangeLogDialog: false,
             allChangeLogList: [],
-            classCodData:[]
+            classCodData:[{
+                value: 'zhinan',
+                label: '指南',
+                children: [{
+                    value: 'shejiyuanze',
+                    label: '设计原则',
+                    children: [{
+                        value: 'yizhi',
+                        label: '一致'
+                    }]
+                }]
+            }]
         };
     },
     created: function () {
@@ -56,18 +67,6 @@ Vue.component('single-grid-pms0620020-tmp', {
     },
     mounted: function () {
         this.gs_active = "hotelDt";
-        this.classCodData.push({
-            value: 'zhinan',
-            label: '指南',
-            children: [{
-                value: 'shejiyuanze',
-                label: '设计原则',
-                children: [{
-                    value: 'yizhi',
-                    label: '一致'
-                }]
-            }]
-        });
     },
     watch: {
         gs_active: function (active) {

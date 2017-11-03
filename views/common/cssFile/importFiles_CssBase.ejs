@@ -41,3 +41,18 @@
 <!-- 自定義style 擺最後 -->
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/bacchusStyle.css">
+
+<!-- easyui diolg 預設z-index 9000  會影響到element ui -->
+<style>
+    .panel.window {
+        z-index: 1500 !important;
+    }
+
+    .window-shadow {
+        z-index: 1499 !important;
+    }
+
+    .window-mask {
+        z-index: 1498 !important;
+    }
+</style>
