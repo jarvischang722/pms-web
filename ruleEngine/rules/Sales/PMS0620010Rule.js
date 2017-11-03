@@ -66,8 +66,7 @@ module.exports = {
                     if (salesData.order_sales_Count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "訂房卡資料已使用，不可刪除";
-                        lo_error.errorCod = "pms62msg2";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg2", session.locale);
                     }
                 }
 
