@@ -206,16 +206,16 @@ module.exports = {
         function chkNouseDat(cb) {
             for (var i = 0; i < la_dt_createData.length; i++) {
                 if (la_dt_createData[i]["nouse_dat"] == '') {
-                    if (la_dt_createData[i]["status_cod1"] == 'X') {
+                    if (la_dt_createData[i]["status_cod"] == 'X') {
                         lo_result.success = false;
-                        lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
+                        lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod"]};
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
                         break;
                     }
                 }
                 else {
-                    if (la_dt_createData[i]["status_cod1"] == 'N') {
+                    if (la_dt_createData[i]["status_cod"] == 'N') {
                         lo_result.success = false;
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
@@ -291,7 +291,7 @@ module.exports = {
     r_SalesmnUpdate: function (postData, session, callback) {
         var lo_updateData = postData["tmpCUD"]["updateData"][0] || {};
         var la_dt_createData = postData["tmpCUD"]["dt_createData"] || [];
-        var la_dt_updateData = postData["tmpCUD"]["dt_updataData"] || [];
+        var la_dt_updateData = postData["tmpCUD"]["dt_updateData"] || [];
         var userInfo = session.user;
 
         var salesParsms = {
@@ -317,7 +317,7 @@ module.exports = {
         function chkNouseDat(cb) {
             for (var i = 0; i < la_dt_createData.length; i++) {
                 if (la_dt_createData[i]["nouse_dat"] == '') {
-                    if (la_dt_createData[i]["status_cod1"] == 'X') {
+                    if (la_dt_createData[i]["status_cod"] == 'X') {
                         lo_result.success = false;
                         lo_result.effectValues = {status_cod1: la_dt_createData[i]["status_cod1"]};
                         lo_error = new ErrorClass();
@@ -326,7 +326,7 @@ module.exports = {
                     }
                 }
                 else {
-                    if (la_dt_createData[i]["status_cod1"] == 'N') {
+                    if (la_dt_createData[i]["status_cod"] == 'N') {
                         lo_result.success = false;
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';
@@ -338,17 +338,17 @@ module.exports = {
 
             }
             for (var j = 0; j < la_dt_updateData.length; j++) {
-                if (la_dt_createData[j]["nouse_dat"] == '') {
-                    if (la_dt_updateData[j]["status_cod1"] == 'X') {
+                if (la_dt_updateData[j]["nouse_dat"] == '') {
+                    if (la_dt_updateData[j]["status_cod"] == 'X') {
                         lo_result.success = false;
-                        lo_result.effectValues = {status_cod1: la_dt_createData[j]["status_cod1"]};
+                        lo_result.effectValues = {status_cod1: la_dt_updateData[j]["status_cod"]};
                         lo_error = new ErrorClass();
                         lo_error.errorMsg = commandRules.getMsgByCod("pms62msg5", session.locale);
                         break;
                     }
                 }
                 else {
-                    if (la_dt_createData[j]["status_cod1"] == 'N') {
+                    if (la_dt_updateData[j]["status_cod"] == 'N') {
                         lo_result.success = false;
                         lo_result.effectValues = {nouse_dat: ''};
                         lo_result.readonlyFields = 'nouse_dat';

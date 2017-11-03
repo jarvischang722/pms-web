@@ -75,6 +75,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         rowData: {
             handler: function (val) {
+                val = _.extend(val, {athena_id: 1});
                 this.dgHoatelDt.updateMnRowData(val);
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
