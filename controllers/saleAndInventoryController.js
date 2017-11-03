@@ -119,6 +119,10 @@ exports.callOrderAPI = function (req, res) {
 
 //WebService
 exports.dominosWebService = function (req, res) {
+
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    req.session.ip = ip.substr(ip.lastIndexOf(':') + 1);
+
     var trans_cod = req.params.trans_cod;
 
     var data = Object.values(req.body).toString();
@@ -134,18 +138,18 @@ exports.dominosWebService = function (req, res) {
     switch (trans_cod)
     {
         case 'PSI0000001':
-            PSIWService.PSI0000001(req.body, req.session, function (errorMsg, success, data) {
-                res.json({data: data, success: success, errorMsg: errorMsg});
+            PSIWService.PSI0000001(req.body, req.session, function (RESPONSE) {
+                res.json({RESPONSE: RESPONSE});
             });
             break;
         case 'PSI0000002':
-            PSIWService.PSI0000002(req.body, req.session, function (errorMsg, success, data) {
-                res.json({data: data, success: success, errorMsg: errorMsg});
+            PSIWService.PSI0000002(req.body, req.session, function (RESPONSE) {
+                res.json({RESPONSE: RESPONSE});
             });
             break;
         case 'PSI0000003':
-            PSIWService.PSI0000003(req.body, req.session, function (errorMsg, success, data) {
-                res.json({data: data, success: success, errorMsg: errorMsg});
+            PSIWService.PSI0000003(req.body, req.session, function (RESPONSE) {
+                res.json({RESPONSE: RESPONSE});
             });
             break;
         default:

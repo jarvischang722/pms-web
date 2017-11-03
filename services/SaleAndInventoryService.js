@@ -849,22 +849,38 @@ exports.getSystemParam = function (params ,session, callback) {
 
 //WebService
 
-function checkValue(object, keyfield) {
+//檢查欄位是否為空值
+function checkNull(object, keyfield) {
     var lb_check = true;
+    var ls_error_Msg = "";
+
     _.each(Object.keys(object), function (objKey) {
         if(keyfield.indexOf(objKey) != -1){
-            if (_.isUndefined(object[objKey])) {
+            if (_.isUndefined(object[objKey]) || object[objKey] == "") {
+                ls_error_Msg += "欄位" + objKey + "沒有值" + "\r\n";
                 lb_check = false;
             }
         }
-        else{
-            if (_.isUndefined(object[objKey])) {
-                object[objKey] = 0;
+    });
+    return [lb_check, ls_error_Msg];
+}
+
+//數字欄位檢查
+function checkNum(object, numfield) {
+    var lb_check = true;
+    var ls_error_Msg = "";
+
+    _.each(Object.keys(object), function (objKey) {
+        if(numfield.indexOf(objKey) != -1){
+            if (!_.isUndefined(object[objKey]) && object[objKey] != "") {
+                if(isNaN(object[objKey])){
+                    ls_error_Msg += "欄位" + objKey + "須為數字" + "\r\n";
+                    lb_check = false;
+                }
             }
         }
-
     });
-    return [lb_check, object];
+    return [lb_check, ls_error_Msg];
 }
 
 /**
@@ -874,18 +890,116 @@ function checkValue(object, keyfield) {
  * @param callback
  */
 exports.PSI0000001 = function (params ,session, callback) {
+    try
+    {
+        //必要欄位
+        lo_mn_keyfield = ['batch_dat', 'taxcomp_cod', 'goods_cod', 'use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
+        lo_dt_keyfield = ['batch_dat', 'goods_cod', 'otaxcomp_cod', 'itaxcomp_cod', 'ao_qty', 'ai_qty', 'hq_flag'];
 
-    var check = true;
+        //數字欄位
+        lo_mn_numfield = ['use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
+        lo_dt_numfield = ['ao_qty', 'ai_qty'];
 
-    lo_mn_keyfield = ['batch_dat', 'taxcomp_cod', 'goods_cod'];
-    lo_dt_keyfield = ['batch_dat', 'goods_cod', 'otaxcomp_cod', 'itaxcomp_cod', 'hq_flag'];
+        var obj = JSON.parse(new Buffer(params, 'base64').toString());
 
-    var obj = JSON.parse(new Buffer(params, 'base64').toString());
+        var lb_check = true;
+        var ls_error_Msg = "";
 
-    var lo_mn = obj.tenKDosage[0];
+        //region欄位空值檢查
 
-    lo_mn = checkValue(lo_mn, lo_mn_keyfield);
+        _.each(obj.tenKDosage, function (item) {
+            var result = checkNull(item, lo_mn_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
 
+        _.each(obj.transferDt, function (item) {
+            var result = checkNull(item, lo_dt_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        //region欄位數字檢查
+
+        _.each(obj.tenKDosage, function (item) {
+            var result = checkNum(item, lo_mn_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.transferDt, function (item) {
+            var result = checkNum(item, lo_dt_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+        //endregion
+
+        //region欄位長度檢查
+
+        _.each(obj.tenKDosage, function (item) {
+            if(item.taxcomp_cod.length != 5){
+                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.transferDt, function (item) {
+            if(item.otaxcomp_cod.length != 5){
+                ls_error_Msg += "欄位otaxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+            if(item.itaxcomp_cod.length != 5){
+                ls_error_Msg += "欄位itaxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        if(lb_check){
+
+            //打API
+            var params = {
+                REVE_CODE : 'PSI0000001',
+                prg_id: 'PSIW500030',
+                ip: session.ip,
+                data: obj
+            };
+
+            this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
+                var RESPONSE = {
+                    "RETN-CODE": retn_cod,
+                    "RETN-CODE-DESC": errorMsg
+                };
+                callback(RESPONSE);
+            });
+        }
+        else{
+            var RESPONSE = {
+                "RETN-CODE": "0822",
+                "RETN-CODE-DESC": ls_error_Msg
+            };
+            callback(RESPONSE);
+        }
+    }
+    catch (ex)
+    {
+        var RESPONSE = {
+            "RETN-CODE": "0822",
+            "RETN-CODE-DESC": "資料有誤"
+        };
+        callback(RESPONSE);
+    }
 };
 
 /**
@@ -895,30 +1009,88 @@ exports.PSI0000001 = function (params ,session, callback) {
  * @param callback
  */
 exports.PSI0000002 = function (params ,session, callback) {
+    try
+    {
+        //必要欄位
+        lo_keyfield = ['batch_dat', 'taxcomp_cod', 'use_qnt'];
 
-    var lo_error = null;
+        //數字欄位
+        lo_numfield = ['use_qnt'];
 
-    var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
-    };
+        var obj = JSON.parse(new Buffer(params, 'base64').toString());
 
-    var paramName = "QRY_" + params.paramName.toUpperCase();
+        var lb_check = true;
+        var ls_error_Msg = "";
 
-    queryAgent.query(paramName, lo_params, function (err, Result) {
-        if (!err) {
-            if(Result)
-                callback(lo_error, Result);
-            else
-                callback(lo_error, "");
+        //region欄位空值檢查
+
+        _.each(obj.salseRevenue, function (item) {
+            var result = checkNull(item, lo_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        //region欄位數字檢查
+
+        _.each(obj.salseRevenue, function (item) {
+            var result = checkNum(item, lo_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        //region欄位長度檢查
+
+        _.each(obj.salseRevenue, function (item) {
+            if(item.taxcomp_cod.length != 5){
+                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        if(lb_check){
+
+            //打API
+            var params = {
+                REVE_CODE : 'PSI0000002',
+                prg_id: 'PSIW500030',
+                ip: session.ip,
+                data: obj
+            };
+
+            this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
+                var RESPONSE = {
+                    "RETN-CODE": retn_cod,
+                    "RETN-CODE-DESC": errorMsg
+                };
+                callback(RESPONSE);
+            });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
+        else{
+            var RESPONSE = {
+                "RETN-CODE": "0822",
+                "RETN-CODE-DESC": ls_error_Msg
+            };
+            callback(RESPONSE);
         }
-    });
+    }
+    catch (ex)
+    {
+        var RESPONSE = {
+            "RETN-CODE": "0822",
+            "RETN-CODE-DESC": "資料有誤"
+        };
+        callback(RESPONSE);
+    }
 };
 
 /**
@@ -928,28 +1100,188 @@ exports.PSI0000002 = function (params ,session, callback) {
  * @param callback
  */
 exports.PSI0000003 = function (params ,session, callback) {
+    try
+    {
+        //必要欄位
+        lo_sale_mn_keyfield = ['order_nos', 'rspt_cod', 'desk_nos', 'man1_qnt', 'fempno', 'fvoidstat', 'open_cod', 'shop_dat', 'notax_tot', 'serv_tot', 'fserv_to2', 'tax_tot', 'ftax_tot2', 'ftax_to3', 'disc_tot', 'pay_tot'];
+        lo_sale_dt_keyfield = ['order_nos', 'rspt_cod', 'seq_nos', 'shop_dat', 'order_tim', 'product_nos', 'product_typ', 'fcat', 'out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
+        lo_receipt_dt_keyfield = ['order_nos', 'rspt_cod', 'fpay_seq', 'fdate', 'fpaytype', 'fpay_amt'];
 
-    var lo_error = null;
+        //數字欄位
+        lo_sale_mn_numfield = ['man1_qnt', 'notax_tot', 'serv_tot', 'fserv_to2', 'tax_tot', 'ftax_tot2', 'ftax_to3', 'disc_tot', 'pay_tot'];
+        lo_sale_dt_numfield = ['out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
+        lo_receipt_dt_numfield = ['fpay_amt', 'tips'];
+        var obj = JSON.parse(new Buffer(params, 'base64').toString());
 
-    var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
+        var lb_check = true;
+        var ls_error_Msg = "";
+
+        //region欄位空值檢查
+
+        _.each(obj.salseMn, function (item) {
+            var result = checkNull(item, lo_sale_mn_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.salseDt, function (item) {
+            var result = checkNull(item, lo_sale_dt_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.salseReceipt, function (item) {
+            var result = checkNull(item, lo_receipt_dt_keyfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        //region欄位數字檢查
+
+        _.each(obj.salseMn, function (item) {
+            var result = checkNum(item, lo_sale_mn_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.salseDt, function (item) {
+            var result = checkNum(item, lo_sale_dt_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.salseReceipt, function (item) {
+            var result = checkNum(item, lo_receipt_dt_numfield);
+            if(!result[0]){
+                ls_error_Msg += result[1];
+                lb_check = false;
+            }
+        });
+        //endregion
+
+        //region欄位長度檢查
+
+        _.each(obj.tenKDosage, function (item) {
+            if(item.taxcomp_cod.length != 5){
+                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+        });
+
+        _.each(obj.transferDt, function (item) {
+            if(item.otaxcomp_cod.length != 5){
+                ls_error_Msg += "欄位otaxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+            if(item.itaxcomp_cod.length != 5){
+                ls_error_Msg += "欄位itaxcomp_cod" +"長度須為5" + "\r\n";
+                lb_check = false;
+            }
+        });
+
+        //endregion
+
+        if(lb_check){
+
+            //打API
+            var params = {
+                REVE_CODE : 'PSI0000003',
+                prg_id: 'PSIW500030',
+                ip: session.ip,
+                data: obj
+            };
+
+            this.callWebServiceAPI(params, session, function (errorMsg, retn_cod) {
+                var RESPONSE = {
+                    "RETN-CODE": retn_cod,
+                    "RETN-CODE-DESC": errorMsg
+                };
+                callback(RESPONSE);
+            });
+        }
+        else{
+            var RESPONSE = {
+                "RETN-CODE": "0822",
+                "RETN-CODE-DESC": ls_error_Msg
+            };
+            callback(RESPONSE);
+        }
+    }
+    catch (ex)
+    {
+        var RESPONSE = {
+            "RETN-CODE": "0822",
+            "RETN-CODE-DESC": "資料有誤"
+        };
+        callback(RESPONSE);
+    }
+};
+
+/**
+ * Call WebService API
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.callWebServiceAPI = function (params ,session, callback) {
+    var apiParams = {
+        "REVE-CODE": params.REVE_CODE,
+        "program_id": params.prg_id,
+        "user": 'cio',
+        "table_name": 'xxxxxxx',    //暫時無用到
+        "count": '1',               //暫時無用到
+        "ip" : params.ip,
+        "exec_data": params.data
     };
 
-    var paramName = "QRY_" + params.paramName.toUpperCase();
+    tools.requestApi(sysConf.api_url, apiParams, function (apiErr, apiRes, data) {
+        var log_id = moment().format("YYYYMMDDHHmmss");
+        var success = true;
+        var retn_cod = "0000";
+        var errorMsg = "";
+        if (apiErr || !data) {
+            success = false;
+            errorMsg = apiErr;
+        } else if (data["RETN-CODE"] != "0000") {
+            success = false;
+            retn_cod = data["RETN-CODE"];
+            errorMsg = data["RETN-CODE-DESC"];
+            console.error(data["RETN-CODE-DESC"]);
+        } else
+        {
+            errorMsg = data["RETN-CODE-DESC"];
+        }
 
-    queryAgent.query(paramName, lo_params, function (err, Result) {
-        if (!err) {
-            if(Result)
-                callback(lo_error, Result);
-            else
-                callback(lo_error, "");
+        //寄出exceptionMail
+        if (!success) {
+            mailSvc.sendExceptionMail({
+                log_id: log_id,
+                exceptionType: "execSQL",
+                errorMsg: errorMsg
+            });
         }
-        else {
-            lo_error = new ErrorClass();
-            lo_error.errorMsg = err || "error";
-            lo_error.errorCod = "1111";
-            callback(lo_error, Result);
-        }
+
+        // //log 紀錄
+        // logSvc.recordLogAPI({
+        //     log_id: log_id,
+        //     success: chk_result.success,
+        //     prg_id: prg_id,
+        //     api_prg_code: '0300901000',
+        //     req_content: apiParams,
+        //     res_content: data
+        // });
+        callback(errorMsg, retn_cod);
     });
 };

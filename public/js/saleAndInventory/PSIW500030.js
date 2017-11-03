@@ -972,6 +972,7 @@ var PSIW500030 = new Vue({
 
         //客戶代號Change event
         custSelectChange: function () {
+            console.log('asd');
             if(_.isUndefined(this.singleData.cust_cod)) return;
 
             var self = this;
@@ -1192,17 +1193,6 @@ var PSIW500030 = new Vue({
                 return;
             }
 
-            //檢查訂購量必須大於0
-            var check = false;
-            _.each(self.singleDataGridRows, function (value, index) {
-                if(value.item_qnt == 0){
-                    alert('貨號:' + value.goods_cod + '的訂購量不可為0');
-                    check = true;
-                }
-            });
-
-            if(check) return;
-
             //region//組資料
 
             self.singleData.order_amt = 0;
@@ -1304,6 +1294,7 @@ var PSIW500030 = new Vue({
             if(self.createStatus){
                 self.singleData = {};
                 self.singleDataGridRows = [];
+                self.orderSelectData = [];
                 self.dgInsDT.loadDgData(this.singleDataGridRows);
 
                 //region//修改UI狀態
