@@ -162,6 +162,24 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 綜合櫃檯-Deposits foCnt_deposits dataGrid
+            $('#foCnt_deposits-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_deposits.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkBox', title: '<input type="checkbox">', width: 28,align: 'center'},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'sort', title: '序號', width: 40},
+                    {field: 'fullName', title: 'Full Name', width: 150},
+                    {field: 'depositCode', title: '訂金代號', width: 80},
+                    {field: 'resvCardNum', title: '訂房卡號', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 綜合櫃檯-c/o Date foCnt_editCoDate
@@ -178,6 +196,25 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 綜合櫃檯-c/o日期 foCnt_editCoDate dataGrid
+            $('#foCnt_editCoDate-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_editCoDate.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'sort', title: '序號', width: 40},
+                    {field: 'fullName', title: 'Full Name', width: 150},
+                    {field: 'ciDate', title: 'C/I日期', width: 80},
+                    {field: 'expectCo', title: '預計C/O', width: 80},
+                    {field: 'resvCardNum', title: '訂房卡號', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 綜合櫃檯-預估款 foCnt_prePayment
@@ -194,6 +231,32 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 綜合櫃檯-預估款 foCnt_prePayment dataGrid
+            $('#foCnt_prePayment-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_prePayment.json',
+                method: 'get',
+                columns: [[
+                    {field: 'dateOfEntry', title: '入帳日期', width: 80},
+                    {field: 'serviceDate', title: '服務日期', width: 80},
+                    {field: 'projectCode', title: '項目代號', width: 120},
+                    {field: 'unitPrice', title: '單價', width: 60,align:"right"},
+                    {field: 'quantity', title: '數量', width: 40},
+                    {field: 'subtotal', title: '小計', width: 60,align:"right"},
+                    {field: 'status', title: '狀態', width: 60},
+                    {field: 'star', title: '', width: 40},
+                    {field: 'residentAccSingle', title: '住客帳單號', width: 150},
+                    {field: 'addBy', title: '輸入者', width: 60},
+                    {field: 'addDate', title: '輸入日', width: 130},
+                    {field: 'updBy', title: '最後異動者', width: 60},
+                    {field: 'updDate', title: '最後異動日', width: 130},
+                    {field: 'sort', title: '序號', width: 80}
+                ]]
+            });
+
         });
 
         // 彈出 綜合櫃檯-預估款-帳款明細 foCnt_prePayBtn5
@@ -210,6 +273,30 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 綜合櫃檯-預估款-帳款明細 foCnt_prePayBtn5 dataGrid
+            $('#foCnt_prePayBtn5-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_prePayBtn5.json',
+                method: 'get',
+                columns: [[
+                    {field: 'status', title: '狀態', width: 60},
+                    {field: 'dateOfEntry', title: '入帳日期', width: 80},
+                    {field: 'serviceDate', title: '服務日期', width: 80},
+                    {field: 'projectCode', title: '項目代號', width: 120},
+                    {field: 'unitPrice', title: '單價', width: 60,align:"right"},
+                    {field: 'quantity', title: '數量', width: 40},
+                    {field: 'subtotal', title: '小計', width: 60,align:"right"},
+                    {field: 'addBy', title: '輸入者', width: 60},
+                    {field: 'addDate', title: '輸入日', width: 130},
+                    {field: 'updBy', title: '最後異動者', width: 60},
+                    {field: 'updDate', title: '最後異動日', width: 130},
+                    {field: 'residentAccSingle', title: '住客帳單號', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 綜合櫃檯-拆併床 foCnt_bedSetting
@@ -307,6 +394,24 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // pm dataGrid
+            $('#pa-setting-1').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/front_paSetting-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'CO', title: '選擇', width: 50},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'code', title: '序號', width: 40},
+                    {field: 'fullName', title: 'Full Name', width: 150},
+                    {field: 'PA', title: '公帳號', width: 80},
+                    {field: 'roomCode', title: '訂房卡號', width: 100},
+                ]]
+            });
+
         });
 
         // 彈出 PMS0210020 Option-PM
@@ -322,6 +427,21 @@
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
+            });
+
+            // pm dataGrid
+            $('#pa-choosed').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/front_pa-choosed.json',
+                method: 'get',
+                columns: [[
+                    {field: 'CO', title: '公帳號', width: 70},
+                    {field: 'roomNum', title: '訂金帳號', width: 100},
+                    {field: 'code', title: '客戶代號', width: 100},
+                    {field: 'fullName', title: '使用者名稱', width: 150},
+                ]]
             });
         });
 
@@ -354,6 +474,24 @@
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
+            });
+
+            // pm dataGrid
+            $('#pa-more').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/front_pa-more.json',
+                method: 'get',
+                columns: [[
+                    {field: 'pa', title: '公帳號', width: 70},
+                    {field: 'depart', title: '類別', width: 70},
+                    {field: 'state', title: '目前狀態', width: 70},
+                    {field: 'account', title: '訂金帳號', width: 100},
+                    {field: 'code', title: '客戶代號', width: 150},
+                    {field: 'name', title: '使用者名稱', width: 150},
+                    {field: 'num', title: '使用次數', width: 150},
+                ]]
             });
         });
 
@@ -392,6 +530,33 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0210060 arrivals 接待單筆
+            $('#fd-checkIn-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/fd-checkIn-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'scan', title: '掃描', width: 40},
+                    {field: 'rem', title: '提醒', width: 40},
+                    {field: 'money', title: '指定訂金', width: 70,align:"right"},
+                    {field: 'phone', title: '電話機語言', width: 80},
+                    {field: 'clean', title: '清掃狀態', width: 70},
+                    {field: 'roomNum', title: '房號', width: 70},
+                    {field: 'vip', title: 'VIP', width: 40},
+                    {field: 'name', title: '住客姓名', width: 100},
+                    {field: 'inDate', title: '入住日期', width: 100},
+                    {field: 'outDate', title: '退房日期', width: 100},
+                    {field: 'code', title: '房價代號', width: 100},
+                    {field: 'useRoom', title: '使用房種', width: 100},
+                    {field: 'roomPrice', title: '房價', width: 100,align:"right"},
+                    {field: 'roomType', title: '排房房種', width: 100}
+                ]]
+            });
+
         });
 
 
@@ -413,6 +578,33 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // auto assign dataGrid
+            $('#foCnt_autoAssign-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_autoAssign.json',
+                method: 'get',
+                columns: [[
+                    {field: 'ckbox', title: '<input type="checkbox"/>', width: 40},
+                    {field: 'bookingNum', title: '訂房數', width: 60},
+                    {field: 'planRoomNum', title: '排房數', width: 60},
+                    {field: 'ciNum', title: 'C/I數', width: 60},
+                    {field: 'coNum', title: 'C/O數', width: 60},
+                    {field: 'rmGrpupNum', title: '房組數', width: 60},
+                    {field: 'resvCardNum', title: '訂房卡號', width: 100},
+                    {field: 'sort', title: '序號', width: 40},
+                    {field: 'ciDate', title: 'C/I日期', width: 100},
+                    {field: 'coDate', title: 'C/O日期', width: 100},
+                    {field: 'fullName', title: 'Full Name', width: 100},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'groupNum', title: '團號', width: 100},
+                    {field: 'assignRm', title: '排房備註', width: 150},
+                    {field: 'proxyCompany', title: '代訂公司', width: 100},
+                ]]
+            });
+
         });
 
         // 彈出 Room Assign-auto Assign foCnt_autoAssignSGL
@@ -429,6 +621,24 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // auto assignSGL dataGrid
+            $('#foCnt_autoAssignSGL-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_autoAssignSGL.json',
+                method: 'get',
+                columns: [[
+                    {field: 'row', title: '排', width: 40},
+                    {field: 'roomKind', title: '房種', width: 60},
+                    {field: 'rmGrpup', title: '房組', width: 60},
+                    {field: 'fullName', title: 'Full Name', width: 100},
+                    {field: 'firstName', title: 'First Name', width: 100},
+                    {field: 'lastName', title: 'Last Name', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出Related RMs
@@ -445,6 +655,29 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // RelatedRms table
+            $('#relatedRmsTable').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/relatedRmsTable.json',
+                method: 'get',
+                columns: [[
+                    //            {field: 'box', title: '', width: 30},
+                    {field: 'roomNum', title: '房號', width: 50},
+                    {field: 'name', title: 'Full Name', width: 100},
+                    {field: 'sex', title: '性別', width: 50},
+                    {field: 'nationality', title: '國籍', width: 70},
+                    {field: 'bookingRoom', title: '訂房公司名稱', width: 100},
+                    {field: 'ciDate', title: 'C/I日期', width: 100},
+                    {field: 'ciTime', title: 'C/I時間', width: 100},
+                    {field: 'expectCo', title: '預計C/O日期', width: 100},
+                    {field: 'bookingNum', title: '訂房卡號', width: 100},
+                    {field: 'groupName', title: '團號/團體名稱', width: 100}
+                ]]
+            });
+
         });
 
 
@@ -499,6 +732,24 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0210070 Group > Post Master (foCnt_cslPostMaster) dataGrid
+            $('#foCnt_cslPostMaster-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/foCnt_cslPostMaster-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'sort', title: '序號', width: 40},
+                    {field: 'fullName', title: 'Full Name', width: 150},
+                    {field: 'ciDate', title: 'C/I日期', width: 80},
+                    {field: 'expectCo', title: '預計C/O', width: 80},
+                    {field: 'resvCardNum', title: '訂房卡號', width: 100}
+                ]]
+            });
         });
 
         // 彈出 PMS0210070 Departure > Folio (foCnt_folio)
@@ -533,57 +784,6 @@
             });
         });
 
-        /***
-         * 櫃檯備品 screen小於1280縮小
-         */
-
-//        var $window = $(window),
-//            $ul = $('ul.nav');
-//        $(window).on('resize', function () {
-//            if ($window.width() < 1281) {
-//                $('.intCounterLeft').removeClass('col-xs-6').addClass('col-xs-12');
-//            } else {
-//                $('.intCounterLeft').removeClass('col-xs-12').addClass('col-xs-6');
-//            }
-//        })
-        /* screen小於1280縮小 END */
-
-        /* 點選右上箭頭選擇觀看右邊表格 */
-        function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
-            $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
-//            $('.intCounterLeft .chooseCount').css('width','8%');
-            $('.intCounterLeft .resultCount').css('max' +
-                '-width', maxW);
-            $('.intCounterRight').css('display', disToggle1);
-            $('.fa-angle-left').css('display', disToggle2);
-            $('.fa-angle-right').css('display', disToggle1);
-        }
-
-        $(".show-intCounterRight > .fa-angle-left").click(function () {
-            foCounterMain('col-xs-12', 'col-xs-8', '94%', 'inline-block', 'none'); //old 92%
-        });
-        $(".show-intCounterRight > .fa-angle-right").click(function () {
-            foCounterMain('col-xs-8', 'col-xs-12', '95%', 'none', 'inline-block');
-        });
-        /* 點選右上箭頭選擇觀看右邊表格 End */
-
-        /* 點選左上放大鏡選擇觀看內容多寡 */
-        function zoomInOut(width, height, disToggle1, disToggle2) {
-            $('.counterBlock').css('width', width).css('height', height);
-            $('.counterBlock > .head > .right >.counterPrice').css('display', disToggle1);
-            $('.counterBlock > .content').css('display', disToggle1);
-            $('.counterBlock > .content-sub').css('display', disToggle1);
-            $('.zoomOut').css('display', disToggle1);
-            $('.zoomIn').css('display', disToggle2);
-        }
-
-        $(document).on('click', ".zoomOut", function () {
-            zoomInOut('70px', '33px', 'none', 'inline-block');
-        });
-        $(document).on('click', ".zoomIn", function () {
-            zoomInOut('127px', '74px', 'inline-block', 'none');
-        });
-        /* 點選左上放大鏡選擇觀看內容多寡 End */
 
         /***
          * PMS0210040 團體管理
@@ -656,44 +856,6 @@
             });
         });
 
-        /***
-         * dataGrid
-         */
-        // 綜合櫃檯-Deposits foCnt_deposits dataGrid
-        $('#foCnt_deposits-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_deposits.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkBox', title: '<input type="checkbox">', width: 28,align: 'center'},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'sort', title: '序號', width: 40},
-                {field: 'fullName', title: 'Full Name', width: 150},
-                {field: 'depositCode', title: '訂金代號', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100}
-            ]]
-        });
-
-        // 綜合櫃檯-c/o日期 foCnt_editCoDate dataGrid
-        $('#foCnt_editCoDate-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_editCoDate.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'sort', title: '序號', width: 40},
-                {field: 'fullName', title: 'Full Name', width: 150},
-                {field: 'ciDate', title: 'C/I日期', width: 80},
-                {field: 'expectCo', title: '預計C/O', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100}
-            ]]
-        });
-
         // 彈出 接待-開班登入
         $(document).on('click', ".frontDesk_depoisitsBtn", function (e) {
             e.preventDefault();
@@ -724,6 +886,47 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 住客帳入帳作業table
+            $('#frontDeskRecorded1-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/frontDeskRecorded1-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'CNum', title: '消費單號', width: 100},
+                    {field: 'CCode', title: '消費代號', width: 100},
+                    {field: 'price', title: '單價', width: 70},
+                    {field: 'num', title: '數量', width: 70},
+                    {field: 'total', title: '小計', width: 70, align:'right'},
+                    {field: 'total2', title: '小計(未含稅)', width: 100, align:'right'},
+                    {field: 'pay', title: '稅刷', width: 70, align:'right'},
+                    {field: 'roomNum', title: '房號', width: 70},
+                    {field: 'ps', title: '出鈉備註', width: 70}
+                ]]
+            });
+
+            // 住客帳入帳作業table2
+            $('#frontDeskRecorded2-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/frontDeskRecorded2-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'CNum', title: '消費項', width: 100},
+                    {field: 'CCode', title: '項目名稱', width: 100},
+                    {field: 'price', title: '單價', width: 70, align:'right'},
+                    {field: 'num', title: '數量', width: 70, align:'right'},
+                    {field: 'total', title: '小計', width: 70, align:'right'},
+                    {field: 'ps', title: '出鈉備註', width: 100},
+                    {field: 'pay', title: '帳單備註', width: 100},
+                    {field: 'roomNum', title: '入帳房號', width: 70},
+                    {field: 'file', title: '帳夾', width: 70}
+                ]]
+            });
+
         });
 
         // 彈出 住客帳入帳
@@ -742,75 +945,144 @@
             });
         });
 
-        // 綜合櫃檯-預估款 foCnt_prePayment dataGrid
-        $('#foCnt_prePayment-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_prePayment.json',
-            method: 'get',
-            columns: [[
-                {field: 'dateOfEntry', title: '入帳日期', width: 80},
-                {field: 'serviceDate', title: '服務日期', width: 80},
-                {field: 'projectCode', title: '項目代號', width: 120},
-                {field: 'unitPrice', title: '單價', width: 60,align:"right"},
-                {field: 'quantity', title: '數量', width: 40},
-                {field: 'subtotal', title: '小計', width: 60,align:"right"},
-                {field: 'status', title: '狀態', width: 60},
-                {field: 'star', title: '', width: 40},
-                {field: 'residentAccSingle', title: '住客帳單號', width: 150},
-                {field: 'addBy', title: '輸入者', width: 60},
-                {field: 'addDate', title: '輸入日', width: 130},
-                {field: 'updBy', title: '最後異動者', width: 60},
-                {field: 'updDate', title: '最後異動日', width: 130},
-                {field: 'sort', title: '序號', width: 80}
-            ]]
+        // PMS0210020 晨呼的選擇團號
+        $(document).on('click', ".foCnt_addMorning01", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_addMorning01-message").removeClass('hide').dialog({
+                modal: true,
+                title: "選擇團號",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         });
 
-        // 綜合櫃檯-預估款-帳款明細 foCnt_prePayBtn5 dataGrid
-        $('#foCnt_prePayBtn5-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_prePayBtn5.json',
-            method: 'get',
-            columns: [[
-                {field: 'status', title: '狀態', width: 60},
-                {field: 'dateOfEntry', title: '入帳日期', width: 80},
-                {field: 'serviceDate', title: '服務日期', width: 80},
-                {field: 'projectCode', title: '項目代號', width: 120},
-                {field: 'unitPrice', title: '單價', width: 60,align:"right"},
-                {field: 'quantity', title: '數量', width: 40},
-                {field: 'subtotal', title: '小計', width: 60,align:"right"},
-                {field: 'addBy', title: '輸入者', width: 60},
-                {field: 'addDate', title: '輸入日', width: 130},
-                {field: 'updBy', title: '最後異動者', width: 60},
-                {field: 'updDate', title: '最後異動日', width: 130},
-                {field: 'residentAccSingle', title: '住客帳單號', width: 150}
-            ]]
+        // PMS0210020 選擇公帳號
+        $(document).on('click', ".foCnt_addMorning02", function (e) {
+            e.preventDefault();
+            var dialog = $("#foCnt_addMorning02-message").removeClass('hide').dialog({
+                modal: true,
+                title: "選擇公帳號",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         });
 
-        // 綜合櫃檯-option lost&found dataGrid
-        $('#lostFound-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_lostFound.json',
-            method: 'get',
-            columns: [[
-                {field: 'choose', title: '選擇', width: 50},
-                {field: 'LfCode', title: '編號', width: 50},
-                {field: 'LfState', title: '狀態', width: 100},
-                {field: 'LfDate', title: '遺失日期', width: 100},
-                {field: 'LfTime', title: '遺失時間', width: 100},
-                {field: 'LfThings', title: '遺失物品', width: 200},
-                {field: 'LfName', title: '遺失者', width: 100},
-                {field: 'LfPlace', title: '遺失處', width: 100},
-            ]]
+        //個人換房
+        $(document).on('click', ".changeRoom-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#changeRoom-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "個人換房",
+                title_html: true,
+                width: 550,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        // Late C/O
+        $(document).on('click', ".lateCo-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#lateCo-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "Late C/O",
+                title_html: true,
+                width: 600,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
+        //PreAuth-Btn
+        $(document).on('click', ".preAuth-Btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#preAuth-wrap").removeClass('hide').dialog({
+                modal: true,
+                title: "Pre.auth.",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+
+            // preAuthTable
+            $('#preAuthTable').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/preAuthTable.json',
+                method: 'get',
+                columns: [[
+                    {field: 'roomNum', title: '序號', width: 50},
+                    {field: 'sDate', title: '預刷日期', width: 100},
+                    {field: 'pay', title: '付款方式', width: 150},
+                    {field: 'card', title: '信用卡卡號', width: 100},
+                    {field: 'date', title: '有效期限', width: 50},
+                    {field: 'code', title: '授權碼', width: 70},
+                    {field: 'money', title: '預刷金額.', width: 70, align:'right'}
+                ]]
+            });
 
         });
 
-        // 團體管理 dataGrid
+        // 新增晨呼 Wake Up
+        $(document).on('click', ".addMorning-btn", function (e) {
+            e.preventDefault();
+            var dialog = $("#addMorning-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增晨呼",
+                title_html: true,
+                width: 700,
+                maxwidth: 1920,
+                //                height: $(window).height(),
+                //                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+
+            // PMS0210120 晨呼table 單筆
+            $('#morningSingle-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/morningSingle-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'box', title: '<input type="checkbox" />', width: 30, align:'center'},
+                    {field: 'roomNum', title: '房號', width: 70},
+                    {field: 'name', title: '住客姓名', width: 100},
+                    {field: 'callDate', title: '晨呼日期', width: 100},
+                    {field: 'callTime', title: '晨呼時間', width: 100},
+                    {field: 'set', title: '狀態', width: 100}
+                ]]
+            });
+
+        });
+
+        /***
+         * dataGrid
+         */
+
+        // PMS0210040 團體管理(多筆) dataGrid
         $('#front_groups-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -830,7 +1102,7 @@
             ]]
         });
 
-        // CO清單 CheckOut dataGrid
+        // PMS0210070 CO清單 CheckOut(多筆) dataGrid
         $('#front_coList-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -851,7 +1123,7 @@
             ]]
         });
 
-        // CO清單 Inhouse dataGrid
+        // PMS0210070 CO清單 Inhouse(多筆) dataGrid
         $('#front_coListInhouse-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -872,77 +1144,11 @@
             ]]
         });
 
-
-        /***
-         * PMS0210030 Room Assign
-         */
-        // auto assign dataGrid
-        $('#foCnt_autoAssign-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_autoAssign.json',
-            method: 'get',
-            columns: [[
-                {field: 'ckbox', title: '<input type="checkbox"/>', width: 40},
-                {field: 'bookingNum', title: '訂房數', width: 60},
-                {field: 'planRoomNum', title: '排房數', width: 60},
-                {field: 'ciNum', title: 'C/I數', width: 60},
-                {field: 'coNum', title: 'C/O數', width: 60},
-                {field: 'rmGrpupNum', title: '房組數', width: 60},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100},
-                {field: 'sort', title: '序號', width: 40},
-                {field: 'ciDate', title: 'C/I日期', width: 100},
-                {field: 'coDate', title: 'C/O日期', width: 100},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'groupNum', title: '團號', width: 100},
-                {field: 'assignRm', title: '排房備註', width: 150},
-                {field: 'proxyCompany', title: '代訂公司', width: 100},
-            ]]
-        });
-
-
-        // auto assignSGL dataGrid
-        $('#foCnt_autoAssignSGL-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_autoAssignSGL.json',
-            method: 'get',
-            columns: [[
-                {field: 'row', title: '排', width: 40},
-                {field: 'roomKind', title: '房種', width: 60},
-                {field: 'rmGrpup', title: '房組', width: 60},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'firstName', title: 'First Name', width: 100},
-                {field: 'lastName', title: 'Last Name', width: 100}
-            ]]
-        });
-
-
         /***
          * PMS0210130 messages
          */
-        // pm dataGrid
-        $('#pa-setting-1').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/front_paSetting-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'CO', title: '選擇', width: 50},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'code', title: '序號', width: 40},
-                {field: 'fullName', title: 'Full Name', width: 150},
-                {field: 'PA', title: '公帳號', width: 80},
-                {field: 'roomCode', title: '訂房卡號', width: 100},
-            ]]
-        });
 
-
-        // PMS0210130 messages 多筆 dataGrid
+        // PMS0210130 messages(多筆) dataGrid
         $('#front_message-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -965,39 +1171,9 @@
                 {field: 'updDate', title: 'Upd Date', width: 80}
             ]]
         });
-        // pm dataGrid
-        $('#pa-choosed').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/front_pa-choosed.json',
-            method: 'get',
-            columns: [[
-                {field: 'CO', title: '公帳號', width: 70},
-                {field: 'roomNum', title: '訂金帳號', width: 100},
-                {field: 'code', title: '客戶代號', width: 100},
-                {field: 'fullName', title: '使用者名稱', width: 150},
-            ]]
-        });
-        // pm dataGrid
-        $('#pa-more').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/front_pa-more.json',
-            method: 'get',
-            columns: [[
-                {field: 'pa', title: '公帳號', width: 70},
-                {field: 'depart', title: '類別', width: 70},
-                {field: 'state', title: '目前狀態', width: 70},
-                {field: 'account', title: '訂金帳號', width: 100},
-                {field: 'code', title: '客戶代號', width: 150},
-                {field: 'name', title: '使用者名稱', width: 150},
-                {field: 'num', title: '使用次數', width: 150},
-            ]]
-        });
 
-        // PMS0210060 arrivals dataGrid
+
+        // PMS0210060 arrivals(多筆) dataGrid
         $('#PMS0210060').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1022,104 +1198,7 @@
             ]]
         });
 
-        // 新增晨呼 Wake Up
-        $(document).on('click', ".addMorning-btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#addMorning-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增晨呼",
-                title_html: true,
-                width: 700,
-                maxwidth: 1920,
-    //                height: $(window).height(),
-    //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-
-        // PMS0210020 晨呼的選擇團號
-        $(document).on('click', ".foCnt_addMorning01", function (e) {
-            e.preventDefault();
-            var dialog = $("#foCnt_addMorning01-message").removeClass('hide').dialog({
-                modal: true,
-                title: "選擇團號",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-    //                height: $(window).height(),
-    //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // PMS0210020 選擇公帳號
-        $(document).on('click', ".foCnt_addMorning02", function (e) {
-            e.preventDefault();
-            var dialog = $("#foCnt_addMorning02-message").removeClass('hide').dialog({
-                modal: true,
-                title: "選擇公帳號",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-    //                height: $(window).height(),
-    //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        //    個人換房
-        $(document).on('click', ".changeRoom-Btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#changeRoom-wrap").removeClass('hide').dialog({
-                modal: true,
-                title: "個人換房",
-                title_html: true,
-                width: 550,
-                maxwidth: 1920,
-                //                height: $(window).height(),
-                //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        //    Late C/O
-        $(document).on('click', ".lateCo-Btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#lateCo-wrap").removeClass('hide').dialog({
-                modal: true,
-                title: "Late C/O",
-                title_html: true,
-                width: 600,
-                maxwidth: 1920,
-                //                height: $(window).height(),
-                //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        //    PreAuth-Btn
-        $(document).on('click', ".preAuth-Btn", function (e) {
-            e.preventDefault();
-            var dialog = $("#preAuth-wrap").removeClass('hide').dialog({
-                modal: true,
-                title: "Pre.auth.",
-                title_html: true,
-                width: 700,
-                maxwidth: 1920,
-                //                height: $(window).height(),
-                //                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 排房作業
+        // PMS0210030 排房作業(多筆)
         $('#roomDetail-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1153,7 +1232,8 @@
                 {field: 'baby', title: '嬰兒', width: 50}
             ]]
         });
-        // 排房作業細節2
+
+        // PMS0210030 排房作業細節2(多筆)
         $('#roomDetail-table2').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1184,7 +1264,7 @@
             ]]
         });
 
-        // 住客查詢
+        // PMS0210050 住客查詢 (多筆)
         $('#PMS0210050').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1207,7 +1287,7 @@
             ]]
         });
 
-        // 排房明細
+        // PMS0210030 排房明細 (多筆)
         $('#townList-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1228,35 +1308,8 @@
             ]]
         });
 
-        // PMS0210060 arrivals 接待單筆
-        $('#fd-checkIn-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/fd-checkIn-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field: 'scan', title: '掃描', width: 40},
-                {field: 'rem', title: '提醒', width: 40},
-                {field: 'money', title: '指定訂金', width: 70,align:"right"},
-                {field: 'phone', title: '電話機語言', width: 80},
-                {field: 'clean', title: '清掃狀態', width: 70},
-                {field: 'roomNum', title: '房號', width: 70},
-                {field: 'vip', title: 'VIP', width: 40},
-                {field: 'name', title: '住客姓名', width: 100},
-                {field: 'inDate', title: '入住日期', width: 100},
-                {field: 'outDate', title: '退房日期', width: 100},
-                {field: 'code', title: '房價代號', width: 100},
-                {field: 'useRoom', title: '使用房種', width: 100},
-                {field: 'roomPrice', title: '房價', width: 100,align:"right"},
-                {field: 'roomType', title: '排房房種', width: 100}
-            ]]
-        });
 
-
-
-        // 晨呼table
+        // PMS0210120 晨呼table (多筆)
         $('#morningCallTable').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1277,125 +1330,59 @@
             ]]
         });
 
-        // PMS0210120 晨呼table 單筆(checkbox)
-
-        // PMS0210120 晨呼table 單筆
-        $('#morningSingle-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/morningSingle-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'box', title: '<input type="checkbox" />', width: 30, align:'center'},
-                {field: 'roomNum', title: '房號', width: 70},
-                {field: 'name', title: '住客姓名', width: 100},
-                {field: 'callDate', title: '晨呼日期', width: 100},
-                {field: 'callTime', title: '晨呼時間', width: 100},
-                {field: 'set', title: '狀態', width: 100}
-            ]]
-        });
-
-        // RelatedRms table
-        $('#relatedRmsTable').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/relatedRmsTable.json',
-            method: 'get',
-            columns: [[
-    //            {field: 'box', title: '', width: 30},
-                {field: 'roomNum', title: '房號', width: 50},
-                {field: 'name', title: 'Full Name', width: 100},
-                {field: 'sex', title: '性別', width: 50},
-                {field: 'nationality', title: '國籍', width: 70},
-                {field: 'bookingRoom', title: '訂房公司名稱', width: 100},
-                {field: 'ciDate', title: 'C/I日期', width: 100},
-                {field: 'ciTime', title: 'C/I時間', width: 100},
-                {field: 'expectCo', title: '預計C/O日期', width: 100},
-                {field: 'bookingNum', title: '訂房卡號', width: 100},
-                {field: 'groupName', title: '團號/團體名稱', width: 100}
-            ]]
-        });
-        // preAuthTable
-        $('#preAuthTable').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/preAuthTable.json',
-            method: 'get',
-            columns: [[
-                {field: 'roomNum', title: '序號', width: 50},
-                {field: 'sDate', title: '預刷日期', width: 100},
-                {field: 'pay', title: '付款方式', width: 150},
-                {field: 'card', title: '信用卡卡號', width: 100},
-                {field: 'date', title: '有效期限', width: 50},
-                {field: 'code', title: '授權碼', width: 70},
-                {field: 'money', title: '預刷金額.', width: 70, align:'right'}
-            ]]
-        });
-
-        // 住客帳入帳作業table
-        $('#frontDeskRecorded1-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/frontDeskRecorded1-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'CNum', title: '消費單號', width: 100},
-                {field: 'CCode', title: '消費代號', width: 100},
-                {field: 'price', title: '單價', width: 70},
-                {field: 'num', title: '數量', width: 70},
-                {field: 'total', title: '小計', width: 70, align:'right'},
-                {field: 'total2', title: '小計(未含稅)', width: 100, align:'right'},
-                {field: 'pay', title: '稅刷', width: 70, align:'right'},
-                {field: 'roomNum', title: '房號', width: 70},
-                {field: 'ps', title: '出鈉備註', width: 70}
-            ]]
-        });
-
-        // 住客帳入帳作業table2
-        $('#frontDeskRecorded2-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/frontDeskRecorded2-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'CNum', title: '消費項', width: 100},
-                {field: 'CCode', title: '項目名稱', width: 100},
-                {field: 'price', title: '單價', width: 70, align:'right'},
-                {field: 'num', title: '數量', width: 70, align:'right'},
-                {field: 'total', title: '小計', width: 70, align:'right'},
-                {field: 'ps', title: '出鈉備註', width: 100},
-                {field: 'pay', title: '帳單備註', width: 100},
-                {field: 'roomNum', title: '入帳房號', width: 70},
-                {field: 'file', title: '帳夾', width: 70}
-            ]]
-        });
 
         /***
-         * PMS0210070 Departures
+         * 櫃檯備品 screen小於1280縮小
          */
 
-        // PMS0210070 Group > Post Master (foCnt_cslPostMaster) dataGrid
-        $('#foCnt_cslPostMaster-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/foCnt_cslPostMaster-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'sort', title: '序號', width: 40},
-                {field: 'fullName', title: 'Full Name', width: 150},
-                {field: 'ciDate', title: 'C/I日期', width: 80},
-                {field: 'expectCo', title: '預計C/O', width: 80},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100}
-            ]]
+//        var $window = $(window),
+//            $ul = $('ul.nav');
+//        $(window).on('resize', function () {
+//            if ($window.width() < 1281) {
+//                $('.intCounterLeft').removeClass('col-xs-6').addClass('col-xs-12');
+//            } else {
+//                $('.intCounterLeft').removeClass('col-xs-12').addClass('col-xs-6');
+//            }
+//        })
+        /* screen小於1280縮小 END */
+
+        /* 點選右上箭頭選擇觀看右邊表格 */
+        function foCounterMain(colRemove, colAdd, maxW, disToggle1, disToggle2) {
+            $('.intCounterLeft').removeClass(colRemove).addClass(colAdd);
+//            $('.intCounterLeft .chooseCount').css('width','8%');
+            $('.intCounterLeft .resultCount').css('max' +
+                '-width', maxW);
+            $('.intCounterRight').css('display', disToggle1);
+            $('.fa-angle-left').css('display', disToggle2);
+            $('.fa-angle-right').css('display', disToggle1);
+        }
+
+        $(".show-intCounterRight > .fa-angle-left").click(function () {
+            foCounterMain('col-xs-12', 'col-xs-8', '94%', 'inline-block', 'none'); //old 92%
         });
+        $(".show-intCounterRight > .fa-angle-right").click(function () {
+            foCounterMain('col-xs-8', 'col-xs-12', '95%', 'none', 'inline-block');
+        });
+        /* 點選右上箭頭選擇觀看右邊表格 End */
+
+        /* 點選左上放大鏡選擇觀看內容多寡 */
+        function zoomInOut(width, height, disToggle1, disToggle2) {
+            $('.counterBlock').css('width', width).css('height', height);
+            $('.counterBlock > .head > .right >.counterPrice').css('display', disToggle1);
+            $('.counterBlock > .content').css('display', disToggle1);
+            $('.counterBlock > .content-sub').css('display', disToggle1);
+            $('.zoomOut').css('display', disToggle1);
+            $('.zoomIn').css('display', disToggle2);
+        }
+
+        $(document).on('click', ".zoomOut", function () {
+            zoomInOut('70px', '33px', 'none', 'inline-block');
+        });
+        $(document).on('click', ".zoomIn", function () {
+            zoomInOut('127px', '74px', 'inline-block', 'none');
+        });
+        /* 點選左上放大鏡選擇觀看內容多寡 End */
+
 
         //顯示排房明細
         $(".cardDetail-table").panel({closed:true});

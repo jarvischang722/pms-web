@@ -20,6 +20,27 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 夜間稽核 Due of check dataGrid
+            $('#nightAdt_dueOut-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/nightAudit/nightAdt_dueOut.json',
+                method: 'get',
+                columns: [[
+                    {field: 'expectCO', title: '預計C/O時間', width: 80},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'sort', title: '序號', width: 40},
+                    {field: 'name', title: '姓名', width: 100},
+                    {field: 'passengerStatus', title: '旅客帳狀況', width: 100},
+                    {field: 'ciDate', title: 'C/I日期', width: 80},
+                    {field: 'ciTime', title: 'C/I時間', width: 80},
+                    {field: 'balnceGstAcc', title: '住客帳餘額', width: 80,align:'right'},
+                    {field: 'resvCardNum', title: '訂房卡號', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 夜間稽核 開關班
@@ -36,6 +57,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 夜間稽核 開關班 dataGrid
+            $('#nightAdt_closeure-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/nightAudit/nightAdt_closeure.json',
+                method: 'get',
+                columns: [[
+                    {field: 'startDate', title: '開班日期', width: 80},
+                    {field: 'officeId', title: '廳別', width: 150},
+                    {field: 'classId', title: '班別', width: 40},
+                    {field: 'startBy', title: '開班者', width: 100},
+                    {field: 'startTime', title: '開班時間', width: 80},
+                    {field: 'closeBy', title: '關班者', width: 100},
+                    {field: 'closeTime', title: '關班時間', width: 80},
+                    {field: 'status', title: '狀態', width: 80}
+                ]]
+            });
+
         });
 
         // 彈出 夜間稽核 開關班 單筆
@@ -52,48 +93,6 @@
                 dialogClass: "test",
                 resizable: true
             });
-        });
-
-        /***
-         * dataGrid
-         */
-        // 夜間稽核 Due of check dataGrid
-        $('#nightAdt_dueOut-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/nightAudit/nightAdt_dueOut.json',
-            method: 'get',
-            columns: [[
-                {field: 'expectCO', title: '預計C/O時間', width: 80},
-                {field: 'roomNum', title: '房號', width: 60},
-                {field: 'sort', title: '序號', width: 40},
-                {field: 'name', title: '姓名', width: 100},
-                {field: 'passengerStatus', title: '旅客帳狀況', width: 100},
-                {field: 'ciDate', title: 'C/I日期', width: 80},
-                {field: 'ciTime', title: 'C/I時間', width: 80},
-                {field: 'balnceGstAcc', title: '住客帳餘額', width: 80,align:'right'},
-                {field: 'resvCardNum', title: '訂房卡號', width: 100}
-            ]]
-        });
-
-        // 夜間稽核 開關班 dataGrid
-        $('#nightAdt_closeure-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/nightAudit/nightAdt_closeure.json',
-            method: 'get',
-            columns: [[
-                {field: 'startDate', title: '開班日期', width: 80},
-                {field: 'officeId', title: '廳別', width: 150},
-                {field: 'classId', title: '班別', width: 40},
-                {field: 'startBy', title: '開班者', width: 100},
-                {field: 'startTime', title: '開班時間', width: 80},
-                {field: 'closeBy', title: '關班者', width: 100},
-                {field: 'closeTime', title: '關班時間', width: 80},
-                {field: 'status', title: '狀態', width: 80}
-            ]]
         });
 
     });
