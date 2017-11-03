@@ -28,7 +28,8 @@ module.exports = {
 
         async.waterfall([
             chkCustMn,
-            chkOrderMn
+            chkOrderMn,
+            delClassHs
         ], function (errMsg, result) {
             callback(lo_error, lo_result);
         });
@@ -77,6 +78,25 @@ module.exports = {
         //3.未於營業目標設定者可刪除業務員(暫不處理)
         function chkSaleGoal(data, cb){
             //未於營業目標設定者可刪除業務員(暫不處理)
+        }
+        //4.刪除組別異動紀錄
+        function delClassHs(data, cb){
+            lo_result.extendExecDataArrSet.push({
+                function: '0',
+                table_name: 'sales_class_hs',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: lo_params.athena_id
+                },{
+                    key: 'sales_cod',
+                    operation: "=",
+                    value: lo_params.sales_cod
+                }],
+                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                kindOfRel: 'dt'
+            });
+            cb(lo_error, lo_result);
         }
     }
 };

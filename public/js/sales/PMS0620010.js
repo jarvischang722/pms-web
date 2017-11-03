@@ -302,7 +302,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     condKey[field_name] = lo_checkValue[field_name] || "";
                 });
                 for (var k = 0; k < j; k++) {
-                    if(_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1){
+                    if (_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1) {
                         lo_checkResult.success = false;
                         lo_checkResult.msg = "館別代號重複，請刪除";
                         break;
@@ -659,24 +659,18 @@ var vm = new Vue({
                     prg_id: "PMS0620010",
                     deleteData: vm.tmpCud.deleteData
                 }
-                $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
+
+                self.doSaveCud("PMS0620020", 1, function (result) {
                     if (result.success) {
-                        self.doSaveCud("PMS0620020", 1, function (result) {
-                            if (result.success) {
-                                alert("Delete Success");
-                                $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                            }
-                            else {
-                                alert(result.errorMsg);
-                            }
-                        });
+                        alert("Delete Success");
+                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
                     }
                     else {
                         alert(result.errorMsg);
                         _.without(vm.tmpCud.deleteData, delRow);
                     }
-                    vm.initTmpCUD();
                 });
+                vm.initTmpCUD();
             }
 
         },
