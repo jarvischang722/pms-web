@@ -172,7 +172,8 @@
       "selectNo": "N",
       "selectAll": "All",
       "selectQuit": "Quite",
-      "selectEmp": "Employee"
+      "selectEmp": "Employee",
+      "hotel_cod_repeat": "館別代號重複，請刪除(英文)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -197,7 +198,8 @@
     "Loading": "Loading",
     "ProgramID": "Program ID",
     "ChangeLog": "Change Log",
-    "LogOutTime": "Logout remaining time"
+    "LogOutTime": "Logout remaining time",
+    "SelectData": "請選擇資料(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",
