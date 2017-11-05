@@ -18,7 +18,8 @@
         <statement><![CDATA[
                select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
                from hc_adjfolio_dt2
-               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(seq_nos) = trim(:seq_nos) and trim(adjfolio_cod) = trim(:adjfolio_cod) order by seq_nos
+               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(seq_nos) = trim(:seq_nos) and trim(adjfolio_cod) = trim(:adjfolio_cod)
+               order by item_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>
