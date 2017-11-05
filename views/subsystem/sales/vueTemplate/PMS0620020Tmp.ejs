@@ -36,10 +36,14 @@
                                            :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I'&& editStatus) || (field.modificable == 'E'&& createStatus)"
                                            @click="chkClickPopUpGrid(field)">
 
+                                    <!-- tree -->
                                     <template v-if="field.visiable == 'Y' && field.ui_type == 'tree'">
                                         <el-cascader
-                                                :options="classCodData"
-                                                class="numStyle-none"></el-cascader>
+                                                v-model="classCodSelectedOption"
+                                                expand-trigger="hover"
+                                                :options="field.selectData"
+                                                class="numStyle-none"
+                                                size="small"></el-cascader>
                                     </template>
 
                                     <!-- 日期選擇器 -->

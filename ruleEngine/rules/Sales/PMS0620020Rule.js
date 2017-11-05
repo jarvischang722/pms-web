@@ -32,15 +32,15 @@ module.exports = {
     /**
      * 館別編號檢查，若已使用此編號則無法使用
      */
-    chkHotelCod: function(postData, session, callback){
+    chkHotelCod: function (postData, session, callback) {
         var la_allRowData = postData["allRowData"];
         var newValue = postData["newValue"];
         var oldValue = postData["oldValue"];
 
         var lo_result = new ReturnClass();
         var lo_error = null;
-        for(var i = 0;i < la_allRowData.length - 1;i ++){
-            if(la_allRowData[i]["hotel_cod"] == newValue){
+        for (var i = 0; i < la_allRowData.length - 1; i++) {
+            if (la_allRowData[i]["hotel_cod"] == newValue) {
                 lo_result.success = false;
                 lo_result.effectValues = {hotel_cod: oldValue};
                 lo_error = new ErrorClass();
@@ -400,26 +400,26 @@ module.exports = {
                     if (ls_newClassCod != ls_oldClassCod) {
                         //取sales_class_hs最後一筆資料
                         queryAgent.query("qry_last_sales_class_hs", salesParsms, function (errClassHsData, classHsData) {
-                            if(errClassHsData){
+                            if (errClassHsData) {
                                 lo_result.success = false;
                                 lo_error = new ErrorClass();
                                 lo_error.errorMsg = errClassHsData;
 
                                 part_cb(lo_error, lo_result);
                             }
-                            else{
+                            else {
                                 var ls_beginDat = classHsData.begin_dat;
                                 // 取訂房中心滾房租日
-                                queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult){
-                                    if(err){
+                                queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult) {
+                                    if (err) {
                                         lo_result.success = false;
                                         lo_error = new ErrorClass();
                                         lo_error.errorMsg = err;
 
                                         part_cb(lo_error, lo_result);
                                     }
-                                    else{
-                                        if(ls_beginDat == getResult.rent_dat_hq){
+                                    else {
+                                        if (ls_beginDat == getResult.rent_dat_hq) {
                                             lo_result.extendExecDataArrSet.push({
                                                 function: 2,
                                                 table_name: 'sales_class_hs',
@@ -446,7 +446,7 @@ module.exports = {
 
                                             part_cb(lo_error, lo_result);
                                         }
-                                        else{
+                                        else {
                                             lo_result.extendExecDataArrSet.push({
                                                 function: 2,
                                                 table_name: 'sales_class_hs',
@@ -502,6 +502,63 @@ module.exports = {
                 cb(err, result);
             });
         }
+    },
+
+    qryTreeSelectData: function (postData, session, callback) {
+        let self = this;
+        let lo_error = null;
+        let lo_result = new ReturnClass();
+        let lo_params = {
+            athena_id: session.athena_id
+        };
+        queryAgent.queryList("QRY_CLASS_COD", lo_params, 0, 0, function (err, result) {
+
+            let la_selectData = self.initTreeData(result);
+            // self.convertData2TreeData(result);
+
+            lo_result.selectOptions = la_selectData;
+            callback(lo_error, lo_result);
+        });
+    },
+
+    //初始化樹狀資料
+    initTreeData: function (selectData) {
+        let la_selectData = [];
+        let self = this;
+        let la_root = _.filter(selectData, function (lo_rowData) {
+            return lo_rowData.parent_cod.trim() == "ROOT";
+        });
+
+        _.each(la_root, function (lo_root) {
+            let lo_node = new node(lo_root);
+            self.convertData2TreeData(selectData, lo_node);
+            la_selectData.push(lo_node);
+        });
+
+        return la_selectData;
+    },
+    //轉換資料格式
+    convertData2TreeData: function (lo_selectRowData, lo_parent_node) {
+        let self = this;
+        let la_rowData = _.filter(lo_selectRowData, function(lo_rowData){
+            return lo_rowData.parent_cod.trim() == lo_parent_node.value;
+        });
+
+        if (la_rowData.length != 0) {
+            lo_parent_node.children = [];
+            _.each(la_rowData, function (lo_rowData) {
+                let lo_node = new node(lo_rowData);
+                self.convertData2TreeData(lo_selectRowData, lo_node);
+                lo_parent_node.children.push(lo_node);
+            });
+        }
     }
 
 };
+
+class node {
+    constructor(lo_rowData) {
+        this.label = lo_rowData.class_nam;
+        this.value = lo_rowData.class_cod;
+    }
+}

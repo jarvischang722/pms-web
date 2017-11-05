@@ -492,6 +492,17 @@ exports.handleSinglePageFieldData_PM0620020 = function (session, postData, callb
                                 }
                             );
                         }
+                        else if(field.ui_type == "tree"){
+                            selectDSFunc.push(
+                                function(cbw) {
+                                    la_saleMnfields[fIdx].selectData = [];
+                                    ruleAgent[field.rule_func_name](field, userInfo, function(err, result){
+                                        la_saleMnfields[fIdx].selectData = result.selectOptions;
+                                        cbw(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
+                                    });
+                                }
+                            );
+                        }
                     });
 
                     async.parallel(selectDSFunc, function (err, result) {

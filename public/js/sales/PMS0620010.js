@@ -44,18 +44,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             dtEditIndex: undefined,
             openChangeLogDialog: false,
             allChangeLogList: [],
-            classCodData:[{
-                value: 'zhinan',
-                label: '指南',
-                children: [{
-                    value: 'shejiyuanze',
-                    label: '设计原则',
-                    children: [{
-                        value: 'yizhi',
-                        label: '一致'
-                    }]
-                }]
-            }]
+            classCodSelectData: [],
+            classCodSelectedOption: []
         };
     },
     created: function () {
@@ -63,7 +53,6 @@ Vue.component('single-grid-pms0620020-tmp', {
         vmHub.$on('updateBackSelectData', function (chooseData) {
             self.rowData = _.extend(self.rowData, chooseData);
         });
-
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -198,7 +187,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
                 self.hotelDtFieldData = result.hotelDtField;
                 self.classHsFieldData = result.classHsField;
-
+                self.classCodSelectData = _.findWhere(self.originFieldData, {ui_field_name: "class_cod"}).selectData;
                 self.fetchRowData(self.singleData);
             });
         },
@@ -232,6 +221,21 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         console.log(result.errorMsg);
                     }
+
+                    //找樹狀parent node
+                    findByValue(self.classCodSelectData, "000008");
+
+                    //攤平資料
+                    var list = _(rtnResult).chain()
+                        .zip(_(rtnResult).pluck('children'))
+                        .flatten()
+                        .compact()
+                        .value();
+
+                    _.each(list, function (lo_list) {
+                        self.classCodSelectedOption.push(lo_list.value);
+                    });
+
                     self.showDtDataGrid();
                 });
             }
@@ -325,7 +329,9 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             return lo_checkResult;
         },
+
         doSave: function () {
+            this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
             var self = this;
             this.isSaving = true;
 
@@ -766,3 +772,25 @@ var vm = new Vue({
         }
     }
 });
+
+var rtnResult = [];
+
+function findByValue(obj, id) {
+    var result;
+    for (var p in obj) {
+        if (obj.value === id) {
+            return obj;
+        } else {
+            if (typeof obj[p] === 'object') {
+                result = findByValue(obj[p], id);
+
+                if (result) {
+                    rtnResult = [];
+                    rtnResult.push(obj[p]);
+                    return result;
+                }
+            }
+        }
+    }
+    return result;
+}
