@@ -511,7 +511,7 @@ module.exports = {
         let lo_params = {
             athena_id: session.athena_id
         };
-        queryAgent.queryList("QRY_CLASS_COD", lo_params, 0, 0, function (err, result) {
+        queryAgent.queryList("QRY_CLASS_COD_TREE", lo_params, 0, 0, function (err, result) {
 
             let la_selectData = self.initTreeData(result);
             // self.convertData2TreeData(result);
