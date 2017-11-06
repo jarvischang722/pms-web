@@ -183,7 +183,6 @@ Vue.component('single-grid-pms0810020-tmp', {
 
             var lo_fieldData = _.findWhere(vm.pageTwoDataGridFieldData, {ui_field_name: ui_field_name});
 
-            console.log(this.isModifiable, lo_fieldData);
             if (rule_func_name === "" || !this.isModifiable) {
                 return;
             }
@@ -1085,6 +1084,7 @@ var vm = new Vue({
 
             editingRow["prg_id"] = prg_id;
             $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+                vm.isLoading = false;
                 if (result.success) {
                     vm.singleData = result.rowData;
                     vm.originData = _.clone(result.rowData);
@@ -1097,7 +1097,6 @@ var vm = new Vue({
                     callback(true);
 
                 } else {
-                    vm.isLoading = false;
                     vm.singleData = {};
                     callback(false);
                 }
