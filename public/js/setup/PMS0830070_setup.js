@@ -11,6 +11,7 @@ DatagridSingleGridClass.prototype = new DatagridBaseClass();
 DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
     PMS0830070VM.editingRow = row;
     PMS0830070VM.fetchSingleData(row);
+    PMS0830070VM.dgIns.editIndex = index;
 };
 
 var Pms0830070Comp = Vue.extend({
@@ -377,16 +378,14 @@ var PMS0830070VM = new Vue({
         //新增單筆
         addRoute: function () {
             var self = this;
-            self.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
-            self.singleDataDt = [];
-            self.openRouteDialog();
-            $.post("/api/addFuncRule", {prg_id: gs_prg_id, page_id: 1}, function (result) {
-                if (result.success) {
-                    self.singleData = result.defaultValues;
-                } else {
-                    alert(result.errorMsg);
-                }
-            });
+            PMS0830070VM.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
+            PMS0830070VM.singleDataDt = [];
+
+            $.post('/api/qryDt2ItemNosList', PMS0830070VM.singleData)
+                .done(function (response) {
+                    PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                    self.openRouteDialog();
+                });
         },
 
         delRoutes: function () {
@@ -444,6 +443,7 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.singleDataDt = {};
             PMS0830070VM.initTmpCUD();
             $("#PMS0830070Dialog").dialog('close');
+            this.dgIns.endEditing();
         },
 
         doSave: function (callback) {
