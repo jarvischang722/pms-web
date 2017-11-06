@@ -548,8 +548,8 @@ var vm = new Vue({
         isCreateStatus: false,    //新增狀態
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
-        isLoading: false,
-        isModifiable: true,       //決定是否可以修改
+        isLoading: true,
+        isModifiable: true        //決定是否可以修改
 
     },
     methods: {
@@ -591,9 +591,8 @@ var vm = new Vue({
             });
         },
         fetchSingleData: function (editingRow, callback) {
-            vm.initTmpCUD();
-            vm.isLoading = true;
-            vm.editingRow = editingRow;
+            this.initTmpCUD();
+            this.editingRow = editingRow;
 
             editingRow["prg_id"] = "PMS0620020";
             $.post("/api/sales/qrySalesMn_PM0620020", editingRow, function (result) {
@@ -607,7 +606,6 @@ var vm = new Vue({
                     callback(true);
                 }
                 else {
-                    vm.isLoading = false;
                     callback(false);
                     console.log(result.errorMsg);
                 }
@@ -615,6 +613,7 @@ var vm = new Vue({
 
         },
         showDataGrid: function () {
+            this.isLoading = false;
             vm.dgIns = new DatagridSingleGridClass();
             vm.dgIns.init("PMS0620010", "PMS0620010_dg", EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
@@ -675,28 +674,26 @@ var vm = new Vue({
             }
             else {
 
-                delRow["tab_page_id"] = 1;
-                delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-                vm.tmpCud.deleteData.push(delRow);
+                var chkDelRow = confirm(go_i18nLang["SystemCommon"].check_delete);
+                if (chkDelRow) {
+                    delRow["tab_page_id"] = 1;
+                    delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+                    vm.tmpCud.deleteData.push(delRow);
 
-                $("#gridEdit").val(vm.tmpCUD);
+                    $("#gridEdit").val(vm.tmpCUD);
 
-                var params = {
-                    prg_id: "PMS0620010",
-                    deleteData: vm.tmpCud.deleteData
+                    self.doSaveCud("PMS0620020", 1, function (result) {
+                        if (result.success) {
+                            alert("Delete Success");
+                            $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
+                        }
+                        else {
+                            alert(result.errorMsg);
+                            _.without(vm.tmpCud.deleteData, delRow);
+                        }
+                    });
+                    vm.initTmpCUD();
                 }
-
-                self.doSaveCud("PMS0620020", 1, function (result) {
-                    if (result.success) {
-                        alert("Delete Success");
-                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                    }
-                    else {
-                        alert(result.errorMsg);
-                        _.without(vm.tmpCud.deleteData, delRow);
-                    }
-                });
-                vm.initTmpCUD();
             }
 
         },
