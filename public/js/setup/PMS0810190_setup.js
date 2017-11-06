@@ -168,7 +168,7 @@ var vm = new Vue({
         },
         initDataGrid: function () {
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
+            this.dgIns.init(this.prg_id, gs_dgName, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})

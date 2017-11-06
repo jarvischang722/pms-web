@@ -41,7 +41,7 @@ Vue.component("multiLang-dialog-tmp", {
                     }
                 }
             }];
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField, 'multiLangDG'));
+            columnsData = _.union(columnsData, DatagridFieldAdapter.combineFieldOption(dtMultiLangField, 'multiLangDG'));
             var width = 10;
             _.each(columnsData, function (column) {
                 width += Number(column.width);
@@ -1055,7 +1055,7 @@ var vm = new Vue({
 
         //根據欄位屬性組資料
         combineField: function (fieldData, callback) {
-            callback(EZfieldClass.combineFieldOption(fieldData, 'dg'));
+            callback(DatagridFieldAdapter.combineFieldOption(fieldData, 'dg'));
         },
         //dg row刪除
         removeRow: function () {

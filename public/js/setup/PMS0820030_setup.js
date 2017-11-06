@@ -26,7 +26,7 @@ var PMS0820030VM = new Vue({
         fetchDgFieldData: function () {
             $.post("/api/prgDataGridDataQuery", {prg_id: gs_prg_id, page_id: 1}, function (result) {
                 PMS0820030VM.prgFieldDataAttr = result.fieldData;
-                PMS0820030VM.prgColumnsOption = EZfieldClass.combineFieldOption(result.fieldData, 'PMS0820030_prg_dg');
+                PMS0820030VM.prgColumnsOption = DatagridFieldAdapter.combineFieldOption(result.fieldData, 'PMS0820030_prg_dg');
                 PMS0820030VM.createDatagrid();
                 PMS0820030VM.dgIns.loadDgData(result.dataGridRows);
             });
@@ -184,4 +184,4 @@ var PMS0820030VM = new Vue({
 });
 
 
-var adpterDg = new AdapterDatagrid(PMS0820030VM);
+var adpterDg = new DatagridAdapter(PMS0820030VM);
