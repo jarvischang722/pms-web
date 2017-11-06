@@ -419,7 +419,7 @@ module.exports = {
                                         part_cb(lo_error, lo_result);
                                     }
                                     else {
-                                        if (ls_beginDat == getResult.rent_dat_hq) {
+                                        if (moment(new Date(ls_beginDat)).format("YYYY/MM/DD HH:mm:ss") == moment( new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD HH:mm:ss")) {
                                             lo_result.extendExecDataArrSet.push({
                                                 function: 2,
                                                 table_name: 'sales_class_hs',
