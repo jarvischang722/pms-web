@@ -334,7 +334,14 @@ var Pms0830070Comp = Vue.extend({
 
             PMS0830070VM.doSave(function (result) {
                 PMS0830070VM.initTmpCUD();
-                PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
+                $.post('/api/qryPMS0830070SingleData', self.singleData)
+                    .done(function (response) {
+                        PMS0830070VM.singleData = response.mnData;
+                        PMS0830070VM.singleDataDt = response.dtData;
+                        PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
+                        PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                    });
+                // PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
             });
 
         }
@@ -492,9 +499,8 @@ var PMS0830070VM = new Vue({
                 callback(result.success);
                 if (result.success) {
                     PMS0830070VM.initTmpCUD();
-                    PMS0830070VM.loadDataGridByPrgID(function (success) {
+                    PMS0830070VM.loadDataGridByPrgID(function (success) {});
 
-                    });
                     alert('save success!');
                     waitingDialog.hide();
 
