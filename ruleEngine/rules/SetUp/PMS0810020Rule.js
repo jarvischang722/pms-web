@@ -94,6 +94,7 @@ module.exports = {
                 }
                 result.success = false;
                 error.errorMsg = commandRules.getMsgByCod("pms81msg2", session.locale);
+                result.effectValues[postData.validateField] = "";
                 return callback(error,result);
             }
 
@@ -108,20 +109,22 @@ module.exports = {
                 if (data) {
                     let belong_dat = moment(new Date(data.rent_cal_dat)); //滾房租日
                     //1)
-                    if (!_.isEmpty(end_dat) && moment(new Date(end_dat)).diff(belong_dat, "days") < 0) {
+                    if (!_.isEmpty(end_dat) && moment(new Date(end_dat)).diff(belong_dat, "days") < 0 && postData.validateField == "end_dat") {
                         if (!error) {
                             error = new ErrorClass();
                         }
                         result.success = false;
                         error.errorMsg = commandRules.getMsgByCod("pms81msg3", session.locale);
+                        result.effectValues[postData.validateField] = "";
                     }
                     //2)
-                    if (!_.isEmpty(begin_dat) && moment(new Date(begin_dat)).diff(belong_dat, "days") < 0) {
+                    if (!_.isEmpty(begin_dat) && moment(new Date(begin_dat)).diff(belong_dat, "days") < 0 && postData.validateField == "begin_dat") {
                         if (!error) {
                             error = new ErrorClass();
                         }
                         result.success = false;
                         error.errorMsg = commandRules.getMsgByCod("pms81msg4", session.locale);
+                        result.effectValues[postData.validateField] = "";
                     }
 
                 }
