@@ -5,13 +5,14 @@
         <statement><![CDATA[
               select athena_id, hotel_cod, adjfolio_cod, adjfolio_rmk, ins_dat, ins_usr, upd_dat, upd_usr
               from hc_adjfolio_mn
-              where athena_id = ? and trim(hotel_cod) = ? order by adjfolio_cod
+              where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
         </statement>
         <parameter type="int" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">hotel_cod</parameter>
         <parameter type="likestring" kind="2" condition="adjfolio_cod like ?">adjfolio_cod</parameter>
         <parameter type="likestring" kind="2" condition="adjfolio_rmk like ?">adjfolio_rmk</parameter>
+        <orderby> order by adjfolio_cod</orderby>
     </dao>
 
     <!-- ['PMS0830070'] 單筆虛擬帳單項目 -->
