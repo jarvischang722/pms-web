@@ -25,7 +25,7 @@ var Pms0830070Comp = Vue.extend({
             dtSelItemNosShowList: [],
             dt2SelectedItemNos: [],              //dt2已選擇項目
             dt2DisableItemNos: [],               //dt2禁用項目
-            itemNosCheckedTemp: []               //服務項目勾選暫存(優先權高)
+            itemNosCheckedTemp: []               //服務項目dtSelItemNosShowList勾選暫存(優先權高)
         };
     },
     created: function () {
@@ -33,12 +33,14 @@ var Pms0830070Comp = Vue.extend({
         vmHub.$on("clearItemNosCheckedTemp", function () {
             self.itemNosCheckedTemp = [];
             self.oriItemNosChecked = [];
+            self.deleteDtTmp = [];
+            self.dtSelItemNosShowList = [];
         });
     },
     methods: {
         //點擊明細跳窗
         openDt2: function (index, itemName) {
-            if (itemName == "") {
+            if (itemName == "" || _.isNull(itemName)) {
                 alert("請輸入帳單明細");
                 return;
             }
@@ -190,13 +192,15 @@ var Pms0830070Comp = Vue.extend({
 
         //新增明細
         btnAddDtDetail: function () {
-            if(PMS0830070VM.singleData.adjfolio_cod.trim() == ""){
+            if (PMS0830070VM.singleData.adjfolio_cod.trim() == "") {
                 alert("請填入代號");
                 return;
             }
             var singleData = PMS0830070VM.singleData;
-            var ln_oriSeqNos = PMS0830070VM.oriSingleDataDt.length;
-            var seqNosTmp = PMS0830070VM.singleDataDt[PMS0830070VM.singleDataDt.length - 1].seq_nos;
+            var seqNosTmp = 1;
+            if (PMS0830070VM.singleDataDt.length != 0) {
+                seqNosTmp = PMS0830070VM.singleDataDt[PMS0830070VM.singleDataDt.length - 1].seq_nos;
+            }
             if (singleData.adjfolio_cod != "") {
                 var singleDataDtInfo = PMS0830070VM.singleDataDt;
 
@@ -208,14 +212,15 @@ var Pms0830070Comp = Vue.extend({
                     seq_nos: singleDataDtInfo.length == 0 ? 1 : seqNosTmp + 1,
                     item_nam: ""
                 };
-                if (row.seq_nos > ln_oriSeqNos) {
-                    PMS0830070VM.singleDataDt.push(row);
-                    PMS0830070VM.tmpCUD.dt_createData.push(row);
-                }
-                else {
-                    var lo_singleDt = _.findWhere(PMS0830070VM.oriSingleDataDt, {seq_nos: row.seq_nos});
+
+                var lo_singleDt = _.findWhere(PMS0830070VM.oriSingleDataDt, {seq_nos: row.seq_nos});
+                if (!_.isUndefined(lo_singleDt)) {
                     PMS0830070VM.singleDataDt.push(lo_singleDt);
                     PMS0830070VM.tmpCUD.dt_deleteData = _.without(PMS0830070VM.tmpCUD.dt_deleteData, lo_singleDt);
+                }
+                else {
+                    PMS0830070VM.singleDataDt.push(row);
+                    PMS0830070VM.tmpCUD.dt_createData.push(row);
                 }
             }
             else {
@@ -284,7 +289,7 @@ var Pms0830070Comp = Vue.extend({
 
         doSaveGrid: function () {
             var self = this;
-            if(PMS0830070VM.singleData.adjfolio_rmk.trim() == ""){
+            if (PMS0830070VM.singleData.adjfolio_rmk.trim() == "") {
                 alert("請填入名稱");
                 return;
             }
@@ -295,8 +300,9 @@ var Pms0830070Comp = Vue.extend({
                 PMS0830070VM.tmpCUD.updateData = PMS0830070VM.singleData;
             }
 
-            PMS0830070VM.doSave(function(result){
-                PMS0830070VM.closeGridDialog();
+            PMS0830070VM.doSave(function (result) {
+                PMS0830070VM.initTmpCUD();
+                PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
             });
 
         }
@@ -442,8 +448,9 @@ var PMS0830070VM = new Vue({
 
         doSave: function (callback) {
             var self = this;
-            if(_.isUndefined(callback)){
-                callback = function(){};
+            if (_.isUndefined(callback)) {
+                callback = function () {
+                };
             }
             waitingDialog.show('Saving...');
             var params = _.extend({prg_id: gs_prg_id}, this.tmpCUD);
