@@ -75,8 +75,17 @@ var Pms0830070Comp = Vue.extend({
                 //原始資料驗證
                 var ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
                 var ln_dis_item_nos = _.findIndex(self.dt2DisableItemNos, {item_nos: lo_data.item_nos});
+
                 lo_data.checked = (ln_sel_item_nos != -1 || ln_dis_item_nos != -1) ? true : false;
                 lo_data.disabled = (ln_dis_item_nos != -1) ? true : false;
+
+                _.each(PMS0830070VM.tmpCUD.dt_deleteData, function(lo_dtDelData){
+                    var ln_delNosItem = _.findIndex(self.dt2DisableItemNos, {seq_nos: lo_dtDelData.seq_nos, item_nos: lo_data.item_nos});
+                    if(ln_delNosItem != -1){
+                        lo_data.checked = false;
+                        lo_data.disabled = false;
+                    }
+                });
 
                 //暂存驗證
                 if (self.itemNosCheckedTemp.length > 0) {
@@ -100,6 +109,7 @@ var Pms0830070Comp = Vue.extend({
         updateCheckData: function (index) {
             this.dt2ShowList[index].checked = (this.dt2ShowList[index].checked) ? false : true;
             var lo_temp = _.findIndex(this.itemNosCheckedTemp, {item_nos: this.dt2ShowList[index].item_nos});
+
             if (lo_temp == -1) {
                 this.itemNosCheckedTemp.push({
                     seq_nos: PMS0830070VM.singleData.seq_nos,
@@ -255,13 +265,34 @@ var Pms0830070Comp = Vue.extend({
                         lo_tmpCUD.dt_deleteData = _.without(lo_tmpCUD.dt_deleteData, lo_tmpCUD.dt_deleteData[ln_dtDeleteIsExist]);
                     }
 
+                    var la_delData = _.where(self.itemNosCheckedTemp, {seq_nos: lo_delDtTmp});
                     if (!_.isUndefined(lo_singleDataDt)) {
+                        //修改
                         if (_.isUndefined(lo_singleDataDt.createRow)) {
                             lo_tmpCUD.dt_deleteData.push(lo_singleDataDt);
+                        }
+                        //新增
+                        else {
+                            _.each(PMS0830070VM.tmpCUD.dt2_createData, function (lo_createData) {
+                                if (lo_createData.seq_nos == lo_delDtTmp) {
+                                    PMS0830070VM.tmpCUD.dt2_createData = _.without(PMS0830070VM.tmpCUD.dt2_createData, lo_createData);
+                                }
+                            });
+
+                            _.each(PMS0830070VM.tmpCUD.dt2_deleteData, function (lo_deleteData) {
+                                if (lo_deleteData.seq_nos == lo_delDtTmp) {
+                                    PMS0830070VM.tmpCUD.dt2_deleteData = _.without(PMS0830070VM.tmpCUD.dt2_deleteData, lo_deleteData);
+                                }
+                            });
                         }
                         PMS0830070VM.singleDataDt = _.without(PMS0830070VM.singleDataDt, lo_singleDataDt);
                     }
 
+                    _.each(la_delData, function (lo_delData) {
+                        self.itemNosCheckedTemp = _.without(self.itemNosCheckedTemp, lo_delData);
+                    });
+
+                    self.dtSelItemNosShowList = [];
                 });
             }
         },
@@ -380,6 +411,7 @@ var PMS0830070VM = new Vue({
             var self = this;
             PMS0830070VM.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
             PMS0830070VM.singleDataDt = [];
+            PMS0830070VM.oriSingleDataDt = {};
 
             $.post('/api/qryDt2ItemNosList', PMS0830070VM.singleData)
                 .done(function (response) {
@@ -441,6 +473,7 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.editingRow = {};
             PMS0830070VM.singleData = {};
             PMS0830070VM.singleDataDt = {};
+            PMS0830070VM.oriSingleDataDt = {};
             PMS0830070VM.initTmpCUD();
             $("#PMS0830070Dialog").dialog('close');
             this.dgIns.endEditing();
