@@ -1,4 +1,5 @@
 <script type="text/x-template" id="singleGridPMS0620020Tmp">
+
     <div id="singleGridPMS0620020" class="hide padding-5">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
@@ -13,7 +14,9 @@
                                            :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
                                            :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
                                            @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                    <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
+
+                                    <label style="width:auto"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <span>{{ field.ui_display_name }}</span>
                                     </label>
@@ -22,13 +25,26 @@
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <span>{{ field.ui_display_name }}</span>
                                     </label>
+
                                     <input type="text" v-model="rowData[field.ui_field_name]"
                                            v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number' || field.ui_type == 'popupgrid')"
-                                           :type="field.ui_type" class="numStyle-none" :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :type="field.ui_type" class="numStyle-none"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                            :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                           :required="field.requirable == 'Y'" min="0" :maxlength="field.ui_field_length"
+                                           :required="field.requirable == 'Y'" min="0"
+                                           :maxlength="field.ui_field_length"
                                            :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I'&& editStatus) || (field.modificable == 'E'&& createStatus)"
                                            @click="chkClickPopUpGrid(field)">
+
+                                    <!-- tree -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'tree'">
+                                        <el-cascader
+                                                v-model="classCodSelectedOption"
+                                                expand-trigger="hover"
+                                                :options="field.selectData"
+                                                class="numStyle-none"
+                                                size="small"></el-cascader>
+                                    </template>
 
                                     <!-- 日期選擇器 -->
                                     <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
@@ -55,12 +71,17 @@
                                                         @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
                                         </el-date-picker>
                                     </template>
+
                                     <!-- 下拉選單 -->
-                                    <span class="dropdown margin-adjust" align="left" :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'" :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                    <span class="dropdown margin-adjust" align="left"
+                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                          :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                         <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                class="btn btn-default btn-white dropdown-toggle btn-height" style="text-align: left!important;"
-                                                type="button" data-toggle="dropdown" :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                                class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                style="text-align: left!important;"
+                                                type="button" data-toggle="dropdown"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                             {{ showDropdownDisplayName(rowData[field.ui_field_name] , field.selectData) }}
                                             <span class="caret" style="text-align: right"></span>
                                         </button>
@@ -78,9 +99,10 @@
                         </div>
                         <!-------- tabPage -------->
                         <el-tabs v-model="gs_active" @tab-click="doChangeTraff">
-                            <el-tab-pane label="<%= __("program")["PMS0620020"]["Property"]%>" name="hotelDt">
+                            <el-tab-pane label="<%= __("program")["PMS0620020"]["Property"] %>" name="hotelDt">
                             </el-tab-pane>
-                            <el-tab-pane label="<%= __("program")["PMS0620020"]["group_change_record"]%>" name="classHs">
+                            <el-tab-pane label="<%= __("program")["PMS0620020"]["group_change_record"] %>"
+                                         name="classHs">
                             </el-tab-pane>
                         </el-tabs>
                         <div id="hotelDtPanel" v-show="gs_active=='hotelDt'" class="easyui-panel">
@@ -100,12 +122,14 @@
                                                     <ul>
                                                         <li>
                                                             <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                    role="button" @click="appendDtRow"><%= __("SystemCommon")["Add"]%>
+                                                                    role="button"
+                                                                    @click="appendDtRow"><%= __("SystemCommon")["Add"] %>
                                                             </button>
                                                         </li>
                                                         <li>
                                                             <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                    role="button" @click="removeDtRow"><%= __("SystemCommon")["Delete"]%>
+                                                                    role="button"
+                                                                    @click="removeDtRow"><%= __("SystemCommon")["Delete"] %>
                                                             </button>
                                                         </li>
                                                     </ul>
@@ -124,7 +148,8 @@
                                         <!-- 表格 -->
                                         <div class="col-xs-11 col-sm-11">
                                             <div class="horizTable-outer">
-                                                <table class="css_table horizTable" id="classHs_dg" style="width:100%;"></table>
+                                                <table class="css_table horizTable" id="classHs_dg"
+                                                       style="width:100%;"></table>
                                             </div>
                                         </div>
                                     </div>
@@ -143,20 +168,23 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSave">
-                                            <%= __("SystemCommon")["Save"]%>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doSave">
+                                            <%= __("SystemCommon")["Save"] %>
                                         </button>
                                     </li>
                                     <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
                                     <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth "
-                                                role="button" @click="loadChangeLog"><%= __("SystemCommon")["ChangeLog"]%>
+                                                role="button"
+                                                @click="loadChangeLog"><%= __("SystemCommon")["ChangeLog"] %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="closeSingleGridDialog">
-                                            <%= __("SystemCommon")["Leave"]%>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="closeSingleGridDialog">
+                                            <%= __("SystemCommon")["Leave"] %>
                                         </button>
                                     </li>
                                 </ul>
@@ -168,7 +196,8 @@
         </div>
         <!-- 異動紀錄 -->
         <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
-                   :visible.sync="openChangeLogDialog" >
+                   :visible.sync="openChangeLogDialog">
+
             <div class="col-xs-12">
                 <div class="col-sm-12 col-xs-12">
                     <div class="row">
@@ -177,10 +206,10 @@
                                 <table class=" custab">
                                     <thead class="custab-head">
                                     <tr>
-                                        <th class="width-15 text-center"><%= __("SystemCommon")["Time"]%></th>
-                                        <th class="width-10 text-center"><%= __("SystemCommon")["User"]%></th>
-                                        <th class="width-15 text-center"><%= __("SystemCommon")["Action_type"]%></th>
-                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Mn"]%></th>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Time"] %></th>
+                                        <th class="width-10 text-center"><%= __("SystemCommon")["User"] %></th>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Action_type"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Mn"] %></th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -192,10 +221,12 @@
                                     <tr v-for="logData in allChangeLogList">
                                         <td class="width-15">{{logData.event_time}}</td>
                                         <td class="width-10">{{logData.user}}</td>
-                                        <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        <td class="width-15"><span
+                                                    v-for="keyData in logData.keys">{{keyData}}<br></span>
                                         </td>
                                         <td class="width-20">
-                                            <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}
+                                            <div class="blue bold" style="text-transform: capitalize;">{{logData.action
+                                                }}
                                             </div>
                                             <span v-for="mnData in logData.desc_mn">
                                         {{mnData.field_name}} :
