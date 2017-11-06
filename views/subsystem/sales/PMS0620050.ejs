@@ -143,9 +143,9 @@
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 拜訪紀錄 dataGrid -->
-                        <table id="sales_visitRecord-table"></table>
+                        <table id="sales_visitRecord-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -171,10 +171,10 @@
     <!--  /.End 業務 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
-<!--  業務 initial js -->
-<%- include sales_module/sales_includeJs.ejs %>
-<!--  /.End 業務 initial js  -->
-
 <!-- subSystem 共用 js -->
 <%- include ../common/viewsComJs.ejs %>
 <!--  /.End subSystem 共用 js  -->
+
+<!--  業務 initial js -->
+<%- include sales_module/sales_includeJs.ejs %>
+<!--  /.End 業務 initial js  -->

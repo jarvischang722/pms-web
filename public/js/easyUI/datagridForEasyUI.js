@@ -57,7 +57,8 @@ var EZfieldClass = {
             dataType = 'color';
         }
         else if (fieldAttrObj.ui_type == "time") {
-            dataType = 'timespinner';
+            dataType = "textbox";
+            // dataType = 'timespinner';
         }
         else if (fieldAttrObj.ui_type == "selectgrid") {
             dataType = 'combogrid';
@@ -252,8 +253,25 @@ var EZfieldClass = {
             };
             tmpFieldObj.formatter = lf_colorFormatter;
         }
-        else if (fieldAttrObj.ui_type == "text") {
-            var isTextTouchEvent = true;
+        else if (dataType == "textbox") {
+            function timeFormater(val) {
+                if (tmpFieldObj.ui_type == "time") {
+                    if (!_.isNull(val)) {
+                        var lo_val = String(val);
+                        if (lo_val.indexOf(":") == "-1") {
+                            var hour = lo_val.substring(0, 2);
+                            var min = lo_val.substring(2, 4);
+
+                            return hour + ":" + min;
+                        }
+                        return val;
+                    }
+                    return "";
+                } else {
+                    return val;
+                }
+            }
+
             tmpFieldObj.editor.type = dataType;
             tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
                 var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
@@ -272,13 +290,15 @@ var EZfieldClass = {
                     }
                 }
 
-
                 if (fieldAttrObj.rule_func_name != "") {
                     if (isUserEdit) {
                         onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
                     }
                 }
             };
+            tmpFieldObj.formatter = timeFormater;
+            // tmpFieldObj.editor.options.formatter = timeFormater;
+
 
         }
         else if (dataType == "numberbox") {
@@ -333,7 +353,9 @@ var EZfieldClass = {
  * @param dgName
  */
 var ga_readonlyFields = [];
+
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
+
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
@@ -382,7 +404,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
                 var effectValues = result.effectValues;
                 if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
-                    $('#' + dgName).datagrid('endEdit', indexRow);
+                    // $('#' + dgName).datagrid('endEdit', indexRow);
                     $('#' + dgName).datagrid('updateRow', {
                         index: indexRow,
                         row: effectValues

@@ -104,9 +104,9 @@
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 房務入帳-table dataGrid -->
-                        <table id="PMS0410020-table"></table>
+                        <table id="PMS0410020-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -151,8 +151,9 @@
 </div>
 <!-- /.page-content -->
 
-
-
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
 
 <!--  房務共用 initial js -->
 <%- include houseKeeping_module/houseKeeping_includeJs.ejs %>
@@ -162,7 +163,3 @@
 <!--  訂房卡共用 initial js -->
 <%- include ../reservation/PMS0100000_module/resv_includeJs.ejs %>
 <!--  /.End 訂房卡共用 initial js  -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include ../../../common/head %>
-<%- include ../../../common/importFiles %>
 
+<%- include ../../../common/cssFile/importFiles_CssBase %>
+
+<%- include ../../../common/jsFile/importFiles_JsBase %>
+
+<body>
 
 <div class="">
     <div class="page-header">
@@ -1741,7 +1745,7 @@
     <!-- /.rate code(MR) 彈出視窗 -->
 
 </div>
-</a>
+
 
 
 <!-- basic scripts -->
@@ -1787,7 +1791,7 @@
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/reservation_RateCode.json',
+            url: '/jsonData/reservation/resv_RateCode.json',
             method: 'get',
             columns: [[
                 {field: 'choose', title: '選擇', width: 100},

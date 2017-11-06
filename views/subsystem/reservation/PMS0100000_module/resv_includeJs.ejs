@@ -1,3 +1,6 @@
+
+<%- include ../../../common/jsFile/groupJs_fixTable %>
+
 <script type="text/javascript">
     $(function (){
 
@@ -15,6 +18,36 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 訂房卡 dataGrid
+            $('#reservation_resvCard-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                width: '94%',
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_resvCard.json',
+                method: 'get',
+                columns: [[
+                    {field: 'No', title: 'No', width: 30},
+                    {field: 'Status', title: 'Status', width: 40},
+                    {field: 'CIDate', title: 'CI Date', width: 75},
+                    {field: 'Days', title: 'Days', width: 40},
+                    {field: 'CODate', title: 'CO Date', width: 75},
+                    {field: 'RateCode', title: 'Rate code', width: 120},
+                    {field: 'RunTypeForSell', title: 'Run Type For Sell', width: 60},
+                    {field: 'TypeForAssign', title: 'Type For Assign',align:'right', width: 60},
+                    {field: 'NoOfRms', title: 'No of Rms',align:'right', width: 40},
+                    {field: 'UnitPrice', title: 'Unit Price',align:'right', width: 60},
+                    {field: 'UnitSevChrg', title: 'Unit Sev. Chrg',align:'right', width: 60},
+                    {field: 'GrdRmChrg', title: 'Grd Rm Chrg',align:'right', width: 60},
+                    {field: 'GrdSvc', title: 'Grd Svc.',align:'right', width: 60},
+                    {field: 'Others', title: 'Others',align:'right', width: 60},
+                    {field: 'Total', title: 'Total',align:'right', width: 60},
+                    {field: 'RelatedNum', title: '關連序號', width: 40},
+                    {field: 'Commion', title: 'Commion',align:'right', width: 40}
+                ]]
+            });
+
         });
 
         // 彈出 住客歷史
@@ -31,6 +64,78 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // History 預約來館資料 dataGrid
+            $('#reservation_reserveShopInfo-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_reserveShopInfo.json',
+                method: 'get',
+                columns: [[
+                    {field: 'cardStatus', title: '訂房卡狀態', width: 100},
+                    {field: 'ciDate', title: 'C/I日期', width: 100},
+                    {field: 'coDate', title: 'C/Ｏ日期', width: 100},
+                    {field: 'fullName', title: 'Full Name', width: 100},
+                    {field: 'checkStatus', title: '確認狀態', width: 100},
+                    {field: 'companyName', title: '公司名稱', width: 100},
+                    {field: 'proxyCompanyName', title: '代訂公司名稱', width: 100},
+                    {field: 'retainDate', title: '保留日', width: 100},
+                    {field: 'contactMan', title: '連絡人', width: 100},
+                    {field: 'roomKind', title: '房種', width: 100},
+                    {field: 'adult', title: '大人', width: 100},
+                    {field: 'child', title: '小孩', width: 100},
+                    {field: 'addDate', title: '新增日期', width: 100},
+                    {field: 'addBy', title: '新增者', width: 100},
+                    {field: 'lastDate', title: '最後修改日', width: 100},
+                    {field: 'lastBy', title: '最後修改者', width: 100},
+                    {field: 'firstName', title: 'First Name', width: 100},
+                    {field: 'lastName', title: 'Last Name', width: 100}
+                ]]
+            });
+
+            // History 住客來訪歷史 dataGrid
+            $('#reservation_guestVisitHistory-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_guestVisitHistory.json',
+                method: 'get',
+                columns: [[
+                    {field: 'office', title: '廳別', width: 100},
+                    {field: 'arriveDate', title: '到達日', width: 100},
+                    {field: 'departDate', title: '離開日', width: 100},
+                    {field: 'roomNum', title: '房號', width: 100},
+                    {field: 'roomPriceCode', title: '房價代號', width: 100},
+                    {field: 'roomPrice', title: '房價', width: 100, align:'right'},
+                    {field: 'rebate', title: '折扣', width: 100, align:'right'},
+                    {field: 'rebateCreditor', title: '折扣債權人', width: 100},
+                    {field: 'consumption', title: '總消費額', width: 100, align:'right'},
+                    {field: 'guestCategory', title: '市場類別', width: 100},
+                    {field: 'proxyCompany', title: '代訂公司', width: 100},
+                    {field: 'hall', title: '館別', width: 100},
+                    {field: 'remark', title: '備註', width: 100}
+                ]]
+            });
+
+            // Remarks dataGrid
+            $('#reservation_hallRemark-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_hallRemark.json',
+                method: 'get',
+                columns: [[
+                    {field: 'hall', title: '館別', width: 100},
+                    {field: 'no', title: '序號', width: 100},
+                    {field: 'remark', title: '備註', width: 200},
+                    {field: 'inputPerson', title: '輸入者', width: 100},
+                    {field: 'inputDate', title: '輸入日', width: 100},
+                    {field: 'lastInputPerson', title: '最後異動者', width: 100},
+                    {field: 'lastInputDate', title: '最後異動日', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 住客歷史 Lost&Found
@@ -47,6 +152,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // profile resvProfile_lostFound (同綜合櫃檯 profile 多筆) dataGrid
+            $('#resvProfile_lostFound-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_lostFound.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
+                    {field: 'LfCode', title: '編號', width: 50},
+                    {field: 'LfState', title: '狀態', width: 100},
+                    {field: 'LfDate', title: '遺失日期', width: 100},
+                    {field: 'LfTime', title: '遺失時間', width: 100},
+                    {field: 'LfThings', title: '遺失物品', width: 240},
+                    {field: 'LfName', title: '遺失者', width: 100},
+                    {field: 'LfPlace', title: '遺失處', width: 100},
+                ]]
+            });
+
         });
 
         // 彈出 住客歷史 Anniversary
@@ -63,6 +188,27 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+
+            // 住客歷史 anniversary dataGrid
+            $('#resv_anniversary-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_anniversary.json',
+                method: 'get',
+                columns: [[
+                    {field: 'anniv', title: '紀念日期', width: 100},
+                    {field: 'annivSort', title: '紀念日分類', width: 60},
+                    {field: 'objectSort', title: '對象分類', width: 60},
+                    {field: 'details', title: '說明', width: 100},
+                    {field: 'addDate', title: '新增日', width: 75},
+                    {field: 'addBy', title: '新增者', width: 75},
+                    {field: 'updDate', title: '異動日', width: 75},
+                    {field: 'updBy', title: '異動者',width: 75}
+                ]]
+            });
+
         });
 
         // 彈出 訂房卡 費用列表 Rate Details
@@ -79,6 +225,33 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 費用列表 dataGrid
+            $('.resvRateDetail1-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/reservation_rateDetail_1.json',
+                method: 'get',
+                columns: [[
+                    {field: 'details', title: '明細', width: 60},
+                    {field: 'itemCode', title: '項目代號', width: 100},
+                    {field: 'itemName', title: '項目名稱', width: 200},
+                    {field: 'itemPrice', title: '項目單價', width: 100},
+                    {field: 'quanity', title: '數量', width: 100},
+                    {field: 'itemSubTotal', title: '項目小計', width: 100},
+                    {field: 'serviceMethod', title: '服務方式', width: 100},
+                    {field: 'customRules', title: '自訂規則', width: 100},
+                    {field: 'startDate', title: '開始日期', width: 100},
+                    {field: 'endDate', title: '結束日期', width: 100},
+                    {field: 'hallCode', title: '館別代號', width: 100},
+                    {field: 'addBy', title: '輸入者', width: 100},
+                    {field: 'addDate', title: '輸入日', width: 100},
+                    {field: 'updBy', title: '最後異動者', width: 100},
+                    {field: 'updDate', title: '最後異動日', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 訂房卡 選項 option
@@ -144,6 +317,27 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // PMS0210020 trace Button
+            $('#resv_guestDetail-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_guestDetail.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
+                    {field: 'status', title: '狀態', width: 80},
+                    {field: 'startDate', title: '開始日期', width: 100},
+                    {field: 'endDate', title: '結束日期', width: 100},
+                    {field: 'bookingsNum', title: '訂房卡號', width: 100},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'tracesCon', title: '交辦事項內容', width: 400},
+                    {field: 'processDepartment', title: '處理部門', width: 100}
+                ]]
+
+            });
+
         });
 
         // 彈出 住客明細 Guest Details -- 新增交辦
@@ -240,6 +434,33 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 櫃檯備品-詳細資料 resv_amenitiesDetail dataGrid
+            $('#resv_amenitiesDetail-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_amenitiesDetail.json',
+                method: 'get',
+                columns: [[
+
+                    {field: 'dataSource', title: '資料來源', width: 100},
+                    {field: 'className', title: '類別名稱', width: 100},
+                    {field: 'startDate', title: '使用開始日期', width: 100},
+                    {field: 'endDate', title: '使用結業日期', width: 150},
+                    {field: 'useNum', title: '使用數', width: 100, align:'right'},
+                    {field: 'stockNum', title: '佔庫存數', width: 100, align:'right'},
+                    {field: 'resvNo', title: '訂房卡號', width: 100},
+                    {field: 'roomNo', title: '房號', width: 60},
+                    {field: 'groupNo', title: '團號', width: 100},
+                    {field: 'fullName', title: 'Full Name', width: 100},
+                    {field: 'resvCompany', title: '訂房公司', width: 100},
+                    {field: 'companyName', title: '公司名稱', width: 100},
+                    {field: 'ciDate', title: 'C/I日期', width: 100},
+                    {field: 'coDate', title: 'C/O日期', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 預授權
@@ -271,6 +492,31 @@
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
+            });
+
+            // 批次修改 dataGrid
+            $('#resvBatch-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resvBatch.json',
+                method: 'get',
+                columns: [[
+                    {field: 'batchChoose', title: '選擇', width: 40},
+                    {field: 'batchNo', title: '序號', width: 40},
+                    {field: 'batchState', title: '狀態', width: 50},
+                    {field: 'batchDate1', title: 'C/I日期', width: 80},
+                    {field: 'batchDate2', title: 'C/O日期', width: 80},
+                    {field: 'batchCode', title: '房價代號', width: 150},
+                    {field: 'batchTotal', title: '計價房種', width: 100},
+                    {field: 'batchUse', title: '使用房種', width: 100},
+                    {field: 'batchNum', title: '間數', width: 50},
+                    {field: 'batchPrice', title: '房價', width: 60,align:'right'},
+                    {field: 'batchSerice', title: '服務費', width: 60,align:'right'},
+                    {field: 'batchMargin', title: '房價差額', width: 60,align:'right'},
+                    {field: 'batchBrokerage', title: '備註', width: 100}
+                ]]
+
             });
         });
 
@@ -527,6 +773,23 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 狀態變更
+            $('#rvTpye-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/rvType.json',
+                method: 'get',
+                columns: [[
+                    {field: 'rvTpyeNo', title: '序', width: 50},
+                    {field: 'rvTpyeCode', title: '代碼', width: 82},
+                    {field: 'rvTpyeState', title: '狀態', width: 150},
+                    {field: 'rvTpyeMan', title: '異動者', width: 100},
+                    {field: 'rvTpyeDate', title: '異動日期', width: 100}
+                ]]
+            });
+
         });
 
         // 彈出 blockSettingSingle(超訂 PMS0120020)
@@ -609,6 +872,31 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // profile messages (同PMS0210130 多筆) dataGrid
+            $('#resvProfile_message-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/frontDesk/front_message.json',
+                method: 'get',
+                columns: [[
+                    {field: 'room', title: 'Room', width: 80,align:"right"},
+                    {field: 'fullName', title: 'Full Name', width: 150},
+                    {field: 'date', title: 'Date', width: 80},
+                    {field: 'time', title: 'Time', width: 80},
+                    {field: 'from', title: 'From', width: 80},
+                    {field: 'at', title: 'At', width: 80},
+                    {field: 'replyTo', title: 'Reply to', width: 100},
+                    {field: 'message', title: 'Message', width: 150},
+                    {field: 'status', title: 'Status', width: 80},
+                    {field: 'addBy', title: 'Added By', width: 80},
+                    {field: 'addDate', title: 'Added Date', width: 80},
+                    {field: 'updby', title: 'Upd by', width: 80},
+                    {field: 'updDate', title: 'Upd Date', width: 80}
+                ]]
+            });
+
         });
 
         // 彈出 suggestion
@@ -640,6 +928,53 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 訂房卡-接機 dataGrid
+            $('#resvPickUp-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resvPickUp.json',
+                method: 'get',
+                columns: [[
+                    {field: 'resvNo', title: '序號', width: 50},
+                    {field: 'resvCo', title: '連絡人', width: 80},
+                    {field: 'resvP1', title: '電話一', width: 100},
+                    {field: 'resvP2', title: '電話二', width: 100},
+                    {field: 'resvDate', title: '日期', width: 80},
+                    {field: 'resvNum', title: '班次', width: 80},
+                    {field: 'resvTime', title: '時間', width: 80},
+                    {field: 'resvAdult', title: '大人數', width: 50},
+                    {field: 'resvChild', title: '小孩數', width: 50},
+                    {field: 'resvBaby', title: '嬰兒數', width: 50},
+                    {field: 'resvPoint', title: '指定住客', width: 80},
+                    {field: 'resvMark', title: '備註', width: 150}
+                ]]
+            });
+
+            // 訂房卡-送機 dataGrid
+            $('#resvDropOff-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resvDropOff.json',
+                method: 'get',
+                columns: [[
+                    {field: 'resvNo', title: '序號', width: 50},
+                    {field: 'resvCo', title: '連絡人', width: 80},
+                    {field: 'resvP1', title: '電話一', width: 100},
+                    {field: 'resvP2', title: '電話二', width: 100},
+                    {field: 'resvDate', title: '日期', width: 80},
+                    {field: 'resvNum', title: '班次', width: 80},
+                    {field: 'resvTime', title: '時間', width: 80},
+                    {field: 'resvAdult', title: '大人數', width: 50},
+                    {field: 'resvChild', title: '小孩數', width: 50},
+                    {field: 'resvBaby', title: '嬰兒數', width: 50},
+                    {field: 'resvPoint', title: '指定住客', width: 80},
+                    {field: 'resvMark', title: '備註', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 航空哩程
@@ -862,6 +1197,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 訂房卡 resv_depoisitsStep3A(訂金帳戶資料) dataGrid
+            $('#resv_depositsStep3A-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_depositsStep3A.json',
+                method: 'get',
+                columns: [[
+
+                    {field: 'dateNO', title: '日期', width: 100},
+                    {field: 'office', title: '廳別', width: 100},
+                    {field: 'singleNum', title: '單號', width: 100},
+                    {field: 'status', title: '狀態', width: 150},
+                    {field: 'deposit', title: '存入', width: 150, align:'right'},
+                    {field: 'expenditure', title: '支出', width: 150, align:'right'},
+                    {field: 'remark', title: '備註', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 訂房卡 resv_depositsStep4A(入帳)
@@ -894,6 +1249,23 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // 訂房卡 resv_depositsStep3B(訂金編號) dataGrid
+            $('#resv_depositsStep3B-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_depositsStep3B.json',
+                method: 'get',
+                columns: [[
+                    {field: 'depositNum', title: '訂金編號', width: 100},
+                    {field: 'customName', title: '客戶姓名', width: 100},
+                    {field: 'accBalance', title: '帳戶餘額', width: 100, align:'right'},
+                    {field: 'invoiceOpen', title: '發票開立方式', width: 150},
+                    {field: 'IdCardNum', title: '身分證字號', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 rate info
@@ -909,6 +1281,26 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // rateInfo
+            $('#rateInfo-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/rateInfo-table.json',
+                method: 'get',
+                columns: [[
+                    {field: 'date', title: '日期', width: 100},
+                    {field: 'sDate', title: '服務日期', width: 100},
+                    {field: 'item', title: '項目', width: 150},
+                    {field: 'price', title: '單價', width: 80, align:'right'},
+                    {field: 'amount', title: '數量', width: 50, align:'right'},
+                    {field: 'total', title: '小計', width: 70, align:'right'},
+                    {field: 'mode', title: '收費方式.', width: 70}
+                ]]
+            });
+
+
         });
 
         // 彈出 G.Profile "Merge" Btn
@@ -925,6 +1317,27 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // G.Profile resv_merge dataGrid
+            $('#resv_merge-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_merge.json',
+                method: 'get',
+                columns: [[
+                    {field: 'checkbox01', title: '',width: 28,align:"center"},
+                    {field: 'checkbox02', title: '<input type="checkbox">',width: 28,align:"center"},
+                    {field: 'guestNo', title: 'Guest No', width: 100, align:'right'},
+                    {field: 'fullName', title: 'Full Name', width: 100},
+                    {field: 'birth', title: 'Birth', width: 100, align:'right'},
+                    {field: 'IDNo', title: 'ID No.', width: 100},
+                    {field: 'nationality', title: 'Nationality', width: 80},
+                    {field: 'mobile', title: 'Mobile', width: 100, align:'right'},
+                    {field: 'email', title: 'Email', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 Option "Coupon" Btn
@@ -941,6 +1354,31 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // Option > Coupon (resv_coupon-table) dataGrid
+            $('#resv_coupon-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_coupon.json',
+                method: 'get',
+                columns: [[
+                    {field: 'sort', title: '序',width: 28},
+                    {field: 'couponCategory', title: '禮券類別',width: 100},
+                    {field: 'couponNum', title: '禮券編號', width: 150},
+                    {field: 'couponStatus', title: '禮券狀態', width: 70},
+                    {field: 'couponPrice', title: '面額', width: 70,align:'right'},
+                    {field: 'remark', title: '備註', width: 100},
+                    {field: 'status', title: '狀態', width: 60},
+                    {field: 'finiteDate', title: '有限日期', width: 100},
+                    {field: 'frozenDate', title: '凍結日', width: 100},
+                    {field: 'addBy', title: 'Add By', width: 80},
+                    {field: 'addDate', title: 'Add Date', width: 80},
+                    {field: 'updBy', title: 'Upd By', width: 80},
+                    {field: 'updDate', title: 'Upd Date', width: 80},
+                ]]
+            });
+
         });
 
         // 彈出 Reservation > PaxList > Imports(resv_PaxImports) Btn
@@ -957,6 +1395,27 @@
                 dialogClass: "test",
                 resizable: true
             });
+
+            // Reservation > PaxList > Imports(resv_PaxImports-table) dataGrid
+            $('#resv_PaxImports-table').datagrid({
+                singleSelect: true,
+                collapsible: true,
+                // 從json 撈
+                url: '/jsonData/reservation/resv_PaxImports.json',
+                method: 'get',
+                columns: [[
+                    {field: 'sort', title: '明細序號',width: 70},
+                    {field: 'roomGroup', title: '房組',width: 100},
+                    {field: 'guestName', title: '住客姓名', width: 80},
+                    {field: 'gender', title: '性別', width: 80},
+                    {field: 'country', title: '國籍', width: 80},
+                    {field: 'id', title: 'I.D.', width: 100},
+                    {field: 'mobilePhone', title: '行動電話', width: 80},
+                    {field: 'email', title: 'Email', width: 150},
+                    {field: 'address', title: '地址', width: 150}
+                ]]
+            });
+
         });
 
         // 彈出 Option "Registration Card" Btn
@@ -1014,7 +1473,7 @@
 
         <!-- ********* dataGrid ********* -->
 
-        // 住客歷史多筆資料
+        // 住客歷史(G.Profile)多筆資料
         $('#resv_gProfile-table').datagrid({
             singleSelect: true,
             collapsible: true,
@@ -1022,286 +1481,17 @@
             url: '/jsonData/reservation/resv_gProfile.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'historyNO', title: '歷史編號', width: 80},
                 {field: 'personID', title: '身份證字號', width: 100},
-                {field: 'fullName', title: 'Full Nmae', width: 80},
+                {field: 'fullName', title: 'Full Name', width: 80},
                 {field: 'sex', title: '性別', width: 60},
-                {field: 'birthDate', title: '出生日期', width: 100},
                 {field: 'status', title: '狀態', width: 60},
                 {field: 'country', title: '國籍', width: 100},
                 {field: 'visitNum', title: '來訪次數', width: 60},
                 {field: 'visitDay', title: '來訪天數', width: 60},
                 {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
                 {field: 'getDM', title: '收取DM', width: 60}
-            ]]
-
-        });
-
-        // PMS0210020 trace Button
-        $('#resv_guestDetail-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_guestDetail.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox" />', width: 28, align: 'center'},
-                {field: 'status', title: '狀態', width: 100},
-                {field: 'startDate', title: '開始日期', width: 100},
-                {field: 'endDate', title: '結束日期', width: 100},
-                {field: 'bookingsNum', title: '訂房卡號', width: 100},
-                {field: 'roomNum', title: '房號', width: 80},
-                {field: 'tracesCon', title: '交辦事項內容', width: 350},
-                {field: 'processDepartment', title: '處理部門', width: 100}
-            ]]
-
-        });
-
-        // PMS0210010 住客歷史多筆資料(checkbox)
-        $('#resv_gProfile_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_gProfile_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-
-        });
-
-        // G.Profile resv_merge dataGrid
-        $('#resv_merge-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_merge.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox01', title: '',width: 28,align:"center"},
-                {field: 'checkbox02', title: '<input type="checkbox">',width: 28,align:"center"},
-                {field: 'guestNo', title: 'Guest No', width: 100, align:'right'},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'birth', title: 'Birth', width: 100, align:'right'},
-                {field: 'IDNo', title: 'ID No.', width: 100},
-                {field: 'nationality', title: 'Nationality', width: 80},
-                {field: 'mobile', title: 'Mobile', width: 100, align:'right'},
-                {field: 'email', title: 'Email', width: 150}
-            ]]
-        });
-
-        // 預約來館資料 dataGrid
-        $('#reservation_reserveShopInfo-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_reserveShopInfo.json',
-            method: 'get',
-            columns: [[
-                {field: 'cardStatus', title: '訂房卡狀態', width: 100},
-                {field: 'ciDate', title: 'C/I日期', width: 100},
-                {field: 'coDate', title: 'C/Ｏ日期', width: 100},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'checkStatus', title: '確認狀態', width: 100},
-                {field: 'companyName', title: '公司名稱', width: 100},
-                {field: 'proxyCompanyName', title: '代訂公司名稱', width: 100},
-                {field: 'retainDate', title: '保留日', width: 100},
-                {field: 'contactMan', title: '連絡人', width: 100},
-                {field: 'roomKind', title: '房種', width: 100},
-                {field: 'adult', title: '大人', width: 100},
-                {field: 'child', title: '小孩', width: 100},
-                {field: 'addDate', title: '新增日期', width: 100},
-                {field: 'addBy', title: '新增者', width: 100},
-                {field: 'lastDate', title: '最後修改日', width: 100},
-                {field: 'lastBy', title: '最後修改者', width: 100},
-                {field: 'firstName', title: 'First Name', width: 100},
-                {field: 'lastName', title: 'Last Name', width: 100}
-            ]]
-        });
-
-        // 住客來訪歷史 dataGrid
-        $('#reservation_guestVisitHistory-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_guestVisitHistory.json',
-            method: 'get',
-            columns: [[
-                {field: 'office', title: '廳別', width: 100},
-                {field: 'arriveDate', title: '到達日', width: 100},
-                {field: 'departDate', title: '離開日', width: 100},
-                {field: 'roomNum', title: '房號', width: 100},
-                {field: 'roomPriceCode', title: '房價代號', width: 100},
-                {field: 'roomPrice', title: '房價', width: 100, align:'right'},
-                {field: 'rebate', title: '折扣', width: 100, align:'right'},
-                {field: 'rebateCreditor', title: '折扣債權人', width: 100},
-                {field: 'consumption', title: '總消費額', width: 100, align:'right'},
-                {field: 'guestCategory', title: '市場類別', width: 100},
-                {field: 'proxyCompany', title: '代訂公司', width: 100},
-                {field: 'hall', title: '館別', width: 100},
-                {field: 'remark', title: '備註', width: 100}
-            ]]
-        });
-
-        // 住客歷史 anniversary dataGrid
-        $('#resv_anniversary-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_anniversary.json',
-            method: 'get',
-            columns: [[
-                {field: 'anniv', title: '紀念日期', width: 100},
-                {field: 'annivSort', title: '紀念日分類', width: 60},
-                {field: 'objectSort', title: '對象分類', width: 60},
-                {field: 'details', title: '說明', width: 100},
-                {field: 'addDate', title: '新增日', width: 75},
-                {field: 'addBy', title: '新增者', width: 75},
-                {field: 'updDate', title: '異動日', width: 75},
-                {field: 'updBy', title: '異動者',width: 75}
-            ]]
-        });
-
-        // 館別備註 dataGrid
-        $('#reservation_hallRemark-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_hallRemark.json',
-            method: 'get',
-            columns: [[
-                {field: 'hall', title: '館別', width: 100},
-                {field: 'no', title: '序號', width: 100},
-                {field: 'remark', title: '備註', width: 200},
-                {field: 'inputPerson', title: '輸入者', width: 100},
-                {field: 'inputDate', title: '輸入日', width: 100},
-                {field: 'lastInputPerson', title: '最後異動者', width: 100},
-                {field: 'lastInputDate', title: '最後異動日', width: 100}
-            ]]
-        });
-
-        // 訂房卡 dataGrid
-        $('#reservation_resvCard-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_resvCard.json',
-            method: 'get',
-            columns: [[
-                {field: 'No', title: 'No', width: 30},
-                {field: 'Status', title: 'Status', width: 40},
-                {field: 'CIDate', title: 'CI Date', width: 75},
-                {field: 'Days', title: 'Days', width: 40},
-                {field: 'CODate', title: 'CO Date', width: 75},
-                {field: 'RateCode', title: 'Rate code', width: 120},
-                {field: 'RunTypeForSell', title: 'Run Type For Sell', width: 60},
-                {field: 'TypeForAssign', title: 'Type For Assign',align:'right', width: 60},
-                {field: 'NoOfRms', title: 'No of Rms',align:'right', width: 40},
-                {field: 'UnitPrice', title: 'Unit Price',align:'right', width: 60},
-                {field: 'UnitSevChrg', title: 'Unit Sev. Chrg',align:'right', width: 60},
-                {field: 'GrdRmChrg', title: 'Grd Rm Chrg',align:'right', width: 60},
-                {field: 'GrdSvc', title: 'Grd Svc.',align:'right', width: 60},
-                {field: 'Others', title: 'Others',align:'right', width: 60},
-                {field: 'Total', title: 'Total',align:'right', width: 60},
-                {field: 'RelatedNum', title: '關連序號', width: 40},
-                {field: 'Commion', title: 'Commion',align:'right', width: 40}
-            ]]
-        });
-
-        // 費用列表 dataGrid
-        $('.resvRateDetail1-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_rateDetail_1.json',
-            method: 'get',
-            columns: [[
-                {field: 'details', title: '明細', width: 60},
-                {field: 'itemCode', title: '項目代號', width: 100},
-                {field: 'itemName', title: '項目名稱', width: 200},
-                {field: 'itemPrice', title: '項目單價', width: 100},
-                {field: 'quanity', title: '數量', width: 100},
-                {field: 'itemSubTotal', title: '項目小計', width: 100},
-                {field: 'serviceMethod', title: '服務方式', width: 100},
-                {field: 'customRules', title: '自訂規則', width: 100},
-                {field: 'startDate', title: '開始日期', width: 100},
-                {field: 'endDate', title: '結束日期', width: 100},
-                {field: 'hallCode', title: '館別代號', width: 100},
-                {field: 'addBy', title: '輸入者', width: 100},
-                {field: 'addDate', title: '輸入日', width: 100},
-                {field: 'updBy', title: '最後異動者', width: 100},
-                {field: 'updDate', title: '最後異動日', width: 100}
-            ]]
-        });
-
-        // 訂房卡-接機 dataGrid
-        $('#resvPickUp-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resvPickUp.json',
-            method: 'get',
-            columns: [[
-                {field: 'resvNo', title: '序號', width: 50},
-                {field: 'resvCo', title: '連絡人', width: 80},
-                {field: 'resvP1', title: '電話一', width: 100},
-                {field: 'resvP2', title: '電話二', width: 100},
-                {field: 'resvDate', title: '日期', width: 80},
-                {field: 'resvNum', title: '班次', width: 80},
-                {field: 'resvTime', title: '時間', width: 80},
-                {field: 'resvAdult', title: '大人數', width: 50},
-                {field: 'resvChild', title: '小孩數', width: 50},
-                {field: 'resvBaby', title: '嬰兒數', width: 50},
-                {field: 'resvPoint', title: '指定住客', width: 80},
-                {field: 'resvMark', title: '備註', width: 150}
-            ]]
-        });
-
-        // 訂房卡-送機 dataGrid
-        $('#resvDropOff-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resvDropOff.json',
-            method: 'get',
-            columns: [[
-                {field: 'resvNo', title: '序號', width: 50},
-                {field: 'resvCo', title: '連絡人', width: 80},
-                {field: 'resvP1', title: '電話一', width: 100},
-                {field: 'resvP2', title: '電話二', width: 100},
-                {field: 'resvDate', title: '日期', width: 80},
-                {field: 'resvNum', title: '班次', width: 80},
-                {field: 'resvTime', title: '時間', width: 80},
-                {field: 'resvAdult', title: '大人數', width: 50},
-                {field: 'resvChild', title: '小孩數', width: 50},
-                {field: 'resvBaby', title: '嬰兒數', width: 50},
-                {field: 'resvPoint', title: '指定住客', width: 80},
-                {field: 'resvMark', title: '備註', width: 150}
-            ]]
-        });
-
-        // 批次修改 dataGrid
-        $('#resvBatch-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resvBatch.json',
-            method: 'get',
-            columns: [[
-                {field: 'batchChoose', title: '選擇', width: 40},
-                {field: 'batchNo', title: '序號', width: 40},
-                {field: 'batchState', title: '狀態', width: 50},
-                {field: 'batchDate1', title: 'C/I日期', width: 80},
-                {field: 'batchDate2', title: 'C/O日期', width: 80},
-                {field: 'batchCode', title: '房價代號', width: 150},
-                {field: 'batchTotal', title: '計價房種', width: 100},
-                {field: 'batchUse', title: '使用房種', width: 100},
-                {field: 'batchNum', title: '間數', width: 50},
-                {field: 'batchPrice', title: '房價', width: 60,align:'right'},
-                {field: 'batchSerice', title: '服務費', width: 60,align:'right'},
-                {field: 'batchMargin', title: '房價差額', width: 60,align:'right'},
-                {field: 'batchBrokerage', title: '備註', width: 100}
             ]]
 
         });
@@ -1350,22 +1540,6 @@
             ]]
         });
 
-        // 狀態變更
-        $('#rvTpye-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/rvType.json',
-            method: 'get',
-            columns: [[
-                {field: 'rvTpyeNo', title: '序', width: 50},
-                {field: 'rvTpyeCode', title: '代碼', width: 82},
-                {field: 'rvTpyeState', title: '狀態', width: 150},
-                {field: 'rvTpyeMan', title: '異動者', width: 100},
-                {field: 'rvTpyeDate', title: '異動日期', width: 100}
-            ]]
-        });
-
         // 專案訂房 dataGrid
         $('#PMS0110030-dg').datagrid({
             singleSelect: true,
@@ -1374,6 +1548,7 @@
             url: '/jsonData/reservation/resv_PMS0110030-dg.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'rateCode', title: 'Rate Code', width: 80},
                 {field: 'rateName', title: 'Rate Name', width: 150},
                 {field: 'rmType', title: 'RM Type', width: 100},
@@ -1390,28 +1565,15 @@
             ]]
         });
 
-        // setRateCode rateCode-查詢結果(chk) dataGrid
-        $('#resv_RateCode_Chk-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_RateCode_Chk.json',
-            method: 'get',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-
-        });
-
         // setRateCode rateCode-查詢結果 dataGrid
         $('#setRateCode-table').datagrid({
             singleSelect: true,
             collapsible: true,
             // 從json 撈
-            url: '/jsonData/reservation/reservation_RateCode.json',
+            url: '/jsonData/reservation/resv_RateCode.json',
             method: 'get',
             columns: [[
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'roomCode', title: '房價代號', width: 100},
                 {field: 'roomName', title: '房價名稱', width: 100},
                 {field: 'menu', title: 'MENU選單', width: 100},
@@ -1431,193 +1593,20 @@
             url: '/jsonData/reservation/resv_traces.json',
             method: 'get',
             columns: [[
-                {field: 'status', title: '狀態', width: 100},
+                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
+                {field: 'status', title: '狀態', width: 80},
                 {field: 'startDate', title: '開始日期', width: 100},
                 {field: 'endDate', title: '結束日期', width: 100},
                 {field: 'bookingsNum', title: '訂房卡號', width: 100},
-                {field: 'roomNum', title: '房號', width: 80},
-                {field: 'tracesCon', title: '交辦事項內容', width: 350},
+                {field: 'roomNum', title: '房號', width: 60},
+                {field: 'tracesCon', title: '交辦事項內容', width: 400},
                 {field: 'processDepartment', title: '處理部門', width: 100}
             ]]
 
         });
 
-        // PMS0120070 resv_traces 交辦事項(前面的checkbox) dataGrid
-        $('#dgCheckbox-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/dgCheckbox-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"}
-            ]]
-        });
 
-        // Option > Coupon (resv_coupon-table) dataGrid
-        $('#resv_coupon-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_coupon.json',
-            method: 'get',
-            columns: [[
-                {field: 'sort', title: '序',width: 28},
-                {field: 'couponCategory', title: '禮券類別',width: 100},
-                {field: 'couponNum', title: '禮券編號', width: 150},
-                {field: 'couponStatus', title: '禮券狀態', width: 70},
-                {field: 'couponPrice', title: '面額', width: 70,align:'right'},
-                {field: 'remark', title: '備註', width: 100},
-                {field: 'status', title: '狀態', width: 60},
-                {field: 'finiteDate', title: '有限日期', width: 100},
-                {field: 'frozenDate', title: '凍結日', width: 100},
-                {field: 'addBy', title: 'Add By', width: 80},
-                {field: 'addDate', title: 'Add Date', width: 80},
-                {field: 'updBy', title: 'Upd By', width: 80},
-                {field: 'updDate', title: 'Upd Date', width: 80},
-            ]]
-        });
 
-        // Reservation > PaxList > Imports(resv_PaxImports-table) dataGrid
-        $('#resv_PaxImports-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_PaxImports.json',
-            method: 'get',
-            columns: [[
-                {field: 'sort', title: '明細序號',width: 70},
-                {field: 'roomGroup', title: '房組',width: 100},
-                {field: 'guestName', title: '住客姓名', width: 80},
-                {field: 'gender', title: '性別', width: 80},
-                {field: 'country', title: '國籍', width: 80},
-                {field: 'id', title: 'I.D.', width: 100},
-                {field: 'mobilePhone', title: '行動電話', width: 80},
-                {field: 'email', title: 'Email', width: 150},
-                {field: 'address', title: '地址', width: 150}
-            ]]
-        });
-
-        // profile messages (同PMS0210130 多筆) dataGrid
-        $('#resvProfile_message-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/frontDesk/front_message.json',
-            method: 'get',
-            columns: [[
-                {field: 'room', title: 'Room', width: 80,align:"right"},
-                {field: 'fullName', title: 'Full Name', width: 150},
-                {field: 'date', title: 'Date', width: 80},
-                {field: 'time', title: 'Time', width: 80},
-                {field: 'from', title: 'From', width: 80},
-                {field: 'at', title: 'At', width: 80},
-                {field: 'replyTo', title: 'Reply to', width: 80},
-                {field: 'message', title: 'Message', width: 150},
-                {field: 'status', title: 'Status', width: 80},
-                {field: 'addBy', title: 'Added By', width: 80},
-                {field: 'updby', title: 'Upd by', width: 80},
-                {field: 'updDate', title: 'Upd Date', width: 80}
-            ]]
-        });
-
-        // profile resvProfile_lostFound (同綜合櫃檯 profile 多筆) dataGrid
-        $('#resvProfile_lostFound-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/reservation_lostFound.json',
-            method: 'get',
-            columns: [[
-                {field: 'choose', title: '選擇', width: 50},
-                {field: 'LfCode', title: '編號', width: 50},
-                {field: 'LfState', title: '狀態', width: 100},
-                {field: 'LfDate', title: '遺失日期', width: 100},
-                {field: 'LfTime', title: '遺失時間', width: 100},
-                {field: 'LfThings', title: '遺失物品', width: 240},
-                {field: 'LfName', title: '遺失者', width: 100},
-                {field: 'LfPlace', title: '遺失處', width: 100},
-            ]]
-        });
-
-        // 訂房卡 resv_depositsStep3B(訂金編號) dataGrid
-        $('#resv_depositsStep3B-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_depositsStep3B.json',
-            method: 'get',
-            columns: [[
-                {field: 'depositNum', title: '訂金編號', width: 100},
-                {field: 'customName', title: '客戶姓名', width: 100},
-                {field: 'accBalance', title: '帳戶餘額', width: 100, align:'right'},
-                {field: 'invoiceOpen', title: '發票開立方式', width: 150},
-                {field: 'IdCardNum', title: '身分證字號', width: 150}
-            ]]
-        });
-
-        // 訂房卡 resv_depoisitsStep3A(訂金帳戶資料) dataGrid
-        $('#resv_depositsStep3A-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_depositsStep3A.json',
-            method: 'get',
-            columns: [[
-
-                {field: 'dateNO', title: '日期', width: 100},
-                {field: 'office', title: '廳別', width: 100},
-                {field: 'singleNum', title: '單號', width: 100},
-                {field: 'status', title: '狀態', width: 150},
-                {field: 'deposit', title: '存入', width: 150, align:'right'},
-                {field: 'expenditure', title: '支出', width: 150, align:'right'},
-                {field: 'remark', title: '備註', width: 150}
-            ]]
-        });
-
-        // 櫃檯備品-詳細資料 resv_amenitiesDetail dataGrid
-        $('#resv_amenitiesDetail-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/resv_amenitiesDetail.json',
-            method: 'get',
-            columns: [[
-
-                {field: 'dataSource', title: '資料來源', width: 100},
-                {field: 'className', title: '類別名稱', width: 100},
-                {field: 'startDate', title: '使用開始日期', width: 100},
-                {field: 'endDate', title: '使用結業日期', width: 150},
-                {field: 'useNum', title: '使用數', width: 100, align:'right'},
-                {field: 'stockNum', title: '佔庫存數', width: 100, align:'right'},
-                {field: 'resvNo', title: '訂房卡號', width: 100},
-                {field: 'roomNo', title: '房號', width: 60},
-                {field: 'groupNo', title: '團號', width: 100},
-                {field: 'fullName', title: 'Full Name', width: 100},
-                {field: 'resvCompany', title: '訂房公司', width: 100},
-                {field: 'companyName', title: '公司名稱', width: 100},
-                {field: 'ciDate', title: 'C/I日期', width: 100},
-                {field: 'coDate', title: 'C/O日期', width: 100}
-            ]]
-        });
-
-        // rateInfo
-        $('#rateInfo-table').datagrid({
-            singleSelect: true,
-            collapsible: true,
-            // 從json 撈
-            url: '/jsonData/reservation/rateInfo-table.json',
-            method: 'get',
-            columns: [[
-                {field: 'date', title: '日期', width: 100},
-                {field: 'sDate', title: '服務日期', width: 100},
-                {field: 'item', title: '項目', width: 150},
-                {field: 'price', title: '單價', width: 80, align:'right'},
-                {field: 'amount', title: '數量', width: 50, align:'right'},
-                {field: 'total', title: '小計', width: 70, align:'right'},
-                {field: 'mode', title: '收費方式.', width: 70}
-            ]]
-        });
 
 
 
@@ -1733,10 +1722,10 @@
 
 
         // 住客歷史 height
-        $(window).resize(function() {
-            var guestHoliday = $(window).height()-10;
-            $(".guestHoliday").css("height","guestHoliday");
-        });
+//        $(window).resize(function() {
+//            var guestHoliday = $(window).height()-10;
+//            $(".guestHoliday").css("height","guestHoliday");
+//        });
 
         // chosen initial
         // chosen set dialog width

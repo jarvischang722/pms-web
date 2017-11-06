@@ -1203,28 +1203,33 @@ var vm = new Vue({
         //init datepicker
         initDatePicker: function () {
             if (!this.isDatepickerInit) {
-                this.isDatepickerInit = true;
-                $('.date_picker').datepicker({
-                    autoclose: true,
-                    format: 'yyyy/mm/dd'
-                }).on("changeDate", function (e) {
-                });
+                try {
+                    this.isDatepickerInit = true;
+                    $('.date_picker').datepicker({
+                        autoclose: true,
+                        format: 'yyyy/mm/dd'
+                    }).on("changeDate", function (e) {
+                    });
 
-                $('.date_timepicker').datetimepicker({
-                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
+                    $('.date_timepicker').datetimepicker({
+                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                        icons: {
+                            time: 'fa fa-clock-o',
+                            date: 'fa fa-calendar',
+                            up: 'fa fa-chevron-up',
+                            down: 'fa fa-chevron-down',
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-arrows ',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-times'
+                        }
 
-                });
+                    });
+                }
+                catch(ex){
+
+                }
             }
         },
         //打開單檔dialog

@@ -28,7 +28,8 @@ module.exports = {
 
         async.waterfall([
             chkCustMn,
-            chkOrderMn
+            chkOrderMn,
+            delClassHs
         ], function (errMsg, result) {
             callback(lo_error, lo_result);
         });
@@ -46,8 +47,7 @@ module.exports = {
                     if (salesData.cust_sales_count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "商務公司資料已使用，不可刪除";
-                        lo_error.errorCod = "pms62msg1";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg1", session.locale);
                     }
                 }
                 cb(lo_error, lo_result);
@@ -66,8 +66,7 @@ module.exports = {
                     if (salesData.order_sales_Count > 0) {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
-                        lo_error.errorMsg = "訂房卡資料已使用，不可刪除";
-                        lo_error.errorCod = "pms62msg2";
+                        lo_error.errorMsg = commandRules.getMsgByCod("pms62msg2", session.locale);
                     }
                 }
 
@@ -77,6 +76,25 @@ module.exports = {
         //3.未於營業目標設定者可刪除業務員(暫不處理)
         function chkSaleGoal(data, cb){
             //未於營業目標設定者可刪除業務員(暫不處理)
+        }
+        //4.刪除組別異動紀錄
+        function delClassHs(data, cb){
+            lo_result.extendExecDataArrSet.push({
+                function: '0',
+                table_name: 'sales_class_hs',
+                condition: [{
+                    key: 'athena_id',
+                    operation: "=",
+                    value: lo_params.athena_id
+                },{
+                    key: 'sales_cod',
+                    operation: "=",
+                    value: lo_params.sales_cod
+                }],
+                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                kindOfRel: 'dt'
+            });
+            cb(lo_error, lo_result);
         }
     }
 };

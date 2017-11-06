@@ -150,9 +150,9 @@
             <div class="col-xs-11 col-sm-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 外幣匯兌 cashier_FX-table dataGrid -->
-                        <table id="cashier_FX-table"></table>
+                        <table id="cashier_FX-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -192,6 +192,10 @@
 </div>
 <!-- /.page-content -->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <!--  cashier共用 initial js -->
 <%- include cashier_module/cashier_includeJs.ejs %>
 <!--  /.End cashier共用 initial js  -->
@@ -200,7 +204,3 @@
 <!--  接待 共用 initial js-->
 <%- include ../frontDesk/frontDesk_module/frontDesk_includeJs.ejs %>
 <!--  /.End 接待 共用 initial js -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

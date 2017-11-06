@@ -1,63 +1,63 @@
 <script type="text/x-template" id="singleGridPMS0620020Tmp">
     <div id="singleGridPMS0620020" class="hide padding-5">
-    <div class="businessCompanyData">
-        <div class="col-xs-12 col-sm-12">
-            <div class="row">
-                <div class="col-sm-11 col-xs-11">
-                    <div class="borderFrame main-content-data ">
-                        <div class="row" v-for="fields in fieldData">
-                            <div class="grid-item" v-for="field in fields">
-                                <!--  checkbox -->
-                                <input v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
-                                       v-model="rowData[field.ui_field_name]" type="checkbox"
-                                       :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
-                                       :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
-                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                <label :style="{width:field.label_width + 'px'}" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
-                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                    <span>{{ field.ui_display_name }}</span>
-                                </label>
+        <div class="businessCompanyData">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-sm-11 col-xs-11">
+                        <div class="borderFrame main-content-data ">
+                            <div class="row" v-for="fields in fieldData">
+                                <div class="grid-item" v-for="field in fields">
+                                    <!--  checkbox -->
+                                    <input v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                           v-model="rowData[field.ui_field_name]" type="checkbox"
+                                           :required="field.requirable == 'Y'" :maxlength="field.ui_field_length"
+                                           :disabled="field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus) || !isModifiable"
+                                           @click="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                    <label style="width:auto" v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <span>{{ field.ui_display_name }}</span>
+                                    </label>
 
-                                <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
-                                    <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
-                                    <span>{{ field.ui_display_name }}</span>
-                                </label>
-                                <input type="text" v-model="rowData[field.ui_field_name]"
-                                       v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number' || field.ui_type == 'popupgrid')"
-                                       :type="field.ui_type" class="numStyle-none" :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                       :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
-                                       :required="field.requirable == 'Y'" min="0" :maxlength="field.ui_field_length"
-                                       :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I'&& editStatus) || (field.modificable == 'E'&& createStatus)"
-                                       @click="chkClickPopUpGrid(field)">
+                                    <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <span>{{ field.ui_display_name }}</span>
+                                    </label>
+                                    <input type="text" v-model="rowData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' ||  field.ui_type == 'number' || field.ui_type == 'popupgrid')"
+                                           :type="field.ui_type" class="numStyle-none" :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                           :required="field.requirable == 'Y'" min="0" :maxlength="field.ui_field_length"
+                                           :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I'&& editStatus) || (field.modificable == 'E'&& createStatus)"
+                                           @click="chkClickPopUpGrid(field)">
 
-                                <!-- 日期選擇器 -->
-                                <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
-                                    <el-date-picker v-model="rowData[field.ui_field_name]"
-                                                    type="date"
-                                                    size="small"
-                                                    :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                    format="yyyy/MM/dd"
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                    <!-- 日期選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'date'">
+                                        <el-date-picker v-model="rowData[field.ui_field_name]"
+                                                        type="date"
+                                                        size="small"
+                                                        :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        format="yyyy/MM/dd"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
 
-                                    </el-date-picker>
-                                </template>
+                                        </el-date-picker>
+                                    </template>
 
-                                <!-- 日期時間選擇器 -->
-                                <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
-                                    <el-date-picker v-model="rowData[field.ui_field_name]"
-                                                    type="datetime"
-                                                    change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
-                                                    :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
-                                                    size="small"
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    format="yyyy/MM/dd HH:mm:ss"
-                                                    @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
-                                    </el-date-picker>
-                                </template>
-                                <!-- 下拉選單 -->
-                                <span class="dropdown margin-adjust" align="left" :class="{'input_sta_required' : field.requirable == 'Y' }"
-                                      v-if="field.visiable == 'Y' && field.ui_type == 'select'" :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                    <!-- 日期時間選擇器 -->
+                                    <template v-if="field.visiable == 'Y' && field.ui_type == 'datetime'">
+                                        <el-date-picker v-model="rowData[field.ui_field_name]"
+                                                        type="datetime"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                        :disabled="!isModifiable || field.modificable == 'N'|| (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
+                                                        size="small"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        format="yyyy/MM/dd HH:mm:ss"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                        </el-date-picker>
+                                    </template>
+                                    <!-- 下拉選單 -->
+                                    <span class="dropdown margin-adjust" align="left" :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'" :style="{width:field.width + 'px' , height:field.height + 'px'}">
                                         <button :disabled="!isModifiable || field.modificable == 'N' || (field.modificable == 'I' && editStatus) || (field.modificable == 'E' && createStatus)"
                                                 class="btn btn-default btn-white dropdown-toggle btn-height" style="text-align: left!important;"
                                                 type="button" data-toggle="dropdown" :style="{width:field.width + 'px' , height:field.height + 'px'}">
@@ -73,177 +73,155 @@
                                             </li>
                                         </ul>
                                     </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-------- tabPage -------->
-                    <el-tabs v-model="gs_active" @tab-click="doChangeTraff">
-                        <el-tab-pane label="Property" name="hotelDt">
-                        </el-tab-pane>
-                        <el-tab-pane label="組別異動紀錄" name="classHs">
-                        </el-tab-pane>
-                    </el-tabs>
-                    <div id="hotelDtPanel" v-show="gs_active=='hotelDt'" class="easyui-panel">
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="row">
-                                <div class="main-content-data">
-                                    <!-- 表格 -->
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="horizTable-outer">
-                                            <table class="css_table " id="hotelDt_dg" style="width:100%;"></table>
+                        <!-------- tabPage -------->
+                        <el-tabs v-model="gs_active" @tab-click="doChangeTraff">
+                            <el-tab-pane label="<%= __("program")["PMS0620020"]["Property"]%>" name="hotelDt">
+                            </el-tab-pane>
+                            <el-tab-pane label="<%= __("program")["PMS0620020"]["group_change_record"]%>" name="classHs">
+                            </el-tab-pane>
+                        </el-tabs>
+                        <div id="hotelDtPanel" v-show="gs_active=='hotelDt'" class="easyui-panel">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="row">
+                                    <div class="main-content-data">
+                                        <!-- 表格 -->
+                                        <div class="col-xs-11 col-sm-11">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table " id="hotelDt_dg" style="width:100%;"></table>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!-- 按鈕 -->
-                                    <div class="col-sm-1 col-xs-1">
-                                        <div class="row">
-                                            <div class="right-menu-co">
-                                                <ul>
-                                                    <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                                role="button" @click="appendDtRow">New
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                role="button" @click="removeDtRow">Delete
-                                                        </button>
-                                                    </li>
-                                                </ul>
+                                        <!-- 按鈕 -->
+                                        <div class="col-sm-1 col-xs-1">
+                                            <div class="row">
+                                                <div class="right-menu-co">
+                                                    <ul>
+                                                        <li>
+                                                            <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                    role="button" @click="appendDtRow"><%= __("SystemCommon")["Add"]%>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                    role="button" @click="removeDtRow"><%= __("SystemCommon")["Delete"]%>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div id="classHsPanel" v-show="gs_active=='classHs'" class="easyui-panel">
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="row">
-                                <div class="main-content-data">
-                                    <!-- 表格 -->
-                                    <div class="col-xs-11 col-sm-11">
-                                        <div class="horizTable-outer">
-                                            <table class="css_table horizTable" id="classHs_dg" style="width:100%;"></table>
+                        <div id="classHsPanel" v-show="gs_active=='classHs'" class="easyui-panel">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="row">
+                                    <div class="main-content-data">
+                                        <!-- 表格 -->
+                                        <div class="col-xs-11 col-sm-11">
+                                            <div class="horizTable-outer">
+                                                <table class="css_table horizTable" id="classHs_dg" style="width:100%;"></table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="easyui-tabs easyUi-custom1">
+                        <div class="easyui-tabs easyUi-custom1">
 
-                    </div>
-                    <!-------- /.tabPage -------->
-
-                </div>
-                <div class="col-sm-1 col-xs-1 right-menu-co">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSave">Save
-                                    </button>
-                                </li>
-                                <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
-                                <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth "
-                                            role="button" @click="loadChangeLog">Change Log
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="closeSingleGridDialog">Quit
-                                    </button>
-                                </li>
-                            </ul>
                         </div>
+                        <!-------- /.tabPage -------->
+
                     </div>
-                </div>
-                <!-- 異動紀錄 -->
-                <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
-                           :visible.sync="openChangeLogDialog">
-
-                    <div class="col-xs-12">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="fixHeadTable">
-                                    <div class="tbl-header">
-                                        <table class=" custab">
-                                            <thead class="custab-head">
-                                            <tr>
-                                                <th class="width-15 text-center">Time</th>
-                                                <th class="width-10 text-center">User</th>
-                                                <th class="width-15 text-center">Action Type</th>
-                                                <th class="width-20 text-center">Description MN</th>
-                                                <th class="width-20 text-center">Description DT</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                    <div class="tbl-content" style="height: 300px;">
-                                        <table class=" custab">
-
-                                            <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
-                                            <tr v-for="logData in allChangeLogList">
-                                                <td class="width-15">{{logData.event_time}}</td>
-                                                <td class="width-10">{{logData.user}}</td>
-                                                <td class="width-15">
-                                                    <span v-for="keyData in logData.keys">{{keyData}}<br></span>
-                                                </td>
-                                                <td class="width-20">
-                                                    <div class="blue bold" style="text-transform: capitalize;">
-                                                        {{logData.action }}
-                                                    </div>
-                                                    <span v-for="mnData in logData.desc_mn">
-                                                        {{mnData.field_name}} :
-                                                        {{mnData.oldVal}}
-                                                        <span v-if="logData.action == 'update'"> →  </span>
-                                                        {{mnData.newVal}}
-                                                        <br>
-                                                    </span>
-                                                </td>
-                                                <td class="width-20">
-                                                    <template v-if="logData.desc_dt.length > 0">
-                                                        <div v-for="dtLogData in logData.desc_dt">
-                                                            <div class="blue bold" style="text-transform: capitalize;">
-                                                                {{dtLogData.action }}
-                                                            </div>
-                                                            <span v-for="dtData in dtLogData.changes">
-                                                                {{dtData.field_name}} :
-                                                                {{dtData.oldVal}}
-                                                                <span v-if="dtLogData.action == 'update'"> →  </span>
-                                                                {{dtData.newVal}}
-                                                                <br>
-                                                            </span>
-                                                        </div>
-                                                    </template>
-                                                    <template v-else>
-                                                        N/A
-                                                    </template>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-
+                    <div class="col-sm-1 col-xs-1 right-menu-co">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSave">
+                                            <%= __("SystemCommon")["Save"]%>
+                                        </button>
+                                    </li>
+                                    <!--<li><button  id="" class="btn btn-primary btn-white btn-defaultWidth NewVisit" role="button">New Visit</button></li>-->
+                                    <!--<li><button class="btn btn-primary btn-white btn-defaultWidth NewDetail" role="button">New Detail</button></li>-->
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth "
+                                                role="button" @click="loadChangeLog"><%= __("SystemCommon")["ChangeLog"]%>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="closeSingleGridDialog">
+                                            <%= __("SystemCommon")["Leave"]%>
+                                        </button>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </div> <!-- /.col-sm-12 -->
-                    <div class="clearfix"></div>
-
-                    <span slot="footer" class="dialog-footer">
-                        <el-button @click="openChangeLogDialog = false">確定</el-button>
-                    </span>
-                </el-dialog>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- 異動紀錄 -->
+        <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+                   :visible.sync="openChangeLogDialog" >
+            <div class="col-xs-12">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="fixHeadTable">
+                            <div class="tbl-header">
+                                <table class=" custab">
+                                    <thead class="custab-head">
+                                    <tr>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Time"]%></th>
+                                        <th class="width-10 text-center"><%= __("SystemCommon")["User"]%></th>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Action_type"]%></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Mn"]%></th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tbl-content" style="height: 300px;">
+                                <table class="custab">
 
-</div>
+                                    <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                    <tr v-for="logData in allChangeLogList">
+                                        <td class="width-15">{{logData.event_time}}</td>
+                                        <td class="width-10">{{logData.user}}</td>
+                                        <td class="width-15"><span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        </td>
+                                        <td class="width-20">
+                                            <div class="blue bold" style="text-transform: capitalize;">{{logData.action }}
+                                            </div>
+                                            <span v-for="mnData in logData.desc_mn">
+                                        {{mnData.field_name}} :
+                                        {{mnData.oldVal}}
+                                        <span v-if="logData.action == 'update'"> →  </span>
+                                        {{mnData.newVal}}
+                                        <br>
+                                    </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+
+            <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">確定</el-button>
+         </span>
+        </el-dialog>
+    </div>
 </script>
 
 
