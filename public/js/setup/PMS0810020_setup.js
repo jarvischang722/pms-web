@@ -177,7 +177,14 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
-            if (rule_func_name === "" || !this.$parent.isModifiable) {
+            if(vm.originData[ui_field_name] == this.singleData[ui_field_name]){
+                return;
+            }
+
+            var lo_fieldData = _.findWhere(vm.pageTwoDataGridFieldData, {ui_field_name: ui_field_name});
+
+            console.log(this.isModifiable, lo_fieldData);
+            if (rule_func_name === "" || !this.isModifiable) {
                 return;
             }
             var self = this;
@@ -200,12 +207,6 @@ Vue.component('single-grid-pms0810020-tmp', {
                 $.post('/api/chkFieldRule', postData, function (result) {
 
                     if (result.success) {
-                        //連動帶回的值
-
-                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                            self.singleData = _.extend(self.singleData, result.effectValues);
-                        }
-
                         //是否要show出訊息
                         if (result.showAlert) {
                             alert(result.alertMsg);
@@ -236,6 +237,13 @@ Vue.component('single-grid-pms0810020-tmp', {
 
                     } else {
                         alert(result.errorMsg);
+                    }
+
+                    //連動帶回的值
+                    console.log(result.effectValues);
+                    if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+
+                        self.singleData = _.extend(self.singleData, result.effectValues);
                     }
 
                 });
@@ -1070,7 +1078,6 @@ var vm = new Vue({
 
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
-            var self = this;
             vm.isLoading = true;
             vm.initTmpCUD();
             vm.editStatus = true;
@@ -1086,7 +1093,8 @@ var vm = new Vue({
                     if (result.showAlert) {
                         alert(result.alertMsg);
                     }
-                    self.getRoomTypePic(callback);
+                    // self.getRoomTypePic(callback);
+                    callback(true);
 
                 } else {
                     vm.isLoading = false;
@@ -1158,7 +1166,7 @@ var vm = new Vue({
 
         //打開單檔dialog
         showSingleGridDialog: function () {
-            this.initDatePicker();
+            // this.initDatePicker();
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             var height = 10 * 50; // 預設一個row 高度
