@@ -223,7 +223,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     }
 
                     //找樹狀parent node
-                    findByValue(self.classCodSelectData, "000008");
+                    findByValue(self.classCodSelectData, self.rowData.class_cod);
 
                     //攤平資料
                     var list = _(rtnResult).chain()
@@ -232,6 +232,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         .compact()
                         .value();
 
+                    self.classCodSelectedOption = [];
                     _.each(list, function (lo_list) {
                         self.classCodSelectedOption.push(lo_list.value);
                     });
