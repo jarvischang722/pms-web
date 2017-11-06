@@ -376,6 +376,8 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         alert(result.errorMsg);
                     }
+
+                    vm.initTmpCUD();
                 });
             }
 
@@ -766,6 +768,7 @@ var vm = new Vue({
                 self.loadDataGridByPrgID();
                 callback(result);
             });
+            console.log(this.tmpCud);
         }
     }
 });
