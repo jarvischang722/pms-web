@@ -75,6 +75,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         rowData: {
             handler: function (val) {
+                val = _.extend(val, {athena_id: 1});
                 this.dgHoatelDt.updateMnRowData(val);
                 this.dgHoatelDt.updateTmpDtOfMnData(val);
             },
@@ -209,9 +210,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
-                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'])) ;
-                        _.each(self.oriHotelDtRowData, function(data){
-                           data = _.extend(data, self.originRowData);
+                        self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
+                        _.each(self.oriHotelDtRowData, function (data) {
+                            data = _.extend(data, self.originRowData);
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
@@ -230,7 +231,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
             this.dgHoatelDt.getOriDtRowData(this.oriHotelDtRowData);
 
-            this.dgClassHs = new DatagridBaseClass();
+            this.dgClassHs = new DatagridSingleGridClass();
             this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
             this.dgClassHs.loadDgData(this.classHsRowData);
 
@@ -302,9 +303,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     condKey[field_name] = lo_checkValue[field_name] || "";
                 });
                 for (var k = 0; k < j; k++) {
-                    if(_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1){
+                    if (_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1) {
                         lo_checkResult.success = false;
-                        lo_checkResult.msg = "館別代號重複，請刪除";
+                        lo_checkResult.msg = go_i18nLang["program"]["PMS0620020"].hotel_cod_repeat;
                         break;
                     }
                 }
@@ -328,6 +329,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                 postRowData["tab_page_id"] = 1;
                 postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
+                _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+                _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
+                    data["status_cod"] = data["status_cod1"];
+                });
+
                 if (this.createStatus) {
                     vm.tmpCud.createData = [postRowData];
                     vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
@@ -344,7 +352,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                 vm.doSaveCud("PMS0620020", 1, function (result) {
                     if (result.success) {
-                        alert("Save Successful!")
+                        alert("Save Successful!");
                         self.closeSingleGridDialog();
                     }
                     else {
@@ -645,7 +653,7 @@ var vm = new Vue({
             var delRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!delRow) {
-                alert("請選擇要刪除的資料");
+                alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
 
@@ -659,24 +667,18 @@ var vm = new Vue({
                     prg_id: "PMS0620010",
                     deleteData: vm.tmpCud.deleteData
                 }
-                $.post("/api/handleDataGridDeleteEventRule", params, function (result) {
+
+                self.doSaveCud("PMS0620020", 1, function (result) {
                     if (result.success) {
-                        self.doSaveCud("PMS0620020", 1, function (result) {
-                            if (result.success) {
-                                alert("Delete Success");
-                                $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                            }
-                            else {
-                                alert(result.errorMsg);
-                            }
-                        });
+                        alert("Delete Success");
+                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
                     }
                     else {
                         alert(result.errorMsg);
                         _.without(vm.tmpCud.deleteData, delRow);
                     }
-                    vm.initTmpCUD();
                 });
+                vm.initTmpCUD();
             }
 
         },
@@ -691,7 +693,7 @@ var vm = new Vue({
             var editRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!editRow) {
-                alert("請選擇要編輯的資料");
+                alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
                 vm.fetchSingleData(editRow, function (result) {
@@ -699,7 +701,7 @@ var vm = new Vue({
                         vm.showSingleGridDialog();
                     }
                     else {
-                        alert("有東西出錯!");
+                        alert("error");
                     }
                 });
             }

@@ -324,7 +324,7 @@ function combineMainData(rfData, callback) {
                 gn_exec_seq++;
 
                 if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, lo_fieldsData.dgKeyFields, data);
+                    combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
                 }
             });
             callback(null, '0300');
@@ -774,6 +774,7 @@ function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
     var ls_event_time = moment(new Date(mnData.event_time)).subtract("1", "seconds").format("YYYY/MM/DD HH:mm:ss");
     let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt", event_time: ls_event_time}; //0 代表刪除
     tmpDel.condition = [];
+
     //組合where 條件
     _.each(la_dtkeyFields, function (keyField, keyIdx) {
         if (!_.isUndefined(mnData[keyField.ui_field_name])) {

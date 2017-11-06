@@ -161,18 +161,21 @@
       "to_master": "移至公帳(日)"
     },
     "PMS0620020": {
-      "sales_cod": "業務員代號",
-      "sales_nam": "業務員姓名",
-      "class_cod": "組別",
-      "hotel_sales": "飯店業務",
-      "bq_sales": "餐飲業務",
-      "member_sales": "會員業務",
-      "status_cod": "狀態",
-      "selectYes": "是",
-      "selectNo": "否",
-      "selectAll": "全部",
-      "selectQuit": "離職",
-      "selectEmp": "在職"
+      "sales_cod": "業務員代號(日)",
+      "sales_nam": "業務員姓名(日)",
+      "class_cod": "組別(日)",
+      "hotel_sales": "飯店業務(日)",
+      "bq_sales": "餐飲業務(日)",
+      "member_sales": "會員業務(日)",
+      "status_cod": "狀態(日)",
+      "selectYes": "是(日)",
+      "selectNo": "否(日)",
+      "selectAll": "全部(日)",
+      "selectQuit": "離職(日)",
+      "selectEmp": "在職(日)",
+      "hotel_cod_repeat": "館別代號重複，請刪除(日)",
+      "Property": "Property(日)",
+      "group_change_record": "組別異動紀錄(日)"
     }
   },
   "table_in_use": "%s 使用中",
@@ -197,7 +200,12 @@
     "Loading": "讀取中",
     "ProgramID": "程式編號",
     "ChangeLog": "異動紀錄",
-    "LogOutTime": "距離登出時間"
+    "LogOutTime": "距離登出時間",
+    "SelectData": "請選擇資料(日)",
+    "Time": "時間(日)",
+    "User": "使用者(日)",
+    "Action_type": "動作類型(日)",
+    "Desciption_Mn": "主檔描述(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",
@@ -310,6 +318,14 @@
     "pms86msg4": "預設狀態要勾選一筆(日文)",
     "cmm11msg1": "聯絡類別，不可異動(日文)",
     "cmm11msg2": "已於聯絡資料中使用，不可刪除(日文)",
-    "cmm11msg3": "地址類別，不可異動(日文)"
+    "cmm11msg3": "地址類別，不可異動(日文)",
+    "pms62msg1": "商務公司資料已使用，不可刪除(日文)",
+    "pms62msg2": "訂房卡資料已使用，不可刪除(日文)",
+    "pms62msg3": "業務員營業目標設定已使用，不可刪除(日文)",
+    "pms62msg4": "非停用,停用年月不可輸入(日文)",
+    "pms62msg5": "請輸入停用年月(日文)",
+    "pms62msg6": "商務公司資料已使用，不可修改狀態(日文)",
+    "pms62msg7": "館別代號已使用，請刪除此筆資料(日文)",
+    "pms62msg8": "使用者代號(訂席用)[%s] 已於其他業務員資料指定(日文)"
   }
 }
