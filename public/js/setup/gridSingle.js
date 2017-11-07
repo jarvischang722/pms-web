@@ -1162,6 +1162,7 @@ var vm = new Vue({
         //新增按鈕Event
         appendRow: function () {
             vm.initTmpCUD();
+            vm.dtData = [];
             vm.createStatus = true;
             vm.singleData = {};
             vm.isModifiable = true;
@@ -1169,6 +1170,7 @@ var vm = new Vue({
                 $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
                         vm.singleData = result.defaultValues;
+                        vmHub.$emit('showDtDataGrid', vm.dtData);
                         vm.showSingleGridDialog();
                     } else {
                         alert(result.errorMsg);

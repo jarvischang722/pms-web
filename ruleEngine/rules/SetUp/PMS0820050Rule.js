@@ -155,7 +155,15 @@ module.exports = {
                     li_curIdx = _.findIndex(la_dtData, {key_nos: postData.editRowData.key_nos});
                 }
                 else {
-                    li_curIdx = _.findIndex(la_dtData, postData.editRowData);
+                    let lo_editRowData = _.clone(postData.editRowData);
+                    _.each(la_dtData, function(lo_dtData, index){
+                        if(_.isEqual(lo_dtData, lo_editRowData)){
+                            li_curIdx = index;
+                        }
+                        else{
+                            li_curIdx = -1;
+                        }
+                    });
                 }
                 if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);

@@ -36,6 +36,12 @@ exports.qrySalesMn = function(req, res){
     });
 };
 
+exports.qryTreeSelectData = function(req, res){
+    ruleAgent.qryTreeSelectData(req.body, req.session, function(err, getResult){
+        res.json(commonTools.mergeRtnErrResultJson(err, getResult));
+    });
+}
+
 // 業務員資料編輯(欄位資料)
 exports.qrySingleGridFieldData_PM0620020 = function (req, res) {
     var prg_id = req.body["prg_id"];

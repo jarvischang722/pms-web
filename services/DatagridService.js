@@ -51,7 +51,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
     async.waterfall([
         // 1)
         function (callback) {
-            mongoAgent.UI_PageField.findOne({
+            mongoAgent.UIPageField.findOne({
                 prg_id: prg_id,
                 page_id: page_id,
                 ui_type: 'grid'
@@ -163,7 +163,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
 
                     selectDSFunc.push(
                         function (callback) {
-                            mongoAgent.UI_Type_Select.findOne({
+                            mongoAgent.UITypeSelect.findOne({
                                 prg_id: prg_id,
                                 ui_field_name: field.ui_field_name
                             }).exec(function (err, selRow) {
@@ -811,7 +811,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
     async.waterfall([
         //抓取規則
         function (callback) {
-            mongoAgent.DatagridFunction
+            mongoAgent.SetupDatagridFunction
                 .findOne({prg_id: prg_id, page_id: page_id, func_id: '0200'}).exec(function (err, funcRules) {
 
                 if (funcRules) {
@@ -823,7 +823,7 @@ exports.getPrgRowDefaultObject = function (postData, session, callback) {
         },
         //取得欄位預設值
         function (data, callback) {
-            mongoAgent.UI_Type_Select
+            mongoAgent.UITypeSelect
                 .findOne({prg_id: prg_id}).find(function (err, funcRules) {
 
                 if (funcRules) {

@@ -205,7 +205,8 @@
     "Time": "Time",
     "User": "User",
     "Action_type": "Action Type",
-    "Desciption_Mn": "Desciption MN"
+    "Desciption_Mn": "Desciption MN",
+    "check_delete": "確定刪除此筆資料(英)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "You idle too long , Please  login again. ",

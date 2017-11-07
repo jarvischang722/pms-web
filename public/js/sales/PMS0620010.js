@@ -43,7 +43,9 @@ Vue.component('single-grid-pms0620020-tmp', {
             classHsFieldData: [],
             dtEditIndex: undefined,
             openChangeLogDialog: false,
-            allChangeLogList: []
+            allChangeLogList: [],
+            classCodSelectData: [],
+            classCodSelectedOption: []
         };
     },
     created: function () {
@@ -51,7 +53,6 @@ Vue.component('single-grid-pms0620020-tmp', {
         vmHub.$on('updateBackSelectData', function (chooseData) {
             self.rowData = _.extend(self.rowData, chooseData);
         });
-
     },
     mounted: function () {
         this.gs_active = "hotelDt";
@@ -186,7 +187,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                 self.fieldData = _.values(_.groupBy(_.sortBy(self.originFieldData, "row_seq"), "row_seq"));
                 self.hotelDtFieldData = result.hotelDtField;
                 self.classHsFieldData = result.classHsField;
-
+                self.classCodSelectData = _.findWhere(self.originFieldData, {ui_field_name: "class_cod"}).selectData;
                 self.fetchRowData(self.singleData);
             });
         },
@@ -220,6 +221,22 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         console.log(result.errorMsg);
                     }
+
+                    //找樹狀parent node
+                    findByValue(self.classCodSelectData, self.rowData.class_cod);
+
+                    //攤平資料
+                    var list = _(rtnResult).chain()
+                        .zip(_(rtnResult).pluck('children'))
+                        .flatten()
+                        .compact()
+                        .value();
+
+                    self.classCodSelectedOption = [];
+                    _.each(list, function (lo_list) {
+                        self.classCodSelectedOption.push(lo_list.value);
+                    });
+
                     self.showDtDataGrid();
                 });
             }
@@ -313,7 +330,9 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             return lo_checkResult;
         },
+
         doSave: function () {
+            this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
             var self = this;
             this.isSaving = true;
 
@@ -358,6 +377,8 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         alert(result.errorMsg);
                     }
+
+                    vm.initTmpCUD();
                 });
             }
 
@@ -530,7 +551,7 @@ var vm = new Vue({
         isCreateStatus: false,    //新增狀態
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
-        isLoading: false,
+        isLoading: true,
         isModifiable: true        //決定是否可以修改
 
     },
@@ -573,9 +594,8 @@ var vm = new Vue({
             });
         },
         fetchSingleData: function (editingRow, callback) {
-            vm.initTmpCUD();
-            vm.isLoading = true;
-            vm.editingRow = editingRow;
+            this.initTmpCUD();
+            this.editingRow = editingRow;
 
             editingRow["prg_id"] = "PMS0620020";
             $.post("/api/sales/qrySalesMn_PM0620020", editingRow, function (result) {
@@ -589,7 +609,6 @@ var vm = new Vue({
                     callback(true);
                 }
                 else {
-                    vm.isLoading = false;
                     callback(false);
                     console.log(result.errorMsg);
                 }
@@ -597,6 +616,7 @@ var vm = new Vue({
 
         },
         showDataGrid: function () {
+            this.isLoading = false;
             vm.dgIns = new DatagridSingleGridClass();
             vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
@@ -657,28 +677,26 @@ var vm = new Vue({
             }
             else {
 
-                delRow["tab_page_id"] = 1;
-                delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-                vm.tmpCud.deleteData.push(delRow);
+                var chkDelRow = confirm(go_i18nLang["SystemCommon"].check_delete);
+                if (chkDelRow) {
+                    delRow["tab_page_id"] = 1;
+                    delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+                    vm.tmpCud.deleteData.push(delRow);
 
-                $("#gridEdit").val(vm.tmpCUD);
+                    $("#gridEdit").val(vm.tmpCUD);
 
-                var params = {
-                    prg_id: "PMS0620010",
-                    deleteData: vm.tmpCud.deleteData
+                    self.doSaveCud("PMS0620020", 1, function (result) {
+                        if (result.success) {
+                            alert("Delete Success");
+                            $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
+                        }
+                        else {
+                            alert(result.errorMsg);
+                            _.without(vm.tmpCud.deleteData, delRow);
+                        }
+                    });
+                    vm.initTmpCUD();
                 }
-
-                self.doSaveCud("PMS0620020", 1, function (result) {
-                    if (result.success) {
-                        alert("Delete Success");
-                        $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
-                    }
-                    else {
-                        alert(result.errorMsg);
-                        _.without(vm.tmpCud.deleteData, delRow);
-                    }
-                });
-                vm.initTmpCUD();
             }
 
         },
@@ -751,6 +769,29 @@ var vm = new Vue({
                 self.loadDataGridByPrgID();
                 callback(result);
             });
+            console.log(this.tmpCud);
         }
     }
 });
+
+var rtnResult = [];
+
+function findByValue(obj, id) {
+    var result;
+    for (var p in obj) {
+        if (obj.value === id) {
+            return obj;
+        } else {
+            if (typeof obj[p] === 'object') {
+                result = findByValue(obj[p], id);
+
+                if (result) {
+                    rtnResult = [];
+                    rtnResult.push(obj[p]);
+                    return result;
+                }
+            }
+        }
+    }
+    return result;
+}

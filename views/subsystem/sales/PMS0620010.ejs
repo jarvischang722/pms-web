@@ -1,6 +1,4 @@
 
-<link rel="stylesheet" href="/css/element_ui/element.css">
-
 <div id="PMS0620010App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 業務員(Sales Rep) Page-->
@@ -11,7 +9,7 @@
             <div class="search-content">
                 <div class="search-co">
                     <div class="row">
-                        <div class="search-co-content col-xs-12 search-S2">
+                        <div class="search-co-content col-xs-12 search-S2" v-loading="isLoading"  element-loading-text="Loading...">
                             <div class="width-95 searchMain-S2">
                                 <div class="grid">
                                     <div class="grid-item">
@@ -149,30 +147,12 @@
     <!--popup grid-->
     <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
-    <!--  業務 彈出視窗內容(jing)-->
-    <%- include sales_module/sales_Btn_1.ejs %>
-    <!--  /.End 業務 彈出視窗內容 -->
 </div><!-- /.page-content -->
-<!--<div style="background: url('./images/initialPageImg.gif') no-repeat;"></div>-->
 
-<!--<div style=" margin: 0 auto; display: none;" align="center">-->
-    <!--<img src="../images/initialPageImg2.jpg" style=" opacity: 0.4;"/>-->
-    <!--&lt;!&ndash;<img src="../images/initialPageImg.gif" style=" width: 25%; height: 25%; margin-left: -70px;"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<img src="../images/initialPageImg.gif" style="  width: 25%; height: 25%;margin-left: -70px;"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<img src="../images/initialPageImg.gif" style=" width: 25%; height: 25%;margin-left: -70px;"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<img src="../images/initialPageImg.gif" style="  width: 25%; height: 25%;margin-left: -70px;"/>&ndash;&gt;-->
-<!--</div>-->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->
-
-<!--  業務 initial js -->
-<%- include sales_module/sales_includeJs.ejs %>
-<!--  /.End 業務 initial js  -->
 
 <%- include ./vueTemplate/chooseDataDialogTmp.ejs%>
 <%- include ./vueTemplate/PMS0620020Tmp.ejs %>
+
 
 <script src="/js/sales/PMS0620010.js"></script>
 
