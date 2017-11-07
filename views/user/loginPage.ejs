@@ -46,13 +46,6 @@
                         </div>
 
                         <div>
-                            <select class="form-control " v-model="dbname"
-                                    placeholder=" <%= __("BAC01P0110")["database"] %>">
-                                <option value="0"><%= __("BAC01P0110")["pleaseSel"] %><%= __("BAC01P0110")["database"] %></option>
-                                <option value="htce7">htce7</option>
-                            </select>
-                        </div>
-                        <div>
                             <select class="form-control " v-model="comp_id">
                                 <option v-for="company in companyData"
                                         :value="company.cmp_id.trim()">
