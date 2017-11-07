@@ -42,8 +42,6 @@ Vue.component('single-grid-pms0620020-tmp', {
             classHsRowData: [],
             classHsFieldData: [],
             dtEditIndex: undefined,
-            openChangeLogDialog: false,
-            allChangeLogList: [],
             classCodSelectData: [],
             classCodSelectedOption: []
         };
@@ -262,10 +260,9 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
-            var self = this;
-            self.openChangeLogDialog = true;
+            vm.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
-                self.allChangeLogList = result.allChangeLogList;
+                vm.allChangeLogList = result.allChangeLogList;
             });
 
 
@@ -551,7 +548,9 @@ var vm = new Vue({
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
         isLoading: true,
-        isModifiable: true        //決定是否可以修改
+        isModifiable: true,       //決定是否可以修改
+        openChangeLogDialog: false,
+        allChangeLogList: []
 
     },
     methods: {
