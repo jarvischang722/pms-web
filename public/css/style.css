@@ -123,7 +123,7 @@
   display: table;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .css_table.table-lg .css_th, .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -193,7 +193,7 @@
   display: table;
   border-collapse: collapse;
   width: auto;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .horizTable-outer .css_table.table-lg .css_th, .horizTable-outer .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -4161,19 +4161,12 @@ span.triangle-text {
   margin-bottom: 5px;
 }
 
-.PMS0830070_table th {
+.PMS0830070_table th, .PMS0830070_table td {
   padding: 3px;
 }
-.PMS0830070_table td {
-  padding: 5px;
-}
 
-.PMS0830070_dtTable th, .PMS0830070_dtTable td {
-  padding: 3px 5px;
-}
-
-.width-7 {
-  width: 7%;
+.width-8 {
+  width: 8%;
 }
 
 /*------  共用區public ------ */

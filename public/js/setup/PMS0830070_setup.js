@@ -19,12 +19,10 @@ var Pms0830070Comp = Vue.extend({
     props: ['editingRow', 'singleData', "tmpCUD", 'singleDataDt', 'dt2ItemNosDataList'],
     data: function () {
         return {
-            dialogServiceItemVisible: false,
+
             deleteDtTmp: [],
-            dt2ShowList: [],
             dtShowList: [],
             dtSelItemNosShowList: [],
-            dt2SelectedItemNos: [],              //dt2已選擇項目
             dt2DisableItemNos: [],               //dt2禁用項目
             itemNosCheckedTemp: []               //服務項目dtSelItemNosShowList勾選暫存(優先權高)
         };
@@ -51,9 +49,9 @@ var Pms0830070Comp = Vue.extend({
             lo_singleData.seq_nos = index;
             $.post('/api/qryDt2SelectedItemNos', lo_singleData, function (response) {
                 self.qryDt2DisableItemNos(lo_singleData, function (result) {
-                    self.dt2SelectedItemNos = response.selectedData;
+                    PMS0830070VM.dt2SelectedItemNos = response.selectedData;
                     self.chkItemNosStatus();
-                    self.dialogServiceItemVisible = true;
+                    PMS0830070VM.dialogServiceItemVisible = true;
                 });
             });
         },
@@ -70,7 +68,7 @@ var Pms0830070Comp = Vue.extend({
         //驗證此筆服務項目狀態
         chkItemNosStatus: function () {
             var self = this;
-            this.dt2ShowList = [];
+            PMS0830070VM.dt2ShowList = [];
             _.each(this.dt2ItemNosDataList, function (lo_data) {
                 //原始資料驗證
                 var ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
@@ -101,7 +99,7 @@ var Pms0830070Comp = Vue.extend({
                     }
                 }
 
-                self.dt2ShowList.push(lo_data);
+                PMS0830070VM.dt2ShowList.push(lo_data);
             });
         },
 
@@ -377,7 +375,10 @@ var PMS0830070VM = new Vue({
             dt2_deleteData: []
         },
         searchFields: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        dialogServiceItemVisible: false,
+        dt2SelectedItemNos: [],            //dt2已選擇項目
+        dt2ShowList: [],
     },
     mounted: function () {
         this.loadDataGridByPrgID();
@@ -469,7 +470,7 @@ var PMS0830070VM = new Vue({
                 title_html: true,
                 width: 800,
                 maxwidth: 1920,
-                height: $(window).height(),
+                height: $(window).height()-200,
                 dialogClass: "test",
                 resizable: true
             });
