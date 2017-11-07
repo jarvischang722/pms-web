@@ -73,4 +73,24 @@
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
 
+    <!-- 經由公司代號 cmp_id 取得部門資訊 -->
+    <dao name="QRY_S99_GROUP_BY_CMP_ID">
+        <statement><![CDATA[
+        select b.cmp_id,a.cmp_name,b.grp_id,t.grp_name,b.usr_id,b.usr_cname
+        from S99_GROUP t,s99_user b,s99_company a
+        where t.cmp_id = b.cmp_id and t.grp_id = b.grp_id and t.cmp_id = a.cmp_id and a.cmp_id = ?
+        ]]> </statement>
+        <parameter type="string" kind="1">cmp_id</parameter>
+    </dao>
+
+    <!-- 角色對應之帳號 -->
+    <dao name="QRY_ROLE_OF_ACCOUNTS">
+        <statement><![CDATA[
+        select  bru.role_id,bru.role_comp_cod,bru.user_id
+        from bac_role_user bru
+        where bru.USER_ATHENA_ID = ?
+        ]]> </statement>
+        <parameter type="number" kind="1">athena_id</parameter>
+        <parameter type="string" kind="2" condition="trim(role_id) = trim(:role_id) ">role_id</parameter>
+    </dao>
 </root>
