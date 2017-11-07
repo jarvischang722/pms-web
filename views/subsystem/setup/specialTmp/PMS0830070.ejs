@@ -49,50 +49,6 @@
             :tmp-c-u-d="tmpCUD"
             :dt2-item-nos-data-list="dt2ItemNosDataList">
     </pms0830070-comp>
-
-
-    <!--跳出DT的DT視窗-->
-    <el-dialog title="服務項目" :visible.sync="dialogServiceItemVisible" size="tiny" :show-close="false"
-               :modal-append-to-body="false">
-        <el-row>
-            <div style="overflow: auto;height: 400px;">
-                <table class="css_table" width="100%" id="serviceDt2Dt">
-                    <thead class="css_thead">
-                        <tr class="css_tr">
-                            <th class="ccs_th">勾選</th>
-                            <th class="css_th">項目代號</th>
-                            <th class="css_th">服務項目</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-
-                        <tr class="css_tr" v-for="(item,index) in dt2ShowList">
-                            <td class="css_td">
-                                <form>
-                                    <!--<input type="checkbox" :checked=""-->
-                                    <!--:disabled="item.disabled =='true' " name="chk" id="ckItem"-->
-                                    <!--@click="chkAdjfolioData(index,item.checking)">-->
-                                    <input type="checkbox" :checked="item.checked"
-                                           :disabled="item.disabled" :value="item.item_nos" @click="updateCheckData(index)">
-                                </form>
-                            </td>
-                            <td class="css_td">{{item.item_nos}}</td>
-                            <td class="css_td">{{item.item_sna}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="space-6"></div>
-        </el-row>
-        <div>
-            <el-row>
-                <el-col>
-                    <el-button @click="dialogServiceItemVisible=false"><%= __("SystemCommon").Cancel %></el-button>
-                    <el-button @click="dialogServiceItemVisible=false"><%= __("SystemCommon").OK %></el-button>
-                </el-col>
-            </el-row>
-        </div>
-    </el-dialog>
 </div>
 
 <script>
