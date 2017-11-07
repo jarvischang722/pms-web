@@ -168,6 +168,37 @@ exports.getShowCodSelect = function (params ,session, callback) {
 };
 
 /**
+ * 取得單位下拉
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getUnitSelect = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        comp_cod: session.user.cmp_id
+    };
+
+    queryAgent.queryList("QRY_UNIT_TYP_SELECT", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result) {
+                callback(lo_error, Result);
+            }
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
  * 取得客戶資料
  * @param params
  * @param session
@@ -852,35 +883,31 @@ exports.getSystemParam = function (params ,session, callback) {
 //檢查欄位是否為空值
 function checkNull(object, keyfield) {
     var lb_check = true;
-    var ls_error_Msg = "";
 
     _.each(Object.keys(object), function (objKey) {
         if(keyfield.indexOf(objKey) != -1){
-            if (_.isUndefined(object[objKey]) || object[objKey] == "") {
-                ls_error_Msg += "欄位" + objKey + "沒有值" + "\r\n";
+            if (_.isUndefined(object[objKey]) || object[objKey] === "") {
                 lb_check = false;
             }
         }
     });
-    return [lb_check, ls_error_Msg];
+    return lb_check;
 }
 
 //數字欄位檢查
 function checkNum(object, numfield) {
     var lb_check = true;
-    var ls_error_Msg = "";
 
     _.each(Object.keys(object), function (objKey) {
         if(numfield.indexOf(objKey) != -1){
             if (!_.isUndefined(object[objKey]) && object[objKey] != "") {
                 if(isNaN(object[objKey])){
-                    ls_error_Msg += "欄位" + objKey + "須為數字" + "\r\n";
                     lb_check = false;
                 }
             }
         }
     });
-    return [lb_check, ls_error_Msg];
+    return lb_check;
 }
 
 /**
@@ -907,65 +934,80 @@ exports.PSI0000001 = function (params ,session, callback) {
 
         //region欄位空值檢查
 
+        var count = 0;
+
         _.each(obj.tenKDosage, function (item) {
-            var result = checkNull(item, lo_mn_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_mn_keyfield)){
+                ls_error_Msg += "tenKDosag[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
+        count = 0;
+
         _.each(obj.transferDt, function (item) {
-            var result = checkNull(item, lo_dt_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_dt_keyfield)){
+                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
 
         //region欄位數字檢查
 
+        count = 0;
+
         _.each(obj.tenKDosage, function (item) {
-            var result = checkNum(item, lo_mn_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_mn_numfield)){
+                ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
+        count = 0;
+
         _.each(obj.transferDt, function (item) {
-            var result = checkNum(item, lo_dt_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_dt_numfield)){
+                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
+
         //endregion
 
         //region欄位長度檢查
 
+        count = 0;
+
         _.each(obj.tenKDosage, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
+                ls_error_Msg += "tenKDosage[" + count + "]的格式有誤。(欄位長度不符)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
+
+        count = 0;
 
         _.each(obj.transferDt, function (item) {
             if(item.otaxcomp_cod.length != 5){
-                ls_error_Msg += "欄位otaxcomp_cod" +"長度須為5" + "\r\n";
+                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
                 lb_check = false;
             }
             if(item.itaxcomp_cod.length != 5){
-                ls_error_Msg += "欄位itaxcomp_cod" +"長度須為5" + "\r\n";
+                ls_error_Msg += "transferDt[" + count + "]的格式有誤。(欄位長度不符)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
-
+        console.log(ls_error_Msg);
         if(lb_check){
 
             //打API
@@ -1024,35 +1066,42 @@ exports.PSI0000002 = function (params ,session, callback) {
 
         //region欄位空值檢查
 
+        var count = 0;
+
         _.each(obj.salseRevenue, function (item) {
-            var result = checkNull(item, lo_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_keyfield)){
+                ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
 
         //region欄位數字檢查
 
+        count = 0;
+
         _.each(obj.salseRevenue, function (item) {
-            var result = checkNum(item, lo_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_numfield)){
+                ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
 
         //region欄位長度檢查
 
+        count = 0;
+
         _.each(obj.salseRevenue, function (item) {
             if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
+                ls_error_Msg += "salseRevenue[" + count + "]的格式有誤。(欄位長度不符)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
@@ -1118,77 +1167,68 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         //region欄位空值檢查
 
+        var count = 0;
+
         _.each(obj.salseMn, function (item) {
-            var result = checkNull(item, lo_sale_mn_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_sale_mn_keyfield)){
+                ls_error_Msg += "salseMn[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
+
+        count = 0;
 
         _.each(obj.salseDt, function (item) {
-            var result = checkNull(item, lo_sale_dt_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_sale_dt_keyfield)){
+                ls_error_Msg += "salseDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
+        count = 0;
+
         _.each(obj.salseReceipt, function (item) {
-            var result = checkNull(item, lo_receipt_dt_keyfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNull(item, lo_receipt_dt_keyfield)){
+                ls_error_Msg += "salseReceipt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
 
         //endregion
 
         //region欄位數字檢查
 
+        count = 0;
+
         _.each(obj.salseMn, function (item) {
-            var result = checkNum(item, lo_sale_mn_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_sale_mn_numfield)){
+                ls_error_Msg += "salseMn[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
+
+        count = 0;
 
         _.each(obj.salseDt, function (item) {
-            var result = checkNum(item, lo_sale_dt_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_sale_dt_numfield)){
+                ls_error_Msg += "salseDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
+            count += 1;
         });
+
+        count = 0;
 
         _.each(obj.salseReceipt, function (item) {
-            var result = checkNum(item, lo_receipt_dt_numfield);
-            if(!result[0]){
-                ls_error_Msg += result[1];
+            if(!checkNum(item, lo_receipt_dt_numfield)){
+                ls_error_Msg += "salseReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
-        });
-        //endregion
-
-        //region欄位長度檢查
-
-        _.each(obj.tenKDosage, function (item) {
-            if(item.taxcomp_cod.length != 5){
-                ls_error_Msg += "欄位taxcomp_cod" +"長度須為5" + "\r\n";
-                lb_check = false;
-            }
-        });
-
-        _.each(obj.transferDt, function (item) {
-            if(item.otaxcomp_cod.length != 5){
-                ls_error_Msg += "欄位otaxcomp_cod" +"長度須為5" + "\r\n";
-                lb_check = false;
-            }
-            if(item.itaxcomp_cod.length != 5){
-                ls_error_Msg += "欄位itaxcomp_cod" +"長度須為5" + "\r\n";
-                lb_check = false;
-            }
+            count += 1;
         });
 
         //endregion
@@ -1251,9 +1291,11 @@ exports.callWebServiceAPI = function (params ,session, callback) {
         var success = true;
         var retn_cod = "0000";
         var errorMsg = "";
+
         if (apiErr || !data) {
             success = false;
             errorMsg = apiErr;
+            retn_cod = "9999";
         } else if (data["RETN-CODE"] != "0000") {
             success = false;
             retn_cod = data["RETN-CODE"];

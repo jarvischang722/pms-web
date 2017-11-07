@@ -42,37 +42,138 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
 function DatagridRmSingleDTGridClass() {}
 
 DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
+
+var isbind = false;
+var go_currentField;
+var go_currentIndex = 0;
+
 DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
     if(PSIW500030.isModificable){
-        if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
-            if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
-                $('#PSIW500030_dt').datagrid('selectRow', index)
-                    .datagrid('beginEdit', index);
-                var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
-                if (ed) {
-                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                }
+        if ($('#PSIW500030_dt').datagrid('validateRow', go_currentIndex)) {
+            $('#PSIW500030_dt').datagrid('endEdit', go_currentIndex);
 
-                DatagridRmSingleDTGridClass.prototype.editIndex = index;
-            } else {
-                setTimeout(function () {
-                    $('#PSIW500030_dt').datagrid('selectRow', DatagridRmSingleDTGridClass.prototype.editIndex);
-                }, 0);
+            if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
+
+                if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
+                    $('#PSIW500030_dt').datagrid('selectRow', index)
+                        .datagrid('beginEdit', index);
+                    var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
+                    if (ed) {
+                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                    }
+                    go_currentIndex = index;
+                    go_currentField = ed;
+                    DatagridRmSingleDTGridClass.prototype.editIndex = index;
+                } else {
+                    setTimeout(function () {
+                        $('#PSIW500030_dt').datagrid('selectRow', DatagridRmSingleDTGridClass.prototype.editIndex);
+                    }, 0);
+                }
             }
         }
     }
 };
+
+//擴充上下左右操控
+$.extend($('#PSIW500030_dt').datagrid.methods, {
+    keyCtr : function (jq) {
+        return jq.each(function () {
+            var grid = $(this);
+            if(!isbind)
+            {
+                grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                    if(PSIW500030.isModificable){
+                        switch (e.keyCode) {
+                            // Up
+                            case 38:
+
+                                var index = go_currentIndex;
+
+                                if(index > 0){
+                                    if (grid.datagrid('validateRow', index)) {
+                                        grid.datagrid('endEdit', index);
+
+                                        grid.datagrid('selectRow', index - 1).datagrid('beginEdit', index - 1);
+
+                                        var field = 'item_qnt';
+
+                                        if(!_.isUndefined(go_currentField))
+                                            field = go_currentField.field;
+
+                                        var ed = grid.datagrid('getEditor', {index: index - 1, field: field});
+                                        if (ed) {
+                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                        }
+                                        go_currentField = ed;
+                                        go_currentIndex = index - 1;
+                                    }
+                                }
+                                break;
+                            // Down
+                            case 40:
+
+                                var index = go_currentIndex;
+                                var rows = grid.datagrid('getRows');
+
+                                if(index < rows.length - 1)
+                                {
+                                    if (grid.datagrid('validateRow', index)) {
+                                        grid.datagrid('endEdit', index);
+
+                                        grid.datagrid('selectRow', index + 1).datagrid('beginEdit', index + 1);
+
+                                        var field = 'order_rmk';
+
+                                        if(!_.isUndefined(go_currentField))
+                                            field = go_currentField.field;
+
+                                        var ed = grid.datagrid('getEditor', {index: index + 1, field: field});
+
+                                        if (ed) {
+                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                        }
+                                        go_currentField = ed;
+                                        go_currentIndex = index + 1;
+                                    }
+                                }
+                                break;
+                            // Left
+                            case 37:
+                                var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'item_qnt'});
+                                if (ed) {
+                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                }
+                                go_currentField = ed;
+
+                                break;
+                            // Right
+                            case 39:
+                                var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'order_rmk'});
+                                if (ed) {
+                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                }
+                                go_currentField = ed;
+
+                                break;
+                        }
+                    }
+                });
+                isbind = true;
+            }
+        });
+    }
+});
 
 /*** Class End  ***/
 
 var PSIW500030 = new Vue({
     el: '#MainApp2',
     mounted: function () {
-        this.fetchUserInfo();
-        this.loadDataGrid();
-        this.initCustSelect();
+        this.initSelect();
         this.initSearchComp();
         this.getSystemParam();
+        this.fetchUserInfo();
+        this.loadDataGrid();
     },
     components: {
         "search-comp": go_searchComp
@@ -103,7 +204,6 @@ var PSIW500030 = new Vue({
         dgIns: {},
         dgInsDT :{},
 
-
         FieldData: [],              //多筆欄位
         DataGridRows: [],           //多筆資料
 
@@ -117,6 +217,7 @@ var PSIW500030 = new Vue({
 
         custSelectData:[],          //客戶代號下拉
         orderSelectData:[],         //訂單格式下拉
+        unitSelectData:[],         //單位下拉
 
         statusSelectData:[{value:'N', display:'N:待核'}, {value:'C', display:'C:核准'}, {value:'O', display:'O:出貨中'}, {value:'S', display:'S:結清'}, {value:'H', display:'H:保留'}, {value:'X', display:'X:出貨完畢'}],    //狀態下拉
 
@@ -527,6 +628,7 @@ var PSIW500030 = new Vue({
 
         //組單筆的DT欄位
         bindingDTFieldData: function () {
+
             var lo_fieldData = [
                 {
                     athena_id : "",
@@ -537,7 +639,7 @@ var PSIW500030 = new Vue({
                     ui_field_length : 5,
                     ui_field_num_point : 0,
                     col_seq : 0,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -576,12 +678,12 @@ var PSIW500030 = new Vue({
                     athena_id : "",
                     user_id : "",
                     prg_id : "PSIW500030",
-                    ui_field_name : "describe",
+                    ui_field_name : "goods_rmk",
                     ui_type : "text",
-                    ui_field_length : 20,
+                    ui_field_length : 100,
                     ui_field_num_point : 0,
                     col_seq : 2,
-                    width : 100,
+                    width : 400,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -599,11 +701,11 @@ var PSIW500030 = new Vue({
                     user_id : "",
                     prg_id : "PSIW500030",
                     ui_field_name : "unit_typ",
-                    ui_type : "text",
+                    ui_type : "select",
                     ui_field_length : 4,
                     ui_field_num_point : 0,
                     col_seq : 3,
-                    width : 100,
+                    width : 80,
                     visiable : "Y",
                     modificable : "N",
                     requirable : "N",
@@ -614,7 +716,8 @@ var PSIW500030 = new Vue({
                     user_athena_id : "",
                     multi_lang_table : "",
                     page_id : 1,
-                    ui_display_name:"單位"
+                    ui_display_name:"單位",
+                    selectData: this.unitSelectData
                 },
                 {
                     athena_id : "",
@@ -675,7 +778,7 @@ var PSIW500030 = new Vue({
                     requirable : "Y",
                     grid_field_name : "psi_quote_dt",
                     keyable : "",
-                    format_func_name : "ChkGreaterZeroNum",
+                    format_func_name : "ChkGteZeroNum",
                     rule_func_name : "",
                     user_athena_id : "",
                     multi_lang_table : "",
@@ -691,7 +794,7 @@ var PSIW500030 = new Vue({
                     ui_field_length : 100,
                     ui_field_num_point : 0,
                     col_seq : 7,
-                    width : 100,
+                    width : 300,
                     visiable : "Y",
                     modificable : "Y",
                     requirable : "N",
@@ -731,6 +834,7 @@ var PSIW500030 = new Vue({
                     self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
                     self.dgInsDT = new DatagridRmSingleDTGridClass();
                     self.dgInsDT.init(prg_id, 'PSIW500030_dt', EZfieldClass.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
+                    $("#PSIW500030_dt").datagrid({}).datagrid("keyCtr");
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -740,12 +844,13 @@ var PSIW500030 = new Vue({
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
 
+            var self = this;
+
             //撈單筆MN
             var lo_params = {
                 func : "getSingleDataMN",
                 postData: editingRow
             };
-            var self = this;
             this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
 
@@ -788,7 +893,6 @@ var PSIW500030 = new Vue({
                 postData: editingRow
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     self.singleDataGridRows = result.data;
@@ -919,9 +1023,11 @@ var PSIW500030 = new Vue({
 
         },
 
-        //初始化客戶代號下拉選單
-        initCustSelect: function () {
+        //初始化下拉選單
+        initSelect: function () {
+
             var self = this;
+            //客戶代號
             var lo_params = {
                 func : "getShowCodSelect"
             };
@@ -935,6 +1041,22 @@ var PSIW500030 = new Vue({
                     alert(result.error.errorMsg);
                 }
             });
+
+            //單位
+            lo_params = {
+                func : "getUnitSelect"
+            };
+            this.isLoading = true;
+
+            $.post("/api/getQueryResult", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.unitSelectData = result.data;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
         },
 
         //初始化訂單格式下拉選單
@@ -972,7 +1094,7 @@ var PSIW500030 = new Vue({
 
         //客戶代號Change event
         custSelectChange: function () {
-            console.log('asd');
+
             if(_.isUndefined(this.singleData.cust_cod)) return;
 
             var self = this;
@@ -1428,7 +1550,7 @@ var PSIW500030 = new Vue({
 
         },
 
-        //TODO:call API
+        //call API
         callAPI: function (trans_cod, callback) {
 
             var self = this;

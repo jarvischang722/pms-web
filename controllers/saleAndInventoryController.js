@@ -44,6 +44,11 @@ exports.getQueryResult = function (req, res) {
                 res.json({data: result, error: err});
             });
             break;
+        case "getUnitSelect":
+            PSIWService.getUnitSelect(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
         case "getCustInfo":
             PSIWService.getCustInfo(req.body, req.session, function (err, result) {
                 res.json({data: result, error: err});
