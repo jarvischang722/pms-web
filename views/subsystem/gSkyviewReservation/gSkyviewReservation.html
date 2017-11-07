@@ -1025,8 +1025,14 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>宴會日期</label>
-                                        <input type="date" class="input-medium addedDate" placeholder=""/>
-                                    </div>
+                                        <div id="gs-feast-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>                                    </div>
                                     <div class="grid-item-inline">
                                         <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
                                         ~
@@ -1118,7 +1124,14 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>保留日</label>
-                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                        <div id="gs-save-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                     <div class="grid-item">
                                         <label>計算服務費</label>
@@ -1374,7 +1387,6 @@
 
 <!-- 新增訂席 彈出視窗 -->
 <div id="gs-add-page" class="hide padding-5" style="">
-
     <div class="businessCompanyData">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
@@ -1441,8 +1453,14 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>宴會日期</label>
-                                        <input type="date" class="input-medium addedDate" placeholder=""/>
-                                    </div>
+                                        <div id="gsAdd-feast-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>                                    </div>
                                     <div class="grid-item-inline">
                                         <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
                                         ~
@@ -1534,7 +1552,14 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>保留日</label>
-                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                        <div id="gsAdd-save-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                     <div class="grid-item">
                                         <label>計算服務費</label>
@@ -1875,8 +1900,12 @@
             };
         }
     };
-    var Ctor = Vue.extend(Main)
-    new Ctor().$mount('#gs-datePicker')
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#gs-datePicker');
+    new Ctor().$mount('#gs-save-date');
+    new Ctor().$mount('#gs-feast-date');
+    new Ctor().$mount('#gsAdd-feast-date');
+    new Ctor().$mount('#gsAdd-save-date');
 </script>
 </body>
 </html>
