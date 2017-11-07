@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+    <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta charset="utf-8"/>
     <title>訂席</title>
@@ -180,18 +180,30 @@
     <!-- jsTree -->
     <script src="../../../public/js/tree/jstree.min.js"></script>
     <script src="tableHeadFixer.js"></script>
+
+
+    <script src="../../../public/js/tableHeadFixer.js"></script>
+
 </head>
-
-<body class="no-skin" data-feedly-mini="yes">
-
+<body>
 <div class="main-container" style="margin-top: 35px;">
+
     <div class="col-sm-12">
+
         <div class="container_12">
             <div class="grid_12 gs-table-option">
                 <div class="col-md-3 col-xs-12 inputGroupContainer gs-table-select-box inline">
                     <div class="input-group">
                         <span class="input-group-addon">查詢日期</span>
-                        <input id="gs-datePicker" type="date">
+                        <div id="gs-datePicker">
+                            <template>
+                                <div id="gs-datePicker" class="block">
+                                    <el-date-picker id="gs-date"  v-model="value1" type="date" placeholder="" :picker-options="pickerOptions0">
+                                    </el-date-picker>
+                                </div>
+                            </template>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-md-9 col-xs-12 gs-option-btnGroup">
@@ -199,7 +211,7 @@
                             role="button">查詢</button>
                     <button class="btn btn-primary btn-white gs-add-order"
                             role="button">新增訂席</button>
-                    <button class="btn btn-primary btn-white today-btn"
+                    <button id="today-btn" class="btn btn-primary btn-white today-btn"
                             role="button">今日</button>
                 </div>
             </div>
@@ -249,14 +261,14 @@
                     </tr>
                     <tr>
                         <td class="no-cursor border-bottom-black middle td-first lightPurpleTag" rowspan="2">晏蜓區 (5)</td>
-                            <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="32">
-                                test1
-                                <span class="lightBlue-box">預</span>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="32">
+                            test1
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -945,8 +957,8 @@
                 <div class="clear"></div>
             </div> <!-- table -->
         </div><!-- /.container -->
-        </div>
     </div>
+</div>
 </div>
 
 <!-- 查詢訂席 彈出視窗 -->
@@ -1780,51 +1792,36 @@
 </div>
 <!-- /.新增訂席 -->
 
-<script src="../../../public/js/tableHeadFixer.js"></script>
+
 <script>
 
-// 彈出 查詢訂席
-$(document).on('click', ".gs-have-order", function (e) {
-    e.preventDefault();
-    var dialog = $("#gs-order-page").removeClass('hide').dialog({
-        modal: true,
-        title: "查詢訂席",
-        title_html: true,
-        width: 1000,
-        height: 700,
-        maxwidth: 1920,
+    $(function(){
+        //預設顯示今日
+        var today = new Date();
+        var todayShow = today.getFullYear()+ "-" + (today.getMonth()+1) + "-" + today.getDate();
+        $('#gs-date input').attr('placeholder',todayShow);
+    });
+
+    // 彈出 查詢訂席
+    $(document).on('click', ".gs-have-order", function (e) {
+        e.preventDefault();
+        var dialog = $("#gs-order-page").removeClass('hide').dialog({
+            modal: true,
+            title: "查詢訂席",
+            title_html: true,
+            width: 1000,
+            height: 700,
+            maxwidth: 1920,
 //        height: $(window).height(),
 //                autoOpen: true,
-        dialogClass: "test",
-        resizable: true
+            dialogClass: "test",
+            resizable: true
+        });
     });
-});
 
-// 彈出 新增訂席
-$(document).on('click', ".gs-add-order", function (e) {
-    e.preventDefault();
-    var dialog = $("#gs-add-page").removeClass('hide').dialog({
-        modal: true,
-        title: "新增訂席",
-        title_html: true,
-        width: 1000,
-        height: 700,
-        maxwidth: 1920,
-//        height: $(window).height(),
-//                autoOpen: true,
-        dialogClass: "test",
-        resizable: true
-    });
-});
-
-// 空白處彈出 新增訂席
-$(document).on('click', ".gs-rese-table td", function (e) {
-    //判斷空白td
-    var emptyTd = $(this).hasClass("");
-//    console.log(emptyTd);
-
-    //如果是空白td，彈出新增訂席
-    if(emptyTd === true){
+    // 彈出 新增訂席
+    $(document).on('click', ".gs-add-order", function (e) {
+        e.preventDefault();
         var dialog = $("#gs-add-page").removeClass('hide').dialog({
             modal: true,
             title: "新增訂席",
@@ -1837,24 +1834,53 @@ $(document).on('click', ".gs-rese-table td", function (e) {
             dialogClass: "test",
             resizable: true
         });
-    }else{}
-});
+    });
 
-//啟用fixTable
-$("#gs-fixTable").tableHeadFixer({"left" : 1});
+    // 空白處彈出 新增訂席
+    $(document).on('click', ".gs-rese-table td", function (e) {
+        //判斷空白td
+        var emptyTd = $(this).hasClass("");
+//    console.log(emptyTd);
 
-// 啟用tree
-$("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+        //如果是空白td，彈出新增訂席
+        if(emptyTd === true){
+            var dialog = $("#gs-add-page").removeClass('hide').dialog({
+                modal: true,
+                title: "新增訂席",
+                title_html: true,
+                width: 1000,
+                height: 700,
+                maxwidth: 1920,
+//        height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        }else{}
+    });
 
-//預設今日
-//document.getElementById('gs-datePicker').valueAsDate = new Date();
+    //啟用fixTable
+    $("#gs-fixTable").tableHeadFixer({"left" : 1});
 
-//點擊今日 日曆回到今日
-//$(document).on('click', ".today-btn", function (e) {
-//    document.getElementById('gs-datePicker').valueAsDate = new Date();
-//});
+    // 啟用tree
+    $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
 
-
+</script>
+<script type="text/javascript">
+    var Main = {
+        data() {
+            return {
+                pickerOptions0: {
+                    disabledDate(time) {
+                    }
+                },
+                value1: '',
+                value2: '',
+            };
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#gs-datePicker')
 </script>
 </body>
 </html>
