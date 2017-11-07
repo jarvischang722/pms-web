@@ -47,7 +47,7 @@ function handleSinglePageRowData_test(userInfo, params) {
                         page_id: page_id
                     };
 
-                    mongoAgent.UI_PageField.find(lo_qryParams, function (err, pageField) {
+                    mongoAgent.UIPageField.find(lo_qryParams, function (err, pageField) {
                         lo_pageField = pageField;
                         cb(err, pageField);
                     });
@@ -196,7 +196,7 @@ function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback) {
 
             selectDSFunc.push(
                 function (callback) {
-                    mongoAgent.UI_Type_Select.findOne({
+                    mongoAgent.UITypeSelect.findOne({
                         prg_id: prg_id,
                         ui_field_name: field.ui_field_name
                     }).exec(function (err, selRow) {

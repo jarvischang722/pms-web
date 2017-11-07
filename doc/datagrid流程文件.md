@@ -2,7 +2,7 @@
 - api/prgDataGridDataQuery:  
     datagridController.prgDataGridDataQuery -> datagridService.fetchPrgDataGrid
 - datagridService.fetchPrgDataGrid
-    1. 取得 UI_PageField 資料(field 屬性資料)
+    1. 取得 UIPageField 資料(field 屬性資料)
     2. 取得 TemplateRf 資料(搜尋oracle DB的 query)
     3. 取得 oracle DB 資料(各個欄位資料)
     4. 條件過濾

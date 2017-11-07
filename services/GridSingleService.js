@@ -32,7 +32,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
     async.waterfall([
         //1) 撈出全部的欄位屬性
         function (callback) {
-            mongoAgent.UI_PageField.find({page_id: page_id, prg_id: prg_id}).sort({
+            mongoAgent.UIPageField.find({page_id: page_id, prg_id: prg_id}).sort({
                 row_seq: 1,
                 col_seq: 1
             }).exec(function (err, fields) {
@@ -54,7 +54,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
 
                     selectDSFunc.push(
                         function (callback) {
-                            mongoAgent.UI_Type_Select.findOne({
+                            mongoAgent.UITypeSelect.findOne({
                                 prg_id: prg_id,
                                 ui_field_name: field.ui_field_name
                             }).exec(function (err, selRow) {
@@ -224,7 +224,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
 
                 selectDSFunc.push(
                     function (callback) {
-                        mongoAgent.UI_Type_Select.findOne({
+                        mongoAgent.UITypeSelect.findOne({
                             prg_id: prg_id,
                             ui_field_name: field.ui_field_name
                         }).exec(function (err, selRow) {
@@ -324,7 +324,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
     let lo_pageField;
     async.waterfall([
             function (callback) {
-                mongoAgent.UI_PageField.find({
+                mongoAgent.UIPageField.find({
                     prg_id: prg_id,
                     page_id: 2
                 }, function (err, pageField) {
@@ -370,7 +370,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             function (rowData, callback) {
                 async.waterfall([
                     function (callback) {
-                        mongoAgent.UI_PageField.findOne({
+                        mongoAgent.UIPageField.findOne({
                             prg_id: prg_id,
                             ui_type: 'grid',
                             page_id: 2
@@ -439,7 +439,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
             },
             function (rowData, callback) {
                 //func_id  0401  抓完要編輯的資料後，要檢查此筆Row Data 可否被編輯
-                mongoAgent.PageFunction.findOne({
+                mongoAgent.SetupPageFunction.findOne({
                     prg_id: prg_id,
                     func_id: '0401'
                 }, function (err, func) {
@@ -483,7 +483,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
 
                 selectDSFunc.push(
                     function (callback) {
-                        mongoAgent.UI_Type_Select.findOne({
+                        mongoAgent.UITypeSelect.findOne({
                             prg_id: prg_id,
                             ui_field_name: field.ui_field_name
                         }).exec(function (err, selRow) {
@@ -642,7 +642,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
             page_id: 2,
             ui_type: 'grid'
         };
-        mongoAgent.UI_PageField.findOne(params).exec(function (err, dtfield) {
+        mongoAgent.UIPageField.findOne(params).exec(function (err, dtfield) {
             if (dtfield) {
 
                 params = {
@@ -671,7 +671,7 @@ exports.handleSaveSingleGridData = function (postData, session, callback) {
     function getPrgField(dtTableName, callback) {
         async.parallel([
             function (callback) {
-                mongoAgent.UI_PageField.find({
+                mongoAgent.UIPageField.find({
                     prg_id: prg_id,
                     athena_id: '',
                     user_id: '',
