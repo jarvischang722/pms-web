@@ -4122,6 +4122,14 @@ span.triangle-text {
   margin-top: 5px;
 }
 
+.margin-tb10 {
+  margin: 10px 0;
+}
+
+.margin-tb15 {
+  margin: 15px 0;
+}
+
 .navy-line {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -4176,6 +4184,228 @@ span.triangle-text {
   width: 7%;
 }
 
+.gs-rese-contaoner .gs-rese-table thead th {
+  background-color: #a5c9f2;
+  min-width: 30px;
+  padding: 0px 3px;
+  white-space: nowrap;
+  border: 1px solid #fff;
+  border-top-color: #d0d0d0;
+  border-bottom-color: #d0d0d0;
+  background-clip: padding-box;
+}
+.gs-rese-contaoner .gs-rese-table thead th:first-child {
+  border-left-color: #d0d0d0;
+}
+.gs-rese-contaoner .gs-rese-table thead th:last-child {
+  border-right-color: #d0d0d0;
+}
+.gs-rese-contaoner .gs-rese-table tbody tr td {
+  background-clip: padding-box;
+  border: 1px solid #d0d0d0;
+  max-width: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  height: 30px;
+  padding: 0px 3px;
+  cursor: pointer;
+}
+
+tr.h23-tr td, tr.h23-tr th {
+  height: 23px !important;
+}
+
+.lightGrayTag {
+  background: #c0c0c0;
+}
+
+.brighterGrayTag {
+  background: #dcdcdc;
+}
+
+.darkGrayTag {
+  background: #8c8c8c !important;
+  color: #fff;
+}
+
+.lightYellowTag {
+  background: #ffffa5;
+}
+
+.lightPurpleTag {
+  background: #f2f2ff;
+}
+
+.sexyPurpleTag {
+  background: #ffc7ff;
+}
+
+.brighterPurpleTag {
+  background: #e6e6ff;
+}
+
+.padding-tb-5 {
+  padding: 0px 3px;
+}
+
+.lightBlue-box {
+  background: #7affff;
+  display: inline-block;
+  width: 20px;
+  float: right;
+  text-align: center;
+}
+
+.lightPurple-box {
+  background: #ffc7ff;
+  display: inline-block;
+  width: 20px;
+  float: right;
+  text-align: center;
+}
+
+.padding-left-24 {
+  padding-left: 24px !important;
+}
+
+.testtt {
+  width: 1400px !important;
+}
+
+thead .hidden-firstTr {
+  height: 0 !important;
+}
+
+#gs-fixTable {
+  width: 100%;
+}
+
+.gs-have-order {
+  cursor: pointer;
+}
+.gs-have-order:hover {
+  opacity: 0.6;
+}
+
+.darkPurpleTag {
+  background: #807ec2;
+}
+
+.grid-item-inline {
+  margin-left: 10px;
+  float: left;
+}
+
+label .lbl.radius-circle:before {
+  border-radius: 50% !important;
+}
+
+.gs-order-container select {
+  -webkit-appearance: menulist;
+}
+.gs-order-container .checkbox {
+  display: inline-block;
+  margin: 0;
+}
+.gs-order-container .checkbox label {
+  width: 50px;
+}
+.gs-order-container .checkbox:nth-child(2) {
+  width: 40px;
+}
+
+.gs-order-table-wrap td {
+  padding: 3px;
+}
+.gs-order-table-wrap td .checkbox {
+  margin: 0;
+}
+.gs-order-table-wrap td .checkbox label {
+  width: 0px;
+}
+
+.btn-groupBorder-box fieldset {
+  display: block;
+  border: 1px solid #C5D0DC;
+  padding: 8px;
+}
+.btn-groupBorder-box fieldset legend {
+  font-size: 14px;
+  width: auto;
+  border-bottom: 0px;
+  margin-bottom: 3px;
+}
+
+.gs-table-option .gs-table-select-box .input-group-addon {
+  background: #fff;
+}
+.gs-table-option .gs-table-select-box select {
+  padding: 5px;
+  margin: 0;
+  height: 36px;
+  border: 1px solid #d0d0d0;
+  vertical-align: bottom;
+  width: 100%;
+  background: url(../../public/images/toggle-collapse-dark.png) 98% 32% !important;
+  background-repeat: no-repeat !important;
+}
+.gs-table-option .gs-table-select-box input {
+  padding: 5px;
+  margin: 0 0 0 -4px;
+  height: 36px;
+  border: 1px solid #d0d0d0;
+  vertical-align: bottom;
+  width: 100%;
+}
+
+.gs-option-btnGroup {
+  margin: 10px 0;
+  display: inline-block;
+  float: right;
+}
+.gs-option-btnGroup button.btn {
+  width: 100px !important;
+  margin-right: 3px;
+  padding: 3px 9px;
+  font-size: 12px;
+  padding-left: 0;
+  padding-right: 0;
+  white-space: normal;
+}
+
+.no-cursor {
+  cursor: default !important;
+}
+
+tr.no-cursor-tr td {
+  cursor: default !important;
+}
+
+.td-first {
+  z-index: 99;
+}
+
+.place-btbGroup {
+  margin-top: 50px;
+}
+
+.place-left-wrap {
+  padding-left: 21px !important;
+}
+
+.gs-order-container .input-medium {
+  padding: 5px 4px 4px;
+}
+.gs-order-container select.input-medium {
+  padding: 5px 4px 3px;
+}
+
+@media screen and (max-width: 991px) {
+  .gs-table-select-box:nth-child(1) {
+    margin-bottom: 5px;
+  }
+}
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4704,6 +4934,11 @@ a {
 }
 .input-medium.consumeCode-g1-s {
   width: 50px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.consumeCode-g1-ss {
+  width: 46px;
   max-width: 100%;
   height: 25px;
 }

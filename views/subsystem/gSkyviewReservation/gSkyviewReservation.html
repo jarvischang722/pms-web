@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>訂席</title>
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <!-- CSS Block -->
+    <link rel="stylesheet" href="../../../public/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="../../../public/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../public/css/jquery-ui.css">
+    <!-- 警式視窗彈出 -->
+    <link rel="stylesheet" href="../../../public/css/gritter/jquery.gritter.css">
+    <link rel="stylesheet" href="../../../public/css/ace.css">
+
+    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/easyUI/demo.css">
+    <!-- 多選chosen -->
+    <link rel="stylesheet" href="../../../public/css/chosenchosen.css" />
+
+    <!-- color picker 套件 -->
+    <link rel="stylesheet" type="text/css" href="../../../public/css/spectrum/spectrum.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/spectrum/docs/docs.css">
+    <!-- 全頁日曆 -->
+    <link rel="stylesheet" type="text/css" href="../../../public/css/bs-calendar/bootstrap-year-calendar.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../public/css/bootstrap/bootstrap-timepicker.min.css">
+
+    <link rel="stylesheet" href="../../../public/css/remodal.css">
+    <link rel="stylesheet" href="../../../public/css/remodal-default-theme.css">
+
+    <!--fixTable-->
+    <link rel="stylesheet" href="../../../public/css/fixtable/960.css" />
+    <link rel="stylesheet" href="../../../public/css/fixtable/fixTable.css" />
+
+
+    <!-- dropzone 圖片上傳套件  -->
+    <link rel="stylesheet" href="../../../public/css/dropzone/dropzone.css">
+
+    <!-- jsTree -->
+    <link rel="stylesheet" href="../../../public/css/jsTree/jsTree.min.css">
+
+    <!-- 自定義style 擺最後 -->
+    <link rel="stylesheet" href="../../../public/css/style.css">
+    <link rel="stylesheet" href="../../../public/css/bacchusStyle.css">
+
+    <!-- Element CSS for Vue.js  -->
+    <link rel="stylesheet" href="../../../public/css/element_ui/element.css">
+
+    <style>
+        .panel.window {
+            z-index: 1500 !important;
+        }
+
+        .window-shadow {
+            z-index: 1499 !important;
+        }
+
+        .window-mask {
+            z-index: 1498 !important;
+        }
+    </style>
+    <!-- JS Block -->
+    <script src="../../../public/js/jquery/jquery.js"></script>
+    <script src="../../../public/js/jquery/jquery-ui.js"></script>
+
+    <script src="../../../public/js/bootstrap/bootstrap.js"></script>
+    <script src="../../../public/js/ace.js"></script>
+    <script src="../../../public/js/ace.sidebar.js"></script>
+    <!-- socket.io -->
+    <script src="../../../public/js/socket.io.js"></script>
+
+    <!-- boostrap modal -->
+    <script src="../../../public/js/modal-dialog.js"></script>
+
+    <!-- validate 類別-->
+    <script type="text/javascript" src="../../../public/js/easyUI/validateClass.js"></script>
+    <!-- Load i18n 語系內容-->
+
+    <script src="../../../public/js/sprintf.js"></script>
+
+    <!-- easy ui -->
+    <script>
+        $.noConflict(true);
+    </script>
+    <script src="../../../public/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../../../public/js/easyUI/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../public/js/easyUI/columns-ext.js"></script>
+    <script>
+        //remodal 套件全域變數設定, 需放在remodal.js套件前
+        window.REMODAL_GLOBALS = {
+            DEFAULTS: {
+                hashTracking: false  //打開modal 時網址不出現 hash #
+            }
+        };
+    </script>
+    <script type="text/javascript" src="../../../public/js/remodal.min.js"></script>
+
+    <!-- 多選chosen -->
+    <script src="../../../public/js/chosen/chosen.jquery.js"></script>
+    <!-- vue 套件 -->
+    <script src="../../../public/js/vue/vue.min.js"></script>
+    <script src="../../../public/js/vue/vee-validate.min.js"></script>
+    <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+    <!-- Element JS for Vue.js  -->
+    <script src="../../../public/js/element_ui/element.js"></script>
+    <script src="../../../public/js/element_ui/locales/en.js"></script>
+    <script src="../../../public/js/element_ui/locales/zh_CN.js"></script>
+    <script src="../../../public/js/element_ui/locales/zh_TW.js"></script>
+    <script src="../../../public/js/element_ui/locales/ja.js"></script>
+    <script src="../../../public/js/element_ui/locales/ko.js"></script>
+
+
+    <script>
+        var gs_locale = '<%=session.locale%>';
+        ELEMENT.locale(ELEMENT.lang[gs_locale.replace("_","")])
+    </script>
+
+    <!-- 驗證easyUI 欄位自訂義規則 -->
+    <script type="text/javascript" src="../../../public/js/easyUI/extendValidation.js" ></script>
+
+    <script type="text/javascript" src="../../../public/js/easyUI/datagridForEasyUI.js" ></script>
+
+
+    <!-- underscore 套件 -->
+    <script src="../../../public/js/underscore/underscore-min.js" type="text/javascript"></script>
+    <!--<script src="/js/underscore/underscore.string.min.js" type="text/javascript"></script>-->
+    <!--<script type="text/javascript"> _.mixin(_.str.exports()) </script>-->
+
+    <!-- 時間套件 -->
+    <script src="../../../public/js/moment/moment.min.js"></script>
+
+    <script src="../../../public/js/include.js"></script>
+
+    <script src="../../../public/js/cookieFunc.js"></script>
+
+    <script src="../../../public/js/colorTool.js"></script>
+
+    <!-- color picker 套件 -->
+    <script src="../../../public/js/spectrum/spectrum.js"></script>
+    <script src="../../../public/js/spectrum/docs/toc.js"></script>
+    <script src="../../../public/js/spectrum/docs/docs.js"></script>
+    <script src="../../../public/js/spectrum/docs/prettify.js"></script>
+
+    <!-- Boostrap date 套件 -->
+    <script src="../../../public/js/bootstrap/bootstrap-datepicker.min.js"></script>
+    <script src="../../../public/js/bootstrap/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../public/js/bootstrap/bootstrap-timepicker.min.js"></script>
+    <!-- 全頁日曆 -->
+    <script src="../../../public/js/bs-calendar/bootstrap-year-calendar.min.js"></script>
+
+    <!--treeTable-->
+    <script type="text/javascript" src="../../../public/js/tree/jquery.treetable-ajax-persist.js"></script>
+    <script type="text/javascript" src="../../../public/js/tree/jquery.treetable-3.0.0.js"></script>
+    <script type="text/javascript" src="../../../public/js/tree/persist-min.js"></script>
+    <!--fixTable-->
+    <script type="text/javascript" src="../../../public/js/fixTable/jquery.fixedheadertable.js"></script>
+
+    <!-- 警式視窗彈出 -->
+    <script src="../../../public/js/gritter/jquery.gritter.min.js"></script>
+
+    <!-- 多選chosen -->
+    <script src="../../../public/js/chosen/chosen.jquery.js"></script>
+
+    <!-- datagrid 類別 -->
+    <script type="text/javascript" src="../../../public/js/easyUI/DatagridBaseClass.js"></script>
+
+    <!-- axios ajax Lib -->
+    <script src="../../../public/js/axios/axios.min.js"></script>
+
+    <!-- easyui diolg 預設z-index 9000  會影響到element ui -->
+
+    <!-- dropzone 上傳圖片套件 -->
+    <script src="../../../public/js/dropzone/dropzone.js"></script>
+
+    <!-- jsTree -->
+    <script src="../../../public/js/tree/jstree.min.js"></script>
+    <script src="tableHeadFixer.js"></script>
+</head>
+
+<body class="no-skin" data-feedly-mini="yes">
+
+<div id="MainApp" class="main-container ace-save-state" style="margin-top: 35px;">
+    <div class="col-sm-12">
+        <div class="container_12 divider">
+            <!--toDO-->
+            <!--暫時設定高度-->
+            <div class="grid_12 gs-table-option">
+                <div class="col-md-3 col-xs-12 inputGroupContainer gs-table-select-box inline">
+                    <div class="input-group">
+                        <span class="input-group-addon">查詢日期</span>
+                        <input id="gs-datePicker" type="date">
+                    </div>
+                </div>
+                <div class="col-md-9 col-xs-12 gs-option-btnGroup">
+                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                            role="button">查詢</button>
+                    <button class="btn btn-primary btn-white gs-add-order"
+                            role="button">新增訂席</button>
+                    <button class="btn btn-primary btn-white today-btn"
+                            role="button">今日</button>
+                </div>
+            </div>
+            <div class="grid_12 gs-rese-contaoner">
+                <table class="themeTable treeControl gs-rese-table" id="gs-fixTable" cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr class="h23-tr">
+                        <th class="">
+                            2007/01/18(四)
+                        </th>
+                        <th class="" colspan="2">09:00</th>
+                        <th class="" colspan="2">10:00</th>
+                        <th class="" colspan="2">11:00</th>
+                        <th class="" colspan="2">12:00</th>
+                        <th class="" colspan="2">13:00</th>
+                        <th class="" colspan="2">14:00</th>
+                        <th class="" colspan="2">15:00</th>
+                        <th class="" colspan="2">16:00</th>
+                        <th class="" colspan="2">17:00</th>
+                        <th class="" colspan="2">18:00</th>
+                        <th class="" colspan="2">19:00</th>
+                        <th class="" colspan="2">20:00</th>
+                        <th class="" colspan="2">21:00</th>
+                        <th class="" colspan="2">22:00</th>
+                        <th class="" colspan="2">23:00</th>
+                        <th class="" colspan="2">00:00</th>
+                        <th class="" colspan="2">01:00</th>
+                        <th class="" colspan="2">02:00</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+                    <tr class="no-cursor-tr h23-tr">
+                        <td class="middle td-first lightGrayTag">青庭餐廳</td>
+                        <td class="darkGrayTag" colspan="3">BREAKFAST2</td>
+                        <td class="darkGrayTag" colspan="8">
+                            LUNCH2
+                        </td>
+                        <td class="darkGrayTag" colspan="6">
+                            SNACK2
+                        </td>
+                        <td class="darkGrayTag" colspan="13">
+                            DINNER
+                        </td>
+                        <td class="lightGrayTag" colspan="6"></td>
+                    </tr>
+                    <tr>
+                        <td class="no-cursor border-bottom-black middle td-first lightPurpleTag" rowspan="2">晏蜓區 (5)</td>
+                            <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="32">
+                                test1
+                                <span class="lightBlue-box">預</span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="lightYellowTag padding-tb-5 gs-have-order" colspan="13">
+                            ben johnson
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag">test9 (10)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="no-cursor-tr h23-tr">
+                        <td class="middle lightGrayTag td-first">雨林餐廳</td>
+                        <td class="darkGrayTag" colspan="3">BREAKFAST1</td>
+                        <td class="darkGrayTag" colspan="6">
+                            LUNCH2
+                        </td>
+                        <td class="lightGrayTag" colspan="7"></td>
+                        <td class="darkGrayTag" colspan="8">
+                            DINNER
+                        </td>
+                        <td class="lightGrayTag" colspan="2"></td>
+                        <td class="darkGrayTag" colspan="8">
+                            MIDNIGHT
+                        </td>
+                        <td class="lightGrayTag" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="3">雨林區 (10)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等7)test2014'~s
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            test20140502_1
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等12)(關)kkkk
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等11)test123
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag">Earth (0)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr data-tt-id="1">
+                        <td class="no-cursor middle td-first lightPurpleTag">Earth C (10)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr data-tt-id="2" data-tt-parent-id="1" class="">
+                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
+                            EarthBC(0)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr data-tt-id="3" data-tt-parent-id="1" class="">
+                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
+                            EarthA(0)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr data-tt-id="4" data-tt-parent-id="1" class="">
+                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
+                            EarthAB(0)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr data-tt-id="5" data-tt-parent-id="1" class="">
+                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
+                            EarthB(0)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="2">高山廳 (124)</td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="3">
+                            ($)eww
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="brighterGrayTag"></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等14)test123
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag"></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            test card
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td colspan="9" class="brighterGrayTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="noBorderTopBottom border-bottom">
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td class="brighterGrayTag"></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order gs-have-order" colspan="8">
+                            (等15)大學餐廳
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag"></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等10)test20140718
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td colspan="9" class="brighterGrayTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="2">奇萊區 (10)</td>
+                        <td class="brighterGrayTag" colspan="3">
+                        </td>
+                        <td></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            ($C)三光旅行社
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="darkPurpleTag"></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="16">
+                            ooxx會議
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="darkPurpleTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="noBorderTopBottom border-bottom">
+                        <td class="brighterGrayTag" colspan="3">
+                        </td>
+                        <td></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            ($C)三光旅行社
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag" colspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="6">合歡區 (10)</td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="3">
+                            kobe bryant
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (詢)test20140715
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="brighterGrayTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            QQQ
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等5)aa
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="brighterGrayTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (詢)test123_1
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等6)11
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td class="brighterGrayTag"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag" colspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等3)test
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag" colspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等4)(關)陳府喜宴
+                            <span class="lightBlue-box">預</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag" colspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="brighterGrayTag" colspan="3"></td>
+                        <td></td>
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
+                            (等13)(關)林府喜宴
+                            <span class="lightPurple-box">報</span>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="brighterGrayTag" colspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <!--</div>-->
+                <div class="clear"></div>
+            </div> <!-- table -->
+        </div><!-- /.container -->
+        </div>
+    </div>
+</div>
+
+<!-- 查詢訂席 彈出視窗 -->
+<div id="gs-order-page" class="hide padding-5" style="">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="gs-order-container">
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂席單號</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="1600000301"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>館別</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="01"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>訂席狀態</label>
+                                        <input type="text" class="input-medium resvCard-m" placeholder="N:預約"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>等待</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>預約處理</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="01:十天前確認"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶姓名</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>行動電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>聯絡人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王曉明"/>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶編號</label>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="HFD000000029822001"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住家電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>宴會日期</label>
+                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
+                                        ~
+                                        <input type="text" class="input-medium resvCard-m" placeholder="23:00"/>
+
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>是否確認</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>宴會名稱</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>主要廳別</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="BT01:宴會廳"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>使用類別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="04:宴席"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>餐別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="6:下午茶"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂席來源</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">預/保桌數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">預/保人數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>業務員</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="Fenny"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>主婚人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新郎</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新娘</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>婚企</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>保留日</label>
+                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>計算服務費</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>場地金額</label>
+                                        <input type="text" class="input-medium addedDate" placeholder="45,000"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>應收訂金</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>已付訂金</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">輸入者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">最後修改者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1 place-btbGroup">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">新增</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">存檔</button>
+                                </li>
+
+                                <div class="btn-group width-100 margin-tb15">
+                                    <div class="btn-groupBorder-box">
+                                        <fieldset>
+                                            <legend class="blue">訂席狀態</legend>
+                                            <div class="grid">
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"8
+                                                            role="button">取消</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button" disabled>預約</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">等待</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">詢價</button>
+                                                </li>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row no-margin-right">
+                        <!-------- tabPage -------->
+                        <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
+                            <div title="場地(1)" class="padding-tabs">
+                                <div class="col-xs-11 col-sm-11">
+                                    <div class="row foCounter">
+                                        <div class="main-content-data floorPlan-table gs-order-table-wrap">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th class="">廳別</th>
+                                                    <th class="">場地代號</th>
+                                                    <th class="">開始時間</th>
+                                                    <th class="">結束時間</th>
+                                                    <th class="">桌數</th>
+                                                    <th class="-10">計價數量</th>
+                                                    <th class="">單價</th>
+                                                    <th class="">標準金額</th>
+                                                    <th class="">場地金額</th>
+                                                    <th class="">折扣金額</th>
+                                                    <th class="">全場</th>
+                                                    <th class="">扣庫桌</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">選取場地</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">刪除場地</button>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div title="備註" class="padding-tabs">
+                                <div class="col-xs-11 col-sm-11">
+                                    <div class="row">
+                                        <div class="main-content-data">
+                                            <textarea class="width-100 pull-left" placeholder="" rows="5"></textarea>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">選取</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <!-------- /.tabPage -------->
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.查詢訂席 -->
+
+<!-- 新增訂席 彈出視窗 -->
+<div id="gs-add-page" class="hide padding-5" style="">
+
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="gs-order-container">
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂席單號</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="1600000301"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>館別</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="01"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>訂席狀態</label>
+                                        <input type="text" class="input-medium resvCard-m" placeholder="N:預約"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>等待</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>預約處理</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="01:十天前確認"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶姓名</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>行動電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>聯絡人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王曉明"/>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶編號</label>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="HFD000000029822001"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住家電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>宴會日期</label>
+                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
+                                        ~
+                                        <input type="text" class="input-medium resvCard-m" placeholder="23:00"/>
+
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>是否確認</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>宴會名稱</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>主要廳別</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="BT01:宴會廳"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>使用類別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="04:宴席"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>餐別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="6:下午茶"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂席來源</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">預/保桌數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">預/保人數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>業務員</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="Fenny"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>主婚人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新郎</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新娘</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>婚企</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>保留日</label>
+                                        <input type="date" class="input-medium addedDate" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>計算服務費</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>場地金額</label>
+                                        <input type="text" class="input-medium addedDate" placeholder="45,000"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>應收訂金</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>已付訂金</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">輸入者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">最後修改者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1 place-btbGroup">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">新增</button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">存檔</button>
+                                </li>
+
+                                <div class="btn-group width-100 margin-tb15">
+                                    <div class="btn-groupBorder-box">
+                                        <fieldset>
+                                            <legend class="blue">訂席狀態</legend>
+                                            <div class="grid">
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"8
+                                                            role="button">取消</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button" disabled>預約</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">等待</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">詢價</button>
+                                                </li>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row no-margin-right">
+                        <!-------- tabPage -------->
+                        <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
+                            <div title="場地(1)" class="padding-tabs">
+                                <div class="col-xs-11 col-sm-11">
+                                    <div class="row foCounter">
+                                        <div class="main-content-data floorPlan-table gs-order-table-wrap">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th class="">廳別</th>
+                                                    <th class="">場地代號</th>
+                                                    <th class="">開始時間</th>
+                                                    <th class="">結束時間</th>
+                                                    <th class="">桌數</th>
+                                                    <th class="-10">計價數量</th>
+                                                    <th class="">單價</th>
+                                                    <th class="">標準金額</th>
+                                                    <th class="">場地金額</th>
+                                                    <th class="">折扣金額</th>
+                                                    <th class="">全場</th>
+                                                    <th class="">扣庫桌</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">選取場地</button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">刪除場地</button>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div title="備註" class="padding-tabs">
+                                <div class="col-xs-11 col-sm-11">
+                                    <div class="row">
+                                        <div class="main-content-data">
+                                            <textarea class="width-100 pull-left" placeholder="" rows="5"></textarea>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">選取</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <!-------- /.tabPage -------->
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- /.新增訂席 -->
+
+<script src="../../../public/js/tableHeadFixer.js"></script>
+<script>
+
+// 彈出 查詢訂席
+$(document).on('click', ".gs-have-order", function (e) {
+    e.preventDefault();
+    var dialog = $("#gs-order-page").removeClass('hide').dialog({
+        modal: true,
+        title: "查詢訂席",
+        title_html: true,
+        width: 1000,
+        height: 700,
+        maxwidth: 1920,
+//        height: $(window).height(),
+//                autoOpen: true,
+        dialogClass: "test",
+        resizable: true
+    });
+});
+
+// 彈出 新增訂席
+$(document).on('click', ".gs-add-order", function (e) {
+    e.preventDefault();
+    var dialog = $("#gs-add-page").removeClass('hide').dialog({
+        modal: true,
+        title: "新增訂席",
+        title_html: true,
+        width: 1000,
+        height: 700,
+        maxwidth: 1920,
+//        height: $(window).height(),
+//                autoOpen: true,
+        dialogClass: "test",
+        resizable: true
+    });
+});
+
+// 空白處彈出 新增訂席
+$(document).on('click', ".gs-rese-table td", function (e) {
+    //判斷空白td
+    var emptyTd = $(this).hasClass("");
+//    console.log(emptyTd);
+
+    //如果是空白td，彈出新增訂席
+    if(emptyTd === true){
+        var dialog = $("#gs-add-page").removeClass('hide').dialog({
+            modal: true,
+            title: "新增訂席",
+            title_html: true,
+            width: 1000,
+            height: 700,
+            maxwidth: 1920,
+//        height: $(window).height(),
+//                autoOpen: true,
+            dialogClass: "test",
+            resizable: true
+        });
+    }else{}
+});
+
+//啟用fixTable
+$("#gs-fixTable").tableHeadFixer({"left" : 1});
+
+// 啟用tree
+$("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+
+//預設今日
+//document.getElementById('gs-datePicker').valueAsDate = new Date();
+
+//點擊今日 日曆回到今日
+//$(document).on('click', ".today-btn", function (e) {
+//    document.getElementById('gs-datePicker').valueAsDate = new Date();
+//});
+
+
+</script>
+</body>
+</html>
