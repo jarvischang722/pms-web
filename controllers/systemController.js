@@ -193,7 +193,7 @@ exports.uploadFile = function (req, res) {
  */
 exports.getSetupPrgChangeLog = function (req, res) {
     logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
-        res.json({success: false, errorMsg: '', allChangeLogList: allChangeLogList});
+        res.json({success: true, errorMsg: '', allChangeLogList: allChangeLogList});
     });
 };
 

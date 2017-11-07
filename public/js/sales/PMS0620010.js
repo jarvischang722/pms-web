@@ -212,6 +212,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
+                            data = _.extend(data, vm.userInfo.athena_id);
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
@@ -260,12 +261,12 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
-            vm.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
-                vm.allChangeLogList = result.allChangeLogList;
+                if(result.success){
+                    vm.openChangeLogDialog = true;
+                    vm.allChangeLogList = result.allChangeLogList;
+                }
             });
-
-
         },
         closeSingleGridDialog: function () {
             vm.editingRow = {};
