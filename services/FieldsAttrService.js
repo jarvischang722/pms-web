@@ -25,7 +25,7 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
     }
     async.waterfall([
         function (callback) {
-            mongoAgent.UI_PageField.find({prg_id: params.prg_id, page_id: params.page_id}).sort({
+            mongoAgent.UIPageField.find({prg_id: params.prg_id, page_id: params.page_id}).sort({
                 row_seq: 1,
                 col_seq: 1
             }).exec(function (err, fields) {
@@ -91,7 +91,7 @@ function filterSpecField(allFields, userInfo, callback) {
 }
 
 function appendFieldSelectData(field, userInfo, callback) {
-    mongoAgent.UI_Type_Select.findOne({
+    mongoAgent.UITypeSelect.findOne({
         prg_id: field.prg_id,
         ui_field_name: field.ui_field_name,
         $or: [

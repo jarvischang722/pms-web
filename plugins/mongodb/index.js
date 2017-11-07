@@ -18,14 +18,13 @@ mongoose.connect(dbconn, options, function (err) {
     }
 });
 
-require("./models/mongoose/DatagridFunction");
+require("./models/mongoose/SetupDatagridFunction");
 require("./models/mongoose/UIDatagridField");
-require("./models/mongoose/UI_PageField");
-require("./models/mongoose/UI_Type_Grid");
-require("./models/mongoose/UI_Type_Select");
+require("./models/mongoose/UIPageField");
+require("./models/mongoose/UITypeSelect");
 require("./models/mongoose/TemplateRf");
 require("./models/mongoose/TemplateGridSingle");
-require("./models/mongoose/PageFunction");
+require("./models/mongoose/SetupPageFunction");
 require("./models/mongoose/LogsAPI");
 require("./models/mongoose/Sessions");
 require("./models/mongoose/LangUIField");
@@ -33,14 +32,13 @@ require("./models/mongoose/SettingHistory");
 require("./models/mongoose/TransactionRf");
 
 
-exports.DatagridFunction = mongoose.model("DatagridFunction");
+exports.SetupDatagridFunction = mongoose.model("SetupDatagridFunction");
 exports.UIDatagridField = mongoose.model("UIDatagridField");
-exports.UI_PageField = mongoose.model("UI_PageField");
-exports.UI_Type_Grid = mongoose.model("UI_Type_Grid");
-exports.UI_Type_Select = mongoose.model("UI_Type_Select");
+exports.UIPageField = mongoose.model("UIPageField");
+exports.UITypeSelect = mongoose.model("UITypeSelect");
 exports.TemplateRf = mongoose.model("TemplateRf");
 exports.TemplateGridSingle = mongoose.model("TemplateGridSingle");
-exports.PageFunction = mongoose.model("PageFunction");
+exports.SetupPageFunction = mongoose.model("SetupPageFunction");
 exports.LogsAPI = mongoose.model("LogsAPI");
 exports.Sessions = mongoose.model("Sessions");
 exports.LangUIField = mongoose.model("LangUIField");
