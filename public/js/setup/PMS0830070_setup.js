@@ -12,6 +12,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
     PMS0830070VM.editingRow = row;
     PMS0830070VM.fetchSingleData(row);
     PMS0830070VM.dgIns.editIndex = index;
+    PMS0830070VM.isEditStatus = true;
 };
 
 var Pms0830070Comp = Vue.extend({
@@ -376,6 +377,7 @@ var PMS0830070VM = new Vue({
         },
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
+        isEditStatus: true,
         dialogServiceItemVisible: false,
         dt2SelectedItemNos: [],            //dt2已選擇項目
         dt2ShowList: [],
@@ -420,6 +422,7 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
             PMS0830070VM.singleDataDt = [];
             PMS0830070VM.oriSingleDataDt = {};
+            PMS0830070VM.isEditStatus = false;
 
             $.post('/api/qryDt2ItemNosList', PMS0830070VM.singleData)
                 .done(function (response) {
