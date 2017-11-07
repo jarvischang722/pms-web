@@ -27,7 +27,7 @@
 
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
-                                    <table id="PSIW500030_dg" class="css_table horizTable"></table>
+                                    <table id="PSIW500030_dg" class="css_table horizTable" style="height: 550px"></table>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +190,7 @@
                             </div>
                             <div class="main">
                                 <div class="block input-icon input-icon-right">
-                                    <input type="text" v-model="userid" class="form-control" placeholder="User" @keyup.enter="verify">
+                                    <input type="text" v-model="userid" class="form-control" maxlength="8" placeholder="User" @keyup.enter="verify">
                                     <i class="ace-icon fa fa-user"></i>
                                 </div>
 
@@ -267,7 +267,6 @@
 
     </div>
 
-    <!-- /.空白訂單下載 -->
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
     <script src="/js/tools/jspdf.min.js"></script>

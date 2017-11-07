@@ -10,7 +10,8 @@ var roleFuncSvc = require("../services/RoleFuncService");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require('i18n');
 var langSvc = require("../services/LangService");
-
+const fs = require("fs");
+let ip = require("ip");
 /**
  * 登入頁面
  */
@@ -22,10 +23,35 @@ exports.loginPage = function (req, res, next) {
         }
         res.redirect("/systemOption");
         return;
-
     }
 
-    res.render('user/loginPage');
+    var clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
+    var ls_account = '';
+    try{
+        fs.exists("configs/IPsUsersRef.json", function (isExist) {
+            if (isExist) {
+                var IPsUsersRef = require("../configs/IPsUsersRef.json");
+
+                _.each(IPsUsersRef.ipObj,function(user,ipSubnet){
+                    if(ipSubnet.toString().indexOf("/") > -1){
+                        if(ip.cidrSubnet(ipSubnet).contains(clientIP)){
+                            ls_account = user.toString();
+                        }
+                    }else{
+                        if(_.isEqual(ipSubnet,clientIP)){
+                            ls_account = user.toString();
+                        }
+                    }
+                });
+                res.render('user/loginPage', {account:ls_account});
+            }
+        });
+    }
+    catch(ex) {
+        res.render('user/loginPage', {account:ls_account});
+    }
 };
 
 

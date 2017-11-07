@@ -8,7 +8,7 @@ var loginVM = new Vue({
         ],
         companyData: [],
         rememberMeCheck: false,
-        username: "",
+        username: gs_account,
         dbname: "0",
         comp_id: "0",
         currentLocale: gs_locale,
