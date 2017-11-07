@@ -118,13 +118,13 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>員工姓名</label>
-                                        <input v-model="singleData.atten_nam" type="text" class="input-medium resvCardSpec1" placeholder="" :disabled="!isModificable">
+                                        <input v-model="singleData.atten_nam" type="text" class="input-medium resvCardSpec1" maxlength="20" placeholder="" :disabled="!isModificable">
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂單備註</label>
-                                        <input v-model="singleData.order_rmk" type="text" class="input-medium w510px" placeholder="" :disabled="!isModificable">
+                                        <input v-model="singleData.order_rmk" type="text" class="input-medium w510px" maxlength="500" placeholder="" :disabled="!isModificable">
                                     </div>
                                 </div>
                                 <div class="grid">

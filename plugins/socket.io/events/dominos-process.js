@@ -14,8 +14,8 @@ module.exports = function (io) {
         console.log(socket.client.id + "連線囉!!");
         let go_session = socket.request.session;
 
-        socket.on('doTableLock', function (data) {
-            console.log("table lock");
+        socket.on('doRowLock', function (data) {
+            doRowLock(socket.client.id, go_session, data);
         });
 
 
@@ -30,6 +30,32 @@ module.exports = function (io) {
 
     });
 
+
+    /**
+     * Lock
+     * @param socket_id
+     * @param go_session
+     * @param data :{
+          prg_id {String}
+          page_id {Number}   : default  1
+     }
+     */
+    function doRowLock(socket_id, go_session, data) {
+
+        try {
+            if (data && !_.isUndefined(data.prg_id) && !_.isUndefined(go_session.user)) {
+                let prg_id = data.prg_id || "";
+                let table_name = "";
+                let lock_type = "R";
+                let key_cod = "";
+
+                // dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
+                // });
+            }
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
 
     /**
      * 解Lock
@@ -71,22 +97,6 @@ module.exports = function (io) {
             }
         } catch (ex) {
             console.error(ex);
-        }
-    }
-
-    /**
-     * 更新暫存的lock中的program
-     * @param socket_id
-     * @param prg_id
-     * @param table_name
-     */
-    function updateLockList(socket_id, prg_id, table_name) {
-        let lo_lock = {socket_id: socket_id, lockingPrgID: prg_id, table_name};
-        let idx = _.findIndex(ga_lockPrgIDList, {socket_id});
-        if (idx > -1) {
-            ga_lockPrgIDList[idx] = lo_lock;
-        } else {
-            ga_lockPrgIDList.push(lo_lock);
         }
     }
 

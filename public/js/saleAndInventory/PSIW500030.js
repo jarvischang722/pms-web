@@ -1252,8 +1252,7 @@ var PSIW500030 = new Vue({
         editData: function() {
             var self = this;
 
-            //psiw50030_socket.emit('doTableLock', true);
-
+            //psiw50030_socket.emit('doRowLock', {prg_id: prg_id});
             self.callAPI('PSIW5100300400', function () {
                 self.editStatus = true;
 
