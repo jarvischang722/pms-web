@@ -920,7 +920,7 @@ exports.PSI0000001 = function (params ,session, callback) {
     try
     {
         //必要欄位
-        lo_mn_keyfield = ['batch_dat', 'taxcomp_cod', 'goods_cod', 'use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt'];
+        lo_mn_keyfield = ['batch_dat', 'taxcomp_cod', 'goods_cod', 'use_qnt', 'init_qty', 'in_qty', 'io_qty', 'ao_qty', 'ai_qty', 'aj_qty', 'last_qty', 'ck_qty', 'act_qty', 'std_qty', 'diff_qty', 'diff_amt', 'cost_amt', 'Ck_flag'];
         lo_dt_keyfield = ['batch_dat', 'goods_cod', 'otaxcomp_cod', 'itaxcomp_cod', 'ao_qty', 'ai_qty', 'hq_flag'];
 
         //數字欄位
@@ -1152,12 +1152,12 @@ exports.PSI0000003 = function (params ,session, callback) {
     try
     {
         //必要欄位
-        lo_sale_mn_keyfield = ['order_nos', 'rspt_cod', 'desk_nos', 'man1_qnt', 'fempno', 'fvoidstat', 'open_cod', 'shop_dat', 'notax_tot', 'serv_tot', 'fserv_to2', 'tax_tot', 'ftax_tot2', 'ftax_to3', 'disc_tot', 'pay_tot'];
+        lo_sale_mn_keyfield = ['order_nos', 'rspt_cod', 'desk_nos', 'man1_qnt', 'fempno', 'fvoidstat', 'oper_cod', 'shop_dat', 'notax_tot', 'serv_tot', 'fserv_tot2', 'tax_tot', 'ftax_tot2', 'ftax_tot3', 'disc_tot', 'pay_tot'];
         lo_sale_dt_keyfield = ['order_nos', 'rspt_cod', 'seq_nos', 'shop_dat', 'order_tim', 'product_nos', 'product_typ', 'fcat', 'out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
         lo_receipt_dt_keyfield = ['order_nos', 'rspt_cod', 'fpay_seq', 'fdate', 'fpaytype', 'fpay_amt'];
 
         //數字欄位
-        lo_sale_mn_numfield = ['man1_qnt', 'notax_tot', 'serv_tot', 'fserv_to2', 'tax_tot', 'ftax_tot2', 'ftax_to3', 'disc_tot', 'pay_tot'];
+        lo_sale_mn_numfield = ['man1_qnt', 'notax_tot', 'serv_tot', 'fserv_tot2', 'tax_tot', 'ftax_tot2', 'ftax_tot3', 'disc_tot', 'pay_tot'];
         lo_sale_dt_numfield = ['out_qnt', 'disc_amt', 'product_amt', 'unit_amt'];
         lo_receipt_dt_numfield = ['fpay_amt', 'tips'];
         var obj = JSON.parse(new Buffer(params, 'base64').toString());
@@ -1167,19 +1167,14 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         //region欄位空值檢查
 
+        if(!checkNull(obj.salesMn, lo_sale_mn_keyfield)){
+            ls_error_Msg += "salseMn的格式有誤。(有空值)\r\n";
+            lb_check = false;
+        }
+
         var count = 0;
 
-        _.each(obj.salseMn, function (item) {
-            if(!checkNull(item, lo_sale_mn_keyfield)){
-                ls_error_Msg += "salseMn[" + count + "]的格式有誤。(有空值)\r\n";
-                lb_check = false;
-            }
-            count += 1;
-        });
-
-        count = 0;
-
-        _.each(obj.salseDt, function (item) {
+        _.each(obj.salesDt, function (item) {
             if(!checkNull(item, lo_sale_dt_keyfield)){
                 ls_error_Msg += "salseDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
@@ -1189,7 +1184,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseReceipt, function (item) {
+        _.each(obj.salesReceipt, function (item) {
             if(!checkNull(item, lo_receipt_dt_keyfield)){
                 ls_error_Msg += "salseReceipt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;

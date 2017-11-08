@@ -32,7 +32,7 @@ module.exports = function (app, passport) {
     app.post('/api/getUserSubsys', userCrtl.getUserSubsys);
 
     //取得公司選項
-    app.post('/api/getSelectCompany', userCrtl.getSelectCompony)
+    app.post('/api/getSelectCompany', userCrtl.getSelectCompony);
 
     //取得QuickMenu
     app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);
