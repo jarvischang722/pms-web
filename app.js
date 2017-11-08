@@ -100,7 +100,6 @@ var sessionMiddleware = session({
 });
 
 
-
 //設定socket.io 可以取得session
 io.use(function (socket, next) {
     sessionMiddleware(socket.request, socket.request.res, function () {
