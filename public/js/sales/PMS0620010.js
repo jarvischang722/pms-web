@@ -360,11 +360,15 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                     _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
                         data["status_cod"] = data["status_cod1"];
-                        data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        if(data["nouse_dat"] != ""){
+                            data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        }
                     });
                     _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
                         data["status_cod"] = data["status_cod1"];
-                        data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        if(data["nouse_dat"] != ""){
+                            data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        }
                     });
 
                     if (this.createStatus) {
@@ -561,7 +565,7 @@ var vm = new Vue({
             hotel_sales: "all",
             bq_sales: "all",
             member_sales: "all",
-            status_cod: "all"
+            status_cod: "N"
         },
         dialogVisible: false,
         dgIns: {},
@@ -789,7 +793,6 @@ var vm = new Vue({
                 self.loadDataGridByPrgID();
                 callback(result);
             });
-            console.log(this.tmpCud);
         }
     }
 });
