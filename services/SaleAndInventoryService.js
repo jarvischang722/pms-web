@@ -1196,15 +1196,10 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         //region欄位數字檢查
 
-        count = 0;
-
-        _.each(obj.salesMn, function (item) {
-            if(!checkNum(item, lo_sale_mn_numfield)){
-                ls_error_Msg += "salesMn[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
-                lb_check = false;
-            }
-            count += 1;
-        });
+        if(!checkNum(obj.salesMn, lo_sale_mn_numfield)){
+            ls_error_Msg += "salesMn的格式有誤。(數字欄位非數字)\r\n";
+            lb_check = false;
+        }
 
         count = 0;
 
