@@ -1198,7 +1198,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseMn, function (item) {
+        _.each(obj.salesMn, function (item) {
             if(!checkNum(item, lo_sale_mn_numfield)){
                 ls_error_Msg += "salesMn[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1208,7 +1208,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseDt, function (item) {
+        _.each(obj.salesDt, function (item) {
             if(!checkNum(item, lo_sale_dt_numfield)){
                 ls_error_Msg += "salesDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
@@ -1218,7 +1218,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         count = 0;
 
-        _.each(obj.salseReceipt, function (item) {
+        _.each(obj.salesReceipt, function (item) {
             if(!checkNum(item, lo_receipt_dt_numfield)){
                 ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
