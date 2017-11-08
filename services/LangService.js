@@ -99,7 +99,7 @@ exports.handleMultiDataLangConv = function (dataGridRows, prg_id, page_id, local
 exports.handleSingleDataLangConv = function (singleData, prg_id, page_id, locale, callback) {
 
     var _thisSvc = this;
-    mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: page_id}).exec(function (err, fieldData) {
+    mongoAgent.UIPageField.find({prg_id: prg_id, page_id: page_id}).exec(function (err, fieldData) {
 
         if (err || fieldData.length == 0) {
             return callback(null, singleData);
@@ -237,7 +237,7 @@ exports.handleRowDataMultiLang = function (req, field_name, callback) {
     let page_id = req.body["page_id"];
     let dataType = req.body["dataType"] || "datagrid"; // dat
     let localeGrp = req.cookies["sys_locales"];
-    let collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UI_PageField';
+    let collection = dataType == 'datagrid' ? 'UIDatagridField' : 'UIPageField';
     mongoAgent[collection].find({prg_id: prg_id, page_id: Number(page_id)}, function (err, fieldData) {
         if (err || fieldData.length == 0) {
             return callback({});

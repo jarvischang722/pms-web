@@ -12,6 +12,7 @@ DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
     PMS0830070VM.editingRow = row;
     PMS0830070VM.fetchSingleData(row);
     PMS0830070VM.dgIns.editIndex = index;
+    PMS0830070VM.isEditStatus = true;
 };
 
 var Pms0830070Comp = Vue.extend({
@@ -334,7 +335,14 @@ var Pms0830070Comp = Vue.extend({
 
             PMS0830070VM.doSave(function (result) {
                 PMS0830070VM.initTmpCUD();
-                PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
+                $.post('/api/qryPMS0830070SingleData', self.singleData)
+                    .done(function (response) {
+                        PMS0830070VM.singleData = response.mnData;
+                        PMS0830070VM.singleDataDt = response.dtData;
+                        PMS0830070VM.oriSingleDataDt = _.clone(response.dtData);
+                        PMS0830070VM.dt2ItemNosDataList = response.dt2ItemNosDataList;
+                    });
+                // PMS0830070VM.oriSingleDataDt = _.clone(PMS0830070VM.singleData);
             });
 
         }
@@ -370,7 +378,8 @@ var PMS0830070VM = new Vue({
             dt2_deleteData: []
         },
         searchFields: [], //搜尋的欄位
-        searchCond: {}   //搜尋條件
+        searchCond: {},   //搜尋條件
+        isEditStatus: true
     },
     mounted: function () {
         this.loadDataGridByPrgID();
@@ -412,6 +421,7 @@ var PMS0830070VM = new Vue({
             PMS0830070VM.singleData = {adjfolio_cod: '', adjfolio_rmk: '', createRow: "Y"};
             PMS0830070VM.singleDataDt = [];
             PMS0830070VM.oriSingleDataDt = {};
+            PMS0830070VM.isEditStatus = false;
 
             $.post('/api/qryDt2ItemNosList', PMS0830070VM.singleData)
                 .done(function (response) {
@@ -492,9 +502,8 @@ var PMS0830070VM = new Vue({
                 callback(result.success);
                 if (result.success) {
                     PMS0830070VM.initTmpCUD();
-                    PMS0830070VM.loadDataGridByPrgID(function (success) {
+                    PMS0830070VM.loadDataGridByPrgID(function (success) {});
 
-                    });
                     alert('save success!');
                     waitingDialog.hide();
 
