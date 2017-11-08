@@ -1168,7 +1168,7 @@ exports.PSI0000003 = function (params ,session, callback) {
         //region欄位空值檢查
 
         if(!checkNull(obj.salesMn, lo_sale_mn_keyfield)){
-            ls_error_Msg += "salseMn的格式有誤。(有空值)\r\n";
+            ls_error_Msg += "salesMn的格式有誤。(有空值)\r\n";
             lb_check = false;
         }
 
@@ -1176,7 +1176,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         _.each(obj.salesDt, function (item) {
             if(!checkNull(item, lo_sale_dt_keyfield)){
-                ls_error_Msg += "salseDt[" + count + "]的格式有誤。(有空值)\r\n";
+                ls_error_Msg += "salesDt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1186,7 +1186,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         _.each(obj.salesReceipt, function (item) {
             if(!checkNull(item, lo_receipt_dt_keyfield)){
-                ls_error_Msg += "salseReceipt[" + count + "]的格式有誤。(有空值)\r\n";
+                ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(有空值)\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1200,7 +1200,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         _.each(obj.salseMn, function (item) {
             if(!checkNum(item, lo_sale_mn_numfield)){
-                ls_error_Msg += "salseMn[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
+                ls_error_Msg += "salesMn[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1210,7 +1210,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         _.each(obj.salseDt, function (item) {
             if(!checkNum(item, lo_sale_dt_numfield)){
-                ls_error_Msg += "salseDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
+                ls_error_Msg += "salesDt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
             count += 1;
@@ -1220,7 +1220,7 @@ exports.PSI0000003 = function (params ,session, callback) {
 
         _.each(obj.salseReceipt, function (item) {
             if(!checkNum(item, lo_receipt_dt_numfield)){
-                ls_error_Msg += "salseReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
+                ls_error_Msg += "salesReceipt[" + count + "]的格式有誤。(數字欄位非數字)\r\n";
                 lb_check = false;
             }
             count += 1;
