@@ -17,7 +17,7 @@ module.exports = function (app, passport) {
     /** API  **/
 
     //驗證是否登入成功
-    app.post('/api/authLogin', apiMiddles, userCrtl.authLogin);
+    app.post('/api/authLogin', userCrtl.authLogin);
 
     //取得使用者資料
     app.post('/api/getUserInfo', apiMiddles, userCrtl.getUserInfo);
@@ -26,13 +26,13 @@ module.exports = function (app, passport) {
     app.post('/cas/logout', userCrtl.logout);
 
     //選擇系統別
-    app.post('/api/selectSystem', apiMiddles, userCrtl.selectSystem);
+    app.post('/api/selectSystem', userCrtl.selectSystem);
 
     //取得使用者子系統權限
     app.post('/api/getUserSubsys', apiMiddles, userCrtl.getUserSubsys);
 
     //取得公司選項
-    app.post('/api/getSelectCompany', apiMiddles, userCrtl.getSelectCompony)
+    app.post('/api/getSelectCompany', userCrtl.getSelectCompony);
 
     //取得QuickMenu
     app.post('/api/getSubsysQuickMenu', apiMiddles, userCrtl.getSubsysQuickMenu);

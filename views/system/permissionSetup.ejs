@@ -1,16 +1,15 @@
-<script src="/js/tree/jstree.min.js"></script>
-<div class="row" id="auth-app">
+<div class="row" id="permission-app">
     <div class="col-xs-12 col-sm-12">
         <div class="authorityTree">
             <div class="col-xs-12">
                 <div class="row">
                     <div class="author-navbar">
-                        <p class="topTitle float-left">角色權限</p>
+                        角色111
+                        <select v-model="role_id">
+                            <option  v-for="(role,idx) in ga_roles" :value="role.role_id" :selected="true">{{idx}}:{{role.role_nam}}</option>
+                        </select>
                     </div>
-                    角色
-                    <select v-model="role_id" @change="changeRoleEvent(role_id)">
-                        <option  v-for="role in ga_roles" :value="role.role_id">{{role.role_nam}}</option>
-                    </select>
+
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -23,7 +22,7 @@
                             <!--<a href="/manageSetting">-->
                             <p class="topTitle">人員</p>
                             <!--</a>-->
-                            <div id="authAccountTree" ></div>
+                            <div id="permissionAccountTree" ></div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -34,8 +33,11 @@
             <div class="space-12"></div>
             <div class="col-xs-12">
                 <div class="row center">
-                    <button class="btn btn-primary btn-xm">
+                    <button class="btn btn-primary btn-xm" @click="doSave">
                         儲存
+                    </button>
+                    <button class="btn btn-primary btn-xm" @click="getChecked">
+                        取得節點
                     </button>
                 </div>
             </div>
@@ -45,4 +47,4 @@
 </div>
 
 <script src="/js/tree/jstree.min.js"></script>
-<script src="/js/user/authorityRole.js"></script>
+<script src="/js/system/permissionSetup.js"></script>

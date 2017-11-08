@@ -90,7 +90,6 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            ls_pro_url = '/authorityRole';
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
@@ -107,7 +106,6 @@ var BacchusMainVM = new Vue({
                 'prg_id': lockingPrgID
             });
         }
-
 
     }
 

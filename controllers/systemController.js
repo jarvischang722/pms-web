@@ -204,3 +204,10 @@ exports.getSessionExpireTime = function (req,res) {
     let lo_session = req.session;
     res.json({success:true,session:lo_session});
 };
+
+/**
+ * 權限設定
+ */
+exports.permissionSetup = function (req, res) {
+    res.render("system/permissionSetup");
+};
