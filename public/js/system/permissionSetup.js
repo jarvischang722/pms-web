@@ -8,8 +8,11 @@ var PermissionVM = new Vue({
     mounted: function () {
         this.getAllRoles();
         this.getCompGrp();
+        this.fetchUserInfo();
     },
     data: {
+        prg_id:'SYS0110010',
+        userInfo: {},
         role_id: "",
         ga_roles: [],
         ga_roleOfAccount: [],
@@ -28,6 +31,14 @@ var PermissionVM = new Vue({
         }
     },
     methods: {
+        //取得使用者資料
+        fetchUserInfo: function () {
+            $.post('/api/getUserInfo', function (result) {
+                if (result.success) {
+                    PermissionVM.userInfo = result.userInfo;
+                }
+            });
+        },
         initTemCUD: function () {
             this.tmpCUD = {
                 createData: [],
@@ -144,12 +155,29 @@ var PermissionVM = new Vue({
         },
         doSave: function () {
             this.compareUpdAccount();
-            $.post('/api/execSQLProcess',params,function(){
-                //TODO 成功後更新樹
-                // PermissionVM.getRoleOfAccounts(PermissionVM.role_id, function () {
-                //     PermissionVM.updateAccountChkedTree();
-                //     PermissionVM.initTemCUD();
-                // });
+            var params = {
+
+                prg_id:this.prg_id,
+                mainTableName:"bac_role_user",
+                fieldData: [{ui_field_name: "role_athena_id", keyable: 'Y'},
+                    {ui_field_name: "role_id", keyable: 'Y'},
+                    {ui_field_name: "role_comp_cod", keyable: 'Y'},
+                    {ui_field_name: "user_athena_id", keyable: 'Y'},
+                    {ui_field_name: "user_comp_cod", keyable: 'Y'},
+                    {ui_field_name: "user_id", keyable: 'Y'}],
+                tmpCUD: this.tmpCUD
+            };
+            console.log(params);
+            $.post('/api/execSQLProcess', params, function (result) {
+                if (result.success) {
+                    PermissionVM.getRoleOfAccounts(PermissionVM.role_id, function () {
+                        PermissionVM.updateAccountChkedTree();
+                        PermissionVM.initTemCUD();
+                    });
+                    alert("Save success!");
+                }else{
+                    alert(result.errorMsg);
+                }
             });
 
 
@@ -168,12 +196,12 @@ var PermissionVM = new Vue({
                 var chkExistIdx = _.findIndex(oriRoleOfAccount, {user_id: account.id});
                 if (chkExistIdx == -1) {
                     PermissionVM.tmpCUD.createData.push({
-                        ROLE_ATHENA_ID: '',
-                        ROLE_COMP_COD: '',
-                        ROLE_ID: '',
-                        USER_ATHENA_ID: '',
-                        USER_COMP_COD: '',
-                        USER_ID: ''
+                        role_athena_id: PermissionVM.userInfo.athena_id,
+                        role_comp_cod: oriRoleOfAccount[0].role_comp_cod,
+                        role_id: PermissionVM.role_id,
+                        user_athena_id: PermissionVM.userInfo.athena_id,
+                        user_comp_cod: oriRoleOfAccount[0].role_comp_cod,
+                        user_id: account.id
                     });
                     console.log("員工:" + account.text + ",加入" + account.parent + "部門");
                 }
@@ -183,7 +211,14 @@ var PermissionVM = new Vue({
             _.each(oriRoleOfAccount, function (account) {
                 var chkExistIdx = _.findIndex(checkedAccounts, {id: account.user_id});
                 if (chkExistIdx == -1) {
-                    PermissionVM.tmpCUD.deleteData.push();
+                    PermissionVM.tmpCUD.deleteData.push({
+                        role_athena_id: PermissionVM.userInfo.athena_id,
+                        role_comp_cod: account.role_comp_cod,
+                        role_id: PermissionVM.role_id,
+                        user_athena_id: PermissionVM.userInfo.athena_id,
+                        user_comp_cod: account.role_comp_cod,
+                        user_id: account.user_id
+                    });
                     console.log("員工:" + account.user_id + ",離開" + account.role_id + "角色");
                 }
             });
