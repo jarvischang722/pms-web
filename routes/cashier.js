@@ -38,4 +38,7 @@ module.exports = function (app) {
 
     //取得dt2禁用服務項目
     app.post('/api/qryDt2DisableItemNos', apiMiddles, cashierCrtl.qryDt2DisableItemNos);
+
+    //取所有dt2服務項目
+    app.post("/api/qryDt2ItemNosList", apiMiddles, cashierCrtl.qryDt2ItemNosList);
 };

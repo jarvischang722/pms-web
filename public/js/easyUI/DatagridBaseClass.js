@@ -279,8 +279,14 @@ function DatagridBaseClass() {
         lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
 
-        var dataType = lo_chkKeyRowData.createRow == 'Y'
-            ? "createData" : "updateData";  //判斷此筆是新增或更新
+        var dataType;
+        if(_.isUndefined(lo_chkKeyRowData.createRow)){
+            dataType = "updateData";
+        }
+        else{
+            dataType = lo_chkKeyRowData.createRow == 'Y'
+                ? "createData" : "updateData";  //判斷此筆是新增或更新
+        }
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
         _.each(keyVals, function (field_name) {
