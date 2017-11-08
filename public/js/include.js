@@ -188,6 +188,19 @@ $(function () {
     //                        )
     // /.end 抓取瀏覽器&OS資訊
 
+    //console.log(navigator.userAgent);
+
+    //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+    //0822 有些mac的scrollBar 會推，有些不會(jun會)
+    //if(navigator.userAgent.indexOf("Window") !=-1){
+        $(window).on("load resize ", function () {
+            var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+            $('.tbl-header02').css({'padding-right': '17px'});
+            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+        }).resize();
+    // }
+    // /.end 判斷如果不是window不執行
+
 });
 
 

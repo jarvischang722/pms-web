@@ -42,6 +42,8 @@
 // width
 .width-5
   width: 5% !important
+.width-8
+  width: 8% !important
 .width-10
   width: 10% !important
 .width-15
@@ -164,7 +166,26 @@ a
   //margin-top: 1px
 // space height
 
-//<!--PMS(light) excample:"
+//<!--PMS(business) excample:"
+@mixin btn-skin-style
+  //padding: 3px 9px
+  background-color: #ffece3 !important
+  border: 1px solid #ffece3 !important
+  color: $grayDisable !important
+  &.btn
+    &:hover,&:active,&:focus,&:visited
+      background-color: #ffece3 !important
+      border: 1px solid #ffece3 !important
+      color: $grayDisable !important
+.btn-skin
+  font-weight: 300
+  text-shadow: none
+  cursor: not-allowed !important
+  +btn-skin-style
+  &.btn.disabled,&.btn[disabled]
+    +btn-skin-style
+
+//<!--PMS(enterprise) excample:"
 //    加：btn-gray disabled" "
 //    減:btn-white 原本的(ex.btn-primary)"
 //    -->
