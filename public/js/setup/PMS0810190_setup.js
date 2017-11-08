@@ -47,7 +47,6 @@ Vue.component('single-grid-pms0810190-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-
             isSubjectFormatError: false,
             isContentFormatError: false,
             lo_curForTextArea: {},  //textArea 游標Object

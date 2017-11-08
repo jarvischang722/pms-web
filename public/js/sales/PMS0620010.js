@@ -214,8 +214,18 @@ Vue.component('single-grid-pms0620020-tmp', {
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
                             data = _.extend(data, vm.userInfo.athena_id);
+                            if(!_.isNull(data["nouse_dat"])){
+                                data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
+                                    data["nouse_dat"].substring(4, data["nouse_dat"].length);
+                            }
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
+                        _.each(self.hotelDtRowData, function (data) {
+                            if(!_.isNull(data["nouse_dat"])){
+                                data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
+                                    data["nouse_dat"].substring(4, data["nouse_dat"].length);
+                            }
+                        });
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
                     }
                     else {
@@ -309,7 +319,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             _.each(lo_checkHotelDtRowData, function (hotelData) {
                 return _.extend(hotelData, self.rowData);
             });
-
+            // 檢查館別代號是否重複
             for (var j = 0; j < this.hotelDtRowData.length; j++) {
                 var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
                 var la_keyVals = ["hotel_cod", "sales_cod"];
@@ -334,52 +344,56 @@ Vue.component('single-grid-pms0620020-tmp', {
             var self = this;
             this.isSaving = true;
 
-            this.dgHoatelDt.endEditing();
-            var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
-                alert(lo_chkResult.msg);
-                this.isSaving = false;
-            }
-            else {
-                var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
-                postRowData.user_nos = postRowData.user_nos.split(":")[0];
-
-                postRowData["tab_page_id"] = 1;
-                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-                _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
-                    data["status_cod"] = data["status_cod1"];
-                });
-                _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
-                    data["status_cod"] = data["status_cod1"];
-                });
-
-                if (this.createStatus) {
-                    vm.tmpCud.createData = [postRowData];
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+            if(this.dgHoatelDt.endEditing()){
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
+                    alert(lo_chkResult.msg);
+                    this.isSaving = false;
                 }
-                else if (this.editStatus) {
-                    vm.tmpCud.updateData = [postRowData];
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                    vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
-                }
+                else {
+                    var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
+                    postRowData.user_nos = postRowData.user_nos.split(":")[0];
 
-                vm.doSaveCud("PMS0620020", 1, function (result) {
-                    if (result.success) {
-                        alert("Save Successful!");
-                        self.closeSingleGridDialog();
+                    postRowData["tab_page_id"] = 1;
+                    postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                    _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
+                        data["status_cod"] = data["status_cod1"];
+                        data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                    });
+                    _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
+                        data["status_cod"] = data["status_cod1"];
+                        data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                    });
+
+                    if (this.createStatus) {
+                        vm.tmpCud.createData = [postRowData];
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
-                    else {
-                        alert(result.errorMsg);
+                    else if (this.editStatus) {
+                        vm.tmpCud.updateData = [postRowData];
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                        vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
                     }
 
-                    vm.initTmpCUD();
-                });
+                    vm.doSaveCud("PMS0620020", 1, function (result) {
+                        if (result.success) {
+                            alert("Save Successful!");
+                            self.closeSingleGridDialog();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+
+                        vm.initTmpCUD();
+                    });
+                }
             }
+
 
         },
         //轉換checkbox值
