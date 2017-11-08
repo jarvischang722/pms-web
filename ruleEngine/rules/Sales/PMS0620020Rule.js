@@ -2,6 +2,7 @@
  * Created by a17017 on 2017/10/20.
  */
 var _ = require("underscore");
+var _s = require("underscore.string");
 var moment = require("moment");
 var async = require("async");
 var path = require('path');
@@ -151,7 +152,8 @@ module.exports = {
 
         let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         let updateFieldName = {
-            user_nos: "value"
+            user_nos: "value",
+            user_cname: "display"
         };
 
         let fieldNameChangeLanguage = {
@@ -247,6 +249,7 @@ module.exports = {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         lo_error.errorMsg = commandRules.getMsgByCod("pms62msg8", session.locale);
+                        lo_error.errorMsg = _s.sprintf(lo_error.errorMsg, lo_createData.user_nos);
                     }
                 }
                 cb(lo_error, lo_result);
@@ -379,6 +382,7 @@ module.exports = {
                         lo_error = new ErrorClass();
                         lo_result.success = false;
                         lo_error.errorMsg = commandRules.getMsgByCod("pms62msg8", session.locale);
+                        lo_error.errorMsg = _s.sprintf(lo_error.errorMsg, lo_updateData.user_nos);
                     }
                 }
                 cb(lo_error, lo_result);

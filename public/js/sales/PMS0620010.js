@@ -209,6 +209,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
+                        self.rowData.user_nos = self.rowData.user_nos + ": " + self.rowData.usr_cname;
                         self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
@@ -341,6 +342,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             }
             else {
                 var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
+                postRowData.user_nos = postRowData.user_nos.split(":")[0];
 
                 postRowData["tab_page_id"] = 1;
                 postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
@@ -472,7 +474,9 @@ Vue.component('text-select-grid-dialog-tmp', {
             var updateFieldName = self.updateFieldNameTmp;
 
             if (selectTable != null) {
+
                 _.each(selectTable, function (selectValue, selectField) {
+
                     _.each(updateFieldName, function (updateValue, updateField) {
                         if (selectField == updateValue) {
                             chooseData[updateField] = selectValue;
@@ -484,6 +488,8 @@ Vue.component('text-select-grid-dialog-tmp', {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
             }
+
+            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
