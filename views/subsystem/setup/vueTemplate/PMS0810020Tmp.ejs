@@ -106,55 +106,80 @@
                             <div class="singleEditStatus right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toFirstData"><%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isFistData || $parent.isLoading"
                                                 style="" @click="toPreData"><%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toNextData"><%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isLastData || $parent.isLoading"
                                                 style="" @click="toLastData"><%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth"
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
                                                 :disabled="$parent.isLoading"
                                                 @click="handleDeleteSingleData">
                                             <%= __("SystemCommon").Delete %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!isModifiable || $parent.isLoading"
                                                 @click="uploadWebSite">
                                             <%= __("program")["PMS0810020"].uploadWebSite %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!isModifiable || $parent.isLoading"
                                                 @click="showRoomTypeStock">
                                             <%= __("program")["PMS0810020"].genRoomTypeStock %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="!isModifiable || $parent.isLoading"
                                                 @click="showRoomTypeSort">
                                             <%= __("program")["PMS0810020"].showRoomTypeOrder %>
+                                        </button>
+                                    </li>
+                                    <li v-if="createStatus">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="$parent.isSaving" @click="doSaveGrid('addOther')">
+                                            <%= __("SystemCommon").Add_after_save %>
+                                        </button>
+                                    </li>
+                                    <li v-if="createStatus ||  editStatus">
+                                        <button :disabled="$parent.isSaving || (editStatus && !isModifiable)"
+                                                class="btn btn-primary btn-white btn-defaultWidth" @click="doSaveGrid('closeDialog')">
+                                            <%= __("SystemCommon").Leave_after_save %>
+                                        </button>
+                                    </li>
+                                    <li v-if="editStatus">
+                                        <button :disabled="$parent.isSaving || (editStatus && !isModifiable) "
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doSaveGrid('')">
+                                            <%= __("SystemCommon").Save %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" @click="emitCloseGridDialog"
+                                                :disabled="$parent.isSaving">
+                                            <%= __("SystemCommon").Leave %>
                                         </button>
                                     </li>
                                 </ul>
@@ -171,31 +196,14 @@
         <div class="clearfix"></div>
 
         <!-- buttons -->
-        <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
-            <div class="singleRelative">
-                <div class="singleBtnBottom">
-                    <button v-if="createStatus" class="btn btn-primary btn-white" style="margin-right: 5px;"
-                            :disabled="$parent.isSaving" @click="doSaveGrid('addOther')">
-                        <%= __("SystemCommon").Add_after_save %>
-                    </button>
-                    <button v-if="createStatus ||  editStatus"
-                            :disabled="$parent.isSaving || (editStatus && !isModifiable)"
-                            class="btn btn-primary btn-white" @click="doSaveGrid('closeDialog')">
-                        <%= __("SystemCommon").Leave_after_save %>
-                    </button>
-                    <button v-if="editStatus" :disabled="$parent.isSaving || (editStatus && !isModifiable) "
-                            class="btn btn-primary btn-white"
-                            @click="doSaveGrid('')">
-                        <%= __("SystemCommon").Save %>
-                    </button>
-                    <button class="btn btn-primary btn-white" @click="emitCloseGridDialog"
-                            :disabled="$parent.isSaving">
-                        <%= __("SystemCommon").Leave %>
-                    </button>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
+        <!--<div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">-->
+            <!--<div class="singleRelative">-->
+                <!--<div class="singleBtnBottom">-->
+                    <!---->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="clearfix"></div>-->
+        <!--</div>-->
 
         <!-- 產生庫存dialog -->
         <el-dialog title="<%= __("program")["PMS0810020"].genRoomTypeDialogTitle %>"
