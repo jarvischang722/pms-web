@@ -6,8 +6,13 @@ var RS00202010VM = new Vue({
     },
     mounted: function () {
         //啟用fixTable
-        $("#gs-fixTable").tableHeadFixer({"left" : 1});
+        $("#gs-fixTable").tableHeadFixer({"left": 1});
         $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+        $.post("/reserveBanquet/qryPageOneData", function (result) {
+            if (result.success) {
+                console.log(result.pageOneData);
+            }
+        });
     }
 });
 

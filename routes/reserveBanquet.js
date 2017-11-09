@@ -1,7 +1,7 @@
 /**
  * Created by kaiyue on 2017/11/08.
  */
-let reserveBanquetCtrl = require("../controllers/reserveBanquetController");
+let resvbanquetCtrl = require("../controllers/reserveBanquetController");
 var authMW = require("../middlewares/authMiddleware");
 var sysMW = require("../middlewares/systemMiddleware");
 var i18nMW = require("../middlewares/i18nMiddleware");
@@ -11,7 +11,7 @@ var apiMiddles = [authMW];
 module.exports = function(app, passport){
 
     //reserveBanquet格萊天漾訂席頁
-    app.get("/reserveBanquet/RS00202010", middles, reserveBanquetCtrl.getRS00202010);
+    app.get("/reserveBanquet/RS00202010", middles, resvbanquetCtrl.getRS00202010);
 
-    // app.post("reserveBanquet/qryPageOneData")
+    app.post("/reserveBanquet/qryPageOneData", apiMiddles, resvbanquetCtrl.qryPageOneData);
 };

@@ -1,0 +1,160 @@
+[{ 
+    "order_seq" : 1, 
+    "datatype" : "BEG_HOUR", 
+    "beg_hour" : 9
+},
+{
+    "order_seq" : 2, 
+    "datatype" : "END_HOUR", 
+    "end_hour" : 23
+},
+{
+    "order_seq" : 3, 
+    "datatype" : "RSPT", 
+    "rspt_cod" : "BT01", 
+    "rspt_nam" : "宴會廳"
+},
+{
+    "order_seq" : 4, 
+    "datatype" : "RSPT", 
+    "rspt_cod" : "DD01", 
+    "rspt_nam" : "中庭咖啡吧"
+},
+{
+    "order_seq" : 5, 
+    "datatype" : "RSPT", 
+    "rspt_cod" : "304 ", 
+    "rspt_nam" : "洗衣"
+},
+{
+    "order_seq" : 6, 
+    "datatype" : "RSPT", 
+    "rspt_cod" : "MT01", 
+    "rspt_nam" : "會議廳"
+},
+{
+    "order_seq" : 7, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "BT01", 
+    "is_child" : "N", 
+    "place_cod" : "0003  ", 
+    "place_nam" : "宴會廳C", 
+    "desk_qnt" : 3
+},
+{
+    "order_seq" : 8, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "DD01", 
+    "is_child" : "N", 
+    "place_cod" : "0830  ", 
+    "place_nam" : "ATHENA", 
+    "desk_qnt" : 6
+},
+{
+    "order_seq" : 9, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "BT01", 
+    "is_child" : "N", 
+    "place_cod" : "0002  ", 
+    "place_nam" : "宴會廳", 
+    "desk_qnt" : 2
+},
+{
+    "order_seq" : 10, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "BT01", 
+    "is_child" : "N", 
+    "place_cod" : "0001  ", 
+    "place_nam" : "宴會廳", 
+    "desk_qnt" : 30
+},
+{
+    "order_seq" : 11, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "304 ", 
+    "is_child" : "N", 
+    "place_cod" : "0009  ", 
+    "place_nam" : "test", 
+    "desk_qnt" : 30
+},
+{
+    "order_seq" : 12, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "MT01", 
+    "is_child" : "Y", 
+    "place_cod" : "0005  ", 
+    "place_nam" : "會議廳A", 
+    "desk_qnt" : 5
+},
+{
+    "order_seq" : 13, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "MT01", 
+    "is_child" : "Y", 
+    "place_cod" : "0006  ", 
+    "place_nam" : "會議廳B", 
+    "desk_qnt" : 6
+},
+{
+    "order_seq" : 14, 
+    "datatype" : "PLACE", 
+    "rspt_cod" : "MT01", 
+    "is_child" : "N", 
+    "place_cod" : "0007  ", 
+    "place_nam" : "會議廳全包", 
+    "desk_qnt" : 11
+},
+{
+    "order_seq" : 15, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "BT01", 
+    "mtime_cod" : "0001", 
+    "time_nam" : "宴會時段", 
+    "begin_tim" : "0800", 
+    "end_tim" : "2300"
+},
+{
+    "order_seq" : 16, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "DD01", 
+    "mtime_cod" : "0001", 
+    "time_nam" : "早上", 
+    "begin_tim" : "0800", 
+    "end_tim" : "1059"
+},
+{
+    "order_seq" : 17, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "DD01", 
+    "mtime_cod" : "0002", 
+    "time_nam" : "中午", 
+    "begin_tim" : "1100", 
+    "end_tim" : "1800"
+},
+{
+    "order_seq" : 18, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "DD01", 
+    "mtime_cod" : "0003", 
+    "time_nam" : "下午", 
+    "begin_tim" : "1801", 
+    "end_tim" : "2259"
+},
+{
+    "order_seq" : 19, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "DD01", 
+    "mtime_cod" : "0004", 
+    "time_nam" : "宵夜", 
+    "begin_tim" : "2300", 
+    "end_tim" : "2359"
+},
+{
+    "order_seq" : 20, 
+    "datatype" : "MTIME", 
+    "rspt_cod" : "MT01", 
+    "mtime_cod" : "0001", 
+    "time_nam" : "會議時段", 
+    "begin_tim" : "0800", 
+    "end_tim" : "2359"
+}]
