@@ -24,6 +24,7 @@ exports.qryPageOneData = function (postData, session, callback) {
 
 //[RS00202010]
 function convertDataToDisplay(lo_data) {
-
+    let lo_beg_hour = _.findWhere(lo_data, {dataType: "beg_hour"});
     return lo_data;
 }
+
