@@ -11,7 +11,8 @@ var PermissionVM = new Vue({
         this.fetchUserInfo();
     },
     data: {
-        prg_id:'SYS0110010',
+        isLoading: false,
+        prg_id: "SYS0110010",
         userInfo: {},
         role_id: "",
         ga_roles: [],
@@ -78,7 +79,6 @@ var PermissionVM = new Vue({
         //更新目標角色對應的帳號標示在Tree上
         updateAccountChkedTree: function () {
             this.treeIns.uncheck_all();
-
             _.each(this.ga_roleOfAccount, function (account) {
                 PermissionVM.treeIns.check_node("#" + account.user_id);
             });
@@ -156,9 +156,8 @@ var PermissionVM = new Vue({
         doSave: function () {
             this.compareUpdAccount();
             var params = {
-
-                prg_id:this.prg_id,
-                mainTableName:"bac_role_user",
+                prg_id: this.prg_id,
+                mainTableName: "bac_role_user",
                 fieldData: [{ui_field_name: "role_athena_id", keyable: 'Y'},
                     {ui_field_name: "role_id", keyable: 'Y'},
                     {ui_field_name: "role_comp_cod", keyable: 'Y'},
@@ -167,15 +166,16 @@ var PermissionVM = new Vue({
                     {ui_field_name: "user_id", keyable: 'Y'}],
                 tmpCUD: this.tmpCUD
             };
-            console.log(params);
+            this.isLoading = true;
             $.post('/api/execSQLProcess', params, function (result) {
+                PermissionVM.isLoading = false;
                 if (result.success) {
                     PermissionVM.getRoleOfAccounts(PermissionVM.role_id, function () {
                         PermissionVM.updateAccountChkedTree();
                         PermissionVM.initTemCUD();
                     });
-                    alert("Save success!");
-                }else{
+                    alert("儲存成功");
+                } else {
                     alert(result.errorMsg);
                 }
             });
@@ -185,8 +185,6 @@ var PermissionVM = new Vue({
         compareUpdAccount: function () {
             var checkedAccounts = this.treeIns.get_checked(true);
             var oriRoleOfAccount = this.ga_roleOfAccount;
-            console.log(checkedAccounts);
-            console.log(oriRoleOfAccount);
             checkedAccounts = _.filter(checkedAccounts, function (account) {
                 return account.children.length == 0;
             });
@@ -203,7 +201,6 @@ var PermissionVM = new Vue({
                         user_comp_cod: oriRoleOfAccount[0].role_comp_cod,
                         user_id: account.id
                     });
-                    console.log("員工:" + account.text + ",加入" + account.parent + "部門");
                 }
             });
 
@@ -219,14 +216,9 @@ var PermissionVM = new Vue({
                         user_comp_cod: account.role_comp_cod,
                         user_id: account.user_id
                     });
-                    console.log("員工:" + account.user_id + ",離開" + account.role_id + "角色");
                 }
             });
 
-        },
-        //取得被選中的
-        getChecked: function () {
-            console.log(this.treeIns.get_checked(true));
         }
     }
 });
