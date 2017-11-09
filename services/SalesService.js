@@ -54,22 +54,42 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                 function (pageField, cb) {
                     postData["athena_id"] = userInfo.athena_id;
 
-                    queryAgent.query("QRY_SALES_MN_ALL_FIELDS", postData, function (errRowData, rowData) {
-                        if (errRowData || !rowData) {
-                            cb(errRowData, null);
-                        }
-                        else {
-                            langSvc.handleSingleDataLangConv(rowData, prg_id, 1, locale, function (errLangConv, rowDataLangConv) {
-                                var lo_rowData = tools.handlePreprocessData(rowDataLangConv, pageField);
+                    if(postData["user_nos"] == ""){
+                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS_USER_NOS_BLANK", postData, function (errRowData, rowData) {
+                            if (errRowData || !rowData ) {
+                                cb(errRowData, null);
+                            }
+                            else {
+                                langSvc.handleSingleDataLangConv(rowData, prg_id, 1, locale, function (errLangConv, rowDataLangConv) {
+                                    var lo_rowData = tools.handlePreprocessData(rowDataLangConv, pageField);
 
-                                var postData = {
-                                    rowData: lo_rowData,
-                                    pageField: pageField
-                                };
-                                cb(null, postData);
-                            });
-                        }
-                    });
+                                    var postData = {
+                                        rowData: lo_rowData,
+                                        pageField: pageField
+                                    };
+                                    cb(null, postData);
+                                });
+                            }
+                        });
+                    }
+                    else{
+                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS", postData, function (errRowData, rowData) {
+                            if (errRowData || !rowData ) {
+                                cb(errRowData, null);
+                            }
+                            else {
+                                langSvc.handleSingleDataLangConv(rowData, prg_id, 1, locale, function (errLangConv, rowDataLangConv) {
+                                    var lo_rowData = tools.handlePreprocessData(rowDataLangConv, pageField);
+
+                                    var postData = {
+                                        rowData: lo_rowData,
+                                        pageField: pageField
+                                    };
+                                    cb(null, postData);
+                                });
+                            }
+                        });
+                    }
                 },
                 function (postData, cb) {
                     var lo_rowData = postData.rowData;

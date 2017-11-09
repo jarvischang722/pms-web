@@ -42,8 +42,6 @@ Vue.component('single-grid-pms0620020-tmp', {
             classHsRowData: [],
             classHsFieldData: [],
             dtEditIndex: undefined,
-            openChangeLogDialog: false,
-            allChangeLogList: [],
             classCodSelectData: [],
             classCodSelectedOption: []
         };
@@ -211,32 +209,62 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
+                        if (_.isNull(self.rowData.user_nos)) {
+                            self.rowData.user_nos = "";
+                        }
+                        else {
+                            self.rowData.user_nos = self.rowData.user_nos + ": " + self.rowData.usr_cname;
+                        }
                         self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
+                            data = _.extend(data, {athena_id: vm.userInfo.athena_id});
+                            if (!_.isNull(data["nouse_dat"])) {
+                                data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
+                                    data["nouse_dat"].substring(4, data["nouse_dat"].length);
+                            }
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
+                        _.each(self.hotelDtRowData, function (data) {
+                            if (!_.isNull(data["nouse_dat"])) {
+                                data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
+                                    data["nouse_dat"].substring(4, data["nouse_dat"].length);
+                            }
+                        });
                         self.classHsRowData = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
                     }
                     else {
                         console.log(result.errorMsg);
                     }
-
                     //找樹狀parent node
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
-                    //攤平資料
-                    var list = _(rtnResult).chain()
-                        .zip(_(rtnResult).pluck('children'))
+                    //攤平資料(將資料降維成二維)
+                    var list = _(go_rtnResult).chain()
+                        .zip(_(go_rtnResult).pluck('children'))
                         .flatten()
                         .compact()
                         .value();
 
                     self.classCodSelectedOption = [];
-                    _.each(list, function (lo_list) {
-                        self.classCodSelectedOption.push(lo_list.value);
-                    });
+                    var groupList = _.groupBy(list, "parent_cod");
+                    groupList = _.toArray(groupList).reverse();
+                    var ls_parent_cod = "";
 
+                    _.each(groupList, function (la_list) {
+                        var lo_data;
+                        if (ls_parent_cod == "") {
+                            lo_data = _.findWhere(la_list, {value: self.rowData.class_cod});
+                        }
+                        else {
+                            lo_data = _.findWhere(la_list, {value: ls_parent_cod});
+                        }
+                        if (!_.isUndefined(lo_data)) {
+                            self.classCodSelectedOption.push(lo_data.value);
+                            ls_parent_cod = lo_data.parent_cod;
+                        }
+                    });
+                    self.classCodSelectedOption = self.classCodSelectedOption.reverse();
                     self.showDtDataGrid();
                 });
             }
@@ -263,13 +291,12 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.gs_active = tab.name;
         },
         loadChangeLog: function () {
-            var self = this;
-            self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
-                self.allChangeLogList = result.allChangeLogList;
+                if (result.success) {
+                    vm.openChangeLogDialog = true;
+                    vm.allChangeLogList = result.allChangeLogList;
+                }
             });
-
-
         },
         closeSingleGridDialog: function () {
             vm.editingRow = {};
@@ -311,7 +338,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             _.each(lo_checkHotelDtRowData, function (hotelData) {
                 return _.extend(hotelData, self.rowData);
             });
-
+            // 檢查館別代號是否重複
             for (var j = 0; j < this.hotelDtRowData.length; j++) {
                 var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
                 var la_keyVals = ["hotel_cod", "sales_cod"];
@@ -336,51 +363,60 @@ Vue.component('single-grid-pms0620020-tmp', {
             var self = this;
             this.isSaving = true;
 
-            this.dgHoatelDt.endEditing();
-            var lo_chkResult = this.dataValidate();
-            if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
-                alert(lo_chkResult.msg);
-                this.isSaving = false;
-            }
-            else {
-                var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
-
-                postRowData["tab_page_id"] = 1;
-                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-                _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
-                    data["status_cod"] = data["status_cod1"];
-                });
-                _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
-                    data["status_cod"] = data["status_cod1"];
-                });
-
-                if (this.createStatus) {
-                    vm.tmpCud.createData = [postRowData];
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+            if (this.dgHoatelDt.endEditing()) {
+                var lo_chkResult = this.dataValidate();
+                if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
+                    alert(lo_chkResult.msg);
+                    this.isSaving = false;
                 }
-                else if (this.editStatus) {
-                    vm.tmpCud.updateData = [postRowData];
-                    vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
-                    vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
-                    vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                    vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
-                }
+                else {
+                    var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
+                    postRowData.user_nos = postRowData.user_nos.split(":")[0];
 
-                vm.doSaveCud("PMS0620020", 1, function (result) {
-                    if (result.success) {
-                        alert("Save Successful!");
-                        self.closeSingleGridDialog();
+                    postRowData["tab_page_id"] = 1;
+                    postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                    _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
+                        data["status_cod"] = data["status_cod1"];
+                        if (data["nouse_dat"] != "") {
+                            data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        }
+                    });
+                    _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
+                        data["status_cod"] = data["status_cod1"];
+                        if (data["nouse_dat"] != "") {
+                            data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
+                        }
+                    });
+
+                    if (this.createStatus) {
+                        vm.tmpCud.createData = [postRowData];
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                     }
-                    else {
-                        alert(result.errorMsg);
+                    else if (this.editStatus) {
+                        vm.tmpCud.updateData = [postRowData];
+                        vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
+                        vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
+                        vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
+                        vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
                     }
 
-                    vm.initTmpCUD();
-                });
+                    vm.doSaveCud("PMS0620020", 1, function (result) {
+                        if (result.success) {
+                            alert("Save Successful!");
+                            self.closeSingleGridDialog();
+                        }
+                        else {
+                            alert(result.errorMsg);
+                        }
+
+                        vm.initTmpCUD();
+                    });
+                }
             }
+
 
         },
         //轉換checkbox值
@@ -475,7 +511,9 @@ Vue.component('text-select-grid-dialog-tmp', {
             var updateFieldName = self.updateFieldNameTmp;
 
             if (selectTable != null) {
+
                 _.each(selectTable, function (selectValue, selectField) {
+
                     _.each(updateFieldName, function (updateValue, updateField) {
                         if (selectField == updateValue) {
                             chooseData[updateField] = selectValue;
@@ -487,6 +525,8 @@ Vue.component('text-select-grid-dialog-tmp', {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
             }
+
+            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -543,7 +583,7 @@ var vm = new Vue({
             hotel_sales: "all",
             bq_sales: "all",
             member_sales: "all",
-            status_cod: "all"
+            status_cod: "N"
         },
         dialogVisible: false,
         dgIns: {},
@@ -552,7 +592,9 @@ var vm = new Vue({
         isEditStatus: false,      //編輯狀態
         isDeleteStatus: false,    //刪除狀態
         isLoading: true,
-        isModifiable: true        //決定是否可以修改
+        isModifiable: true,       //決定是否可以修改
+        openChangeLogDialog: false,
+        allChangeLogList: []
 
     },
     methods: {
@@ -769,12 +811,11 @@ var vm = new Vue({
                 self.loadDataGridByPrgID();
                 callback(result);
             });
-            console.log(this.tmpCud);
         }
     }
 });
 
-var rtnResult = [];
+var go_rtnResult = [];
 
 function findByValue(obj, id) {
     var result;
@@ -786,8 +827,8 @@ function findByValue(obj, id) {
                 result = findByValue(obj[p], id);
 
                 if (result) {
-                    rtnResult = [];
-                    rtnResult.push(obj[p]);
+                    go_rtnResult = [];
+                    go_rtnResult.push(obj[p]);
                     return result;
                 }
             }
