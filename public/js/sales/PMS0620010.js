@@ -402,7 +402,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                         vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
                     }
-console.log(vm.tmpCud);
+
                     vm.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
                             alert("Save Successful!");
