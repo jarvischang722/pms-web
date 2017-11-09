@@ -1,6 +1,5 @@
 /**
- *
- *  程式編號:
+ *  程式編號: SYS0110010
  *  程式名稱: 權限設定
  */
 var PermissionVM = new Vue({
