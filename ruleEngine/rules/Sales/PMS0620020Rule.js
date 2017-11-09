@@ -398,108 +398,113 @@ module.exports = {
                     });
                 },
                 function (salesData, part_cb) {
-                    var ls_oldClassCod = salesData.class_cod;
-                    var ls_newClassCod = lo_updateData.class_cod;
-                    //若class_cod改變
-                    if (ls_newClassCod != ls_oldClassCod) {
-                        //取sales_class_hs最後一筆資料
-                        queryAgent.query("qry_last_sales_class_hs", salesParsms, function (errClassHsData, classHsData) {
-                            if (errClassHsData) {
-                                lo_result.success = false;
-                                lo_error = new ErrorClass();
-                                lo_error.errorMsg = errClassHsData;
+                    if(_.isNull(salesData)){
+                        part_cb(lo_error, lo_result);
+                    }
+                    else{
+                        var ls_oldClassCod = salesData.class_cod;
+                        var ls_newClassCod = lo_updateData.class_cod;
+                        //若class_cod改變
+                        if (ls_newClassCod != ls_oldClassCod) {
+                            //取sales_class_hs最後一筆資料
+                            queryAgent.query("qry_last_sales_class_hs", salesParsms, function (errClassHsData, classHsData) {
+                                if (errClassHsData) {
+                                    lo_result.success = false;
+                                    lo_error = new ErrorClass();
+                                    lo_error.errorMsg = errClassHsData;
 
-                                part_cb(lo_error, lo_result);
-                            }
-                            else {
-                                var ls_beginDat = classHsData.begin_dat;
-                                // 取訂房中心滾房租日
-                                queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult) {
-                                    if (err) {
-                                        lo_result.success = false;
-                                        lo_error = new ErrorClass();
-                                        lo_error.errorMsg = err;
-
-                                        part_cb(lo_error, lo_result);
-                                    }
-                                    else {
-                                        if (moment(new Date(ls_beginDat)).format("YYYY/MM/DD HH:mm:ss") == moment( new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD HH:mm:ss")) {
-                                            lo_result.extendExecDataArrSet.push({
-                                                function: 2,
-                                                table_name: 'sales_class_hs',
-                                                condition: [{
-                                                    key: 'athena_id',
-                                                    operation: "=",
-                                                    value: userInfo.athena_id
-                                                }, {
-                                                    key: 'sales_cod',
-                                                    operation: "=",
-                                                    value: lo_updateData.sales_cod.trim()
-                                                }, {
-                                                    key: 'class_cod',
-                                                    operation: "=",
-                                                    value: ls_oldClassCod
-                                                }
-                                                ],
-                                                class_cod: ls_newClassCod,
-                                                upd_dat: moment().format("YYYY/MM/DD"),
-                                                upd_usr: userInfo.usr_id,
-                                                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                                                kindOfRel: 'dt'
-                                            });
+                                    part_cb(lo_error, lo_result);
+                                }
+                                else {
+                                    var ls_beginDat = classHsData.begin_dat;
+                                    // 取訂房中心滾房租日
+                                    queryAgent.query("QRY_RENT_DAT_HQ".toUpperCase(), rentDatParams, function (err, getResult) {
+                                        if (err) {
+                                            lo_result.success = false;
+                                            lo_error = new ErrorClass();
+                                            lo_error.errorMsg = err;
 
                                             part_cb(lo_error, lo_result);
                                         }
                                         else {
-                                            lo_result.extendExecDataArrSet.push({
-                                                function: 2,
-                                                table_name: 'sales_class_hs',
-                                                condition: [{
-                                                    key: 'athena_id',
-                                                    operation: "=",
-                                                    value: userInfo.athena_id
-                                                }, {
-                                                    key: 'sales_cod',
-                                                    operation: "=",
-                                                    value: lo_updateData.sales_cod
-                                                }, {
-                                                    key: 'class_cod',
-                                                    operation: "=",
-                                                    value: ls_oldClassCod
-                                                }
-                                                ],
-                                                end_dat: moment(new Date(getResult.rent_dat_hq)).add(-1, 'days').format("YYYY/MM/DD"),
-                                                upd_dat: moment().format("YYYY/MM/DD"),
-                                                upd_usr: userInfo.usr_id,
-                                                event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
-                                                kindOfRel: 'dt'
-                                            });
-                                            lo_result.extendExecDataArrSet.push({
-                                                function: '1',
-                                                table_name: 'sales_class_hs',
-                                                athena_id: userInfo.athena_id,
-                                                hotel_cod: userInfo.hotel_cod,
-                                                sales_cod: lo_updateData.sales_cod,
-                                                class_cod: ls_newClassCod,
-                                                begin_dat: moment(new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD"),
-                                                end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD"),
-                                                ins_dat: moment().format("YYYY/MM/DD"),
-                                                ins_usr: userInfo.usr_id,
-                                                upd_dat: moment().format("YYYY/MM/DD"),
-                                                upd_usr: userInfo.usr_id,
-                                                event_time: moment().add(1, 'seconds').format("YYYY/MM/DD HH:mm:ss"),
-                                                kindOfRel: 'dt'
-                                            });
+                                            if (moment(new Date(ls_beginDat)).format("YYYY/MM/DD HH:mm:ss") == moment( new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD HH:mm:ss")) {
+                                                lo_result.extendExecDataArrSet.push({
+                                                    function: 2,
+                                                    table_name: 'sales_class_hs',
+                                                    condition: [{
+                                                        key: 'athena_id',
+                                                        operation: "=",
+                                                        value: userInfo.athena_id
+                                                    }, {
+                                                        key: 'sales_cod',
+                                                        operation: "=",
+                                                        value: lo_updateData.sales_cod.trim()
+                                                    }, {
+                                                        key: 'class_cod',
+                                                        operation: "=",
+                                                        value: ls_oldClassCod
+                                                    }
+                                                    ],
+                                                    class_cod: ls_newClassCod,
+                                                    upd_dat: moment().format("YYYY/MM/DD"),
+                                                    upd_usr: userInfo.usr_id,
+                                                    event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                                                    kindOfRel: 'dt'
+                                                });
 
-                                            part_cb(lo_error, lo_result);
+                                                part_cb(lo_error, lo_result);
+                                            }
+                                            else {
+                                                lo_result.extendExecDataArrSet.push({
+                                                    function: 2,
+                                                    table_name: 'sales_class_hs',
+                                                    condition: [{
+                                                        key: 'athena_id',
+                                                        operation: "=",
+                                                        value: userInfo.athena_id
+                                                    }, {
+                                                        key: 'sales_cod',
+                                                        operation: "=",
+                                                        value: lo_updateData.sales_cod
+                                                    }, {
+                                                        key: 'class_cod',
+                                                        operation: "=",
+                                                        value: ls_oldClassCod
+                                                    }
+                                                    ],
+                                                    end_dat: moment(new Date(getResult.rent_dat_hq)).add(-1, 'days').format("YYYY/MM/DD"),
+                                                    upd_dat: moment().format("YYYY/MM/DD"),
+                                                    upd_usr: userInfo.usr_id,
+                                                    event_time: moment().format("YYYY/MM/DD HH:mm:ss"),
+                                                    kindOfRel: 'dt'
+                                                });
+                                                lo_result.extendExecDataArrSet.push({
+                                                    function: '1',
+                                                    table_name: 'sales_class_hs',
+                                                    athena_id: userInfo.athena_id,
+                                                    hotel_cod: userInfo.hotel_cod,
+                                                    sales_cod: lo_updateData.sales_cod,
+                                                    class_cod: ls_newClassCod,
+                                                    begin_dat: moment(new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD"),
+                                                    end_dat: moment(new Date("2999/12/31")).format("YYYY/MM/DD"),
+                                                    ins_dat: moment().format("YYYY/MM/DD"),
+                                                    ins_usr: userInfo.usr_id,
+                                                    upd_dat: moment().format("YYYY/MM/DD"),
+                                                    upd_usr: userInfo.usr_id,
+                                                    event_time: moment().add(1, 'seconds').format("YYYY/MM/DD HH:mm:ss"),
+                                                    kindOfRel: 'dt'
+                                                });
+
+                                                part_cb(lo_error, lo_result);
+                                            }
                                         }
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        part_cb(lo_error, lo_result);
+                                    });
+                                }
+                            });
+                        }
+                        else {
+                            part_cb(lo_error, lo_result);
+                        }
                     }
                 }
             ], function (err, result) {
@@ -562,6 +567,7 @@ module.exports = {
 
 class node {
     constructor(lo_rowData) {
+        this.parent_cod = lo_rowData.parent_cod;
         this.label = lo_rowData.class_nam;
         this.value = lo_rowData.class_cod;
     }

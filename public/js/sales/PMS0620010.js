@@ -209,19 +209,24 @@ Vue.component('single-grid-pms0620020-tmp', {
                     if (result.success) {
                         self.originRowData = _.clone(result.rtnObject[0]['rowData']);
                         self.rowData = result.rtnObject[0]['rowData'];
-                        self.rowData.user_nos = self.rowData.user_nos + ": " + self.rowData.usr_cname;
+                        if (_.isNull(self.rowData.user_nos)) {
+                            self.rowData.user_nos = "";
+                        }
+                        else {
+                            self.rowData.user_nos = self.rowData.user_nos + ": " + self.rowData.usr_cname;
+                        }
                         self.oriHotelDtRowData = JSON.parse(JSON.stringify(result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows']));
                         _.each(self.oriHotelDtRowData, function (data) {
                             data = _.extend(data, self.originRowData);
-                            data = _.extend(data, vm.userInfo.athena_id);
-                            if(!_.isNull(data["nouse_dat"])){
+                            data = _.extend(data, {athena_id: vm.userInfo.athena_id});
+                            if (!_.isNull(data["nouse_dat"])) {
                                 data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
                                     data["nouse_dat"].substring(4, data["nouse_dat"].length);
                             }
                         });
                         self.hotelDtRowData = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
                         _.each(self.hotelDtRowData, function (data) {
-                            if(!_.isNull(data["nouse_dat"])){
+                            if (!_.isNull(data["nouse_dat"])) {
                                 data["nouse_dat"] = data["nouse_dat"].substring(0, 4) + "/" +
                                     data["nouse_dat"].substring(4, data["nouse_dat"].length);
                             }
@@ -231,22 +236,35 @@ Vue.component('single-grid-pms0620020-tmp', {
                     else {
                         console.log(result.errorMsg);
                     }
-
                     //找樹狀parent node
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
-                    //攤平資料
-                    var list = _(rtnResult).chain()
-                        .zip(_(rtnResult).pluck('children'))
+                    //攤平資料(將資料降維成二維)
+                    var list = _(go_rtnResult).chain()
+                        .zip(_(go_rtnResult).pluck('children'))
                         .flatten()
                         .compact()
                         .value();
 
                     self.classCodSelectedOption = [];
-                    _.each(list, function (lo_list) {
-                        self.classCodSelectedOption.push(lo_list.value);
-                    });
+                    var groupList = _.groupBy(list, "parent_cod");
+                    groupList = _.toArray(groupList).reverse();
+                    var ls_parent_cod = "";
 
+                    _.each(groupList, function (la_list) {
+                        var lo_data;
+                        if (ls_parent_cod == "") {
+                            lo_data = _.findWhere(la_list, {value: self.rowData.class_cod});
+                        }
+                        else {
+                            lo_data = _.findWhere(la_list, {value: ls_parent_cod});
+                        }
+                        if (!_.isUndefined(lo_data)) {
+                            self.classCodSelectedOption.push(lo_data.value);
+                            ls_parent_cod = lo_data.parent_cod;
+                        }
+                    });
+                    self.classCodSelectedOption = self.classCodSelectedOption.reverse();
                     self.showDtDataGrid();
                 });
             }
@@ -274,7 +292,7 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         loadChangeLog: function () {
             $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0620020"}, function (result) {
-                if(result.success){
+                if (result.success) {
                     vm.openChangeLogDialog = true;
                     vm.allChangeLogList = result.allChangeLogList;
                 }
@@ -345,7 +363,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             var self = this;
             this.isSaving = true;
 
-            if(this.dgHoatelDt.endEditing()){
+            if (this.dgHoatelDt.endEditing()) {
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
@@ -360,13 +378,13 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                     _.each(this.dgHoatelDt.tmpCUD.createData, function (data) {
                         data["status_cod"] = data["status_cod1"];
-                        if(data["nouse_dat"] != ""){
+                        if (data["nouse_dat"] != "") {
                             data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
                         }
                     });
                     _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
                         data["status_cod"] = data["status_cod1"];
-                        if(data["nouse_dat"] != ""){
+                        if (data["nouse_dat"] != "") {
                             data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
                         }
                     });
@@ -384,7 +402,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
                         vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
                     }
-
+console.log(vm.tmpCud);
                     vm.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
                             alert("Save Successful!");
@@ -797,7 +815,7 @@ var vm = new Vue({
     }
 });
 
-var rtnResult = [];
+var go_rtnResult = [];
 
 function findByValue(obj, id) {
     var result;
@@ -809,8 +827,8 @@ function findByValue(obj, id) {
                 result = findByValue(obj[p], id);
 
                 if (result) {
-                    rtnResult = [];
-                    rtnResult.push(obj[p]);
+                    go_rtnResult = [];
+                    go_rtnResult.push(obj[p]);
                     return result;
                 }
             }
