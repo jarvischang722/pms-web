@@ -418,7 +418,7 @@ var PMS0830070VM = new Vue({
     methods: {
         initDataGrid: function () {
             var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830070_dg'));
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830070_dg'));
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(this.p, "PMS0830070_dg", colOption, this.pageOneFieldData, {singleSelect: false});
         },

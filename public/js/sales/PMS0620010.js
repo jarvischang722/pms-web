@@ -272,12 +272,12 @@ Vue.component('single-grid-pms0620020-tmp', {
         },
         showDtDataGrid: function () {
             this.dgHoatelDt = new DatagridBaseClass();
-            this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", EZfieldClass.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
+            this.dgHoatelDt.init("PMS0620020", "hotelDt_dg", DatagridFieldAdapter.combineFieldOption(this.hotelDtFieldData, 'hotelDt_dg'), this.hotelDtFieldData);
             this.dgHoatelDt.loadDgData(this.hotelDtRowData);
             this.dgHoatelDt.getOriDtRowData(this.oriHotelDtRowData);
 
             this.dgClassHs = new DatagridSingleGridClass();
-            this.dgClassHs.init("PMS0620020", "classHs_dg", EZfieldClass.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
+            this.dgClassHs.init("PMS0620020", "classHs_dg", DatagridFieldAdapter.combineFieldOption(this.classHsFieldData, 'classHs_dg'));
             this.dgClassHs.loadDgData(this.classHsRowData);
 
         },
@@ -660,7 +660,7 @@ var vm = new Vue({
         showDataGrid: function () {
             this.isLoading = false;
             vm.dgIns = new DatagridSingleGridClass();
-            vm.dgIns.init("PMS0620010", "PMS0620010_dg", EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
+            vm.dgIns.init("PMS0620010", "PMS0620010_dg", DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0620010_dg'));
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         doSearch: function () {

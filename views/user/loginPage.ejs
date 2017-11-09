@@ -2,16 +2,16 @@
 <html lang="en">
 
 <%- include ../common/head %>
-<%- include ../common/importFiles %>
+<%- include ../common/cssFile/importFiles_CssBase %>
+<%- include ../common/jsFile/importFiles_JsBase %>
 
-<script src="/js/cookieFunc.js"></script>
-
-<body class="login-bg" id="app">
+<body class="login-bg" >
 
 <div class="loginPage" id="loginAPP">
     <div class="logoCompany">
         <img src="/images/athena_logo.png"/>
     </div>
+
     <div class="space-6"></div>
     <div class="login-container">
         <div class="col-sm-12 col-xs-12">
@@ -88,7 +88,4 @@
 </body>
 <script src="/js/system/loginPage.js"></script>
 <!-- inline scripts related to this page -->
-<script type="text/javascript">
-    var gs_locale = '<%= session.locale %>';
-</script>
 </html>

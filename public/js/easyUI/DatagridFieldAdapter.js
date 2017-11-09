@@ -5,13 +5,14 @@
  */
 var isUserEdit = true; //是否為修改或是連動修改
 var ga_colorAry = [];  //
+
 /**
  * datagrid 轉接器與call
  * @param vm
  * @constructor
  * TODO 這個Class 之後要搬到另一個檔案 2017/07/26
  */
-var AdapterDatagrid = function (vm) {
+var DatagridAdapter = function (vm) {
     if (_.isUndefined(vm.tempExecData)) {
         console.error(new Error("method 'tempExecData' not defined."));
     }
@@ -19,14 +20,14 @@ var AdapterDatagrid = function (vm) {
 };
 
 
-var EZfieldClass = {
+var DatagridFieldAdapter= {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
         var columnsData = [];
         _.each(fieldData, function (field) {
             //決定欄位是否顯示
             if (field.visiable == "Y") {
-                columnsData.push(EZfieldClass.fieldConvEzAttr(field, dgName));
+                columnsData.push(DatagridFieldAdapter.fieldConvEzAttr(field, dgName));
             }
         });
 

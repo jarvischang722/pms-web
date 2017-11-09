@@ -9,6 +9,7 @@ var loginVM = new Vue({
         companyData: [],
         rememberMeCheck: false,
         username: "",
+        passwd:"",
         dbname: "0",
         comp_id: "0",
         currentLocale: gs_locale,
