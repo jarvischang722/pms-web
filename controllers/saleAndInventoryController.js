@@ -130,30 +130,20 @@ exports.dominosWebService = function (req, res) {
 
     var trans_cod = req.params.trans_cod;
 
-    var data = Object.values(req.body).toString();
-    var index = data.indexOf("data");
-    data = data.substr(index + 4);
-    data = data.replace(/\r/g, '');
-    data = data.replace(/\n/g, '');
-    data = data.replace(/"/g, '');
-    var endindex = data.lastIndexOf("------");
-    data = data.substr(0, endindex);
-    req.body = data;
-
     switch (trans_cod)
     {
         case 'PSI0000001':
-            PSIWService.PSI0000001(req.body, req.session, function (RESPONSE) {
+            PSIWService.PSI0000001(req.body.data, req.session, function (RESPONSE) {
                 res.json({RESPONSE: RESPONSE});
             });
             break;
         case 'PSI0000002':
-            PSIWService.PSI0000002(req.body, req.session, function (RESPONSE) {
+            PSIWService.PSI0000002(req.body.data, req.session, function (RESPONSE) {
                 res.json({RESPONSE: RESPONSE});
             });
             break;
         case 'PSI0000003':
-            PSIWService.PSI0000003(req.body, req.session, function (RESPONSE) {
+            PSIWService.PSI0000003(req.body.data, req.session, function (RESPONSE) {
                 res.json({RESPONSE: RESPONSE});
             });
             break;

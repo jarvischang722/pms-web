@@ -45,30 +45,31 @@ DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
 
 var isbind = false;
 var go_currentField;
-var go_currentIndex = 0;
+var go_currentIndex;
+
+DatagridRmSingleDTGridClass.prototype.endEditing = function () {
+    if (go_currentIndex == undefined) {
+        return true;
+    }
+    if ($('#PSIW500030_dt').datagrid('validateRow', go_currentIndex)) {
+        $('#PSIW500030_dt').datagrid('endEdit', go_currentIndex);
+        go_currentIndex = undefined;
+        return true;
+    }
+    return false;
+};
 
 DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
     if(PSIW500030.isModificable){
-        if ($('#PSIW500030_dt').datagrid('validateRow', go_currentIndex)) {
-            $('#PSIW500030_dt').datagrid('endEdit', go_currentIndex);
-
-            if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
-
-                if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
-                    $('#PSIW500030_dt').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
-                    var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
-                    if (ed) {
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-                    }
-                    go_currentIndex = index;
-                    go_currentField = ed;
-                    DatagridRmSingleDTGridClass.prototype.editIndex = index;
-                } else {
-                    setTimeout(function () {
-                        $('#PSIW500030_dt').datagrid('selectRow', DatagridRmSingleDTGridClass.prototype.editIndex);
-                    }, 0);
+        if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
+            if (go_currentIndex != index) {
+                $('#PSIW500030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
+                var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
+                if (ed) {
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
                 }
+                go_currentIndex = index;
+                go_currentField = ed;
             }
         }
     }
@@ -90,9 +91,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                 var index = go_currentIndex;
 
                                 if(index > 0){
-                                    if (grid.datagrid('validateRow', index)) {
-                                        grid.datagrid('endEdit', index);
-
+                                    if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
                                         grid.datagrid('selectRow', index - 1).datagrid('beginEdit', index - 1);
 
                                         var field = 'item_qnt';
@@ -117,9 +116,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
 
                                 if(index < rows.length - 1)
                                 {
-                                    if (grid.datagrid('validateRow', index)) {
-                                        grid.datagrid('endEdit', index);
-
+                                    if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
                                         grid.datagrid('selectRow', index + 1).datagrid('beginEdit', index + 1);
 
                                         var field = 'order_rmk';
@@ -1223,7 +1220,7 @@ var PSIW500030 = new Vue({
                         alert(result.data.errorMsg);
 
                         //region//測試階段，暫時通過檢查
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim() == "PXW1")
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "PXW1")
                             self.singleData.order_sta = "N";
                         else
                             self.singleData.order_sta = "C";
@@ -1234,7 +1231,7 @@ var PSIW500030 = new Vue({
                     }
                     //檢查有過
                     else {
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim() == "PXW1")
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "PXW1")
                             self.singleData.order_sta = "N";
                         else
                             self.singleData.order_sta = "C";
@@ -1305,10 +1302,13 @@ var PSIW500030 = new Vue({
 
         //按儲存按鈕
         save: function() {
-
-            this.dgInsDT.endEditing();
-
             var self = this;
+
+            if(!self.dgInsDT.endEditing()) {
+                alert("貨品明細尚未完成");
+                return;
+            }
+
             if(_.isUndefined(self.singleData.format_sta) || self.singleData.format_sta == ""){
                 alert("請選擇訂單格式");
                 return;
