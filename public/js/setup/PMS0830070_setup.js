@@ -319,6 +319,7 @@ var Pms0830070Comp = Vue.extend({
                 self.itemNosCheckedTemp = _.without(self.itemNosCheckedTemp, lo_delData);
             });
             // this.itemNosCheckedTemp = [];
+            this.dtSelItemNosShowList = [];
         },
 
         updateDtData: function (item) {
