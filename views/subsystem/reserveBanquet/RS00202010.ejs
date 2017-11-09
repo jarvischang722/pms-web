@@ -1,31 +1,29 @@
-
 <div class="main-container" style="margin-top: 35px;">
-
-    <div class="col-sm-12">
-
+    <div class="col-sm-12" id="RS00202010Main">
         <div class="container_12">
             <div class="grid_12 gs-table-option">
                 <div class="col-md-3 col-xs-12 inputGroupContainer gs-table-select-box inline">
                     <div class="input-group">
                         <span class="input-group-addon">查詢日期</span>
-                        <div id="gs-datePicker">
-                            <template>
-                                <div id="gs-datePicker" class="block">
-                                    <el-date-picker id="gs-date"  v-model="value1" type="date" placeholder="" :picker-options="pickerOptions0">
-                                    </el-date-picker>
-                                </div>
-                            </template>
-                        </div>
+                        <el-date-picker
+                                type="date"
+                                v-model="searchDate"
+                                placeholder="选择日期"
+                                :default-value="defaultDate">
+                        </el-date-picker>
 
                     </div>
                 </div>
                 <div class="col-md-9 col-xs-12 gs-option-btnGroup">
                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                            role="button">查詢</button>
+                            role="button">查詢
+                    </button>
                     <button class="btn btn-primary btn-white gs-add-order"
-                            role="button">新增訂席</button>
+                            role="button">新增訂席
+                    </button>
                     <button id="today-btn" class="btn btn-primary btn-white today-btn"
-                            role="button">今日</button>
+                            role="button">今日
+                    </button>
                 </div>
             </div>
             <div class="grid_12 gs-rese-contaoner">
@@ -73,7 +71,8 @@
                         <td class="lightGrayTag" colspan="6"></td>
                     </tr>
                     <tr>
-                        <td class="no-cursor border-bottom-black middle td-first lightPurpleTag" rowspan="2">晏蜓區 (5)</td>
+                        <td class="no-cursor border-bottom-black middle td-first lightPurpleTag" rowspan="2">晏蜓區 (5)
+                        </td>
                         <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="32">
                             test1
                             <span class="lightBlue-box">預</span>
@@ -772,7 +771,6 @@
         </div><!-- /.container -->
     </div>
 </div>
-</div>
 
 <!-- 查詢訂席 彈出視窗 -->
 <div id="gs-order-page" class="hide padding-5" style="">
@@ -827,7 +825,8 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶編號</label>
-                                        <input type="text" class="input-medium rateCode-s1" placeholder="HFD000000029822001"/>
+                                        <input type="text" class="input-medium rateCode-s1"
+                                               placeholder="HFD000000029822001"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>住家電話</label>
@@ -845,11 +844,12 @@
                                         <div id="gs-feast-date" class="element-date-wrap">
                                             <template>
                                                 <div class="block">
-                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
-                                        </div>                                    </div>
+                                        </div>
+                                    </div>
                                     <div class="grid-item-inline">
                                         <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
                                         ~
@@ -901,16 +901,20 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="">預/保桌數</label>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
                                         <span>/</span>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
                                     </div>
 
                                     <div class="grid-item">
                                         <label class="">預/保人數</label>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
                                         <span>/</span>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
                                     </div>
                                     <div class="grid-item">
                                         <label>業務員</label>
@@ -944,7 +948,7 @@
                                         <div id="gs-save-date" class="element-date-wrap">
                                             <template>
                                                 <div class="block">
-                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -1010,11 +1014,13 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增</button>
+                                            role="button">新增
+                                    </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">存檔</button>
+                                            role="button">存檔
+                                    </button>
                                 </li>
 
                                 <div class="btn-group width-100 margin-tb15">
@@ -1023,20 +1029,24 @@
                                             <legend class="blue">訂席狀態</legend>
                                             <div class="grid">
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"8
-                                                            role="button">取消</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" 8
+                                                            role="button">取消
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button" disabled>預約</button>
+                                                            role="button" disabled>預約
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">等待</button>
+                                                            role="button">等待
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">詢價</button>
+                                                            role="button">詢價
+                                                    </button>
                                                 </li>
                                             </div>
                                         </fieldset>
@@ -1091,7 +1101,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1114,7 +1125,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1137,7 +1149,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1155,11 +1168,13 @@
                                             <ul>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取場地</button>
+                                                            role="button">選取場地
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">刪除場地</button>
+                                                            role="button">刪除場地
+                                                    </button>
                                                 </li>
 
                                             </ul>
@@ -1182,7 +1197,8 @@
                                             <ul>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取</button>
+                                                            role="button">選取
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1255,7 +1271,8 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶編號</label>
-                                        <input type="text" class="input-medium rateCode-s1" placeholder="HFD000000029822001"/>
+                                        <input type="text" class="input-medium rateCode-s1"
+                                               placeholder="HFD000000029822001"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>住家電話</label>
@@ -1273,11 +1290,12 @@
                                         <div id="gsAdd-feast-date" class="element-date-wrap">
                                             <template>
                                                 <div class="block">
-                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
-                                        </div>                                    </div>
+                                        </div>
+                                    </div>
                                     <div class="grid-item-inline">
                                         <input type="text" class="input-medium resvCard-m" placeholder="08:00"/>
                                         ~
@@ -1329,16 +1347,20 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="">預/保桌數</label>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
                                         <span>/</span>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="30">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
                                     </div>
 
                                     <div class="grid-item">
                                         <label class="">預/保人數</label>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
                                         <span>/</span>
-                                        <input type="text" class="input-medium consumeCode-g1-ss text-right" placeholder="0">
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
                                     </div>
                                     <div class="grid-item">
                                         <label>業務員</label>
@@ -1372,7 +1394,7 @@
                                         <div id="gsAdd-save-date" class="element-date-wrap">
                                             <template>
                                                 <div class="block">
-                                                    <el-date-picker v-model="value1" type="date" placeholder="選擇日期" :picker-options="pickerOptions0">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -1438,11 +1460,13 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">新增</button>
+                                            role="button">新增
+                                    </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">存檔</button>
+                                            role="button">存檔
+                                    </button>
                                 </li>
 
                                 <div class="btn-group width-100 margin-tb15">
@@ -1451,20 +1475,24 @@
                                             <legend class="blue">訂席狀態</legend>
                                             <div class="grid">
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"8
-                                                            role="button">取消</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" 8
+                                                            role="button">取消
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button" disabled>預約</button>
+                                                            role="button" disabled>預約
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">等待</button>
+                                                            role="button">等待
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">詢價</button>
+                                                            role="button">詢價
+                                                    </button>
                                                 </li>
                                             </div>
                                         </fieldset>
@@ -1519,7 +1547,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1542,7 +1571,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1565,7 +1595,8 @@
                                                     <td class="">
                                                         <span class="checkbox">
                                                             <label class="checkbox-width">
-                                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
                                                             <span class="lbl"></span>
                                                             </label>
                                                         </span>
@@ -1583,11 +1614,13 @@
                                             <ul>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取場地</button>
+                                                            role="button">選取場地
+                                                    </button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">刪除場地</button>
+                                                            role="button">刪除場地
+                                                    </button>
                                                 </li>
 
                                             </ul>
@@ -1610,7 +1643,8 @@
                                             <ul>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取</button>
+                                                            role="button">選取
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1630,97 +1664,66 @@
 </div>
 <!-- /.新增訂席 -->
 
-<script src="../../../public/js/tableHeadFixer.js"></script>
-<script>
+<script src="/js/tableHeadFixer.js"></script>
+<%- include ../../common/jsFile/groupJs_fixTable %>
+<script src="/js/reserveBanquet/RS00202010_setup.js"></script>
+<!--<script>-->
 
-    $(function(){
-        //預設顯示今日
-        var today = new Date();
-        var todayShow = today.getFullYear()+ "-" + (today.getMonth()+1) + "-" + today.getDate();
-        $('#gs-date input').attr('placeholder',todayShow);
-    });
+<!--// 彈出 查詢訂席-->
+<!--$(document).on('click', ".gs-have-order", function (e) {-->
+<!--e.preventDefault();-->
+<!--var dialog = $("#gs-order-page").removeClass('hide').dialog({-->
+<!--modal: true,-->
+<!--title: "查詢訂席",-->
+<!--title_html: true,-->
+<!--width: 1000,-->
+<!--height: 700,-->
+<!--maxwidth: 1920,-->
+<!--//        height: $(window).height(),-->
+<!--//                autoOpen: true,-->
+<!--dialogClass: "test",-->
+<!--resizable: true-->
+<!--});-->
+<!--});-->
 
-    // 彈出 查詢訂席
-    $(document).on('click', ".gs-have-order", function (e) {
-        e.preventDefault();
-        var dialog = $("#gs-order-page").removeClass('hide').dialog({
-            modal: true,
-            title: "查詢訂席",
-            title_html: true,
-            width: 1000,
-            height: 700,
-            maxwidth: 1920,
-//        height: $(window).height(),
-//                autoOpen: true,
-            dialogClass: "test",
-            resizable: true
-        });
-    });
+<!--// 彈出 新增訂席-->
+<!--$(document).on('click', ".gs-add-order", function (e) {-->
+<!--e.preventDefault();-->
+<!--var dialog = $("#gs-add-page").removeClass('hide').dialog({-->
+<!--modal: true,-->
+<!--title: "新增訂席",-->
+<!--title_html: true,-->
+<!--width: 1000,-->
+<!--height: 700,-->
+<!--maxwidth: 1920,-->
+<!--//        height: $(window).height(),-->
+<!--//                autoOpen: true,-->
+<!--dialogClass: "test",-->
+<!--resizable: true-->
+<!--});-->
+<!--});-->
 
-    // 彈出 新增訂席
-    $(document).on('click', ".gs-add-order", function (e) {
-        e.preventDefault();
-        var dialog = $("#gs-add-page").removeClass('hide').dialog({
-            modal: true,
-            title: "新增訂席",
-            title_html: true,
-            width: 1000,
-            height: 700,
-            maxwidth: 1920,
-//        height: $(window).height(),
-//                autoOpen: true,
-            dialogClass: "test",
-            resizable: true
-        });
-    });
+<!--// 空白處彈出 新增訂席-->
+<!--$(document).on('click', ".gs-rese-table td", function (e) {-->
+<!--//判斷空白td-->
+<!--var emptyTd = $(this).hasClass("");-->
+<!--//    console.log(emptyTd);-->
 
-    // 空白處彈出 新增訂席
-    $(document).on('click', ".gs-rese-table td", function (e) {
-        //判斷空白td
-        var emptyTd = $(this).hasClass("");
-//    console.log(emptyTd);
+<!--//如果是空白td，彈出新增訂席-->
+<!--if(emptyTd === true){-->
+<!--var dialog = $("#gs-add-page").removeClass('hide').dialog({-->
+<!--modal: true,-->
+<!--title: "新增訂席",-->
+<!--title_html: true,-->
+<!--width: 1000,-->
+<!--height: 700,-->
+<!--maxwidth: 1920,-->
+<!--//        height: $(window).height(),-->
+<!--//                autoOpen: true,-->
+<!--dialogClass: "test",-->
+<!--resizable: true-->
+<!--});-->
+<!--}else{}-->
+<!--});-->
 
-        //如果是空白td，彈出新增訂席
-        if(emptyTd === true){
-            var dialog = $("#gs-add-page").removeClass('hide').dialog({
-                modal: true,
-                title: "新增訂席",
-                title_html: true,
-                width: 1000,
-                height: 700,
-                maxwidth: 1920,
-//        height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        }else{}
-    });
-
-    //啟用fixTable
-    $("#gs-fixTable").tableHeadFixer({"left" : 1});
-
-    // 啟用tree
-    $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
-
-</script>
-<script type="text/javascript">
-    var Main = {
-        data() {
-            return {
-                pickerOptions0: {
-                    disabledDate(time) {
-                    }
-                },
-                value1: '',
-                value2: '',
-            };
-        }
-    };
-    var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#gs-datePicker');
-    new Ctor().$mount('#gs-save-date');
-    new Ctor().$mount('#gs-feast-date');
-    new Ctor().$mount('#gsAdd-feast-date');
-    new Ctor().$mount('#gsAdd-save-date');
-</script>
+<!--</script>-->

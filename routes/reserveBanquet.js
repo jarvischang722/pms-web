@@ -12,4 +12,6 @@ module.exports = function(app, passport){
 
     //reserveBanquet格萊天漾訂席頁
     app.get("/reserveBanquet/RS00202010", middles, reserveBanquetCtrl.getRS00202010);
+
+    // app.post("reserveBanquet/qryPageOneData")
 };
