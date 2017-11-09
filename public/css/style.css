@@ -783,7 +783,6 @@ label {
   /* text */
   color: #121517;
   font-weight: bold;
-  text-shadow: 0 1px 1px #e8ebee;
 }
 .fancyTable tfoot tr th, .fancyTable tfoot tr td {
   /* appearance */
@@ -2027,7 +2026,6 @@ a {
 }
 #singleGridDialog .singleEditStatus .btn-defaultWidth {
   display: block;
-  margin-top: 5px;
   max-width: 85px;
   right: 11px;
   padding: 5px;
@@ -3766,11 +3764,11 @@ span.triangle-text {
   width: 100%;
   table-layout: fixed;
 }
-.fixHeadTable .tbl-content {
+.fixHeadTable .tbl-content02 {
   overflow-x: auto;
   margin-top: 0px;
 }
-.fixHeadTable .tbl-content td {
+.fixHeadTable .tbl-content02 td {
   padding-left: 5px;
 }
 
@@ -4165,10 +4163,6 @@ span.triangle-text {
   padding: 3px;
 }
 
-.width-8 {
-  width: 8%;
-}
-
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4248,6 +4242,10 @@ span.triangle-text {
 
 .width-5 {
   width: 5% !important;
+}
+
+.width-8 {
+  width: 8% !important;
 }
 
 .width-10 {
@@ -4466,6 +4464,30 @@ a {
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
+}
+
+.btn-skin {
+  font-weight: 300;
+  text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn:hover, .btn-skin.btn:active, .btn-skin.btn:focus, .btn-skin.btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled, .btn-skin.btn[disabled] {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled.btn:hover, .btn-skin.btn.disabled.btn:active, .btn-skin.btn.disabled.btn:focus, .btn-skin.btn.disabled.btn:visited, .btn-skin.btn[disabled].btn:hover, .btn-skin.btn[disabled].btn:active, .btn-skin.btn[disabled].btn:focus, .btn-skin.btn[disabled].btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
 }
 
 .btn-gray {

@@ -2,6 +2,14 @@
 <%- include ../../../common/jsFile/groupJs_fixTable %>
 
 <script type="text/javascript">
+//    var vm = new Vue({
+//        el: ".pageMain",
+//        methods:{
+//            reservationDialog_1: function (e) {
+//               // 將dialog 跟 datagrid 丟到裡面
+//            }
+//        }
+//    })
     $(function (){
 
         // 彈出 訂房卡
@@ -23,11 +31,11 @@
             $('#reservation_resvCard-table').datagrid({
                 singleSelect: true,
                 collapsible: true,
-                width: '94%',
-                // 從json 撈
+//                width: '94%',
                 url: '/jsonData/reservation/reservation_resvCard.json',
                 method: 'get',
                 columns: [[
+                    {field: 'addDel', title: '<i class="fa fa-plus green"></i>', width: 28, align:'center'},
                     {field: 'No', title: 'No', width: 30},
                     {field: 'Status', title: 'Status', width: 40},
                     {field: 'CIDate', title: 'CI Date', width: 75},
@@ -49,6 +57,7 @@
             });
 
         });
+
 
         // 彈出 住客歷史
         $(document).on('click', ".reservationDialog-2", function (e) {

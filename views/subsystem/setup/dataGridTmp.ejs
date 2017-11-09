@@ -81,7 +81,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="fixHeadTable">
-                        <div class="tbl-header">
+                        <div class="tbl-header02">
                             <table class=" custab">
                                 <thead class="custab-head">
                                 <tr>
@@ -93,7 +93,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="tbl-content" style="height: 300px;">
+                        <div class="tbl-content02" style="height: 300px;">
                             <table class="custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
@@ -125,8 +125,8 @@
                         //0822 有些mac的scrollBar 會推，有些不會(jun會)
                         //                        if(navigator.userAgent.indexOf("Window") !=-1){
                         $(window).on("load resize ", function () {
-                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-                            $('.tbl-header').css({'padding-right': '17px'});
+                            var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                            $('.tbl-header02').css({'padding-right': '17px'});
                             var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
                         }).resize();
                         //                        }
