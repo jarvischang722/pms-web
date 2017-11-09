@@ -167,7 +167,7 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = EZfieldClass.combineFieldOption(fieldData, 'prg_dg');
+            var columnsData = DatagridFieldAdapter.combineFieldOption(fieldData, 'prg_dg');
             var hasMultiLangField = _.filter(fieldData, function (field) {
                 return field.multi_lang_table != "";
             }).length > 0 ? true : false;
@@ -402,7 +402,7 @@ var vm = new Vue({
                 }
             }];
 
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(this.multiLangField, 'multiLangDG'));
+            columnsData = _.union(columnsData, DatagridFieldAdapter.combineFieldOption(this.multiLangField, 'multiLangDG'));
 
             var widtd = 10;
             _.each(columnsData, function (column) {
@@ -493,7 +493,7 @@ function editFieldMultiLang(rowIdx) {
     vm.editFieldMultiLang(rowIdx);
 }
 
-var adpterDg = new AdapterDatagrid(vm);
+var adpterDg = new DatagridAdapter(vm);
 
 /**
  * 某種情況下datagrid裡驗證格式錯誤的tip會卡住不動

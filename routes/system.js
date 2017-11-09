@@ -31,8 +31,9 @@ module.exports = function(app  ) {
     /** 取得Session 過期時間　**/
     app.post("/api/getSessionExpireTime",  systCrtl.getSessionExpireTime);　
 
-    app.post("api/execOperationSQL", middles, systCrtl.execOperationSQL);
+    app.post("/api/execOperationSQL", middles, systCrtl.execOperationSQL);
 
-    app.post("api/execOperationSQL", middles, systCrtl.execOperationSQL);
+    //權限設定
+    app.get('/sys/permissionSetup', middles, systCrtl.permissionSetup);
 
 };

@@ -20,7 +20,7 @@ module.exports = function (app, passport) {
     app.post('/api/authLogin', userCrtl.authLogin);
 
     //取得使用者資料
-    app.post('/api/getUserInfo', userCrtl.getUserInfo);
+    app.post('/api/getUserInfo', apiMiddles, userCrtl.getUserInfo);
 
     //登出
     app.post('/cas/logout', userCrtl.logout);
@@ -29,13 +29,13 @@ module.exports = function (app, passport) {
     app.post('/api/selectSystem', userCrtl.selectSystem);
 
     //取得使用者子系統權限
-    app.post('/api/getUserSubsys', userCrtl.getUserSubsys);
+    app.post('/api/getUserSubsys', apiMiddles, userCrtl.getUserSubsys);
 
     //取得公司選項
-    app.post('/api/getSelectCompany', userCrtl.getSelectCompony)
+    app.post('/api/getSelectCompany', userCrtl.getSelectCompony);
 
     //取得QuickMenu
-    app.post('/api/getSubsysQuickMenu', userCrtl.getSubsysQuickMenu);
+    app.post('/api/getSubsysQuickMenu', apiMiddles, userCrtl.getSubsysQuickMenu);
 
     //新增 角色權限(靜態)
     app.get('/authorityRole', userCrtl.getAuthorityRole);
@@ -47,6 +47,13 @@ module.exports = function (app, passport) {
     //新增 功能權限(靜態)
     app.get('/authorityFeature', userCrtl.getAuthorityFeature);
 
+    // 經由公司代號 cmp_id 取得部門資訊
+    app.post('/api/getCompGrp', apiMiddles, userCrtl.getCompGrp);
 
+    //取得全部角色
+    app.post('/api/getAllRoles', apiMiddles, userCrtl.getAllRoles);
+
+    //取得角色對應全部的帳號
+    app.post('/api/getRoleOfAccounts', apiMiddles, userCrtl.getRoleOfAccounts);
 };
 

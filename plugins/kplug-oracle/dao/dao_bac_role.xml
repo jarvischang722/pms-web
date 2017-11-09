@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-
-    <dao name="qa1">
-        <statement><![CDATA[select * from bac_role_function ]]></statement>
-    </dao>
-
-    <dao name="test_role">
+    <!-- 撈取全部角色-->
+    <dao name="QRY_ALL_ROLE_BY_COMP_COD">
         <statement><![CDATA[
-
-        select distinct * from bac_role_user
-        where user_comp_cod = :user_comp_cod
-        and bac_role_user.user_id = :user_id
-
+            select br.role_id , br.role_nam
+            from bac_role br
+            where br.role_athena_id = ? and trim(br.role_comp_cod) = trim(?)
         ]]></statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+        <parameter type="string" kind="1">cmp_id</parameter>
 
-        <parameter type="string" kind="3">user_comp_cod</parameter>
-        <parameter type="string" kind="3">user_id</parameter>
-        <parameter type="string" kind="3">sys_id</parameter>
     </dao>
 
 </root>
