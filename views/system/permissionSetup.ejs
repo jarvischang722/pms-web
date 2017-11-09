@@ -1,37 +1,35 @@
-<div class="row" id="permission-app">
+<div id="permission-app">
     <div class="col-xs-12 col-sm-12">
         <div class="authorityTree">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="author-navbar">
-                        角色
-                        <select v-model="role_id">
-                            <option  v-for="(role,idx) in ga_roles" :value="role.role_id" :selected="true">{{idx}}:{{role.role_nam}}</option>
-                        </select>
-                    </div>
-
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="space-6"></div>
-            <div class="col-xs-12">
-                <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-5">
                         <div class="row no-margin-right">
+                            <div class="author-navbar">
+                                <p class="topTitle">角色</p>
+                                <select v-model="role_id" class="form-control authorSelect">
+                                    <option  v-for="(role,idx) in ga_roles" :value="role.role_id" :selected="true">{{idx}}:{{role.role_nam}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="row">
                             <!--跳頁-->
                             <!--<a href="/manageSetting">-->
                             <p class="topTitle">人員</p>
                             <!--</a>-->
-                            <div id="permissionAccountTree" ></div>
+                            <div class="borderFrame gridTableHt">
+                                <div id="permissionAccountTree"></div>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="clearfix"></div>
             <div class="space-12"></div>
-            <div class="col-xs-12">
+            <div class="col-xs-12 footerCon">
                 <div class="row center">
                     <button class="btn btn-primary btn-xm" @click="doSave">
                         儲存
@@ -48,3 +46,30 @@
 
 <script src="/js/tree/jstree.min.js"></script>
 <script src="/js/system/permissionSetup.js"></script>
+<script>
+$(function () {
+    // Resize Table Height // Date:170920
+
+    // 藍色系統列
+    var menuHeight1 = $(".navbar-container").height();
+
+    // quickMenus + 搜尋欄位
+    var menuHeight2 = $(".top-sec-ul").height()+ 30+ $(".page-header").height()+ $(".search-content").height();//padding-top: 5px
+
+    // 前檯 selectgroup
+    var footerCon = $(".footerCon").height();
+
+    gridTableHt = $(window).height()-menuHeight1-menuHeight2-footerCon-65;
+
+    // $(".gridTableHt .panel-body").css("height", height);
+    $(".gridTableHt").css("height", gridTableHt).css("overflow-y", "auto");
+
+    // 螢幕縮放時重新抓值
+    $(window).resize(function() {
+        gridTableHt = $(window).height()-menuHeight1-menuHeight2-footerCon-65;
+        $(".gridTableHt").css("height", gridTableHt).css("overflow-y", "auto");
+    });
+
+    //.END Resize Table Height // Date:170920
+});
+</script>

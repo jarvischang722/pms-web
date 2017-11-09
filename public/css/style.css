@@ -493,7 +493,7 @@ select.form-control {
 }
 
 .page-content {
-  padding: 8px 0 24px;
+  padding: 8px 0 8px;
 }
 
 .ace-nav > li {
@@ -1983,6 +1983,7 @@ a {
 }
 .authorityTree p.topTitle {
   margin: 5px auto;
+  font-size: 1.2em;
 }
 .authorityTree .authRadio {
   margin-right: 2px;
@@ -1999,6 +2000,10 @@ a {
 }
 .authorityTree .author-navbar .author-nav-btn button.delete {
   border-width: 1px;
+}
+.authorityTree .author-navbar .authorSelect {
+  padding-right: 10px;
+  padding-left: 10px;
 }
 .authorityTree .icon-style {
   margin-left: 5px;
