@@ -950,7 +950,6 @@ var PSIW500030 = new Vue({
                 postData: editingRow
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
-                self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
                     self.singleDataGridRows = result.data;
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
@@ -960,6 +959,7 @@ var PSIW500030 = new Vue({
                 } else {
                     alert(result.error.errorMsg);
                 }
+                self.isLoading = false;
             });
         },
 
