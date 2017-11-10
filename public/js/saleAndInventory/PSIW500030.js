@@ -104,6 +104,8 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
                 }
                 go_currentIndex = index;
                 go_currentField = ed;
+
+                $("span.numberbox").find("input").css("text-align","right");
             }
         }
     }
