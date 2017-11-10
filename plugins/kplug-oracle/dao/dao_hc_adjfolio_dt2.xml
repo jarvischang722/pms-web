@@ -16,10 +16,10 @@
     <!-- ['PMS0830070'] 明細的明細虛擬帳單項目DT2 -->
     <dao name="QRY_HC_ADJFOLIO_DT2">
         <statement><![CDATA[
-               select athena_id, hotel_cod, adjfolio_cod, seq_nos, item_nos
-               from hc_adjfolio_dt2
-               where athena_id = :athena_id and trim(hotel_cod) = trim(:hotel_cod) and trim(seq_nos) = trim(:seq_nos) and trim(adjfolio_cod) = trim(:adjfolio_cod)
-               order by item_nos
+               select dt2.athena_id, dt2.hotel_cod, dt2.adjfolio_cod, dt2.seq_nos, dt2.item_nos, rf.item_sna
+               from hc_adjfolio_dt2 dt2, service_rf rf where dt2.athena_id = :athena_id and trim(dt2.hotel_cod) = trim(:hotel_cod)
+               and trim(dt2.seq_nos) = trim(:seq_nos) and trim(dt2.adjfolio_cod) = trim(:adjfolio_cod) and dt2.item_nos = rf.item_nos
+               order by dt2.item_nos
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

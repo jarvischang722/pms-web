@@ -683,7 +683,7 @@ var PMS0830090VM = new Vue({
         showDataGrid: function () {
 
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0830090_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830090_dg'));
+            this.dgIns.init(prg_id, 'PMS0830090_dg', DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830090_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0830090VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -1160,7 +1160,7 @@ function editDtMultiLang(rowIdx) {
 Vue.filter("showDropdownDisplayName", function (val) {
 });
 
-var adpterDg = new AdapterDatagrid(PMS0830090VM);
+var adpterDg = new DatagridAdapter(PMS0830090VM);
 
 
 function padLeft(str,lenght){

@@ -158,13 +158,14 @@
                                         <%= __("SystemCommon").Add_after_save %>
                                     </button>
                                 </li>
-                                <li v-if="createStatus ||  editStatus" :disabled="(editStatus && !isModifiable) || BTN_action">
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="doSaveGrid('closeDialog')">
+                                <li v-if="createStatus ||  editStatus">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            :disabled="(editStatus && !isModifiable) || BTN_action" @click="doSaveGrid('closeDialog')">
                                         <%= __("SystemCommon").Leave_after_save %>
                                     </button>
                                 </li>
-                                <li  v-if="editStatus" :disabled="(editStatus && !isModifiable) || BTN_action">
-                                    <button class="btn btn-primary btn-white"
+                                <li  v-if="editStatus">
+                                    <button class="btn btn-primary btn-white" :disabled="(editStatus && !isModifiable) || BTN_action"
                                             @click="doSaveGrid('')">
                                         <%= __("SystemCommon").Save %>
                                     </button>

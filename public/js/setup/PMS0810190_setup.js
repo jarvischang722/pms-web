@@ -1,7 +1,7 @@
 /**
  * Created by Jun on 2017/6/14.
  */
-Vue.use(VeeValidate);
+
 var gs_dgName = "PMS0810190_dg";
 /** DatagridRmSingleGridClass ***/
 function DatagridSingleGridClass() {
@@ -47,7 +47,6 @@ Vue.component('single-grid-pms0810190-tmp', {
         return {
             isFistData: false,
             isLastData: false,
-
             isSubjectFormatError: false,
             isContentFormatError: false,
             lo_curForTextArea: {},  //textArea 游標Object
@@ -168,7 +167,7 @@ var vm = new Vue({
         },
         initDataGrid: function () {
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
+            this.dgIns.init(this.prg_id, gs_dgName, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})

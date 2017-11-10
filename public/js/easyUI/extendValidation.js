@@ -137,5 +137,14 @@ $.extend($.fn.validatebox.defaults.rules, {
             return lo_checkResult.success;
         },
         message: '僅能輸入到小數點1位'
+    },
+    //日期格式 YYYY/MM
+    FmtYYYYMM: {
+        validator: function (value) {
+            var lo_checkResult = go_validateClass.FmtYYYYMM(value);
+            $.fn.validatebox.defaults.rules.FmtYYYYMM.message = lo_checkResult.msg;
+            return lo_checkResult.success;
+        },
+        message: '日期格式YYYY/MM'
     }
 });
