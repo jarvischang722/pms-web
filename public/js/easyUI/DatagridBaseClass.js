@@ -299,6 +299,7 @@ function DatagridBaseClass() {
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
 
         if (existIdx > -1) {
+            self.tmpCUD.oriUpdateData.splice(existIdx, 1);
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
@@ -306,7 +307,7 @@ function DatagridBaseClass() {
         var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
 
         if (dataType == "updateData") {
-            if (existOriIdx > -1) {
+            if (existOriIdx > -1  && existIdx == -1) {
                 self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
                 this.tmpCUD[dataType].splice(existOriIdx, 1);
             }
