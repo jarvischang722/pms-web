@@ -5,12 +5,10 @@
         <statement><![CDATA[
 
             select count(*) as count from psi_bug_sales
-            where comp_cod= :comp_cod
-            and sale_dat= to_date(:order_dat, 'YYYY/MM/DD')
+            where sale_dat= to_date(:order_dat, 'YYYY/MM/DD')
             and trim(store_cod)= trim(:show_cod)
 
         ]]></statement>
-        <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">order_dat</parameter>
         <parameter type="string" kind="3">show_cod</parameter>
     </dao>

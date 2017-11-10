@@ -13,9 +13,7 @@ function DatagridBaseClass() {
         createData: [],
         updateData: [],
         deleteData: [],
-        dt_createData: [],
-        dt_updateData: [],
-        dt_deleteData: []
+        oriUpdateData: []
     };
     this.dgName = "";
     this.prg_id = "";
@@ -23,6 +21,7 @@ function DatagridBaseClass() {
     this.fieldsData = [];
     this.editIndex = undefined;
     this.mnRowData = {};
+    this.dtOriRowData = [];
 
     /**
      * datagrid 初始化
@@ -37,6 +36,7 @@ function DatagridBaseClass() {
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+
         if (!options) {
             options = {};
         }
@@ -46,14 +46,15 @@ function DatagridBaseClass() {
             singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
             selectOnCheck: true,
             checkOnSelect: true,
-            width: "100%",
+            //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn,
+            onSortColumn: this.doSortColumn
         }).datagrid('columnMoving');
+
     };
 
 
@@ -101,11 +102,11 @@ function DatagridBaseClass() {
         $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
-//結束編輯
+    //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         row = self.filterRowData(row);
-        self.doTmpExecData(row);
+        self.doTmpExecData(row, index);
 
     };
 
@@ -153,8 +154,25 @@ function DatagridBaseClass() {
      * @param row  {Object}
      */
     this.onClickRow = function (index, row) {
-    };
 
+        var la_timeField = _.where(self.fieldsData, {ui_type: "time"});
+        _.each(la_timeField, function (lo_timeField) {
+            var ls_field_name = String(row[lo_timeField.ui_field_name]) || "";
+            if (ls_field_name != "") {
+
+                if (ls_field_name.indexOf(":") == -1) {
+                    var hour = ls_field_name.substring(0, 2);
+                    var min = ls_field_name.substring(2, 4);
+
+                    ls_field_name = hour + ":" + min;
+                }
+            }
+            var editors = $('#' + self.dgName).datagrid('getEditors', index);
+            var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
+
+            $(lo_editor.target).textbox('setValue', ls_field_name);
+        });
+    };
 
     /**
      * 新增一個Row
@@ -180,13 +198,32 @@ function DatagridBaseClass() {
     this.removeRow = function removeRow() {
         var delRow = $('#' + this.dgName).datagrid('getSelected');
         if (!delRow) {
-            alert("請選擇要刪除的資料");
+            alert(go_i18nLang["SystemCommon"].SelectData);
         }
 
+        delRow = _.extend(delRow, self.mnRowData);
         delRow["tab_page_id"] = 1;
         delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+        delRow["mnRowData"] = self.mnRowData;
 
-        self.tmpCUD.deleteData.push(delRow);
+        if (delRow.createRow != 'Y') {
+            self.tmpCUD.deleteData.push(delRow);
+        }
+        else if (delRow.createRow == 'Y') {
+
+            var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
+            var condKey = {};
+            _.each(keyVals, function (field_name) {
+                condKey[field_name] = delRow[field_name] || "";
+            });
+
+            //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+            var existIdx = _.findIndex(self.tmpCUD.createData, condKey);
+
+            if (existIdx > -1) {
+                this.tmpCUD.createData.splice(existIdx, 1);
+            }
+        }
 
         $("#gridEdit").val(self.tmpCUD);
 
@@ -237,16 +274,25 @@ function DatagridBaseClass() {
      * 將資料放入暫存
      * @param rowData 要處理的那筆資料
      */
-    this.doTmpExecData = function (rowData) {
+    this.doTmpExecData = function (rowData, index) {
 
-        rowData = _.extend(rowData, this.mnRowData);
+        var lo_chkKeyRowData = _.clone(rowData);
 
-        var dataType = rowData.createRow == 'Y'
-            ? "createData" : "updateData";  //判斷此筆是新增或更新
+        lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
+        // rowData = _.extend(rowData, this.mnRowData);
+
+        var dataType;
+        if(_.isUndefined(lo_chkKeyRowData.createRow)){
+            dataType = "updateData";
+        }
+        else{
+            dataType = lo_chkKeyRowData.createRow == 'Y'
+                ? "createData" : "updateData";  //判斷此筆是新增或更新
+        }
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
         _.each(keyVals, function (field_name) {
-            condKey[field_name] = rowData[field_name] || "";
+            condKey[field_name] = lo_chkKeyRowData[field_name] || "";
         });
 
         //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
@@ -256,17 +302,38 @@ function DatagridBaseClass() {
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
-        rowData["mnRowData"] = this.mnRowData;
-        rowData["tab_page_id"] = 1;
-        rowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+        //判斷資料有無跟原始資料重複
+        var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
 
-        self.tmpCUD[dataType].push(rowData);
-        $("#gridEdit").val(self.tmpCUD);
+        if (dataType == "updateData") {
+            if (existOriIdx > -1) {
+                self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
+                this.tmpCUD[dataType].splice(existOriIdx, 1);
+            }
 
+            lo_chkKeyRowData["mnRowData"] = this.mnRowData;
+            lo_chkKeyRowData["tab_page_id"] = 1;
+            lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+            self.tmpCUD[dataType].push(lo_chkKeyRowData);
+            self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+            $("#gridEdit").val(self.tmpCUD);
+        }
+        else if (dataType == "createData") {
+            if(existOriIdx == -1){
+                lo_chkKeyRowData["mnRowData"] = this.mnRowData;
+                lo_chkKeyRowData["tab_page_id"] = 1;
+                lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                self.tmpCUD[dataType].push(lo_chkKeyRowData);
+                self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+                $("#gridEdit").val(self.tmpCUD);
+            }
+        }
     };
 
     /**
-     *
+     * 取得
      * @param rowData: mn 單筆資料
      */
     this.updateMnRowData = function (rowData) {
@@ -274,22 +341,29 @@ function DatagridBaseClass() {
     };
 
     /**
+     * 取得
+     * @param dtRowData: dt 原始資料
+     */
+    this.getOriDtRowData = function (dtRowData) {
+        this.dtOriRowData = dtRowData;
+    };
+
+    /**
      * 更暫存裡
      * @param rowData: mn 單筆資料
      */
     this.updateTmpDtOfMnData = function (rowData) {
-        var self = this;
-        _.each(this.tmpCUD.dt_createData, function (cData, cIdx) {
-            self.tmpCUD.dt_createData[cIdx] = _.extend(cData, rowData);
-            self.tmpCUD.dt_createData[cIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.createData, function (cData, cIdx) {
+            self.tmpCUD.createData[cIdx] = _.extend(cData, rowData);
+            self.tmpCUD.createData[cIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_updateData, function (uData, uIdx) {
-            self.tmpCUD.dt_updateData[uIdx] = _.extend(uData, rowData);
-            self.tmpCUD.dt_updateData[uIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.updateData, function (uData, uIdx) {
+            self.tmpCUD.updateData[uIdx] = _.extend(uData, rowData);
+            self.tmpCUD.updateData[uIdx]["mnRowData"] = rowData;
         });
-        _.each(this.tmpCUD.dt_deleteData, function (dData, dIdx) {
-            self.tmpCUD.dt_deleteData[dIdx] = _.extend(dData, rowData);
-            self.tmpCUD.dt_deleteData[dIdx]["mnRowData"] = rowData;
+        _.each(self.tmpCUD.deleteData, function (dData, dIdx) {
+            self.tmpCUD.deleteData[dIdx] = _.extend(dData, rowData);
+            self.tmpCUD.deleteData[dIdx]["mnRowData"] = rowData;
         });
     };
 

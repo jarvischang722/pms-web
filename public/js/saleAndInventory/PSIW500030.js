@@ -618,7 +618,7 @@ var PSIW500030 = new Vue({
                     multi_lang_table : "",
                     page_id : 1,
                     ui_display_name:"核准者"
-                },
+                }
             ];
             return lo_fieldData;
         },
@@ -825,12 +825,12 @@ var PSIW500030 = new Vue({
                     self.DataGridRows = result.data;
                     self.FieldData = self.bindingFieldData();
                     self.dgIns = new DatagridRmSingleGridClass();
-                    self.dgIns.init(prg_id, 'PSIW500030_dg', EZfieldClass.combineFieldOption(self.FieldData, 'PSIW500030_dg'));
+                    self.dgIns.init(prg_id, 'PSIW500030_dg', DatagridFieldAdapter.combineFieldOption(self.FieldData, 'PSIW500030_dg'));
                     self.dgIns.loadDgData(self.DataGridRows);
 
                     self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
                     self.dgInsDT = new DatagridRmSingleDTGridClass();
-                    self.dgInsDT.init(prg_id, 'PSIW500030_dt', EZfieldClass.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
+                    self.dgInsDT.init(prg_id, 'PSIW500030_dt', DatagridFieldAdapter.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
                     $("#PSIW500030_dt").datagrid({}).datagrid("keyCtr");
                 } else {
                     alert(result.error.errorMsg);
@@ -1220,7 +1220,7 @@ var PSIW500030 = new Vue({
                         alert(result.data.errorMsg);
 
                         //region//測試階段，暫時通過檢查
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "PXW1")
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P")
                             self.singleData.order_sta = "N";
                         else
                             self.singleData.order_sta = "C";
@@ -1231,7 +1231,7 @@ var PSIW500030 = new Vue({
                     }
                     //檢查有過
                     else {
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "PXW1")
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P")
                             self.singleData.order_sta = "N";
                         else
                             self.singleData.order_sta = "C";
@@ -1607,7 +1607,7 @@ function formatFloat(num, pos)
     return Math.round(num * size) / size;
 }
 
-var adpterDg = new AdapterDatagrid(PSIW500030);
+var adpterDg = new DatagridAdapter(PSIW500030);
 
 //region//套件
 

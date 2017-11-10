@@ -493,7 +493,7 @@ exports.chkFormatSta = function (params ,session, callback) {
             if(params.singleData.order_time.toString().substr(0, 1) != 'P'){
                 var lo_params = {
                     show_cod: params.singleData.show_cod,
-                    order_dat: params.singleData.order_dat,
+                    order_dat: params.singleData.order_dat
                 };
 
                 queryAgent.query("CHK_SELL_MN", lo_params, function (err, Result) {
@@ -524,9 +524,8 @@ exports.chkFormatSta = function (params ,session, callback) {
         function(result, cb){
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
-                    comp_cod: session.user.cmp_id,
                     order_dat: params.singleData.order_dat,
-                    cust_cod: params.singleData.show_cod,
+                    show_cod: params.singleData.show_cod
                 };
 
                 queryAgent.query("CHK_PSI_POSINV_MN", lo_params, function (err, Result) {
@@ -557,9 +556,8 @@ exports.chkFormatSta = function (params ,session, callback) {
         function(result, cb){
             if(params.singleData.order_time.toString().substr(0, 1) != 'P') {
                 var lo_params = {
-                    comp_cod: session.user.cmp_id,
                     order_dat: params.singleData.order_dat,
-                    cust_cod: params.singleData.show_cod,
+                    show_cod: params.singleData.show_cod
                 };
 
                 queryAgent.query("CHK_PSI_BUG_SALES", lo_params, function (err, Result) {
