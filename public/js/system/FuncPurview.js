@@ -1,7 +1,13 @@
+/**
+ * 按鈕權限控制
+ * @param prg_id
+ * @constructor
+ *
+ * 按鈕在class 綁上  purview_btn_[func_id] (ex: purview_btn_0200)
+ */
 function FuncPurview(prg_id) {
     if (prg_id == undefined || prg_id == "") {
         throw new Error('prg_id is require');
-        return;
     }
     this.funcPurvs = [];
     $.post("/api/getUserFuncPurviewByProID", {prg_id: prg_id}, function (result) {
@@ -12,7 +18,7 @@ function FuncPurview(prg_id) {
             }
         });
         //判斷按鈕是否有權限使用
-        this.funcPurvs.forEach(function (func) {
+        FuncPurview.funcPurvs.forEach(function (func) {
             $(".purview_btn_" + func.func_id).attr("disabled", false);
         });
     });
