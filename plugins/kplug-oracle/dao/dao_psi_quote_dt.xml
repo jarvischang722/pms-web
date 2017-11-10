@@ -7,6 +7,7 @@
             select dt.*, goods.goods_rmk from psi_quote_dt dt, goods_mn goods
             where trim(dt.comp_cod) = trim(:comp_cod)
             and trim(dt.order_nos) = trim(:order_nos)
+            and dt.comp_cod = goods.comp_cod
             and dt.goods_cod = goods.goods_cod
             order by order_ser
         ]]>

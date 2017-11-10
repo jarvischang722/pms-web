@@ -64,6 +64,19 @@ DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
             //     console.log('lock ' + order_nos);
             //     psiw50030_socket.emit('doRowLock', {prg_id: prg_id, order_nos: order_nos});
             // }
+
+            //Lock後可拿掉
+            PSIW500030.addEnable = true;
+            PSIW500030.editEnable = true;
+            PSIW500030.deleteEnable = true;
+            PSIW500030.cnfirmEnable = true;
+            PSIW500030.cancelEnable = true;
+            PSIW500030.saveEnable = false;
+            PSIW500030.dropEnable = false;
+
+            PSIW500030.isModificable = false;
+            PSIW500030.isModificableFormat = false;
+
             go_current_row = row;
             go_lockIndex = idx;
         });
@@ -141,6 +154,8 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                         }
                                         go_currentField = ed;
                                         go_currentIndex = index - 1;
+
+                                        $("span.numberbox").find("input").css("text-align","right");
                                     }
                                 }
                                 break;
@@ -167,6 +182,8 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                         }
                                         go_currentField = ed;
                                         go_currentIndex = index + 1;
+
+                                        $("span.numberbox").find("input").css("text-align","right");
                                     }
                                 }
                                 break;

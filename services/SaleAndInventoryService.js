@@ -36,7 +36,7 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        key_cod1: session.user.usr_id,
+        key_cod1: session.user.usr_id
     };
 
     //過濾掉無效條件
