@@ -45,8 +45,8 @@ exports.loginPage = function (req, res, next) {
                         }
                     }
                 });
-                res.render('user/loginPage', {account:ls_account});
             }
+            res.render('user/loginPage', {account:ls_account});
         });
     }
     catch(ex) {
