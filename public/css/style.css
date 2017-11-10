@@ -4208,7 +4208,7 @@ span.triangle-text {
   border-right-color: #d0d0d0;
 }
 .gs-rese-contaoner .gs-rese-table thead tr th.gs-frist-th {
-  z-index: 105 !important;
+  z-index: 110 !important;
 }
 .gs-rese-contaoner .gs-rese-table thead tr.h23-tr td, .gs-rese-contaoner .gs-rese-table thead tr.h23-tr th {
   height: 23px !important;
