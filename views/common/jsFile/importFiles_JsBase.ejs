@@ -23,8 +23,10 @@
 <script src="/js/element_ui/locales/zh_TW.js"></script>
 <script src="/js/element_ui/locales/ja.js"></script>
 <script src="/js/element_ui/locales/ko.js"></script>
+<!-- cookie 工具 -->
+<script src="/js/cookieFunc.js"></script>
 <script>
-     var gs_locale = '<%=session.locale%>';
+     var gs_locale = getCookie("locale");
     ELEMENT.locale(ELEMENT.lang[gs_locale.replace("_","")])
 </script>
 <!-- Remodal套件 -->
@@ -49,8 +51,6 @@
 <script src="/js/moment/moment.min.js"></script>
 <!-- 自定義js -->
 <script src="/js/include.js"></script>
-<!-- cookie 工具 -->
-<script src="/js/cookieFunc.js"></script>
 <!-- 顏色轉換器 -->
 <script src="/js/colorTool.js"></script>
 <script src="/js/tools/mathTool.js"></script>
