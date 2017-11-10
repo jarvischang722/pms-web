@@ -1138,6 +1138,35 @@ var PSIW500030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
 
                 self.singleDataTemp.period_cod = result.data.period_cod;
+
+                //Week 格式代號用
+                var day;
+                switch (new Date(self.singleDataTemp.order_dat).getDay()){
+                    case 0:
+                        day = 'D7';
+                        break;
+                    case 1:
+                        day = 'D1';
+                        break;
+                    case 2:
+                        day = 'D2';
+                        break;
+                    case 3:
+                        day = 'D3';
+                        break;
+                    case 4:
+                        day = 'D4';
+                        break;
+                    case 5:
+                        day = 'D5';
+                        break;
+                    case 6:
+                        day = 'D6';
+                        break;
+                }
+
+                self.singleDataTemp.week = day;
+
                 //訂單格式
                 var lo_params2 = {
                     func: "getFormatSta",
