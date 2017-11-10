@@ -100,19 +100,19 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶代號</label>
-                                        <select v-model="singleData.cust_cod" class="input-medium w118px" style="-webkit-appearance: menulist;" @change="custSelectChange()" :disabled="!isModificableFormat">
+                                        <select v-model="singleData.cust_cod" class="input-medium resvCardSpec1" style="-webkit-appearance: menulist;" @change="custSelectChange()" :disabled="!isModificableFormat">
                                             <option v-for="opt in custSelectData" :value="opt.cust_cod">
                                                 {{opt.show_cod}}
                                             </option>
                                         </select>
-                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w388px input-second-2" placeholder="" disabled>
+                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>送貨地點</label>
-                                        <input v-model="singleData.ship1_add" type="text" class="input-medium w253px address-frist" placeholder="" disabled>
-                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w253px address-second" placeholder="" disabled>
+                                        <input v-model="singleData.ship1_add" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
