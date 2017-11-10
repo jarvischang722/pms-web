@@ -313,7 +313,7 @@ var PSIW500030 = new Vue({
             });
 
             //訂貨日期切換的時間
-            var lo_params = {
+            lo_params = {
                 func : "getSystemParam",
                 paramName: "ship_dt_round_nos"
             };
@@ -326,7 +326,7 @@ var PSIW500030 = new Vue({
             });
 
             //訂貨日期切換的時間
-            var lo_params = {
+            lo_params = {
                 func : "getSystemParam",
                 paramName: "order_dat_change_time"
             };
@@ -339,7 +339,7 @@ var PSIW500030 = new Vue({
             });
 
             //取得所有訂單格式
-            var lo_params = {
+            lo_params = {
                 func : "getAllFormatSta"
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
@@ -979,7 +979,7 @@ var PSIW500030 = new Vue({
 
             //Week 格式代號用
             var day;
-            switch (new Date().getDay()){
+            switch (new Date(this.singleData.order_dat).getDay()){
                 case 0:
                     day = 'D7';
                     break;
