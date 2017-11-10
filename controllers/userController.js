@@ -25,32 +25,32 @@ exports.loginPage = function (req, res, next) {
         return;
     }
 
-    var clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let ls_account = '';
+    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
 
-    var ls_account = '';
-    try{
+
+    try {
         fs.exists("configs/IPsUsersRef.json", function (isExist) {
             if (isExist) {
-                var IPsUsersRef = require("../configs/IPsUsersRef.json");
-
-                _.each(IPsUsersRef.ipObj,function(user,ipSubnet){
-                    if(ipSubnet.toString().indexOf("/") > -1){
-                        if(ip.cidrSubnet(ipSubnet).contains(clientIP)){
+                let IPsUsersRef = require("../configs/IPsUsersRef.json");
+                _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                    if (ipSubnet.toString().indexOf("/") > -1) {
+                        if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
                             ls_account = user.toString();
                         }
-                    }else{
-                        if(_.isEqual(ipSubnet,clientIP)){
+                    } else {
+                        if (_.isEqual(ipSubnet, clientIP)) {
                             ls_account = user.toString();
                         }
                     }
                 });
-                res.render('user/loginPage', {account:ls_account});
             }
+            res.render('user/loginPage', {account: ls_account});
         });
     }
-    catch(ex) {
-        res.render('user/loginPage', {account:ls_account});
+    catch (ex) {
+        res.render('user/loginPage', {account: ls_account});
     }
 };
 
