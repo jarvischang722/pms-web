@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS00202010] 平面圖訂席場地狀態顯示 -->
+    <dao name="QRY_RESV_ORDER_STA">
+        <statement><![CDATA[
+			select mn.order_sta, mn.wait_seq, mn.title_nam, dt.place_cod, dt.begin_tim, dt.end_tim from bquet_mn mn, bqplace_dt dt
+            where mn.bquet_nos = dt.bquet_nos
+            and dt.use_dat = to_date(:use_dat, 'YYYY/MM/DD')
+            and mn.order_sta in ('N','W','Q')
+            and mn.bq_ver = '3'
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">use_dat</parameter>
+    </dao>
+
+</root>

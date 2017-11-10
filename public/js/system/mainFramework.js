@@ -84,6 +84,7 @@ var BacchusMainVM = new Vue({
                     }
                 }
             });
+            ls_pro_url = "/reserveBanquet/RS00202010";
             if (_.isEmpty(ls_pro_url)) {
                 var tmpQuick = _.findWhere(this.quickMenu, {pro_id: prg_id});
                 if (tmpQuick) {
