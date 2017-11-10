@@ -3,11 +3,11 @@
  * 角色權限
  */
 
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var _ = require("underscore");
-var async = require("async");
-var alasql = require("alasql");
-var langSvc = require("./LangService");
+let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+let _ = require("underscore");
+let async = require("async");
+let alasql = require("alasql");
+let langSvc = require("./LangService");
 
 /**
  * 根據系統找出所有對應的子系統和模組
@@ -26,7 +26,7 @@ exports.querySubsyMdulBySys = function (params, callback) {
             }
 
             //根據子系統與模組分組
-            var subsysMenu = _.map(_.groupBy(funcRows, "subsys_id"), function (group) {
+            let subsysMenu = _.map(_.groupBy(funcRows, "subsys_id"), function (group) {
                 return {
                     subsys_id: group[0].subsys_id,
                     subsys_nam: group[0].subsys_nam,
@@ -85,18 +85,18 @@ exports.querySubsysQuickMenu = function (params, callback) {
  */
 exports.updateUserPurview = function (req, callback) {
 
-    var userInfo = req.session.user;
-    var ls_sys_id = userInfo.sys_id;
-    var la_locales = req.cookies.sys_locales || [];
-    var params = {
+    let userInfo = req.session.user;
+    let ls_sys_id = userInfo.sys_id;
+    let la_locales = req.cookies.sys_locales || [];
+    let params = {
         user_athena_id: userInfo.user_athena_id,
         user_comp_cod: userInfo.cmp_id.trim(),
         user_id: userInfo.usr_id,
         athena_id: userInfo.athena_id,
         func_hotel_cod: userInfo.fun_hotel_cod.trim()
     };
-    var la_allMdlProList = [];  // 全部作業
-    var la_allMenuList = []; // 全部Menu 
+    let la_allMdlProList = [];  // 全部作業
+    let la_allMenuList = []; // 全部Menu 
     async.waterfall([
         function (callback) {
             queryAgent.queryList("QRY_BAC_SYS_MODULE_BY_USER", params, 0, 0, function (err, menuList) {
@@ -117,7 +117,7 @@ exports.updateUserPurview = function (req, callback) {
         },
         function (la_menuSubSys, callback) {
             //找出系統全部子系統
-            var la_allMenuSubSys = _.where(la_allMenuList, {
+            let la_allMenuSubSys = _.where(la_allMenuList, {
                 pre_id: ls_sys_id,
                 id_typ: 'SUBSYS'
             });
@@ -130,7 +130,7 @@ exports.updateUserPurview = function (req, callback) {
                 langSvc.handleMultiLangContentByField("lang_bac_subsysmenu_rf", 'subsys_nam', '', function (err, langContent) {
                     _.each(subsysList, function (subsys, sysIdx) {
                         _.each(la_locales, function (locale) {
-                            var lo_subsysLang = _.findWhere(langContent, {
+                            let lo_subsysLang = _.findWhere(langContent, {
                                 subsys_id: subsys.subsys_id,
                                 locale: locale.lang
                             });
@@ -164,21 +164,21 @@ exports.updateUserPurview = function (req, callback) {
         function (subsysList, mdlLangList, proLangList, callback) {
 
             queryAgent.queryList("QRY_S99_PROCESS_BY_SYS_MODULE", {sys_id: ls_sys_id}, 0, 0, function (err, mdlProList) {
-                var mdlList = [];
+                let mdlList = [];
                 la_allMdlProList = mdlProList;
-                var mdlMenu = _.groupBy(mdlProList, "mdl_id");
+                let mdlMenu = _.groupBy(mdlProList, "mdl_id");
                 _.each(mdlMenu, function (processMenu, mdl_id) {
-                    var lo_mdlInfo = mdlMenu[mdl_id][0];
-                    var lo_mdl = {};
+                    let lo_mdlInfo = mdlMenu[mdl_id][0];
+                    let lo_mdl = {};
                     _.each(processMenu, function (pro, pIdx) {
                         _.each(la_locales, function (locale) {
-                            var lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
+                            let lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
                             processMenu[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
                         });
                     });
 
                     _.each(la_locales, function (locale) {
-                        var lo_mdlLang = _.findWhere(mdlLangList,{mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
+                        let lo_mdlLang = _.findWhere(mdlLangList,{mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
                         lo_mdl["mdl_name_" + locale.lang] = lo_mdlLang ? lo_mdlLang.words : lo_mdlInfo.mdl_name;
                     });
 
@@ -190,13 +190,13 @@ exports.updateUserPurview = function (req, callback) {
                 });
 
                 _.each(subsysList, function (subsys, sIdx) {
-                    var menuMdlList = _.where(la_allMenuList, {
+                    let menuMdlList = _.where(la_allMenuList, {
                         pre_id: subsys.subsys_id,
                         id_typ: 'MODEL'
                     });
-                    var la_mdlList = [];
+                    let la_mdlList = [];
                     _.each(menuMdlList, function (mdl) {
-                        var ls_mdl_id = mdl.current_id;
+                        let ls_mdl_id = mdl.current_id;
                         if (_.findIndex(mdlList, {mdl_id: ls_mdl_id}) > -1) {
                             la_mdlList.push(mdlList[_.findIndex(mdlList, {mdl_id: ls_mdl_id})]);
                         }
@@ -210,8 +210,8 @@ exports.updateUserPurview = function (req, callback) {
         },
         //組合QuickMenu
         function (subsysList, callback) {
-            var la_allQuickMenu = [];
-            var quickMenuParams = {
+            let la_allQuickMenu = [];
+            let quickMenuParams = {
                 user_athena_id: userInfo.user_athena_id,
                 user_comp_cod: userInfo.cmp_id.trim(),
                 user_id: userInfo.usr_id,
@@ -227,7 +227,7 @@ exports.updateUserPurview = function (req, callback) {
 
                 //過濾此系統的quickMenu
                 function filterSysIdMenu(sys_id, allQuickMenuList) {
-                    var la_subsys_id = _.pluck(_.where(la_allMenuList, {
+                    let la_subsys_id = _.pluck(_.where(la_allMenuList, {
                         pre_id: sys_id,
                         id_typ: 'SUBSYS'
                     }), "current_id");
@@ -239,13 +239,13 @@ exports.updateUserPurview = function (req, callback) {
                 }
 
                 _.each(allQuickMenuList, function (quickData) {
-                    var tmpQuickObj = {};
-                    var lo_pro = _.findWhere(la_allMenuList, {current_id: quickData.pro_id});
+                    let tmpQuickObj = {};
+                    let lo_pro = _.findWhere(la_allMenuList, {current_id: quickData.pro_id});
                     if (!_.isUndefined(lo_pro)) {
 
                         if (lo_pro.id_typ == "MODEL") {
-                            var lo_subsys = _.findWhere(subsysList, {subsys_id: lo_pro.pre_id});
-                            var lo_mdl = _.findWhere(lo_subsys.mdlMenu, {mdl_id: quickData.pro_id});
+                            let lo_subsys = _.findWhere(subsysList, {subsys_id: lo_pro.pre_id});
+                            let lo_mdl = _.findWhere(lo_subsys.mdlMenu, {mdl_id: quickData.pro_id});
                             if (!_.isUndefined(lo_mdl)) {
                                 tmpQuickObj = {
                                     pro_id: lo_mdl.mdl_id,
@@ -261,7 +261,7 @@ exports.updateUserPurview = function (req, callback) {
                             }
                         } else if (lo_pro.id_typ == "PROCESS") {
 
-                            var pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.current_id});
+                            let pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.current_id});
                             if (!_.isUndefined(pro)) {
                                 tmpQuickObj = {
                                     pro_id: pro.pro_id,
@@ -280,7 +280,7 @@ exports.updateUserPurview = function (req, callback) {
                 });
 
                 if (la_allQuickMenu.length > 0) {
-                    var lo_subsysQuickMenuGrp = _.groupBy(la_allQuickMenu, "subsys_id");
+                    let lo_subsysQuickMenuGrp = _.groupBy(la_allQuickMenu, "subsys_id");
                     _.each(subsysList, function (subsysObj, sIdx) {
                         subsysList[sIdx]["quickMenu"] = !_.isUndefined(lo_subsysQuickMenuGrp[subsysObj.subsys_id])
                             ? lo_subsysQuickMenuGrp[subsysObj.subsys_id]
@@ -305,7 +305,7 @@ exports.updateUserPurview = function (req, callback) {
  * @param callback
  */
 exports.handleGroupMdlProcess = function (userInfo, mdl_id, la_locales, callback) {
-    var params = {
+    let params = {
         user_athena_id: userInfo.user_athena_id,
         user_comp_cod: userInfo.cmp_id.trim(),
         user_id: userInfo.usr_id,
@@ -322,7 +322,7 @@ exports.handleGroupMdlProcess = function (userInfo, mdl_id, la_locales, callback
                 //多語系
                 _.each(prosList, function (pro, pIdx) {
                     _.each(la_locales, function (locale) {
-                        var lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
+                        let lo_proLang = _.findWhere(proLangList, {pro_id: pro.pro_id, locale: locale.lang});
                         prosList[pIdx]["pro_name_" + locale.lang] = lo_proLang ? lo_proLang.words : pro.pro_name;
                     });
                 });
