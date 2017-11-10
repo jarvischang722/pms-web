@@ -23,7 +23,7 @@ exports.qryPageOneData = function (postData, session, callback) {
     async.parallel([
         qryBanquetData,     // 查訂席平面圖資料
         qryBanquetSta       // 查訂席場地狀態
-    ], function(err, result){
+    ], function (err, result) {
         var la_banquetData = result[0];
         var la_banquetSta = result[1];
         convertDataToDisplay(la_banquetData, la_banquetSta);
@@ -31,15 +31,15 @@ exports.qryPageOneData = function (postData, session, callback) {
         callback(lo_error, lo_result);
     });
 
-    function qryBanquetData(cb){
+    function qryBanquetData(cb) {
         fs.readFile("./public/jsonData/reserveBanquet/banquetData.json", "utf8", function (err, data) {
             data = JSON.parse(data);
             cb(null, data);
         });
     }
 
-    function qryBanquetSta(cb){
-        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function(err,result){
+    function qryBanquetSta(cb) {
+        queryAgent.queryList("QRY_RESV_ORDER_STA", lo_params, 0, 0, function (err, result) {
             cb(null, result);
         });
     }
@@ -55,8 +55,9 @@ function convertDataToDisplay(la_data, la_sta) {
 
 class ResvBanquetData {
     constructor(la_data, la_sta) {
-        this.lo_beg_hour = _.findWhere(la_data, {datatype: "BEG_HOUR"});
-        this.lo_end_hour = _.findWhere(la_data, {datatype: "END_HOUR"});
+        this.la_time_range = [];
+        this.ls_beg_hour = _.findWhere(la_data, {datatype: "BEG_HOUR"}).beg_hour;
+        this.ls_end_hour = _.findWhere(la_data, {datatype: "END_HOUR"}).end_hour;
         this.la_rspt = _.where(la_data, {datatype: "RSPT"});
         this.la_place = _.where(la_data, {datatype: "PLACE"});
         this.la_mtime = _.where(la_data, {datatype: "MTIME"});
@@ -64,6 +65,18 @@ class ResvBanquetData {
 
     convertExec() {
         let la_rtnData = {};
+        this.getTimeRange();
+    }
+
+    getTimeRange() {
+        let ln_time_range;
+        this.ls_beg_hour = moment(this.ls_beg_hour, "HH");
+        this.ls_end_hour = moment(this.ls_end_hour, "HH");
+        ln_time_range = this.ls_end_hour.diff(this.ls_beg_hour, "hour");
+        for (var min = 0; min <= ln_time_range; min++) {
+            this.la_time_range.push(this.ls_beg_hour.clone().add(min, "hour").format("HH:mm"));
+        }
+        console.log(this.la_time_range);
 
     }
 }
