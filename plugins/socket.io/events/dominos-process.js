@@ -45,12 +45,20 @@ module.exports = function (io) {
         try {
             if (data && !_.isUndefined(data.prg_id) && !_.isUndefined(go_session.user)) {
                 let prg_id = data.prg_id || "";
-                let table_name = "";
+                let table_name = go_session.user.cmp_id + data.order_nos;
                 let lock_type = "R";
-                let key_cod = "";
+                let key_cod = "psi_quote_mn";
 
-                // dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
-                // });
+                 dbSVC.doTableLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
+                     if (!success) {
+                         success = true;
+                     }
+                     if (success) {
+                         updateLockList(socket_id, prg_id, table_name);
+                     }
+
+                     socket.emit('checkTableLock', {success: success, errorMsg: errorMsg, prg_id: prg_id});
+                 });
             }
         } catch (ex) {
             console.error(ex);

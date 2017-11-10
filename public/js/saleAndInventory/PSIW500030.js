@@ -1249,7 +1249,7 @@ var PSIW500030 = new Vue({
         editData: function() {
             var self = this;
 
-            //psiw50030_socket.emit('doRowLock', {prg_id: prg_id});
+            //psiw50030_socket.emit('doRowLock', {prg_id: prg_id, order_nos: self.singleData.order_nos});
             self.callAPI('PSIW5100300400', function () {
                 self.editStatus = true;
 

@@ -854,8 +854,7 @@ exports.getSystemParam = function (params ,session, callback) {
     var lo_error = null;
 
     var lo_params = {
-        //comp_cod: session.user.cmp_id,
-        comp_cod: "CHIPN     "
+        comp_cod: session.user.cmp_id
     };
 
     var paramName = "QRY_" + params.paramName.toUpperCase();
