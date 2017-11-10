@@ -16,47 +16,49 @@
     <input type="hidden" id="prg_id" value="<%= prg_id %>" style="border: 0px">
     <!--<div class="row" style="margin-left: -5px;">-->
     <div class="col-xs-12">
-        <div class="col-sm-11 col-xs-11">
-            <div class="row no-margin-right">
-                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
-                    <div style="float:left; min-width: 30px; max-width: 3%;">
-                        <table id="dgCheckbox"></table>
+        <div class="row">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="" style="padding: 0; box-sizing: border-box;">
+                        <div style="float:left; min-width: 30px; max-width: 3%;">
+                            <table id="dgCheckbox"></table>
+                        </div>
+                        <div>
+                            <table id="dg"></table>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div>
-                        <table id="dg"></table>
-                    </div>
-                    <div class="clearfix"></div>
+
                 </div>
-
             </div>
-        </div>
 
-        <div class="col-xs-1 col-sm-1">
-            <div class="row">
-                <div class="right-menu-co">
-                    <ul>
-                        <li>
-                            <button id="ins-btn" @click="appendRow"
-                                    class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Add %>
-                            </button>
-                        </li>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn" @click="appendRow"
+                                        class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Add %>
+                                </button>
+                            </li>
 
-                        <li>
-                            <button id="remove-btn" @click="removeRow"
-                                    class="btn btn-danger btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").Delete %>
-                            </button>
-                        </li>
-                        <li>
-                            <button @click="loadChangeLog" class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").ChangeLog %>
-                            </button>
-                        </li>
-                    </ul>
+                            <li>
+                                <button id="remove-btn" @click="removeRow"
+                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").Delete %>
+                                </button>
+                            </li>
+                            <li>
+                                <button @click="loadChangeLog" class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").ChangeLog %>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,8 +105,8 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="fixHeadTable">
-                        <div class="tbl-header">
-                            <table class=" custab">
+                        <div class="tbl-header02">
+                            <table class="custab">
                                 <thead class="custab-head">
                                 <tr>
                                     <th class="width-15 text-center">Time</th>
@@ -116,7 +118,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="tbl-content" style="height: 300px;">
+                        <div class="tbl-content02" style="height: 300px;">
                             <table class=" custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
@@ -169,13 +171,13 @@
                     </div>
                     <div class="clearfix"></div>
                     <script>
-                        //                        console.log(navigator.userAgent);
+                        //console.log(navigator.userAgent);
                         //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
                         //0822 有些mac的scrollBar 會推，有些不會(jun會)
                         //                        if(navigator.userAgent.indexOf("Window") !=-1){
                         $(window).on("load resize ", function () {
-                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-                            $('.tbl-header').css({'padding-right': '17px'});
+                            var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                            $('.tbl-header02').css({'padding-right': '17px'});
                             var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
                         }).resize();
                         //                        }

@@ -27,16 +27,35 @@
     <dao name="QRY_SALES_MN_ORDER_BY_SALE_COD_AND_DECODE_STATUS_COD">
         <statement><![CDATA[
         SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS  FROM  SALES_MN
-        WHERE  ATHENA_ID = :athena_id ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD
+        WHERE  ATHENA_ID = :athena_id
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="likestring" kind="2" condition="SALES_COD like ?">sales_cod</parameter>
+        <parameter type="likestring" kind="2" condition="SALES_NAM like ?">sales_nam</parameter>
+        <parameter type="likestring" kind="2" condition="CLASS_COD like ?">class_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(STATUS_COD) = trim(:STATUS_COD) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(HOTEL_SALES) = trim(:HOTEL_SALES) ">hotel_sales</parameter>
+        <parameter type="string" kind="2" condition="trim(BQ_SALES) = trim(:BQ_SALES) ">bq_sales</parameter>
+        <parameter type="string" kind="2" condition="trim(MEMBER_SALES) = trim(:MEMBER_SALES) ">member_sales</parameter>
+        <orderby>ORDER  BY  DECODE( STATUS_COD, 'N', 1, 2 ), SALES_COD</orderby>
     </dao>
 
-    <!--[PMS0620020] 取得業務員sales_mn-->
+    <!--[PMS0620020] 取得業務員sales_mn(user_nos空白)-->
+    <dao name="QRY_SALES_MN_ALL_FIELDS_USER_NOS_BLANK">
+        <statement><![CDATA[
+        SELECT trim(SALES_COD) as sales_cod, trim(SALES_NAM) as sales_nam, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR,TEL_NOS
+        FROM SALES_MN WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
+        ]]></statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
+
+
+    <!--[PMS0620020] 取得業務員sales_mn(user_nos存在)-->
     <dao name="QRY_SALES_MN_ALL_FIELDS">
         <statement><![CDATA[
-        SELECT  SALES_COD, SALES_NAM, STATUS_COD, CLASS_COD, HOTEL_SALES, BQ_SALES, MEMBER_SALES, USER_NOS, INS_DAT, INS_USR, UPD_DAT, UPD_USR, TEL_NOS
-        FROM  SALES_MN WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
+        SELECT trim(a.SALES_COD) as sales_cod, trim(a.SALES_NAM) as sales_nam, a.STATUS_COD, a.CLASS_COD, a.HOTEL_SALES, a.BQ_SALES, a.MEMBER_SALES, a.USER_NOS, b.usr_cname, a.INS_DAT, a.INS_USR, a.UPD_DAT, a.UPD_USR,a.TEL_NOS
+        FROM SALES_MN a JOIN s99_user b ON a.user_nos = b.usr_id WHERE  ATHENA_ID = :athena_id AND trim(SALES_COD)= trim(:sales_cod)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
@@ -48,7 +67,7 @@
     <dao name="QRY_USER_NOS_IN_SALES_MN">
         <statement><![CDATA[
         select count(*) as user_nos_count from sales_mn
-        where athena_id = :athena and trim(sales_cod)= trim(:sales_cod) and trim(user_nos) = trim(:user_nos)
+        where athena_id = :athena_id and trim(sales_cod)<> trim(:sales_cod) and trim(user_nos) = trim(:user_nos)
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>

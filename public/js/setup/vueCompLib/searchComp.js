@@ -16,6 +16,7 @@ var go_searchComp = Vue.extend({
     },
     methods: {
         doSearch: function () {
+            this.$parent.searchCond = this.searchCond;
             this.fetchData();
         }
     }

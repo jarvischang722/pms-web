@@ -193,7 +193,7 @@ exports.uploadFile = function (req, res) {
  */
 exports.getSetupPrgChangeLog = function (req, res) {
     logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
-        res.json({success: false, errorMsg: '', allChangeLogList: allChangeLogList});
+        res.json({success: true, errorMsg: '', allChangeLogList: allChangeLogList});
     });
 };
 
@@ -203,4 +203,11 @@ exports.getSetupPrgChangeLog = function (req, res) {
 exports.getSessionExpireTime = function (req,res) {
     let lo_session = req.session;
     res.json({success:true,session:lo_session});
+};
+
+/**
+ * 權限設定
+ */
+exports.permissionSetup = function (req, res) {
+    res.render("system/permissionSetup");
 };

@@ -36,4 +36,6 @@ module.exports = function (app) {
     //[PMS0620020_業務員] 新增按鈕規則驗證
     app.post("/api/sales/addFuncRule_PMS0620020",apiMiddles, salesCrtl.addFuncRule_PMS0620020);
 
+    app.post("api/sales/qryTreeSelectData", apiMiddles, salesCrtl.qryTreeSelectData);
+
 };

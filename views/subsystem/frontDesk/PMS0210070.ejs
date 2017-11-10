@@ -107,9 +107,9 @@
                     <div class="col-sm-11 col-xs-11">
                         <div class="row no-margin-right">
 
-                            <div class="gridTableHt">
+                            <div>
                                 <!-- c/o清單 front_coListInhouse-table dataGrid -->
-                                <table id="front_coListInhouse-table"></table>
+                                <table id="front_coListInhouse-table" class="gridTableHt"></table>
                             </div>
                             <div class="clearfix"></div>
 
@@ -132,7 +132,7 @@
                                             role="button">Print</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth groups_admit"
+                                    <button class="btn btn-skin btn-defaultWidth groups_admit"
                                             role="button">Group</button>
                                 </li>
                             </ul>
@@ -144,9 +144,9 @@
                     <div class="col-sm-11 col-xs-11">
                         <div class="row no-margin-right">
 
-                            <div class="gridTableHt">
+                            <div>
                                 <!-- c/o清單 front_coList-table dataGrid -->
-                                <table id="front_coList-table"></table>
+                                <table id="front_coList-table" class="gridTableHt"></table>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -206,6 +206,10 @@
 </div>
 <!-- /.page-content -->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <!--  接待共用 initial js -->
 <%- include frontDesk_module/frontDesk_includeJs.ejs %>
 <!--  /.End 接待共用 initial js  -->
@@ -223,7 +227,3 @@
 <!--  出納 -->
 <%- include ../cashier/cashier_module/cashier_includeJs %>
 <!--  /.End 出納 -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

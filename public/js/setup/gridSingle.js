@@ -41,7 +41,7 @@ Vue.component("multiLang-dialog-tmp", {
                     }
                 }
             }];
-            columnsData = _.union(columnsData, EZfieldClass.combineFieldOption(dtMultiLangField, 'multiLangDG'));
+            columnsData = _.union(columnsData, DatagridFieldAdapter.combineFieldOption(dtMultiLangField, 'multiLangDG'));
             var width = 10;
             _.each(columnsData, function (column) {
                 width += Number(column.width);
@@ -1055,7 +1055,7 @@ var vm = new Vue({
 
         //根據欄位屬性組資料
         combineField: function (fieldData, callback) {
-            callback(EZfieldClass.combineFieldOption(fieldData, 'dg'));
+            callback(DatagridFieldAdapter.combineFieldOption(fieldData, 'dg'));
         },
         //dg row刪除
         removeRow: function () {
@@ -1162,6 +1162,7 @@ var vm = new Vue({
         //新增按鈕Event
         appendRow: function () {
             vm.initTmpCUD();
+            vm.dtData = [];
             vm.createStatus = true;
             vm.singleData = {};
             vm.isModifiable = true;
@@ -1169,6 +1170,7 @@ var vm = new Vue({
                 $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
                         vm.singleData = result.defaultValues;
+                        vmHub.$emit('showDtDataGrid', vm.dtData);
                         vm.showSingleGridDialog();
                     } else {
                         alert(result.errorMsg);
@@ -1203,28 +1205,33 @@ var vm = new Vue({
         //init datepicker
         initDatePicker: function () {
             if (!this.isDatepickerInit) {
-                this.isDatepickerInit = true;
-                $('.date_picker').datepicker({
-                    autoclose: true,
-                    format: 'yyyy/mm/dd'
-                }).on("changeDate", function (e) {
-                });
+                try {
+                    this.isDatepickerInit = true;
+                    $('.date_picker').datepicker({
+                        autoclose: true,
+                        format: 'yyyy/mm/dd'
+                    }).on("changeDate", function (e) {
+                    });
 
-                $('.date_timepicker').datetimepicker({
-                    format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
-                    icons: {
-                        time: 'fa fa-clock-o',
-                        date: 'fa fa-calendar',
-                        up: 'fa fa-chevron-up',
-                        down: 'fa fa-chevron-down',
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-arrows ',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-times'
-                    }
+                    $('.date_timepicker').datetimepicker({
+                        format: 'YYYY/MM/DD hh:mm:ss ',//use this option to display seconds
+                        icons: {
+                            time: 'fa fa-clock-o',
+                            date: 'fa fa-calendar',
+                            up: 'fa fa-chevron-up',
+                            down: 'fa fa-chevron-down',
+                            previous: 'fa fa-chevron-left',
+                            next: 'fa fa-chevron-right',
+                            today: 'fa fa-arrows ',
+                            clear: 'fa fa-trash',
+                            close: 'fa fa-times'
+                        }
 
-                });
+                    });
+                }
+                catch(ex){
+
+                }
             }
         },
         //打開單檔dialog

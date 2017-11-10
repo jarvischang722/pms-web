@@ -93,7 +93,7 @@ exports.qryPMS0830070SingleData = function (req, res) {
                 cb(null, dtData);
             });
         },
-        function(cb){
+        function (cb) {
             queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", lo_params, 0, 0, function (err, dt2ItemNosDataList) {
                 // res.json({success: true, dt2ItemNosDataList: commonTools.trimObjectAllVal(routeDtList)});
                 cb(null, dt2ItemNosDataList);
@@ -104,6 +104,17 @@ exports.qryPMS0830070SingleData = function (req, res) {
     });
 
 
+};
+
+exports.qryDt2ItemNosList = function (req, res) {
+    let lo_params = {
+        athena_id: req.session.user.athena_id,
+        hotel_cod: req.session.user.hotel_cod,
+        adjfolio_cod: req.body.adjfolio_cod
+    }
+    queryAgent.queryList("QRY_HC_ADJFOLIO_DT2_ITEM_NOS", lo_params, 0, 0, function (err, dt2ItemNosDataList) {
+        res.json({success: true, dt2ItemNosDataList: commonTools.trimObjectAllVal(dt2ItemNosDataList)});
+    });
 };
 
 /*

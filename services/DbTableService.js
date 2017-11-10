@@ -547,7 +547,7 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         tmpDelData.condition.push({
             key: "adjfolio_cod",
             operation: "=",
-            value: lo_mnData.adjfolio_cod
+            value: delData.adjfolio_cod
         });
         lo_savaExecDatas[ln_exec_seq] = tmpDelData;
         ln_exec_seq++;
@@ -566,14 +566,6 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
     });
 
 
-    //dt 新增資料
-    _.each(la_dtCreateData, function (lo_dtCreateData) {
-        let dtCreateData = {"function": "1", "table_name": "hc_adjfolio_dt"};
-        dtCreateData = _.extend(dtCreateData, lo_dtCreateData);
-        dtCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
-        lo_savaExecDatas[ln_exec_seq] = _.extend(dtCreateData, commonRule.getCreateCommonDefaultDataRule(session));
-        ln_exec_seq++;
-    });
     //dt 刪除資料
     _.each(la_dtDeleteData, function (lo_dtDeleteData) {
         //先刪除dt2
@@ -610,6 +602,14 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         lo_savaExecDatas[ln_exec_seq] = dtDelData;
         ln_exec_seq++;
     });
+    //dt 新增資料
+    _.each(la_dtCreateData, function (lo_dtCreateData) {
+        let dtCreateData = {"function": "1", "table_name": "hc_adjfolio_dt"};
+        dtCreateData = _.extend(dtCreateData, lo_dtCreateData);
+        dtCreateData["adjfolio_cod"] = lo_mnData.adjfolio_cod;
+        lo_savaExecDatas[ln_exec_seq] = _.extend(dtCreateData, commonRule.getCreateCommonDefaultDataRule(session));
+        ln_exec_seq++;
+    });
     //dt 編輯資料
     _.each(la_dtUpdateData, function (lo_dtUpdateData) {
         let dtUpdateData = {"function": "2", "table_name": "hc_adjfolio_dt"};
@@ -629,16 +629,6 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         ln_exec_seq++;
     });
 
-
-    //dt2 新增資料
-    _.each(la_dt2CreateData, function(lo_dt2CreateData){
-        let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
-        dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
-        dt2CreateData["athena_id"] = session.user.athena_id;
-        dt2CreateData["hotel_cod"] = session.user.fun_hotel_cod;
-        lo_savaExecDatas[ln_exec_seq] = _.extend(dt2CreateData, commonRule.getCreateCommonDefaultDataRule(session));
-        ln_exec_seq++;
-    });
     //dt2 刪除資料
     _.each(la_dt2DeleteData, function(lo_dt2DeleteData){
         let dt2DelData = {"function": "0", "table_name": "hc_adjfolio_dt2"};
@@ -662,6 +652,16 @@ exports.doSavePMS0830070 = function (session, postData, callback) {
         lo_savaExecDatas[ln_exec_seq] = dt2DelData;
         ln_exec_seq++;
     });
+    //dt2 新增資料
+    _.each(la_dt2CreateData, function(lo_dt2CreateData){
+        let dt2CreateData = {"function": "1", "table_name": "hc_adjfolio_dt2"};
+        dt2CreateData = _.extend(dt2CreateData, lo_dt2CreateData);
+        dt2CreateData["athena_id"] = session.user.athena_id;
+        dt2CreateData["hotel_cod"] = session.user.fun_hotel_cod;
+        lo_savaExecDatas[ln_exec_seq] = _.extend(dt2CreateData, commonRule.getCreateCommonDefaultDataRule(session));
+        ln_exec_seq++;
+    });
+
 
     let apiParams = {
         "REVE-CODE": "BAC03009010000",
@@ -840,9 +840,9 @@ function operationSaveProc(postData, session) {
 
     //查詢DatagridFunc
     function qryDataGridFuncRule(ls_page_id, callback) {
-        mongoAgent.DatagridFunction.find({
+        mongoAgent.SetupDatagridFunction.find({
             prg_id: postData.prg_id,
-            page_id: ls_page_id
+            page_id: _.isNaN(Number(ls_page_id))? 1 : Number(ls_page_id)
         }, function (err, getResult) {
             callback(err, tools.mongoDocToObject(getResult));
         });
@@ -850,7 +850,7 @@ function operationSaveProc(postData, session) {
 
     //查詢PageFunc
     function qryPageFuncRule(ls_page_id, callback) {
-        mongoAgent.PageFunction.find({
+        mongoAgent.SetupPageFunction.find({
             prg_id: postData.prg_id,
             page_id: ls_page_id
         }, function (err, getResult) {

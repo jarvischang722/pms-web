@@ -39,7 +39,8 @@
                                 <div class="clearfix"></div>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth reservationDialog-1"
+                                <!--@click="reservationDialog_1" -->
+                                <button class="btn btn-skin btn-defaultWidth reservationDialog-1"
                                         role="button">Reservation</button>
                             </li>
                             <li>
@@ -50,16 +51,16 @@
                                 <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
                                         role="button">Save As</button>
                             </li>
-                            <!--PMS(light) excample:"
+                            <!--PMS(lite) excample:"
                                 加：btn-gray disabled" "
                                 減:btn-white 原本的(ex.btn-primary)"
                                 -->
                             <li>
-                                <button class="btn btn-gray btn-defaultWidth resv_ratePlanBtn" disabled
+                                <button class="btn btn-gray btn-defaultWidth resv_ratePlanBtn"
                                         role="button">Rate Plan</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth resv_amenitiesIny"
+                                <button class="btn btn-skin btn-defaultWidth resv_amenitiesIny"
                                         role="button">Amenities Iny.</button>
                             </li>
                         </ul>
@@ -226,12 +227,7 @@
                 <div class="">
                     <div class="col-sm-11 col-xs-11">
                         <div class="row no-margin-right">
-                            <!--假的checkbox table-->
-                            <div style="float:left; min-width: 30px; max-width: 3%;">
-                                <table id="dgCheckbox-table"></table>
-                            </div>
-
-                            <div class="gridTableHt">
+                            <div>
                                 <!-- 專案訂房 多筆 -->
                                 <table id="PMS0110030-dg" style="height: 200px;"></table>
                             </div>
@@ -262,6 +258,9 @@
 
 </div>
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
 
 <!--  訂房卡共用 initial js -->
 <%- include PMS0100000_module/resv_includeJs.ejs %>
@@ -275,6 +274,3 @@
 <%- include ../sales/sales_module/sales_includeJs.ejs %>
 <!--  /.End 業務 -->
 
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

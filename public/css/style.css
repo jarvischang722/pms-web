@@ -123,7 +123,7 @@
   display: table;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .css_table.table-lg .css_th, .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -179,6 +179,9 @@
   background: #7f7f7f;
   color: #fff;
 }
+.css_table .css_td.customW1 {
+  width: 80px;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -190,7 +193,7 @@
   display: table;
   border-collapse: collapse;
   width: auto;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .horizTable-outer .css_table.table-lg .css_th, .horizTable-outer .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -245,6 +248,9 @@
 .horizTable-outer .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
+}
+.horizTable-outer .css_table .css_td.customW1 {
+  width: 80px;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -487,7 +493,7 @@ select.form-control {
 }
 
 .page-content {
-  padding: 8px 0 24px;
+  padding: 8px 0 8px;
 }
 
 .ace-nav > li {
@@ -541,6 +547,21 @@ label {
 .dropdown-h {
   height: 200px;
   overflow-y: auto;
+}
+
+.dropdownCustom {
+  position: relative;
+}
+.dropdownCustom .dropdown-toggle {
+  text-overflow: ellipsis;
+  /* text-overflow: clip; */
+  overflow: hidden;
+  white-space: nowrap;
+}
+.dropdownCustom .caret {
+  position: absolute;
+  right: 3px;
+  top: 10px;
 }
 
 @media screen and (max-width: 992px) {
@@ -726,6 +747,9 @@ label {
   height: 600px;
   max-height: 100%;
 }
+.height600.fixTableBorder {
+  border: 1px solid #778899;
+}
 
 .fancyTable {
   /* text */
@@ -759,7 +783,6 @@ label {
   /* text */
   color: #121517;
   font-weight: bold;
-  text-shadow: 0 1px 1px #e8ebee;
 }
 .fancyTable tfoot tr th, .fancyTable tfoot tr td {
   /* appearance */
@@ -1488,7 +1511,7 @@ table.treetable span.indenter {
 }
 
 .bacchus-footer {
-  padding-top: 220px;
+  padding-top: 10px;
   /*----- 驗證碼圖片 ----- */
 }
 .bacchus-footer .footerImg {
@@ -1959,6 +1982,7 @@ a {
 }
 .authorityTree p.topTitle {
   margin: 5px auto;
+  font-size: 1.2em;
 }
 .authorityTree .authRadio {
   margin-right: 2px;
@@ -1975,6 +1999,10 @@ a {
 }
 .authorityTree .author-navbar .author-nav-btn button.delete {
   border-width: 1px;
+}
+.authorityTree .author-navbar .authorSelect {
+  padding-right: 10px;
+  padding-left: 10px;
 }
 .authorityTree .icon-style {
   margin-left: 5px;
@@ -2003,7 +2031,6 @@ a {
 }
 #singleGridDialog .singleEditStatus .btn-defaultWidth {
   display: block;
-  margin-top: 5px;
   max-width: 85px;
   right: 11px;
   padding: 5px;
@@ -2874,6 +2901,9 @@ ul.newVisitOther-btn {
 .rulesOfSeparation .counterRow .counterBlock .foot-right span {
   color: #D15B47;
 }
+.rulesOfSeparation.customHt {
+  max-height: 400px;
+}
 
 .foCounter .counterPage {
   max-height: 600px;
@@ -3557,10 +3587,6 @@ td div.triangle-box:after {
   color: red;
 }
 
-.rules-wrap {
-  margin-bottom: 30px;
-}
-
 .purple-text {
   color: #DD5A43 !important;
 }
@@ -3743,11 +3769,11 @@ span.triangle-text {
   width: 100%;
   table-layout: fixed;
 }
-.fixHeadTable .tbl-content {
+.fixHeadTable .tbl-content02 {
   overflow-x: auto;
   margin-top: 0px;
 }
-.fixHeadTable .tbl-content td {
+.fixHeadTable .tbl-content02 td {
   padding-left: 5px;
 }
 
@@ -4138,19 +4164,8 @@ span.triangle-text {
   margin-bottom: 5px;
 }
 
-.PMS0830070_table th {
+.PMS0830070_table th, .PMS0830070_table td {
   padding: 3px;
-}
-.PMS0830070_table td {
-  padding: 5px;
-}
-
-.PMS0830070_dtTable th, .PMS0830070_dtTable td {
-  padding: 3px 5px;
-}
-
-.width-7 {
-  width: 7%;
 }
 
 .BgBacchusBlue {
@@ -4299,6 +4314,10 @@ span.triangle-text {
 
 .width-5 {
   width: 5% !important;
+}
+
+.width-8 {
+  width: 8% !important;
 }
 
 .width-10 {
@@ -4519,16 +4538,49 @@ a {
   font-size: 12px;
 }
 
+.btn-skin {
+  font-weight: 300;
+  text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn:hover, .btn-skin.btn:active, .btn-skin.btn:focus, .btn-skin.btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled, .btn-skin.btn[disabled] {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled.btn:hover, .btn-skin.btn.disabled.btn:active, .btn-skin.btn.disabled.btn:focus, .btn-skin.btn.disabled.btn:visited, .btn-skin.btn[disabled].btn:hover, .btn-skin.btn[disabled].btn:active, .btn-skin.btn[disabled].btn:focus, .btn-skin.btn[disabled].btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+
 .btn-gray {
   font-weight: 300;
   text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
+}
+.btn-gray.btn:hover, .btn-gray.btn:active, .btn-gray.btn:focus, .btn-gray.btn:visited {
+  background-color: #ebebeb !important;
+  border: 1px solid #ebebeb !important;
+  color: #a2a2a2 !important;
 }
 .btn-gray.btn.disabled, .btn-gray.btn[disabled] {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
 }
-.btn-gray.btn.disabled:hover, .btn-gray.btn[disabled]:hover {
+.btn-gray.btn.disabled.btn:hover, .btn-gray.btn.disabled.btn:active, .btn-gray.btn.disabled.btn:focus, .btn-gray.btn.disabled.btn:visited, .btn-gray.btn[disabled].btn:hover, .btn-gray.btn[disabled].btn:active, .btn-gray.btn[disabled].btn:focus, .btn-gray.btn[disabled].btn:visited {
   background-color: #ebebeb !important;
   border: 1px solid #ebebeb !important;
   color: #a2a2a2 !important;
@@ -4914,26 +4966,6 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w253px {
-  width: 253px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w510px {
-  width: 510px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w388px {
-  width: 388px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w118px {
-  width: 118px;
   max-width: 100%;
   height: 25px;
 }

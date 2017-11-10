@@ -73,7 +73,7 @@
                                 <div class="grid">
                                     <div class=" grid-item tab-block">
                                         <label class="pull-left">用途別</label>
-                                        <div class="pull-left dropdown margin-adjust" align="left">
+                                        <div class="pull-left dropdown margin-adjust dropdownCustom" align="left">
                                             <button class="btn btn-default btn-white dropdown-toggle btn-height" type="button"
                                                     id="menu1" data-toggle="dropdown">
                                                 {{showSelectDisplay(singleData.use_cod)}}
@@ -161,33 +161,55 @@
                             <div class="singleEditStatus right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isFistData" @click="toFirstData">
                                             <%= __("SystemCommon").First %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isFistData" @click="toPreData">
                                             <%= __("SystemCommon").Previous %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isLastData" @click="toNextData">
 
                                             <%= __("SystemCommon").Next %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 :disabled="isLastData" @click="toLastData">
                                             <%= __("SystemCommon").Last %>
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn RoomNum-modal01-btn btn90px btn-danger btn-white btn-defaultWidth" @click="$parent.removeData">
+                                        <button class="btn btn-danger btn-white btn-defaultWidth" @click="$parent.removeData">
                                             <%= __("SystemCommon").Delete %>
+                                        </button>
+                                    </li>
+                                    <li v-if="isCreateStatus">
+                                        <button @click="$parent.toAddAfterSave"  class="btn btn-primary btn-white btn-defaultWidth" style="margin-right: 5px;">
+                                            <%= __("SystemCommon").Add_after_save %>
+                                        </button>
+                                    </li>
+                                    <li v-if="isEditStatus">
+                                        <button @click="$parent.toLeaveAfterSave" :disabled="isEditStatus && !$parent.modificableForRow "
+                                                class="btn btn-primary btn-white btn-defaultWidth">
+                                            <%= __("SystemCommon").Leave_after_save %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button @click="$parent.doSave" :disabled="isEditStatus && !$parent.modificableForRow "
+                                                class="btn btn-primary btn-white btn-defaultWidth">
+                                            <%= __("SystemCommon").Save %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button @click="$parent.closeSingleGridDialog" class="btn btn-primary btn-white btn-defaultWidth">
+                                            <%= __("SystemCommon").Leave %>
                                         </button>
                                     </li>
                                 </ul>
@@ -204,26 +226,13 @@
             <div class="clearfix"></div>
 
             <!-- buttons -->
-            <div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">
-                <div class="singleRelative">
-                    <div class="singleBtnBottom">
-                        <button v-if="isCreateStatus" @click="$parent.toAddAfterSave"  class="btn btn-primary btn-white" style="margin-right: 5px;">
-                            <%= __("SystemCommon").Add_after_save %>
-                        </button>
-                        <button v-if="isEditStatus" @click="$parent.toLeaveAfterSave" :disabled="isEditStatus && !$parent.modificableForRow "
-                                class="btn btn-primary btn-white">
-                            <%= __("SystemCommon").Leave_after_save %>
-                        </button>
-                        <button @click="$parent.doSave" :disabled="isEditStatus && !$parent.modificableForRow "
-                                class="btn btn-primary btn-white">
-                            <%= __("SystemCommon").Save %>
-                        </button>
-                        <button @click="$parent.closeSingleGridDialog" class="btn btn-primary btn-white">
-                            <%= __("SystemCommon").Leave %>
-                        </button>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
+            <!--<div class="col-sm-12 col-xs-12 center" id="dialogBtns" style="display: none;">-->
+                <!--<div class="singleRelative">-->
+                    <!--<div class="singleBtnBottom">-->
+                        <!---->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="clearfix"></div>-->
+            <!--</div>-->
         </div>
 </script>

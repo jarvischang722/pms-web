@@ -2,17 +2,17 @@ var path = require('path');
 var webpack = require('webpack');
 
 var config = {
-    entry: "./public/src/",
-    entry: [
-        'webpack/hot/dev-server',
-        path.join(__dirname, 'public', 'src')
-    ],
-    // entry: {
-    //     main: "./public/src/main"
-    //     // a: "./a",
-    //     // b: "./b",
-    //     // c: ["./c", "./d"]
-    // },
+    // entry: "./public/src/",
+    // entry: [
+    //     'webpack/hot/dev-server',
+    //     path.join(__dirname, 'public', 'src')
+    // ],
+    entry: {
+        main: "./public/src/main"
+        // a: "./a",
+        // b: "./b",
+        // c: ["./c", "./d"]
+    },
     output: {
         publicPath: '/dist',
         path: path.join(__dirname, 'public', 'dist'),

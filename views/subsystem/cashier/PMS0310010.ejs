@@ -132,9 +132,9 @@
             <div class="col-xs-11 col-sm-11">
                 <div class="row no-margin-right">
 
-                    <div class="gridTableHt">
+                    <div>
                         <!-- 住客帳維護_多筆 cashier_GstLedgerMulti dataGrid -->
-                        <table id="cashier_GstLedgerMulti-table"></table>
+                        <table id="cashier_GstLedgerMulti-table" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@
                                         role="button">Billing</button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth groups_admit"
+                                <button class="btn btn-skin btn-defaultWidth groups_admit"
                                         role="button">Group</button>
                             </li>
                             <li>
@@ -186,6 +186,10 @@
 </div>
 <!-- /.page-content -->
 
+<!-- subSystem 共用 js -->
+<%- include ../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <!--  cashier共用 initial js -->
 <%- include cashier_module/cashier_includeJs.ejs %>
 <!--  /.End cashier共用 initial js  -->
@@ -197,7 +201,3 @@
 <!--  房務 彈出視窗內容-->
 <%- include ../houseKeeping/houseKeeping_module/houseKeeping_includeJs.ejs %>
 <!--  /.End 房務 彈出視窗內容 -->
-
-<!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
-<!--  /.End subSystem 共用 js  -->

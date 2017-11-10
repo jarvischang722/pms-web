@@ -67,15 +67,15 @@ var vueMain = new Vue({
             });
         },
         combineFieldAttr: function (fieldData) {
-            this.pickUpFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
-            this.dropOffFields = EZfieldClass.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
+            this.pickUpFields = DatagridFieldAdapter.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_arrive_rf'}), 'pick_up_dg');
+            this.dropOffFields = DatagridFieldAdapter.combineFieldOption(_.where(fieldData, {"grid_field_name": 'hfd_leave_rf'}), 'drop_off_dg');
 
         },
         createDatagrid: function () {
             this.dgInsPickUp = new DatagridBaseClass();
             this.dgInsPickUp.init(gs_prg_id, 'pick_up_dg', this.pickUpFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
             this.dgInsDropOff = new DatagridBaseClass();
-            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_arrive_rf'}));
+            this.dgInsDropOff.init(gs_prg_id, 'drop_off_dg', this.dropOffFields, _.where(this.prgFieldDataAttr, {"grid_field_name": 'hfd_leave_rf'}));
             this.dgIns = this.dgInsPickUp;
 
         },

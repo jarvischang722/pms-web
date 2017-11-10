@@ -1,4 +1,4 @@
-<div id="DGApp">
+<div id="datagridApp" >
     <div class="col-xs-12">
         <div class="row">
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -12,60 +12,54 @@
             :fetch-data="fetchDataGridData">
     </search-comp>
 
-    <div class="col-xs-12" v-show="!isTableLock">
-        <div class="col-sm-11 col-xs-11">
-            <div class="row no-margin-right">
-                <div class="" style="padding: 0; box-sizing: border-box; margin-left: -15px;">
+    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading"  element-loading-text="Saving..."  >
+        <div class="row">
+            <div class="col-sm-11 col-xs-11">
+                <div class="row no-margin-right">
+                    <div class="" style="padding: 0; box-sizing: border-box;">
 
                     <!--控制table 高度 jing add-->
-                    <table id="prg_dg" style="height: 400px;">
-                        <thead>
-                        <tr>
+                    <table id="prg_dg" class="prg_dgHt"></table>
 
-                            <!-- data grid content-->
-
-                        </tr>
-                        </thead>
-                    </table>
-
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-xs-1 col-sm-1">
-            <div class="row">
-                <div class="right-menu-co">
-                    <ul>
-                        <li>
-                            <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="appendRow"
-                                    role="button">
-                                <%= __("SystemCommon").Add %>
-                            </button>
-                        </li>
-                        <li>
-                            <button id="remove-btn"
-                                    class="btn btn-danger btn-white btn-defaultWidth"
-                                    @click="removeRow();"
-                                    role="button">
-                                <%= __("SystemCommon").Delete %>
-                            </button>
-                        </li>
-                        <li>
-                            <button id="save-btn" class="btn btn-primary btn-white btn-defaultWidth"
-                                    @click="doSave();"
-                                    role="button">
-                                <%= __("SystemCommon").Save %>
-                            </button>
-                        </li>
-                        <li>
-                            <button @click="loadChangeLog" class="btn btn-primary btn-white btn-defaultWidth"
-                                    role="button">
-                                <%= __("SystemCommon").ChangeLog %>
-                            </button>
-                        </li>
-                    </ul>
+            <div class="col-xs-1 col-sm-1">
+                <div class="row">
+                    <div class="right-menu-co">
+                        <ul>
+                            <li>
+                                <button id="ins-btn" class="btn btn-primary btn-white btn-defaultWidth"
+                                        @click="appendRow"
+                                        role="button">
+                                    <%= __("SystemCommon").Add %>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="remove-btn"
+                                        class="btn btn-danger btn-white btn-defaultWidth"
+                                        @click="removeRow();"
+                                        role="button">
+                                    <%= __("SystemCommon").Delete %>
+                                </button>
+                            </li>
+                            <li>
+                                <button id="save-btn" class="btn btn-primary btn-white btn-defaultWidth"
+                                        @click="doSave();"
+                                        role="button">
+                                    <%= __("SystemCommon").Save %>
+                                </button>
+                            </li>
+                            <li>
+                                <button @click="loadChangeLog" class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button">
+                                    <%= __("SystemCommon").ChangeLog %>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,7 +81,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="fixHeadTable">
-                        <div class="tbl-header">
+                        <div class="tbl-header02">
                             <table class=" custab">
                                 <thead class="custab-head">
                                 <tr>
@@ -99,8 +93,8 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="tbl-content" style="height: 300px;">
-                            <table class=" custab">
+                        <div class="tbl-content02" style="height: 300px;">
+                            <table class="custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
                                 <tr v-for="logData in allChangeLogList">
@@ -131,8 +125,8 @@
                         //0822 有些mac的scrollBar 會推，有些不會(jun會)
                         //                        if(navigator.userAgent.indexOf("Window") !=-1){
                         $(window).on("load resize ", function () {
-                            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-                            $('.tbl-header').css({'padding-right': '17px'});
+                            var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
+                            $('.tbl-header02').css({'padding-right': '17px'});
                             var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
                         }).resize();
                         //                        }
@@ -157,3 +151,28 @@
 
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/setup/datagrid.js"></script>
+
+<script>
+    //common JS
+    jQuery(function () {
+        // Resize Table Height // Date:170920
+        //        alert('menuHeight1');
+        var menuHeight1 = $(".navbar-container").height();
+        var menuHeight2 = $(".top-sec-ul").height() + 30 + $(".page-header").height() + $(".search-content").height();//padding-top: 5px
+        //    console.log('menuHeight1',menuHeight1);
+        //    console.log('gridTableHt',menuHeight2);
+        height = $(window).height() - menuHeight1 - menuHeight2 - 10;
+        prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
+        $(".tab-content").css("height", height);
+        $(".prg_dgHt").css("height", prg_dgHt);
+        //        console.log('gridTableHt .panel-body',height);
+        $(window).resize(function () {
+            height = $(window).height() - menuHeight1 - menuHeight2 - 10;
+            prg_dgHt = $(window).height() - menuHeight1 - menuHeight2 - 80;
+            $(".tab-content").css("height", height);
+            $(".prg_dgHt").css("height", prg_dgHt);
+        });
+    });
+//    alert(gridTableHt);
+
+</script>

@@ -43,6 +43,7 @@ function operationSaveAdapterClass(postData, session) {
     ga_dtCreateData = postData.tmpCUD.dt_createData || [];
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
+    ga_dtOriUpdateData = postData.tmpCUD.dt_oriUpdateData || [];
 
     initData();
 
@@ -133,7 +134,7 @@ function qryFieldData(rfData, callback) {
         },
         function (cb) {
             if (gs_template_id == "gridsingle" || gs_template_id == "mn-dt" || gs_template_id == "special") {
-                mongoAgent.UI_PageField.find({
+                mongoAgent.UIPageField.find({
                     prg_id: go_postData.prg_id,
                     page_id: go_postData.page_id
                 }, function (err, la_gsFieldsData) {
@@ -323,7 +324,7 @@ function combineMainData(rfData, callback) {
                 gn_exec_seq++;
 
                 if (gs_dgTableName != "") {
-                    combineDelDetailData(gs_dgTableName, lo_fieldsData.dgKeyFields, data);
+                    combineDelDetailData(gs_dgTableName, lo_fieldsData.mainKeyFields, data);
                 }
             });
             callback(null, '0300');
@@ -486,7 +487,13 @@ function combineDtCreateEditExecData(rfData, callback) {
                     tmpIns[objKey] = value;
                 }
             });
-            tmpIns = _.extend(tmpIns, commonRule.getCreateCommonDefaultDataRule(go_session));
+
+            let lo_default = commonRule.getCreateCommonDefaultDataRule(go_session);
+            if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
+                delete lo_default["hotel_cod"];
+            }
+            tmpIns = _.extend(tmpIns, lo_default);
+
 
             //塞入mn pk
             _.each(lo_fieldsData.mainKeyFields, function (keyField) {
@@ -548,7 +555,7 @@ function combineDtCreateEditExecData(rfData, callback) {
         });
 
         //dt 編輯
-        _.each(ga_dtUpdateData, function (data) {
+        _.each(ga_dtUpdateData, function (data, index) {
             var lo_fieldsData = qryFieldsDataByTabPageID(data);
             var tmpEdit = {"function": "2", "table_name": gs_dgTableName, "kindOfRel": "dt"}; //2  編輯
             var mnRowData = data["mnRowData"] || {};
@@ -569,20 +576,23 @@ function combineDtCreateEditExecData(rfData, callback) {
                 }
             });
 
-            data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
-            tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
+            let lo_default = commonRule.getEditDefaultDataRule(go_session);
+            if (!_.isUndefined(data.hotel_cod) && data.hotel_cod.trim() != "") {
+                delete lo_default["hotel_cod"];
+            }
+            data = _.extend(data, lo_default);
+            tmpEdit = _.extend(tmpEdit, lo_default);
 
             tmpEdit.condition = [];
             //組合where 條件
             _.each(lo_fieldsData.dgKeyFields, function (keyField) {
-                if (!_.isUndefined(data[keyField.ui_field_name])) {
+                if (!_.isUndefined(ga_dtOriUpdateData[index][keyField.ui_field_name])) {
                     tmpEdit.condition.push({
                         key: keyField.ui_field_name,
                         operation: "=",
-                        value: data[keyField.ui_field_name]
+                        value: ga_dtOriUpdateData[index][keyField.ui_field_name]
                     });
                 }
-
             });
             go_saveExecDatas[gn_exec_seq] = tmpEdit;
             gn_exec_seq++;
@@ -709,7 +719,7 @@ function sortByEventTime(data, callback) {
         return moment(new Date(lo_saveExecData.event_time)).format("YYYY/MM/DD HH:mm:ss");
     });
 
-    _.each(lo_saveExecDatasSorted, function(lo_data, index){
+    _.each(lo_saveExecDatasSorted, function (lo_data, index) {
         index++;
         lo_reformatExecDatas[index] = lo_data;
     });
@@ -764,6 +774,7 @@ function combineDelDetailData(dtTableName, la_dtkeyFields, mnData) {
     var ls_event_time = moment(new Date(mnData.event_time)).subtract("1", "seconds").format("YYYY/MM/DD HH:mm:ss");
     let tmpDel = {"function": "0", "table_name": dtTableName, "kindOfRel": "dt", event_time: ls_event_time}; //0 代表刪除
     tmpDel.condition = [];
+
     //組合where 條件
     _.each(la_dtkeyFields, function (keyField, keyIdx) {
         if (!_.isUndefined(mnData[keyField.ui_field_name])) {

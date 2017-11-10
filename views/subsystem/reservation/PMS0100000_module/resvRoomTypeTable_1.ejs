@@ -1,7 +1,8 @@
 <div class="container_12 divider">
     <!--toDO-->
     <!--暫時設定高度-->
-    <div class="grid_12 height600 resRoomType-table">
+    <!--window 問題：最後一個<th>會超出範圍，並且看不到-->
+    <div class="grid_12 height600 resRoomType-table" style="width: 99% !important;">
         <table class="fancyTable themeTable treeControl" id="resRoomType-table" cellpadding="0" cellspacing="0">
             <thead>
             <tr>
@@ -46,41 +47,49 @@
                 <th class="dateColor">16</th>
                 <th class="dateColor">17</th>
                 <th class="dateColor">18</th>
+
                 <th class="dateColor">19</th>
                 <th class="dateColor">20</th>
                 <th class="dateColor">21</th>
                 <th class="dateColor">22</th>
                 <th class="dateColor">23</th>
+
                 <th class="dateColor">24</th>
                 <th class="dateColor">25</th>
                 <th class="dateColor">26</th>
                 <th class="dateColor">27</th>
                 <th class="dateColor">28</th>
+
                 <th class="dateColor">01</th>
                 <th class="dateColor">02</th>
                 <th class="dateColor">03</th>
                 <th class="dateColor">04</th>
                 <th class="dateColor">05</th>
+
                 <th class="dateColor">06</th>
                 <th class="dateColor">07</th>
                 <th class="dateColor">08</th>
                 <th class="dateColor">09</th>
                 <th class="dateColor">10</th>
+
                 <th class="dateColor">11</th>
                 <th class="dateColor">12</th>
                 <th class="dateColor">13</th>
                 <th class="dateColor">14</th>
                 <th class="dateColor">15</th>
+
                 <th class="dateColor">16</th>
                 <th class="dateColor">17</th>
                 <th class="dateColor">18</th>
                 <th class="dateColor">19</th>
                 <th class="dateColor">20</th>
+
                 <th class="dateColor">21</th>
                 <th class="dateColor">22</th>
                 <th class="dateColor">23</th>
                 <th class="dateColor">24</th>
                 <th class="dateColor">25</th>
+
                 <th class="dateColor">26</th>
                 <th class="dateColor">27</th>
 
@@ -92,41 +101,49 @@
                 <th>Thu</th>
                 <th>Fri</th>
                 <th class="holiday-color">Sat</th>
+
                 <th class="holiday-color">Sun</th>
                 <th>Mon</th>
                 <th>Tue</th>
                 <th>Wed</th>
                 <th>Thu</th>
+
                 <th>Fri</th>
                 <th class="holiday-color">Sat</th>
                 <th class="holiday-color">Sun</th>
                 <th >Mon</th>
                 <th >Tue</th>
+
                 <th >Wed</th>
                 <th >Thu</th>
                 <th >Fri</th>
                 <th class="holiday-color">Sat</th>
                 <th class="holiday-color">Sun</th>
+
                 <th >Mon</th>
                 <th >Tue</th>
                 <th >Wed</th>
                 <th >Thu</th>
                 <th >Fri</th>
+
                 <th class="holiday-color">Sat</th>
                 <th class="holiday-color">Sun</th>
                 <th >Mon</th>
                 <th >Tue</th>
                 <th >Wed</th>
+
                 <th >Thu</th>
                 <th >Fri</th>
                 <th class="holiday-color">Sat</th>
                 <th class="holiday-color">Sun</th>
                 <th >Mon</th>
+
                 <th >Tue</th>
                 <th >Wed</th>
                 <th >Thu</th>
                 <th >Fri</th>
                 <th class="holiday-color">Sat</th>
+
                 <th class="holiday-color">Sun</th>
                 <th >Mon</th>
 
@@ -134,202 +151,159 @@
             </thead>
             <tbody>
             <!--hidden first tr 解決第一列無法合併儲存格-->
-            <tr class="hidden-firstTr">
-                <td class="middle td-first hidden-firstTd"></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-            </tr>
-            <tr>
-                <td class="middle td-first orangeTag">2016台北資訊展</td>
-                <td class=""></td>
-                <td class="" ></td>
+            <!--lite版隱藏-->
+            <!--<tr class="hidden-firstTr">-->
+                <!--<td class="middle td-first hidden-firstTd"></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                <td class="numeric orangeTag" colspan="3">
-                    2016台北資訊展
-                </td>
-                <td class="" ></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                <td class=""></td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-                <td class=""></td>
-            </tr>
-            <tr>
-                <td class="middle td-first greenTag">冬季旅展大登場</td>
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none; overflow: hidden;">-->
+                <!--<td class="middle td-first orangeTag" style="display: none; overflow: hidden;">2016台北資訊展</td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class="numeric orangeTag" colspan="3">-->
+                    <!--2016台北資訊展-->
+                <!--</td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                <td class="numeric ">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric ">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric ">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric ">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric greenTag" colspan="4">
-                    冬季旅展大登場
-                </td>
-                <td class="numeric">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
 
-                </td>
-                <td class="numeric">
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+                <!--<td class=""></td>-->
+            <!--</tr>-->
+            <!--<tr style="display: none; overflow: hidden;">-->
+                <!--<td class="middle td-first greenTag" style="display: none; overflow: hidden;">冬季旅展大登場</td>-->
 
-                </td>
-                <td class="numeric">
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric greenTag" colspan="4">-->
+                    <!--冬季旅展大登場-->
+                <!--</td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+                <!--<td class="numeric"></td>-->
+            <!--</tr>-->
 
-                </td>
-                <td class="numeric">
 
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric">
-
-                </td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-                <td class="numeric"></td>
-            </tr>
             <tr data-tt-id="1">
                 <td class="middle td-first">STD <span class="roomNumTip">10</span></td>
                 <td class="numeric">14</td>

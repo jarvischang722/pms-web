@@ -111,7 +111,7 @@ exports.logout = function (req, res) {
  */
 exports.selectSystem = function (req, res) {
     let sys_id = req.body["sys_id"] || "";
-    if(!_.isUndefined(req.session.user.sys_id ) && !_.isEqual(sys_id,req.session.user.sys_id ) ){
+    if (!_.isUndefined(req.session.user.sys_id) && !_.isEqual(sys_id, req.session.user.sys_id)) {
         delete  req.cookies.usingSubsysID;
         req.session.user.sys_id = sys_id;
         res.clearCookie("usingSubsysID");
@@ -140,7 +140,7 @@ exports.selectSystem = function (req, res) {
                         }
                         res.cookie('usingSubsysID', usingSubsysID);
                         // res.redirect("/bacchus4web/" + usingSubsysID);
-                        res.json({success:true,subsysPage:"/bacchus4web/" + usingSubsysID});
+                        res.json({success: true, subsysPage: "/bacchus4web/" + usingSubsysID});
                     });
                 });
             });
@@ -184,12 +184,12 @@ exports.getSubsysQuickMenu = function (req, res) {
 /**
  * 取得選擇的公司
  */
-exports.getSelectCompony = function(req, res){
-    queryAgent.queryList("QRY_SELECT_COMPANY", {}, 0, 0, function(err, getData){
-        if(err){
+exports.getSelectCompony = function (req, res) {
+    queryAgent.queryList("QRY_SELECT_COMPANY", {}, 0, 0, function (err, getData) {
+        if (err) {
             res.json({success: false, errorMsg: err});
         }
-        else{
+        else {
             res.json({success: true, selectCompany: getData});
         }
     });
@@ -222,19 +222,32 @@ exports.getAuthorityFeature = function (req, res) {
 
 
 /**
- * 取得系統第一個作業url
- * @param subsysMenu
- * @return {string}
+ *  經由公司代號 cmp_id 取得部門資訊
  */
-function getSysFirsrUrl(subsysMenu) {
-    var ls_subsystemFirstUrl = "";
-    if (subsysMenu.length > 0 && subsysMenu[0].quickMenu.length > 0) {
-        if (!_.isNull(subsysMenu[0].quickMenu[0].pro_url)) {
-            ls_subsystemFirstUrl = subsysMenu[0].quickMenu[0].pro_url;
-        }
+exports.getCompGrp = function (req, res) {
+    queryAgent.queryList("QRY_S99_GROUP_BY_CMP_ID", req.session.user, 0, 0, function (err, compGrpList) {
+        res.json({success: true, compGrpList: compGrpList});
+    });
+};
+
+/**
+ * 抓取全部角色
+ */
+exports.getAllRoles = function (req, res) {
+    queryAgent.queryList("QRY_ALL_ROLE_BY_COMP_COD", req.session.user, 0, 0, function (err, roles) {
+        res.json({success: true, roles: roles});
+    });
+};
+
+/**
+ *抓取單一角色全部對應的帳號
+ */
+exports.getRoleOfAccounts = function (req, res) {
+    var params = req.session.user;
+    if (req.body.role_id) {
+        params["role_id"] = req.body.role_id;
     }
-    if (_.isNull(ls_subsystemFirstUrl)) {
-        ls_subsystemFirstUrl = "";
-    }
-    return ls_subsystemFirstUrl;
-}
+    queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", params, 0, 0, function (err, accounts) {
+        res.json({success: true, accounts: accounts});
+    });
+};

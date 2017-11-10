@@ -2,17 +2,16 @@
 <script type="text/x-template" id="searchTmp">
     <div class="col-xs-12" v-if="searchFields.length > 0 ">
         <div class="search-content">
-            <!--測試修改，寬變矮 文字變小 class="search-co-h" li style="padding: 0 5px;"-->
-            <div class="search-co">
-                <div class="row">
-                    <div class="search-co-content col-xs-12">
-                        <div class="width-95" style="padding-top: 10px;">
+            <div class="">
+            <div class="search-co row">
+                    <div class="col-xs-12 search-co-content search-S2">
+                        <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]">
                                     <label>{{field.ui_display_name}}</label>
                                     <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                               class="numStyle-none"
+                                               class="numStyle-none defHt"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                min="0"
                                                :required="field.requirable == 'Y'"/>
@@ -43,7 +42,7 @@
                                     </template>
 
                                     <template v-if="field.ui_type == 'radio'">
-                                        <el-radio class="radio"
+                                        <el-radio class="radio width-auto"
                                                   v-model="searchCond[field.ui_field_name]"
                                                   v-for="item in field.selectData" :label="item.value">
                                             {{item.display}}{{item.value}}
@@ -70,8 +69,8 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <div style="border-radius: 100px; border: 1px solid #eee; padding: 3px 6px; margin-top: 1px; box-shadow: 2px 2px 3px rgba(51, 51, 102, 0.5);">
-                                            <i class="fa fa-chevron-down show-search-detail"
+                                        <div class="icon-moreSearch show-search-detail">
+                                            <i class="fa fa-chevron-down"
                                                style="color: #438EB9;"></i>
                                         </div>
                                     </li>
@@ -79,7 +78,7 @@
                             </div>  <!-- /.footer-btn-menu-co -->
                         </div> <!-- /.search-footer-btn -->
                     </div>
-                    <div class="search-co-content col-xs-12 rece-search-detail" style="display: none;">
+                    <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
                         <div class="width-95">
 
                             <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
@@ -88,7 +87,7 @@
                                         <label>{{field.ui_display_name}}</label>
                                         <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
                                             <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                                   class="numStyle-none"
+                                                   class="numStyle-none defHt "
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    min="0"
                                                    :required="field.requirable == 'Y'"/>
@@ -139,3 +138,4 @@
     </div>
     <div class="clearfix"></div>
 </script>
+

@@ -13,7 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 </head>
 
-<%- include ../common/importFiles %>
+<%- include ../common/cssFile/importFiles_CssBase %>
+
+<%- include ../common/jsFile/importFiles_JsBase %>
+
 
 <body class="no-skin">
 <%- include ../common/navbar.ejs %>
@@ -41,53 +44,36 @@
                             </div>
                             <div class="col-sm-6 col-sm-offset-1 system-block-all">
                                 <div class="system-block">
-                                    <% sysList.forEach(function(sys){ %>
+                                    <% sysList.forEach(function(sys,sIdx){ %>
                                     <div class="boxy">
                                         <a href="#" class="system-circle" @click="selectSys('<%= sys.sys_id %>')">
+                                            <%
+                                                var sysColor = "circle-bg-blue";
+                                                var sysAbbrName = "";
+                                                var la_sys = sys["sys_name_en"].split(" ");
+                                                la_sys.forEach(function(s){
+                                                    sysAbbrName += s.substring(0,1);
+                                                })
+                                                //circle-bg-blue   :藍色
+                                                //circle-bg-orange :橘色
+                                                //circle-bg-green  :綠色
+                                                if(sIdx / 3 == 0){
+                                                    sysColor = "circle-bg-blue";
+                                                }else if(sIdx / 3 == 1){
+                                                    sysColor = "circle-bg-orange";
+                                                }else{
+                                                    sysColor = "circle-bg-green";
+                                                }
+                                            %>
 
-                                            <!--circle-bg-blue   :藍色
-                                                circle-bg-orange :橘色
-                                                circle-bg-green  :綠色-->
-                                            <!-- 共用系統 -->
-                                            <% if(sys.sys_id == 'CMM0000000'){ %>
-                                                <div class="inner-item"
-                                                     title="<%= sys["sys_name_" + session.locale] %>">
+                                            <div class="inner-item"
+                                                 title="<%= sys["sys_name_" + session.locale] %>">
+                                                <div class="sub <%=sysColor%>">
+                                                    <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
+                                                </div>
+                                                <h3><%=sysAbbrName%></h3>
+                                            </div>
 
-                                                    <div class="sub circle-bg-orange">
-                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
-                                                    </div>
-                                                    <h3>IT</h3>
-                                                </div>
-                                            <!-- PMS系統 -->
-                                            <% }else if(sys.sys_id == 'PMS0000000'){ %>
-                                                <div class="inner-item" title="<%= sys["sys_name_" + session.locale] %>">
-                                                    <div class="sub circle-bg-blue">
-                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
-                                                    </div>
-                                                    <h3>PMS</h3>
-                                                </div>
-                                            <!-- 客服系統 -->
-                                            <% }else if(sys.sys_id == 'SER0000000'){ %>
-                                                <div class="inner-item"
-                                                     title="<%= sys["sys_name_" + session.locale] %>">
-                                                    <div class="sub circle-bg-green">
-                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
-                                                    </div>
-                                                    <h3>CS</h3>
-                                                </div>
-                                            <% }else if(sys.sys_id == 'PSI0000000'){ %>
-                                                <div class="inner-item"
-                                                     title="<%= sys["sys_name_" + session.locale] %>">
-                                                    <div class="sub circle-bg-green" style="background: #555;">
-                                                        <p class="optionTip"><%= sys["sys_name_" + session.locale] %></p>
-                                                    </div>
-                                                    <h3>PSI</h3>
-                                                </div>
-                                            <% } %>
-
-                                            <!--<span class="text-content">-->
-                                                <!--<span class="optionTip"><%= sys["sys_name_" + session.locale] %></span>-->
-                                            <!--</span>-->
                                         </a>
 
                                     </div>

@@ -116,7 +116,7 @@ select.form-control
 
 // 170306 to-do
 .page-content
-  padding: 8px 0 24px
+  padding: 8px 0 8px
 .pageMain
   //margin-left: -2
 
@@ -166,6 +166,25 @@ label
 .dropdown-h
   height: 200px
   overflow-y: auto
+
+// 下拉選單
+.dropdownCustom
+  position: relative
+  .dropdown-toggle
+    text-overflow: ellipsis
+    /* text-overflow: clip; */
+    overflow: hidden
+    white-space: nowrap
+  .caret
+    position: absolute
+    right: 3px
+    top: 10px
+// edit elements
+//.singleGridContent,.search-co-content
+//  .el-input--small, .el-input__inner
+//    height: 25px
+//    max-height: 100%
+
 // /.hsuan bug edit
 @media screen and (max-width: 992px)
   .top-sec-ul

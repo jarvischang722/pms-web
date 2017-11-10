@@ -214,7 +214,7 @@ Vue.component('single-grid-pms0830100-tmp', {
         showDtDataGrid: function (dtDataGridRows) {
 
             var self = this;
-            var columnsData = EZfieldClass.combineFieldOption(PMS0830100VM.pageTwoDataGridFieldData, 'dt_dg');
+            var columnsData = DatagridFieldAdapter.combineFieldOption(PMS0830100VM.pageTwoDataGridFieldData, 'dt_dg');
             var firstCol = [];
             var secondCol = [];
 
@@ -594,7 +594,7 @@ var PMS0830100VM = new Vue({
         showDataGrid: function () {
 
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0830100_dg', EZfieldClass.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
+            this.dgIns.init(prg_id, 'PMS0830100_dg', DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -827,4 +827,4 @@ Vue.filter("showDropdownDisplayName", function (val) {
     console.log(selectData);
 });
 
-var adpterDg = new AdapterDatagrid(PMS0830100VM);
+var adpterDg = new DatagridAdapter(PMS0830100VM);

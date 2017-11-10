@@ -42,6 +42,8 @@
 // width
 .width-5
   width: 5% !important
+.width-8
+  width: 8% !important
 .width-10
   width: 10% !important
 .width-15
@@ -164,22 +166,47 @@ a
   //margin-top: 1px
 // space height
 
-//<!--PMS(light) excample:"
+//<!--PMS(business) excample:"
+@mixin btn-skin-style
+  //padding: 3px 9px
+  background-color: #ffece3 !important
+  border: 1px solid #ffece3 !important
+  color: $grayDisable !important
+  &.btn
+    &:hover,&:active,&:focus,&:visited
+      background-color: #ffece3 !important
+      border: 1px solid #ffece3 !important
+      color: $grayDisable !important
+.btn-skin
+  font-weight: 300
+  text-shadow: none
+  cursor: not-allowed !important
+  +btn-skin-style
+  &.btn.disabled,&.btn[disabled]
+    +btn-skin-style
+
+//<!--PMS(enterprise) excample:"
 //    加：btn-gray disabled" "
 //    減:btn-white 原本的(ex.btn-primary)"
 //    -->
-.btn-gray
-  font-weight: 300
-  text-shadow: none
-  &.btn.disabled,&.btn[disabled]
-    //padding: 3px 9px
-    background-color: #ebebeb !important
-    border: 1px solid #ebebeb !important
-    color: $grayDisable !important
-    &:hover
+@mixin btn-gray-style
+  //padding: 3px 9px
+  background-color: #ebebeb !important
+  border: 1px solid #ebebeb !important
+  color: $grayDisable !important
+  &.btn
+    &:hover,&:active,&:focus,&:visited
       background-color: #ebebeb !important
       border: 1px solid #ebebeb !important
       color: $grayDisable !important
+.btn-gray
+  font-weight: 300
+  text-shadow: none
+  cursor: not-allowed !important
+  +btn-gray-style
+  &.btn.disabled,&.btn[disabled]
+    +btn-gray-style
+
 //第二階段btn
 //<!--
 //    加：btn_secStage 第二層加:<span></span>"

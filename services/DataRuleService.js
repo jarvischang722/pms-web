@@ -179,12 +179,12 @@ exports.handleAddFuncRule = function (postData, session, callback) {
     let page_id = postData.page_id ? Number(postData.page_id) : 1;
     async.parallel([
         function (cb) {
-            mongoAgent.UI_PageField.find({prg_id: prg_id, page_id: 2}, function (err, fieldNameList) {
+            mongoAgent.UIPageField.find({prg_id: prg_id, page_id: 2}, function (err, fieldNameList) {
                 cb(err, _.pluck(fieldNameList, "ui_field_name"));
             });
         },
         function (cb) {
-            mongoAgent.UI_Type_Select.find({prg_id: prg_id}, function (err, selectData) {
+            mongoAgent.UITypeSelect.find({prg_id: prg_id}, function (err, selectData) {
                 cb(err, selectData);
             });
         }
@@ -203,7 +203,7 @@ exports.handleAddFuncRule = function (postData, session, callback) {
                 lo_initField[name] = "";
             }
         });
-        mongoAgent.DatagridFunction.findOne({
+        mongoAgent.SetupDatagridFunction.findOne({
             prg_id: prg_id,
             func_id: '0200',
             page_id: page_id
@@ -278,7 +278,7 @@ exports.handleDeleteFuncRule = function (postData, session, callback) {
     var isDtData = postData["isDtData"] || false;
     var prg_id = postData.prg_id;
     var page_id = Number(postData.page_id || 1);
-    let dbName = (page_id == 2) ? "PageFunction" : "DatagridFunction";
+    let dbName = (page_id == 2) ? "SetupPageFunction" : "SetupDatagridFunction";
 
     mongoAgent[dbName].findOne({
         prg_id: prg_id,
@@ -389,7 +389,7 @@ exports.handleDataGridBeforeSaveChkRule = function (postData, session, callback)
     var lo_beforeSaveCreateCheckResult = [];       //檢查update 結果
     var lo_beforeSaveUpdateCheckResult = [];       //檢查
 
-    mongoAgent.DatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
+    mongoAgent.SetupDatagridFunction.find({prg_id: prg_id}).exec(function (err, ruleFuncs) {
         if (ruleFuncs.length > 0) {
             ruleFuncs = commonTools.mongoDocToObject(ruleFuncs);
         }
@@ -516,7 +516,7 @@ exports.chkDatagridDeleteEventRule = function (postData, session, callback) {
     let deleteData = postData["deleteData"] || [];
     let delChkFuncs = [];
 
-    mongoAgent.DatagridFunction.findOne({
+    mongoAgent.SetupDatagridFunction.findOne({
         prg_id: prg_id,
         page_id: Number(page_id),
         func_id: '0300'
@@ -568,7 +568,7 @@ exports.doChkSingleGridBeforeSave = function (postData, session, callback) {
         var deleteData = postData["deleteData"] || [];
         var createData = postData["createData"] || [];
         var editData = postData["editData"] || [];
-        mongoAgent.PageFunction.find({prg_id: prg_id, page_id: page_id}).exec(function (err, rules) {
+        mongoAgent.SetupPageFunction.find({prg_id: prg_id, page_id: page_id}).exec(function (err, rules) {
             if (!err && rules.length > 0) {
                 async.parallel([
                     //新增資料檢查
@@ -755,16 +755,12 @@ exports.chkSpecialDataGridBtnEventRule = function (postData, session, callback) 
  * 儲存"前"，執行作業規則檢查
  */
 exports.doOperationRuleProcBeforeSave = function (postData, session, rules, callback) {
-    let la_createData = postData["createData"] || [];
-    let la_updateData = postData["updateData"] || [];
-    let la_deleteData = postData["deleteData"] || [];
+    let la_createData = postData["tmpCUD"]["createData"] || [];
+    let la_updateData = postData["tmpCUD"]["updateData"] || [];
+    let la_deleteData = postData["tmpCUD"]["deleteData"] || [];
     let la_tmpExtendExecDataArrSet = [];  //新刪修回傳要執行的SQL API 組合
     let lo_result = new ReturnClass();
     let lo_error = null;
-    session.user = {
-        athena_id: 1,
-        hotel_cod: '02'
-    };
 
     try {
         async.parallel([
