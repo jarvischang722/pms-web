@@ -1,18 +1,24 @@
 ## Bacchus Project  From Athena Group
 
-### 1.Download package from npm
+### 1.Install OracleDB client
+
+  > 參考 doc/安裝node_oracle套件.md
+ 
+### 2.Download package from npm
 
 ``` 
 $ npm install 
 ```
 
-2.Setting database config
+### 3.Setup  configs
 
 ```
-path/to/config/database.js
+$ cp ./config/database_example.js ./config/database.js
+$ cp ./config/systemConfig_example.js ./config/systemConfig.js
+
 ```
 
-3.Run Project
+### 4.Run App
 
 ```
 $ node app.js

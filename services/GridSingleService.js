@@ -3,7 +3,7 @@
  * page single gird 相關
  */
 var config = require("../configs/database");
-var sysConf = require("../configs/SystemConfig");
+var sysConf = require("../configs/systemConfig");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var mongoAgent = require("../plugins/mongodb");
 var _ = require("underscore");

@@ -4,7 +4,7 @@
 
 var tools = require("../utils/CommonTools");
 var _ = require("underscore");
-var sysConfig = require("../configs/SystemConfig");
+var sysConfig = require("../configs/systemConfig");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require("i18n");
 var logSvc = require("./LogService");
@@ -12,7 +12,7 @@ var mailSvc = require("./MailService");
 var langSvc = require("./LangService");
 var ruleAgent = require("../ruleEngine/ruleAgent");
 var moment = require("moment");
-var go_sysConf = require("../configs/SystemConfig");
+var go_sysConf = require("../configs/systemConfig");
 var commonRule = require("../ruleEngine/rules/CommonRule");
 let optSaveAdapter = require("../ruleEngine/operationSaveAdapter");
 let async = require("async");

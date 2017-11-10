@@ -6,4 +6,4 @@ node_modules/
 public/.DS_Store
 .sass-cache/
 configs/database.js
-configs/SystemConfig.js
+configs/systemConfig.js

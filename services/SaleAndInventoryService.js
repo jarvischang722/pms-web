@@ -3,7 +3,7 @@
  * dataGrid 相關處理
  */
 let config = require("../configs/database");
-let sysConf = require("../configs/SystemConfig");
+let sysConf = require("../configs/systemConfig");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 let mongoAgent = require("../plugins/mongodb");
 let _ = require("underscore");
