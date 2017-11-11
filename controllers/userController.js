@@ -10,7 +10,8 @@ var roleFuncSvc = require("../services/RoleFuncService");
 var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 var i18n = require('i18n');
 var langSvc = require("../services/LangService");
-
+const fs = require("fs");
+let ip = require("ip");
 /**
  * 登入頁面
  */
@@ -22,10 +23,35 @@ exports.loginPage = function (req, res, next) {
         }
         res.redirect("/systemOption");
         return;
-
     }
 
-    res.render('user/loginPage');
+    let ls_account = '';
+    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
+
+
+    try {
+        fs.exists("configs/IPsUsersRef.json", function (isExist) {
+            if (isExist) {
+                let IPsUsersRef = require("../configs/IPsUsersRef.json");
+                _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
+                    if (ipSubnet.toString().indexOf("/") > -1) {
+                        if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
+                            ls_account = user.toString();
+                        }
+                    } else {
+                        if (_.isEqual(ipSubnet, clientIP)) {
+                            ls_account = user.toString();
+                        }
+                    }
+                });
+            }
+            res.render('user/loginPage', {account: ls_account});
+        });
+    }
+    catch (ex) {
+        res.render('user/loginPage', {account: ls_account});
+    }
 };
 
 
@@ -224,4 +250,47 @@ exports.getRoleOfAccounts = function (req, res) {
     queryAgent.queryList("QRY_ROLE_OF_ACCOUNTS", params, 0, 0, function (err, accounts) {
         res.json({success: true, accounts: accounts});
     });
+};
+
+/**
+ * 取得作業每顆按鈕func_id的權限
+ */
+exports.getUserFuncPurviewByProID = function (req, res) {
+    try {
+        let params = {
+            user_id: req.session.user.usr_id,
+            comp_cod: req.session.user.cmp_id,
+            athena_id: req.session.user.athena_id,
+            hotel_cod: req.session.user.hotel_cod,
+            prg_id: req.body.prg_id
+        };
+        async.parallel({
+            funcPurvs: function (callback) {
+                queryAgent.queryList("QRY_PROCESS_USER_FUNC_PURVIEW", params, 0, 0, function (err, funcPurvs) {
+                    callback(err, funcPurvs);
+                });
+            },
+            funcLangs: function (callback) {
+                langSvc.handleMultiLangContentByKey("LANG_BAC_PROCESS_FUNC_RF", req.session.locale,
+                    {pro_id: req.body.prg_id}, "func_nam", function (err, funcLangs) {
+                        callback(err, funcLangs);
+                    });
+            }
+        }, function (err, results) {
+
+            let retnfuncPurvs = [];
+            _.each(results.funcPurvs, function (func) {
+                retnfuncPurvs.push({
+                    func_id: func.current_id,
+                    func_nam: _.findIndex(results.funcLangs, {func_id: func.current_id}) > -1
+                        ? _.findWhere(results.funcLangs, {func_id: func.current_id}).words : func.current_id
+                });
+            });
+            res.json({success: _.isNull(err), funcPurvs: retnfuncPurvs});
+        });
+
+    } catch (err) {
+        res.json({success: false, errorMsg: err.message, funcPurvs: []});
+    }
+
 };

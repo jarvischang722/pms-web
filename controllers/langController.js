@@ -39,13 +39,19 @@ exports.getLocaleContent = function (req, res) {
     var localeContent = {};
     var localesPath = appRootPath + "/locales/";
 
-    fs.exists(localesPath + req.session.locale.toLowerCase() + ".json", function (isExist) {
-        if (isExist) {
-            localeContent = require(localesPath + req.session.locale.toLowerCase() + ".json");
-        } else {
-            console.error("找不到多語系對應檔案[" + localesPath + req.session.locale.toLowerCase() + ".json]");
-            localeContent = require(localesPath + "en.json");
-        }
-        res.json({success: true, localeContent: localeContent});
-    });
+    try{
+        fs.exists(localesPath + req.session.locale.toLowerCase() + ".json", function (isExist) {
+            if (isExist) {
+                localeContent = require(localesPath + req.session.locale.toLowerCase() + ".json");
+            } else {
+                console.error("找不到多語系對應檔案[" + localesPath + req.session.locale.toLowerCase() + ".json" + "]");
+                localeContent = require(localesPath + "en.json");
+            }
+            res.json({success: true, localeContent: localeContent});
+        });
+    }
+    catch(ex) {
+        console.error(ex);
+    }
+
 };

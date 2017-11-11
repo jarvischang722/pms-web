@@ -23,4 +23,16 @@
         <parameter type="string" kind="1">athena_id</parameter>
         <parameter type="string" kind="1">add_cod</parameter>
     </dao>
+
+    <!-- ['PSIW500030'] 取得客戶電話 -->
+    <dao name="QRY_CONTACT_DT_SELECT">
+        <statement><![CDATA[
+            select contact_rmk as cust_tel from contact_dt
+            where cust_cod = trim(:cust_cod)
+            and contact_cod = trim(:contact_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">contact_cod</parameter>
+    </dao>
 </root>

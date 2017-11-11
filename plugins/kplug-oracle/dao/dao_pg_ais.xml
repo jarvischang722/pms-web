@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+    <!-- ['PSIW500030'] 單據明細小計小數位數 -->
+    <dao name="QRY_SHIP_DT_ROUND_NOS">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_dt_round_nos') as ship_dt_round_nos from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 單據主檔金額小數位數 -->
+    <dao name="QRY_SHIP_MN_ROUND_NOS">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_mn_round_nos') as ship_mn_round_nos from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 售單價小數位數 -->
+    <dao name="QRY_SHIP_UNIT_ROUND">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_unit_round') as ship_unit_round from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 送貨連絡電話代號 -->
+    <dao name="QRY_CONTACT_COD">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'contact_cod') as contact_cod from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 貨品預設銷貨倉庫 -->
+    <dao name="QRY_SHIP_WHOUSE_COD">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_whouse_cod') as ship_whouse_cod from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 送貨地址代號 -->
+    <dao name="QRY_SHIP_ADD_COD">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'ship_add_cod') as ship_add_cod from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['PSIW500030'] 訂貨日期切換的時間參數 -->
+    <dao name="QRY_ORDER_DAT_CHANGE_TIME">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'SH', 'order_dat_change_time') as order_dat_change_time from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+</root>

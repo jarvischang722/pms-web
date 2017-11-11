@@ -5,6 +5,6 @@ module.exports = function (io) {
 
     require("./events/setup-process")(io); //setup socket io event
     require("./events/sysCommon-process")(io); // socket io event
-
+    require("./events/dominos-process")(io); // socket io event
 
 };

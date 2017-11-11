@@ -206,7 +206,8 @@
     "User": "使用者",
     "Action_type": "動作類型",
     "Desciption_Mn": "主檔描述",
-    "check_delete": "確定刪除此筆資料"
+    "check_delete": "確定刪除此筆資料",
+    "CompanyName": "德安資訊股份有限公司"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

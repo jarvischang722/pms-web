@@ -36,6 +36,7 @@ function DatagridBaseClass() {
         self.dgName = dgName;
         self.columns = columns;
         self.fieldsData = fieldsData;
+
         if (!options) {
             options = {};
         }
@@ -51,8 +52,9 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn,
+            onSortColumn: this.doSortColumn
         }).datagrid('columnMoving');
+
     };
 
 

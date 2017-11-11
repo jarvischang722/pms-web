@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- ['PSIW500030'] 檢查[萬元用量/庫存]有無值 -->
+    <dao name="CHK_PSI_POSINV_MN">
+        <statement><![CDATA[
+
+            select count(*) as count from psi_posinv_mn
+            where batch_dat = to_date(:order_dat, 'YYYY/MM/DD')
+            and trim(store_cod)= trim(:show_cod)
+        ]]></statement>
+        <parameter type="string" kind="3">order_dat</parameter>
+        <parameter type="string" kind="3">show_cod</parameter>
+    </dao>
+
+</root>

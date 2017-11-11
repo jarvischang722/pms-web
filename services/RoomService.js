@@ -8,7 +8,7 @@ const mongoAgent = require("../plugins/mongodb");
 const _ = require("underscore");
 const async = require("async");
 const CommonTools = require("../utils/CommonTools");
-const sysConfig = require("../configs/SystemConfig");
+const sysConfig = require("../configs/systemConfig");
 
 /**
  * 從資料庫撈取房型排序資料

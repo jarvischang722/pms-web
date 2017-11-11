@@ -12,23 +12,22 @@ var i18n = require("i18n");
 
 module.exports = function (req, res, next) {
 
-
     if (_v(req.query["locale"]) != "") {
         i18n.overrideLocaleFromQuery(req);
         res.cookie('locale', _v(req.query["locale"]));
     } else if (_v(req.cookies.locale) != "") {
         if (req.url.indexOf("?") > 1) {
-            req.url = req.url + "&locale=" + req.session.locale;
+            req.url = req.url + "&locale=" + req.cookies.locale;
         } else {
-            req.url = req.url + "?locale=" + req.session.locale;
+            req.url = req.url + "?locale=" + req.cookies.locale;
         }
         i18n.overrideLocaleFromQuery(req);
     } else {
         res.cookie('locale', judgeBrowserLang(req));
         if (req.url.indexOf("?") > 1) {
-            req.url = req.url + "&locale=" + req.session.locale;
+            req.url = req.url + "&locale=" + req.cookies.locale;
         } else {
-            req.url = req.url + "?locale=" + req.session.locale;
+            req.url = req.url + "?locale=" + req.cookies.locale;
         }
         i18n.overrideLocaleFromQuery(req);
 

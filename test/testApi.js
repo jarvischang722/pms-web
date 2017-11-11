@@ -3,7 +3,7 @@
  */
 var tools = require("../utils/CommonTools");
 var moment = require("moment");
-var sysConf = require("../configs/SystemConfig");
+var sysConf = require("../configs/systemConfig");
 var dgSvc = require("../services/DatagridService");
 
 

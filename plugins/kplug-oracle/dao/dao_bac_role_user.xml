@@ -191,4 +191,44 @@
         <parameter type="string" kind="3">sys_id</parameter>
         <orderby>order by pro.mdl_id, pro.pro_id, pro.SORT_COD</orderby>
     </dao>
+
+    <!-- 撈取某支作業全部功能權限 -->
+    <dao name="QRY_PROCESS_USER_FUNC_PURVIEW">
+        <statement><![CDATA[
+        select distinct  a.func_athena_id Athena_ID, func_comp_cod , func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod
+        from BAC_ROLE_FUNCTION a
+        join bac_role_user b on a.role_athena_id = b.role_athena_id and a.role_id = b.role_id
+        where b.user_athena_id = :athena_id
+        and trim(b.user_comp_cod) = trim(:comp_cod)
+        and b.user_id = :user_id
+        and  a.func_athena_id = :athena_id
+        and  trim(a.func_hotel_cod) = trim(:hotel_cod)
+        and a.pre_id = :prg_id
+        union
+        select distinct func_athena_id Athena_ID, func_comp_cod , func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod  from BAC_USER_FUNCTION
+        where user_athena_id = :athena_id
+        and trim(user_comp_cod) = trim(:comp_cod)
+        and user_id = :user_id
+        and  func_athena_id = :athena_id
+        and  trim(func_hotel_cod) = trim(:hotel_cod)
+        and pre_id = :prg_id
+        and addorminus = 'ADD'
+        minus
+        select distinct func_athena_id Athena_ID, func_comp_cod , func_hotel_cod , pre_id , current_id , id_typ ,level_nos ,sort_cod  from BAC_USER_FUNCTION
+        where user_athena_id = :athena_id
+        and trim(user_comp_cod) = trim(:comp_cod)
+        and user_id = :user_id
+        and  func_athena_id = :athena_id
+        and  trim(func_hotel_cod) = trim(:hotel_cod)
+        and pre_id = :prg_id
+        and addorminus = 'MINUS'
+        order by
+        ]]> </statement>
+        <parameter type="string" kind="3">user_id</parameter>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="string" kind="3">hotel_cod</parameter>
+        <parameter type="string" kind="3">prg_id</parameter>
+        <orderby>level_nos,sort_cod,current_id</orderby>
+    </dao>
 </root>

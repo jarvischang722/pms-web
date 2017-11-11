@@ -1,0 +1,275 @@
+    <div id="MainApp2" class="main-container ace-save-state" style="margin-top: 35px;"  v-loading="isLoading"  element-loading-text="Loading..." >
+
+        <div class="main-content" v-show="isVerify">
+            <div class="main-content-inner">
+                <!-- #section:basics/content.breadcrumbs -->
+
+                <!-- /section:basics/content.breadcrumbs -->
+                <div class="page-content dominos-inventory-wrap">
+
+                    <!-- /section:settings.box -->
+                    <div class="page-header no-border-bottom">
+                        <h1>
+                            門市Web訂單作業
+                        </h1>
+                    </div><!-- /.page-header -->
+
+                    <!-- 查詢 -->
+                    <search-comp
+                            :search-fields="searchFields"
+                            :search-cond="searchCond"
+                            :fetch-data="loadDataGrid">
+                    </search-comp>
+
+                    <div class="dominos-inventory-container">
+
+                        <div class="dominos-inventory-left">
+
+                            <div class="main-content-data">
+                                <div class="horizTable-outer">
+                                    <table id="PSIW500030_dg" class="css_table horizTable" style="width:100%; height: 550px"></table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="splitter"></div>
+
+                        <div class="dominos-inventory-right">
+                            <div class="dominos-btn-group">
+                                    <ul>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" @click="addData()" :disabled="!addEnable" role="button">新增</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" @click="editData()" :disabled="!editEnable" role="button">修改</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" @click="save()" :disabled="!saveEnable" role="button">儲存</button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
+                                        </li>
+                                        <li class="order-down btn-120">
+                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW500030-down" @click="orderSearch()" role="button">空白訂貨表單下載</button>
+                                        </li>
+                                    </ul>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="main-content-data dominos-input-group">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂單編號</label>
+                                        <input v-model="singleData.order_nos" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂單日期</label>
+                                        <input v-model="singleData.order_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label class="v-top">狀態</label>
+                                        <select v-model="singleData.order_sta" class="input-medium resvCard" style="-webkit-appearance: menulist;" disabled>
+                                            <option v-for="opt in statusSelectData" :value="opt.value">
+                                                {{opt.display}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>交貨日期</label>
+                                        <input v-model="singleData.ship_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂單格式</label>
+                                        <select v-model="singleData.format_sta" class="input-medium resvCardSpec1" @change="orderFormatVerify()" :disabled="!isModificableFormat">
+                                            <option v-for="opt in orderSelectData" :value="opt.format_sta">
+                                                {{opt.format_sta}} : {{opt.quote_rmk}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶代號</label>
+                                        <select v-model="singleData.cust_cod" class="input-medium w118px" style="-webkit-appearance: menulist;" @change="custSelectChange()" :disabled="!isModificableFormat">
+                                            <option v-for="opt in custSelectData" :value="opt.cust_cod">
+                                                {{opt.show_cod}}
+                                            </option>
+                                        </select>
+                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w388px input-second-2" placeholder="" disabled>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>送貨地點</label>
+                                        <input v-model="singleData.ship1_add" type="text" class="input-medium w253px address-frist" placeholder="" disabled>
+                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w253px address-second" placeholder="" disabled>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>員工姓名</label>
+                                        <input v-model="singleData.atten_nam" type="text" class="input-medium resvCardSpec1" maxlength="20" placeholder="" :disabled="!isModificable">
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂單備註</label>
+                                        <input v-model="singleData.order_rmk" type="text" class="input-medium w510px" maxlength="500" placeholder="" :disabled="!isModificable">
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                <div class="grid-item">
+                                    <label>輸入者</label>
+                                    <input v-model="singleData.ins_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                </div>
+                                <div class="grid-item">
+                                    <label>輸入日</label>
+                                    <input v-model="singleData.ins_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                </div>
+                            </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>異動者</label>
+                                        <input v-model="singleData.upd_usr" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>異動日</label>
+                                        <input v-model="singleData.upd_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>核准者</label>
+                                        <input v-model="singleData.cnfirm_cod" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>核准日</label>
+                                        <input v-model="singleData.cnfirm_dat" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="space-12"></div>
+                            <div class="dominos-inventory-details">
+                                <div class="main-content-data">
+                                    <div class="horizTable-outer">
+                                        <table id="PSIW500030_dt" class="css_table horizTable" style="width:100%;"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+        <div v-show="!isVerify">
+            <div class="space-6"></div>
+            <div class="loginPage">
+                <div class="login-container">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="row">
+
+                            <h1>門市Web訂單作業</h1>
+
+                            <div class="space-6"></div>
+                            <div class="title">
+                                <i class="fa fa-user green"></i>
+                                <span>請輸入員工編號 (8碼)</span>
+                            </div>
+                            <div class="main">
+                                <div class="block input-icon input-icon-right">
+                                    <input type="text" v-model="userid" class="form-control" maxlength="8" placeholder="User" @keyup.enter="verify">
+                                    <i class="ace-icon fa fa-user"></i>
+                                </div>
+
+                                <div class="mainCheck">
+                                    <button type="button" id="login_btn" class=" btn btn-sm btn-primary" style="width: 100%;" @click="verify">
+                                        <span class="bigger-110">確定</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /. login-content -->
+
+        <!-- 空白訂單下載 彈出視窗 -->
+        <div id="PSIW500030-down" class="hide padding-5 PSIW500030-down">
+            <div class="businessCompanyData">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+
+                        <div class="main-content-data margin-top10">
+                            <div class="col-xs-10">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂單格式</label>
+                                        <select v-model="select_format_sta" class="input-medium resvCardSpec1" @change="orderSelectOnChange()">
+                                            <option v-for="opt in allOrderSelectData" :value="opt.format_sta">
+                                                {{opt.format_sta}} : {{opt.quote_rmk}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <button role="button" class="btn btn-primary btn-white btn-defaultWidth" @click="download()">下載</button>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="space-6"></div>
+                        </div><!--main-content-data-->
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <!-- 空白訂單下載 PDF表格 -->
+        <div class="main-content-data" >
+            <div id="order_tag" class="horizTable-outer" style="display: none;">
+                <span style="font-size: 16px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
+                <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
+                <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
+
+                <table border="1">
+                    <tr style="font-size:20px;">
+                        <td style="width: 120px; text-align: center;">貨品代號</td>
+                        <td style="width: 400px; text-align: center;">貨品描述</td>
+                        <td style="width: 100px; text-align: center;">訂貨單位</td>
+                        <td style="width: 100px; text-align: center;">數量</td>
+                    </tr>
+                    <tr v-for="item in order_data" style="font-size:16px;">
+                        <td style=" text-align: center;">{{item.goods_cod}}</td>
+                        <td>{{item.goods_rmk}}</td>
+                        <td style=" text-align: center;">{{item.goods_unit}}</td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div><br></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <%- include ../setup/vueTemplate/searchTmp.ejs %>
+    <script src="/js/setup/vueCompLib/searchComp.js"></script>
+    <script src="/js/tools/jspdf.min.js"></script>
+    <script src="/js/tools/jspdf.plugin.autotable.js"></script>
+    <script src="/js/tools/html2canvas.min.js"></script>
+    <script src="/js/saleAndInventory/PSIW500030.js"></script>

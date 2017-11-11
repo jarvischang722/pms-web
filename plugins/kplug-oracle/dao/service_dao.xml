@@ -2,6 +2,7 @@
 <struts-config>
     <sql-sources>
         <sql-source base="true" comment="test" key="test" path="dao_a6hfd_areapnt_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_address_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_address_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_external_dw.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ais_mail_fmt_mn.xml"/>
@@ -58,9 +59,17 @@
         <sql-source base="true" comment="test" key="test" path="dao_order_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_order_mn.xml"/>
         <!--<sql-source base="true" comment="test" key="test" path="dao_pa_ais2.xml"/>-->
+        <sql-source base="true" comment="test" key="test" path="dao_pg_ais.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pg_ais2.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_ps_visit_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_bug_sales.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_cust_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_period_rf.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_posinv_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_quote_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_quote_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_psi_quote_rf_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_remark_typ_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_room_cod_order.xml"/>
@@ -76,6 +85,7 @@
         <sql-source base="true" comment="test" key="test" path="dao_sales_class_hs.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_class_kvrf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_mn.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_sell_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_sales_hotel_dt.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_service_rf.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_servtype_rf.xml"/>
@@ -98,5 +108,6 @@
         <sql-source base="true" comment="test" key="test" path="dao_hc_adjfolio_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_pers_mn.xml"/>
         <sql-source base="true" comment="test" key="test" path="dao_rminv_dt.xml"/>
+        <sql-source base="true" comment="test" key="test" path="dao_unit_rf.xml"/>
     </sql-sources>
 </struts-config>
