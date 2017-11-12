@@ -27,784 +27,270 @@
                 </div>
             </div>
             <div class="grid_12 gs-rese-contaoner">
-                <table class="themeTable treeControl gs-rese-table table-hover" id="gs-fixTable" cellpadding="0" cellspacing="0">
+                <table class="themeTable treeControl gs-rese-table table-hover" id="gs-fixTable" cellpadding="0"
+                       cellspacing="0">
                     <thead>
                     <tr class="h23-tr">
                         <th class="gs-frist-th">
                             2007/01/18(四)
                         </th>
-                        <th class="" colspan="2">09:00</th>
-                        <th class="" colspan="2">10:00</th>
-                        <th class="" colspan="2">11:00</th>
-                        <th class="" colspan="2">12:00</th>
-                        <th class="" colspan="2">13:00</th>
-                        <th class="" colspan="2">14:00</th>
-                        <th class="" colspan="2">15:00</th>
-                        <th class="" colspan="2">16:00</th>
-                        <th class="" colspan="2">17:00</th>
-                        <th class="" colspan="2">18:00</th>
-                        <th class="" colspan="2">19:00</th>
-                        <th class="" colspan="2">20:00</th>
-                        <th class="" colspan="2">21:00</th>
-                        <th class="" colspan="2">22:00</th>
-                        <th class="" colspan="2">23:00</th>
-                        <th class="" colspan="2">00:00</th>
-                        <th class="" colspan="2">01:00</th>
-                        <th class="" colspan="2">02:00</th>
+                        <th class="" colspan="2" v-for="time in pageOneData.time_range">{{time}}</th>
                     </tr>
 
                     </thead>
 
                     <tbody>
-                    <tr class="no-cursor-tr h23-tr">
-                        <td class="middle td-first lightGrayTag">青庭餐廳</td>
-                        <td class="darkGrayTag" colspan="3">BREAKFAST2</td>
-                        <td class="darkGrayTag" colspan="8">
-                            LUNCH2
+                    <tr :class="la_rowData.tr_class" v-for="la_rowData in pageOneData.rowData">
+                        <!-- 餐廳 -->
+                        <td class="middle td-first lightGrayTag" v-if="la_rowData.datatype == 'RSPT'">
+                            {{la_rowData.name}}
                         </td>
-                        <td class="darkGrayTag" colspan="6">
-                            SNACK2
-                        </td>
-                        <td class="darkGrayTag" colspan="13">
-                            DINNER
-                        </td>
-                        <td class="lightGrayTag" colspan="6"></td>
-                    </tr>
-                    <tr>
-                        <td class="no-cursor border-bottom-black middle td-first lightPurpleTag" rowspan="2">晏蜓區 (5)
-                        </td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="32">
-                            test1
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 gs-have-order" colspan="13">
-                            ben johnson
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag">test9 (10)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="no-cursor-tr h23-tr">
-                        <td class="middle lightGrayTag td-first">雨林餐廳</td>
-                        <td class="darkGrayTag" colspan="3">BREAKFAST1</td>
-                        <td class="darkGrayTag" colspan="6">
-                            LUNCH2
-                        </td>
-                        <td class="lightGrayTag" colspan="7"></td>
-                        <td class="darkGrayTag" colspan="8">
-                            DINNER
-                        </td>
-                        <td class="lightGrayTag" colspan="2"></td>
-                        <td class="darkGrayTag" colspan="8">
-                            MIDNIGHT
-                        </td>
-                        <td class="lightGrayTag" colspan="2"></td>
-                    </tr>
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="3">雨林區 (10)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等7)test2014'~s
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            test20140502_1
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等12)(關)kkkk
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等11)test123
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag">Earth (0)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr data-tt-id="1">
-                        <td class="no-cursor middle td-first lightPurpleTag">Earth C (10)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr data-tt-id="2" data-tt-parent-id="1" class="">
-                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
-                            EarthBC(0)
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr data-tt-id="3" data-tt-parent-id="1" class="">
-                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
-                            EarthA(0)
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr data-tt-id="4" data-tt-parent-id="1" class="">
-                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
-                            EarthAB(0)
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr data-tt-id="5" data-tt-parent-id="1" class="">
-                        <td class="no-cursor middle padding-left-24 lightPurpleTag">
-                            EarthB(0)
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="2">高山廳 (124)</td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="3">
-                            ($)eww
+                        <!-- 地區 rowspan -->
+                        <td class="no-cursor middle td-first lightPurpleTag" :rowspan="la_rowData.rowspan" v-else-if="la_rowData.rowspan > 0">
+                            {{la_rowData.name}}
                         </td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等14)test123
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            test card
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="noBorderTopBottom border-bottom">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order gs-have-order" colspan="8">
-                            (等15)大學餐廳
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等10)test20140718
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="2">奇萊區 (10)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            ($C)三光旅行社
+                        <!-- 地區 -->
+                        <td class="no-cursor middle td-first lightPurpleTag" v-else>
+                            {{la_rowData.name}}
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="16">
-                            ooxx會議
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="noBorderTopBottom border-bottom">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            ($C)三光旅行社
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
-                    <tr>
-                        <td class="no-cursor middle td-first lightPurpleTag" rowspan="6">合歡區 (10)</td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="3">
-                            kobe bryant
+                        <!-- 餐期 -->
+                        <td class="darkGrayTag" :colspan="lo_banquetDt.colspan"
+                            v-for="lo_banquetDt in la_rowData.banquet_dt"
+                            v-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'MTIME'">
+                            {{lo_banquetDt.name}}
                         </td>
-                        <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (詢)test20140715
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            QQQ
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等5)aa
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (詢)test123_1
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等6)11
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等3)test
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等4)(關)陳府喜宴
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" colspan="8">
-                            (等13)(關)林府喜宴
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
+                        <!-- 空白餐期 -->
+                        <td class="lightGrayTag" :colspan="lo_banquetDt.colspan"
+                            v-else-if="lo_banquetDt.name == '' && lo_banquetDt.datatype == 'MTIME'"></td>
+
+                        <!-- 訂席: 預約(N) -->
+                        <td class="lightYellowTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'">
+                            {{lo_banquetDt.name}}
+                        </td>
+
+                        <!-- 訂席: 等待(W)-->
+                        <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'">
+                            {{lo_banquetDt.name}}
+                        </td>
+
+                        <!-- 訂席: 詢問(Q)-->
+                        <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'">
+                            {{lo_banquetDt.name}}
+                        </td>
+
+                        <!-- 補空白 -->
+                        <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"></td>
+                    </tr>
+                    <!--<tr data-tt-id="1">-->
+                        <!--<td class="no-cursor middle td-first lightPurpleTag">Earth C (10)</td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <!--<tr data-tt-id="2" data-tt-parent-id="1" class="">-->
+                        <!--<td class="no-cursor middle padding-left-24 lightPurpleTag">-->
+                            <!--EarthBC(0)-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <!--<tr data-tt-id="3" data-tt-parent-id="1" class="">-->
+                        <!--<td class="no-cursor middle padding-left-24 lightPurpleTag">-->
+                            <!--EarthA(0)-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <!--<tr data-tt-id="4" data-tt-parent-id="1" class="">-->
+                        <!--<td class="no-cursor middle padding-left-24 lightPurpleTag">-->
+                            <!--EarthAB(0)-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
+                    <!--<tr data-tt-id="5" data-tt-parent-id="1" class="">-->
+                        <!--<td class="no-cursor middle padding-left-24 lightPurpleTag">-->
+                            <!--EarthB(0)-->
+                        <!--</td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                        <!--<td></td>-->
+                    <!--</tr>-->
                     </tbody>
                 </table>
                 <!--</div>-->
@@ -1070,7 +556,8 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">離開</button>
+                                            role="button">離開
+                                    </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1233,7 +720,8 @@
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">庫存檢查</button>
+                                                            role="button">庫存檢查
+                                                    </button>
                                                 </li>
 
                                             </ul>
@@ -1340,7 +828,8 @@
                                                     </el-date-picker>
                                                 </div>
                                             </template>
-                                        </div>                                    </div>
+                                        </div>
+                                    </div>
                                     <div class="grid-item-inline gs-timePicker">
                                         <div class="addFeast-timePicker">
                                             <template>
@@ -1517,7 +1006,8 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">離開</button>
+                                            role="button">離開
+                                    </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
@@ -1680,7 +1170,8 @@
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">庫存檢查</button>
+                                                            role="button">庫存檢查
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>

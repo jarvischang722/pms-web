@@ -1,12 +1,12 @@
 [{ 
     "order_seq" : 1, 
     "datatype" : "BEG_HOUR", 
-    "beg_hour" : 9
+    "beg_hour" : 8
 },
 {
     "order_seq" : 2, 
     "datatype" : "END_HOUR", 
-    "end_hour" : 23
+    "end_hour" : 24
 },
 {
     "order_seq" : 3, 
@@ -60,12 +60,12 @@
     "desk_qnt" : 2
 },
 {
-    "order_seq" : 10, 
-    "datatype" : "PLACE", 
-    "rspt_cod" : "BT01", 
-    "is_child" : "N", 
-    "place_cod" : "0001  ", 
-    "place_nam" : "宴會廳", 
+    "order_seq" : 10,
+    "datatype" : "PLACE",
+    "rspt_cod" : "BT01",
+    "is_child" : "N",
+    "place_cod" : "0001  ",
+    "place_nam" : "宴會廳",
     "desk_qnt" : 30
 },
 {
