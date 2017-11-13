@@ -316,9 +316,10 @@ function DatagridBaseClass() {
             lo_chkKeyRowData["tab_page_id"] = 1;
             lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
-            self.tmpCUD[dataType].push(lo_chkKeyRowData);
-            self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+            self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
+            self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
             $("#gridEdit").val(self.tmpCUD);
+            console.log(self.tmpCUD);
         }
         else if (dataType == "createData") {
             if(existOriIdx == -1){
