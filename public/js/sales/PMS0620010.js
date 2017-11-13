@@ -537,13 +537,13 @@ Vue.component('text-select-grid-dialog-tmp', {
 
             var dataGrid = _.filter(allData, function (row) {
                 if (row[selectFieldName].includes(selectCondition))
-                    return row;
+                    {return row;}
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
 
         }
     }
-})
+});
 
 
 var vm = new Vue({
