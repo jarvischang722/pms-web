@@ -132,11 +132,12 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
             if(!isbind)
             {
                 grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
-                    e.preventDefault();
+
                     if(PSIW500030.isModificable){
                         switch (e.keyCode) {
                             // Up
                             case 38:
+                                e.preventDefault();
 
                                 var index = go_currentIndex;
 
@@ -162,6 +163,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                 break;
                             // Down
                             case 40:
+                                e.preventDefault();
 
                                 var index = go_currentIndex;
                                 var rows = grid.datagrid('getRows');
@@ -190,6 +192,8 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                 break;
                             // Left
                             case 37:
+                                e.preventDefault();
+
                                 var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'item_qnt'});
                                 if (ed) {
                                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
@@ -199,6 +203,8 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                 break;
                             // Right
                             case 39:
+                                e.preventDefault();
+
                                 var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'order_rmk'});
                                 if (ed) {
                                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
