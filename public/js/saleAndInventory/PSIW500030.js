@@ -925,7 +925,9 @@ var PSIW500030 = new Vue({
 
                     self.singleDataTemp.ins_dat = moment(new Date(self.singleDataTemp.ins_dat)).format("YYYY/MM/DD HH:mm:ss");
                     self.singleDataTemp.upd_dat = moment(new Date(self.singleDataTemp.upd_dat)).format("YYYY/MM/DD HH:mm:ss");
-                    self.singleDataTemp.cnfirm_dat = moment(new Date(self.singleDataTemp.cnfirm_dat)).format("YYYY/MM/DD HH:mm:ss");
+
+                    if(self.singleDataTemp.cnfirm_dat != null)
+                        self.singleDataTemp.cnfirm_dat = moment(new Date(self.singleDataTemp.cnfirm_dat)).format("YYYY/MM/DD HH:mm:ss");
 
 
                     if(self.singleDataTemp.ship1_add != null && self.singleDataTemp.ship1_add.toString().length > 60){
