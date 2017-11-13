@@ -175,9 +175,9 @@ exports.execSQLProcess = function (req, res) {
 /**
  * 執行作業sql 程序
  */
-exports.execOperationSQL = function(req, res){
+exports.execOperationSQL = function (req, res) {
 
-}
+};
 
 // 上傳檔案
 exports.uploadFile = function (req, res) {
@@ -200,9 +200,9 @@ exports.getSetupPrgChangeLog = function (req, res) {
 /**
  * 抓取session 結束時間
  */
-exports.getSessionExpireTime = function (req,res) {
+exports.getSessionExpireTime = function (req, res) {
     let lo_session = req.session;
-    res.json({success:true,session:lo_session});
+    res.json({success: true, session: lo_session});
 };
 
 /**
