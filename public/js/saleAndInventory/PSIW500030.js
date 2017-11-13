@@ -113,7 +113,7 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
                 $('#PSIW500030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
                 var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
                 if (ed) {
-                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                 }
                 go_currentIndex = index;
                 go_currentField = ed;
@@ -132,6 +132,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
             if(!isbind)
             {
                 grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
+                    e.preventDefault();
                     if(PSIW500030.isModificable){
                         switch (e.keyCode) {
                             // Up
@@ -150,7 +151,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
 
                                         var ed = grid.datagrid('getEditor', {index: index - 1, field: field});
                                         if (ed) {
-                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                                         }
                                         go_currentField = ed;
                                         go_currentIndex = index - 1;
@@ -178,7 +179,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                                         var ed = grid.datagrid('getEditor', {index: index + 1, field: field});
 
                                         if (ed) {
-                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                                         }
                                         go_currentField = ed;
                                         go_currentIndex = index + 1;
@@ -191,7 +192,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                             case 37:
                                 var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'item_qnt'});
                                 if (ed) {
-                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                                 }
                                 go_currentField = ed;
 
@@ -200,7 +201,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
                             case 39:
                                 var ed = grid.datagrid('getEditor', {index: go_currentIndex, field: 'order_rmk'});
                                 if (ed) {
-                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                                 }
                                 go_currentField = ed;
 
