@@ -39,6 +39,7 @@
                                     <!-- tree -->
                                     <template v-if="field.visiable == 'Y' && field.ui_type == 'tree'">
                                         <el-cascader
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                 v-model="classCodSelectedOption"
                                                 expand-trigger="hover"
                                                 :options="field.selectData"
