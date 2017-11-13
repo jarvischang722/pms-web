@@ -8,21 +8,22 @@
                         <el-date-picker
                                 type="date"
                                 v-model="searchDate"
-                                placeholder="选择日期"
-                                :default-value="defaultDate">
+                                placeholder="選擇日期"
+                                :editable="false"
+                                format="yyyy/MM/dd">
                         </el-date-picker>
 
                     </div>
                 </div>
                 <div class="col-md-9 col-xs-12 gs-option-btnGroup">
                     <button class="btn btn-primary btn-white btn-defaultWidth"
-                            role="button">查詢
+                            role="button" @click="doSearch">查詢
                     </button>
                     <button class="btn btn-primary btn-white gs-add-order"
-                            role="button">新增訂席
+                            role="button" @click="addReserve">新增訂席
                     </button>
                     <button id="today-btn" class="btn btn-primary btn-white today-btn"
-                            role="button">今日
+                            role="button" @click="initToday">今日
                     </button>
                 </div>
             </div>
@@ -69,25 +70,29 @@
 
                         <!-- 訂席: 預約(N) -->
                         <td class="lightYellowTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
-                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'">
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'N'"
+                            @click="showReserve(lo_banquetDt.bquet_nos)">
                             {{lo_banquetDt.name}}
                         </td>
 
                         <!-- 訂席: 等待(W)-->
                         <td class="sexyPurpleTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
-                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'">
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'W'"
+                            @click="showReserve(lo_banquetDt.bquet_nos)">
                             {{lo_banquetDt.name}}
                         </td>
 
                         <!-- 訂席: 詢問(Q)-->
                         <td class="brighterPurpleTag padding-tb-5 text-center gs-have-order" :colspan="lo_banquetDt.colspan"
-                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'">
+                            v-else-if="lo_banquetDt.name != '' && lo_banquetDt.datatype == 'Reserve' && lo_banquetDt.order_sta == 'Q'"
+                            @click="showReserve(lo_banquetDt.bquet_nos)">
                             {{lo_banquetDt.name}}
                         </td>
 
                         <!-- 補空白 -->
                         <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"></td>
                     </tr>
+
                     <!--<tr data-tt-id="1">-->
                         <!--<td class="no-cursor middle td-first lightPurpleTag">Earth C (10)</td>-->
                         <!--<td></td>-->
@@ -297,12 +302,15 @@
                 <div class="clear"></div>
             </div> <!-- table -->
         </div><!-- /.container -->
+
+        <single-page></single-page>
     </div>
 </div>
-</div>
+
+
 
 <!-- 查詢訂席 彈出視窗 -->
-<div id="gs-order-page" class="hide padding-5" style="">
+<div id="gs-order-page" class="hide padding-5" style="top: 50px !important;">
     <div class="businessCompanyData">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
@@ -753,7 +761,7 @@
 <!-- /.查詢訂席 -->
 
 <!-- 新增訂席 彈出視窗 -->
-<div id="gs-add-page" class="hide padding-5" style="">
+<div id="gs-add-page" class="hide padding-5" style="top: 50px !important;">
     <div class="businessCompanyData">
         <div class="col-xs-12 col-sm-12">
             <div class="row">
@@ -1203,64 +1211,5 @@
 
 <script src="/js/tableHeadFixer.js"></script>
 <%- include ../../common/jsFile/groupJs_fixTable %>
+<%- include vueTemplate/RS00202010Tmp.ejs %>
 <script src="/js/reserveBanquet/RS00202010_setup.js"></script>
-<!--<script>-->
-
-<!--// 彈出 查詢訂席-->
-<!--$(document).on('click', ".gs-have-order", function (e) {-->
-<!--e.preventDefault();-->
-<!--var dialog = $("#gs-order-page").removeClass('hide').dialog({-->
-<!--modal: true,-->
-<!--title: "查詢訂席",-->
-<!--title_html: true,-->
-<!--width: 1000,-->
-<!--height: 700,-->
-<!--maxwidth: 1920,-->
-<!--//        height: $(window).height(),-->
-<!--//                autoOpen: true,-->
-<!--dialogClass: "test",-->
-<!--resizable: true-->
-<!--});-->
-<!--});-->
-
-<!--// 彈出 新增訂席-->
-<!--$(document).on('click', ".gs-add-order", function (e) {-->
-<!--e.preventDefault();-->
-<!--var dialog = $("#gs-add-page").removeClass('hide').dialog({-->
-<!--modal: true,-->
-<!--title: "新增訂席",-->
-<!--title_html: true,-->
-<!--width: 1000,-->
-<!--height: 700,-->
-<!--maxwidth: 1920,-->
-<!--//        height: $(window).height(),-->
-<!--//                autoOpen: true,-->
-<!--dialogClass: "test",-->
-<!--resizable: true-->
-<!--});-->
-<!--});-->
-
-<!--// 空白處彈出 新增訂席-->
-<!--$(document).on('click', ".gs-rese-table td", function (e) {-->
-<!--//判斷空白td-->
-<!--var emptyTd = $(this).hasClass("");-->
-<!--//    console.log(emptyTd);-->
-
-<!--//如果是空白td，彈出新增訂席-->
-<!--if(emptyTd === true){-->
-<!--var dialog = $("#gs-add-page").removeClass('hide').dialog({-->
-<!--modal: true,-->
-<!--title: "新增訂席",-->
-<!--title_html: true,-->
-<!--width: 1000,-->
-<!--height: 700,-->
-<!--maxwidth: 1920,-->
-<!--//        height: $(window).height(),-->
-<!--//                autoOpen: true,-->
-<!--dialogClass: "test",-->
-<!--resizable: true-->
-<!--});-->
-<!--}else{}-->
-<!--});-->
-
-<!--</script>-->

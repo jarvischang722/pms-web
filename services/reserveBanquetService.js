@@ -17,7 +17,7 @@ exports.qryPageOneData = function (postData, session, callback) {
     let lo_error = null;
     let lo_result = new ReturnClass();
     let lo_params = {
-        use_dat: "2005/11/06"
+        use_dat: moment(postData.use_dat).format("YYYY/MM/DD")
     };
 
     async.parallel([
@@ -27,7 +27,6 @@ exports.qryPageOneData = function (postData, session, callback) {
         let la_banquetData = result[0];
         let la_banquetSta = result[1];
         let lo_banquetData = convertDataToDisplay(la_banquetData, la_banquetSta);
-        console.log(lo_banquetData);
         lo_result.defaultValues = lo_banquetData;
         callback(lo_error, lo_result);
     });
@@ -195,6 +194,7 @@ class ResvBanquetData {
                 la_banquet_dt.push(lo_banquet_dt);
             }
         }
+        // 訂席
         else {
             let la_order = _.where(this.la_order, {place_cod: parent_cod});
             _.each(la_order, function (lo_order, index) {
@@ -244,7 +244,8 @@ class ResvBanquetData {
                     end_tim: lo_end_tim.format("HH:mm"),
                     colspan: ln_colspan,
                     datatype: "Reserve",
-                    order_sta: lo_order.order_sta
+                    order_sta: lo_order.order_sta,
+                    bquet_nos: lo_order.bquet_nos
                 };
                 la_banquet_dt.push(lo_banquet_dt);
             });

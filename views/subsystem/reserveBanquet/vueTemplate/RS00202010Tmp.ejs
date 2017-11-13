@@ -1,0 +1,443 @@
+<!-- 彈出視窗 -->
+<script type="text/x-template" id="RS00202010Tmp">
+<div id="gs-order-page" class="hide padding-5" style="top: 50px !important;">
+    <div class="businessCompanyData">
+        <div class="col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-xs-11 col-sm-11">
+                    <div class="row no-margin-right">
+                        <div class="gs-order-container">
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>訂席單號</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="1600000301"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>館別</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="01"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>訂席狀態</label>
+                                        <input type="text" class="input-medium resvCard-m" placeholder="N:預約"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>等待</label>
+                                        <input type="text" class="input-medium resvCard-2xs" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item-inline">
+                                        <label>預約處理</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="01:十天前確認"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶姓名</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>行動電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>聯絡人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="王曉明"/>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>客戶編號</label>
+                                        <input type="text" class="input-medium rateCode-s1"
+                                               placeholder="HFD000000029822001"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>住家電話</label>
+                                        <select name="" id="" class="input-medium resvCard-col2">
+                                            <option value="">0977111111</option>
+                                            <option value="">0977111111</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item inline-grid">
+                                        <label>宴會日期</label>
+                                        <div id="gs-feast-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item-inline gs-timePicker">
+                                        <div class="inquire-timePicker">
+                                            <template>
+                                                <el-time-select placeholder="開始時間">
+                                                </el-time-select>
+                                                <el-time-select placeholder="結束時間">
+                                                </el-time-select>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>是否確認</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>宴會名稱</label>
+                                        <input type="text" class="input-medium resvCard-col2" placeholder="王大明"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>主要廳別</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="BT01:宴會廳"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>使用類別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="04:宴席"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>餐別</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="6:下午茶"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>訂席來源</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">預/保桌數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="30">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">預/保人數</label>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
+                                        <span>/</span>
+                                        <input type="text" class="input-medium consumeCode-g1-ss text-right"
+                                               placeholder="0">
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>業務員</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="Fenny"/>
+                                    </div>
+                                </div>
+
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>主婚人</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新郎</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>新娘</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>婚企</label>
+                                        <input type="text" class="input-medium resvCard" placeholder=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>保留日</label>
+                                        <div id="gs-save-date" class="element-date-wrap">
+                                            <template>
+                                                <div class="block">
+                                                    <el-date-picker type="date" placeholder="選擇日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>計算服務費</label>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">是</span>
+                                        </label>
+                                    </span>
+                                        <span class="checkbox">
+                                        <label class="checkbox-width">
+                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <span class="lbl radius-circle">否</span>
+                                        </label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label>場地金額</label>
+                                        <input type="text" class="input-medium addedDate" placeholder="45,000"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>應收訂金</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="0"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label>已付訂金</label>
+                                        <input type="text" class="input-medium resvCard-date" placeholder="0"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="borderFrame">
+                                <div class="grid">
+                                    <div class="grid-item">
+                                        <label class="">輸入者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                    <div class="grid-item">
+                                        <label class="">最後修改者/日</label>
+                                        <input type="text" class="input-medium resvCard" placeholder="cio">
+                                        <input type="text" class="input-medium addedDate" placeholder="2016/06/15">
+                                        <input type="text" class="input-medium resvCard-m" placeholder="10:32">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+                <div class="col-xs-1 col-sm-1 place-btbGroup">
+                    <div class="row">
+                        <div class="right-menu-co">
+                            <ul>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">離開
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                            role="button">存檔
+                                    </button>
+                                </li>
+
+                                <div class="btn-group width-100 margin-tb15">
+                                    <div class="btn-groupBorder-box">
+                                        <fieldset>
+                                            <legend class="blue">訂席狀態</legend>
+                                            <div class="grid">
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">取消
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button" disabled>預約
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">等待
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">詢價
+                                                    </button>
+                                                </li>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row no-margin-right">
+                        <!-------- tabPage -------->
+                        <div class="easyui-tabs easyUi-custom1 margin-top20" style="overflow-y: auto; width: 100%;">
+                            <div title="場地(1)" class="padding-tabs">
+                                <div class="col-xs-11 col-sm-11">
+                                    <div class="row foCounter">
+                                        <div class="main-content-data floorPlan-table gs-order-table-wrap">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th class="">廳別</th>
+                                                    <th class="">場地代號</th>
+                                                    <th class="">開始時間</th>
+                                                    <th class="">結束時間</th>
+                                                    <th class="">桌數</th>
+                                                    <th class="-10">計價數量</th>
+                                                    <th class="">單價</th>
+                                                    <th class="">標準金額</th>
+                                                    <th class="">場地金額</th>
+                                                    <th class="">折扣金額</th>
+                                                    <th class="">全場</th>
+                                                    <th class="">扣庫桌</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        BT01:宴會廳
+                                                    </td>
+                                                    <td>0001:宴會廳</td>
+                                                    <td>08:00</td>
+                                                    <td>23:00</td>
+                                                    <td class="text-right">30</td>
+                                                    <td class="text-right">15.0</td>
+                                                    <td class="text-right">3,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">45,000</td>
+                                                    <td class="text-right">0</td>
+                                                    <td class="">
+                                                        <span class="checkbox">
+                                                            <label class="checkbox-width">
+                                                            <input name="form-field-checkbox" type="checkbox"
+                                                                   class="ace">
+                                                            <span class="lbl"></span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-right">30</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 place-left-wrap">
+                                    <div class="row">
+                                        <div class="right-menu-co">
+                                            <ul>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">選取場地
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">刪除場地
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                            role="button">庫存檢查
+                                                    </button>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div title="備註" class="padding-tabs">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="main-content-data">
+                                            <textarea class="width-100 pull-left" placeholder="" rows="5"></textarea>
+                                        </div><!--main-content-data-->
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <!-------- /.tabPage -------->
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+</script>
