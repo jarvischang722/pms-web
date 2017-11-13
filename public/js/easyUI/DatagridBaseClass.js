@@ -319,7 +319,6 @@ function DatagridBaseClass() {
             self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
             self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
             $("#gridEdit").val(self.tmpCUD);
-            console.log(self.tmpCUD);
         }
         else if (dataType == "createData") {
             if(existOriIdx == -1){

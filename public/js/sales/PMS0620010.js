@@ -384,7 +384,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     });
                     _.each(this.dgHoatelDt.tmpCUD.updateData, function (data) {
                         data["status_cod"] = data["status_cod1"];
-                        if (data["nouse_dat"] != "") {
+                        if (data["nouse_dat"] != "" && data["nouse_dat"].length == 7) {
                             data["nouse_dat"] = data["nouse_dat"].split("/")[0] + data["nouse_dat"].split("/")[1];
                         }
                     });
