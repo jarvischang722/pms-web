@@ -7,6 +7,8 @@ var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
 var gb_isUserEdit4tempExecData = true;
 
+new FuncPurview(prg_id);
+
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
@@ -115,7 +117,7 @@ var vm = new Vue({
         searchFields: [], //搜尋的欄位
         searchCond: {},   //搜尋條件
         multiLangDialogVisible: false,
-        isLoading :false
+        isLoading: false
     },
     watch: {
         prgFieldDataAttr: function (newVal) {
@@ -499,8 +501,8 @@ var adpterDg = new DatagridAdapter(vm);
  * 某種情況下datagrid裡驗證格式錯誤的tip會卡住不動
  * 站無解決辦法，故寫一個interval每五秒去關掉所有tips
  */
-if(prg_id =='PMS0810030'){
-    setInterval(function(){
+if (prg_id == 'PMS0810030') {
+    setInterval(function () {
         $(".tooltip-right").remove();
-    },5000);
+    }, 5000);
 }
