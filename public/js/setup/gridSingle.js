@@ -5,6 +5,22 @@ waitingDialog.hide();
 var prg_id = $("#prg_id").val();
 var vmHub = new Vue;
 
+/** DatagridRmSingleGridClass **/
+function DatagridSingleGridClass() {
+}
+
+DatagridSingleGridClass.prototype = new DatagridBaseClass();
+DatagridSingleGridClass.prototype.onClickCell = function (index, row) {
+};
+DatagridSingleGridClass.prototype.onClickRow = function (index, row) {
+    vm.fetchSingleData(row, function (success) {
+        vm.showSingleGridDialog();
+    });
+    vm.dgIns.editIndex = index;
+};
+
+/*** Class End  ***/
+
 //Dt 多語編輯
 Vue.component("multiLang-dialog-tmp", {
     template: '#multiLangDialogTmp',
@@ -807,7 +823,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            if(delRow.createRow != "Y")
+            if (delRow.createRow != "Y")
                 vm.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
@@ -1013,44 +1029,15 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function () {
-
-            var columnsData = [];
-            this.combineField(this.pageOneFieldData, function (columns) {
-                columnsData = columns;
+            var colOption = [{field: 'ck', checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'dg'));
+            this.dgIns = new DatagridSingleGridClass();
+            this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
+                singleSelect: false,
+                checkOnSelect: false,
+                selectOnCheck: false
             });
-            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
-            var dg = $('#dg').datagrid({
-                columns: [columnsData],
-                remoteSort: false,
-                singleSelect: true,
-                selectOnCheck: true,
-                checkOnSelect: true,
-                data: dgData,
-                // onEndEdit: onEndEdit,
-                onDropColumn: function () {
-                    //當移動順序欄位時
-                    vm.doSaveColumnFields();
-                },
-                onResizeColumn: function () {
-                    //當欄位時寬度異動時
-                    vm.doSaveColumnFields();
-                },
-                onSortColumn: function () {
-                    vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
-                    $("#dgCheckbox").datagrid('uncheckAll');
-                },
-                onClickRow: function (index, row) {
-
-                    vm.editingRow = row;
-                    vm.editStatus = true;
-                    vm.fetchSingleData(row, function (success) {
-                        vm.showSingleGridDialog();
-                    });
-
-                }
-            }).datagrid('columnMoving');
-
-            vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
+            this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
 
         //根據欄位屬性組資料
@@ -1060,12 +1047,13 @@ var vm = new Vue({
         //dg row刪除
         removeRow: function () {
             vm.tmpCud.deleteData = [];
-            var checkRows = $('#dgCheckbox').datagrid('getSelections');
+            var checkRows = $('#dg').datagrid('getChecked');
             if (checkRows == 0) {
                 alert('Check at least one item');
                 return;
             }
             var q = confirm("Are you sure delete those data?");
+
             if (q) {
                 //刪除前檢查
                 _.each(checkRows, function (row) {
@@ -1082,7 +1070,7 @@ var vm = new Vue({
                         _.each(checkRows, function (row) {
                             $('#dg').datagrid('deleteRow', $('#dg').datagrid('getRowIndex', row));
                         });
-                        vm.showCheckboxDG($("#dg").datagrid("getRows"));
+
                         vm.doSaveCUD();
                     } else {
                         alert(result.errorMsg);
@@ -1229,7 +1217,7 @@ var vm = new Vue({
 
                     });
                 }
-                catch(ex){
+                catch (ex) {
 
                 }
             }
