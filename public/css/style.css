@@ -9,16 +9,26 @@
 
 /* ---- grid-item ---- */
 .grid-item {
+  font-size: 0;
   /*width: 300px */
   margin: auto 10px 5px auto;
   float: left;
 }
 .grid-item label {
-  vertical-align: middle;
+  vertical-align: top;
   text-align: right;
-  margin-bottom: 0;
-  margin-right: 0;
+  margin: 3px 4px auto auto;
   width: 90px;
+  font-size: 13px;
+}
+.grid-item .input-medium, .grid-item span {
+  font-size: 13px;
+}
+.grid-item span {
+  margin: auto 2px auto auto;
+}
+.grid-item .btn-afterInput {
+  margin: -9px auto auto 4px;
 }
 .grid-item .textArea-float {
   margin-left: 5px;
@@ -39,6 +49,7 @@
   width: 400px;
 }
 .grid-item .moreClick {
+  font-size: 13px;
   height: 25px;
   border: 1px solid #d5d5d5;
   background: #d5d5d5;
@@ -163,18 +174,6 @@
 .css_table .css_td {
   position: relative;
 }
-.css_table .css_td .moreClick {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  height: 21px;
-  border: 1px solid #888;
-  background: #d5d5d5;
-  border-radius: 5px;
-  padding: 0 5px 0 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
 .css_table .css_td.active {
   background: #7f7f7f;
   color: #fff;
@@ -232,18 +231,6 @@
 }
 .horizTable-outer .css_table .css_td {
   position: relative;
-}
-.horizTable-outer .css_table .css_td .moreClick {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  height: 21px;
-  border: 1px solid #888;
-  background: #d5d5d5;
-  border-radius: 5px;
-  padding: 0 5px 0 5px;
-  box-sizing: border-box;
-  cursor: pointer;
 }
 .horizTable-outer .css_table .css_td.active {
   background: #7f7f7f;
@@ -2162,12 +2149,6 @@ a {
   text-align: left;
   border-collapse: collapse;
 }
-.search-content .search-co .search-co-content .grid-item label {
-  margin: 0 5px 0 0;
-  text-align: right;
-  width: 90px;
-  font-size: 13px;
-}
 .search-content .search-co .search-co-content .grid-item label.key-Word {
   margin: 0 0 0 -20px;
 }
@@ -2367,7 +2348,6 @@ a {
 .businessCompanyData .main-content-data label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .businessCompanyData .main-content-data .mainData-tip {
   font-size: 12px;
@@ -2384,7 +2364,6 @@ a {
 .businessCompanyData .tab-block label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .businessCompanyData .tab-block .mainData-tip {
   font-size: 12px;
@@ -2455,7 +2434,6 @@ a {
 .businessCompanyData .bs-changeRecord label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .businessCompanyData .bs-changeRecord .mainData-tip {
   font-size: 12px;
@@ -2668,7 +2646,6 @@ ul.newVisitOther-btn {
 .textFrame label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .textFrame .mainData-tip {
   font-size: 12px;
@@ -2718,7 +2695,6 @@ ul.newVisitOther-btn {
 .resv-changeRecord label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .resv-changeRecord .mainData-tip {
   font-size: 12px;
@@ -2753,7 +2729,6 @@ ul.newVisitOther-btn {
 .resv-memo label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
 }
 .resv-memo .mainData-tip {
   font-size: 12px;
@@ -3422,10 +3397,6 @@ th.dateColor {
   margin-left: 57px;
 }
 
-.marginLeft-93 {
-  margin-left: 93px;
-}
-
 .marginLeft-30 {
   margin-left: 30px;
 }
@@ -3474,26 +3445,6 @@ th.dateColor {
 
 .input-medium.medium-c4 {
   width: 176px;
-  max-width: 100%;
-  height: 25px;
-}
-
-.input-medium.input-spc-2 {
-  width: 455px;
-  max-width: 100%;
-  height: 25px;
-  height: 25px;
-}
-
-.input-medium.input-more-1 {
-  width: 431px;
-  max-width: 100%;
-  height: 25px;
-  height: 25px;
-}
-
-.input-medium.input-spc-3 {
-  width: 349px;
   max-width: 100%;
   height: 25px;
 }
@@ -4023,7 +3974,6 @@ span.triangle-text {
 .businessCompanyData .main-content-data .hk-posting-frist label {
   width: 70px;
   text-align: right;
-  margin-right: 0;
 }
 
 .bg-red {
@@ -4155,19 +4105,6 @@ span.triangle-text {
   font-weight: bold;
 }
 
-.folioRadio .folioWrap {
-  float: left;
-  margin-left: 85px;
-}
-.folioRadio .folioWrap .radio {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.PMS0830070_table th, .PMS0830070_table td {
-  padding: 3px;
-}
-
 .BgBacchusBlue {
   background: #c0d6ee;
   color: #000;
@@ -4235,6 +4172,19 @@ span.triangle-text {
   vertical-align: text-bottom;
 }
 
+.folioRadio .folioWrap {
+  float: left;
+  margin-left: 85px;
+}
+.folioRadio .folioWrap .radio {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.PMS0830070_table th, .PMS0830070_table td {
+  padding: 3px;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4284,8 +4234,16 @@ span.triangle-text {
   margin: 3px;
 }
 
+.ml-2 {
+  margin-left: 2px;
+}
+
 .ml-3 {
   margin-left: 3px;
+}
+
+.ml-4 {
+  margin-left: 4px;
 }
 
 .ml-5 {
@@ -4294,6 +4252,14 @@ span.triangle-text {
 
 .ml-90 {
   margin-left: 90px;
+}
+
+.ml-93 {
+  margin-left: 93px;
+}
+
+.ml-94 {
+  margin-left: 94px;
 }
 
 .cardDetail_margin {
@@ -4630,17 +4596,17 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1Rm {
-  width: 138px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.medium-c1-col2 {
-  width: 488px;
+  width: 143px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.medium-c1-col2v2 {
-  width: 433px;
+  width: 434px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-col2v2Rm {
+  width: 412px;
   max-width: 100%;
   height: 25px;
 }
@@ -4650,17 +4616,27 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-col2v3Rm {
-  width: 411px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.medium-c1-col2v2Remark {
-  width: 407px;
+  width: 416px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.medium-c1-Full {
   width: 702px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2 {
+  width: 299.5px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2Rm {
+  width: 277.5px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc3Key {
+  width: 623px;
   max-width: 100%;
   height: 25px;
 }
@@ -4680,7 +4656,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-skyNo {
-  width: 147px;
+  width: 148.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -4695,7 +4671,12 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-col2_2 {
-  width: 228px;
+  width: 232px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-col2_3 {
+  width: 291px;
   max-width: 100%;
   height: 25px;
 }
@@ -4710,7 +4691,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-col3Rm {
-  width: 543px;
+  width: 548px;
   max-width: 100%;
   height: 25px;
 }
@@ -4735,7 +4716,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-card-3 {
-  width: 186px;
+  width: 190px;
   max-width: 100%;
   height: 25px;
 }
@@ -4825,12 +4806,12 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1-col2v2 {
-  width: 418px;
+  width: 414px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.popWindow-s1v2 {
-  width: 115px;
+  width: 116.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -4845,7 +4826,7 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1v2-col2RM {
-  width: 200px;
+  width: 205px;
   max-width: 100%;
   height: 25px;
 }
@@ -4870,7 +4851,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard {
-  width: 103px;
+  width: 106px;
   max-width: 100%;
   height: 25px;
 }
@@ -4885,7 +4866,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCardRemark {
-  width: 77px;
+  width: 83px;
   max-width: 100%;
   height: 25px;
 }
@@ -4895,22 +4876,22 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-col2 {
-  width: 310px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.resvCard-col3 {
-  width: 719px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.resvCard-col2Spec1 {
-  width: 250px;
+  width: 316px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.resvCard-col2Remark {
-  width: 283px;
+  width: 295px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-col3 {
+  width: 736px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-col2Spec1 {
+  width: 258px;
   max-width: 100%;
   height: 25px;
 }
@@ -4930,7 +4911,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-col3-fullRemark {
-  width: 490px;
+  width: 503px;
   max-width: 100%;
   height: 25px;
 }
@@ -4940,7 +4921,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-2xs {
-  width: 26.7px;
+  width: 32px;
   max-width: 100%;
   height: 25px;
 }
@@ -4950,7 +4931,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-sm {
-  width: 81px;
+  width: 84px;
   max-width: 100%;
   height: 25px;
 }
@@ -4966,6 +4947,41 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w253px {
+  width: 253px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w510px {
+  width: 510px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w388px {
+  width: 388px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w118px {
+  width: 118px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.input-spc-2 {
+  width: 456px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.input-spc-3 {
+  width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.input-spc-3 {
+  width: 333px;
   max-width: 100%;
   height: 25px;
 }
@@ -5063,25 +5079,18 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 
 .remarkInput {
   width: 85%;
-  margin-left: 5px;
 }
 
 .remarkInput-75 {
   width: 75%;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .remarkInput-45 {
   width: 45.4%;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .remarkInput-79 {
   width: 79.4%;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .border-raduis-5 {
@@ -5157,7 +5166,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   margin-right: 3px;
 }
 .searchCheckbox.msgCheck .checkbox {
-  margin: 0 108px auto 5px;
+  margin: 0 106px auto auto;
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;

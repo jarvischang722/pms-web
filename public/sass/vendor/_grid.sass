@@ -10,6 +10,7 @@
 
 /* ---- grid-item ---- */
 .grid-item
+  font-size: 0
   /*width: 300px*/
   margin: auto 10px 5px auto
   //height: 35px  //40px default
@@ -20,18 +21,17 @@
   //font-size: 0
   //end.消除inline-block 間距
   label
-    vertical-align: middle
+    vertical-align: top
     text-align: right
-    margin-bottom: 0
-    margin-right: 0
+    margin: 3px $label-mr auto auto
     width: 90px
-    //消除inline-block 間距
-    //font-size: $font-default
-    //letter-spacing: normal
-    //word-spacing: normal
-    //zoom: 1
-    //margin-right: 14px
-    //end.消除inline-block 間距
+    font-size: $font-default
+  .input-medium,span
+    font-size: $font-default
+  span
+    margin: auto 2px auto auto
+  .btn-afterInput
+    margin: -9px auto auto $label-mr
   //select
   //  border-radius: 5px
   .textArea-float
@@ -50,6 +50,7 @@
   &.single-input
     width: 400px
   .moreClick
+    font-size: $font-default
     //width: 25px
     height: $inputHeight-medium
     //line-height: $inputHeight-medium
@@ -154,19 +155,6 @@
     background: #d6d6d6
   .css_td
     position: relative
-    .moreClick
-      position: absolute
-      right: 0
-      bottom: 0
-      //width: 25px
-      height: $inputHeight-medium - 4
-      //line-height: $inputHeight-medium
-      border: 1px solid #888
-      background: $border-color
-      border-radius: 5px
-      padding: 0 5px 0 5px
-      box-sizing: border-box
-      cursor: pointer
     &.active
       background: #7f7f7f
       color: #fff
