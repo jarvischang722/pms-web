@@ -36,7 +36,7 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        key_cod1: session.user.usr_id,
+        key_cod1: session.user.usr_id
     };
 
     //過濾掉無效條件
@@ -371,10 +371,12 @@ exports.getFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -401,10 +403,12 @@ exports.getAllFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -432,10 +436,12 @@ exports.getGoodsData = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_GOODS_DATA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
