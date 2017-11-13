@@ -323,7 +323,7 @@ function DatagridBaseClass() {
         else if (dataType == "createData") {
             if(existOriIdx == -1){
                 lo_chkKeyRowData["mnRowData"] = this.mnRowData;
-                lo_chkKeyRowData["tab_page_id"] = 1;
+                lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
                 lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
                 self.tmpCUD[dataType].push(lo_chkKeyRowData);
