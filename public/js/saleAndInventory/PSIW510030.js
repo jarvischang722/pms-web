@@ -282,7 +282,11 @@ var PSIW510030 = new Vue({
 
         ship_mn_round_nos: "",       //(系統參數)單據主檔金額小數位數
         ship_dt_round_nos: "",       //(系統參數)單據明細小計小數位數
-        order_dat_change_time: ""    //(系統參數)訂貨日期切換的時間參數
+        order_dat_change_time: "",   //(系統參數)訂貨日期切換的時間參數
+
+        //異動Log
+        openChangeLogDialog: false,
+        allChangeLogList: [],
     },
     methods: {
 
@@ -1689,14 +1693,22 @@ var PSIW510030 = new Vue({
 
         //tempExecData
         tempExecData: function(row){
+        },
+
+        loadChangeLog: function () {
+            var self = this;
+            self.openChangeLogDialog = true;
+            $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+                self.allChangeLogList = result.allChangeLogList;
+            });
+            // 給裡面table的高 值
+            var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
+            $("#chooseGrid").datagrid({height: chooseGridH});
+
         }
     }
 
 });
-
-
-
-
 
 //四捨五入
 function formatFloat(num, pos)

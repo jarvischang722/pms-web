@@ -58,6 +58,9 @@
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth" @click="loadChangeLog()" role="button"><%= __("SystemCommon").ChangeLog %></button>
+                                        </li>
                                         <li class="order-down btn-120">
                                             <button class="btn btn-primary btn-white btn-defaultWidth PSIW510030-down purview_btn_1030" @click="orderSearch()" role="button">空白訂貨表單下載</button>
                                         </li>
@@ -268,6 +271,7 @@
     </div>
 
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
+    <%- include ../vueTemplate/chooseDataDialogTmp.ejs %>
 
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
     <script src="/js/tools/jspdf.min.js"></script>
