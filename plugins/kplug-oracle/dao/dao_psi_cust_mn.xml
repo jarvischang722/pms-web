@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取客戶代號下拉 -->
+    <!-- ['PSIW510030'] 取客戶代號下拉 -->
     <dao name="QRY_CUST_COD_SELECT">
         <statement><![CDATA[
             Select cust_cod, show_cod , cust_nam
@@ -17,7 +17,7 @@
         <parameter type="string" kind="3">key_cod1</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 取客戶代號資料 -->
+    <!-- ['PSIW510030'] 取客戶代號資料 -->
     <dao name="QRY_CUST_INFO">
         <statement><![CDATA[
 

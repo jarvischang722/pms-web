@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 門市web訂單作業(單筆dt) -->
+    <!-- ['PSIW510030'] 門市web訂單作業(單筆dt) -->
     <dao name="QRY_PSI_QUOTE_SINGLE_DT">
         <statement><![CDATA[
             select dt.*, goods.goods_rmk from psi_quote_dt dt, goods_mn goods

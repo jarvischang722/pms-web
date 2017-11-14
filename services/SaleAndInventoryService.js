@@ -1016,7 +1016,7 @@ exports.PSI0000001 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000001',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };
@@ -1114,7 +1114,7 @@ exports.PSI0000002 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000002',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };
@@ -1231,7 +1231,7 @@ exports.PSI0000003 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000003',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };

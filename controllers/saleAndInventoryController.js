@@ -10,8 +10,8 @@ var ruleAgent = require("../ruleEngine/ruleAgent");
 var PSIWService = require("../services/SaleAndInventoryService");
 
 //門市WEB訂單作業
-exports.getPSIW500030 = function (req, res) {
-    res.render("subsystem/saleAndInventory/PSIW500030");
+exports.getPSIW510030 = function (req, res) {
+    res.render("subsystem/saleAndInventory/PSIW510030");
 };
 
 //QueryResult

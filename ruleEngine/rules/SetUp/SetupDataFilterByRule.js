@@ -224,13 +224,13 @@ exports.PMS0830010Filter = function (rows, session, searchCond, callback) {
 
 /**
  *
- * PSIW500030 門市web訂單作業
+ * PSIW510030 門市web訂單作業
  * @param rows
  * @param searchCond
  * @param callback
  * @constructor
  */
-exports.PSIW500030Filter = function (rows, session, searchCond, callback) {
+exports.PSIW510030Filter = function (rows, session, searchCond, callback) {
     if (!_.isUndefined(searchCond.order_dat) && searchCond.order_dat.length > 0) {
         searchCond.order_dat = moment(new Date(searchCond.order_dat)).format("YYYY/MM/DD");
         rows = _.filter(rows, function (d) {

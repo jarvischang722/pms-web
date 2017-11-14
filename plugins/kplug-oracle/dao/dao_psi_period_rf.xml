@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取得期別 -->
+    <!-- ['PSIW510030'] 取得期別 -->
     <dao name="QRY_PSI_PERIOD_RF">
         <statement><![CDATA[
             select period_cod from psi_period_rf

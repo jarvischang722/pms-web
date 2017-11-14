@@ -1,10 +1,10 @@
 /**
  * Created by a16009 on 2017/10/11.
- * 程式編號: PSIW500030
+ * 程式編號: PSIW510030
  * 程式名稱: 門市WEB訂單作業
  */
 
-var prg_id = "PSIW500030";
+var prg_id = "PSIW510030";
 var go_current_row;
 
 var go_lockIndex;
@@ -16,29 +16,29 @@ new FuncPurview(prg_id);
 psiw50030_socket.on('checkRowLock', function (result) {
 
     if(!result.success){
-        PSIW500030.addEnable = true;
-        PSIW500030.editEnable = false;
-        PSIW500030.deleteEnable = false;
-        PSIW500030.cnfirmEnable = false;
-        PSIW500030.cancelEnable = false;
-        PSIW500030.saveEnable = false;
-        PSIW500030.dropEnable = false;
+        PSIW510030.addEnable = true;
+        PSIW510030.editEnable = false;
+        PSIW510030.deleteEnable = false;
+        PSIW510030.cnfirmEnable = false;
+        PSIW510030.cancelEnable = false;
+        PSIW510030.saveEnable = false;
+        PSIW510030.dropEnable = false;
 
-        PSIW500030.isRowLock = false;
+        PSIW510030.isRowLock = false;
         alert(result.errorMsg);
     }else {
-        PSIW500030.addEnable = true;
-        PSIW500030.editEnable = true;
-        PSIW500030.deleteEnable = true;
-        PSIW500030.cnfirmEnable = true;
-        PSIW500030.cancelEnable = true;
-        PSIW500030.saveEnable = false;
-        PSIW500030.dropEnable = false;
+        PSIW510030.addEnable = true;
+        PSIW510030.editEnable = true;
+        PSIW510030.deleteEnable = true;
+        PSIW510030.cnfirmEnable = true;
+        PSIW510030.cancelEnable = true;
+        PSIW510030.saveEnable = false;
+        PSIW510030.dropEnable = false;
 
-        PSIW500030.isModificable = false;
-        PSIW500030.isModificableFormat = false;
+        PSIW510030.isModificable = false;
+        PSIW510030.isModificableFormat = false;
 
-        PSIW500030.isRowLock = true;
+        PSIW510030.isRowLock = true;
     }
 });
 
@@ -50,19 +50,19 @@ DatagridRmSingleGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
 
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
-    if(!PSIW500030.createStatus && !PSIW500030.editStatus) {
+    if(!PSIW510030.createStatus && !PSIW510030.editStatus) {
 
         //按不同筆才需要解鎖
         if(idx != go_lockIndex){
-            if(PSIW500030.isRowLock){
-                console.log('unlock ' + PSIW500030.singleData.order_nos);
-                psiw50030_socket.emit('doRowUnLock', {prg_id: prg_id, order_nos: PSIW500030.singleData.order_nos});
+            if(PSIW510030.isRowLock){
+                console.log('unlock ' + PSIW510030.singleData.order_nos);
+                psiw50030_socket.emit('doRowUnLock', {prg_id: prg_id, order_nos: PSIW510030.singleData.order_nos});
             }
         }
 
-        PSIW500030.fetchSingleData(row, function (order_nos) {
+        PSIW510030.fetchSingleData(row, function (order_nos) {
             //只要沒Lock過 或 不是同一筆 就要Lock
-            if(!PSIW500030.isRowLock || idx != go_lockIndex) {
+            if(!PSIW510030.isRowLock || idx != go_lockIndex) {
                 console.log('lock ' + order_nos);
                 psiw50030_socket.emit('doRowLock', {prg_id: prg_id, order_nos: order_nos});
             }
@@ -88,8 +88,8 @@ DatagridRmSingleDTGridClass.prototype.endEditing = function () {
     if (go_currentIndex == undefined) {
         return true;
     }
-    if ($('#PSIW500030_dt').datagrid('validateRow', go_currentIndex)) {
-        $('#PSIW500030_dt').datagrid('endEdit', go_currentIndex);
+    if ($('#PSIW510030_dt').datagrid('validateRow', go_currentIndex)) {
+        $('#PSIW510030_dt').datagrid('endEdit', go_currentIndex);
         go_currentIndex = undefined;
         return true;
     }
@@ -97,11 +97,11 @@ DatagridRmSingleDTGridClass.prototype.endEditing = function () {
 };
 
 DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
-    if(PSIW500030.isModificable){
+    if(PSIW510030.isModificable){
         if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
             if (go_currentIndex != index) {
-                $('#PSIW500030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
-                var ed = $('#PSIW500030_dt').datagrid('getEditor', {index: index, field: field});
+                $('#PSIW510030_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
+                var ed = $('#PSIW510030_dt').datagrid('getEditor', {index: index, field: field});
                 if (ed) {
                     ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).select();
                 }
@@ -115,7 +115,7 @@ DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
 };
 
 //擴充上下左右操控
-$.extend($('#PSIW500030_dt').datagrid.methods, {
+$.extend($('#PSIW510030_dt').datagrid.methods, {
     keyCtr : function (jq) {
         return jq.each(function () {
             var grid = $(this);
@@ -123,7 +123,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
             {
                 grid.datagrid('getPanel').panel('panel').attr('tabindex', 1).bind('keydown', function (e) {
 
-                    if(PSIW500030.isModificable){
+                    if(PSIW510030.isModificable){
                         switch (e.keyCode) {
                             // Up
                             case 38:
@@ -213,7 +213,7 @@ $.extend($('#PSIW500030_dt').datagrid.methods, {
 
 /*** Class End  ***/
 
-var PSIW500030 = new Vue({
+var PSIW510030 = new Vue({
     el: '#MainApp2',
     mounted: function () {
         this.initSelect();
@@ -432,7 +432,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id: "",
                     user_id: "",
-                    prg_id: "PSIW500030",
+                    prg_id: "PSIW510030",
                     ui_field_name: "order_nos",
                     ui_type: "text",
                     ui_field_length: 20,
@@ -454,7 +454,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id: "",
                     user_id: "",
-                    prg_id: "PSIW500030",
+                    prg_id: "PSIW510030",
                     ui_field_name: "order_dat",
                     ui_type: "date",
                     ui_field_length: 20,
@@ -476,7 +476,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id: "",
                     user_id: "",
-                    prg_id: "PSIW500030",
+                    prg_id: "PSIW510030",
                     ui_field_name: "order_sta",
                     ui_type: "text",
                     ui_field_length: 1,
@@ -498,7 +498,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "format_sta",
                     ui_type : "text",
                     ui_field_length : 4,
@@ -520,7 +520,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "show_cod",
                     ui_type : "text",
                     ui_field_length : 20,
@@ -542,7 +542,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "cust_nam",
                     ui_type : "text",
                     ui_field_length : 20,
@@ -564,7 +564,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "atten_nam",
                     ui_type : "text",
                     ui_field_length : 20,
@@ -586,7 +586,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "order_rmk",
                     ui_type : "text",
                     ui_field_length : 20,
@@ -608,7 +608,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "ins_usr",
                     ui_type : "text",
                     ui_field_length : 10,
@@ -630,7 +630,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "upd_usr",
                     ui_type : "text",
                     ui_field_length : 10,
@@ -652,7 +652,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "cnfirm_cod",
                     ui_type : "text",
                     ui_field_length : 10,
@@ -682,7 +682,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "order_ser",
                     ui_type : "number",
                     ui_field_length : 5,
@@ -704,7 +704,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "goods_cod",
                     ui_type : "text",
                     ui_field_length : 15,
@@ -726,7 +726,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "goods_rmk",
                     ui_type : "text",
                     ui_field_length : 100,
@@ -748,7 +748,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "unit_typ",
                     ui_type : "select",
                     ui_field_length : 4,
@@ -771,7 +771,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "stock_qnt",
                     ui_type : "number",
                     ui_field_length : 6,
@@ -794,7 +794,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "order_qnt",
                     ui_type : "number",
                     ui_field_length : 15,
@@ -817,7 +817,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "item_qnt",
                     ui_type : "number",
                     ui_field_length : 15,
@@ -840,7 +840,7 @@ var PSIW500030 = new Vue({
                 {
                     athena_id : "",
                     user_id : "",
-                    prg_id : "PSIW500030",
+                    prg_id : "PSIW510030",
                     ui_field_name : "order_rmk",
                     ui_type : "text",
                     ui_field_length : 100,
@@ -880,13 +880,13 @@ var PSIW500030 = new Vue({
                     self.DataGridRows = result.data;
                     self.FieldData = self.bindingFieldData();
                     self.dgIns = new DatagridRmSingleGridClass();
-                    self.dgIns.init(prg_id, 'PSIW500030_dg', DatagridFieldAdapter.combineFieldOption(self.FieldData, 'PSIW500030_dg'));
+                    self.dgIns.init(prg_id, 'PSIW510030_dg', DatagridFieldAdapter.combineFieldOption(self.FieldData, 'PSIW510030_dg'));
                     self.dgIns.loadDgData(self.DataGridRows);
 
                     self.pageTwoDTFieldData = self.bindingDTFieldData();    //組DT欄位
                     self.dgInsDT = new DatagridRmSingleDTGridClass();
-                    self.dgInsDT.init(prg_id, 'PSIW500030_dt', DatagridFieldAdapter.combineFieldOption(self.pageTwoDTFieldData, 'PSIW500030_dt'));
-                    $("#PSIW500030_dt").datagrid({}).datagrid("keyCtr");
+                    self.dgInsDT.init(prg_id, 'PSIW510030_dt', DatagridFieldAdapter.combineFieldOption(self.pageTwoDTFieldData, 'PSIW510030_dt'));
+                    $("#PSIW510030_dt").datagrid({}).datagrid("keyCtr");
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -968,7 +968,7 @@ var PSIW500030 = new Vue({
             if(this.isRowLock){
                 console.log('unlock ' + this.singleData.order_nos);
                 psiw50030_socket.emit('doRowUnLock', {prg_id: prg_id, order_nos: this.singleData.order_nos});
-                PSIW500030.isRowLock = false;
+                PSIW510030.isRowLock = false;
             }
 
             this.defaultValue();
@@ -1561,7 +1561,7 @@ var PSIW500030 = new Vue({
         //空白訂貨表單下載按鈕
         orderSearch: function() {
             var self = this;
-            var dialog = $("#PSIW500030-down").removeClass('hide').dialog({
+            var dialog = $("#PSIW510030-down").removeClass('hide').dialog({
                 modal: true,
                 title: "空白訂貨表單下載",
                 title_html: true,
@@ -1705,7 +1705,7 @@ function formatFloat(num, pos)
     return Math.round(num * size) / size;
 }
 
-var adpterDg = new DatagridAdapter(PSIW500030);
+var adpterDg = new DatagridAdapter(PSIW510030);
 
 //region//套件
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 門市web訂單作業(多筆) -->
+    <!-- ['PSIW510030'] 門市web訂單作業(多筆) -->
     <dao name="QRY_PSI_QUOTE_MN">
         <statement><![CDATA[
             select mn.order_nos, mn.order_dat, mn.order_sta, mn.format_sta, cust.show_cod, cust.cust_nam , mn.atten_nam, mn.order_rmk, mn.ins_usr, mn.upd_usr, mn.cnfirm_cod from psi_quote_mn mn
@@ -23,7 +23,7 @@
         <orderby>order by mn.order_nos</orderby>
     </dao>
 
-    <!-- ['PSIW500030'] 門市web訂單作業(單筆mn) -->
+    <!-- ['PSIW510030'] 門市web訂單作業(單筆mn) -->
     <dao name="QRY_PSI_QUOTE_SINGLE_MN">
         <statement><![CDATA[
             select * from psi_quote_mn
@@ -35,7 +35,7 @@
         <parameter type="string" kind="3">order_nos</parameter>
     </dao>
 
-    <!-- ['PSIW500030'] 檢查是否有相同格式的訂單 -->
+    <!-- ['PSIW510030'] 檢查是否有相同格式的訂單 -->
     <dao name="CHK_PSI_FORMAT_STA">
         <statement><![CDATA[
             select count(*) as count from psi_quote_mn
