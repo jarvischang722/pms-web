@@ -90,7 +90,7 @@
                         </td>
 
                         <!-- 補空白 -->
-                        <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat"></td>
+                        <td v-else-if="lo_banquetDt.datatype == ''" v-for="repeat in lo_banquetDt.repeat" @click= "addReserve"></td>
                     </tr>
 
                     <!--<tr data-tt-id="1">-->
@@ -1212,4 +1212,4 @@
 <script src="/js/tableHeadFixer.js"></script>
 <%- include ../../common/jsFile/groupJs_fixTable %>
 <%- include vueTemplate/RS00202010Tmp.ejs %>
-<script src="/js/reserveBanquet/RS00202010_setup.js"></script>
+<script src="/js/reserveBanquet/RS00202010.js"></script>

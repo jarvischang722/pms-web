@@ -74,8 +74,3 @@ var RS00202010VM = new Vue({
         }
     }
 });
-
-// 空白處彈出 新增訂席-->
-$(document).on('click', ".gs-rese-table td", function (e) {
-    vmHub.$emit("showReserve", "");
-});
