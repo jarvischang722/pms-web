@@ -13,6 +13,8 @@ var dbSvc = require("../services/DbTableService");
 var langSvc = require("../services/LangService");
 var uploadSvc = require("../services/uploadService");
 var logSvc = require("../services/LogService");
+var commonTools = require("../utils/CommonTools");
+var dbSVC = require("../services/DbTableService");
 /**
  * 首頁
  */
@@ -175,9 +177,27 @@ exports.execSQLProcess = function (req, res) {
 /**
  * 執行作業sql 程序
  */
-exports.execOperationSQL = function (req, res) {
-
+exports.doOperationSave = function (req, res) {
+    req.body.page_id = req.body.page_id || 1;
+    doOperationProc(req, res);
 };
+
+function doOperationProc(req, res){
+    req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
+
+    //特殊交易
+    if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
+        dbSVC.execTransSQL(req.body, req.session, function (err, success) {
+            res.json(commonTools.mergeRtnErrResultJson(err, success));
+        });
+    }
+    //一般儲存
+    else {
+        dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
+            res.json(commonTools.mergeRtnErrResultJson(err, success));
+        });
+    }
+}
 
 // 上傳檔案
 exports.uploadFile = function (req, res) {
@@ -188,8 +208,6 @@ exports.uploadFile = function (req, res) {
 
 /**
  * 抓取異動紀錄
- * @param req
- * @param res
  */
 exports.getSetupPrgChangeLog = function (req, res) {
     logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {

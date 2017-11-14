@@ -2,15 +2,29 @@
  * Created by kaiyue on 2017/11/13.
  */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var operationSvc = require("../services/operationService");
+const _ = require("underscore");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const fs = require("fs");
+const path = require('path');
+const operationSvc = require("../services/operationService");
+const commonTools = require("../utils/CommonTools");
 
-exports.fetchDataGridFieldData = function(req, res){
-    operationSvc.fetchDataGridFieldData(req.body, res.session, function(err, result){
 
+exports.fetchDataGridFieldData = function (req, res) {
+    let ls_prg_id = req.body.prg_id || "";
+    let returnData = {
+        success: true,
+        errorMsg: "",
+        errorCode: ""
+    };
+    if (ls_prg_id.trim() == "") {
+        returnData.success = false;
+        returnData.errorMsg = "無效程式編號";
+        returnData.errorCode = "1000";
+        return res.json(returnData);
+    }
+
+    operationSvc.fetchDataGridFieldData(req.body, res.session, function (err, success) {
+        res.json(commonTools.mergeRtnErrResultJson(err, success));
     });
 };

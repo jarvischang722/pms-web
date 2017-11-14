@@ -12,7 +12,14 @@ const sysConfig = require("../configs/systemConfig");
 
 // 取作業多筆資料
 exports.fetchDataGridFieldData = function (postData, session, callback) {
-    mongoAgent.UIDatagridField.find({
+    async.waterfall([
+        qryDataGridFieldData,
 
-    })
+    ], function(err, result){
+        callback(err, result);
+    });
+
+    function qryDataGridFieldData(cb){
+
+    }
 };
