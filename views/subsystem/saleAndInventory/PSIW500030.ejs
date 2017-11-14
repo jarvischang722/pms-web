@@ -38,19 +38,19 @@
                             <div class="dominos-btn-group">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" @click="addData()" :disabled="!addEnable" role="button">新增</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details purview_btn_0200" @click="addData()" :disabled="!addEnable" role="button">新增</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" @click="editData()" :disabled="!editEnable" role="button">修改</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn purview_btn_0400" @click="editData()" :disabled="!editEnable" role="button">修改</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn_0300" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn_1010" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn_1020" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
                                         </li>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="save()" :disabled="!saveEnable" role="button">儲存</button>
@@ -59,7 +59,7 @@
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
                                         <li class="order-down btn-120">
-                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW500030-down" @click="orderSearch()" role="button">空白訂貨表單下載</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW500030-down purview_btn_1030" @click="orderSearch()" role="button">空白訂貨表單下載</button>
                                         </li>
                                     </ul>
                             </div>
@@ -268,6 +268,7 @@
     </div>
 
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
+
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
     <script src="/js/tools/jspdf.min.js"></script>
     <script src="/js/tools/jspdf.plugin.autotable.js"></script>
