@@ -8,9 +8,9 @@
 <%- include ./common/jsFile/importFiles_JsBase %>
 <body class="no-skin">
 
-<%- include ./common/navbar.ejs %>
-
 <div id="BacchusMainApp" class="main-container ace-save-state" style="margin-top: 35px;">
+
+    <%- include ./common/navbar.ejs %>
 
     <div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
         <%- include ./common/moduleMenu.ejs %>
@@ -20,7 +20,7 @@
             <%- include ./common/subsysMenu.ejs %>
             <div id="MainContentDiv" class="page-content">
                 <!-- 主內容 -->
-                <div style=" margin: 0 auto; display: block; " align="center" >
+                <div style=" margin: 0 auto; display: block; " align="center">
                     <img src="/images/initialPageImg.jpg" style="margin-top:-200px;opacity: 0.4" width="900"/>
                 </div>
             </div>
@@ -31,6 +31,7 @@
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
 </div>
+
 
 </body>
 <script src="/js/system/mainFramework.js"></script>
