@@ -166,10 +166,8 @@ var vm = new Vue({
             };
         },
         initDataGrid: function () {
-            var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, gs_dgName));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(this.prg_id, gs_dgName, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
@@ -188,10 +186,27 @@ var vm = new Vue({
                     var result = response;
                     vm.pageOneDataGridRows = result.dataGridRows;
                     vm.pageOneFieldData = result.fieldData;
+                    vm.showCheckboxDG();
                 })
                 .fail(function (error) {
                     console.log(error);
                 });
+        },
+        //Show Checkbox
+        showCheckboxDG: function () {
+            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
+            $('#dgCheckbox').datagrid({
+                columns: [
+                    [
+                        {
+                            field: 'ck',
+                            checkbox: true
+                        }
+                    ]
+                ],
+                singleSelect: false,
+                data: dgData
+            });
         },
 
         fetchSingleData: function () {
@@ -227,7 +242,7 @@ var vm = new Vue({
             this.doSave();
         },
         removeMultiData: function () {
-            var checkRows = $('#' + gs_dgName).datagrid("getChecked");
+            var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
                 alert('Check at least one item.');
                 return;
@@ -242,6 +257,7 @@ var vm = new Vue({
                 if (vm.tmpCUD.deleteData.length > 0) {
                     vm.isDeleteStatus = true;
                 }
+                vm.showCheckboxDG();
                 vm.doSave();
             }
         },

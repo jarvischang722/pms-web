@@ -177,7 +177,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
-            if(vm.originData[ui_field_name] == this.singleData[ui_field_name]){
+            if (vm.originData[ui_field_name] == this.singleData[ui_field_name]) {
                 return;
             }
 
@@ -416,9 +416,9 @@ Vue.component('single-grid-pms0810020-tmp', {
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
-            } 
-                return val + ":";
-            
+            }
+            return val + ":";
+
         },
 
         tabChange: function (tab) {
@@ -784,6 +784,7 @@ var vm = new Vue({
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
+                vm.showCheckboxDG();
                 vm.showDataGrid();
                 callback(result.success);
             });
@@ -796,6 +797,7 @@ var vm = new Vue({
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
             });
         },
+
         //取得使用者資料
         fetchUserInfo: function () {
             $.post('/api/getUserInfo', function (result) {
@@ -804,20 +806,35 @@ var vm = new Vue({
                 }
             });
         },
+        //Show Checkbox
+        showCheckboxDG: function () {
+            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
+            $('#dgCheckbox').datagrid({
+                columns: [
+                    [
+                        {
+                            field: 'ck',
+                            checkbox: true
+                        }
+                    ]
+                ],
+                singleSelect: false,
+                data: dgData
+            });
+        },
 
         //顯示DataGrid
         showDataGrid: function () {
 
-            var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0810020_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(prg_id, 'PMS0810020_dg', DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810020_dg'));
             this.dgIns.loadDgData(this.pageOneDataGridRows);
+            vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
         //dg row刪除
         removeRow: function () {
             vm.tmpCud.deleteData = [];
-            var checkRows = $("#PMS0810020_dg").datagrid("getChecked");
+            var checkRows = $('#dgCheckbox').datagrid('getSelections');
             if (checkRows == 0) {
                 alert('Check at least one item.');
                 return;
@@ -840,6 +857,7 @@ var vm = new Vue({
                             var ln_delIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
                             $('#PMS0810020_dg').datagrid('deleteRow', ln_delIndex);
                         });
+                        vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
                         vm.doSaveCUD();
                     } else {
                         vm.tmpCud.deleteData = [];
@@ -873,7 +891,7 @@ var vm = new Vue({
                     }
                 }
             }
-            
+
             return lo_chkResult;
 
         },
@@ -899,11 +917,11 @@ var vm = new Vue({
                         self.uploadAction(callback);
                         return true;
                     }
-                    
-                        vm.initTmpCUD();
-                        vm.loadDataGridByPrgID();
-                        alert('save success!');
-                    
+
+                    vm.initTmpCUD();
+                    vm.loadDataGridByPrgID();
+                    alert('save success!');
+
                     callback(true);
                 } else {
                     alert(result.errorMsg);
