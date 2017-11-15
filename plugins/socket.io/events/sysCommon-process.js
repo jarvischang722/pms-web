@@ -118,7 +118,7 @@ module.exports = function (io) {
             let lock_type = clientData.lock_type || "T";
             let key_cod = clientData.key_cod || "";
 
-            if (data && _.isEqual(clientData.lock_type,"R") && !_.isEmpty(key_cod) && !_.isEmpty(table_name)) {
+            if (clientData && _.isEqual(clientData.lock_type,"R") && !_.isEmpty(key_cod) && !_.isEmpty(table_name)) {
 
                 dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
                     deleteLockList(clientData);
