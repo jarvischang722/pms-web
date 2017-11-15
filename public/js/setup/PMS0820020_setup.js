@@ -633,7 +633,6 @@ var PMS0820020VM = new Vue({
                 PMS0820020VM.searchFields = result.searchFields;
                 PMS0820020VM.pageOneDataGridRows = result.dataGridRows;
                 PMS0820020VM.pageOneFieldData = result.fieldData;
-                PMS0820020VM.showCheckboxDG();
                 PMS0820020VM.showDataGrid();
                 callback(result.success);
             });
@@ -642,8 +641,10 @@ var PMS0820020VM = new Vue({
         //顯示DataGrid
         showDataGrid: function () {
 
+            var colOption = [{field: 'ck', checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0820020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0820020_dg', DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0820020_dg'));
+            this.dgIns.init(prg_id, 'PMS0820020_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0820020VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -654,23 +655,6 @@ var PMS0820020VM = new Vue({
                 if (result.success) {
                     PMS0820020VM.userInfo = result.userInfo;
                 }
-            });
-        },
-
-        //Show Checkbox
-        showCheckboxDG: function () {
-            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
-            $('#dgCheckbox').datagrid({
-                columns: [
-                    [
-                        {
-                            field: 'ck',
-                            checkbox: true
-                        }
-                    ]
-                ],
-                singleSelect: false,
-                data: dgData
             });
         },
 
@@ -986,7 +970,7 @@ var PMS0820020VM = new Vue({
         //dg row刪除
         removeRow: function () {
             PMS0820020VM.tmpCud.deleteData = [];
-            var checkRows = $('#dgCheckbox').datagrid('getSelections');
+            var checkRows = $('#PMS0820020_dg').datagrid('getChecked');
             if (checkRows == 0) {
                 alert("Warning", 'Check at least one item');
                 return;
@@ -1010,7 +994,7 @@ var PMS0820020VM = new Vue({
                             var DelIndex = $('#PMS0820020_dg').datagrid('getRowIndex', row);
                             $('#PMS0820020_dg').datagrid('deleteRow', DelIndex);
                         });
-                        PMS0820020VM.showCheckboxDG($("#PMS0820020_dg").datagrid("getRows"));
+
                         PMS0820020VM.doSaveCUD();
                     } else {
                         alert(result.errorMsg);
