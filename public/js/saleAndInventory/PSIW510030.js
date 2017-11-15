@@ -10,7 +10,8 @@ var go_current_row;
 var go_lockIndex;
 var psiw50030_socket = io.connect('/dominos');
 
- var a = new FuncPurview(prg_id);
+var go_funcPurview = new FuncPurview(prg_id);
+
 
 //rowLocK
 psiw50030_socket.on('checkRowLock', function (result) {
@@ -286,7 +287,22 @@ var PSIW510030 = new Vue({
 
         //異動Log
         openChangeLogDialog: false,
-        allChangeLogList: [],
+        allChangeLogList: []
+    },
+    watch: {
+        addEnable: function () {
+
+        },
+        dropEnable: function () {
+            console.log(go_funcPurview);
+        }
+
+        // editEnable: false,
+        // deleteEnable: false,
+        // cnfirmEnable: false,
+        // cancelEnable: false,
+        // saveEnable: false,
+        // dropEnable: false,
     },
     methods: {
 
