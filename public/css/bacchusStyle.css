@@ -48,6 +48,10 @@ body {
   margin: 5px;
 }
 
+.m-label {
+  margin: 3px 4px auto auto;
+}
+
 .margin-3 {
   margin: 3px;
 }
@@ -68,6 +72,14 @@ body {
   margin-left: 5px;
 }
 
+.ml-7 {
+  margin-left: 7px;
+}
+
+.ml-8 {
+  margin-left: 8px;
+}
+
 .ml-90 {
   margin-left: 90px;
 }
@@ -78,6 +90,10 @@ body {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.mlr-4 {
+  margin: auto 4px;
 }
 
 .cardDetail_margin {
@@ -424,7 +440,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-col2v2Rm {
-  width: 412px;
+  width: 411px;
   max-width: 100%;
   height: 25px;
 }
@@ -439,12 +455,22 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-Full {
-  width: 702px;
+  width: 703px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.medium-c1-sc2 {
   width: 299.5px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2-col2 {
+  width: 703px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2-col2Rm {
+  width: 681px;
   max-width: 100%;
   height: 25px;
 }
@@ -465,6 +491,16 @@ a {
 }
 .input-medium.medium-c3-sm {
   width: 104px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-smFullRm {
+  width: 498px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-smSpec1 {
+  width: 255px;
   max-width: 100%;
   height: 25px;
 }
@@ -558,13 +594,38 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.resvCard-s1Half2 {
+  width: 89px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-s1Rm {
+  width: 157px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1-col2 {
   width: 464px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col2Rm {
+  width: 441px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col3 {
+  width: 748px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col3Bring {
+  width: 699px;
   max-width: 100%;
   height: 25px;
 }
@@ -604,7 +665,7 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1-col3 {
-  width: 672px;
+  width: 673px;
   max-width: 100%;
   height: 25px;
 }
@@ -618,13 +679,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.popWindow-s1-col2RM {
-  width: 387px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.popWindow-s1-col2v2 {
-  width: 414px;
+.input-medium.popWindow-s1-col2Rm {
+  width: 392px;
   max-width: 100%;
   height: 25px;
 }
@@ -643,7 +699,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.popWindow-s1v2-col2RM {
+.input-medium.popWindow-s1v2-col2Rm {
   width: 205px;
   max-width: 100%;
   height: 25px;
@@ -683,7 +739,17 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCardRemark {
+.input-medium.resvCard-dateCol2 {
+  width: 374px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-dateSpec1 {
+  width: 210px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardRm {
   width: 83px;
   max-width: 100%;
   height: 25px;
@@ -698,8 +764,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col2Remark {
-  width: 295px;
+.input-medium.resvCard-col2Rm {
+  width: 293px;
   max-width: 100%;
   height: 25px;
 }
@@ -713,8 +779,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col2Remark2 {
-  width: 265px;
+.input-medium.resvCard-col2Rm2 {
+  width: 278px;
   max-width: 100%;
   height: 25px;
 }
@@ -723,13 +789,13 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-fullRemark {
-  width: 698px;
+.input-medium.resvCard-fullRm {
+  width: 713px;
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col3-fullRemark {
-  width: 503px;
+.input-medium.resvCard-col3-fullRm {
+  width: 504px;
   max-width: 100%;
   height: 25px;
 }
@@ -739,7 +805,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-2xs {
-  width: 32px;
+  width: 32.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -750,6 +816,11 @@ a {
 }
 .input-medium.resvCard-sm {
   width: 84px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-2sm {
+  width: 102.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -809,6 +880,7 @@ a {
 }
 
 .input-hCol2 {
+  resize: none;
   height: 55px !important;
 }
 
@@ -895,8 +967,22 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 10px;
 }
 
+.rzNone {
+  resize: none;
+}
+
 .remarkInput {
   width: 85%;
+}
+
+.remarkInput2 {
+  width: 748px;
+  resize: none;
+}
+
+.remarkInput3 {
+  width: 414px;
+  resize: none;
 }
 
 .remarkInput-75 {
@@ -984,7 +1070,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   margin-right: 3px;
 }
 .searchCheckbox.msgCheck .checkbox {
-  margin: 0 106px auto auto;
+  margin: 0 152px auto auto;
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;

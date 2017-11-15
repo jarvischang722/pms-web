@@ -21,10 +21,17 @@
   width: 90px;
   font-size: 13px;
 }
-.grid-item .input-medium, .grid-item span {
-  font-size: 13px;
+.grid-item label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
 }
-.grid-item span {
+.grid-item label.label-spc-2 {
+  width: 70px;
+}
+.grid-item .input-medium, .grid-item span, .grid-item p {
+  font-size: 13px !important;
+}
+.grid-item span.subtxt {
   margin: auto 2px auto auto;
 }
 .grid-item .btn-afterInput {
@@ -36,14 +43,6 @@
 .grid-item.tab-block label {
   width: 90px;
   text-align: right;
-  margin-right: 0;
-}
-.grid-item.tab-block label.label-spc {
-  width: 82px;
-  margin-right: 2px !important;
-}
-.grid-item.tab-block label.label-spc-2 {
-  width: 70px;
 }
 .grid-item.single-input {
   width: 400px;
@@ -62,14 +61,7 @@
   margin-left: 3px;
   margin-right: 1px;
 }
-.grid-item .relative {
-  position: relative;
-  display: inline-block;
-}
-.grid-item .relative .redTip {
-  position: absolute;
-  right: 0;
-  bottom: -30px;
+.grid-item .redTip {
   font-size: 0.85em;
   color: #ff625f;
 }
@@ -99,6 +91,9 @@
   width: 0;
   min-height: initial;
   cursor: pointer;
+}
+.grid-item .popCheckbox label.checkbox-width {
+  margin-top: 2px;
 }
 
 .grid-item-input {
@@ -181,6 +176,13 @@
 .css_table .css_td.customW1 {
   width: 80px;
 }
+.css_table .css_td .moreAbso {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 25px;
+  box-sizing: border-box;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -238,6 +240,13 @@
 }
 .horizTable-outer .css_table .css_td.customW1 {
   width: 80px;
+}
+.horizTable-outer .css_table .css_td .moreAbso {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 25px;
+  box-sizing: border-box;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -2349,6 +2358,13 @@ a {
   width: 90px;
   text-align: right;
 }
+.businessCompanyData .main-content-data label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.businessCompanyData .main-content-data label.label-spc-2 {
+  width: 70px;
+}
 .businessCompanyData .main-content-data .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2364,6 +2380,13 @@ a {
 .businessCompanyData .tab-block label {
   width: 90px;
   text-align: right;
+}
+.businessCompanyData .tab-block label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.businessCompanyData .tab-block label.label-spc-2 {
+  width: 70px;
 }
 .businessCompanyData .tab-block .mainData-tip {
   font-size: 12px;
@@ -2434,6 +2457,13 @@ a {
 .businessCompanyData .bs-changeRecord label {
   width: 90px;
   text-align: right;
+}
+.businessCompanyData .bs-changeRecord label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.businessCompanyData .bs-changeRecord label.label-spc-2 {
+  width: 70px;
 }
 .businessCompanyData .bs-changeRecord .mainData-tip {
   font-size: 12px;
@@ -2647,6 +2677,13 @@ ul.newVisitOther-btn {
   width: 90px;
   text-align: right;
 }
+.textFrame label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.textFrame label.label-spc-2 {
+  width: 70px;
+}
 .textFrame .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2696,6 +2733,13 @@ ul.newVisitOther-btn {
   width: 90px;
   text-align: right;
 }
+.resv-changeRecord label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.resv-changeRecord label.label-spc-2 {
+  width: 70px;
+}
 .resv-changeRecord .mainData-tip {
   font-size: 12px;
   margin: auto auto auto 100px;
@@ -2729,6 +2773,13 @@ ul.newVisitOther-btn {
 .resv-memo label {
   width: 90px;
   text-align: right;
+}
+.resv-memo label.label-spc {
+  width: 82px;
+  margin-right: 2px !important;
+}
+.resv-memo label.label-spc-2 {
+  width: 70px;
 }
 .resv-memo .mainData-tip {
   font-size: 12px;
@@ -4230,6 +4281,10 @@ span.triangle-text {
   margin: 5px;
 }
 
+.m-label {
+  margin: 3px 4px auto auto;
+}
+
 .margin-3 {
   margin: 3px;
 }
@@ -4250,6 +4305,14 @@ span.triangle-text {
   margin-left: 5px;
 }
 
+.ml-7 {
+  margin-left: 7px;
+}
+
+.ml-8 {
+  margin-left: 8px;
+}
+
 .ml-90 {
   margin-left: 90px;
 }
@@ -4260,6 +4323,10 @@ span.triangle-text {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.mlr-4 {
+  margin: auto 4px;
 }
 
 .cardDetail_margin {
@@ -4606,7 +4673,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-col2v2Rm {
-  width: 412px;
+  width: 411px;
   max-width: 100%;
   height: 25px;
 }
@@ -4621,12 +4688,22 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-Full {
-  width: 702px;
+  width: 703px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.medium-c1-sc2 {
   width: 299.5px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2-col2 {
+  width: 703px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c1-sc2-col2Rm {
+  width: 681px;
   max-width: 100%;
   height: 25px;
 }
@@ -4647,6 +4724,16 @@ a {
 }
 .input-medium.medium-c3-sm {
   width: 104px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-smFullRm {
+  width: 498px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.medium-c3-smSpec1 {
+  width: 255px;
   max-width: 100%;
   height: 25px;
 }
@@ -4740,13 +4827,38 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.resvCard-s1Half2 {
+  width: 89px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1 {
   width: 180px;
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-s1Rm {
+  width: 157px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1-col2 {
   width: 464px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col2Rm {
+  width: 441px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col3 {
+  width: 748px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-s1-col3Bring {
+  width: 699px;
   max-width: 100%;
   height: 25px;
 }
@@ -4786,7 +4898,7 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1-col3 {
-  width: 672px;
+  width: 673px;
   max-width: 100%;
   height: 25px;
 }
@@ -4800,13 +4912,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.popWindow-s1-col2RM {
-  width: 387px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.popWindow-s1-col2v2 {
-  width: 414px;
+.input-medium.popWindow-s1-col2Rm {
+  width: 392px;
   max-width: 100%;
   height: 25px;
 }
@@ -4825,7 +4932,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.popWindow-s1v2-col2RM {
+.input-medium.popWindow-s1v2-col2Rm {
   width: 205px;
   max-width: 100%;
   height: 25px;
@@ -4865,7 +4972,17 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCardRemark {
+.input-medium.resvCard-dateCol2 {
+  width: 374px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-dateSpec1 {
+  width: 210px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardRm {
   width: 83px;
   max-width: 100%;
   height: 25px;
@@ -4880,8 +4997,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col2Remark {
-  width: 295px;
+.input-medium.resvCard-col2Rm {
+  width: 293px;
   max-width: 100%;
   height: 25px;
 }
@@ -4895,8 +5012,8 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col2Remark2 {
-  width: 265px;
+.input-medium.resvCard-col2Rm2 {
+  width: 278px;
   max-width: 100%;
   height: 25px;
 }
@@ -4905,13 +5022,13 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-fullRemark {
-  width: 698px;
+.input-medium.resvCard-fullRm {
+  width: 713px;
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCard-col3-fullRemark {
-  width: 503px;
+.input-medium.resvCard-col3-fullRm {
+  width: 504px;
   max-width: 100%;
   height: 25px;
 }
@@ -4921,7 +5038,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-2xs {
-  width: 32px;
+  width: 32.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -4932,6 +5049,11 @@ a {
 }
 .input-medium.resvCard-sm {
   width: 84px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCard-2sm {
+  width: 102.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -4991,6 +5113,7 @@ a {
 }
 
 .input-hCol2 {
+  resize: none;
   height: 55px !important;
 }
 
@@ -5077,8 +5200,22 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 10px;
 }
 
+.rzNone {
+  resize: none;
+}
+
 .remarkInput {
   width: 85%;
+}
+
+.remarkInput2 {
+  width: 748px;
+  resize: none;
+}
+
+.remarkInput3 {
+  width: 414px;
+  resize: none;
 }
 
 .remarkInput-75 {
@@ -5166,7 +5303,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   margin-right: 3px;
 }
 .searchCheckbox.msgCheck .checkbox {
-  margin: 0 106px auto auto;
+  margin: 0 152px auto auto;
 }
 .searchCheckbox.msgCheck .checkbox .checkbox-width {
   width: auto;
