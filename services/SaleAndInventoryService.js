@@ -506,8 +506,8 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[銷售]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
                         else{
@@ -538,8 +538,8 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if (Result.count == 0) {
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[萬元用量/庫存]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
                         else {
@@ -570,8 +570,8 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[業績]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
                         else{
@@ -592,6 +592,9 @@ exports.chkFormatSta = function (params ,session, callback) {
             }
         }
     ], function(err, result){
+        if(result.errorCod == "0000"){
+            err = false;
+        }
         callback(err, result);
     });
 };

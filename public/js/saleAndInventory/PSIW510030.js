@@ -10,7 +10,7 @@ var go_current_row;
 var go_lockIndex;
 var psiw50030_socket = io.connect('/dominos');
 
-new FuncPurview(prg_id);
+ var a = new FuncPurview(prg_id);
 
 //rowLocK
 psiw50030_socket.on('checkRowLock', function (result) {
@@ -749,29 +749,7 @@ var PSIW510030 = new Vue({
                     page_id : 1,
                     ui_display_name: "貨品描述"
                 },
-                {
-                    athena_id : "",
-                    user_id : "",
-                    prg_id : "PSIW510030",
-                    ui_field_name : "unit_typ",
-                    ui_type : "select",
-                    ui_field_length : 4,
-                    ui_field_num_point : 0,
-                    col_seq : 3,
-                    width : 80,
-                    visiable : "Y",
-                    modificable : "N",
-                    requirable : "N",
-                    grid_field_name : "psi_quote_dt",
-                    keyable : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    user_athena_id : "",
-                    multi_lang_table : "",
-                    page_id : 1,
-                    ui_display_name: "單位",
-                    selectData: this.unitSelectData
-                },
+
                 {
                     athena_id : "",
                     user_id : "",
@@ -794,6 +772,52 @@ var PSIW510030 = new Vue({
                     page_id : 1,
                     align : "right",
                     ui_display_name:"庫存量"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "",
+                    ui_type : "number",
+                    ui_field_length : 6,
+                    ui_field_num_point : 0,
+                    col_seq : 4,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    align : "right",
+                    ui_display_name:"萬元用量"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "",
+                    ui_type : "number",
+                    ui_field_length : 6,
+                    ui_field_num_point : 0,
+                    col_seq : 4,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    align : "right",
+                    ui_display_name:"庫存單位"
                 },
                 {
                     athena_id : "",
@@ -840,6 +864,98 @@ var PSIW510030 = new Vue({
                     page_id : 1,
                     align : "right",
                     ui_display_name:"訂購量"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "unit_typ",
+                    ui_type : "select",
+                    ui_field_length : 4,
+                    ui_field_num_point : 0,
+                    col_seq : 3,
+                    width : 80,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    ui_display_name: "訂購單位",
+                    selectData: this.unitSelectData
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "",
+                    ui_type : "number",
+                    ui_field_length : 6,
+                    ui_field_num_point : 0,
+                    col_seq : 4,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    align : "right",
+                    ui_display_name:"預計到貨日"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "",
+                    ui_type : "number",
+                    ui_field_length : 6,
+                    ui_field_num_point : 0,
+                    col_seq : 4,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    align : "right",
+                    ui_display_name:"預計下次到貨日"
+                },
+                {
+                    athena_id : "",
+                    user_id : "",
+                    prg_id : "PSIW510030",
+                    ui_field_name : "",
+                    ui_type : "number",
+                    ui_field_length : 6,
+                    ui_field_num_point : 0,
+                    col_seq : 4,
+                    width : 100,
+                    visiable : "Y",
+                    modificable : "N",
+                    requirable : "N",
+                    grid_field_name : "psi_quote_dt",
+                    keyable : "",
+                    format_func_name : "",
+                    rule_func_name : "",
+                    user_athena_id : "",
+                    multi_lang_table : "",
+                    page_id : 1,
+                    align : "right",
+                    ui_display_name:"安全天數"
                 },
                 {
                     athena_id : "",
@@ -1317,19 +1433,11 @@ var PSIW510030 = new Vue({
                 if (!_.isUndefined(result.data)) {
                     if(result.error){
                         alert(result.data.errorMsg);
-
-                        //region//測試階段，暫時通過檢查
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P")
-                            self.singleData.order_sta = "N";
-                        else
-                            self.singleData.order_sta = "C";
-
-                        self.callOrderAPI();
-
-                        //endregion
                     }
                     //檢查有過
                     else {
+                        //特殊三種情況不檔, 但要Show訊息
+                        alert(result.data.errorMsg);
                         if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P")
                             self.singleData.order_sta = "N";
                         else
@@ -1699,12 +1807,16 @@ var PSIW510030 = new Vue({
             var self = this;
             self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
+                console.log(result);
                 self.allChangeLogList = result.allChangeLogList;
-            });
-            // 給裡面table的高 值
-            var chooseGridH = $("#dataPopUpGridDialog").height() - 40;
-            $("#chooseGrid").datagrid({height: chooseGridH});
 
+                self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
+                    var order_nos = _.find(data.desc_mn, function (field) {
+                        return field.field_name.trim() == "order_nos";
+                    });
+                    return _.isEqual(self.singleData.order_nos, order_nos.newVal);
+                });
+            });
         }
     }
 
