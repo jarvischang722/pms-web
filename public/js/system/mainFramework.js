@@ -19,7 +19,7 @@ var BacchusMainVM = new Vue({
         this.updateCurrentDateTime();
         this.updateExpiresTime();
         setInterval(this.updateCurrentDateTime, 1000);
-        setInterval(this.updateExpiresTime, 10000);
+        setInterval(this.updateExpiresTime, 5000);
     },
     watch: {
         usingSubsysID: function (subsys_id) {
@@ -124,13 +124,17 @@ var BacchusMainVM = new Vue({
          * 更新Session 時間
          */
         updateExpiresTime: function () {
-            $.post('/api/getSessionExpireTime', function (result) {
-                if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
-                    BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
-                    clearInterval(gf_chkSessionInterval);
-                    BacchusMainVM.doDownCount();
-                }
-            });
+            let lastTimes = moment(this.gs_cookieExpires).diff(moment(), "seconds");
+            if (_.isEmpty(this.gs_cookieExpires) || lastTimes > 0) {
+                $.post('/api/getSessionExpireTime', function (result) {
+                    if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
+                        BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
+                        clearInterval(gf_chkSessionInterval);
+                        BacchusMainVM.doDownCount();
+                    }
+                });
+            }
+
         },
         /**
          * 更新目前時間
@@ -153,7 +157,7 @@ var BacchusMainVM = new Vue({
                 if (lastTimes > 0) {
                     lastTimes--;
                 } else {
-                    $('[data-remodal-id=sessionModal]').remodal().open();
+                    BacchusMainVM.displayLogoutDialog = true;
                     clearInterval(gf_chkSessionInterval);
                 }
 
@@ -163,7 +167,6 @@ var BacchusMainVM = new Vue({
          * 登出
          */
         doLogout: function () {
-            alert(1233);
             $.post("/cas/logout", function (data) {
                 location.reload();
             });

@@ -30,6 +30,13 @@
     <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
         <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
     </a>
+    <!-- 閒置太久強制登出提醒Dialog -->
+    <el-dialog title="Warn" :visible.sync="displayLogoutDialog" width="50%" :before-close="doLogout">
+        <span> <%= __("SystemWarn").Idle_auto_logout %></span>
+        <span slot="footer" class="dialog-footer">
+             <el-button type="primary" @click="doLogout"><%= __("SystemCommon").OK %></el-button>
+        </span>
+    </el-dialog>
 </div>
 
 
