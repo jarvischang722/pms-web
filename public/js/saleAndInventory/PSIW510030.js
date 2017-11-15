@@ -4,42 +4,22 @@
  * 程式名稱: 門市WEB訂單作業
  */
 
+//ps. Row Lock 要傳的參數其中 table_name跟key_code寫反了(參照ERP的寫法)
+
+
 var prg_id = "PSIW510030";
 var go_current_row;
 
-var go_lockIndex;
-var psiw50030_socket = io.connect('/dominos');
+var psiw510030_socket = io.connect('/dominos');
 
-var go_funcPurview = new FuncPurview(prg_id);
-
+var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
-psiw50030_socket.on('checkRowLock', function (result) {
-
+psiw510030_socket.on('checkRowLock', function (result) {
     if(!result.success){
-        PSIW510030.addEnable = true;
-        PSIW510030.editEnable = false;
-        PSIW510030.deleteEnable = false;
-        PSIW510030.cnfirmEnable = false;
-        PSIW510030.cancelEnable = false;
-        PSIW510030.saveEnable = false;
-        PSIW510030.dropEnable = false;
-
-        PSIW510030.isRowLock = false;
         alert(result.errorMsg);
     }else {
-        PSIW510030.addEnable = true;
-        PSIW510030.editEnable = true;
-        PSIW510030.deleteEnable = true;
-        PSIW510030.cnfirmEnable = true;
-        PSIW510030.cancelEnable = true;
-        PSIW510030.saveEnable = false;
-        PSIW510030.dropEnable = false;
-
-        PSIW510030.isModificable = false;
-        PSIW510030.isModificableFormat = false;
-
-        PSIW510030.isRowLock = true;
+        PSIW510030.buttonAfterLockDoFunc();
     }
 });
 
@@ -53,24 +33,19 @@ DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
     if(!PSIW510030.createStatus && !PSIW510030.editStatus) {
 
-        //按不同筆才需要解鎖
-        if(idx != go_lockIndex){
-            if(PSIW510030.isRowLock){
-                console.log('unlock ' + PSIW510030.singleData.order_nos);
-                psiw50030_socket.emit('doRowUnLock', {prg_id: prg_id, order_nos: PSIW510030.singleData.order_nos});
-            }
-        }
+        PSIW510030.fetchSingleData(row);
+        go_current_row = row;
 
-        PSIW510030.fetchSingleData(row, function (order_nos) {
-            //只要沒Lock過 或 不是同一筆 就要Lock
-            if(!PSIW510030.isRowLock || idx != go_lockIndex) {
-                console.log('lock ' + order_nos);
-                psiw50030_socket.emit('doRowLock', {prg_id: prg_id, order_nos: order_nos});
-            }
+        PSIW510030.addEnable = true;
+        PSIW510030.editEnable = true;
+        PSIW510030.deleteEnable = true;
+        PSIW510030.cnfirmEnable = true;
+        PSIW510030.cancelEnable = true;
+        PSIW510030.saveEnable = false;
+        PSIW510030.dropEnable = false;
 
-            go_current_row = row;
-            go_lockIndex = idx;
-        });
+        PSIW510030.isModificable = false;
+        PSIW510030.isModificableFormat = false;
     }
 };
 /*** Class End  ***/
@@ -248,6 +223,9 @@ var PSIW510030 = new Vue({
         cancelEnable: false,
         saveEnable: false,
         dropEnable: false,
+        orderDownloadEnable: true,
+
+        buttonCase: "",
 
         isRowLock: false,
 
@@ -290,19 +268,48 @@ var PSIW510030 = new Vue({
         allChangeLogList: []
     },
     watch: {
+        //region//按鈕如沒權限, 則不能Enable
         addEnable: function () {
-
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0200";
+            });
+            if(purview == -1){
+                this.addEnable = false;
+            }
         },
-        dropEnable: function () {
-            console.log(go_funcPurview);
+        editEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0400";
+            });
+            if(purview == -1){
+                this.editEnable = false;
+            }
+        },
+        deleteEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0300";
+            });
+            if(purview == -1){
+                this.deleteEnable = false;
+            }
+        },
+        cnfirmEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1010";
+            });
+            if(purview == -1){
+                this.cnfirmEnable = false;
+            }
+        },
+        cancelEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1020";
+            });
+            if(purview == -1){
+                this.cancelEnable = false;
+            }
         }
-
-        // editEnable: false,
-        // deleteEnable: false,
-        // cnfirmEnable: false,
-        // cancelEnable: false,
-        // saveEnable: false,
-        // dropEnable: false,
+        //endregion
     },
     methods: {
 
@@ -1030,7 +1037,7 @@ var PSIW510030 = new Vue({
         },
 
         //取得單筆資料
-        fetchSingleData: function (editingRow, callback) {
+        fetchSingleData: function (editingRow) {
 
             var self = this;
 
@@ -1071,9 +1078,6 @@ var PSIW510030 = new Vue({
 
                     self.oriSingleData = _.clone(self.singleDataTemp);
                     self.initOrderSelect();
-
-                    callback(self.oriSingleData.order_nos);
-
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -1100,13 +1104,6 @@ var PSIW510030 = new Vue({
 
         //按新增按鈕
         addData: function() {
-
-            if(this.isRowLock){
-                console.log('unlock ' + this.singleData.order_nos);
-                psiw50030_socket.emit('doRowUnLock', {prg_id: prg_id, order_nos: this.singleData.order_nos});
-                PSIW510030.isRowLock = false;
-            }
-
             this.defaultValue();
             this.createStatus = true;
 
@@ -1470,57 +1467,30 @@ var PSIW510030 = new Vue({
 
         //按修改按鈕
         editData: function() {
-            var self = this;
-
-
-            self.callAPI('PSIW5100300400', function () {
-                self.editStatus = true;
-
-                //region//修改UI狀態
-                self.isModificable = true;
-                self.isModificableFormat = false;
-
-                self.addEnable = false;
-                self.editEnable = false;
-                self.deleteEnable = false;
-                self.cnfirmEnable = false;
-                self.cancelEnable = false;
-                self.saveEnable = true;
-                self.dropEnable = true;
-
-                //endregion
-            });
+            this.buttonCase = "edit";
+            this.doRowLock();
+            this.buttonAfterLockDoFunc();
         },
 
         //按刪除按鈕
         deleteData: function() {
-            var self = this;
-            self.callAPI('PSIW5100300530',function () {
-                alert('刪除成功!');
-                self.loadDataGrid();
-                self.singleData = {};
-                self.singleDataGridRows = [];
-                self.dgInsDT.loadDgData(self.singleDataGridRows);
-            });
+            this.buttonCase = "delete";
+            this.doRowLock();
+            this.buttonAfterLockDoFunc();
         },
 
         //核准
         approved: function() {
-            var self = this;
-            self.callAPI('PSIW5100301010',function () {
-                alert('核准成功!');
-                self.fetchSingleData(go_current_row);
-            });
-
+            this.buttonCase = "approved";
+            this.doRowLock();
+            this.buttonAfterLockDoFunc();
         },
 
         //取消核准
         cancel: function() {
-            var self = this;
-            self.callAPI('PSIW5100301020',function () {
-                alert('取消核准成功!');
-                self.fetchSingleData(go_current_row);
-            });
+            this.buttonCase = "cancel";
+            this.doRowLock();
+            this.buttonAfterLockDoFunc();
         },
 
         //按儲存按鈕
@@ -1686,6 +1656,52 @@ var PSIW510030 = new Vue({
             }
         },
 
+        buttonAfterLockDoFunc: function () {
+            var self = this;
+            switch (self.buttonCase){
+                case "edit":
+                    self.callAPI('PSIW5100300400', function () {
+                        self.editStatus = true;
+
+                        //region//修改UI狀態
+                        self.isModificable = true;
+                        self.isModificableFormat = false;
+
+                        self.addEnable = false;
+                        self.editEnable = false;
+                        self.deleteEnable = false;
+                        self.cnfirmEnable = false;
+                        self.cancelEnable = false;
+                        self.saveEnable = true;
+                        self.dropEnable = true;
+
+                        //endregion
+                    });
+                    break;
+                case "delete":
+                    callAPI('PSIW5100300530',function () {
+                        alert('刪除成功!');
+                        self.loadDataGrid();
+                        self.singleData = {};
+                        self.singleDataGridRows = [];
+                        self.dgInsDT.loadDgData(self.singleDataGridRows);
+                    });
+                    break;
+                case "approved":
+                    self.callAPI('PSIW5100301010',function () {
+                        alert('核准成功!');
+                        self.fetchSingleData(go_current_row);
+                    });
+                    break;
+                case "cancel":
+                    self.callAPI('PSIW5100301020',function () {
+                        alert('取消核准成功!');
+                        self.fetchSingleData(go_current_row);
+                    });
+                    break;
+            }
+        },
+
         //空白訂貨表單下載按鈕
         orderSearch: function() {
             var self = this;
@@ -1817,6 +1833,28 @@ var PSIW510030 = new Vue({
 
         //tempExecData
         tempExecData: function(row){
+        },
+
+        doRowLock: function () {
+            var lo_param = {
+                prg_id: prg_id,
+                table_name: this.userInfo.cmp_id + this.singleData.order_nos,
+                lock_type : "R",
+                key_cod: "psi_quote_mn"
+            };
+            console.log('lock ' + this.singleData.order_nos);
+            //psiw50030_socket.emit('doRowLock', lo_param);
+        },
+
+        doUnRowLock: function () {
+            var lo_param = {
+                prg_id: prg_id,
+                table_name: this.userInfo.cmp_id + this.singleData.order_nos,
+                lock_type : "R",
+                key_cod: "psi_quote_mn"
+            };
+            console.log('Unlock ' + this.singleData.order_nos);
+            //psiw50030_socket.emit('doRowUnLock', lo_param);
         },
 
         loadChangeLog: function () {
