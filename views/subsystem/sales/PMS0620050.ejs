@@ -1,5 +1,5 @@
 <!-- page-content -->
-<div>
+<div id="PMS0620050App">
     <div class="page-header"></div><!-- /.page-header -->
     <!-- 拜訪紀錄(Visit Record) Page-->
     <div class="pageMain">
@@ -53,9 +53,7 @@
                                 </div>  <!-- /.footer-btn-menu-co -->
                             </div> <!-- /.search-footer-btn -->
                         </div>
-
                         <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
-
                             <div class="width-95">
                                 <div class="grid">
                                     <div class="grid-item">
@@ -78,7 +76,6 @@
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
-
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Co. Type</label>
@@ -87,7 +84,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>Planned Visit</label>
-                                        <input type="date" class="input-medium medium-c1" />
+                                        <input type="date" class="input-medium medium-c1"/>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -98,7 +95,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>Actual Visit</label>
-                                        <input type="date" class="input-medium medium-c1" />
+                                        <input type="date" class="input-medium medium-c1"/>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -118,14 +115,14 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Purpose</label>
-                                        <input type="text" class="input-medium medium-c1-col2v3" />
+                                        <input type="text" class="input-medium medium-c1-col2v3"/>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>Remarks</label>
-                                        <input type="text" class="input-medium medium-c1-col2v3" />
+                                        <input type="text" class="input-medium medium-c1-col2v3"/>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -134,18 +131,15 @@
                         </div>
                     </div> <!-- row-->
                 </div> <!-- /.search-co -->
-
             </div> <!-- /.row  search-content-->
-
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-
         <div class="col-xs-12">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div>
                         <!-- 拜訪紀錄 dataGrid -->
-                        <table id="sales_visitRecord-table" class="gridTableHt"></table>
+                        <table id="PMS0620050_dg" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>
@@ -155,7 +149,8 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales_editVisitRecord"
-                                        role="button">修改拜訪紀錄</button>
+                                        role="button" @click="editRow">修改拜訪紀錄
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -166,15 +161,24 @@
 
     </div>
 
+    <single-grid-pms0620050-tmp
+            :row-data="editingRow"
+            :is-modifiable="isModifiable"
+    >
+    </single-grid-pms0620050-tmp>
+
     <!--  業務 彈出視窗內容(jing)-->
-    <%- include sales_module/sales_Btn_1.ejs %>
+
     <!--  /.End 業務 彈出視窗內容 -->
 </div><!-- /.page-content -->
 
 <!-- subSystem 共用 js -->
-<%- include ../common/viewsComJs.ejs %>
+
 <!--  /.End subSystem 共用 js  -->
 
 <!--  業務 initial js -->
-<%- include sales_module/sales_includeJs.ejs %>
+
 <!--  /.End 業務 initial js  -->
+<%- include ./vueTemplate/PMS0620050Tmp.ejs %>
+
+<script src="/js/sales/PMS0620050.js"></script>
