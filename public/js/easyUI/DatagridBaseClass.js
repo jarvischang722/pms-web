@@ -44,8 +44,8 @@ function DatagridBaseClass() {
             columns: [columns],
             remoteSort: false,
             singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
-            selectOnCheck: !_.isUndefined(options.selectOnCheck) ? options.selectOnCheck: true,
-            checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.checkOnSelect: true,
+            selectOnCheck: true,
+            checkOnSelect: true,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
