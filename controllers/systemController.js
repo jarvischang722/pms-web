@@ -165,40 +165,6 @@ exports.getGroupMdlPros = function (req, res) {
     });
 };
 
-/**
- * 執行sql 程序
- */
-exports.execSQLProcess = function (req, res) {
-    dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
-        res.json({success: success, errorMsg: err});
-    });
-};
-
-/**
- * 執行作業sql 程序
- */
-exports.doOperationSave = function (req, res) {
-    req.body.page_id = req.body.page_id || 1;
-    doOperationProc(req, res);
-};
-
-function doOperationProc(req, res){
-    req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
-
-    //特殊交易
-    if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
-        dbSVC.execTransSQL(req.body, req.session, function (err, success) {
-            res.json(commonTools.mergeRtnErrResultJson(err, success));
-        });
-    }
-    //一般儲存
-    else {
-        dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
-            res.json(commonTools.mergeRtnErrResultJson(err, success));
-        });
-    }
-}
-
 // 上傳檔案
 exports.uploadFile = function (req, res) {
     uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {
@@ -228,4 +194,13 @@ exports.getSessionExpireTime = function (req, res) {
  */
 exports.permissionSetup = function (req, res) {
     res.render("system/permissionSetup");
+};
+
+/**
+ * 執行sql 程序
+ */
+exports.execSQLProcess = function (req, res) {
+    dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
+        res.json({success: success, errorMsg: err});
+    });
 };

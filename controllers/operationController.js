@@ -6,9 +6,36 @@ const _ = require("underscore");
 const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 const fs = require("fs");
 const path = require('path');
-const operationSvc = require("../services/operationService");
-const commonTools = require("../utils/CommonTools");
 
+const appRootDir = path.dirname(require.main.filename);
+const operSVC = require("../services/operationService");
+const dbSVC = require("../services/DbTableService");
+const tools = require(appRootDir + "/utils/CommonTools");
+
+/**
+ * 執行作業sql 程序
+ */
+exports.doOperationSave = function (req, res) {
+    req.body.page_id = req.body.page_id || 1;
+    doOperationProc(req, res);
+};
+
+function doOperationProc(req, res) {
+    req.body.trans_cod = req.body.trans_cod || "BAC03009010000";
+
+    //特殊交易
+    if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
+        dbSVC.execTransSQL(req.body, req.session, function (err, success) {
+            res.json(tools.mergeRtnErrResultJson(err, success));
+        });
+    }
+    //一般儲存
+    else {
+        dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
+            res.json(tools.mergeRtnErrResultJson(err, success));
+        });
+    }
+}
 
 exports.fetchDataGridFieldData = function (req, res) {
     let ls_prg_id = req.body.prg_id || "";
@@ -24,7 +51,7 @@ exports.fetchDataGridFieldData = function (req, res) {
         return res.json(returnData);
     }
 
-    operationSvc.fetchDataGridFieldData(req.body, res.session, function (err, success) {
-        res.json(commonTools.mergeRtnErrResultJson(err, success));
+    operSVC.fetchDataGridFieldData(req.body, req.session, function (err, result) {
+        res.json({success: _.isNull(err), errorMsg: err, dgFieldData: result.dgFieldData, dgRowData: result.dgRowData});
     });
 };

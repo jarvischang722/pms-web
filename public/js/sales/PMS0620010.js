@@ -618,10 +618,10 @@ var vm = new Vue({
         },
         loadDataGridByPrgID: function () {
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620010"}, function (result) {
+            $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620010", page_id: 1}, function (result) {
                 vm.searchFields = result.searchFields;
-                vm.pageOneDataGridRows = result.dataGridRows;
-                vm.pageOneFieldData = result.fieldData;
+                vm.pageOneDataGridRows = result.dgRowData;
+                vm.pageOneFieldData = result.dgFieldData;
                 vm.showDataGrid();
             });
         },
