@@ -164,8 +164,6 @@ module.exports = function (io) {
         ga_lockedPrgIDList = _.filter(ga_lockedPrgIDList, function (socketData) {
             return _.findIndex(ga_lockedPrgIDList, {
                 socket_id: socketData.socket_id,
-                lockingPrgID: clientData.prg_id || "",
-                table_name: clientData.table_name || "",
                 lock_type: clientData.lock_type || "T",
                 key_cod: clientData.key_cod || ""
             }) == -1;
