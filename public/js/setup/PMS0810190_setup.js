@@ -208,6 +208,7 @@ var vm = new Vue({
                 data: dgData
             });
         },
+
         fetchSingleData: function () {
             vm.initTmpCUD();
             vm.isEditStatus = true;

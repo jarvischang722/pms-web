@@ -177,7 +177,7 @@ Vue.component('single-grid-pms0810020-tmp', {
 
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
-            if(vm.originData[ui_field_name] == this.singleData[ui_field_name]){
+            if (vm.originData[ui_field_name] == this.singleData[ui_field_name]) {
                 return;
             }
 
@@ -416,9 +416,9 @@ Vue.component('single-grid-pms0810020-tmp', {
         showDropdownDisplayName: function (val, selectData) {
             if (_.findIndex(selectData, {value: val}) > -1) {
                 return _.findWhere(selectData, {value: val}).display;
-            } 
-                return val + ":";
-            
+            }
+            return val + ":";
+
         },
 
         tabChange: function (tab) {
@@ -797,6 +797,7 @@ var vm = new Vue({
                 vm.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
             });
         },
+
         //取得使用者資料
         fetchUserInfo: function () {
             $.post('/api/getUserInfo', function (result) {
@@ -890,7 +891,7 @@ var vm = new Vue({
                     }
                 }
             }
-            
+
             return lo_chkResult;
 
         },
@@ -916,11 +917,11 @@ var vm = new Vue({
                         self.uploadAction(callback);
                         return true;
                     }
-                    
-                        vm.initTmpCUD();
-                        vm.loadDataGridByPrgID();
-                        alert('save success!');
-                    
+
+                    vm.initTmpCUD();
+                    vm.loadDataGridByPrgID();
+                    alert('save success!');
+
                     callback(true);
                 } else {
                     alert(result.errorMsg);
