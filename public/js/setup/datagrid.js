@@ -6,15 +6,14 @@ var vmHub = new Vue;
 var gb_isUserEdit4ClickCell = true;
 var gb_isUserEdit4EndEdit = true;
 var gb_isUserEdit4tempExecData = true;
+var go_FuncPur = new FuncPurview(prg_id);
 
-new FuncPurview(prg_id);
 
 Vue.component("multi-lang-dialog-tmp", {
     template: '#multiLangDialogTmp',
     props: ['sys_locales', 'prgFieldDataAttr', 'updateMultiLangDG', 'endMultiLangEditing', 'tempExecData'],
     data: function () {
         return {};
-
     },
     created: function () {
         var self = this;
