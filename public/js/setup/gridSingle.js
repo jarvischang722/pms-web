@@ -969,7 +969,6 @@ var vm = new Vue({
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
-                vm.showCheckboxDG();
                 vm.showDataGrid();
                 callback(result.success);
             });
@@ -1011,22 +1010,7 @@ var vm = new Vue({
                 }
             });
         },
-        //Show Checkbox
-        showCheckboxDG: function () {
-            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
-            $('#dgCheckbox').datagrid({
-                columns: [
-                    [
-                        {
-                            field: 'ck',
-                            checkbox: true
-                        }
-                    ]
-                ],
-                singleSelect: false,
-                data: dgData
-            });
-        },
+
         //顯示資料
         showDataGrid: function () {
             var colOption = [{field: 'ck', checkbox: true}];
@@ -1034,8 +1018,7 @@ var vm = new Vue({
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
                 singleSelect: false,
-                checkOnSelect: false,
-                selectOnCheck: false
+                checkOnSelect: false
             });
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
