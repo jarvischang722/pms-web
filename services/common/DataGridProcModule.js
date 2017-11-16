@@ -124,6 +124,11 @@ let qryLangUIField = function (la_dgFieldData, callback) {
     });
 }
 
+/**
+ *
+ * @param la_dgFieldData
+ * @param callback
+ */
 let qrySelectOption = function (la_dgFieldData, callback) {
     var selectDSFunc = [];
     _.each(la_dgFieldData, function (lo_dgField, fIdx) {
