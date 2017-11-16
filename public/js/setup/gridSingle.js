@@ -1017,8 +1017,7 @@ var vm = new Vue({
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'dg'));
             this.dgIns = new DatagridSingleGridClass();
             this.dgIns.init(prg_id, "dg", colOption, this.pageOneFieldData, {
-                singleSelect: false,
-                checkOnSelect: false
+                singleSelect: false
             });
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },

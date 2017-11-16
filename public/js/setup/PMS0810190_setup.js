@@ -169,7 +169,7 @@ var vm = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, colOption,this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(this.prg_id, gs_dgName, colOption,this.pageOneFieldData, {singleSelect: false});
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})

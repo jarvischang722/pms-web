@@ -812,7 +812,7 @@ var vm = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0810020_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(prg_id, 'PMS0810020_dg', colOption, this.pageOneFieldData, {singleSelect: false});
             this.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         //dg row刪除
