@@ -621,7 +621,7 @@ var vm = new Vue({
             $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620010", page_id: 1}, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
-                vm.pageOneFieldData = result.dgFieldData;
+                vm.pageOneFieldData = result.dgFieldsData;
                 vm.showDataGrid();
             });
         },

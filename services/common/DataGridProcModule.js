@@ -51,39 +51,39 @@ function DataGridProcModule(postData, session) {
      */
     this.fetchRowData = function (callback) {
         async.waterfall([
-            self.qryTemplateRf,     //查詢templateRf
-            self.qryRowData,        //查詢多筆資料
+            qryTemplateRf,     //查詢templateRf
+            qryRowData,        //查詢多筆資料
             filterRowData,          //依條件過濾多筆資料
             rowDataMultiLang        //內容多語系
         ], function (err, result) {
             callback(err, result);
         });
     };
-
-    /**
-     * 查詢多筆欄位資料
-     */
-    this.qryRowData = function () {
-        let lo_params = filterSearchCond();
-        let lo_args = chkParam(arguments);
-        let ls_rule_func_name = lo_args.data.rule_func_name;
-        queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
-            lo_args.callback(err, result);
-        });
-    };
-
-    /**
-     * 查詢templateRf
-     */
-    this.qryTemplateRf = function (callback) {
-        mongoAgent.TemplateRf.findOne({
-            prg_id: gs_prg_id,
-            page_id: gn_page_id
-        }, function (err, result) {
-            callback(err, result);
-        });
-    };
 }
+
+/**
+ * 查詢templateRf
+ */
+function qryTemplateRf(callback) {
+    mongoAgent.TemplateRf.findOne({
+        prg_id: gs_prg_id,
+        page_id: gn_page_id
+    }, function (err, result) {
+        callback(err, result);
+    });
+};
+
+/**
+ * 查詢多筆資料
+ */
+function qryRowData(lo_rfData, callback) {
+    let lo_params = filterSearchCond();
+    let ls_rule_func_name = lo_rfData.rule_func_name;
+    queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
+        callback(err, result);
+    });
+};
+
 
 /**
  * 取多筆欄位資料
