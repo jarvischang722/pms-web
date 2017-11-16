@@ -105,7 +105,7 @@ function appendFieldSelectData(field, userInfo, callback) {
     }).exec(function (err, selRow) {
         if (selRow) {
             selRow = selRow.toObject();
-            dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                 field.selectData = selectData;
                 callback(null, field);
             });
