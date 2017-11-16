@@ -5,6 +5,7 @@ waitingDialog.hide();
 var prg_id = $("#prg_id").val();
 var vmHub = new Vue;
 
+
 //Dt 多語編輯
 Vue.component("multiLang-dialog-tmp", {
     template: '#multiLangDialogTmp',
@@ -807,7 +808,7 @@ Vue.component('sigle-grid-dialog-tmp', {
 
             delRow["mnRowData"] = this.singleData;  //存放此筆DT 對應mn 的資料
 
-            if(delRow.createRow != "Y")
+            if (delRow.createRow != "Y")
                 vm.tmpCud.dt_deleteData.push(delRow);
 
             $.post("/api/handleDataGridDeleteEventRule", {
@@ -1013,7 +1014,6 @@ var vm = new Vue({
         },
         //顯示資料
         showDataGrid: function () {
-
             var columnsData = [];
             this.combineField(this.pageOneFieldData, function (columns) {
                 columnsData = columns;
@@ -1066,6 +1066,7 @@ var vm = new Vue({
                 return;
             }
             var q = confirm("Are you sure delete those data?");
+
             if (q) {
                 //刪除前檢查
                 _.each(checkRows, function (row) {
@@ -1229,7 +1230,7 @@ var vm = new Vue({
 
                     });
                 }
-                catch(ex){
+                catch (ex) {
 
                 }
             }

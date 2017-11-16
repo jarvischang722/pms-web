@@ -28,7 +28,6 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-
                 </div>
             </div>
 
@@ -142,7 +141,7 @@
                                     </td>
                                     <td class="width-20">
                                         <template v-if="logData.desc_dt.length > 0">
-                                            <div  v-for="dtLogData in logData.desc_dt" >
+                                            <div v-for="dtLogData in logData.desc_dt">
                                                 <div class="blue bold" style="text-transform: capitalize;">
                                                     {{dtLogData.action }}
                                                 </div>
@@ -158,7 +157,7 @@
                                             </div>
                                         </template>
                                         <template v-else>
-                                                  N/A
+                                            N/A
                                         </template>
 
 
