@@ -612,6 +612,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         else if (saveAfterAction == "addOther") {
                             self.singleData = {};
                             self.emitAppendRow();
+                            return;
                         }
 
                         if (self.deleteStatue) {
@@ -1136,6 +1137,7 @@ var vm = new Vue({
             vm.createStatus = true;
             vm.singleData = {};
             vm.isModifiable = true;
+            vm.editStatus = false;
             this.loadSingleGridPageField(function (success) {
                 $.post("/api/addFuncRule", {prg_id: prg_id, page_id: 1}, function (result) {
                     if (result.success) {
@@ -1151,6 +1153,7 @@ var vm = new Vue({
         //取得單筆資料
         fetchSingleData: function (editingRow, callback) {
             vm.initTmpCUD();
+            vm.createStatus = false;
             vm.editStatus = true;
             vm.editingRow = editingRow;
             this.loadSingleGridPageField(function (result) {
@@ -1228,6 +1231,7 @@ var vm = new Vue({
             // 給 dialog "內容"高 值
             $(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
+
         //關閉單檔dialog
         closeSingleGridDialog: function () {
             vm.editingRow = {};
@@ -1235,6 +1239,7 @@ var vm = new Vue({
             vm.initTmpCUD();
             $("#singleGridDialog").dialog('close');
         },
+
         //儲存page1 datagrid欄位屬性
         doSaveColumnFields: function () {
 
