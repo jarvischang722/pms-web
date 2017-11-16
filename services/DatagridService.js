@@ -235,7 +235,7 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                                 callback(null, {ui_field_idx: fIdx, visiable: field.visiable});
                             }
                         }
-                    );``
+                    );
                 }
             });
 

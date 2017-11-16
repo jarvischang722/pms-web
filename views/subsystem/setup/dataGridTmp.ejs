@@ -1,4 +1,4 @@
-<div id="datagridApp" >
+<div id="datagridApp">
     <div class="col-xs-12">
         <div class="row">
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -12,14 +12,14 @@
             :fetch-data="fetchDataGridData">
     </search-comp>
 
-    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading"  element-loading-text="Saving..."  >
+    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading" element-loading-text="Saving...">
         <div class="row">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="" style="padding: 0; box-sizing: border-box;">
 
-                    <!--控制table 高度 jing add-->
-                    <table id="prg_dg" class="prg_dgHt"></table>
+                        <!--控制table 高度 jing add-->
+                        <table id="prg_dg" class="prg_dgHt"></table>
 
                         <div class="clearfix"></div>
                     </div>
@@ -31,17 +31,16 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button id="ins-btn"  class="btn btn-primary btn-white btn-defaultWidth purview_btn_0200"
-                                        @click="appendRow"
-                                        role="button">
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                        data-purview_func_id="<%=prg_id%>0200"
+                                        @click="appendRow">
                                     <%= __("SystemCommon").Add %>
                                 </button>
                             </li>
                             <li>
-                                <button id="remove-btn"
-                                        class="btn btn-danger btn-white btn-defaultWidth purview_btn_0300"
-                                        @click="removeRow();"
-                                        role="button">
+                                <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                        data-purview_func_id="<%= prg_id %>0300"
+                                        @click="removeRow();">
                                     <%= __("SystemCommon").Delete %>
                                 </button>
                             </li>
@@ -173,6 +172,6 @@
             $(".prg_dgHt").css("height", prg_dgHt);
         });
     });
-//    alert(gridTableHt);
+    //    alert(gridTableHt);
 
 </script>

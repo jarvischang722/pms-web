@@ -148,41 +148,43 @@
                 </div>
                 <!-- Control Panel -->
                 <div class="col-sm-1 col-xs-1 singleRelative">
-                    <div class="row" v-if="editStatus">
+                    <div class="row" >
                         <div class="singleEditStatus right-menu-co">
                             <ul>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isFistData  || BTN_action"
-                                            style="" @click="toFirstData"><%= __("SystemCommon").First %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isFistData  || BTN_action"
-                                            style="" @click="toPreData"><%= __("SystemCommon").Previous %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isLastData  || BTN_action"
-                                            style="" @click="toNextData"><%= __("SystemCommon").Next %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            :disabled="isLastData  || BTN_action"
-                                            style="" @click="toLastData"><%= __("SystemCommon").Last %>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth"
-                                            :disabled="BTN_action"
-                                            style=""
-                                            @click="handleDeleteSingleData">
-                                        <%= __("SystemCommon").Delete %>
-                                    </button>
-                                </li>
+                                <template v-if="editStatus">
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData  || BTN_action"
+                                                style="" @click="toFirstData"><%= __("SystemCommon").First %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isFistData  || BTN_action"
+                                                style="" @click="toPreData"><%= __("SystemCommon").Previous %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData  || BTN_action"
+                                                style="" @click="toNextData"><%= __("SystemCommon").Next %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                :disabled="isLastData  || BTN_action"
+                                                style="" @click="toLastData"><%= __("SystemCommon").Last %>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                :disabled="BTN_action"
+                                                style=""
+                                                @click="handleDeleteSingleData">
+                                            <%= __("SystemCommon").Delete %>
+                                        </button>
+                                    </li>
+                                </template>
                                 <li v-if="createStatus">
                                     <button class="btn btn-primary btn-white btn-defaultWidth"
                                             @click="doSaveGrid('addOther')" :disabled="BTN_action">
