@@ -611,7 +611,7 @@ Vue.component('sigle-grid-dialog-tmp', {
                         //新增完再新增另一筆
                         else if (saveAfterAction == "addOther") {
                             self.singleData = {};
-                            self.emitAppendRow();
+                            self.emitAppendRow();;
                             return;
                         }
 
