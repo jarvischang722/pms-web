@@ -43,7 +43,9 @@ Vue.component('single-grid-pms0620020-tmp', {
             classHsFieldData: [],
             dtEditIndex: undefined,
             classCodSelectData: [],
-            classCodSelectedOption: []
+            classCodSelectedOption: [],
+            loadingText: "",
+            isLoadingDialog: ""
         };
     },
     created: function () {
@@ -54,6 +56,7 @@ Vue.component('single-grid-pms0620020-tmp', {
     },
     mounted: function () {
         this.gs_active = "hotelDt";
+        this.loadingText = "Loading...";
     },
     watch: {
         gs_active: function (active) {
@@ -69,6 +72,7 @@ Vue.component('single-grid-pms0620020-tmp', {
             this.showDtDataGrid();
         },
         singleData: function (val) {
+            this.isLoadingDialog = true;
             this.initData();
             this.fetchFieldData();
         },
@@ -200,7 +204,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     } else {
                         alert(result.errorMsg);
                     }
+                    self.isLoadingDialog = false;
                     self.showDtDataGrid();
+
                 });
             }
             //編輯的狀況
@@ -265,6 +271,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         }
                     });
                     self.classCodSelectedOption = self.classCodSelectedOption.reverse();
+                    self.isLoadingDialog = false;
                     self.showDtDataGrid();
                 });
             }
@@ -361,13 +368,14 @@ Vue.component('single-grid-pms0620020-tmp', {
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
             var self = this;
-            this.isSaving = true;
+            this.isLoadingDialog = true;
+            this.loadingText = "Saving...";
 
             if (this.dgHoatelDt.endEditing()) {
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
-                    this.isSaving = false;
+                    this.isLoadingDialog = false;
                 }
                 else {
                     var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
@@ -767,6 +775,7 @@ var vm = new Vue({
             }
         },
         showSingleGridDialog: function () {
+            var self = this;
             this.dialogVisible = true;
             var maxHeight = document.documentElement.clientHeight - 70; //browser 高度 - 70功能列
             var height = 10 * 50; // 預設一個row 高度
@@ -778,7 +787,10 @@ var vm = new Vue({
                 minWidth: 1000,
                 maxHeight: maxHeight,
                 resizable: true,
-                buttons: "#dialogBtns"
+                buttons: "#dialogBtns",
+                onBeforeClose: function(){
+                    self.editingRow = {};
+                }
             });
             dialog.dialog("open");
 
