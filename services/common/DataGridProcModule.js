@@ -55,7 +55,7 @@ function DataGridProcModule(postData, session) {
             self.qryRowData,        //查詢多筆資料
             filterRowData,          //依條件過濾多筆資料
             rowDataMultiLang        //內容多語系
-        ], function(err, result){
+        ], function (err, result) {
             callback(err, result);
         });
     };
@@ -90,7 +90,7 @@ function DataGridProcModule(postData, session) {
  * @param lo_params {object} 查詢條件
  * @param callback
  */
-let qryUIDatagridField = function (callback) {
+function qryUIDatagridField(callback) {
     //抓使用者及預設欄位
     let lo_params = {
         $or: [
@@ -120,7 +120,7 @@ let qryUIDatagridField = function (callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-let qryLangUIField = function (la_dgFieldData, callback) {
+function qryLangUIField(la_dgFieldData, callback) {
     let lo_params = {
         prg_id: gs_prg_id,
         page_id: gn_page_id
@@ -144,7 +144,7 @@ let qryLangUIField = function (la_dgFieldData, callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-let qrySelectOption = function (la_dgFieldData, callback) {
+function qrySelectOption(la_dgFieldData, callback) {
     var la_asyncParaFunc = [];
     _.each(la_dgFieldData, function (lo_dgField, fIdx) {
         if (lo_dgField.ui_type == 'select' || lo_dgField.ui_type == 'multiselect' || lo_dgField.ui_type == 'checkbox' || lo_dgField.ui_type == 'selectgrid') {
@@ -235,7 +235,7 @@ let qrySelectOption = function (la_dgFieldData, callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-let qrySearchField = function (la_dgFieldData, callback) {
+function qrySearchField(la_dgFieldData, callback) {
     fieldAttrSvc.getAllUIPageFieldAttr({
         prg_id: gs_prg_id,
         page_id: 3,
@@ -254,7 +254,7 @@ let qrySearchField = function (la_dgFieldData, callback) {
  * @param args {array} function傳入參數
  * @returns {{callback: *, data: *}}
  */
-let chkParam = function (args) {
+function chkParam(args) {
     let lo_callback;
     let lo_data;
     if (args.length == 1) {
@@ -271,7 +271,7 @@ let chkParam = function (args) {
  * 過濾掉無效條件
  * @returns {{user_id: (string|*), athena_id, hotel_cod: (*|string|string)}}
  */
-let filterSearchCond = function () {
+function filterSearchCond() {
     let lo_params = {
         user_id: go_session.user.usr_id,
         athena_id: go_session.user.athena_id,
@@ -293,7 +293,7 @@ let filterSearchCond = function () {
  * @param la_dgRowData {array} 多筆資料
  * @param callback
  */
-let filterRowData = function(la_dgRowData, callback){
+function filterRowData(la_dgRowData, callback) {
     let lo_params = {
         user_id: go_session.user.usr_id,
         athena_id: go_session.user.athena_id,
@@ -314,7 +314,7 @@ let filterRowData = function(la_dgRowData, callback){
  * @param la_dgRowData {array} 多筆資料
  * @param callback
  */
-let rowDataMultiLang = function(la_dgRowData, callback){
+function rowDataMultiLang(la_dgRowData, callback) {
     langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
         callback(null, Rows);
     });
