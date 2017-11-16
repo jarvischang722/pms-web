@@ -52,13 +52,13 @@ exports.fetchDataGridFieldData = function (req, res) {
     }
 
     operSVC.fetchDataGridFieldData(req.body, req.session, function (err, result) {
-        let rtnData = {
+        let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
             dgFieldsData: result.dgFieldsData,
             dgRowData: result.dgRowData,
             searchFields: result.searchFields
         };
-        res.json(rtnData);
+        res.json(lo_rtnData);
     });
 };
