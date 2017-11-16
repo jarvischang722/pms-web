@@ -20,11 +20,7 @@
         <ul id="quickMenuUl">
             <li v-for="quick in quickMenu"
                 @click="loadMainProcess(quick.pro_id)"
-                :class="{activeThis:quick.pro_id == usingPrgID}" >
-                <!--
-                    https://stackoverflow.com/questions/13579730/can-i-animate-multiple-css-transform-properties-separately-using-keyframe-animat
-                    animate transform keyframes
-                -->
+                :class="{activeThis:quick.pro_id == usingPrgID, 'btn-skin':quick.isBusinessVer == 'Y', 'btn-gray':quick.isEnterpriseVer == 'Y'}" >
 
                 <!--會另彈新一頁的icon-->
                 <span class="exLinkIcon">

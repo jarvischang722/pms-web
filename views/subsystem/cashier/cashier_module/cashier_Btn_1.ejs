@@ -36,7 +36,7 @@
                                         <div class="grid-item">
                                             <label class="pull-left">C/O Alert</label>
                                             <div class="pull-left">
-                                                <textarea class="input-medium popWindow-s1-col2 input-hCol2 ml-3" placeholder="pick guy"></textarea>
+                                                <textarea class="input-medium popWindow-s1-col2 input-hCol2" placeholder="pick guy"></textarea>
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
@@ -106,11 +106,11 @@
                                         <div class="grid-item">
                                             <label>房號</label>
                                             <input type="text" class="input-medium resvCard-m" placeholder="" />
-                                            <input type="text" class="input-medium resvCard-2xs" placeholder="1" />
+                                                <input type="text" class="input-medium resvCard-2xs ml-2" placeholder="1" />
                                         </div>
                                         <div class="grid-item">
                                             <label>訂房卡號</label>
-                                            <input type="text" class="input-medium resvCardRemark" placeholder=""/>
+                                            <input type="text" class="input-medium resvCardRm" placeholder="" />
                                             <span class="moreClick">...</span>
                                         </div>
                                         <div class="grid-item">
@@ -126,12 +126,8 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>住客姓名</label>
-                                            <input type="text" class="input-medium resvCard-col2Remark" placeholder=""/>
+                                            <input type="text" class="input-medium resvCard-col2Rm" placeholder=""/>
                                             <span class="moreClick">...</span>
-                                            <!--<select class="input-medium resvCard-xs" disabled>-->
-                                            <!--<option value="male">M</option>-->
-                                            <!--<option value="female">F</option>-->
-                                            <!--</select>-->
                                         </div>
                                         <div class="grid-item">
                                             <label>預計退房日期</label>
@@ -146,14 +142,13 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>訂房公司</label>
-                                            <input type="text" class="input-medium resvCard-col2Remark" placeholder=""/>
+                                            <input type="text" class="input-medium resvCard-col2Rm" placeholder=""/>
                                             <span class="moreClick">...</span>
                                         </div>
                                         <div class="grid-item">
                                             <label>預收款</label>
                                             <input type="text" class="input-medium resvCard" placeholder=""/>
                                         </div>
-
                                         <div class="grid-item">
                                             <label>訂金餘額</label>
                                             <input type="text" class="input-medium resvCard" placeholder=""/>
@@ -186,7 +181,7 @@
 
                                                 <div class="grid-item">
                                                     <label>訂金編號</label>
-                                                    <input type="text" class="input-medium resvCardRemark" placeholder=""/>
+                                                    <input type="text" class="input-medium resvCardRm" placeholder=""/>
                                                     <span class="moreClick">...</span>
                                                 </div>
                                                 <div class="grid-item">
@@ -196,7 +191,7 @@
 
                                                 <div class="grid-item">
                                                     <label>禮券金額</label>
-                                                    <input type="text" class="input-medium resvCardRemark" placeholder=""/>
+                                                    <input type="text" class="input-medium resvCardRm" placeholder=""/>
                                                     <span class="moreClick">...</span>
                                                 </div>
 
@@ -209,7 +204,7 @@
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>客房備註</label>
-                                                    <input type="text" class="input-medium resvCard-fullRemark" placeholder=""/>
+                                                    <input type="text" class="input-medium resvCard-fullRm" placeholder=""/>
                                                     <span class="moreClick">...</span>
                                                 </div>
                                             </div>
@@ -217,7 +212,7 @@
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>退房提醒</label>
-                                                    <input type="text" class="input-medium resvCard-fullRemark" placeholder=""/>
+                                                    <input type="text" class="input-medium resvCard-fullRm" placeholder=""/>
                                                     <span class="moreClick">...</span>
                                                 </div>
                                             </div>
@@ -1082,7 +1077,9 @@
                                                 <div class="grid-item">
                                                     <label>消費代號</label>
                                                     <input type="text" class="input-medium consumeCode-g1-s input_sta_required" placeholder="" />
-                                                    <input type="text" class="input-medium consumeCode-g1-m" placeholder="" disabled/>
+                                                    <span class="ml-3">
+                                                        <input type="text" class="input-medium consumeCode-g1-m" placeholder="" disabled/>
+                                                    </span>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>消費金額</label>
@@ -1700,7 +1697,7 @@
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
                         <div class="row no-margin-right">
-                            <div class="main-content-data">
+                            <div class="main-content-data borderFrame">
                                 <!--1-->
                                 <div class="grid">
                                     <div class="grid-item">
@@ -1792,7 +1789,7 @@
                                     </div>
                                 </div>
                                 <div class="border-double1"></div>
-                                <div class="borderFrame">
+                                <div class="">
 
                                     <!--6-->
                                     <div class="grid">
@@ -1909,16 +1906,18 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>房號</label>
-                                        <input type="text" class="input-medium medium-xs-82" placeholder="150"/>
-                                        <input type="text" class="input-medium medium-xs-82" placeholder="住客序號"/>
+                                        <input type="text" class="input-medium resvCard-s1Half2" placeholder="150"/>
+                                        <span class="ml-2">
+                                            <input type="text" class="input-medium resvCard-s1Half2" placeholder="住客序號"/>
+                                        </span>
                                     </div>
                                     <div class="grid-item">
                                         <label>公帳號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="201704010000301"/>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="201704010000301"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>住客帳狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="C:結帳"/>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="C:結帳"/>
                                     </div>
                                 </div>
                                 <!--<div class="space-custom-5"></div>-->
@@ -1926,63 +1925,63 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>住客姓名</label>
-                                        <input type="text" class="input-medium addedDate" placeholder="RICK"/>
+                                        <input type="text" class="input-medium rateCode-s1Rm" placeholder="RICK"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂房卡號</label>
-                                        <input type="text" class="input-medium addedDate" placeholder="23213"/>
+                                        <input type="text" class="input-medium rateCode-s1Rm" placeholder="23213"/>
                                         <span class="moreClick">...</span>
 
                                     </div>
                                     <div class="grid-item">
                                         <label>入住日期</label>
-                                        <input type="datetime-local" class="input-medium medium-c1" placeholder="2017/04/03"/>
+                                        <input type="datetime-local" class="input-medium rateCode-s1" placeholder="2017/04/03"/>
                                     </div>
                                 </div>
 
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂房公司</label>
-                                        <input type="text" class="input-medium addedDate" placeholder="Google"/>
+                                        <input type="text" class="input-medium rateCode-s1Rm" placeholder="Google"/>
                                         <span class="moreClick">...</span>
                                     </div>
                                     <div class="grid-item">
                                         <label>訂房來源</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
                                         <label>預計退房日期</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder=""/>
+                                        <input type="date" class="input-medium rateCode-s1" placeholder=""/>
                                     </div>
                                 </div>
 
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
                                         <label>市場類別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder=""/>
+                                        <input type="text" class="input-medium rateCode-s1" placeholder=""/>
                                     </div>
                                     <div class="grid-item">
                                         <label>實際退房日期</label>
-                                        <input type="datetime-local" class="input-medium medium-c1" placeholder=""/>
+                                        <input type="datetime-local" class="input-medium rateCode-s1" placeholder=""/>
                                     </div>
                                 </div>
 
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客房備註</label>
-                                        <input type="text" class="input-medium medium-c1-410" placeholder=""/>
+                                        <input type="text" class="input-medium rateCode-s1-col2Rm" placeholder=""/>
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>退房提醒</label>
-                                        <input type="text" class="input-medium medium-c1-410" placeholder=""/>
+                                        <input type="text" class="input-medium rateCode-s1-col2Rm" placeholder=""/>
                                         <span class="moreClick">...</span>
                                     </div>
                                 </div>
@@ -2515,14 +2514,14 @@
                             </div>
 
                             <div class="grid">
-                                <div class="grid-item">
-                                    <div class="block-item-content">
-                                        <label class="pull-left">內容</label>
-                                        <div class="relative pull-left">
-                                            <textarea class="input-medium popWindow-s1-col2 pull-left margin-adjust height-auto" rows="5"></textarea>
-                                            <p class="redTip">請用ctrl+Enter換行</p>
-                                        </div>
+                                <div class="grid-item width-100">
+                                    <label class="pull-left">內容</label>
+
+                                    <div class="pull-left">
+                                        <textarea class="input-medium popWindow-s1-col2 height-auto rzNone" rows="5"></textarea>
+                                        <p class="redTip">請用ctrl+Enter換行</p>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>

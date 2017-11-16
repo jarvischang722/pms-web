@@ -85,8 +85,8 @@ var Pms0830070Comp = Vue.extend({
                     var ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
                     var ln_dis_item_nos = _.findIndex(self.dt2DisableItemNos, {item_nos: lo_data.item_nos});
 
-                    lo_data.checked = (ln_sel_item_nos != -1 || ln_dis_item_nos != -1) ? true : false;
-                    lo_data.disabled = (ln_dis_item_nos != -1) ? true : false;
+                    lo_data.checked = ln_sel_item_nos != -1 || ln_dis_item_nos != -1 ? true : false;
+                    lo_data.disabled = ln_dis_item_nos != -1 ? true : false;
 
                     _.each(PMS0830070VM.tmpCUD.dt_deleteData, function (lo_dtDelData) {
                         var ln_delNosItem = _.findIndex(self.dt2DisableItemNos, {
@@ -128,7 +128,7 @@ var Pms0830070Comp = Vue.extend({
 
         //dt2服務項目資料暫存更新
         updateCheckData: function (item, index) {
-            this.dt2ShowList[index].checked = (this.dt2ShowList[index].checked) ? false : true;
+            this.dt2ShowList[index].checked = this.dt2ShowList[index].checked ? false : true;
             var lo_temp = _.findIndex(this.itemNosCheckedTemp, {item_nos: this.dt2ShowList[index].item_nos});
             if (lo_temp == -1) {
                 this.itemNosCheckedTemp.push({

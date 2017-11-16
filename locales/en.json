@@ -175,7 +175,9 @@
       "selectEmp": "Employee",
       "hotel_cod_repeat": "館別代號重複，請刪除(英文)",
       "Property": "Property(英)",
-      "group_change_record": "組別異動紀錄(英)"
+      "group_change_record": "組別異動紀錄(英)",
+      "saveSuccess": "Save Success",
+      "delSuccess": "Delete Success"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -231,7 +233,7 @@
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字(英文)",
       "FmtHHMM": "%s time format is 'HH:MM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
-      "FmtYYYYMM": "%s 日期格式YYYY/MM(英文)"
+      "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
     }
   },
   "PMS0830090": "PMS0830090",

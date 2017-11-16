@@ -44,8 +44,8 @@ function DatagridBaseClass() {
             columns: [columns],
             remoteSort: false,
             singleSelect: !_.isUndefined(options.singleSelect) ? options.singleSelect : true,
-            selectOnCheck: true,
-            checkOnSelect: true,
+            selectOnCheck: !_.isUndefined(options.selectOnCheck) ? options.singleSelect : true,
+            checkOnSelect: !_.isUndefined(options.checkOnSelect) ? options.singleSelect : true,
             //width: "100%", // error:左側打開後table會擠壓到右側欄位
             onClickCell: this.onClickCell,
             onClickRow: this.onClickRow,
@@ -299,6 +299,7 @@ function DatagridBaseClass() {
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
 
         if (existIdx > -1) {
+            self.tmpCUD.oriUpdateData.splice(existIdx, 1);
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
@@ -306,7 +307,7 @@ function DatagridBaseClass() {
         var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
 
         if (dataType == "updateData") {
-            if (existOriIdx > -1) {
+            if (existOriIdx > -1 && existIdx == -1) {
                 self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
                 this.tmpCUD[dataType].splice(existOriIdx, 1);
             }
@@ -315,14 +316,14 @@ function DatagridBaseClass() {
             lo_chkKeyRowData["tab_page_id"] = 1;
             lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
-            self.tmpCUD[dataType].push(lo_chkKeyRowData);
-            self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+            self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
+            self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
             $("#gridEdit").val(self.tmpCUD);
         }
         else if (dataType == "createData") {
             if(existOriIdx == -1){
                 lo_chkKeyRowData["mnRowData"] = this.mnRowData;
-                lo_chkKeyRowData["tab_page_id"] = 1;
+                lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
                 lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
 
                 self.tmpCUD[dataType].push(lo_chkKeyRowData);

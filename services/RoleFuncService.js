@@ -178,7 +178,7 @@ exports.updateUserPurview = function (req, callback) {
                     });
 
                     _.each(la_locales, function (locale) {
-                        let lo_mdlLang = _.findWhere(mdlLangList,{mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
+                        let lo_mdlLang = _.findWhere(mdlLangList, {mdl_id: lo_mdlInfo.mdl_id, locale: locale.lang});
                         lo_mdl["mdl_name_" + locale.lang] = lo_mdlLang ? lo_mdlLang.words : lo_mdlInfo.mdl_name;
                     });
 
@@ -260,14 +260,23 @@ exports.updateUserPurview = function (req, callback) {
                                 la_allQuickMenu.push(tmpQuickObj);
                             }
                         } else if (lo_pro.id_typ == "PROCESS") {
-
+                            let lo_verConf = require("../configs/versionCtrlPrgConf.json");
                             let pro = _.findWhere(la_allMdlProList, {pro_id: lo_pro.current_id});
                             if (!_.isUndefined(pro)) {
                                 tmpQuickObj = {
                                     pro_id: pro.pro_id,
                                     pro_url: pro.pro_url,
-                                    subsys_id: quickData.subsys_id
+                                    subsys_id: quickData.subsys_id,
+                                    isBusinessVer: "N",
+                                    isEnterpriseVer: "N"
                                 };
+                                //為了判斷第二階段與第三階段上的QuickMenu 以顏色區分
+                                if (_.indexOf(lo_verConf.Business, pro.pro_id) > -1) {
+                                    tmpQuickObj.isBusinessVer = "Y";
+                                }
+                                if (_.indexOf(lo_verConf.Enterprise, pro.pro_id) > -1) {
+                                    tmpQuickObj.isEnterpriseVer = "Y";
+                                }
                                 _.each(la_locales, function (locale) {
                                     if (!_.isUndefined(pro["pro_name_" + locale.lang])) {
                                         tmpQuickObj["pro_name_" + locale.lang] = pro["pro_name_" + locale.lang];

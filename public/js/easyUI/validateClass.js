@@ -203,7 +203,7 @@ function validateClass() {
     this.FmtYYYYMM = function () {
         var ls_value = arguments[0];
         var ls_ui_display_name = arguments[1];
-        var reg = /[0-9][0-9][0-9][0-9]\/(0[0-9]|1[0-2])/;
+        var reg = /[0-9][0-9][0-9][0-9]\/(0[1-9]|1[0-2])/;
         var lb_result = reg.test(ls_value);
         var ls_msg = (arguments.length == 2) ? sprintf(this.ls_msg.FmtYYYYMM, ls_ui_display_name) : sprintf(this.ls_msg.FmtYYYYMM, "");
         return {success: lb_result, msg: ls_msg};
