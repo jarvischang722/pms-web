@@ -13,6 +13,8 @@ const queryAgent = require(appRootDir + "/plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require(appRootDir + "/plugins/mongodb");
 const sysConfig = require(appRootDir + "/configs/systemConfig");
 const tools = require(appRootDir + "/utils/CommonTools");
+const dataRuleSvc = require(appRootDir + "/services/DataRuleService");
+const fieldAttrSvc = require(appRootDir + "/services/FieldsAttrService");
 
 let go_session;
 let go_searchCond;
@@ -36,7 +38,8 @@ function DataGridProcModule(postData, session) {
         async.waterfall([
             qryUIDatagridField,     //取多筆欄位資料
             qryLangUIField,         //欄位多語系
-            qrySelectOption         //查詢SelectOption
+            qrySelectOption,        //查詢SelectOption
+            qrySearchField          //取搜尋欄位
         ], function (err, result) {
             lo_args.callback(err, result);
         });
@@ -102,7 +105,7 @@ let qryUIDatagridField = function (callback) {
 /**
  * 欄位多語系
  * @param lo_params {object} 查詢多語系條件
- * @param la_dgFieldData {array} 多筆欄位資料
+ * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
 let qryLangUIField = function (la_dgFieldData, callback) {
@@ -125,102 +128,102 @@ let qryLangUIField = function (la_dgFieldData, callback) {
 }
 
 /**
- *
- * @param la_dgFieldData
+ * 查詢下拉Option
+ * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
 let qrySelectOption = function (la_dgFieldData, callback) {
-    var selectDSFunc = [];
+    var la_asyncParaFunc = [];
     _.each(la_dgFieldData, function (lo_dgField, fIdx) {
         if (lo_dgField.ui_type == 'select' || lo_dgField.ui_type == 'multiselect' || lo_dgField.ui_type == 'checkbox' || lo_dgField.ui_type == 'selectgrid') {
 
             //讀取selectgrid的設定參數
             if (lo_dgField.ui_type == 'selectgrid') {
-                var func_name = prg_id + '_' + lo_dgField.ui_field_name;
+                var func_name = gs_prg_id + '_' + lo_dgField.ui_field_name;
                 la_dgFieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
             }
-
-            selectDSFunc.push(
-                function (callback) {
-                    mongoAgent.UITypeSelect.findOne({
-                        prg_id: prg_id,
-                        ui_field_name: lo_dgField.ui_field_name
-                    }).exec(function (err, selRow) {
-                        la_dgFieldData[fIdx].selectData = [];
-                        if (selRow) {
-                            selRow = selRow.toObject();
-                            la_dgFieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
-                            la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
-                            la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
-
-                            dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
-                                la_dgFieldData[fIdx].selectData = selectData;
-                                callback(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
-                            });
-
-                        } else {
-                            callback(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
-                        }
-                    });
-                }
-            );
+            genAsyncParaFunc(lo_dgField, fIdx);
         }
+        chkDgFieldIsC(lo_dgField, fIdx);
+    });
 
-        //SAM:看(visiable,modificable,requirable) "C"要檢查是否要顯示欄位 2017/6/20
-        var attrName = lo_dgField.attr_func_name;
-        if (!_.isEmpty(attrName)) {
-            selectDSFunc.push(
-                function (callback) {
-                    if (lo_dgField.visiable == "C") {
-                        if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                            ruleAgent[attrName](lo_dgField, userInfo, function (err, result) {
-                                if (result) {
-                                    la_dgFieldData[fIdx] = result[0];
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                } else {
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                }
-                            });
-                        } else {
-                            callback(null, {ui_field_idx: fIdx, field: lo_dgField});
-                        }
-                    } else if (lo_dgField.modificable == "C") {
-                        if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                            ruleAgent[attrName](lo_dgField, userInfo, function (err, result) {
-                                if (result) {
-                                    la_dgFieldData[fIdx] = result[0];
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                } else {
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                }
-                            });
-                        } else {
-                            callback(null, {ui_field_idx: fIdx, field: lo_dgField});
-                        }
-                    } else if (lo_dgField.requirable == "C") {
-                        if (!_.isEmpty(attrName) && !_.isUndefined(ruleAgent[attrName])) {
-                            ruleAgent[attrName](lo_dgField, userInfo, function (err, result) {
-                                if (result) {
-                                    la_dgFieldData[fIdx] = result[0];
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                } else {
-                                    callback(err, {ui_field_idx: fIdx, field: result});
-                                }
-                            });
-                        } else {
-                            callback(null, {ui_field_idx: fIdx, field: lo_dgField});
-                        }
+    async.parallel(la_asyncParaFunc, function (err, result) {
+        callback(err, la_dgFieldData);
+    });
+
+    /**
+     * 產生執行async parallel function
+     * @param lo_dgField {object} 多筆欄位
+     * @param fIdx {number} 多筆欄位index
+     */
+    function genAsyncParaFunc(lo_dgField, fIdx){
+        la_asyncParaFunc.push(
+            function (cb) {
+                mongoAgent.UITypeSelect.findOne({
+                    prg_id: gs_prg_id,
+                    ui_field_name: lo_dgField.ui_field_name
+                }).exec(function (err, selRow) {
+                    la_dgFieldData[fIdx].selectData = [];
+                    if (selRow) {
+                        selRow = selRow.toObject();
+                        la_dgFieldData[fIdx].ds_from_sql = selRow.ds_from_sql || "";
+                        la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
+                        la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
+
+                        dataRuleSvc.getSelectOptions(go_session.user, selRow, function (selectData) {
+                            la_dgFieldData[fIdx].selectData = selectData;
+                            cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
+                        });
+
                     } else {
-                        callback(null, {ui_field_idx: fIdx, visiable: lo_dgField.visiable});
+                        cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
+                    }
+                });
+            }
+        );
+    }
+
+    /**
+     * 檢查欄位visiable, modificable, requirable為C是否要顯示
+     * @param lo_dgField {object} 多筆欄位
+     * @param fIdx {number} 多筆欄位index
+     */
+    function chkDgFieldIsC(lo_dgField, fIdx){
+        let ls_attrName = lo_dgField.attr_func_name;
+        if (!_.isEmpty(ls_attrName)) {
+            la_asyncParaFunc.push(
+                function (cb) {
+                    if (lo_dgField.visiable == "C" || lo_dgField.modificable == "C" || lo_dgField.requirable == "C") {
+                        if (!_.isEmpty(ls_attrName) && !_.isUndefined(ruleAgent[ls_attrName])) {
+                            ruleAgent[ls_attrName](lo_dgField, go_session.user, function (err, result) {
+                                if (result) {
+                                    la_dgFieldData[fIdx] = result[0];
+                                    cb(err, {ui_field_idx: fIdx, field: result});
+                                } else {
+                                    cb(err, {ui_field_idx: fIdx, field: result});
+                                }
+                            });
+                        } else {
+                            cb(null, {ui_field_idx: fIdx, field: lo_dgField});
+                        }
+                    }
+                    else {
+                        cb(null, {ui_field_idx: fIdx, visiable: lo_dgField.visiable});
                     }
                 }
             );
-            ``
         }
-    });
+    }
+}
 
-    async.parallel(selectDSFunc, function (err, result) {
-        callback(err, result);
+let qrySearchField = function(la_dgFieldData, callback){
+    fieldAttrSvc.getAllUIPageFieldAttr({
+        prg_id: gs_prg_id,
+        page_id: 3,
+        locale: go_searchCond.locale
+    }, go_searchCond.user, function (err, fields) {
+        // la_searchFields = fields;
+        callback(null, fields);
     });
 }
 
