@@ -594,6 +594,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.bill-input-full {
+  width: 568px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.resvCard-s1Half2 {
   width: 89px;
   max-width: 100%;
@@ -866,11 +871,6 @@ a {
 }
 .input-medium.input-spc-3 {
   width: 348px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.input-spc-3 {
-  width: 333px;
   max-width: 100%;
   height: 25px;
 }

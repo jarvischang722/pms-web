@@ -28,7 +28,7 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
-.grid-item .input-medium, .grid-item span, .grid-item p {
+.grid-item .input-medium, .grid-item span, .grid-item p, .grid-item div {
   font-size: 13px !important;
 }
 .grid-item span.subtxt {
@@ -1315,7 +1315,7 @@ body {
 }
 
 .disable-color {
-  background-color: #c1c1c1 !important;
+  background-color: #e6e6e6 !important;
 }
 
 .fht-table,
@@ -3349,6 +3349,7 @@ ul.newVisitOther-btn {
   padding: 3px 9px;
   font-size: 12px;
   white-space: normal;
+  cursor: default;
 }
 
 .roomPlan-btn {
@@ -3559,9 +3560,7 @@ td div.triangle-box {
   position: relative;
   background-color: #f8cbac !important;
 }
-
-td div.triangle-box:before,
-td div.triangle-box:after {
+td div.triangle-box:before, td div.triangle-box:after {
   content: "";
   border-style: solid;
   border-width: 0;
@@ -3570,15 +3569,38 @@ td div.triangle-box:after {
   width: 0;
   border-color: transparent #f8cbac;
 }
-
 td div.triangle-box:before {
   left: -10px;
   border-width: 9px 10px 9px 0px;
 }
-
 td div.triangle-box:after {
   right: -10px;
   border-width: 9px 0 9px 10px;
+}
+td div.triangle-box span.triangle-text {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+td div.act-box {
+  margin: 0px auto;
+  color: #000;
+  position: relative;
+}
+td div.act-box:before, td div.act-box:after {
+  content: "";
+  border-style: solid;
+  border-width: 0;
+  position: absolute;
+  width: 0;
+  border-color: transparent #f8cbac;
+}
+td div.act-box span.act-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .cashierSetting-btn-wrap {
@@ -3599,14 +3621,6 @@ td div.triangle-box:after {
 .cashierSetting-left.css_table .css_td.active {
   background: #fff !important;
   color: #000 !important;
-}
-
-span.triangle-text {
-  width: 100%;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .month-wrap {
@@ -4827,6 +4841,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.bill-input-full {
+  width: 568px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.resvCard-s1Half2 {
   width: 89px;
   max-width: 100%;
@@ -5099,11 +5118,6 @@ a {
 }
 .input-medium.input-spc-3 {
   width: 348px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.input-spc-3 {
-  width: 333px;
   max-width: 100%;
   height: 25px;
 }

@@ -1403,6 +1403,7 @@ ul.newVisitOther-btn
     padding: 3px 9px
     font-size: 12px
     white-space: normal
+    cursor: default
 .roomPlan-btn
   margin-top: 42px
 .empty-color
@@ -1556,33 +1557,55 @@ span.roomNum-text
 //  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
 //ho-表格td長六角形
-td div.triangle-box
-  width: 80%
-  height: 19px
-  /* margin-left: 18px */
-  margin: 0px auto
-  color: #000
-  position: relative
-  background-color: #f8cbac !important
+td
+  div
+    &.triangle-box
+      width: 80%
+      height: 19px
+      /* margin-left: 18px */
+      margin: 0px auto
+      color: #000
+      position: relative
+      background-color: #f8cbac !important
+      &:before,&:after
+        content: ""
+        border-style: solid
+        border-width: 0
+        height: 19px
+        position: absolute
+        width: 0
+        border-color: transparent #f8cbac
+      &:before
+        left: -10px
+        border-width: 9px 10px 9px 0px
+      &:after
+        right: -10px
+        border-width: 9px 0 9px 10px
+      span
+        &.triangle-text
+          width: 100%
+          display: inline-block
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+    // todo 多行不會隱藏
+    &.act-box
+      margin: 0px auto
+      color: #000
+      position: relative
+      &:before,&:after
+        content: ""
+        border-style: solid
+        border-width: 0
+        position: absolute
+        width: 0
+        border-color: transparent #f8cbac
+      span
+        &.act-text
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
 
-td div.triangle-box:before,
-td div.triangle-box:after
-  content: ""
-  border-style: solid
-  border-width: 0
-  height: 19px
-  position: absolute
-  width: 0
-  border-color: transparent #f8cbac
-
-
-td div.triangle-box:before
-  left: -10px
-  border-width: 9px 10px 9px 0px
-
-td div.triangle-box:after
-  right: -10px
-  border-width: 9px 0 9px 10px
 
 //ho-分帳規則
 .cashierSetting-btn-wrap
@@ -1604,13 +1627,7 @@ td div.triangle-box:after
       &.active
         background: #fff !important
         color: #000 !important
-span
-  &.triangle-text
-    width: 100%
-    display: inline-block
-    overflow: hidden
-    white-space: nowrap
-    text-overflow: ellipsis
+
 .month-wrap
   width: 90%
   margin: 0 auto

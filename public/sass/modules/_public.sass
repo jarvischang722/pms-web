@@ -265,10 +265,10 @@ $medium-c1: 165px
 $medium-c3-col2: 255px
 $medium-c3-card: 212px
 $resvCard-col2: 316px
-$popWindow-s1v2-col2: 227px
 $medium-c1-col2v2: 434px
 $medium-c1-sc2: 299.5px
 $medium-c1-sc2-col2: (($medium-c1-sc2) *2)+104
+$popWindow-s1v2-col2: 227px
 $popWindow-s1-col2: 414px
 $rateCode-s1: 180px
 $rateCode-s1-col2: (($rateCode-s1) *2)+104
@@ -354,6 +354,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(120px)
   &.bill-input-s2
     +input-s1(245px)
+  &.bill-input-full
+    +input-s1(568px)
   &.resvCard-s1Half2
     +input-s1((($rateCode-s1) /2)-1)
   &.rateCode-s1
@@ -469,8 +471,6 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(456px) // suggestion Page
   &.input-spc-3
     +input-s1(348px) // suggestion Page
-  &.input-spc-3
-    +input-s1(333px) // suggestion Page
 
 .input-hMedium
   height: $inputHeight-medium !important
