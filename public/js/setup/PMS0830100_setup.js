@@ -595,7 +595,10 @@ var PMS0830100VM = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0830100_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(prg_id, 'PMS0830100_dg', colOption, this.pageOneFieldData, {
+                singleSelect: false,
+                checkOnSelect: false
+            });
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -631,7 +634,7 @@ var PMS0830100VM = new Vue({
             PMS0830100VM.tmpCud.deleteData = [];
             var checkRows = $('#PMS0830100_dg').datagrid('getChecked');
             if (checkRows == 0) {
-                alert("Warning", 'Check at least one item');
+                alert('Check at least one item');
                 return;
             }
             var q = confirm("Are you sure delete those data?");

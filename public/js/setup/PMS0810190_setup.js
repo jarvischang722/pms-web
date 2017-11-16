@@ -132,7 +132,7 @@ var vm = new Vue({
             deleteData: []
         },
         editingRow: {}, //編輯中的那筆RowData
-        editingIdx : -1
+        editingIdx: -1
 
     },
     mounted: function () {

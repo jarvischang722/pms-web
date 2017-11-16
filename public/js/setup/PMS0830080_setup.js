@@ -116,7 +116,7 @@ var PMS0830080VM = new Vue({
     el: '#PMS0830080App',
     components: {Pms0830080Comp},
     data: {
-        isSaving:false,
+        isSaving: false,
         prg_id: gs_prg_id,
         pageOneDataGridRows: [],
         pageOneFieldData: [],
@@ -255,10 +255,10 @@ var PMS0830080VM = new Vue({
             this.openRouteDialog();
         },
         //預設全部都在第一個帳夾
-        toDefaultAccountOne : function(){
+        toDefaultAccountOne: function(){
 
             var notAccountSmallTypList = _.reject(PMS0830080VM.stypeRfList, function(d) {
-                return _.findIndex(PMS0830080VM.routeDtList,{small_typ:d.small_typ.trim()}) > -1;
+                return _.findIndex(PMS0830080VM.routeDtList,{small_typ: d.small_typ.trim()}) > -1;
             });
             _.each(notAccountSmallTypList, function (stype) {
                 PMS0830080VM.accounts["account1"].push({

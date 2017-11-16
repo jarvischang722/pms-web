@@ -159,7 +159,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 singleSelect: true,
                 data: textDataGridArray,
                 height: height,
-                width: width,
+                width: width
             }).datagrid('columnMoving');
             self.updateFieldNameTmp = updateFieldName;
         },
@@ -178,7 +178,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                         }
                     });
                 });
-            }else {
+            } else {
                 _.each(chooseData, function (chooseValue, chooseField) {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
@@ -317,7 +317,7 @@ Vue.component('single-grid-pms0830090-tmp', {
                                 PMS0830090VM.singleData.show_cod = '';
                                 PMS0830090VM.singleData.cust_nam = '';
                             }
-                            else{
+                            else {
                                 //否: 不可異動
                                 alert(result.alertMsg);
                                 PMS0830090VM.singleData.master_typ = "N";
@@ -453,32 +453,32 @@ Vue.component('single-grid-pms0830090-tmp', {
                 }
 
                 if (this.createStatus) {
-                    if(PMS0830090VM.isbatchAdd){    //判斷是否為批次新增
+                    if (PMS0830090VM.isbatchAdd) {    //判斷是否為批次新增
 
-                        if(Number(this.singleData.start_num) > Number(this.singleData.end_num)){
+                        if (Number(this.singleData.start_num) > Number(this.singleData.end_num)) {
                             alert("起始編號要小於結尾編號!");
                             return;
                         }
 
                         var lo_tmpCud = [];
 
-                        for(i = Number(this.singleData.start_num); i <= Number(this.singleData.end_num); i++){
+                        for (i = Number(this.singleData.start_num); i <= Number(this.singleData.end_num); i++) {
 
                             var account = padLeft(i.toString(), this.singleData.account_length - 1);
                             account = this.singleData.prefix + account;
 
                             //判斷是否已經存在
-                            var existIdx =  _.findIndex(this.pageOneDataGridRows, function(lo_rows){
+                            var existIdx = _.findIndex(this.pageOneDataGridRows, function (lo_rows) {
                                 return lo_rows.master_nos.trim() == account.trim();
                             });
 
                             if (existIdx != -1)
-                                continue;
+                                {continue;}
 
                             lo_tmpCud.push({
                                 "master_nos": account,
                                 "master_typ": this.singleData.master_typ,
-                                "master_sta": "N",
+                                "master_sta": "N"
                                 // "cust_cod": this.singleData.cust_cod,
                                 // "cust_nam": this.singleData.cust_nam,
                                 // "deposit_nos": this.singleData.deposit_nos
@@ -684,7 +684,10 @@ var PMS0830090VM = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830090_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0830090_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(prg_id, 'PMS0830090_dg', colOption, this.pageOneFieldData, {
+                singleSelect: false,
+                checkOnSelect: false
+            });
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0830090VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -726,7 +729,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.editStatus = false;
             PMS0830090VM.isbatchAdd = true;
             //PMS0830090VM.singleData = {account_length: 4, prefix : 'A', master_typ : 'A', cust_cod : '', show_cod : '', cust_nam : '', deposit_nos: '', deposit_nam: ''};  //改SA，先保留
-            PMS0830090VM.singleData = {account_length: 4, prefix : 'A'};
+            PMS0830090VM.singleData = {account_length: 4, prefix: 'A'};
 
             //塞欄位
             var fieldData = this.fetchBatchFieldData();
@@ -742,7 +745,7 @@ var PMS0830090VM = new Vue({
             PMS0830090VM.tmpCud.deleteData = [];
             var checkRows = $('#PMS0830090_dg').datagrid('getChecked');
             if (checkRows == 0) {
-                alert("Warning", 'Check at least one item');
+                alert("Check at least one item");
                 return;
             }
             var q = confirm("Are you sure delete those data?");
@@ -809,7 +812,7 @@ var PMS0830090VM = new Vue({
                 callback = function(){};
             }
 
-            if(PMS0830090VM.isbatchAdd){
+            if (PMS0830090VM.isbatchAdd) {
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && PMS0830090VM.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
@@ -867,23 +870,23 @@ var PMS0830090VM = new Vue({
                     PMS0830090VM.modificableForData = result.isModifiable;
 
                     //如果為可修改，不可將狀態改成使用中
-                    if(PMS0830090VM.modificableForData){
+                    if (PMS0830090VM.modificableForData) {
                         PMS0830090VM.pageTwoFieldData[0][1].selectData = [
                             {
                                 value: "N",
-                                display:"N : 未使用"
+                                display: "N : 未使用"
                             },
                             {
                                 value: "P",
-                                display:"P : 暫停使用"
+                                display: "P : 暫停使用"
                             }
                         ];
                     }
-                    else{
+                    else {
                         PMS0830090VM.pageTwoFieldData[0][1].selectData = [
                             {
                                 value: "Y",
-                                display:"Y : 使用中"
+                                display: "Y : 使用中"
                             }
                         ];
                     }
@@ -955,20 +958,20 @@ var PMS0830090VM = new Vue({
 
             $("#singleGridPMS0830090").dialog('close');
         },
-        
+
         //組批次新增的欄位
         fetchBatchFieldData: function () {
 
             var lo_fieldData = [
                 {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "account_length",
-                    ui_type : "select",
+                    user_athena_id: "",
+                    user_id: "",
+                    athena_id: "",
+                    prg_id: "PMS0830090",
+                    page_id: 2,
+                    template_id: "gridsingle",
+                    ui_field_name: "account_length",
+                    ui_type: "select",
                     selectData: [
                         {
                             display: '4',
@@ -983,129 +986,129 @@ var PMS0830090VM = new Vue({
                             value: '6'
                         }
                     ],
-                    ui_field_length : 6,
-                    ui_field_num_point :0,
-                    row_seq : 1,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"公帳號長度"
+                    ui_field_length: 6,
+                    ui_field_num_point: 0,
+                    row_seq: 1,
+                    height: 25,
+                    col_seq: 1,
+                    label_width: 75,
+                    width: 165,
+                    visiable: "Y",
+                    modificable: "Y",
+                    requirable: "Y",
+                    keyable: "N",
+                    multi_lang_table: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    ui_display_name: "公帳號長度"
                 },
                 {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "prefix",
-                    ui_type : "text",
-                    ui_field_length : 1,
-                    ui_field_num_point :0,
-                    row_seq : 1,
-                    height : 25,
-                    col_seq : 2,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"使用字首"
+                    user_athena_id: "",
+                    user_id: "",
+                    athena_id: "",
+                    prg_id: "PMS0830090",
+                    page_id: 2,
+                    template_id: "gridsingle",
+                    ui_field_name: "prefix",
+                    ui_type: "text",
+                    ui_field_length: 1,
+                    ui_field_num_point: 0,
+                    row_seq: 1,
+                    height: 25,
+                    col_seq: 2,
+                    label_width: 75,
+                    width: 165,
+                    visiable: "Y",
+                    modificable: "Y",
+                    requirable: "Y",
+                    keyable: "N",
+                    multi_lang_table: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    ui_display_name: "使用字首"
                 },
                 {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "start_num",
-                    ui_type : "text",
-                    ui_field_length : 5,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "ChkGreaterZeroNum",
-                    rule_func_name : "",
-                    ui_display_name:"起始編號"
+                    user_athena_id: "",
+                    user_id: "",
+                    athena_id: "",
+                    prg_id: "PMS0830090",
+                    page_id: 2,
+                    template_id: "gridsingle",
+                    ui_field_name: "start_num",
+                    ui_type: "text",
+                    ui_field_length: 5,
+                    ui_field_num_point: 0,
+                    row_seq: 2,
+                    height: 25,
+                    col_seq: 1,
+                    label_width: 75,
+                    width: 165,
+                    visiable: "Y",
+                    modificable: "Y",
+                    requirable: "Y",
+                    keyable: "N",
+                    multi_lang_table: "",
+                    format_func_name: "ChkGreaterZeroNum",
+                    rule_func_name: "",
+                    ui_display_name: "起始編號"
                 },
                 {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "end_num",
-                    ui_type : "text",
-                    ui_field_length : 5,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 2,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "N",
-                    multi_lang_table : "",
-                    format_func_name : "ChkGreaterZeroNum",
-                    rule_func_name : "",
-                    ui_display_name:"結尾編號"
+                    user_athena_id: "",
+                    user_id: "",
+                    athena_id: "",
+                    prg_id: "PMS0830090",
+                    page_id: 2,
+                    template_id: "gridsingle",
+                    ui_field_name: "end_num",
+                    ui_type: "text",
+                    ui_field_length: 5,
+                    ui_field_num_point: 0,
+                    row_seq: 2,
+                    height: 25,
+                    col_seq: 2,
+                    label_width: 75,
+                    width: 165,
+                    visiable: "Y",
+                    modificable: "Y",
+                    requirable: "Y",
+                    keyable: "N",
+                    multi_lang_table: "",
+                    format_func_name: "ChkGreaterZeroNum",
+                    rule_func_name: "",
+                    ui_display_name: "結尾編號"
                 },
                 {
-                    user_athena_id : "",
-                    user_id : "",
-                    athena_id : "",
-                    prg_id : "PMS0830090",
-                    page_id : 2,
-                    template_id : "gridsingle",
-                    ui_field_name : "master_typ",
-                    ui_type : "select",
-                    ui_field_length : 1,
-                    ui_field_num_point :0,
-                    row_seq : 2,
-                    height : 25,
-                    col_seq : 1,
-                    label_width : 75,
-                    width : 165,
-                    visiable : "Y",
-                    modificable : "Y",
-                    requirable : "Y",
-                    keyable : "",
-                    multi_lang_table : "",
-                    format_func_name : "",
-                    rule_func_name : "",
-                    ui_display_name:"類別",
-                    selectData:[
+                    user_athena_id: "",
+                    user_id: "",
+                    athena_id: "",
+                    prg_id: "PMS0830090",
+                    page_id: 2,
+                    template_id: "gridsingle",
+                    ui_field_name: "master_typ",
+                    ui_type: "select",
+                    ui_field_length: 1,
+                    ui_field_num_point: 0,
+                    row_seq: 2,
+                    height: 25,
+                    col_seq: 1,
+                    label_width: 75,
+                    width: 165,
+                    visiable: "Y",
+                    modificable: "Y",
+                    requirable: "Y",
+                    keyable: "",
+                    multi_lang_table: "",
+                    format_func_name: "",
+                    rule_func_name: "",
+                    ui_display_name: "類別",
+                    selectData: [
                         {
                             value: "A",
-                            display:"A : 系統自動給號"
+                            display: "A : 系統自動給號"
                         },
                         {
                             value: "C",
-                            display:"C : 現金帳"
+                            display: "C : 現金帳"
                         }
                     ]
                 }
