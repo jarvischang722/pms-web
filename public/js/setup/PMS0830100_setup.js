@@ -596,8 +596,7 @@ var PMS0830100VM = new Vue({
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0830100_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
             this.dgIns.init(prg_id, 'PMS0830100_dg', colOption, this.pageOneFieldData, {
-                singleSelect: false,
-                checkOnSelect: false
+                singleSelect: false
             });
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0830100VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
