@@ -419,7 +419,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         else {
                             alert(result.errorMsg);
                         }
-
+                        self.isLoadingDialog = false;
                         vm.initTmpCUD();
                     });
                 }
@@ -838,7 +838,7 @@ function findByValue(obj, id) {
     for (var p in obj) {
         if (obj.value === id) {
             return obj;
-        } else {
+        } 
             if (typeof obj[p] === 'object') {
                 result = findByValue(obj[p], id);
 
@@ -848,7 +848,7 @@ function findByValue(obj, id) {
                     return result;
                 }
             }
-        }
+        
     }
     return result;
 }
