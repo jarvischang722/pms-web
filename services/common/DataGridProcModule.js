@@ -24,7 +24,6 @@ let gn_page_id;
 
 // 多筆流程
 function DataGridProcModule(postData, session) {
-    let self = this;
     gn_page_id = postData.page_id || 1;
     go_session = session;
     gs_prg_id = postData.prg_id;
@@ -83,7 +82,6 @@ function qryRowData(lo_rfData, callback) {
         callback(err, result);
     });
 };
-
 
 /**
  * 取多筆欄位資料
@@ -320,4 +318,4 @@ function rowDataMultiLang(la_dgRowData, callback) {
     });
 };
 
-module.exports = DataGridProcModule;
+exports.DataGridProcModule = DataGridProcModule;
