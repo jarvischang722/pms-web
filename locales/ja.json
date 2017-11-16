@@ -175,7 +175,9 @@
       "selectEmp": "在職(日)",
       "hotel_cod_repeat": "館別代號重複，請刪除(日)",
       "Property": "Property(日)",
-      "group_change_record": "組別異動紀錄(日)"
+      "group_change_record": "組別異動紀錄(日)",
+      "saveSuccess": "儲存成功(日)",
+      "delSuccess": "刪除成功(日)"
     }
   },
   "table_in_use": "%s 使用中",

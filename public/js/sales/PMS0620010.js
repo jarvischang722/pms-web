@@ -405,7 +405,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
                     vm.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
-                            alert("Save Successful!");
+                            alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             self.closeSingleGridDialog();
                         }
                         else {
@@ -729,7 +729,7 @@ var vm = new Vue({
 
                     self.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
-                            alert("Delete Success");
+                            alert(go_i18nLang["program"]["PMS0620020"].delSuccess);
                             $('#PMS0620010_dg').datagrid('deleteRow', $('#PMS0620010_dg').datagrid('getRowIndex', delRow));
                         }
                         else {
