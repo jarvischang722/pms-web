@@ -602,7 +602,8 @@ var vm = new Vue({
         isLoading: true,
         isModifiable: true,       //決定是否可以修改
         openChangeLogDialog: false,
-        allChangeLogList: []
+        allChangeLogList: [],
+        BTN_action: false
 
     },
     methods: {
@@ -719,11 +720,13 @@ var vm = new Vue({
             });
         },
         removeRow: function () {
+            this.BTN_action = true;
             var self = this;
             var delRow = $('#PMS0620010_dg').datagrid('getSelected');
 
             if (!delRow) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
+                this.BTN_action = false;
             }
             else {
 
@@ -746,6 +749,7 @@ var vm = new Vue({
                         }
                     });
                     vm.initTmpCUD();
+                    vm.BTN_action = false;
                 }
             }
 
