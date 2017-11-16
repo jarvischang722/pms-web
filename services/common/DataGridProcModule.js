@@ -43,7 +43,7 @@ function DataGridProcModule(postData, session) {
         ], function (err, result) {
             callback(err, result);
         });
-    }
+    };
 
     /**
      * 查詢oracle資料
@@ -58,7 +58,7 @@ function DataGridProcModule(postData, session) {
         ], function(err, result){
             callback(err, result);
         });
-    }
+    };
 
     /**
      * 查詢多筆欄位資料
@@ -82,7 +82,7 @@ function DataGridProcModule(postData, session) {
         }, function (err, result) {
             callback(err, result);
         });
-    }
+    };
 }
 
 /**
@@ -112,7 +112,7 @@ let qryUIDatagridField = function (callback) {
         }
         callback(err, la_fieldData);
     });
-}
+};
 
 /**
  * 欄位多語系
@@ -137,7 +137,7 @@ let qryLangUIField = function (la_dgFieldData, callback) {
         });
         callback(err, la_dgFieldData);
     });
-}
+};
 
 /**
  * 查詢下拉Option
@@ -154,9 +154,9 @@ let qrySelectOption = function (la_dgFieldData, callback) {
                 var func_name = gs_prg_id + '_' + lo_dgField.ui_field_name;
                 la_dgFieldData[fIdx].selectGridOptions = ruleAgent[func_name]();
             }
-            genAsyncParaFunc(lo_dgField, fIdx);
+            genAsyncParaFunc(la_dgFieldData, fIdx);
         }
-        chkDgFieldIsC(lo_dgField, fIdx);
+        chkDgFieldIsC(la_dgFieldData, fIdx);
     });
 
     async.parallel(la_asyncParaFunc, function (err, result) {
@@ -168,7 +168,8 @@ let qrySelectOption = function (la_dgFieldData, callback) {
      * @param lo_dgField {object} 多筆欄位
      * @param fIdx {number} 多筆欄位index
      */
-    function genAsyncParaFunc(lo_dgField, fIdx) {
+    function genAsyncParaFunc(la_dgFieldData, fIdx) {
+        let lo_dgField = la_dgFieldData[fIdx];
         la_asyncParaFunc.push(
             function (cb) {
                 mongoAgent.UITypeSelect.findOne({
@@ -200,7 +201,8 @@ let qrySelectOption = function (la_dgFieldData, callback) {
      * @param lo_dgField {object} 多筆欄位
      * @param fIdx {number} 多筆欄位index
      */
-    function chkDgFieldIsC(lo_dgField, fIdx) {
+    function chkDgFieldIsC(la_dgFieldData, fIdx) {
+        let lo_dgField = la_dgFieldData[fIdx];
         let ls_attrName = lo_dgField.attr_func_name;
         if (!_.isEmpty(ls_attrName)) {
             la_asyncParaFunc.push(
@@ -226,7 +228,7 @@ let qrySelectOption = function (la_dgFieldData, callback) {
             );
         }
     }
-}
+};
 
 /**
  * 查詢搜尋欄位
@@ -237,15 +239,15 @@ let qrySearchField = function (la_dgFieldData, callback) {
     fieldAttrSvc.getAllUIPageFieldAttr({
         prg_id: gs_prg_id,
         page_id: 3,
-        locale: go_searchCond.locale
-    }, go_searchCond.user, function (err, fields) {
+        locale: go_session.locale
+    }, go_session.user, function (err, fields) {
         let lo_rtnData = {
             searchFields: fields,
             dgFieldsData: la_dgFieldData
         };
         callback(null, lo_rtnData);
     });
-}
+};
 
 /**
  * 判斷傳入參數數量(實作多型功能)
@@ -263,7 +265,7 @@ let chkParam = function (args) {
         lo_callback = args[1];
     }
     return {callback: lo_callback, data: lo_data};
-}
+};
 
 /**
  * 過濾掉無效條件
@@ -284,7 +286,7 @@ let filterSearchCond = function () {
     });
 
     return lo_params;
-}
+};
 
 /**
  * 依搜尋條件過濾多筆資料
@@ -305,12 +307,17 @@ let filterRowData = function(la_dgRowData, callback){
     } else {
         callback(null, la_dgRowData);
     }
-}
+};
 
+/**
+ * 多筆資料多語系
+ * @param la_dgRowData {array} 多筆資料
+ * @param callback
+ */
 let rowDataMultiLang = function(la_dgRowData, callback){
     langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
         callback(null, Rows);
     });
-}
+};
 
 module.exports = DataGridProcModule;

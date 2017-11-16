@@ -19,12 +19,12 @@ exports.fetchDataGridFieldData = function (postData, session, callback) {
     let lo_dgProc = new dgProc(postData, session);
 
     async.parallel([
-        lo_dgProc.fetchFieldData,
-        lo_dgProc.fetchRowData
+        lo_dgProc.fetchFieldData,   //取多筆欄位資料
+        lo_dgProc.fetchRowData      //取多筆資料
     ], function (err, result) {
         let rtnData = {
             searchFields: result[0].searchFields,
-            dgFieldData: result[0].dgFieldsData,
+            dgFieldsData: result[0].dgFieldsData,
             dgRowData: result[1]
         };
         callback(err, rtnData);

@@ -52,6 +52,13 @@ exports.fetchDataGridFieldData = function (req, res) {
     }
 
     operSVC.fetchDataGridFieldData(req.body, req.session, function (err, result) {
-        res.json({success: _.isNull(err), errorMsg: err, dgFieldData: result.dgFieldData, dgRowData: result.dgRowData});
+        let rtnData = {
+            success: _.isNull(err),
+            errorMsg: err,
+            dgFieldsData: result.dgFieldsData,
+            dgRowData: result.dgRowData,
+            searchFields: result.searchFields
+        };
+        res.json(rtnData);
     });
 };
