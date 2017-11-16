@@ -612,7 +612,6 @@ Vue.component('sigle-grid-dialog-tmp', {
                         else if (saveAfterAction == "addOther") {
                             self.singleData = {};
                             self.emitAppendRow();
-                            return;
                         }
 
                         if (self.deleteStatue) {
@@ -624,12 +623,12 @@ Vue.component('sigle-grid-dialog-tmp', {
                              **/
                             if ($("#dg").datagrid('getRows').length > 0) {
                                 self.editingRow = targetRowAfterDelete;
+                                self.emitFetchSingleData(); //做完操作，重load單筆
                             } else {
                                 //連一筆都沒有就關掉視窗
                                 self.emitCloseGridDialog();
                             }
                         }
-                        self.emitFetchSingleData(); //做完操作，重load單筆
                     }
                 });
             }
