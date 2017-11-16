@@ -19,11 +19,12 @@ exports.fetchDataGridFieldData = function (postData, session, callback) {
     let lo_dgProc = new dgProc(postData, session);
 
     async.parallel([
-        lo_dgProc.qryFieldData,
-        lo_dgProc.qryRowData
+        lo_dgProc.fetchFieldData,
+        lo_dgProc.fetchRowData
     ], function (err, result) {
         let rtnData = {
-            dgFieldData: result[0],
+            searchFields: result[0].searchFields,
+            dgFieldData: result[0].dgFieldsData,
             dgRowData: result[1]
         };
         callback(err, rtnData);

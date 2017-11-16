@@ -32,7 +32,7 @@ function DataGridProcModule(postData, session) {
     /**
      * 查詢欄位資料
      */
-    this.qryFieldData = function () {
+    this.fetchFieldData = function () {
         let lo_args = chkParam(arguments);
 
         async.waterfall([
@@ -48,15 +48,20 @@ function DataGridProcModule(postData, session) {
     /**
      * 查詢oracle資料
      */
-    this.qryRowData = function () {
+    this.fetchRowData = function () {
         let lo_args = chkParam(arguments);
         let lo_params = filterSearchCond();
-        self.qryTemplateRf(function (err, result) {
-            let ls_rule_func_name = result.rule_func_name;
-            queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
-                lo_args.callback(err, result);
-            });
-        });
+
+        // async.waterfall([
+        //     self.qryTemplateRf,
+        //     self.qryRowData
+        // ]);
+        // self.qryTemplateRf(function (err, result) {
+        //     let ls_rule_func_name = result.rule_func_name;
+        //     queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
+        //         lo_args.callback(err, result);
+        //     });
+        // };
     }
 
     /**
@@ -216,14 +221,22 @@ let qrySelectOption = function (la_dgFieldData, callback) {
     }
 }
 
+/**
+ * 查詢搜尋欄位
+ * @param la_dgFieldData {array} 所有多筆欄位資料
+ * @param callback
+ */
 let qrySearchField = function(la_dgFieldData, callback){
     fieldAttrSvc.getAllUIPageFieldAttr({
         prg_id: gs_prg_id,
         page_id: 3,
         locale: go_searchCond.locale
     }, go_searchCond.user, function (err, fields) {
-        // la_searchFields = fields;
-        callback(null, fields);
+        let lo_rtnData = {
+            searchFields: fields,
+            dgFieldsData: la_dgFieldData
+        };
+        callback(null, lo_rtnData);
     });
 }
 
