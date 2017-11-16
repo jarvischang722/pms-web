@@ -807,7 +807,7 @@ var vm = new Vue({
                 tmpCUD: this.tmpCud
             };
 
-            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+            $.post("/api/doOperationSave", lo_params, function (result) {
                 self.loadDataGridByPrgID();
                 callback(result);
             });

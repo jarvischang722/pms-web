@@ -13,5 +13,5 @@ module.exports = function(app  ) {
     /** 作業儲存 **/
     app.post("/api/doOperationSave", apiMiddles, operCtrl.doOperationSave);
 
-    app.post("/api/fetchDataGridFieldData", operCtrl.fetchDataGridFieldData);
+    app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDataGridFieldData);
 };

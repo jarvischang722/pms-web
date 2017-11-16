@@ -15,6 +15,7 @@ const sysConfig = require(appRootDir + "/configs/systemConfig");
 const tools = require(appRootDir + "/utils/CommonTools");
 const dataRuleSvc = require(appRootDir + "/services/DataRuleService");
 const fieldAttrSvc = require(appRootDir + "/services/FieldsAttrService");
+const langSvc = require(appRootDir + "/services/LangService");
 
 let go_session;
 let go_searchCond;
@@ -31,49 +32,55 @@ function DataGridProcModule(postData, session) {
 
     /**
      * 查詢欄位資料
+     * @param callback
      */
-    this.fetchFieldData = function () {
-        let lo_args = chkParam(arguments);
-
+    this.fetchFieldData = function (callback) {
         async.waterfall([
             qryUIDatagridField,     //取多筆欄位資料
             qryLangUIField,         //欄位多語系
             qrySelectOption,        //查詢SelectOption
             qrySearchField          //取搜尋欄位
         ], function (err, result) {
-            lo_args.callback(err, result);
+            callback(err, result);
         });
     }
 
     /**
      * 查詢oracle資料
+     * @param callback
      */
-    this.fetchRowData = function () {
-        let lo_args = chkParam(arguments);
-        let lo_params = filterSearchCond();
-
-        // async.waterfall([
-        //     self.qryTemplateRf,
-        //     self.qryRowData
-        // ]);
-        // self.qryTemplateRf(function (err, result) {
-        //     let ls_rule_func_name = result.rule_func_name;
-        //     queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
-        //         lo_args.callback(err, result);
-        //     });
-        // };
+    this.fetchRowData = function (callback) {
+        async.waterfall([
+            self.qryTemplateRf,     //查詢templateRf
+            self.qryRowData,        //查詢多筆資料
+            filterRowData,          //依條件過濾多筆資料
+            rowDataMultiLang        //內容多語系
+        ], function(err, result){
+            callback(err, result);
+        });
     }
+
+    /**
+     * 查詢多筆欄位資料
+     */
+    this.qryRowData = function () {
+        let lo_params = filterSearchCond();
+        let lo_args = chkParam(arguments);
+        let ls_rule_func_name = lo_args.data.rule_func_name;
+        queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
+            lo_args.callback(err, result);
+        });
+    };
 
     /**
      * 查詢templateRf
      */
-    this.qryTemplateRf = function () {
-        let lo_args = chkParam(arguments);
+    this.qryTemplateRf = function (callback) {
         mongoAgent.TemplateRf.findOne({
             prg_id: gs_prg_id,
             page_id: gn_page_id
         }, function (err, result) {
-            lo_args.callback(err, result);
+            callback(err, result);
         });
     }
 }
@@ -161,7 +168,7 @@ let qrySelectOption = function (la_dgFieldData, callback) {
      * @param lo_dgField {object} 多筆欄位
      * @param fIdx {number} 多筆欄位index
      */
-    function genAsyncParaFunc(lo_dgField, fIdx){
+    function genAsyncParaFunc(lo_dgField, fIdx) {
         la_asyncParaFunc.push(
             function (cb) {
                 mongoAgent.UITypeSelect.findOne({
@@ -193,7 +200,7 @@ let qrySelectOption = function (la_dgFieldData, callback) {
      * @param lo_dgField {object} 多筆欄位
      * @param fIdx {number} 多筆欄位index
      */
-    function chkDgFieldIsC(lo_dgField, fIdx){
+    function chkDgFieldIsC(lo_dgField, fIdx) {
         let ls_attrName = lo_dgField.attr_func_name;
         if (!_.isEmpty(ls_attrName)) {
             la_asyncParaFunc.push(
@@ -226,7 +233,7 @@ let qrySelectOption = function (la_dgFieldData, callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-let qrySearchField = function(la_dgFieldData, callback){
+let qrySearchField = function (la_dgFieldData, callback) {
     fieldAttrSvc.getAllUIPageFieldAttr({
         prg_id: gs_prg_id,
         page_id: 3,
@@ -277,6 +284,33 @@ let filterSearchCond = function () {
     });
 
     return lo_params;
+}
+
+/**
+ * 依搜尋條件過濾多筆資料
+ * @param la_dgRowData {array} 多筆資料
+ * @param callback
+ */
+let filterRowData = function(la_dgRowData, callback){
+    let lo_params = {
+        user_id: go_session.user.usr_id,
+        athena_id: go_session.user.athena_id,
+        hotel_cod: go_session.user.fun_hotel_cod
+    };
+    let ls_ruleFilterName = gs_prg_id + "Filter";
+    if (!_.isUndefined(ruleAgent[ls_ruleFilterName])) {
+        ruleAgent[ls_ruleFilterName](la_dgRowData, go_session, lo_params, function (dataRow) {
+            callback(null, dataRow);
+        });
+    } else {
+        callback(null, la_dgRowData);
+    }
+}
+
+let rowDataMultiLang = function(la_dgRowData, callback){
+    langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
+        callback(null, Rows);
+    });
 }
 
 module.exports = DataGridProcModule;
