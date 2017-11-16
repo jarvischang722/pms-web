@@ -1,5 +1,6 @@
 var g_socket = io.connect('/system');
 var gf_chkSessionInterval;
+
 var BacchusMainVM = new Vue({
     el: '#BacchusMainApp',
     data: {
@@ -10,10 +11,17 @@ var BacchusMainVM = new Vue({
         quickMenu: [],
         subsysMenu: [],
         isOpenModule: "", //打開的模組 ex: PMS0001000
-        displayLogoutDialog: false,
-        gs_cookieExpires: ''
+        displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
+        gs_cookieExpires: '', //cookie 剩餘時間
+        prgVueIns: {}, //目前作業的 vue 實例
+        leaveAfterExecFuncsNam: [] //頁面前離開後要幫作業觸發的功能
     },
     mounted: function () {
+        //離開時
+        window.onbeforeunload = function () {
+            BacchusMainVM.doLeavePageBeforePrgFuncs()
+        };
+
 
         this.getUserSubsys();
         this.updateCurrentDateTime();
@@ -48,6 +56,28 @@ var BacchusMainVM = new Vue({
         }
     },
     methods: {
+        /**
+         * 塞入作業Vue實體
+         * @param _prgVueIns{Object}  :  vue 實體
+         */
+        setPrgVueIns: function (_prgVueIns) {
+            this.prgVueIns = _prgVueIns;
+        },
+        /**
+         * 塞入作業離開頁面後要執行的functions
+         * @param _funcsNam{Arra[String]} : 功能名稱清單
+         */
+        setLeaveAfterExecFuncsNam: function (_funcsNam) {
+            this.leaveAfterExecFuncsNam = _funcsNam;
+        },
+        /**
+         * 執行作業離開前需要做的事
+         */
+        doLeavePageBeforePrgFuncs: function () {
+            _.each(this.leaveAfterExecFuncsNam, function (funcNam) {
+                BacchusMainVM.prgVueIns[funcNam]();
+            });
+        },
         /**
          * 取得此子系統的權限
          */
