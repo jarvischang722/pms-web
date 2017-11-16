@@ -393,15 +393,24 @@ module.exports = {
             async.waterfall([
                 //取舊資料
                 function (part_cb) {
-                    queryAgent.query("QRY_SALES_MN_ALL_FIELDS".toUpperCase(), salesParsms, function (err, getSalesResult) {
-                        part_cb(err, getSalesResult);
-                    });
-                },
-                function (salesData, part_cb) {
-                    if(_.isNull(salesData)){
-                        part_cb(lo_error, lo_result);
+                    var ls_userNos = postData.singleRowData.user_nos;
+
+                    if (ls_userNos == "") {
+                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS_USER_NOS_BLANK".toUpperCase(), salesParsms, function (err, getSalesResult) {
+                            part_cb(err, getSalesResult);
+                        });
                     }
                     else{
+                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS".toUpperCase(), salesParsms, function (err, getSalesResult) {
+                            part_cb(err, getSalesResult);
+                        });
+                    }
+                },
+                function (salesData, part_cb) {
+                    if (_.isNull(salesData)) {
+                        part_cb(lo_error, lo_result);
+                    }
+                    else {
                         var ls_oldClassCod = salesData.class_cod;
                         var ls_newClassCod = lo_updateData.class_cod;
                         //若class_cod改變
@@ -427,7 +436,7 @@ module.exports = {
                                             part_cb(lo_error, lo_result);
                                         }
                                         else {
-                                            if (moment(new Date(ls_beginDat)).format("YYYY/MM/DD HH:mm:ss") == moment( new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD HH:mm:ss")) {
+                                            if (moment(new Date(ls_beginDat)).format("YYYY/MM/DD HH:mm:ss") == moment(new Date(getResult.rent_dat_hq)).format("YYYY/MM/DD HH:mm:ss")) {
                                                 lo_result.extendExecDataArrSet.push({
                                                     function: 2,
                                                     table_name: 'sales_class_hs',
@@ -549,7 +558,7 @@ module.exports = {
     //轉換資料格式
     convertData2TreeData: function (lo_selectRowData, lo_parent_node) {
         let self = this;
-        let la_rowData = _.filter(lo_selectRowData, function(lo_rowData){
+        let la_rowData = _.filter(lo_selectRowData, function (lo_rowData) {
             return lo_rowData.parent_cod.trim() == lo_parent_node.value;
         });
 
