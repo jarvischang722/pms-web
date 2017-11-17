@@ -365,7 +365,7 @@ Vue.component('single-grid-pms0820020-tmp', {
             if (this.createStatus) {
                 if (PMS0820020VM.isbatchAdd) {    //判斷是否為批次新增
                     var lo_tmpCud = [];
-                    var li_room_nos_leng = (!_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "") ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
+                    var li_room_nos_leng = !_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? Number(this.singleData.room_leng) - 1 : Number(this.singleData.room_leng);
                     for (var i = Number(this.singleData.room_begin_nos); i <= Number(this.singleData.room_end_nos); i++) {
 
                         if (this.singleData.room_nos_typ == 1) {
@@ -380,7 +380,7 @@ Vue.component('single-grid-pms0820020-tmp', {
                         }
 
                         var li_room_nos = padLeft(i.toString(), li_room_nos_leng);
-                        var ls_front_cod = (_.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "") ? "" : this.singleData.front_cod.trim();
+                        var ls_front_cod = _.isUndefined(this.singleData.front_cod) && this.singleData.front_cod != "" ? "" : this.singleData.front_cod.trim();
                         li_room_nos = ls_front_cod + li_room_nos;
 
                         //判斷是否已經存在
@@ -644,7 +644,7 @@ var PMS0820020VM = new Vue({
             var colOption = [{field: 'ck', checkbox: true}];
             colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0820020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0820020_dg', colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(prg_id, 'PMS0820020_dg', colOption, this.pageOneFieldData, {singleSelect: false});
             this.dgIns.loadDgData(this.pageOneDataGridRows);
             // PMS0820020VM.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
@@ -722,7 +722,7 @@ var PMS0820020VM = new Vue({
                         var la_option_field_name = [];
                         var ls_ui_type = "text";
                         var li_width = 165;
-                        var ls_requirable = (ui_field_name == "front_cod") ? "N" : "Y";
+                        var ls_requirable = ui_field_name == "front_cod" ? "N" : "Y";
                         var ls_keyable = "N";
 
                         if (ui_field_name == "room_cod" || ui_field_name == "room_nos_typ" || ui_field_name == "bed_sta") {
@@ -972,7 +972,7 @@ var PMS0820020VM = new Vue({
             PMS0820020VM.tmpCud.deleteData = [];
             var checkRows = $('#PMS0820020_dg').datagrid('getChecked');
             if (checkRows == 0) {
-                alert("Warning", 'Check at least one item');
+                alert('Check at least one item');
                 return;
             }
             var q = confirm("Are you sure delete those data?");
@@ -994,7 +994,6 @@ var PMS0820020VM = new Vue({
                             var DelIndex = $('#PMS0820020_dg').datagrid('getRowIndex', row);
                             $('#PMS0820020_dg').datagrid('deleteRow', DelIndex);
                         });
-
                         PMS0820020VM.doSaveCUD();
                     } else {
                         alert(result.errorMsg);
@@ -1199,6 +1198,6 @@ var adpterDg = new DatagridAdapter(PMS0820020VM);
 
 
 function padLeft(str, length) {
-    var ls_return = (str.length >= length) ? str : padLeft("0" + str, length);
+    var ls_return = str.length >= length ? str : padLeft("0" + str, length);
     return ls_return;
 }

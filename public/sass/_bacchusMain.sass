@@ -514,13 +514,6 @@ a
       text-align: left
       border-collapse: collapse
       .grid-item
-        label
-          margin: 0 5px 0 0
-          text-align: right
-          width: 90px
-          //min-width: 90px
-          //max-width: 100%
-          font-size: 13px
         label.key-Word
           margin: 0 0 0 -20px
         label.more-Word
@@ -688,7 +681,11 @@ a
   label
     width: 90px
     text-align: right
-    margin-right: 0
+    &.label-spc
+      width: 82px
+      margin-right: 2px !important
+    &.label-spc-2
+      width: 70px
   .mainData-tip
     font-size: 12px
     margin: auto auto auto 100px
@@ -1406,6 +1403,7 @@ ul.newVisitOther-btn
     padding: 3px 9px
     font-size: 12px
     white-space: normal
+    cursor: default
 .roomPlan-btn
   margin-top: 42px
 .empty-color
@@ -1483,8 +1481,6 @@ th.dateColor
   width: 100px
 .marginLeft-57
   margin-left: 57px
-.marginLeft-93
-  margin-left: 93px
 .marginLeft-30
   margin-left: 30px
 .marginBottom-10
@@ -1515,20 +1511,7 @@ th.dateColor
   width: 176px
   max-width: 100%
   height: 25px
-.input-medium.input-spc-2
-  width: 455px
-  max-width: 100%
-  height: 25px
-  height: 25px
-.input-medium.input-more-1
-  width: 431px
-  max-width: 100%
-  height: 25px
-  height: 25px
-.input-medium.input-spc-3
-  width: 349px
-  max-width: 100%
-  height: 25px
+
 input[type="datetime-local"]
   font-size: 10px
 .input-hCol35
@@ -1574,33 +1557,55 @@ span.roomNum-text
 //  clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%)
 
 //ho-表格td長六角形
-td div.triangle-box
-  width: 80%
-  height: 19px
-  /* margin-left: 18px */
-  margin: 0px auto
-  color: #000
-  position: relative
-  background-color: #f8cbac !important
+td
+  div
+    &.triangle-box
+      width: 80%
+      height: 19px
+      /* margin-left: 18px */
+      margin: 0px auto
+      color: #000
+      position: relative
+      background-color: #f8cbac !important
+      &:before,&:after
+        content: ""
+        border-style: solid
+        border-width: 0
+        height: 19px
+        position: absolute
+        width: 0
+        border-color: transparent #f8cbac
+      &:before
+        left: -10px
+        border-width: 9px 10px 9px 0px
+      &:after
+        right: -10px
+        border-width: 9px 0 9px 10px
+      span
+        &.triangle-text
+          width: 100%
+          display: inline-block
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+    // todo 多行不會隱藏
+    &.act-box
+      margin: 0px auto
+      color: #000
+      position: relative
+      &:before,&:after
+        content: ""
+        border-style: solid
+        border-width: 0
+        position: absolute
+        width: 0
+        border-color: transparent #f8cbac
+      span
+        &.act-text
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
 
-td div.triangle-box:before,
-td div.triangle-box:after
-  content: ""
-  border-style: solid
-  border-width: 0
-  height: 19px
-  position: absolute
-  width: 0
-  border-color: transparent #f8cbac
-
-
-td div.triangle-box:before
-  left: -10px
-  border-width: 9px 10px 9px 0px
-
-td div.triangle-box:after
-  right: -10px
-  border-width: 9px 0 9px 10px
 
 //ho-分帳規則
 .cashierSetting-btn-wrap
@@ -1622,13 +1627,7 @@ td div.triangle-box:after
       &.active
         background: #fff !important
         color: #000 !important
-span
-  &.triangle-text
-    width: 100%
-    display: inline-block
-    overflow: hidden
-    white-space: nowrap
-    text-overflow: ellipsis
+
 .month-wrap
   width: 90%
   margin: 0 auto
@@ -2000,7 +1999,6 @@ span
       label
         width: 70px
         text-align: right
-        margin-right: 0
 //打掃安排
 .bg-red
   background: red

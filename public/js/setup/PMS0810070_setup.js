@@ -165,7 +165,7 @@ function insertTmpCUD(la_dateDT) {
         });
 
         if (chkIndex != -1)
-            ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;
+            {ga_tmpCUD[dataType][chkIndex].day_sta = tmpDate.day_sta;}
         else {
             ga_tmpCUD[dataType].push({
                 "day_sta": tmpDate.day_sta,
@@ -374,7 +374,7 @@ function getDaysBetweenDates(ls_start, ls_end, dayName) {
 // 第一次新增一整年的資料到holiday_rf
 function insertDefalutValueTmpCUD() {
 
-    if(go_holidayDate.length >= 365) return;
+    if(go_holidayDate.length >= 365) {return;}
 
     var lo_start_date = moment([gs_calendar_year, 0, 1]);
     var lo_end_date = moment([gs_calendar_year, 11, 31]);

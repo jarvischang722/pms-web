@@ -132,7 +132,7 @@ var vm = new Vue({
             deleteData: []
         },
         editingRow: {}, //編輯中的那筆RowData
-        editingIdx : -1
+        editingIdx: -1
 
     },
     mounted: function () {
@@ -167,9 +167,9 @@ var vm = new Vue({
         },
         initDataGrid: function () {
             var colOption = [{field: 'ck', checkbox: true}];
-            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, gs_dgName));
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810190_dg'));
             this.dgIns = new DatagridSingleGridClass();
-            this.dgIns.init(this.prg_id, gs_dgName, colOption, this.pageOneFieldData, {singleSelect: false, checkOnSelect: false});
+            this.dgIns.init(this.prg_id, gs_dgName, colOption,this.pageOneFieldData, {singleSelect: false});
         },
         getSingleGridPageField: function () {
             $.post('/api/singleGridPageFieldQuery', {prg_id: this.prg_id, page_id: 2})
@@ -227,7 +227,7 @@ var vm = new Vue({
             this.doSave();
         },
         removeMultiData: function () {
-            var checkRows = $('#' + gs_dgName).datagrid("getChecked");
+            var checkRows = $('#PMS0810190_dg').datagrid('getChecked');
             if (checkRows == 0) {
                 alert('Check at least one item.');
                 return;

@@ -10,28 +10,28 @@
 
 /* ---- grid-item ---- */
 .grid-item
+  font-size: 0
   /*width: 300px*/
   margin: auto 10px 5px auto
   //height: 35px  //40px default
   float: left
-  //消除inline-block 間距
-  //letter-spacing: -4px
-  //word-spacing: -4px
-  //font-size: 0
-  //end.消除inline-block 間距
   label
-    vertical-align: middle
+    vertical-align: top
     text-align: right
-    margin-bottom: 0
-    margin-right: 0
+    margin: 3px $label-mr auto auto
     width: 90px
-    //消除inline-block 間距
-    //font-size: $font-default
-    //letter-spacing: normal
-    //word-spacing: normal
-    //zoom: 1
-    //margin-right: 14px
-    //end.消除inline-block 間距
+    font-size: $font-default
+    &.label-spc
+      width: 82px
+      margin-right: 2px !important
+    &.label-spc-2
+      width: 70px
+  .input-medium,span,p,div,select,option,input,textarea
+    font-size: $font-default !important
+  span.subtxt
+    margin: auto 2px auto auto
+  .btn-afterInput
+    margin: -9px auto auto $label-mr
   //select
   //  border-radius: 5px
   .textArea-float
@@ -40,16 +40,11 @@
     label
       width: 90px
       text-align: right
-      margin-right: 0
-      &.label-spc
-        width: 82px
-        margin-right: 2px !important
-      &.label-spc-2
-        width: 70px
   //修改拜訪記錄
   &.single-input
     width: 400px
   .moreClick
+    font-size: $font-default
     //width: 25px
     height: $inputHeight-medium
     //line-height: $inputHeight-medium
@@ -63,15 +58,9 @@
   .margin-adjust
     margin-left: 3px
     margin-right: 1px
-  .relative
-    position: relative
-    display: inline-block
-    .redTip
-      position: absolute
-      right: 0
-      bottom: -30px
-      font-size: 0.85em
-      color: #ff625f
+  .redTip
+    font-size: 0.85em
+    color: #ff625f
   &.grid-fee
     border-bottom: 1px solid #333
     padding-bottom: 5px
@@ -96,6 +85,10 @@
         width: 0
         min-height: initial
         cursor: pointer
+  .popCheckbox // rateCode/add
+    label.checkbox-width
+      margin-top: 2px
+
 .grid-item-input
   width: 100px
   height: 50px
@@ -154,24 +147,17 @@
     background: #d6d6d6
   .css_td
     position: relative
-    .moreClick
-      position: absolute
-      right: 0
-      bottom: 0
-      //width: 25px
-      height: $inputHeight-medium - 4
-      //line-height: $inputHeight-medium
-      border: 1px solid #888
-      background: $border-color
-      border-radius: 5px
-      padding: 0 5px 0 5px
-      box-sizing: border-box
-      cursor: pointer
     &.active
       background: #7f7f7f
       color: #fff
     &.customW1
       width: 80px
+    .moreAbso
+      position: absolute
+      right: 0
+      bottom: 0
+      height: 25px
+      box-sizing: border-box
   .icon-addDel
     i
       margin-top: 5px
