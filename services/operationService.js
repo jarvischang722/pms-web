@@ -6,13 +6,12 @@ const moment = require("moment");
 const _ = require("underscore");
 const async = require("async");
 
-const appRootDir = path.dirname(require.main.filename);
-const ruleAgent = require(appRootDir + "/ruleEngine/ruleAgent");
-const queryAgent = require(appRootDir + "/plugins/kplug-oracle/QueryAgent");
-const mongoAgent = require(appRootDir + "/plugins/mongodb");
-const sysConfig = require(appRootDir + "/configs/systemConfig");
-const tools = require(appRootDir + "/utils/CommonTools");
-const dgProc = require(appRootDir + "/services/common/DataGridProcModule");
+const ruleAgent = require("../ruleEngine/ruleAgent");
+const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
+const mongoAgent = require("../plugins/mongodb");
+const sysConfig = require("../configs/systemConfig");
+const tools = require("../utils/CommonTools");
+const dgProc = require("./common/fetchDataModule");
 
 // 取作業多筆資料
 exports.fetchDataGridFieldData = function (postData, session, callback) {
