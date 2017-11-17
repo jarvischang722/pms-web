@@ -320,11 +320,15 @@ Vue.component('text-select-grid-dialog-tmp', {
                     });
                 });
             } else {
-                _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
-                });
+                if (prg_id == "PMS0840030") {
+                    _.each(chooseData, function (chooseValue, chooseField) {
+                        chooseData[chooseField] = chooseField == "inv_sta" ? "N" : "";  //SAM20170930 目前沒招了，先寫死在這for PMS0840030
+                    });
+                }
+
             }
-            vmHub.$emit('updateBackSelectData', chooseData);
+            vm.singleData = _.extend(vm.singleData, chooseData);
+            vm.isRuleComplete = true;
             $("#dataPopUpGridDialog").dialog('close');
         },
         txtSearchChangeText: function (keyContent) {
@@ -357,7 +361,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             isVerified: true,
             fieldChecking: false,  //是否在檢查欄位中
             BTN_action: false,
-            isRuleComplete: true,
             timer: null
         };
     },
@@ -396,9 +399,6 @@ Vue.component('sigle-grid-dialog-tmp', {
         vmHub.$on('tempExecData', function (row) {
             self.tempExecData(row);
         });
-        vmHub.$on('updateBackSelectData', function (chooseData) {
-            self.singleData = _.extend(self.singleData, chooseData);
-        });
     },
 
     methods: {
@@ -415,6 +415,23 @@ Vue.component('sigle-grid-dialog-tmp', {
         //檢查欄位規則，在離開欄位時
         chkFieldRule: function (ui_field_name, rule_func_name) {
             var self = this;
+
+            if (vm.isRuleComplete == false) {
+                if (this.timer == null) {
+                    this.timer = setInterval(function () {
+                        self.chkFieldRule(ui_field_name, rule_func_name);
+                    }, 1000);
+                }
+                return;
+            }
+            else {
+                clearInterval(this.timer);
+                this.timer = null;
+                if (this.isVerified == false) {
+                    return;
+                }
+            }
+
             if (!_.isEmpty(rule_func_name.trim())) {
                 _.each(this.singleData, function (value, key) {
                     if (_.isUndefined(value)) {
@@ -426,13 +443,13 @@ Vue.component('sigle-grid-dialog-tmp', {
                     prg_id: prg_id,
                     rule_func_name: rule_func_name,
                     validateField: ui_field_name,
-                    singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                    singleRowData: JSON.parse(JSON.stringify(vm.singleData)),
                     oriSingleRowData: this.$parent.oriSingleData
                 };
 
                 $.post('/api/chkFieldRule', postData, function (result) {
                     self.isEditingForFieldRule = false;
-                    self.isRuleComplete = true;
+                    vm.isRuleComplete = true;
                     if (result.success) {
                         self.isVerified = true;
                     } else {
@@ -557,13 +574,14 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         initRuleComplete: function (ui_field_name, rule_func_name) {
             if (!_.isEmpty(rule_func_name.trim())) {
-                this.isRuleComplete = false;
+                vm.isRuleComplete = false;
             }
         },
+
         //儲存新增或修改資料
         doSaveGrid: function (saveAfterAction) {
             var self = this;
-            if (this.isRuleComplete == false) {
+            if (vm.isRuleComplete == false) {
                 if (this.timer == null) {
                     this.timer = setInterval(function () {
                         self.doSaveGrid(saveAfterAction);
@@ -921,7 +939,8 @@ var vm = new Vue({
         searchCond: {},   //搜尋條件
         openChangeLogDialog: false,
         allChangeLogList: [],
-        isSaving: false
+        isSaving: false,
+        isRuleComplete: true
     },
     watch: {
         editStatus: function (newVal) {
