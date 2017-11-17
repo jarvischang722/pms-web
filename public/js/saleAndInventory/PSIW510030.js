@@ -17,7 +17,6 @@ g_socket.on('checkTableLock', function (result) {
     if(!result.success){
         alert(result.errorMsg);
     }else {
-        console.log('asdasd');
         PSIW510030.buttonAfterLockDoFunc();
     }
 });
