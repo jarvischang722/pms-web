@@ -64,7 +64,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                     la_fields[fIdx].ds_from_sql = selRow.ds_from_sql || "";
                                     la_fields[fIdx].referiable = selRow.referiable || "N";
                                     la_fields[fIdx].defaultVal = selRow.defaultVal || "";
-                                    dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                    dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                                         la_fields[fIdx].selectData = selectData;
                                         callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                     });
@@ -235,7 +235,7 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                                 lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
                                 lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                                     lo_dataGridField[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
@@ -494,7 +494,7 @@ exports.handleSinglePageRowData = function (session, postData, callback) {
                                 lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
                                 lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
 
-                                dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                                dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                                     lo_dataGridField[fIdx].selectData = selectData;
                                     callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                                 });
