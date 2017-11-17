@@ -114,9 +114,11 @@ module.exports = function (io) {
 
             if (clientData && !_.isEmpty(prg_id)) {
                 let lo_singleSocketData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket_id, lockingPrgID: prg_id});
-                dbSVC.doTableUnLock(prg_id, lo_singleSocketData.table_name, go_session.user, lo_singleSocketData.lock_type, lo_singleSocketData.key_cod, socket_id, function (errorMsg, success) {
-                    deleteLockList(clientData);
-                });
+                if(lo_singleSocketData != null){
+                    dbSVC.doTableUnLock(prg_id, lo_singleSocketData.table_name, go_session.user, lo_singleSocketData.lock_type, lo_singleSocketData.key_cod, socket_id, function (errorMsg, success) {
+                        deleteLockList(clientData);
+                    });
+                }
             } else {
                 dbSVC.doTableUnLockBySocketID(socket_id, function (errorMsg, success) {
                     deleteLockListBySocketID(socket_id);
