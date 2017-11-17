@@ -21,14 +21,30 @@
   margin-top: 87px
 .margin-5
   margin: 5px
+.m-label
+  margin: 3px 4px auto auto
 .margin-3
   margin: 3px
+.ml-2
+  margin-left: 2px
 .ml-3
   margin-left: 3px
+.ml-4
+  margin-left: 4px
 .ml-5
   margin-left: 5px
+.ml-7
+  margin-left: 7px
+.ml-8
+  margin-left: 8px
 .ml-90
   margin-left: 90px
+.ml-93
+  margin-left: 93px
+.ml-94
+  margin-left: 94px
+.mlr-4
+  margin: auto 4px
 .cardDetail_margin
   margin-top: -20px
 .height87
@@ -240,52 +256,86 @@ a
 .input_sta_required
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
+
+$labelw: 104px
+$rmW: 22px
+$rmW2: 23px
+
+$medium-c1: 165px
 $medium-c3-col2: 255px
 $medium-c3-card: 212px
+$resvCard-col2: 316px
+$medium-c1-col2v2: 434px
+$medium-c1-sc2: 299.5px
+$medium-c1-sc2-col2: (($medium-c1-sc2) *2)+104
+$popWindow-s1v2-col2: 227px
+$popWindow-s1-col2: 414px
+$rateCode-s1: 180px
+$rateCode-s1-col2: (($rateCode-s1) *2)+104
+$rateCode-s1-col3: (($rateCode-s1) *3)+(($labelw) *2)
+$resvCard-date: 135px
+$resvCard-dateCol2: (($resvCard-date) *2)+104
+$resvCard-dateSpec1: (($resvCard-date) *2)-60
 .input-medium
   &.medium-c1
-    +input-s1(165px)
+    +input-s1($medium-c1)
     //@media screen and (min-width: 768px) and (max-width: 1030px)
     //  +input-s1(120px)
   &.medium-c1Rm
-    +input-s1(138px)
-  &.medium-c1-col2
-    +input-s1(488px)
-    //todo resvRoomTyprBtn2
+    +input-s1($medium-c1 -$rmW)
+  //&.medium-c1-col2
+  //  +input-s1(488px)
   &.medium-c1-col2v2
-    +input-s1(433px)
+    +input-s1($medium-c1-col2v2)
+    //彈出視窗內會多一px(?)
+  &.medium-c1-col2v2Rm
+    +input-s1(($medium-c1-col2v2)-23)
   &.medium-c1-col2v3
     +input-s1(438px)
   &.medium-c1-col2v3Rm
-    +input-s1(411px)
-  &.medium-c1-col2v2Remark
-    +input-s1(407px)
+    +input-s1(416px)
   &.medium-c1-Full
-    +input-s1(702px)
+    +input-s1(703px)
+  &.medium-c1-sc2
+    +input-s1($medium-c1-sc2)
+  &.medium-c1-sc2-col2
+    +input-s1($medium-c1-sc2-col2)
+  &.medium-c1-sc2-col2Rm
+    +input-s1($medium-c1-sc2-col2 -$rmW)
+  &.medium-c1-sc2Rm
+    +input-s1($medium-c1-sc2 -$rmW)
+  &.medium-c1-sc3Key
+    +input-s1(623px)
   &.medium-c2
     +input-s1(179px)
     //@media screen and (min-width: 768px) and (max-width: 1030px)
     //  +input-s1(134px)
   &.medium-c3-sm
     +input-s1(104px)
+  &.medium-c3-smFullRm
+    +input-s1(498px)
+  &.medium-c3-smSpec1
+    +input-s1(255px)
   &.medium-c3
     +input-s1(134px)
   &.medium-skyNo
-    +input-s1(147px)
+    +input-s1(148.5px)
   &.medium-c3-col2Spc
     +input-s1(272px)
   &.medium-c3-col2
     +input-s1($medium-c3-col2)
   &.medium-c3-col2_2
     // have remark '-27px'
-    +input-s1(($medium-c3-col2)-27)
+    +input-s1(($medium-c3-col2)-23)
+  &.medium-c3-col2_3
+    +input-s1(291px)
   &.medium-search-col2
     // PMS0620040 || PMS0620050
     +input-s1(304px)
   &.medium-c3-col3
     +input-s1(492px)
   &.medium-c3-col3Rm
-    +input-s1(543px)
+    +input-s1(548px)
   &.medium-c3-col4
     +input-s1(634px)
   &.medium-c3-col1-5
@@ -294,9 +344,8 @@ $medium-c3-card: 212px
     +input-s1($medium-c3-card)
   &.medium-c3-card-2
     +input-s1(55px)
-    // have remark '-26px'
   &.medium-c3-card-3
-    +input-s1(($medium-c3-card)-26)
+    +input-s1(($medium-c3-card)-$rmW)
   &.addedBy
     +input-s1(74px)
   &.addedDate
@@ -305,10 +354,22 @@ $medium-c3-card: 212px
     +input-s1(120px)
   &.bill-input-s2
     +input-s1(245px)
+  &.bill-input-full
+    +input-s1(568px)
+  &.resvCard-s1Half2
+    +input-s1((($rateCode-s1) /2)-1)
   &.rateCode-s1
-    +input-s1(180px)
-  &.rateCode-s1-col2
-    +input-s1(464px)
+    +input-s1($rateCode-s1)
+  &.rateCode-s1Rm
+    +input-s1($rateCode-s1 -$rmW2)
+  &.rateCode-s1-col2 //464px
+    +input-s1($rateCode-s1-col2)
+  &.rateCode-s1-col2Rm
+    +input-s1($rateCode-s1-col2 -$rmW2)
+  &.rateCode-s1-col3
+    +input-s1($rateCode-s1-col3)
+  &.rateCode-s1-col3Bring
+    +input-s1(699px)
   &.rateCode-s2
     +input-s1(43px)
   &.rateCode-s3
@@ -326,24 +387,22 @@ $medium-c3-card: 212px
   &.popWindow-s1Remark
     +input-s1(128px)
   &.popWindow-s1-col3
-    +input-s1(672px)
+    +input-s1(673px)
     // resv_gProfile
   &.popWindow-s2
     +input-s1(138px)
   &.popWindow-s1-col2
-    +input-s1(414px)
-  &.popWindow-s1-col2RM
-    +input-s1(387px)
-  &.popWindow-s1-col2v2
-    +input-s1(418px)
+    +input-s1($popWindow-s1-col2)
+  &.popWindow-s1-col2Rm
+    +input-s1($popWindow-s1-col2 -$rmW)
   &.popWindow-s1v2
-    +input-s1(115px)
+    +input-s1(116.5px)
   &.popWindow-s1v2-col2
-    +input-s1(227px)
+    +input-s1($popWindow-s1v2-col2)
   &.popWindow-s1v2-lg
     +input-s1(339px)
-  &.popWindow-s1v2-col2RM
-    +input-s1(200px)
+  &.popWindow-s1v2-col2Rm
+    +input-s1($popWindow-s1v2-col2 -$rmW)
   &.popWindow-s1v2-keyword
     +input-s1(460px)
   &.popWindow-s1v2-col4
@@ -352,41 +411,48 @@ $medium-c3-card: 212px
     +input-s1(485px)
   &.popWindow-s1v2-col4RM
     +input-s1(535px)
+
   &.resvCard
-    +input-s1(103px)
+    +input-s1(106px)
     //住客帳維護 單筆
   &.resvCardSpec1
     +input-s1(203px)
   &.resvCard-date
-    +input-s1(135px)
-  &.resvCardRemark
-    +input-s1(77px)
+    +input-s1($resvCard-date)
+  &.resvCard-dateCol2
+    +input-s1($resvCard-dateCol2)
+  &.resvCard-dateSpec1
+    +input-s1($resvCard-dateSpec1)
+  &.resvCardRm
+    +input-s1(83px)
   &.resvCard-m
     +input-s1(72px)
   &.resvCard-col2
-    +input-s1(310px)
+    +input-s1($resvCard-col2)
+  &.resvCard-col2Rm
+    +input-s1($resvCard-col2 - $rmW2)
   &.resvCard-col3
-    +input-s1(719px)
+    +input-s1(736px)
   &.resvCard-col2Spec1
-    +input-s1(250px)
-  &.resvCard-col2Remark
-    +input-s1(283px)
-  &.resvCard-col2Remark2
-    +input-s1(265px)
+    +input-s1(258px)
+  &.resvCard-col2Rm2
+    +input-s1(278px)
   &.resvCard-full
     +input-s1(723px)
-  &.resvCard-fullRemark
-    +input-s1(698px)
-  &.resvCard-col3-fullRemark
-    +input-s1(490px)
+  &.resvCard-fullRm
+    +input-s1(713px)
+  &.resvCard-col3-fullRm
+    +input-s1(504px)
   &.resvCard-xs
     +input-s1(40px)
   &.resvCard-2xs
-    +input-s1(26.7px)
+    +input-s1(32.5px)
   &.resvCard-xlxl
     +input-s1(140px)
   &.resvCard-sm
-    +input-s1(81px)
+    +input-s1(84px)
+  &.resvCard-2sm
+    +input-s1(102.5px)
   &.ca-select
     +input-s1(65px)
   &.checkMail
@@ -401,9 +467,15 @@ $medium-c3-card: 212px
     +input-s1(388px)
   &.w118px
     +input-s1(118px)
+  &.input-spc-2
+    +input-s1(456px) // suggestion Page
+  &.input-spc-3
+    +input-s1(348px) // suggestion Page
+
 .input-hMedium
   height: $inputHeight-medium !important
 .input-hCol2
+  resize: none
   height: ($inputHeight-medium*2)+5 !important
 .input-spc-1
   +input-s1
@@ -507,21 +579,24 @@ input.numStyle-none
       label
         padding-left: 10px
 
+
+.rzNone
+  resize: none
 .remarkInput
   width: 85%
-  margin-left: 5px
+.remarkInput2
+  width: 748px
+  resize: none
+// 訂房確認書
+.remarkInput3
+  width: 414px
+  resize: none
 .remarkInput-75
   width: 75%
-  margin-left: 5px
-  margin-right: 5px
 .remarkInput-45
   width: 45.4%
-  margin-left: 5px
-  margin-right: 5px
 .remarkInput-79
   width: 79.4%
-  margin-left: 5px
-  margin-right: 5px
 .border-raduis-5
   border-radius: 5px
 .extendGrid
@@ -577,7 +652,7 @@ input.numStyle-none
           margin-right: 3px
   &.msgCheck
     .checkbox
-      margin: 0 108px auto 5px
+      margin: 0 152px auto auto
       .checkbox-width
         width: auto
   &.routingCkbox

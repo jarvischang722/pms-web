@@ -1,3 +1,6 @@
+var g_socket = io.connect('/system');
+var gf_chkSessionInterval;
+
 var BacchusMainVM = new Vue({
     el: '#BacchusMainApp',
     data: {
@@ -7,12 +10,24 @@ var BacchusMainVM = new Vue({
         moduleMenu: [],
         quickMenu: [],
         subsysMenu: [],
-        isOpenModule: "" //打開的模組 ex: PMS0001000
+        isOpenModule: "", //打開的模組 ex: PMS0001000
+        displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
+        gs_cookieExpires: '', //cookie 剩餘時間
+        prgVueIns: {}, //目前作業的 vue 實例
+        leaveAfterExecFuncsNam: [] //頁面前離開後要幫作業觸發的功能
     },
     mounted: function () {
+        //離開時
+        window.onbeforeunload = function () {
+            BacchusMainVM.doLeavePageBeforePrgFuncs()
+        };
+
 
         this.getUserSubsys();
-
+        this.updateCurrentDateTime();
+        this.updateExpiresTime();
+        setInterval(this.updateCurrentDateTime, 1000);
+        setInterval(this.updateExpiresTime, 5000);
     },
     watch: {
         usingSubsysID: function (subsys_id) {
@@ -41,14 +56,41 @@ var BacchusMainVM = new Vue({
         }
     },
     methods: {
-        //取得此子系統的權限
+        /**
+         * 塞入作業Vue實體
+         * @param _prgVueIns{Object}  :  vue 實體
+         */
+        setPrgVueIns: function (_prgVueIns) {
+            this.prgVueIns = _prgVueIns;
+        },
+        /**
+         * 塞入作業離開頁面後要執行的functions
+         * @param _funcsNam{Arra[String]} : 功能名稱清單
+         */
+        setLeaveAfterExecFuncsNam: function (_funcsNam) {
+            this.leaveAfterExecFuncsNam = _funcsNam;
+        },
+        /**
+         * 執行作業離開前需要做的事
+         */
+        doLeavePageBeforePrgFuncs: function () {
+            _.each(this.leaveAfterExecFuncsNam, function (funcNam) {
+                BacchusMainVM.prgVueIns[funcNam]();
+            });
+        },
+        /**
+         * 取得此子系統的權限
+         */
         getUserSubsys: function () {
             $.post("/api/getUserSubsys").done(function (res) {
                 BacchusMainVM.subsysMenu = res.subsysMenu;
                 BacchusMainVM.usingSubsysID = getCookie('usingSubsysID');
             });
         },
-        //取得網址get 參數
+        /**
+         * 取得網址get 參數
+         * @param name
+         */
         getQueryString: function (name) {
             var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
             var r = window.location.search.substr(1).match(reg);
@@ -57,12 +99,19 @@ var BacchusMainVM = new Vue({
             }
             return null;
         },
+        /**
+         *
+         * @param subsys_id
+         */
         changeSubsys: function (subsys_id) {
             location.href = '/bacchus4web/' + subsys_id;
         },
-        //讀入主程式
+        /**
+         * 讀入主程式
+         * @param prg_id
+         */
         loadMainProcess: function (prg_id) {
-            g_socket.emit('handleTableUnlock', { 'prg_id': getCookie("lockingPrgID")});
+            g_socket.emit('handleTableUnlock', {'prg_id': getCookie("lockingPrgID")});
 
             var ls_pro_url = "";
             this.isOpenModule = "";
@@ -95,15 +144,71 @@ var BacchusMainVM = new Vue({
             }
 
         },
-        doTableLock: function () {
-
+        /**
+         * 做Table unlock
+         */
+        doTableUnlock: function () {
+            //TODO
+        },
+        /**
+         * 更新Session 時間
+         */
+        updateExpiresTime: function () {
+            let lastTimes = moment(this.gs_cookieExpires).diff(moment(), "seconds");
+            if (_.isEmpty(this.gs_cookieExpires) || lastTimes > 0) {
+                $.post('/api/getSessionExpireTime', function (result) {
+                    if (result.session.cookie.expires !== BacchusMainVM.gs_cookieExpires) {
+                        BacchusMainVM.gs_cookieExpires = result.session.cookie.expires;
+                        clearInterval(gf_chkSessionInterval);
+                        BacchusMainVM.doDownCount();
+                    }
+                });
+            }
 
         },
-        doTableUnlock: function () {
-            var lockingPrgID = !_.isUndefined(getCookie("lockingPrgID")) && !_.isEmpty(getCookie("lockingPrgID"))
-                ? getCookie("lockingPrgID") : '';
-            g_socket.emit('handleTableUnlock', {
-                'prg_id': lockingPrgID
+        /**
+         * 更新目前時間
+         */
+        updateCurrentDateTime: function () {
+            var datetime = moment(new Date()).format("YYYY/MM/DD A HH:mm:ss");
+            $("#datetimeSpan").html(datetime);
+        },
+
+        /**
+         * 倒數登出時間
+         */
+        doDownCount: function () {
+            let lastTimes = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
+            gf_chkSessionInterval = setInterval(function () {
+
+                var mm = String(Math.floor(lastTimes / 60));
+                var ss = lastTimes % 60 >= 10 ? String(lastTimes % 60) : "0" + String(lastTimes % 60);
+                $("#timeLeft").text(mm + ":" + ss);
+                if (lastTimes > 0) {
+                    lastTimes--;
+                } else {
+                    BacchusMainVM.displayLogoutDialog = true;
+                    clearInterval(gf_chkSessionInterval);
+                }
+
+            }, 1000);
+        },
+        /**
+         * 登出
+         */
+        doLogout: function () {
+            $.post("/cas/logout", function (data) {
+                location.reload();
+            });
+        },
+        /**
+         * 換館別
+         */
+        changeHotelCod: function (hotel_cod) {
+            $.post("/changeHotelCod", {hotel_cod: hotel_cod}, function (data) {
+                if (data.success) {
+                    location.reload();
+                }
             });
         }
 
@@ -117,3 +222,5 @@ $(function () {
     $("#sidebar-toggle-icon").click();
 
 });
+
+

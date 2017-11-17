@@ -784,7 +784,6 @@ var vm = new Vue({
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dataGridRows;
                 vm.pageOneFieldData = result.fieldData;
-                vm.showCheckboxDG();
                 vm.showDataGrid();
                 callback(result.success);
             });
@@ -806,35 +805,20 @@ var vm = new Vue({
                 }
             });
         },
-        //Show Checkbox
-        showCheckboxDG: function () {
-            var dgData = {total: this.pageOneDataGridRows.length, rows: this.pageOneDataGridRows};
-            $('#dgCheckbox').datagrid({
-                columns: [
-                    [
-                        {
-                            field: 'ck',
-                            checkbox: true
-                        }
-                    ]
-                ],
-                singleSelect: false,
-                data: dgData
-            });
-        },
 
         //顯示DataGrid
         showDataGrid: function () {
 
+            var colOption = [{field: 'ck', checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810020_dg'));
             this.dgIns = new DatagridRmSingleGridClass();
-            this.dgIns.init(prg_id, 'PMS0810020_dg', DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0810020_dg'));
+            this.dgIns.init(prg_id, 'PMS0810020_dg', colOption, this.pageOneFieldData, {singleSelect: false});
             this.dgIns.loadDgData(this.pageOneDataGridRows);
-            vm.pageOneDataGridRows = $("#dgCheckbox").datagrid('getRows');
         },
         //dg row刪除
         removeRow: function () {
             vm.tmpCud.deleteData = [];
-            var checkRows = $('#dgCheckbox').datagrid('getSelections');
+            var checkRows = $('#PMS0810020_dg').datagrid('getChecked');
             if (checkRows == 0) {
                 alert('Check at least one item.');
                 return;
@@ -857,7 +841,6 @@ var vm = new Vue({
                             var ln_delIndex = $('#PMS0810020_dg').datagrid('getRowIndex', row);
                             $('#PMS0810020_dg').datagrid('deleteRow', ln_delIndex);
                         });
-                        vm.showCheckboxDG($("#PMS0810020_dg").datagrid("getRows"));
                         vm.doSaveCUD();
                     } else {
                         vm.tmpCud.deleteData = [];
