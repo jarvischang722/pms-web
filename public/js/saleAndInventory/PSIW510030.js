@@ -17,6 +17,7 @@ g_socket.on('checkTableLock', function (result) {
     if(!result.success){
         alert(result.errorMsg);
     }else {
+        console.log('asdasd');
         PSIW510030.buttonAfterLockDoFunc();
     }
 });
@@ -1504,7 +1505,6 @@ var PSIW510030 = new Vue({
         editData: function() {
             this.buttonCase = "edit";
             this.doRowLock();
-            this.buttonAfterLockDoFunc();
         },
 
         /**
@@ -1513,7 +1513,6 @@ var PSIW510030 = new Vue({
         deleteData: function() {
             this.buttonCase = "delete";
             this.doRowLock();
-            this.buttonAfterLockDoFunc();
         },
 
         /**
@@ -1522,7 +1521,6 @@ var PSIW510030 = new Vue({
         approved: function() {
             this.buttonCase = "approved";
             this.doRowLock();
-            this.buttonAfterLockDoFunc();
         },
 
         /**
@@ -1531,7 +1529,6 @@ var PSIW510030 = new Vue({
         cancel: function() {
             this.buttonCase = "cancel";
             this.doRowLock();
-            this.buttonAfterLockDoFunc();
         },
 
         /**
