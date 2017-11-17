@@ -51,6 +51,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                     self.oriFieldsData = result.fieldData;
                     self.fieldsData =_.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
                     self.fetchRowData(self.rowData);
+                    console.log(self.fieldsData);
                 }
             });
         },
@@ -183,10 +184,11 @@ var vm = new Vue({
         },
         loadDataGridByPrgID: function () {
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: "PMS0620050"}, function (result) {
+            $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620050", serchCod: {}, pag_id: 1}, function (result) {
+                console.log(result);
                 vm.searchFields = result.searchFields;
-                vm.pageOneDataGridRows = result.dataGridRows;
-                vm.pageOneFieldData = result.fieldData;
+                vm.pageOneDataGridRows = result.dgRowData;
+                vm.pageOneFieldData = result.dgFieldData;
                 vm.showDataGrid();
             });
         },

@@ -238,7 +238,7 @@ let qrySearchField = function (la_dgFieldData, callback) {
         prg_id: gs_prg_id,
         page_id: 3,
         locale: go_searchCond.locale
-    }, go_searchCond.user, function (err, fields) {
+    }, go_session.user, function (err, fields) {
         let lo_rtnData = {
             searchFields: fields,
             dgFieldsData: la_dgFieldData
