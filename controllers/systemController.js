@@ -13,6 +13,8 @@ var dbSvc = require("../services/DbTableService");
 var langSvc = require("../services/LangService");
 var uploadSvc = require("../services/uploadService");
 var logSvc = require("../services/LogService");
+var commonTools = require("../utils/CommonTools");
+var dbSVC = require("../services/DbTableService");
 /**
  * 首頁
  */
@@ -163,22 +165,6 @@ exports.getGroupMdlPros = function (req, res) {
     });
 };
 
-/**
- * 執行sql 程序
- */
-exports.execSQLProcess = function (req, res) {
-    dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
-        res.json({success: success, errorMsg: err});
-    });
-};
-
-/**
- * 執行作業sql 程序
- */
-exports.execOperationSQL = function(req, res){
-
-}
-
 // 上傳檔案
 exports.uploadFile = function (req, res) {
     uploadSvc.uploadFile(req, req.session, function (err, uploadResult) {
@@ -188,8 +174,6 @@ exports.uploadFile = function (req, res) {
 
 /**
  * 抓取異動紀錄
- * @param req
- * @param res
  */
 exports.getSetupPrgChangeLog = function (req, res) {
     logSvc.getSetupPrgChangeLog(req, function (err, allChangeLogList) {
@@ -200,9 +184,9 @@ exports.getSetupPrgChangeLog = function (req, res) {
 /**
  * 抓取session 結束時間
  */
-exports.getSessionExpireTime = function (req,res) {
+exports.getSessionExpireTime = function (req, res) {
     let lo_session = req.session;
-    res.json({success:true,session:lo_session});
+    res.json({success: true, session: lo_session});
 };
 
 /**
@@ -210,4 +194,13 @@ exports.getSessionExpireTime = function (req,res) {
  */
 exports.permissionSetup = function (req, res) {
     res.render("system/permissionSetup");
+};
+
+/**
+ * 執行sql 程序
+ */
+exports.execSQLProcess = function (req, res) {
+    dbSvc.handleExecSQLProcess(req.body, req.session, function (err, success) {
+        res.json({success: success, errorMsg: err});
+    });
 };
