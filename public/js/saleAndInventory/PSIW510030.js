@@ -13,7 +13,7 @@ var go_current_row;
 var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
-g_socket.on('checkRowLock', function (result) {
+g_socket.on('checkTableLock', function (result) {
     if(!result.success){
         alert(result.errorMsg);
     }else {
@@ -1112,7 +1112,6 @@ var PSIW510030 = new Vue({
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
                     self.singleDataGridRows = result.data;
-                    console.log(self.singleDataGridRows);
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
 
                     //保留原始資料, 供放棄使用
@@ -1567,9 +1566,6 @@ var PSIW510030 = new Vue({
                 value.sorder_tax = formatFloat(value.sorder_amt * value.tax_rat, 2) || 0;                        // 稅額 = 小計 * 稅率 (取小數第二位)
                 value.remain_qnt = value.item_qnt * value.unit_nos || 0;                                         // 未出貨量 = 數量(訂購量) * 單位轉換率
 
-                // console.log(value.sorder_amt);
-                // console.log(value.sorder_tax);
-
                 self.singleData.order_amt += value.sorder_amt;
                 self.singleData.order_tax += value.sorder_tax;
             });
@@ -1577,15 +1573,9 @@ var PSIW510030 = new Vue({
             var lf_temp_amt = self.singleData.order_amt;
             var lf_temp_tax = self.singleData.order_tax;
 
-            // console.log(lf_temp_amt);
-            // console.log(lf_temp_tax);
-
             self.singleData.order_amt = formatFloat(self.singleData.order_amt, self.ship_mn_round_nos) || 0;
             self.singleData.order_tax = formatFloat(self.singleData.order_tax, self.ship_mn_round_nos) || 0;
             self.singleData.order_tot = self.singleData.order_amt + self.singleData.order_tax;
-
-            // console.log(self.singleData.order_amt);
-            // console.log(self.singleData.order_tax);
 
             var lf_div_amt = self.singleData.order_amt - lf_temp_amt;
             var lf_div_tax = self.singleData.order_tax - lf_temp_tax;
@@ -1598,8 +1588,6 @@ var PSIW510030 = new Vue({
             if(index != -1){
                 self.singleDataGridRows[index].sorder_amt = formatFloat(self.singleDataGridRows[index].sorder_amt + lf_div_amt, self.ship_dt_round_nos);
                 self.singleDataGridRows[index].sorder_tax = formatFloat(self.singleDataGridRows[index].sorder_tax + lf_div_tax, 2);
-                // console.log(self.singleDataGridRows[index]);
-                // console.log(self.singleDataGridRows[index]);
             }
 
             //endregion
@@ -1943,9 +1931,7 @@ var PSIW510030 = new Vue({
             var self = this;
             self.openChangeLogDialog = true;
             $.post("/api/getSetupPrgChangeLog", {prg_id: prg_id}, function (result) {
-                console.log(result);
                 self.allChangeLogList = result.allChangeLogList;
-
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
                     var order_nos = _.find(data.desc_mn, function (field) {
                         return field.field_name.trim() == "order_nos";
