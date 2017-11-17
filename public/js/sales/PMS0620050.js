@@ -67,6 +67,79 @@ Vue.component('single-grid-pms0620050-tmp', {
                     console.error(result.errorMsg);
                 }
             });
+        },
+        chkFieldRule: function (ui_field_name, rule_func_name) {
+            if (rule_func_name === "" || !this.$parent.isModifiable) {
+                return;
+            }
+            var self = this;
+            var la_originData = [this.$parent.originData];
+            var la_singleData = [this.rowData];
+            var la_diff = _.difference(la_originData, la_singleData);
+
+            // 判斷資料是否有異動
+            if (la_diff.length != 0) {
+                this.isUpdate = true;
+            }
+
+            if (!_.isEmpty(rule_func_name.trim())) {
+                var postData = {
+                    prg_id: "PMS0620020",
+                    rule_func_name: rule_func_name,
+                    validateField: ui_field_name,
+                    singleRowData: this.rowData,
+                    oriSingleData: vm.originData
+                };
+                $.post('/api/chkFieldRule', postData, function (result) {
+
+                    if (result.success) {
+                        //是否要show出訊息
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
+                        }
+
+                        //是否要show出詢問視窗
+                        if (result.showConfirm) {
+                            if (confirm(result.confirmMsg)) {
+
+                            } else {
+                                //有沒有要再打一次ajax到後端
+                                if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                    $.post(result.ajaxURL, postData, function (result) {
+
+                                        if (!result.success) {
+                                            alert(result.errorMsg);
+                                        } else {
+
+                                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                self.rowData = _.extend(self.rowData, result.effectValues);
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+
+                    //連動帶回的值
+                    if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                        self.rowData = _.extend(self.rowData, result.effectValues);
+                    }
+
+                });
+            }
+        },
+        showDropdownDisplayName: function (val, selectData) {
+            if (_.findIndex(selectData, {value: val}) > -1) {
+                return _.findWhere(selectData, {value: val}).display;
+            }
+            return val + ":";
+
         }
     }
 });
