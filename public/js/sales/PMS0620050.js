@@ -188,7 +188,7 @@ var vm = new Vue({
                 console.log(result);
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
-                vm.pageOneFieldData = result.dgFieldData;
+                vm.pageOneFieldData = result.dgFieldsData;
                 vm.showDataGrid();
             });
         },
