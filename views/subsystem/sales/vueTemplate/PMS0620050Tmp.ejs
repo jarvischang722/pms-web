@@ -2,7 +2,7 @@
     <div id="singleGridPMS0620050" class="hide">
         <div class="col-sm-12 newVisitRecord-wrap">
             <!--remarks: no-margin-right-->
-            <div class="row">
+            <div class="row" v-loading="isLoadingDialog" :element-loading-text="loadingText">
                 <div class="col-sm-10 col-xs-10">
                     <div class="row" v-for="fields in fieldsData">
                         <div class="grid">
@@ -89,32 +89,39 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">First
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="toFirstData" :disabled="BTN_action || isFirstData">First
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="toPreData" :disabled="BTN_action || isFirstData">Previous
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="toNextData" :disabled="BTN_action || isLastData">Next
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="toLastData" :disabled="BTN_action || isLastData">Last
                                     </button>
                                 </li>
 
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
+                                            @click="doDelGrid">Delete
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="doSaveGrid">Save
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Quit
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
+                                            @click="doCloseDialog">Quit
                                     </button>
                                 </li>
                             </ul>

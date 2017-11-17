@@ -40,6 +40,7 @@ function operationSaveAdapterClass(postData, session) {
     ga_createData = postData.tmpCUD.createData || [];
     ga_updateData = postData.tmpCUD.updateData || [];
     ga_deleteData = postData.tmpCUD.deleteData || [];
+    ga_oriData = postData.tmpCUD.oriData || [];
     ga_dtCreateData = postData.tmpCUD.dt_createData || [];
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
@@ -335,7 +336,7 @@ function combineMainData(rfData, callback) {
                 return callback(null, '0400');
             }
 
-            _.each(ga_updateData, function (data) {
+            _.each(ga_updateData, function (data, index) {
                 var lo_fieldsData = qryFieldsDataByTabPageID(data);
                 var tmpEdit = {"function": "2", "table_name": gs_mainTableName}; //2  編輯
                 _.each(Object.keys(data), function (objKey) {
@@ -358,11 +359,11 @@ function combineMainData(rfData, callback) {
                 tmpEdit.condition = [];
                 //組合where 條件
                 _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                    if (!_.isUndefined(data[keyField.ui_field_name])) {
+                    if (!_.isUndefined(ga_oriData[index][keyField.ui_field_name])) {
                         tmpEdit.condition.push({
                             key: keyField.ui_field_name,
                             operation: "=",
-                            value: data[keyField.ui_field_name]
+                            value: ga_oriData[index][keyField.ui_field_name]
                         });
                         lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
                     }

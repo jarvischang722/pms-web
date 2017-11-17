@@ -24,13 +24,44 @@ Vue.component('single-grid-pms0620050-tmp', {
             singleData: {},
             oriSingleData: {},
             fieldsData: [],
-            oriFieldsData: []
+            oriFieldsData: [],
+            isFirstData: false,
+            isLastData: false,
+            BTN_action: false,
+            isLoadingDialog: false,
+            loadingText: ""
         };
+    },
+    mounted: function () {
+        this.isLoadingDialog = true;
+        this.loadingText = "Loading...";
     },
     watch: {
         rowData: function (val) {
             this.initData();
             this.fetchFieldData();
+
+            var nowDatagridRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', val);
+
+            $("#PMS0620050_dg").datagrid('selectRow', nowDatagridRowIndex);
+
+            if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == 0) {
+                //已經到第一筆
+                this.isFirstData = true;
+                this.isLastData = false;
+                if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                    this.isLastData = true;
+                }
+
+            } else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                //已經到最後一筆
+                this.isFirstData = false;
+                this.isLastData = true;
+            } else {
+
+                this.isFirstData = false;
+                this.isLastData = false;
+            }
         }
     },
     methods: {
@@ -47,35 +78,34 @@ Vue.component('single-grid-pms0620050-tmp', {
                 page_id: 2,
                 singleRowData: self.rowData
             }, function (result) {
-                if(result.success){
+                if (result.success) {
                     self.oriFieldsData = result.fieldData;
-                    self.fieldsData =_.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
+                    self.fieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
                     self.fetchRowData(self.rowData);
-                    console.log(self.fieldsData);
                 }
             });
         },
-        fetchRowData: function(editingRow){
+        fetchRowData: function (editingRow) {
             var self = this;
             editingRow = _.extend(editingRow, {prg_id: gs_prgId});
+            this.isLoadingDialog = false;
 
-            $.post('/api/singlePageRowDataQuery', editingRow, function(result){
-                if(result.success){
+            $.post('/api/singlePageRowDataQuery', editingRow, function (result) {
+                if (result.success) {
                     self.singleData = result.rowData;
                     self.oriSingleData = _.clone(result.rowData);
-                }
-                else {
+                } else {
                     console.error(result.errorMsg);
                 }
             });
         },
         chkFieldRule: function (ui_field_name, rule_func_name) {
-            if (rule_func_name === "" || !this.$parent.isModifiable) {
+            if (rule_func_name === "") {
                 return;
             }
             var self = this;
-            var la_originData = [this.$parent.originData];
-            var la_singleData = [this.rowData];
+            var la_originData = [this.oriSingleData];
+            var la_singleData = [this.singleData];
             var la_diff = _.difference(la_originData, la_singleData);
 
             // 判斷資料是否有異動
@@ -85,11 +115,11 @@ Vue.component('single-grid-pms0620050-tmp', {
 
             if (!_.isEmpty(rule_func_name.trim())) {
                 var postData = {
-                    prg_id: "PMS0620020",
+                    prg_id: "PMS0620050",
                     rule_func_name: rule_func_name,
                     validateField: ui_field_name,
-                    singleRowData: this.rowData,
-                    oriSingleData: vm.originData
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                    oriSingleData: this.oriSingleData
                 };
                 $.post('/api/chkFieldRule', postData, function (result) {
 
@@ -113,7 +143,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                                         } else {
 
                                             if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                                                self.rowData = _.extend(self.rowData, result.effectValues);
+                                                self.singleData = _.extend(self.singleData, result.effectValues);
                                             }
 
                                         }
@@ -122,14 +152,13 @@ Vue.component('single-grid-pms0620050-tmp', {
                             }
                         }
 
-                    }
-                    else {
+                    } else {
                         alert(result.errorMsg);
                     }
 
                     //連動帶回的值
                     if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
-                        self.rowData = _.extend(self.rowData, result.effectValues);
+                        self.singleData = _.extend(self.singleData, result.effectValues);
                     }
 
                 });
@@ -141,6 +170,114 @@ Vue.component('single-grid-pms0620050-tmp', {
             }
             return val + ":";
 
+        },
+        toFirstData: function () {
+            this.isFirstData = true;
+            this.isLastData = false;
+            this.rowData = _.first(vm.pageOneDataGridRows);
+        },
+        toPreData: function () {
+            var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
+            this.rowData = vm.pageOneDataGridRows[nowRowIndex - 1];
+        },
+        toNextData: function () {
+            var nowRowIndex = $("#PMS0620050_dg").datagrid('getRowIndex', this.rowData);
+            this.rowData = vm.pageOneDataGridRows[nowRowIndex + 1];
+        },
+        toLastData: function () {
+            this.isFirstData = false;
+            this.isLastData = true;
+            this.rowData = _.last(vm.pageOneDataGridRows);
+        },
+        doDelGrid: function () {
+            var self = this;
+            var q = confirm(go_i18nLang["SystemCommon"].check_delete);
+            if (q) {
+                //刪除前檢查
+                $.post("/api/deleteFuncRule", {
+                    page_id: 2,
+                    prg_id: gs_prgId,
+                    deleteData: [self.singleData]
+                }, function (result) {
+                    if (result.success) {
+                        vm.tmpCUD.deleteData = [self.singleData];
+                        vm.tmpCUD.oriData = [self.oriSingleData];
+                        vm.doSaveCUD("PMS0620050", 1, function (result) {
+                            vm.initTmpCUD();
+                            self.doCloseDialog();
+                        });
+
+                    } else {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+        },
+        dataValidate: function () {
+            var self = this;
+            var lo_checkResult;
+
+            // 單筆資料檢查
+            for (var i = 0; i < this.oriFieldsData.length; i++) {
+                var lo_field = this.oriFieldsData[i];
+                //必填
+                if (lo_field.requirable == "Y" && lo_field.modificable != "N" && lo_field.ui_type != "checkbox") {
+                    lo_checkResult = go_validateClass.required(self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_checkResult.success == false) {
+                        break;
+                    }
+                }
+
+                //有format
+                if (lo_field.format_func_name != "") {
+                    lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
+                    if (lo_checkResult.success == false) {
+                        break;
+                    }
+                }
+
+            }
+
+            return lo_checkResult;
+        },
+        doSaveGrid: function () {
+            var self = this;
+            this.isLoadingDialog = true;
+            this.loadingText = "Saving...";
+
+            var lo_chkResult = this.dataValidate();
+
+            if (lo_chkResult.success == false && vm.tmpCUD.deleteData.length == 0) {
+                alert(lo_chkResult.msg);
+                this.isLoadingDialog = false;
+            } else {
+                var postRowData = _.clone(this.singleData);
+
+                postRowData["avisit_dat"] = moment(new Date(postRowData["avisit_dat"])).format("YYYY/MM/DD");
+                postRowData["visit_dat"] = moment(new Date(postRowData["visit_dat"])).format("YYYY/MM/DD");
+                postRowData["tab_page_id"] = 1;
+                postRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+
+                vm.tmpCUD.updateData = [postRowData];
+                vm.tmpCUD.oriData = [this.oriSingleData];
+
+                vm.doSaveCUD("PMS0620050", 2, function (result) {
+                    if (result.success) {
+                        alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
+                        self.doCloseDialog();
+                    }
+                    else {
+                        alert(result.errorMsg);
+                    }
+                    self.isLoadingDialog = false;
+                    vm.initTmpCUD();
+                });
+            }
+        },
+        doCloseDialog: function () {
+            vm.initTmpCUD();
+            vm.editingRow = {};
+            $("#singleGridPMS0620050").dialog('close');
         }
     }
 });
@@ -156,7 +293,8 @@ var vm = new Vue({
         tmpCUD: {
             createData: [],
             updateData: [],
-            deleteData: []
+            deleteData: [],
+            oriData: []
         },
         userInfo: {},
         pageOneDataGridRows: [],
@@ -179,13 +317,12 @@ var vm = new Vue({
             this.tmpCUD = {
                 createData: [],
                 updateData: [],
-                deleteData: []
+                deleteData: [],
+                oriData: []
             };
         },
         loadDataGridByPrgID: function () {
-
             $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620050", serchCod: {}, pag_id: 1}, function (result) {
-                console.log(result);
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = result.dgFieldsData;
@@ -208,8 +345,7 @@ var vm = new Vue({
 
             if (!editRow) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
-            }
-            else {
+            } else {
                 this.editingRow = editRow;
                 this.showSingleGridDialog();
             }
@@ -223,6 +359,19 @@ var vm = new Vue({
                 maxHeight: 1920,
                 resizable: true
             }).dialog('open');
+        },
+        doSaveCUD: function (prg_id, page_id, callback) {
+            var self = this;
+            var lo_params = {
+                prg_id: prg_id,
+                page_id: page_id,
+                tmpCUD: this.tmpCUD
+            };
+            console.log(this.tmpCUD);
+            $.post("/api/doOperationSave", lo_params, function (result) {
+                self.loadDataGridByPrgID();
+                callback(result);
+            });
         }
     }
 });
