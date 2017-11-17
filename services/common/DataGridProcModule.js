@@ -181,7 +181,7 @@ function qrySelectOption(la_dgFieldData, callback) {
                         la_dgFieldData[fIdx].referiable = selRow.referiable || "N";
                         la_dgFieldData[fIdx].defaultVal = selRow.defaultVal || "";
 
-                        dataRuleSvc.getSelectOptions(go_session.user, selRow, function (selectData) {
+                        dataRuleSvc.getSelectOptions(go_session.user, selRow, la_dgFieldData[fIdx], function (selectData) {
                             la_dgFieldData[fIdx].selectData = selectData;
                             cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                         });
