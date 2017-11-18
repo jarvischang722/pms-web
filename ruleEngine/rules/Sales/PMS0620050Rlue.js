@@ -15,9 +15,151 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
 module.exports = {
 
     /**
-     * PMS0620050 搜尋列 cust_cod下拉資料 tree
+     * PMS0620050 搜尋列 cust_cod下拉資料 popupgrid
      */
+    sel_cust_mn: function(postData, session, callback){
+        var lo_params = {
+            athena_id: session.user.user_athena_id
+        };
+        var lo_result = new ReturnClass();
+        var lo_error = null;
 
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        let updateFieldName = {
+            cust_cod: "value",
+            cust_nam: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "公司代號",
+            display: "公司名稱"
+        };
+
+        if (ui_field_name != "") {
+            queryAgent.queryList("sel_cust_mn".toUpperCase(), lo_params, 0, 0, function (err, userList) {
+                if (!err) {
+                    lo_result.effectValues.showDataGrid = userList;
+                    lo_result.effectValues.updateFieldNameTmp = updateFieldName;
+                    lo_result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(lo_error, [lo_result]);
+                }
+            });
+        }
+        else {
+            callback(null, lo_result);
+        }
+    },
+
+
+    /**
+     * PMS0620050 搜尋列 sales_cod 下拉資料 popupgrid
+     */
+    sel_sales_mn: function(postData, session, callback){
+        var lo_params = {
+            athena_id: session.user.user_athena_id
+        };
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        let updateFieldName = {
+            sales_cod: "value",
+            sales_nam: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "業務員編號",
+            display: "業務員名稱"
+        };
+
+        if (ui_field_name != "") {
+            queryAgent.queryList("sel_sales_mn".toUpperCase(), lo_params, 0, 0, function (err, userList) {
+                if (!err) {
+                    lo_result.effectValues.showDataGrid = userList;
+                    lo_result.effectValues.updateFieldNameTmp = updateFieldName;
+                    lo_result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(lo_error, [lo_result]);
+                }
+            });
+        }
+        else {
+            callback(null, lo_result);
+        }
+    },
+
+
+    /**
+     * PMS0620050 搜尋列 business_cod 下拉資料 popupgrid
+     */
+    sel_business_rf: function(postData, session, callback){
+        var lo_params = {
+            athena_id: session.user.user_athena_id
+        };
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        let updateFieldName = {
+            business_cod: "value",
+            business_rmk: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "行業代號",
+            display: "行業名稱"
+        };
+
+        if (ui_field_name != "") {
+            queryAgent.queryList("sel_business_rf".toUpperCase(), lo_params, 0, 0, function (err, userList) {
+                if (!err) {
+                    lo_result.effectValues.showDataGrid = userList;
+                    lo_result.effectValues.updateFieldNameTmp = updateFieldName;
+                    lo_result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(lo_error, [lo_result]);
+                }
+            });
+        }
+        else {
+            callback(null, lo_result);
+        }
+    },
+
+
+    /**
+     * PMS0620050 搜尋列 purport_rmk 下拉資料 popupgrid
+     */
+    sel_remark_typ_rf: function(postData, session, callback){
+        var lo_params = {
+            athena_id: session.user.user_athena_id
+        };
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        let ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
+        let updateFieldName = {
+            remark_typ: "value",
+            type_nam: "display"
+        };
+
+        let fieldNameChangeLanguage = {
+            value: "備註代號",
+            display: "備註名稱"
+        };
+
+        if (ui_field_name != "") {
+            queryAgent.queryList("sel_remark_typ_rf".toUpperCase(), lo_params, 0, 0, function (err, userList) {
+                if (!err) {
+                    lo_result.effectValues.showDataGrid = userList;
+                    lo_result.effectValues.updateFieldNameTmp = updateFieldName;
+                    lo_result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
+                    callback(lo_error, [lo_result]);
+                }
+            });
+        }
+        else {
+            callback(null, lo_result);
+        }
+    },
 
     /**
      * PMS0620050 搜尋列 area_cod 下拉資料 tree

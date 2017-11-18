@@ -1,45 +1,46 @@
 <!-- 彈出視窗 -->
-<script type="text/x-template" id="chooseDataDialogTmp">
+<template id="chooseDataDialogTmp">
     <div id="dataPopUpGridDialog" v-show="false">
-        <div class="col-sm-12 col-xs-12 singleGridContent padding-5">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12 ">
-                    <!--顯示內容-->
-                    <form id="searchDataForm" method="post">
-                        <div id="textGridDiv" class=" grid">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <select id="cbSelect" style="width: 100%;" class="easyui-combobox defHt">
-                                        <option v-for="option in  fieldNameConditionTmp" :value="option.value">
-                                            {{option.display}}
-                                        </option>
-                                    </select>
-                                </div>
+        <span>{{isLast}}</span>
+        <!--<div class="col-sm-12 col-xs-12 singleGridContent padding-5">-->
+            <!--<div class="row">-->
+                <!--<div class="col-sm-12 col-xs-12 ">-->
+                    <!--&lt;!&ndash;顯示內容&ndash;&gt;-->
+                    <!--<form id="searchDataForm" method="post">-->
+                        <!--<div id="textGridDiv" class=" grid">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-sm-4">-->
+                                    <!--<select id="cbSelect" style="width: 100%;" class="easyui-combobox defHt">-->
+                                        <!--<option v-for="option in fieldNameConditionTmp" :value="option.value">-->
+                                            <!--{{option.display}}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
 
-                                <div class="col-sm-6">
-                                    <input type="text" style="width: 100%;" id="txtSelectCondition" class="numStyle-none defHt" @keyup="txtSearchChangeText">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="button"
-                                           style="width: 100%"
-                                           class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"
-                                           @click="chooseDataBackGridSingle">
-                                        <%= __("SystemCommon").OK %>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="space-4"></div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table class="easyui-datagrid" id="chooseGrid"
-                                       style="width: 100%;height: auto;"></table>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+                                <!--<div class="col-sm-6">-->
+                                    <!--<input type="text" style="width: 100%;" id="txtSelectCondition" class="numStyle-none defHt" @keyup="txtSearchChangeText">-->
+                                <!--</div>-->
+                                <!--<div class="col-sm-2">-->
+                                    <!--<button type="button"-->
+                                           <!--style="width: 100%"-->
+                                           <!--class="btn RoomNum-modal01-btn btn90px btn-primary btn-white btn-defaultWidth"-->
+                                           <!--@click="chooseDataBackGridSingle">-->
+                                        <!--<%= __("SystemCommon").OK %>-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="clearfix"></div>-->
+                        <!--<div class="space-4"></div>-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12">-->
+                                <!--<table class="easyui-datagrid" id="chooseGrid"-->
+                                       <!--style="width: 100%;height: auto;"></table>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
-</script>
+</template>

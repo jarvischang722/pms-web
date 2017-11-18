@@ -4,12 +4,91 @@
         <div class="search-content">
             <div class=""></div>
             <div class="search-co row">
-                    <div class="col-xs-12 search-co-content search-S2 ">
-                        <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
-                            <div class="grid">
-                                <div class="grid-item" v-for="field in searchFieldsByRow[0]">
+                <div class="col-xs-12 search-co-content search-S2 ">
+                    <div class="width-95 searchMain-S2 row" style="padding-top: 10px;">
+                        <div class="grid">
+                            <div class="grid-item" v-for="field in searchFieldsByRow[0]">
+                                <label>{{field.ui_display_name}}</label>
+                                <template
+                                        v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
+                                    <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                           class="numStyle-none defHt"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           min="0"
+                                           :required="field.requirable == 'Y'"
+                                           @click="chkClickPopUpGrid(field)"/>
+                                </template>
+
+                                <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
+                                    <el-select v-model="searchCond[field.ui_field_name]"
+                                               multiple="field.ui_type == 'multiselect'" size="small">
+                                        <el-option v-for="item in field.selectData" :key="item.value"
+                                                   :label="item.display" :value="item.value">
+                                        </el-option>
+                                    </el-select>
+                                </template>
+
+                                <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
+                                    <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                    :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
+                                                    :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                    placeholder="">
+                                    </el-date-picker>
+                                </template>
+
+                                <template v-if="field.ui_type == 'daterange'">
+                                    <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
+                                                    format="yyyy/MM/dd" type="daterange"
+                                                    placeholder="Select date range">
+                                    </el-date-picker>
+                                </template>
+
+                                <template v-if="field.ui_type == 'radio'">
+                                    <el-radio class="radio width-auto"
+                                              v-model="searchCond[field.ui_field_name]"
+                                              v-for="item in field.selectData" :label="item.value">
+                                        {{item.display}}{{item.value}}
+                                    </el-radio>
+                                </template>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row search-footer-btn" style="top: -10px;">
+                        <div class="footer-btn-menu-co">
+                            <ul>
+                                <li>
+                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                         title="查詢" @click="doSearch">
+                                        <div class="icon-reStyle icon-co-14"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="" data-rel="tooltip" data-placement="bottom"
+                                         title="清除" @click="searchCond = {}">
+                                        <div class="icon-reStyle icon-co-11"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon-moreSearch show-search-detail">
+                                        <i class="fa fa-chevron-down"
+                                           style="color: #438EB9;"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>  <!-- /.footer-btn-menu-co -->
+                    </div> <!-- /.search-footer-btn -->
+                </div>
+                <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
+                    <div class="width-95">
+
+                        <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
+                            <template>
+                                <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
                                     <label>{{field.ui_display_name}}</label>
-                                    <template v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
+                                    <template
+                                            v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
@@ -20,7 +99,7 @@
 
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
                                         <el-select v-model="searchCond[field.ui_field_name]"
-                                                   multiple="field.ui_type == 'multiselect'" size="small">
+                                                   :multiple="field.ui_type == 'multiselect'" size="small">
                                             <el-option v-for="item in field.selectData" :key="item.value"
                                                        :label="item.display" :value="item.value">
                                             </el-option>
@@ -31,114 +110,45 @@
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
                                                         :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
                                                         :type="field.ui_type == 'date' ? 'date': 'datetime'"
+                                                        :editable="false"
                                                         placeholder="">
                                         </el-date-picker>
                                     </template>
 
                                     <template v-if="field.ui_type == 'daterange'">
                                         <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                        format="yyyy/MM/dd" type="daterange"
+                                                        format="yyyy/MM/dd" type="daterange" :editable="false"
                                                         placeholder="Select date range">
                                         </el-date-picker>
                                     </template>
 
                                     <template v-if="field.ui_type == 'radio'">
-                                        <el-radio class="radio width-auto"
+                                        <el-radio class="radio"
                                                   v-model="searchCond[field.ui_field_name]"
                                                   v-for="item in field.selectData" :label="item.value">
-                                            {{item.display}}{{item.value}}
+                                            {{item.display}}
                                         </el-radio>
                                     </template>
 
+
                                 </div>
-                            </div>
-
+                            </template>
                         </div>
-                        <div class="row search-footer-btn" style="top: -10px;">
-                            <div class="footer-btn-menu-co">
-                                <ul>
-                                    <li>
-                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="查詢" @click="doSearch">
-                                            <div class="icon-reStyle icon-co-14"></div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="" data-rel="tooltip" data-placement="bottom"
-                                             title="清除" @click="searchCond = {}">
-                                            <div class="icon-reStyle icon-co-11"></div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="icon-moreSearch show-search-detail">
-                                            <i class="fa fa-chevron-down"
-                                               style="color: #438EB9;"></i>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>  <!-- /.footer-btn-menu-co -->
-                        </div> <!-- /.search-footer-btn -->
                     </div>
-                    <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
-                        <div class="width-95">
+                    <div class="clearfix"></div>
+                </div>
+            </div> <!-- row-->
+        </div> <!-- /.search-co -->
 
-                            <div class="grid" v-for="(searchFieldList, index) in searchFieldsByRow">
-                                <template>
-                                    <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
-                                        <label>{{field.ui_display_name}}</label>
-                                        <template v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
-                                            <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                                   class="numStyle-none defHt"
-                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                   min="0"
-                                                   :required="field.requirable == 'Y'"
-                                                   @click="chkClickPopUpGrid(field)"/>
-                                        </template>
+        <text-select-grid-dialog-tmp></text-select-grid-dialog-tmp>
 
-                                        <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
-                                            <el-select v-model="searchCond[field.ui_field_name]"
-                                                       :multiple="field.ui_type == 'multiselect'" size="small">
-                                                <el-option v-for="item in field.selectData" :key="item.value"
-                                                           :label="item.display" :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </template>
-
-                                        <template v-if="field.ui_type == 'date' ||field.ui_type == 'datetime' ">
-                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                            :format="field.ui_type == 'date' ? 'yyyy/MM/dd': 'yyyy/MM/dd HH:mm:ss'"
-                                                            :type="field.ui_type == 'date' ? 'date': 'datetime'"
-                                                            :editable="false"
-                                                            placeholder="">
-                                            </el-date-picker>
-                                        </template>
-
-                                        <template v-if="field.ui_type == 'daterange'">
-                                            <el-date-picker v-model="searchCond[field.ui_field_name]" size="small"
-                                                            format="yyyy/MM/dd" type="daterange" :editable="false"
-                                                            placeholder="Select date range">
-                                            </el-date-picker>
-                                        </template>
-
-                                        <template v-if="field.ui_type == 'radio'">
-                                            <el-radio class="radio"
-                                                      v-model="searchCond[field.ui_field_name]"
-                                                      v-for="item in field.selectData" :label="item.value">
-                                                {{item.display}}
-                                            </el-radio>
-                                        </template>
-
-
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div> <!-- row-->
-            </div> <!-- /.search-co -->
-        </div> <!-- /.row  search-content-->
-    </div>
+        <%-include chooseDataDialogTmp.ejs%>
+    </div> <!-- /.row  search-content-->
     <div class="clearfix"></div>
+
+
 </script>
+
+
+
 
