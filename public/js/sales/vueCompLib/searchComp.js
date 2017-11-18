@@ -7,7 +7,8 @@ var go_searchComp = Vue.extend({
     template: "#searchTmp",
     props: ["searchFields", "searchCond", "fetchData"],
     components: {
-        "text-select-grid-dialog-tmp": ga_selectGridDialogComp
+        "text-select-grid-dialog-tmp": ga_selectGridDialogComp,
+        "text-comp": testComp
     },
     data: function () {
         return {
@@ -164,4 +165,13 @@ var ga_selectGridDialogComp = Vue.extend({
         }
     }
 });
+
+var testComp = Vue.extend({
+    template: "<div><span>----test</span></div>",
+    data: function () {
+        return{
+            test: "test"
+        };
+    }
+})
 
