@@ -299,6 +299,7 @@ var vm = new Vue({
         userInfo: {},
         pageOneDataGridRows: [],
         pageOneFieldData: [],
+        searchFields: [],
         searchCond: {},
         dgIns: {},
         isLoading: true,
@@ -373,5 +374,8 @@ var vm = new Vue({
                 callback(result);
             });
         }
+    },
+    components: {
+        "search-comp": go_searchComp
     }
 });

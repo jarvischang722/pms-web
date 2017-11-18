@@ -4,6 +4,12 @@
     <!-- 拜訪紀錄(Visit Record) Page-->
     <div class="pageMain">
         <!--查詢條件-->
+        <!-- 查詢 -->
+        <search-comp
+                :search-fields="searchFields"
+                :search-cond.sync="searchCond"
+                :fetch-data="loadDataGridByPrgID">
+        </search-comp>
         <div class="col-xs-12">
             <div class="search-content" >
                 <div class="search-co">
@@ -179,6 +185,9 @@
 <!--  業務 initial js -->
 
 <!--  /.End 業務 initial js  -->
+<%- include ./vueTemplate/searchTmp.ejs %>
 <%- include ./vueTemplate/PMS0620050Tmp.ejs %>
 
+
+<script src="/js/sales/vueCompLib/searchComp.js"></script>
 <script src="/js/sales/PMS0620050.js"></script>

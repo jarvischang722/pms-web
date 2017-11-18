@@ -5,6 +5,7 @@
 let moment = require("moment");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 let mongoAgent = require("../plugins/mongodb");
+let ruleAgent = require("../ruleEngine/ruleAgent");
 let _ = require("underscore");
 let async = require("async");
 let dataRuleSvc = require("./DataRuleService");
@@ -77,7 +78,8 @@ function filterSpecField(allFields, userInfo, callback) {
                     });
                 }
             );
-        } else {
+        }
+        else {
             handleFuncs.push(
                 function (callback) {
                     callback(null, field);
