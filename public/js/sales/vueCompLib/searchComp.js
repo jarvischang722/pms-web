@@ -18,6 +18,24 @@ var go_searchComp = Vue.extend({
         doSearch: function () {
             this.$parent.searchCond = this.searchCond;
             this.fetchData();
+        },
+        chkClickPopUpGrid: function (field) {
+            if (field.ui_type == "popupgrid") {
+                var params = {
+                    prg_id: "PMS0620050",
+                    fields: field
+                };
+
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        console.log(result);
+                        // vm.selectPopUpGridData = result.showDataGrid;
+                        // vmHub.$emit('showPopUpDataGrid', result);
+                        // vm.showPopUpGridDialog();
+                    }
+                });
+            }
         }
     }
 });
+

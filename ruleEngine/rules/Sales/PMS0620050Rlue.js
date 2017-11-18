@@ -15,7 +15,12 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
 module.exports = {
 
     /**
-     * PMS0620050 搜尋列下拉資料 tree
+     * PMS0620050 搜尋列 cust_cod下拉資料 tree
+     */
+
+
+    /**
+     * PMS0620050 搜尋列 area_cod 下拉資料 tree
      * @param postData
      */
     sel_area_cod_kvrf: function (postData, session, callback) {

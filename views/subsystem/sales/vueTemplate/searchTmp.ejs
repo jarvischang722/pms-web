@@ -9,12 +9,13 @@
                             <div class="grid">
                                 <div class="grid-item" v-for="field in searchFieldsByRow[0]">
                                     <label>{{field.ui_display_name}}</label>
-                                    <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
+                                    <template v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
                                         <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
                                                class="numStyle-none defHt"
                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                min="0"
-                                               :required="field.requirable == 'Y'"/>
+                                               :required="field.requirable == 'Y'"
+                                               @click="chkClickPopUpGrid(field)"/>
                                     </template>
 
                                     <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
@@ -47,16 +48,6 @@
                                                   v-for="item in field.selectData" :label="item.value">
                                             {{item.display}}{{item.value}}
                                         </el-radio>
-                                    </template>
-
-                                    <template v-if="field.ui_type == 'multitree' || field.ui_type == 'tree'">
-                                        <el-cascader
-                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                v-model="searchCond[field.ui_field_name]"
-                                                expand-trigger="hover"
-                                                :options="field.selectData"
-                                                class="numStyle-none"
-                                                size="small"></el-cascader>
                                     </template>
 
                                 </div>
@@ -95,12 +86,13 @@
                                 <template>
                                     <div class="grid-item" v-for="field in searchFieldList" v-if="index != 0">
                                         <label>{{field.ui_display_name}}</label>
-                                        <template v-if="field.ui_type == 'text' || field.ui_type == 'number'">
+                                        <template v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
                                             <input v-model="searchCond[field.ui_field_name]" :type="field.ui_type"
-                                                   class="numStyle-none defHt "
+                                                   class="numStyle-none defHt"
                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                    min="0"
-                                                   :required="field.requirable == 'Y'"/>
+                                                   :required="field.requirable == 'Y'"
+                                                   @click="chkClickPopUpGrid(field)"/>
                                         </template>
 
                                         <template v-if="field.ui_type == 'select' ||field.ui_type == 'multiselect' ">
@@ -136,15 +128,6 @@
                                             </el-radio>
                                         </template>
 
-                                        <template v-if="field.ui_type == 'multitree' || field.ui_type == 'tree'">
-                                            <el-cascader
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                    v-model="searchCond[field.ui_field_name]"
-                                                    expand-trigger="hover"
-                                                    :options="field.selectData"
-                                                    class="numStyle-none"
-                                                    size="small"></el-cascader>
-                                        </template>
 
                                     </div>
                                 </template>

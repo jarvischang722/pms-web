@@ -10,4 +10,13 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <!--[PMS0620050] 業務員拜訪記錄 備註類別選單-->
+    <dao name="SEL_REMARK_TYP_RF">
+        <statement><![CDATA[
+                select remark_typ as value, type_nam as display from remark_typ_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="string" kind="1">athena_id</parameter>
+    </dao>
 </root>
