@@ -281,23 +281,17 @@ function DatagridBaseClass() {
         lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
 
-        var dataType;
-        if(_.isUndefined(lo_chkKeyRowData.createRow)){
-            dataType = "updateData";
-        }
-        else{
-            dataType = lo_chkKeyRowData.createRow == 'Y'
-                ? "createData" : "updateData";  //判斷此筆是新增或更新
-        }
+        var dataType = (_.isUndefined(lo_chkKeyRowData.createRow) || lo_chkKeyRowData.createRow != "Y") ?
+            "updateData" : "createData";
+
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");
         var condKey = {};
         _.each(keyVals, function (field_name) {
             condKey[field_name] = lo_chkKeyRowData[field_name] || "";
         });
 
-        //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
+        //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
-
         if (existIdx > -1) {
             self.tmpCUD.oriUpdateData.splice(existIdx, 1);
             this.tmpCUD[dataType].splice(existIdx, 1);
@@ -305,7 +299,6 @@ function DatagridBaseClass() {
 
         //判斷資料有無跟原始資料重複
         var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
-
         if (dataType == "updateData") {
             if (existOriIdx > -1 && existIdx == -1) {
                 self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
