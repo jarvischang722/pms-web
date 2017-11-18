@@ -3,65 +3,6 @@
  */
 var vmHub = new Vue();
 
-var go_searchComp = Vue.extend({
-    template: "#searchTmp",
-    props: ["searchFields", "searchCond", "fetchData"],
-    components: {
-        "text-select-grid-dialog-tmp": ga_selectGridDialogComp,
-        "text-comp": testComp
-    },
-    data: function () {
-        return {
-            searchFieldsByRow: [],
-            selectPopUpGridData: []
-        };
-    },
-    watch: {
-        searchFields: function (newFields) {
-            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
-        }
-    },
-    methods: {
-        doSearch: function () {
-            this.$parent.searchCond = this.searchCond;
-            this.fetchData();
-        },
-        chkClickPopUpGrid: function (field) {
-            var self = this;
-            if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
-                var params = {
-                    prg_id: "PMS0620050",
-                    fields: field
-                };
-
-                $.post("/api/popUpGridData", params, function (result) {
-                    if (result != null) {
-                        self.selectPopUpGridData = result.showDataGrid;
-                        vmHub.$emit('showPopUpDataGrid', result);
-                        self.showPopUpGridDialog();
-                    }
-                });
-            }
-        },
-        showPopUpGridDialog: function () {
-            this.dialogVisible = true;
-            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
-            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
-
-            var dialog = $("#dataPopUpGridDialog").dialog({
-                autoOpen: false,
-                modal: true,
-                height: height,
-                width: width,
-                title: "PMS0620050",
-                resizable: true
-            });
-            dialog.dialog("open");
-        }
-    }
-});
-
-
 var ga_selectGridDialogComp = Vue.extend({
     template:"#chooseDataDialogTmp",
     data: function () {
@@ -166,12 +107,62 @@ var ga_selectGridDialogComp = Vue.extend({
     }
 });
 
-var testComp = Vue.extend({
-    template: "<div><span>----test</span></div>",
+var go_searchComp = Vue.extend({
+    template: "#searchTmp",
+    props: ["searchFields", "searchCond", "fetchData"],
+    components: {
+        "text-select-grid-dialog-tmp": ga_selectGridDialogComp
+    },
     data: function () {
-        return{
-            test: "test"
+        return {
+            searchFieldsByRow: [],
+            selectPopUpGridData: []
         };
+    },
+    watch: {
+        searchFields: function (newFields) {
+            this.searchFieldsByRow = _.values(_.groupBy(_.sortBy(newFields, "row_seq"), "row_seq"));
+        }
+    },
+    methods: {
+        doSearch: function () {
+            this.$parent.searchCond = this.searchCond;
+            this.fetchData();
+        },
+        chkClickPopUpGrid: function (field) {
+            var self = this;
+            if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
+                var params = {
+                    prg_id: "PMS0620050",
+                    fields: field
+                };
+
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        self.selectPopUpGridData = result.showDataGrid;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        self.showPopUpGridDialog();
+                    }
+                });
+            }
+        },
+        showPopUpGridDialog: function () {
+            this.dialogVisible = true;
+            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+
+            var dialog = $("#dataPopUpGridDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height: height,
+                width: width,
+                title: "PMS0620050",
+                resizable: true
+            });
+            dialog.dialog("open");
+        }
     }
-})
+});
+
+
 
