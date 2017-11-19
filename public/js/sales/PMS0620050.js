@@ -300,7 +300,9 @@ var vm = new Vue({
         pageOneDataGridRows: [],
         pageOneFieldData: [],
         searchFields: [],
-        searchCond: {},
+        searchCond: {
+            sales_cod: ""
+        },
         dgIns: {},
         isLoading: true,
         editingRow: {},

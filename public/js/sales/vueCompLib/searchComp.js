@@ -69,11 +69,11 @@ var ga_selectGridDialogComp = Vue.extend({
         chooseDataBackGridSingle: function () {
             var self = this;
             var selectTable = $('#chooseGrid').datagrid('getSelected');
+
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
             if (selectTable != null) {
-
                 _.each(selectTable, function (selectValue, selectField) {
 
                     _.each(updateFieldName, function (updateValue, updateField) {
@@ -88,7 +88,6 @@ var ga_selectGridDialogComp = Vue.extend({
                 });
             }
 
-            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -118,6 +117,13 @@ var go_searchComp = Vue.extend({
             searchFieldsByRow: [],
             selectPopUpGridData: []
         };
+    },
+    created: function(){
+        var self = this;
+        vmHub.$on('updateBackSelectData', function (chooseData) {
+            self.searchCond = _.extend(self.searchCond, chooseData);
+            console.log(self.searchCond);
+        });
     },
     watch: {
         searchFields: function (newFields) {
