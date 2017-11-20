@@ -11,6 +11,24 @@
             And sys_cod='PSI_WEB'
             And remark_cod='usr_cust'
             And trim(key_cod1) = trim(:key_cod1))
+            Order by show_cod
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+        <parameter type="string" kind="3">key_cod1</parameter>
+    </dao>
+
+    <!-- ['PSIW510030'] 取客戶代號下拉 (查詢用)-->
+    <dao name="QRY_SEARCH_CUST_COD_SELECT">
+        <statement><![CDATA[
+            Select cust_cod as value, (trim(show_cod) || ' : ' || trim(cust_nam)) as display
+            From psi_cust_mn
+            Where trim(comp_cod) = trim(:comp_cod) and cust_cod in (Select key_cod2 from sec_typ_ctrl
+            Where trim(comp_cod) = trim(:comp_cod)
+            And sys_cod='PSI_WEB'
+            And remark_cod='usr_cust'
+            And trim(key_cod1) = trim(:key_cod1))
+            Order by show_cod
         ]]>
         </statement>
         <parameter type="string" kind="3">comp_cod</parameter>
@@ -21,7 +39,7 @@
     <dao name="QRY_CUST_INFO">
         <statement><![CDATA[
 
-            Select show_cod, cust_nam, accunt_sta, accunt_nos , ship_typ , sales_cod
+            Select show_cod, cust_nam, accunt_sta, accunt_nos, ship_typ, sales_cod
             From psi_cust_mn
             Where trim(comp_cod) = trim(:comp_cod) and trim(cust_cod) = trim(:cust_cod)
 

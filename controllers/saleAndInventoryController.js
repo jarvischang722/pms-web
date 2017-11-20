@@ -89,6 +89,11 @@ exports.getQueryResult = function (req, res) {
                 res.json({data: result, error: err});
             });
             break;
+        case "getSearchShowCod":
+            PSIWService.getSearchShowCod(req.body, req.session, function (err, result) {
+                res.json({data: result, error: err});
+            });
+            break;
         case "chkFormatSta":
             PSIWService.chkFormatSta(req.body, req.session, function (err, result) {
                 res.json({data: result, error: err});

@@ -506,7 +506,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[銷售]資料)";
                             lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
@@ -538,7 +538,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if (Result.count == 0) {
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[萬元用量/庫存]資料)";
                             lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
@@ -570,7 +570,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[業績]資料)";
                             lo_error.errorCod = "0000";
                             cb(true, lo_error);
                         }
@@ -614,6 +614,37 @@ exports.getSearchFormatSta = function (params ,session, callback) {
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
+ * 取得客戶代號下拉(查詢欄位用)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getSearchShowCod = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        comp_cod: session.user.cmp_id,
+        key_cod1: session.user.usr_id
+    };
+
+    queryAgent.queryList("QRY_SEARCH_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
             if(Result)
                 callback(lo_error, Result);

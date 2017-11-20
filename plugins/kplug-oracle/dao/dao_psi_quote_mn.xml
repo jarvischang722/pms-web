@@ -6,12 +6,13 @@
         <statement><![CDATA[
             select mn.order_nos, mn.order_dat, mn.order_sta, mn.format_sta, cust.show_cod, cust.cust_nam , mn.atten_nam, mn.order_rmk, mn.ins_usr, mn.upd_usr, mn.cnfirm_cod from psi_quote_mn mn
             join sec_typ_ctrl sec on mn.comp_cod = sec.comp_cod and mn.cust_cod = sec.key_cod2
-            left join cust_mn cust on mn.cust_cod = cust.cust_cod
+            left join psi_cust_mn cust on mn.cust_cod = cust.cust_cod
             where trim(sec.comp_cod) = trim(:comp_cod)
             and sec.sys_cod='PSI_WEB' And sec.remark_cod='usr_cust' And trim(sec.key_cod1) = trim(:key_cod1)
         ]]>
         </statement>
         <statement test="_v(param.format_sta)"><![CDATA[and format_sta in(:format_sta)]]></statement>
+        <statement test="_v(param.cust_cod)"><![CDATA[and cust.cust_cod in(:cust_cod)]]></statement>
 
         <parameter type="string" kind="3">comp_cod</parameter>
         <parameter type="string" kind="3">key_cod1</parameter>
@@ -20,6 +21,7 @@
         <parameter type="likestring" kind="2" condition="doc_nos like ?">doc_nos</parameter>
         <parameter type="likestring" kind="2" condition="atten_nam like ?">atten_nam</parameter>
         <parameter type="instring" kind="3">format_sta</parameter>
+        <parameter type="instring" kind="3">cust_cod</parameter>
         <orderby>order by mn.order_nos</orderby>
     </dao>
 

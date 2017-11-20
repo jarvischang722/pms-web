@@ -246,6 +246,9 @@ var PSIW510030 = new Vue({
         orderSelectData: [],         //訂單格式下拉
         unitSelectData: [],         //單位下拉
 
+        searchOrderSelectData: [],  //訂單格式(查詢用)
+        searchCustSelectData: [],  //客戶代號(查詢用)
+
         statusSelectData: [{value: 'N', display: 'N:待核'}, {value: 'C', display: 'C:核准'}, {value: 'O', display: 'O:出貨中'}, {value: 'S', display: 'S:結清'}, {value: 'H', display: 'H:保留'}, {value: 'X', display: 'X:出貨完畢'}],    //狀態下拉
 
         searchFields: [], //搜尋的欄位
@@ -324,23 +327,52 @@ var PSIW510030 = new Vue({
          * 初始化Search
          */
         initSearchComp: function () {
-
-            //訂單格式(查詢用)
-            var lo_params = {
-                func: "getSearchFormatSta"
-            };
             var self = this;
+
             self.isLoading = true;
-            $.post("/api/getQueryResult", lo_params, function (result) {
-                self.isLoading = false;
-                if (!_.isUndefined(result.data)) {
+            async.parallel([
+                //訂單格式(查詢用)
+                function(cb){
+                    lo_params = {
+                        func: "getSearchFormatSta"
+                    };
+                    $.post("/api/getQueryResult", lo_params, function (result) {
+                        if (!_.isUndefined(result.data)) {
+                            self.searchOrderSelectData = result.data;
+                            cb(null, result.data);
+                        } else {
+                            alert(result.error.errorMsg);
+                            cb(result.error.errorMsg, "");
+                        }
+                    });
+                },
+                //客戶代號(查詢用)
+                function(cb){
+
+                    lo_params = {
+                        func: "getSearchShowCod"
+                    };
+                    self.isLoading = true;
+                    $.post("/api/getQueryResult", lo_params, function (result) {
+                        self.isLoading = false;
+                        if (!_.isUndefined(result.data)) {
+                            self.searchCustSelectData = result.data;
+                            cb(null, result.data);
+                        } else {
+                            alert(result.error.errorMsg);
+                            cb(result.error.errorMsg, "");
+                        }
+                    });
+                }
+            ], function(err, result){
+                if(!err) {
                     self.searchFields = [
                         {
                             ui_field_name: "order_nos",
                             ui_type: "text",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 200,
+                            width: 150,
                             ui_display_name: "訂單編號"
                         },
                         {
@@ -348,7 +380,7 @@ var PSIW510030 = new Vue({
                             ui_type: "text",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 200,
+                            width: 150,
                             ui_display_name: "歸檔編號"
                         },
                         {
@@ -356,8 +388,17 @@ var PSIW510030 = new Vue({
                             ui_type: "date",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 200,
+                            width: 100,
                             ui_display_name: "訂單日期"
+                        },
+                        {
+                            ui_field_name: "cust_cod",
+                            ui_type: "select",
+                            row_seq: 1,
+                            col_seq: 1,
+                            width: 200,
+                            selectData: self.searchCustSelectData,
+                            ui_display_name: "客戶代號"
                         },
                         {
                             ui_field_name: "format_sta",
@@ -365,7 +406,7 @@ var PSIW510030 = new Vue({
                             row_seq: 1,
                             col_seq: 1,
                             width: 200,
-                            selectData: result.data,
+                            selectData: self.searchOrderSelectData,
                             ui_display_name: "訂單格式"
                         },
                         {
@@ -373,12 +414,12 @@ var PSIW510030 = new Vue({
                             ui_type: "text",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 200,
+                            width: 150,
                             ui_display_name: "訂貨人姓名"
                         }
                     ];
-                } else {
-                    alert(result.error.errorMsg);
+
+                    self.isLoading = false;
                 }
             });
         },
@@ -791,7 +832,6 @@ var PSIW510030 = new Vue({
                     page_id: 1,
                     ui_display_name: "貨品描述"
                 },
-
                 {
                     athena_id: "",
                     user_id: "",
@@ -843,7 +883,7 @@ var PSIW510030 = new Vue({
                     user_id: "",
                     prg_id: "PSIW510030",
                     ui_field_name: "stock_unit",
-                    ui_type: "number",
+                    ui_type: "select",
                     ui_field_length: 6,
                     ui_field_num_point: 0,
                     col_seq: 4,
@@ -1201,6 +1241,8 @@ var PSIW510030 = new Vue({
             this.singleData.trans_typ = "";
             this.singleData.doc_cod = "2100";
 
+            this.orderSelectData = [];
+
             //Week 格式代號用
             var day;
             switch (new Date(this.singleData.order_dat).getDay()){
@@ -1255,7 +1297,6 @@ var PSIW510030 = new Vue({
                 func: "getShowCodSelect"
             };
             this.isLoading = true;
-
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
@@ -1270,7 +1311,6 @@ var PSIW510030 = new Vue({
                 func: "getUnitSelect"
             };
             this.isLoading = true;
-
             $.post("/api/getQueryResult", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
