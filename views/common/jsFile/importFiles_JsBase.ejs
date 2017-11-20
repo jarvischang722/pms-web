@@ -15,7 +15,9 @@
 <!-- validate 類別-->
 <script type="text/javascript" src="/js/easyUI/validateClass.js"></script>
 <!-- vue 套件 -->
-<script src="/js/vue/vue.min.js"></script>
+<script src="/js/vue/vue.js"></script>
+<!-- vue tree multiselect套件 -->
+<script src="/js/vue/vue-treeselect.min.js"></script>
 <!-- Vue element ui 多語設定 -->
 <script src="/js/element_ui/element.js"></script>
 <script src="/js/element_ui/locales/en.js"></script>
@@ -29,16 +31,6 @@
      var gs_locale = getCookie("locale");
     ELEMENT.locale(ELEMENT.lang[gs_locale.replace("_","")])
 </script>
-<!-- Remodal套件 -->
-<script>
-    //remodal 套件全域變數設定, 需放在remodal.js套件前
-    window.REMODAL_GLOBALS = {
-        DEFAULTS: {
-            hashTracking: false  //打開modal 時網址不出現 hash #
-        }
-    };
-</script>
-<script type="text/javascript" src="/js/remodal.min.js"></script>
 <!-- sprintf -->
 <script src="/js/sprintf.js"></script>
 <!-- socket.io -->
