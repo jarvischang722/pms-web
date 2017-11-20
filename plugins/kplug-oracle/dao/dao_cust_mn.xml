@@ -139,7 +139,7 @@
     <!--[PMS0620050] 業務員拜訪記錄 商業公司選單-->
     <dao name="SEL_CUST_MN">
         <statement><![CDATA[
-            select cust_cod as value, cust_nam as display from cust_mn where athena_id =:athena_id
+            select cust_cod, cust_nam from cust_mn where athena_id =:athena_id
         ]]>
         </statement>
         <parameter type="number" kind="3">athena_id</parameter>

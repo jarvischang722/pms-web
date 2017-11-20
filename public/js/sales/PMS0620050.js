@@ -301,7 +301,20 @@ var vm = new Vue({
         pageOneFieldData: [],
         searchFields: [],
         searchCond: {
-            sales_cod: ""
+            show_cod: "",
+            cust_nam: "",
+            status_cos: "",
+            type_cod: [],
+            contract_sta: [],
+            sales_cod: [],
+            business_cod: [],
+            area_cod: [],
+            visit_sta: "",
+            visit_typ: "",
+            visit_dat: "",
+            avisit_dat: "",
+            purport_rmk: "",
+            remark: ""
         },
         dgIns: {},
         isLoading: true,

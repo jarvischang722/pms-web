@@ -79,6 +79,17 @@ function filterSpecField(allFields, userInfo, callback) {
                 }
             );
         }
+        else if(_.isEqual(field.ui_type, "tree") || _.isEqual(field.ui_type, "multitree")){
+            handleFuncs.push(
+                function(callback) {
+                    allFields[fIdx].selectData = [];
+                    ruleAgent[field.rule_func_name](field, userInfo, function(err, result){
+                        allFields[fIdx].selectData = result.selectOptions;
+                        callback(null, allFields[fIdx]);
+                    });
+                }
+            );
+        }
         else {
             handleFuncs.push(
                 function (callback) {

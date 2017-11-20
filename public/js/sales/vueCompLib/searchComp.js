@@ -4,7 +4,7 @@
 var vmHub = new Vue();
 
 var ga_selectGridDialogComp = Vue.extend({
-    template:"#chooseDataDialogTmp",
+    template: "#chooseDataDialogTmp",
     data: function () {
         return {
             fieldNameConditionTmp: [],
@@ -13,7 +13,8 @@ var ga_selectGridDialogComp = Vue.extend({
             gridData: [],
             isFistData: false,
             isLastData: false,
-            dtEditIndex: undefined
+            dtEditIndex: undefined,
+            fieldData:{}
         };
     },
     created: function () {
@@ -29,6 +30,7 @@ var ga_selectGridDialogComp = Vue.extend({
             var textDataGrid = result.showDataGrid;
             var updateFieldName = result.updateFieldNameTmp;
             var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            this.fieldData = result.fieldData;
             this.fieldNameConditionTmp = [];
             this.fieldConditionTmp = [];
             this.gridData = [];
@@ -58,7 +60,7 @@ var ga_selectGridDialogComp = Vue.extend({
             var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
             $('#chooseGrid').datagrid({
                 columns: [columnsData],
-                singleSelect: true,
+                singleSelect: (self.fieldData.ui_type == 'popupgrid')? true : false ,
                 data: textDataGridArray,
                 height: height,
                 width: width
@@ -68,23 +70,39 @@ var ga_selectGridDialogComp = Vue.extend({
         //將選擇到的資料帶回Page2
         chooseDataBackGridSingle: function () {
             var self = this;
-            var selectTable = $('#chooseGrid').datagrid('getSelected');
-
+            var selectTable = {};
             var chooseData = self.updateFieldNameTmp;
             var updateFieldName = self.updateFieldNameTmp;
 
-            if (selectTable != null) {
-                _.each(selectTable, function (selectValue, selectField) {
+            if(this.fieldData.ui_type == 'popupgrid'){
+                selectTable = $('#chooseGrid').datagrid('getSelected');
 
-                    _.each(updateFieldName, function (updateValue, updateField) {
-                        if (selectField == updateValue) {
-                            chooseData[updateField] = selectValue;
-                        }
+                if (selectTable != null) {
+                    _.each(selectTable, function (selectValue, selectField) {
+                        _.each(updateFieldName, function (updateValue, updateField) {
+                            if (selectField == updateValue) {
+                                chooseData[updateField] = selectValue;
+                            }
+                        });
                     });
+                }
+                else {
+                    _.each(chooseData, function (chooseValue, chooseField) {
+                        chooseData[chooseField] = "";  //SAM20170930
+                    });
+                }
+            }
+            else{
+                selectTable = $('#chooseGrid').datagrid('getSelections');
+
+                _.each(updateFieldName, function (updateValue, updateField) {
+                    chooseData[updateField] = [];
                 });
-            } else {
-                _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = "";  //SAM20170930
+
+                _.each(updateFieldName, function (updateValue, updateField) {
+                    _.each(selectTable, function (lo_selectTable) {
+                        chooseData[updateField].push(lo_selectTable[updateField]);
+                    });
                 });
             }
 
@@ -97,8 +115,9 @@ var ga_selectGridDialogComp = Vue.extend({
             var selectCondition = $('#txtSelectCondition').val();
 
             var dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition))
-                {return row;}
+                if (row[selectFieldName].includes(selectCondition)) {
+                    return row;
+                }
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
 
@@ -118,11 +137,10 @@ var go_searchComp = Vue.extend({
             selectPopUpGridData: []
         };
     },
-    created: function(){
+    created: function () {
         var self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
             self.searchCond = _.extend(self.searchCond, chooseData);
-            console.log(self.searchCond);
         });
     },
     watch: {
@@ -133,7 +151,8 @@ var go_searchComp = Vue.extend({
     methods: {
         doSearch: function () {
             this.$parent.searchCond = this.searchCond;
-            this.fetchData();
+            console.log(this.searchCond);
+            // this.fetchData();
         },
         chkClickPopUpGrid: function (field) {
             var self = this;
@@ -146,6 +165,7 @@ var go_searchComp = Vue.extend({
                 $.post("/api/popUpGridData", params, function (result) {
                     if (result != null) {
                         self.selectPopUpGridData = result.showDataGrid;
+                        result.fieldData = field;
                         vmHub.$emit('showPopUpDataGrid', result);
                         self.showPopUpGridDialog();
                     }

@@ -78,7 +78,7 @@
     <!--[PMS0620050] 業務員拜訪記錄 業務員選單-->
     <dao name="SEL_SALES_MN">
         <statement><![CDATA[
-        select sales_cod as value, sales_nam as display from sales_mn where athena_id = :athena_id
+        select sales_cod, sales_nam from sales_mn where athena_id = :athena_id
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
     </dao>
