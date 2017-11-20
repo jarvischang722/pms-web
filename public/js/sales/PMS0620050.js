@@ -338,7 +338,30 @@ var vm = new Vue({
             };
         },
         loadDataGridByPrgID: function () {
-            $.post("/api/fetchDataGridFieldData", {prg_id: "PMS0620050", serchCod: {}, pag_id: 1}, function (result) {
+            var lo_searchCond =_.clone(this.searchCond);
+
+            delete lo_searchCond["business_rmk"];
+            delete lo_searchCond["cust_nam"];
+            delete lo_searchCond["sales_nam"];
+
+            lo_searchCond["avisit_dat"] = (lo_searchCond["avisit_dat"] == "")? "" :
+                moment(new Date(lo_searchCond["avisit_dat"])).format("YYYY/MM/DD");
+            lo_searchCond["visit_dat"] = (lo_searchCond["visit_dat"] == "")? "" :
+                moment(new Date(lo_searchCond["visit_dat"])).format("YYYY/MM/DD");
+            lo_searchCond["area_cod"] = (lo_searchCond["area_cod"] == "")? "" :
+                lo_searchCond["area_cod"][lo_searchCond["area_cod"].length -1];
+
+            lo_searchCond = _.pick(lo_searchCond, function(val){
+                return val != "";
+            });
+
+            var lo_params = {
+                prg_id: "PMS0620050",
+                serchCod: lo_searchCond,
+                pag_id: 1
+            };
+
+            $.post("/api/fetchDataGridFieldData",lo_params, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = result.dgFieldsData;
@@ -383,7 +406,7 @@ var vm = new Vue({
                 page_id: page_id,
                 tmpCUD: this.tmpCUD
             };
-            console.log(this.tmpCUD);
+
             $.post("/api/doOperationSave", lo_params, function (result) {
                 self.loadDataGridByPrgID();
                 callback(result);

@@ -151,8 +151,7 @@ var go_searchComp = Vue.extend({
     methods: {
         doSearch: function () {
             this.$parent.searchCond = this.searchCond;
-            console.log(this.searchCond);
-            // this.fetchData();
+            this.fetchData();
         },
         chkClickPopUpGrid: function (field) {
             var self = this;
