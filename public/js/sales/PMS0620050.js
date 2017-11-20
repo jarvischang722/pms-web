@@ -340,10 +340,6 @@ var vm = new Vue({
         loadDataGridByPrgID: function () {
             var lo_searchCond =_.clone(this.searchCond);
 
-            delete lo_searchCond["business_rmk"];
-            delete lo_searchCond["cust_nam"];
-            delete lo_searchCond["sales_nam"];
-
             lo_searchCond["avisit_dat"] = (lo_searchCond["avisit_dat"] == "")? "" :
                 moment(new Date(lo_searchCond["avisit_dat"])).format("YYYY/MM/DD");
             lo_searchCond["visit_dat"] = (lo_searchCond["visit_dat"] == "")? "" :
@@ -351,13 +347,10 @@ var vm = new Vue({
             lo_searchCond["area_cod"] = (lo_searchCond["area_cod"] == "")? "" :
                 lo_searchCond["area_cod"][lo_searchCond["area_cod"].length -1];
 
-            lo_searchCond = _.pick(lo_searchCond, function(val){
-                return val != "";
-            });
 
             var lo_params = {
                 prg_id: "PMS0620050",
-                serchCod: lo_searchCond,
+                searchCond: lo_searchCond,
                 pag_id: 1
             };
 

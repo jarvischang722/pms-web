@@ -25,9 +25,28 @@
             AND  PS_VISIT_DT.ATHENA_ID = PS_VISIT_RF.ATHENA_ID
             AND  PS_VISIT_DT.VISIT_TYP = PS_VISIT_RF.VISIT_TYP
             AND  PS_VISIT_DT.ATHENA_ID = :athena_id
-            ORDER  BY  PS_VISIT_DT.VISIT_DAT, CUST_MN.SHOW_COD
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
+        <parameter type="likestring" kind="2" condition="CUST_MN.show_cod like ? ">show_cod</parameter>
+        <parameter type="likestring" kind="2" condition="PS_VISIT_DT.purport_rmk like ? ">purport_rmk</parameter>
+        <parameter type="likestring" kind="2" condition="PS_VISIT_DT.remark like ? ">remark</parameter>
+        <parameter type="string" kind="2" condition="PS_VISIT_DT.visit_dat = to_date(:visit_dat, 'YYYY/MM/DD') ">visit_dat</parameter>
+        <parameter type="string" kind="2" condition="PS_VISIT_DT.avisit_dat = to_date(:avisit_dat, 'YYYY/MM/DD') ">avisit_dat</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.status_cod) = trim(:status_cod) ">status_cod</parameter>
+        <parameter type="string" kind="2" condition="trim(CUST_MN.cust_nam) = trim(:cust_nam) ">cust_nam</parameter>
+        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_typ) = trim(:visit_typ) ">visit_typ</parameter>
+        <parameter type="string" kind="2" condition="trim(PS_VISIT_DT.visit_sta) = trim(:visit_sta) ">visit_sta</parameter>
+        <parameter type="instring" kind="3">type_cod</parameter>
+        <statement test="_v(param.type_cod)"><![CDATA[and type_cod in(:type_cod)]]></statement>
+        <parameter type="instring" kind="3">contract_sta</parameter>
+        <statement test="_v(param.contract_sta)"><![CDATA[and contract_sta in(:contract_sta)]]></statement>
+        <parameter type="instring" kind="3">sales_cod</parameter>
+        <statement test="_v(param.sales_cod)"><![CDATA[and sales_cod in(:sales_cod)]]></statement>
+        <parameter type="instring" kind="3">business_cod</parameter>
+        <statement test="_v(param.business_cod)"><![CDATA[and business_cod in(:business_cod)]]></statement>
+        <parameter type="instring" kind="3">area_cod</parameter>
+        <statement test="_v(param.area_cod)"><![CDATA[and area_cod in(:area_cod)]]></statement>
+        <orderby>ORDER  BY  PS_VISIT_DT.VISIT_DAT, CUST_MN.SHOW_COD</orderby>
     </dao>
 
     <!--[PMS0620050] 取得單筆拜訪記錄-->
