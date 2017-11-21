@@ -124,17 +124,32 @@ var ga_selectGridDialogComp = Vue.extend({
         }
     }
 });
-
 var go_searchComp = Vue.extend({
     template: "#searchTmp",
     props: ["searchFields", "searchCond", "fetchData"],
     components: {
-        "text-select-grid-dialog-tmp": ga_selectGridDialogComp
+        "text-select-grid-dialog-tmp": ga_selectGridDialogComp,
+        Treeselect: VueTreeselect.Treeselect
     },
     data: function () {
         return {
             searchFieldsByRow: [],
-            selectPopUpGridData: []
+            selectPopUpGridData: [],
+            value: [],
+            options: [ {
+
+                label: 'a',
+                children: [ {
+                    id: 'aa',
+                    label: 'aa',
+                }, {
+                    id: 'ab',
+                    label: 'ab',
+                } ],
+            }, {
+                id: 'b',
+                label: 'b',
+            } ],
         };
     },
     created: function () {

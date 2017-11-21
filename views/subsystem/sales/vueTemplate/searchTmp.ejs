@@ -1,12 +1,18 @@
 <!-- 搜尋元件 -->
 <script type="text/x-template" id="searchTmp">
     <div class="col-xs-12" v-if="searchFields.length > 0 ">
+        <treeselect
+                :options="options"
+                :multiple="true"
+                v-model="value"
+        />
         <div class="search-content" style="margin: 0 15px">
             <div class=""></div>
             <div class="search-co row">
                 <div class="col-xs-12 search-co-content search-S2 ">
                     <div class="width-95 searchMain-S2" style="padding-top: 10px;">
                         <div class="grid">
+
                             <div class="grid-item" v-for="field in searchFieldsByRow[0]">
                                 <label>{{field.ui_display_name}}</label>
                                 <template v-if="field.ui_type == 'text' || field.ui_type == 'number' ||
@@ -51,6 +57,7 @@
                                         {{item.display}}{{item.value}}
                                     </el-radio>
                                 </template>
+
 
                             </div>
                         </div>
@@ -134,14 +141,23 @@
                                     </template>
 
 
-                                    <template v-if="field.ui_type == 'tree' || field.ui_type == 'multitree'">
+                                    <template v-if="field.ui_type == 'tree'">
                                         <el-cascader
-                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                        v-model="searchCond[field.ui_field_name]"
-                                        expand-trigger="hover"
-                                        :options="field.selectData"
-                                        class="numStyle-none"
-                                        size="small"></el-cascader>
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                v-model="searchCond[field.ui_field_name]"
+                                                expand-trigger="hover"
+                                                :options="field.selectData"
+                                                class="numStyle-none"
+                                                size="small"></el-cascader>
+                                    </template>
+
+                                    <template v-if="field.ui_type == 'multitree'">
+                                        <treeselect
+                                                :style="{width:field.width + 'px'}"
+                                                v-model="searchCond[field.ui_field_name]"
+                                                :multiple="true"
+                                                :options="field.selectData"
+                                        />
                                     </template>
                                 </div>
                             </template>
