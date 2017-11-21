@@ -1963,6 +1963,9 @@ var PSIW510030 = new Vue({
             g_socket.emit('handleTableUnlock', lo_param);
         },
 
+        /**
+         * ChangeLog
+         */
         loadChangeLog: function () {
             var self = this;
             self.openChangeLogDialog = true;
@@ -1970,7 +1973,7 @@ var PSIW510030 = new Vue({
                 self.allChangeLogList = result.allChangeLogList;
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
                     var order_nos = _.find(data.desc_mn, function (field) {
-                        return field.field_name.trim() == "order_nos";
+                        return field.field_name.trim() == "ORDER_NOS";
                     });
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
                 });

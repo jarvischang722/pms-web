@@ -208,6 +208,7 @@
     "User": "User",
     "Action_type": "Action Type",
     "Desciption_Mn": "Desciption MN",
+    "Desciption_Dt": "Desciption_DT",
     "check_delete": "確定刪除此筆資料(英)",
     "CompanyName": "Athena Information Systems"
   },
