@@ -99,7 +99,7 @@ var PermissionVM = new Vue({
                     PermissionVM.compGrpList4Tree.push({
                         id: account.usr_id,
                         parent: account.grp_id,
-                        text: account.usr_cname+"("+account.usr_id+")"
+                        text: account.usr_id + " "　+ account.usr_cname
                     });
                 });
             });
