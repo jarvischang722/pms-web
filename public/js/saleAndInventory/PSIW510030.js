@@ -1766,7 +1766,7 @@ var PSIW510030 = new Vue({
                     });
                     break;
                 case "delete":
-                    callAPI('PSIW5100300530',function () {
+                    self.callAPI('PSIW5100300530',function () {
                         alert('刪除成功!');
                         self.loadDataGrid();
                         self.singleData = {};
