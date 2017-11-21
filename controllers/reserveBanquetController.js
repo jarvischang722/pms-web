@@ -10,7 +10,7 @@ var path = require('path');
 var appRootDir = path.dirname(require.main.filename);
 
 //[RS0W202010] 格萊天漾訂席頁
-exports.getRS00202010 = function (req, res) {
+exports.getRS0W202010 = function (req, res) {
     res.render("subsystem/reserveBanquet/RS0W202010");
 };
 

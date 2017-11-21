@@ -31,7 +31,9 @@ var singlePage = Vue.extend({
         var self = this;
         vmHub.$on("showReserve", function (bquet_nos) {
             self.fetchSingleData('0600006');
+            //self.fetchDataGridData();
         });
+
 
     },
     mounted: function () {
@@ -80,41 +82,42 @@ var singlePage = Vue.extend({
         },
         //顯示資料
         showDataGrid: function (fieldData, dataGridRows) {
-            var columnsData = DatagridFieldAdapter.combineFieldOption(fieldData, 'prg_dg');
-            var hasMultiLangField = _.filter(fieldData, function (field) {
-                return field.multi_lang_table != "";
-            }).length > 0 ? true : false;
-            if (hasMultiLangField) {
-                columnsData.unshift({
-                    type: 'textbox',
-                    title: "Multi Lang",
-                    field: "langAction",
-                    align: "center",
-                    width: 100,
-                    formatter: function (value, row, index) {
-                        return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>';
-                    }
-
-                });
-            }
-            var dgData = {total: dataGridRows.length, rows: dataGridRows};
-            $('#prg_dg').datagrid({
-                columns: [columnsData],
-                remoteSort: false,
-                singleSelect: true,
-                selectOnCheck: true,
-                checkOnSelect: true,
-                // width: "100%", // error:左側打開後table會擠壓到右側欄位
-                data: dgData,
-                onClickCell: vm.onClickCell,
-                onEndEdit: vm.onEndEdit,
-                onDropColumn: vm.doSaveColumnFields, //當移動順序欄位時
-                onResizeColumn: vm.doSaveColumnFields,  //當欄位時寬度異動時
-                onSortColumn: function () {
-                    $("#dgCheckbox").datagrid('uncheckAll');
-                }
-
-            }).datagrid('columnMoving');
+            // var self = this;
+            // var columnsData = DatagridFieldAdapter.combineFieldOption(fieldData, 'RS00202010_dt');
+            // var hasMultiLangField = _.filter(fieldData, function (field) {
+            //     return field.multi_lang_table != "";
+            // }).length > 0 ? true : false;
+            // if (hasMultiLangField) {
+            //     columnsData.unshift({
+            //         type: 'textbox',
+            //         title: "Multi Lang",
+            //         field: "langAction",
+            //         align: "center",
+            //         width: 100,
+            //         formatter: function (value, row, index) {
+            //             return '<a  href="javascript:void(0)" onclick="editFieldMultiLang(' + index + ')">Edit</a>';
+            //         }
+            //
+            //     });
+            // }
+            // var dgData = {total: dataGridRows.length, rows: dataGridRows};
+            // $('#RS00202010_dt').datagrid({
+            //     columns: [columnsData],
+            //     remoteSort: false,
+            //     singleSelect: true,
+            //     selectOnCheck: true,
+            //     checkOnSelect: true,
+            //     // width: "100%", // error:左側打開後table會擠壓到右側欄位
+            //     data: dgData,
+            //     onClickCell: self.onClickCell,
+            //     onEndEdit: self.onEndEdit,
+            //     onDropColumn: self.doSaveColumnFields, //當移動順序欄位時
+            //     onResizeColumn: self.doSaveColumnFields,  //當欄位時寬度異動時
+            //     onSortColumn: function () {
+            //         $("#dgCheckbox").datagrid('uncheckAll');
+            //     }
+            //
+            // }).datagrid('columnMoving');
         }
     }
 });
