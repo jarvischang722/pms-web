@@ -1929,6 +1929,23 @@ var PSIW510030 = new Vue({
 
                 if (result.success) {
                     self.singleDataGridRows = result.data.psi_tmp_order_dt.tmp_order_dt;
+
+                    //轉格式和防空白
+                    _.each(self.singleDataGridRows, function (value) {
+                       if(value.ship_dat == null){
+                           value.ship_dat = self.singleData.ship_dat;
+                       }
+                       else {
+                           value.ship_dat = moment(value.ship_dat).format('YYYY/MM/DD');
+                       }
+                        if(value.nship_dat == null){
+                            value.nship_dat = self.singleData.ship_dat;
+                        }
+                        else {
+                            value.nship_dat = moment(value.nship_dat).format('YYYY/MM/DD');
+                        }
+                    });
+
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
                 }
                 if(result.errorMsg != "") alert(result.errorMsg);
@@ -1973,7 +1990,7 @@ var PSIW510030 = new Vue({
                 self.allChangeLogList = result.allChangeLogList;
                 self.allChangeLogList = _.filter(result.allChangeLogList, function (data) {
                     var order_nos = _.find(data.desc_mn, function (field) {
-                        return field.field_name.trim() == "ORDER_NOS";
+                        return field.field_name.trim() == "order_nos";
                     });
                     return _.isEqual(self.singleData.order_nos, order_nos.newVal);
                 });

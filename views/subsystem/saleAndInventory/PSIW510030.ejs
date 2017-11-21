@@ -300,16 +300,15 @@
                                         <td class="width-15">{{logData.event_time}}</td>
                                         <td class="width-10">{{logData.user}}</td>
                                         <td class="width-15">
-                                            <span v-for="keyData in logData.keys">{{keyData}}<br></span>
-                                        </td>
-                                        <td class="width-20">
                                             <div class="blue bold" style="text-transform: capitalize;">
                                                 {{logData.action }}
                                             </div>
+                                            <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        </td>
+                                        <td class="width-20">
                                             <span v-for="mnData in logData.desc_mn">
                                         {{mnData.field_name}} :
-                                        {{mnData.oldVal}}
-                                        <span v-if="logData.action == 'update'"> →  </span>
+                                        <span v-if="logData.action == 'update'">{{mnData.oldVal}} →  </span>
                                         {{mnData.newVal}}
                                         <br>
                                     </span>
@@ -317,14 +316,9 @@
                                         <td class="width-20">
                                             <template v-if="logData.desc_dt.length > 0">
                                                 <div v-for="dtLogData in logData.desc_dt">
-                                                    <div class="blue bold" style="text-transform: capitalize;">
-                                                        {{dtLogData.action }}
-                                                    </div>
                                                     <span v-for="dtData in dtLogData.changes">
                                                 {{dtData.field_name}} :
-                                                {{dtData.oldVal}}
-
-                                                <span v-if="dtLogData.action == 'update'"> →  </span>
+                                                <span v-if="dtLogData.action == 'update'">{{dtData.oldVal}} →  </span>
                                                 {{dtData.newVal}}
                                                        <br>
                                             </span>
