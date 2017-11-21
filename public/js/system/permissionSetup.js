@@ -59,7 +59,6 @@ var PermissionVM = new Vue({
                 PermissionVM.ga_compGrpList = result.compGrpList;
                 PermissionVM.combineCompGrpTree();
                 PermissionVM.createAccountTree();
-                console.log(result);
             });
         },
         //選擇角色觸發Event
@@ -100,7 +99,7 @@ var PermissionVM = new Vue({
                     PermissionVM.compGrpList4Tree.push({
                         id: account.usr_id,
                         parent: account.grp_id,
-                        text: account.usr_cname
+                        text: account.usr_cname+"("+account.usr_id+")"
                     });
                 });
             });
