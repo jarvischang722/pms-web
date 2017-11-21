@@ -4,6 +4,25 @@ var singlePage = Vue.extend({
     template: "#RS00202010Tmp",
     data: function () {
         return {
+            singleData: {},
+
+            createStatus: false,        //新增狀態
+            editStatus: false,          //編輯狀態
+            deleteStatus: false,        //刪除狀態
+
+            isModificable: false,       //決定是否可以修改資料
+            isModificableFormat: false,  //決定是否可以修改訂單格式
+
+            addEnable: true,
+            editEnable: false,
+            deleteEnable: false,
+            cnfirmEnable: false,
+            cancelEnable: false,
+            saveEnable: false,
+            dropEnable: false,
+
+            dgIns: {},
+
             startTime: "",
             endTime: ""
         };
