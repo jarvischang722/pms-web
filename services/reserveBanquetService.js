@@ -12,7 +12,7 @@ let ruleRootPath = appRootDir + "/ruleEngine/";
 let ReturnClass = require(ruleRootPath + "/returnClass");
 let ErrorClass = require(ruleRootPath + "/errorClass");
 
-//[RS00202010] 取格萊天漾查詢頁資料
+//[RS0W202010] 取格萊天漾查詢頁資料
 exports.qryPageOneData = function (postData, session, callback) {
     let lo_error = null;
     let lo_result = new ReturnClass();
@@ -46,7 +46,7 @@ exports.qryPageOneData = function (postData, session, callback) {
 
 };
 
-//[RS00202010] 將資料轉換為顯示用格式
+//[RS0W202010] 將資料轉換為顯示用格式
 function convertDataToDisplay(la_data, la_sta) {
     let lo_resvBanquetData = new ResvBanquetData(la_data, la_sta);
     let lo_converData = lo_resvBanquetData.convertExec();
@@ -283,3 +283,26 @@ class ResvBanquetData {
     }
 }
 
+//[RS0W202010] 取格萊天漾查詢頁資料
+exports.qryPageTwoData = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+        bquet_nos: postData.bquet_nos
+    };
+
+    queryAgent.query("QRY_BQUET_MN_SINGLE", lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
