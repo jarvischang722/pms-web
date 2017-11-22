@@ -49,6 +49,7 @@
 }
 .grid-item .moreClick {
   font-size: 13px;
+  width: 23px;
   height: 25px;
   border: 1px solid #d5d5d5;
   background: #d5d5d5;
@@ -1561,6 +1562,9 @@ table.treetable span.indenter {
 body {
   font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -4319,6 +4323,10 @@ td div.act-box span.act-text {
   margin-left: 5px;
 }
 
+.ml-6 {
+  margin-left: 6px;
+}
+
 .ml-7 {
   margin-left: 7px;
 }
@@ -4337,6 +4345,10 @@ td div.act-box span.act-text {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.mlr-3 {
+  margin: auto 3px;
 }
 
 .mlr-4 {
@@ -5007,7 +5019,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-m {
-  width: 72px;
+  width: 70px;
   max-width: 100%;
   height: 25px;
 }
@@ -5057,7 +5069,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-2xs {
-  width: 32.5px;
+  width: 34px;
   max-width: 100%;
   height: 25px;
 }

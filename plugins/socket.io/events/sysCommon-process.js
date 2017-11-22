@@ -68,9 +68,9 @@ module.exports = function (io) {
      * @param go_session {Object}
      * @param clientData {Object} :{
      *    prg_id {String} : 程式編號
-     *    table_name {String} : 程式編號
+     *    table_name {String} : 資料表
      *    lock_type {String} : T -> table lock 或 R -> row lock
-     *    key_cod {key_cod} : 程式編號
+     *    key_cod {String} : row key
      * }
      */
     function doTableLock(socket, go_session, clientData) {
@@ -105,22 +105,16 @@ module.exports = function (io) {
      * @param go_session {Object}
      * @param clientData {Object} :{
      *    prg_id {String} : 程式編號
-     *    table_name {String} : 程式編號
-     *    lock_type {String} : T -> table lock 或 R -> row lock
-     *    key_cod {key_cod} : 程式編號
      * }
      */
     function doTableUnlock(socket, go_session, clientData) {
         try {
             let socket_id = socket.client.id;
             let prg_id = clientData.prg_id || "";
-            let table_name = clientData.table_name || "";
-            let lock_type = clientData.lock_type || "T";
-            let key_cod = clientData.key_cod || "";
 
-            if (clientData && _.isEqual(clientData.lock_type,"R") && !_.isEmpty(key_cod) && !_.isEmpty(table_name)) {
-
-                dbSVC.doTableUnLock(prg_id, table_name, go_session.user, lock_type, key_cod, socket_id, function (errorMsg, success) {
+            if (clientData && !_.isEmpty(prg_id)) {
+                let lo_singleSocketData = _.findWhere(ga_lockedPrgIDList, {socket_id: socket_id, lockingPrgID: prg_id});
+                dbSVC.doTableUnLock(prg_id, lo_singleSocketData.table_name, go_session.user, lo_singleSocketData.lock_type, lo_singleSocketData.key_cod, socket_id, function (errorMsg, success) {
                     deleteLockList(clientData);
                 });
             } else {
@@ -164,8 +158,7 @@ module.exports = function (io) {
         ga_lockedPrgIDList = _.filter(ga_lockedPrgIDList, function (socketData) {
             return _.findIndex(ga_lockedPrgIDList, {
                 socket_id: socketData.socket_id,
-                lock_type: clientData.lock_type || "T",
-                key_cod: clientData.key_cod || ""
+                lockingPrgID: clientData.lockingPrgID || ""
             }) == -1;
         });
 
