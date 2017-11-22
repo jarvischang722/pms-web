@@ -59,9 +59,7 @@ var singlePage = Vue.extend({
                 {
                     bquet_nos: bquet_nos
                 };
-
             $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
-
                 if (!_.isUndefined(result.data)) {
                     self.singleData = result.data;
                     console.log(self.singleData);
