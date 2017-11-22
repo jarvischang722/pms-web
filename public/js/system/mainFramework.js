@@ -3,6 +3,7 @@ var gf_chkSessionInterval;
 
 var BacchusMainVM = new Vue({
     el: '#BacchusMainApp',
+    components: {Treeselect: VueTreeselect.Treeselect},
     data: {
         usingSubsysID: '',
         usingPrgID: '',
