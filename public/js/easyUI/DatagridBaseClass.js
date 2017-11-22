@@ -170,7 +170,10 @@ function DatagridBaseClass() {
             var editors = $('#' + self.dgName).datagrid('getEditors', index);
             var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
 
-            $(lo_editor.target).textbox('setValue', ls_field_name);
+            if(!_.isUndefined(lo_editor)){
+                $(lo_editor.target).textbox('setValue', ls_field_name);
+            }
+
         });
     };
 
@@ -293,37 +296,48 @@ function DatagridBaseClass() {
         //判斷資料有無在暫存裡, 如果有先刪掉
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
         if (existIdx > -1) {
-            self.tmpCUD.oriUpdateData.splice(existIdx, 1);
+            if (this.dtOriRowData.length != 0) {
+                self.tmpCUD.oriUpdateData.splice(existIdx, 1);
+            }
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
 
-        //判斷資料有無跟原始資料重複
-        var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
-        if (dataType == "updateData") {
-            if (existOriIdx > -1 && existIdx == -1) {
-                self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
-                this.tmpCUD[dataType].splice(existOriIdx, 1);
-            }
-
-            lo_chkKeyRowData["mnRowData"] = this.mnRowData;
-            lo_chkKeyRowData["tab_page_id"] = 1;
-            lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-            self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
-            self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
-            $("#gridEdit").val(self.tmpCUD);
-        }
-        else if (dataType == "createData") {
-            if(existOriIdx == -1){
-                lo_chkKeyRowData["mnRowData"] = this.mnRowData;
-                lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
-                lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-
-                self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+        // 作業才需要判斷舊值
+        if (this.dtOriRowData.length != 0) {
+            //判斷資料有無跟原始資料重複
+            var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
+            if (dataType == "updateData") {
+                if (existOriIdx > -1 && existIdx == -1) {
+                    self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
+                    this.tmpCUD[dataType].splice(existOriIdx, 1);
+                }
+                lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
+                self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
+                self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
                 $("#gridEdit").val(self.tmpCUD);
             }
+            else if (dataType == "createData") {
+                if (existOriIdx == -1) {
+                    lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
+                    self.tmpCUD[dataType].push(lo_chkKeyRowData);
+                    self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+                    $("#gridEdit").val(self.tmpCUD);
+                }
+            }
         }
+        // 設定檔
+        else{
+            self.tmpCUD[dataType].push(lo_chkKeyRowData);
+            $("#gridEdit").val(self.tmpCUD);
+        }
+
+    };
+
+    this.insertKeyRowData = function(lo_chkKeyRowData){
+        lo_chkKeyRowData["mnRowData"] = this.mnRowData;
+        lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
+        lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
+        return lo_chkKeyRowData;
     };
 
     /**
