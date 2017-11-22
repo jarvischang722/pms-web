@@ -216,11 +216,13 @@ module.exports = {
     // }
 };
 
+//因為multitree套件的關係，所以原本的value改為id
 class node {
     constructor(lo_rowData) {
         this.parent_cod = lo_rowData.parent_cod;
         this.label = lo_rowData.area_nam;
-        this.value = lo_rowData.area_cod;
+        //this.value = lo_rowData.area_cod;
+        this.id = lo_rowData.area_cod;
     }
 }
 
@@ -243,7 +245,7 @@ function initTreeData(selectData){
 
 function convertData2TreeData(lo_selectRowData, lo_parent_node){
     let la_rowData = _.filter(lo_selectRowData, function (lo_rowData) {
-        return lo_rowData.parent_cod.trim() == lo_parent_node.value;
+        return lo_rowData.parent_cod.trim() == lo_parent_node.id;
     });
 
     if (la_rowData.length != 0) {
@@ -253,5 +255,8 @@ function convertData2TreeData(lo_selectRowData, lo_parent_node){
             convertData2TreeData(lo_selectRowData, lo_node);
             lo_parent_node.children.push(lo_node);
         });
+    }
+    else{
+        lo_parent_node.value = _.clone(lo_parent_node.id);
     }
 }

@@ -344,9 +344,33 @@ var vm = new Vue({
                 moment(new Date(lo_searchCond["avisit_dat"])).format("YYYY/MM/DD");
             lo_searchCond["visit_dat"] = (lo_searchCond["visit_dat"] == "")? "" :
                 moment(new Date(lo_searchCond["visit_dat"])).format("YYYY/MM/DD");
-            lo_searchCond["area_cod"] = (lo_searchCond["area_cod"] == "")? "" :
-                lo_searchCond["area_cod"][lo_searchCond["area_cod"].length -1];
 
+            if (this.searchFields.length != 0) {
+                if(lo_searchCond["area_cod"].length != 0){
+                    let la_options = [];
+                    let la_areaCodVal = _.clone(lo_searchCond["area_cod"]);
+                    lo_searchCond["area_cod"] = [];
+
+                    _.each(this.searchFields, function(lo_searchField) {
+                        if (lo_searchField.ui_field_name == 'area_cod') {
+                            la_options = lo_searchField.selectData;
+                        }
+                    });
+
+                    _.each(la_areaCodVal, function (ls_value) {
+                        var lo_selectData = _.findWhere(la_options, {id: ls_value});
+                        if (_.isUndefined(lo_selectData)) {
+                            searchOptions(la_options, ls_value, lo_searchCond["area_cod"]);
+                        }
+                        else if (_.isUndefined(lo_selectData.value)) {
+                            searchValue(lo_selectData.children, lo_searchCond["area_cod"]);
+                        }
+                        else {
+                            lo_searchCond["area_cod"].push(lo_selectData.value);
+                        }
+                    });
+                }
+            }
 
             var lo_params = {
                 prg_id: "PMS0620050",
@@ -410,3 +434,31 @@ var vm = new Vue({
         "search-comp": go_searchComp
     }
 });
+
+function searchValue(la_children, ls_selectData){
+    _.each(la_children, function(lo_children){
+        if(_.isUndefined(lo_children.value)){
+            searchValue(lo_children.children, ls_selectData);
+        }
+        else{
+            ls_selectData.push(lo_children.value);
+            return;
+        }
+    });
+}
+
+function searchOptions(la_options, ls_value, la_selectData){
+    _.each(la_options, function(lo_option){
+        var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
+        if(_.isUndefined(lo_childrenOptions)){
+            searchOptions(lo_option.children, ls_value, la_selectData);
+        }
+        else if(_.isUndefined(lo_childrenOptions.value)){
+            searchValue(lo_childrenOptions.children, la_selectData);
+        }
+        else{
+            la_selectData.push(lo_childrenOptions.value);
+            return;
+        }
+    });
+}

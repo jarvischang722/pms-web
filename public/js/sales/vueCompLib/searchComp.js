@@ -134,22 +134,7 @@ var go_searchComp = Vue.extend({
     data: function () {
         return {
             searchFieldsByRow: [],
-            selectPopUpGridData: [],
-            value: [],
-            options: [ {
-
-                label: 'a',
-                children: [ {
-                    id: 'aa',
-                    label: 'aa',
-                }, {
-                    id: 'ab',
-                    label: 'ab',
-                } ],
-            }, {
-                id: 'b',
-                label: 'b',
-            } ],
+            selectPopUpGridData: []
         };
     },
     created: function () {

@@ -246,6 +246,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
                     //攤平資料(將資料降維成二維)
+                    //TODO 維度扁平化不夠
                     var list = _(go_rtnResult).chain()
                         .zip(_(go_rtnResult).pluck('children'))
                         .flatten()
@@ -367,6 +368,7 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
+            console.log(this.classCodSelectedOption);
             var self = this;
             this.isLoadingDialog = true;
             this.loadingText = "Saving...";
