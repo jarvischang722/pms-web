@@ -11,20 +11,38 @@ const queryAgent = require("../plugins/kplug-oracle/QueryAgent");
 const mongoAgent = require("../plugins/mongodb");
 const sysConfig = require("../configs/systemConfig");
 const tools = require("../utils/CommonTools");
-const dgProc = require("./common/fetchDataModule");
+const fetechDataModule = require("./common/fetchDataModule");
 
-// 取作業多筆資料
-exports.fetchDataGridFieldData = function (postData, session, callback) {
-    let lo_dgProc = new dgProc(postData, session);
+// 取作業多筆欄位資料
+exports.fetchDgFieldData = function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
-    async.parallel([
-        lo_dgProc.fetchFieldData,   //取多筆欄位資料
-        lo_dgProc.fetchRowData      //取多筆資料
-    ], function (err, result) {
+    async.parallel({
+        fetchFieldsResult: lo_dgProc.fetchDgFieldsData,   //取多筆欄位資料
+        fetchRowsResult: lo_dgProc.fetchDgRowData      //取多筆資料
+    }, function (err, result) {
         let lo_rtnData = {
-            searchFields: result[0].searchFields,
-            dgFieldsData: result[0].dgFieldsData,
-            dgRowData: result[1]
+            searchFields: result.fetchFieldsResult.searchFields,
+            dgFieldsData: result.fetchFieldsResult.dgFieldsData,
+            dgRowData: result.fetchRowsResult
+        };
+        callback(err, lo_rtnData);
+    });
+};
+
+/**
+ * 取作業單筆欄位資料
+ */
+exports.fetchGsFieldData = function (postData, session, callback) {
+    let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
+
+    async.parallel({
+        gsFieldsData: lo_gsProc.fetchGsFieldsData,
+        gsRowData: lo_gsProc.fetchGsRowData
+    }, function (err, result) {
+        let lo_rtnData = {
+            gsFieldsData: result.gsFieldsData,
+            gsRowData: result.gsRowData
         };
         callback(err, lo_rtnData);
     });

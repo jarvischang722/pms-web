@@ -7,15 +7,14 @@ const moment = require("moment");
 const _ = require("underscore");
 const async = require("async");
 
-const appRootDir = path.dirname(require.main.filename);
-const ruleAgent = require(appRootDir + "/ruleEngine/ruleAgent");
-const queryAgent = require(appRootDir + "/plugins/kplug-oracle/QueryAgent");
-const mongoAgent = require(appRootDir + "/plugins/mongodb");
-const sysConfig = require(appRootDir + "/configs/systemConfig");
-const tools = require(appRootDir + "/utils/CommonTools");
-const dataRuleSvc = require(appRootDir + "/services/DataRuleService");
-const fieldAttrSvc = require(appRootDir + "/services/FieldsAttrService");
-const langSvc = require(appRootDir + "/services/LangService");
+const ruleAgent = require("../../ruleEngine/ruleAgent");
+const queryAgent = require("../../plugins/kplug-oracle/QueryAgent");
+const mongoAgent = require("../../plugins/mongodb");
+const sysConfig = require("../../configs/systemConfig");
+const tools = require("../../utils/CommonTools");
+const dataRuleSvc = require("../../services/DataRuleService");
+const fieldAttrSvc = require("../../services/FieldsAttrService");
+const langSvc = require("../../services/LangService");
 
 let go_session;
 let go_searchCond;
@@ -23,7 +22,7 @@ let gs_prg_id;
 let gn_page_id;
 
 // 多筆流程
-function DataGridProcModule(postData, session) {
+exports.DataGridProc = function (postData, session) {
     gn_page_id = postData.page_id || 1;
     go_session = session;
     gs_prg_id = postData.prg_id;
@@ -33,12 +32,12 @@ function DataGridProcModule(postData, session) {
      * 查詢欄位資料
      * @param callback
      */
-    this.fetchFieldData = function (callback) {
+    this.fetchDgFieldsData = function (callback) {
         async.waterfall([
-            qryUIDatagridField,     //取多筆欄位資料
-            qryLangUIField,         //欄位多語系
-            qrySelectOption,        //查詢SelectOption
-            qrySearchField          //取搜尋欄位
+            qryUIDatagridFields,     //取多筆欄位資料
+            qryLangUIFields,         //欄位多語系
+            qrySelectOption,         //查詢SelectOption
+            qrySearchFields          //取搜尋欄位
         ], function (err, result) {
             callback(err, result);
         });
@@ -48,7 +47,7 @@ function DataGridProcModule(postData, session) {
      * 查詢oracle資料
      * @param callback
      */
-    this.fetchRowData = function (callback) {
+    this.fetchDgRowData = function (callback) {
         async.waterfall([
             qryTemplateRf,     //查詢templateRf
             qryRowData,        //查詢多筆資料
@@ -58,7 +57,33 @@ function DataGridProcModule(postData, session) {
             callback(err, result);
         });
     };
-}
+};
+
+// 單筆流程
+exports.GridSingleProc = function (postData, session) {
+    gn_page_id = postData.page_id || 1;
+    go_session = session;
+    gs_prg_id = postData.prg_id;
+    go_searchCond = postData.searchCond || {}; //搜尋條件
+
+    /**
+     * 查詢單筆欄位資料
+     */
+    this.fetchGsFieldsData = function (callback) {
+        async.waterfall([
+            qryUIPageFields
+        ], function(err, result){
+            callback(err, result);
+        });
+    };
+
+    /**
+     * 查詢單筆資料
+     */
+    this.fetchGsRowData = function (callback) {
+        callback(null, "");
+    };
+};
 
 /**
  * 查詢templateRf
@@ -70,7 +95,7 @@ function qryTemplateRf(callback) {
     }, function (err, result) {
         callback(err, result);
     });
-};
+}
 
 /**
  * 查詢多筆資料
@@ -81,14 +106,14 @@ function qryRowData(lo_rfData, callback) {
     queryAgent.queryList(ls_rule_func_name.toLocaleUpperCase(), lo_params, 0, 0, function (err, result) {
         callback(err, result);
     });
-};
+}
 
 /**
  * 取多筆欄位資料
  * @param lo_params {object} 查詢條件
  * @param callback
  */
-function qryUIDatagridField(callback) {
+function qryUIDatagridFields(callback) {
     //抓使用者及預設欄位
     let lo_params = {
         $or: [
@@ -110,7 +135,20 @@ function qryUIDatagridField(callback) {
         }
         callback(err, la_fieldData);
     });
-};
+}
+
+/**
+ * 取單筆欄位資料
+ */
+function qryUIPageFields(callback){
+    mongoAgent.UIPageField.find({
+        prg_id: gs_prg_id,
+        page_id: gn_page_id
+    }, function(err, result){
+        let la_gsFieldsData = result;
+        callback(err, la_gsFieldsData);
+    });
+}
 
 /**
  * 欄位多語系
@@ -118,7 +156,7 @@ function qryUIDatagridField(callback) {
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-function qryLangUIField(la_dgFieldData, callback) {
+function qryLangUIFields(la_dgFieldData, callback) {
     let lo_params = {
         prg_id: gs_prg_id,
         page_id: gn_page_id
@@ -135,7 +173,7 @@ function qryLangUIField(la_dgFieldData, callback) {
         });
         callback(err, la_dgFieldData);
     });
-};
+}
 
 /**
  * 查詢下拉Option
@@ -226,14 +264,14 @@ function qrySelectOption(la_dgFieldData, callback) {
             );
         }
     }
-};
+}
 
 /**
  * 查詢搜尋欄位
  * @param la_dgFieldData {array} 所有多筆欄位資料
  * @param callback
  */
-function qrySearchField(la_dgFieldData, callback) {
+function qrySearchFields(la_dgFieldData, callback) {
     fieldAttrSvc.getAllUIPageFieldAttr({
         prg_id: gs_prg_id,
         page_id: 3,
@@ -245,7 +283,7 @@ function qrySearchField(la_dgFieldData, callback) {
         };
         callback(null, lo_rtnData);
     });
-};
+}
 
 /**
  * 判斷傳入參數數量(實作多型功能)
@@ -263,7 +301,7 @@ function chkParam(args) {
         lo_callback = args[1];
     }
     return {callback: lo_callback, data: lo_data};
-};
+}
 
 /**
  * 過濾掉無效條件
@@ -284,7 +322,7 @@ function filterSearchCond() {
     });
 
     return lo_params;
-};
+}
 
 /**
  * 依搜尋條件過濾多筆資料
@@ -305,7 +343,7 @@ function filterRowData(la_dgRowData, callback) {
     } else {
         callback(null, la_dgRowData);
     }
-};
+}
 
 /**
  * 多筆資料多語系
@@ -316,6 +354,4 @@ function rowDataMultiLang(la_dgRowData, callback) {
     langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
         callback(null, Rows);
     });
-};
-
-exports.DataGridProcModule = DataGridProcModule;
+}
