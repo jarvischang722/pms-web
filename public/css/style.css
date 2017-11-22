@@ -279,7 +279,6 @@
   border: 1px solid #d5d5d5;
   background: #d5d5d5;
   border-radius: 5px;
-  padding: 3px 5px 4px 5px;
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -2166,15 +2165,6 @@ a {
 }
 .search-content .search-co .search-co-content .grid-item label.more-Word {
   margin: 0 0 0 -68px;
-}
-.search-content .search-co .search-co-content .grid-item .moreClick {
-  height: 25px;
-  border: 1px solid #d5d5d5;
-  background: #d5d5d5;
-  border-radius: 5px;
-  padding: 3px 5px 4px 5px;
-  box-sizing: border-box;
-  cursor: pointer;
 }
 .search-content .search-co .search-co-content .search-footer-btn {
   position: absolute;
