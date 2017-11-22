@@ -86,7 +86,7 @@ exports.getSingleDataMN = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        order_nos: params.postData.order_nos
+        order_nos: params.order_nos
     };
 
     queryAgent.query("QRY_PSI_QUOTE_SINGLE_MN", lo_params, function (err, Result) {
@@ -117,7 +117,7 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        order_nos: params.postData.order_nos
+        order_nos: params.order_nos
     };
 
     queryAgent.queryList("QRY_PSI_QUOTE_SINGLE_DT", lo_params, 0, 0, function (err, Result) {

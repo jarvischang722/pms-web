@@ -6,9 +6,7 @@
 
 //ps. Row Lock 要傳的參數其中 table_name跟key_code寫反了(參照ERP的寫法)
 
-
 var prg_id = "PSIW510030";
-var go_current_row;
 
 var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
@@ -31,8 +29,7 @@ DatagridRmSingleGridClass.prototype.onClickCell = function (idx, row) {};
 DatagridRmSingleGridClass.prototype.onClickRow = function (idx, row) {
     if(!PSIW510030.createStatus && !PSIW510030.editStatus) {
 
-        PSIW510030.fetchSingleData(row);
-        go_current_row = row;
+        PSIW510030.fetchSingleData(row.order_nos);
 
         PSIW510030.addEnable = true;
         PSIW510030.editEnable = true;
@@ -1098,14 +1095,14 @@ var PSIW510030 = new Vue({
         /**
          * 取得單筆資料
          */
-        fetchSingleData: function (editingRow) {
+        fetchSingleData: function (order_nos) {
 
             var self = this;
 
             //撈單筆MN
             var lo_params = {
                 func : "getSingleDataMN",
-                postData: editingRow
+                order_nos: order_nos
             };
             this.isLoading = true;
             $.post("/api/getQueryResult", lo_params, function (result) {
@@ -1147,7 +1144,7 @@ var PSIW510030 = new Vue({
             //撈單筆DT
             lo_params = {
                 func : "getSingleDataDT",
-                postData: editingRow
+                order_nos: order_nos
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
@@ -1647,9 +1644,10 @@ var PSIW510030 = new Vue({
                 if(self.createStatus) {  //新增狀態，多筆重撈
                     self.singleData.order_nos = data.order_nos;
                     self.loadDataGrid();
+                    self.fetchSingleData(self.singleData.order_nos);
                 }
                 else{               //修改狀態，單筆重撈
-                    self.fetchSingleData(go_current_row);
+                    self.fetchSingleData(self.singleData.order_nos);
                     self.doRowUnLock();
                 }
                 self.createStatus = false;
@@ -1778,14 +1776,14 @@ var PSIW510030 = new Vue({
                 case "approved":
                     self.callAPI('PSIW5100301010',function () {
                         alert('核准成功!');
-                        self.fetchSingleData(go_current_row);
+                        self.fetchSingleData(self.singleData.order_nos);
                         self.doRowUnLock();
                     });
                     break;
                 case "cancel":
                     self.callAPI('PSIW5100301020',function () {
                         alert('取消核准成功!');
-                        self.fetchSingleData(go_current_row);
+                        self.fetchSingleData(self.singleData.order_nos);
                         self.doRowUnLock();
                     });
                     break;
