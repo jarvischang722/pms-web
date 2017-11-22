@@ -28,8 +28,11 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
-.grid-item .input-medium, .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item input, .grid-item textarea, .grid-item button {
+.grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option {
   font-size: 13px !important;
+}
+.grid-item .input-medium {
+  font-size: 12px !important;
 }
 .grid-item span.subtxt {
   margin: auto 2px auto auto;
@@ -5028,7 +5031,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-col2Spec1 {
-  width: 256px;
+  width: 258px;
   max-width: 100%;
   height: 25px;
 }
