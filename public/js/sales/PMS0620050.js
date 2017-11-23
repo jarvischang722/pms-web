@@ -294,7 +294,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 }
 
                 //有format
-                if (lo_field.format_func_name != "" && lo_field.ui_field_name != "traffic_amt") {
+                if (lo_field.format_func_name != "" && !_.isUndefined(go_validateClass[lo_field.format_func_name])) {
                     lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_checkResult.success == false) {
                         break;
