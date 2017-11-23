@@ -433,7 +433,6 @@ var vm = new Vue({
                     _.each(this.searchFields, function (lo_searchField) {
                         if (lo_searchField.ui_field_name == 'area_cod') {
                             la_options = lo_searchField.selectData;
-                            console.log(la_options);
                         }
                     });
 
