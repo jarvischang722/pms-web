@@ -20,3 +20,30 @@
     "hotel_cod" : "", 
     "lock_key" : ""
 }
+{ 
+    "_id" : ObjectId("5a152547eaa54922546f985f"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0520", 
+    "trans_code" : "RS0W2020100520"
+}
+{ 
+    "_id" : ObjectId("5a152547eaa54922546f9860"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "func_id" : "0540", 
+    "trans_code" : "RS0W2020100540"
+}
+{ 
+    "_id" : ObjectId("5a152547eaa54922546f9861"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "2030", 
+    "trans_code" : "RS0W2020102030"
+}
