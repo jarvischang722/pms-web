@@ -97,38 +97,45 @@
                             <ul>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="toFirstData" :disabled="BTN_action || isFirstData">First
+                                            @click="toFirstData" :disabled="BTN_action || isFirstData">
+                                        <%= __("SystemCommon")["First"]%>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="toPreData" :disabled="BTN_action || isFirstData">Previous
+                                            @click="toPreData" :disabled="BTN_action || isFirstData">
+                                        <%= __("SystemCommon")["Previous"]%>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="toNextData" :disabled="BTN_action || isLastData">Next
+                                            @click="toNextData" :disabled="BTN_action || isLastData">
+                                        <%= __("SystemCommon")["Next"]%>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="toLastData" :disabled="BTN_action || isLastData">Last
+                                            @click="toLastData" :disabled="BTN_action || isLastData">
+                                        <%= __("SystemCommon")["Last"]%>
                                     </button>
                                 </li>
 
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
-                                            @click="doDelGrid">Delete
+                                            @click="doDelGrid">
+                                        <%= __("SystemCommon")["Delete"]%>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="doSaveGrid">Save
+                                            @click="doSaveGrid">
+                                        <%= __("SystemCommon")["Save"]%>
                                     </button>
                                 </li>
                                 <li>
                                     <button class="btn btn-danger btn-white btn-defaultWidth" role="button"
-                                            @click="doCloseDialog">Quit
+                                            @click="doCloseDialog">
+                                        <%= __("SystemCommon")["Leave"]%>
                                     </button>
                                 </li>
                             </ul>

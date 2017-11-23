@@ -178,6 +178,9 @@
       "group_change_record": "組別異動紀錄",
       "saveSuccess": "儲存成功",
       "delSuccess": "刪除成功"
+    },
+    "PMS0620050": {
+      "edit_vist_mn": "修改拜訪紀錄"
     }
   },
   "table_in_use": "%s 使用中",

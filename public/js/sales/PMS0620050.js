@@ -433,6 +433,7 @@ var vm = new Vue({
                     _.each(this.searchFields, function (lo_searchField) {
                         if (lo_searchField.ui_field_name == 'area_cod') {
                             la_options = lo_searchField.selectData;
+                            console.log(la_options);
                         }
                     });
 
@@ -489,7 +490,7 @@ var vm = new Vue({
             var dialog = $('#singleGridPMS0620050').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
-                title: "修改拜訪記錄",
+                title: go_i18nLang["program"]["PMS0620050"].edit_vist_mn,
                 width: 700,
                 maxHeight: 1920,
                 resizable: true
