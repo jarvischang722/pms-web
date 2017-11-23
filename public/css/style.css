@@ -375,7 +375,7 @@
 }
 
 h3 {
-  font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, "Helvetica Neue", Microsoft JhengHei, Helvetica, sans-serif;
 }
 
 .modal-body {
@@ -754,7 +754,7 @@ label {
 
 .fancyTable {
   /* text */
-  font-family: Microsoft JhengHei, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: Arial, "Helvetica Neue", Microsoft JhengHei, Helvetica, sans-serif;
 }
 .fancyTable td, .fancyTable th {
   /* appearance */
@@ -4677,7 +4677,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1Rm {
-  width: 143px;
+  width: 142px;
   max-width: 100%;
   height: 25px;
 }
@@ -4717,12 +4717,12 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-sc2-col2Rm {
-  width: 681px;
+  width: 680px;
   max-width: 100%;
   height: 25px;
 }
 .input-medium.medium-c1-sc2Rm {
-  width: 277.5px;
+  width: 276.5px;
   max-width: 100%;
   height: 25px;
 }
@@ -4817,7 +4817,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-card-3 {
-  width: 190px;
+  width: 189px;
   max-width: 100%;
   height: 25px;
 }
@@ -4932,7 +4932,7 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1-col2Rm {
-  width: 392px;
+  width: 391px;
   max-width: 100%;
   height: 25px;
 }
@@ -4952,7 +4952,7 @@ a {
   height: 25px;
 }
 .input-medium.popWindow-s1v2-col2Rm {
-  width: 205px;
+  width: 204px;
   max-width: 100%;
   height: 25px;
 }
