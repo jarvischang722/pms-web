@@ -1,8 +1,4 @@
 @charset "UTF-8";
-body {
-  font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
