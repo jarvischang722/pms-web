@@ -14,10 +14,22 @@ var ErrorClass = require(ruleRootPath + "/errorClass");
 
 module.exports = {
 
+    amountFormat: function (postData, session, callback) {
+        var lo_params = {
+            athena_id: session.athena_id
+        };
+
+        queryAgent.query("QRY_TRAFFIC_AMT_FORMAT", lo_params, function (err, result) {
+            postData.format_func_name = result.amtformat;
+            postData.visiable = 'Y';
+            callback(null, [postData]);
+        });
+    },
+
     /**
      * PMS0620050 搜尋列 cust_cod下拉資料 popupgrid
      */
-    sel_cust_mn: function(postData, session, callback){
+    sel_cust_mn: function (postData, session, callback) {
         var lo_params = {
             athena_id: session.user.user_athena_id
         };
@@ -54,7 +66,7 @@ module.exports = {
     /**
      * PMS0620050 搜尋列 sales_cod 下拉資料 popupgrid
      */
-    sel_sales_mn: function(postData, session, callback){
+    sel_sales_mn: function (postData, session, callback) {
         var lo_params = {
             athena_id: session.user.user_athena_id
         };
@@ -91,7 +103,7 @@ module.exports = {
     /**
      * PMS0620050 搜尋列 business_cod 下拉資料 popupgrid
      */
-    sel_business_rf: function(postData, session, callback){
+    sel_business_rf: function (postData, session, callback) {
         var lo_params = {
             athena_id: session.user.user_athena_id
         };
@@ -128,7 +140,7 @@ module.exports = {
     /**
      * PMS0620050 搜尋列 purport_rmk 下拉資料 popupgrid
      */
-    sel_remark_typ_rf: function(postData, session, callback){
+    sel_remark_typ_rf: function (postData, session, callback) {
         var lo_params = {
             athena_id: session.user.user_athena_id
         };
@@ -227,7 +239,7 @@ class node {
 }
 
 //因為 this 指向的關係，所以將 initTreeData、convertData2TreeData 從module.exports 的屬性移至外面 做為額外的 function
-function initTreeData(selectData){
+function initTreeData(selectData) {
     let la_selectData = [];
     let _this = this;
     let la_root = _.filter(selectData, function (lo_rowData) {
@@ -243,7 +255,7 @@ function initTreeData(selectData){
     return la_selectData;
 }
 
-function convertData2TreeData(lo_selectRowData, lo_parent_node){
+function convertData2TreeData(lo_selectRowData, lo_parent_node) {
     let la_rowData = _.filter(lo_selectRowData, function (lo_rowData) {
         return lo_rowData.parent_cod.trim() == lo_parent_node.id;
     });
@@ -256,7 +268,7 @@ function convertData2TreeData(lo_selectRowData, lo_parent_node){
             lo_parent_node.children.push(lo_node);
         });
     }
-    else{
+    else {
         lo_parent_node.value = _.clone(lo_parent_node.id);
     }
 }

@@ -53,15 +53,29 @@ Vue.component('single-grid-pms0620050-tmp', {
                     this.isLastData = true;
                 }
 
-            } else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+            }
+            else if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
                 //已經到最後一筆
                 this.isFirstData = false;
                 this.isLastData = true;
-            } else {
+            }
+            else {
 
                 this.isFirstData = false;
                 this.isLastData = false;
             }
+        },
+        singleData: function (val) {
+            var ln_amtValue = _.clone(val['traffic_amt']);
+            var lo_amtField = {};
+
+            _.each(this.oriFieldsData, function (lo_field) {
+                if (lo_field.ui_field_name == 'traffic_amt') {
+                    lo_amtField = lo_field;
+                }
+            });
+
+            this.formatAmt(ln_amtValue, lo_amtField);
         }
     },
     methods: {
@@ -98,6 +112,57 @@ Vue.component('single-grid-pms0620050-tmp', {
                     console.error(result.errorMsg);
                 }
             });
+        },
+        formatAmt: function (amtValue, field) {
+            var ls_amtValue = _.clone(amtValue).toString();
+            var ls_oriAmtValue = '';
+
+            if (ls_amtValue.indexOf(',') > -1) {
+                var la_splitAmtValue = ls_amtValue.split(',');
+                _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                    ls_oriAmtValue = ls_oriAmtValue + ls_splitAmtValue;
+                });
+            }
+            else {
+                ls_oriAmtValue = ls_amtValue;
+            }
+
+            ls_oriAmtValue = Number(ls_oriAmtValue);
+
+            var patternValue = field.format_func_name;
+
+            var patternLength = patternValue.indexOf('.') > -1 ?
+                patternValue.slice(0, patternValue.indexOf('.')).length - 1 : patternValue.length - 1;
+
+            //幾位小數
+            var numberOfDecimals = patternValue.indexOf('.') > -1 ?
+                patternValue.slice(patternValue.indexOf('.') + 1, patternValue.length).length : 0;
+            //幾位數一個逗號
+            var commaPosition = patternLength - patternValue.lastIndexOf(',');
+
+            var reStr = '\\d(?=(\\d{' + (commaPosition || 3) + '})+' + (numberOfDecimals > 0 ? '\\.' : '$') + ')';
+
+            ls_oriAmtValue = ls_oriAmtValue.toFixed(numberOfDecimals).toString().replace(new RegExp(reStr, 'g'), '$&,');
+
+            this.singleData[field.ui_field_name] = ls_oriAmtValue;
+        },
+        chkClickPopUpGrid: function (field) {
+            var self = this;
+            if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
+                var params = {
+                    prg_id: "PMS0620050",
+                    fields: field
+                };
+
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        self.selectPopUpGridData = result.showDataGrid;
+                        result.fieldData = field;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        self.showPopUpGridDialog();
+                    }
+                });
+            }
         },
         chkFieldRule: function (ui_field_name, rule_func_name) {
             if (rule_func_name === "") {
@@ -229,7 +294,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                 }
 
                 //有format
-                if (lo_field.format_func_name != "") {
+                if (lo_field.format_func_name != "" && lo_field.ui_field_name != "traffic_amt") {
                     lo_checkResult = go_validateClass[lo_field.format_func_name](self.singleData[lo_field.ui_field_name], lo_field.ui_display_name);
                     if (lo_checkResult.success == false) {
                         break;
@@ -253,6 +318,20 @@ Vue.component('single-grid-pms0620050-tmp', {
             } else {
                 var postRowData = _.clone(this.singleData);
 
+                //將欄位traffic_amt的值從有format轉回原本number
+                var ls_trafficAmt = "";
+
+                if (postRowData["traffic_amt"].indexOf(',') > -1) {
+                    var la_splitAmtValue = postRowData["traffic_amt"].split(',');
+                    _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                        ls_trafficAmt = ls_trafficAmt + ls_splitAmtValue;
+                    });
+                }
+                else {
+                    ls_trafficAmt = postRowData["traffic_amt"];
+                }
+
+                postRowData["traffic_amt"] = Number(ls_trafficAmt);
                 postRowData["avisit_dat"] = moment(new Date(postRowData["avisit_dat"])).format("YYYY/MM/DD");
                 postRowData["visit_dat"] = moment(new Date(postRowData["visit_dat"])).format("YYYY/MM/DD");
                 postRowData["tab_page_id"] = 1;
@@ -338,20 +417,20 @@ var vm = new Vue({
             };
         },
         loadDataGridByPrgID: function () {
-            var lo_searchCond =_.clone(this.searchCond);
+            var lo_searchCond = _.clone(this.searchCond);
 
-            lo_searchCond["avisit_dat"] = (lo_searchCond["avisit_dat"] == "")? "" :
+            lo_searchCond["avisit_dat"] = lo_searchCond["avisit_dat"] == "" ? "" :
                 moment(new Date(lo_searchCond["avisit_dat"])).format("YYYY/MM/DD");
-            lo_searchCond["visit_dat"] = (lo_searchCond["visit_dat"] == "")? "" :
+            lo_searchCond["visit_dat"] = lo_searchCond["visit_dat"] == "" ? "" :
                 moment(new Date(lo_searchCond["visit_dat"])).format("YYYY/MM/DD");
 
             if (this.searchFields.length != 0) {
-                if(lo_searchCond["area_cod"].length != 0){
+                if (lo_searchCond["area_cod"].length != 0) {
                     let la_options = [];
                     let la_areaCodVal = _.clone(lo_searchCond["area_cod"]);
                     lo_searchCond["area_cod"] = [];
 
-                    _.each(this.searchFields, function(lo_searchField) {
+                    _.each(this.searchFields, function (lo_searchField) {
                         if (lo_searchField.ui_field_name == 'area_cod') {
                             la_options = lo_searchField.selectData;
                         }
@@ -378,7 +457,7 @@ var vm = new Vue({
                 pag_id: 1
             };
 
-            $.post("/api/fetchDataGridFieldData",lo_params, function (result) {
+            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneDataGridRows = result.dgRowData;
                 vm.pageOneFieldData = result.dgFieldsData;
@@ -435,28 +514,28 @@ var vm = new Vue({
     }
 });
 
-function searchValue(la_children, ls_selectData){
-    _.each(la_children, function(lo_children){
-        if(_.isUndefined(lo_children.value)){
+function searchValue(la_children, ls_selectData) {
+    _.each(la_children, function (lo_children) {
+        if (_.isUndefined(lo_children.value)) {
             searchValue(lo_children.children, ls_selectData);
         }
-        else{
+        else {
             ls_selectData.push(lo_children.value);
             return;
         }
     });
 }
 
-function searchOptions(la_options, ls_value, la_selectData){
-    _.each(la_options, function(lo_option){
+function searchOptions(la_options, ls_value, la_selectData) {
+    _.each(la_options, function (lo_option) {
         var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
-        if(_.isUndefined(lo_childrenOptions)){
+        if (_.isUndefined(lo_childrenOptions)) {
             searchOptions(lo_option.children, ls_value, la_selectData);
         }
-        else if(_.isUndefined(lo_childrenOptions.value)){
+        else if (_.isUndefined(lo_childrenOptions.value)) {
             searchValue(lo_childrenOptions.children, la_selectData);
         }
-        else{
+        else {
             la_selectData.push(lo_childrenOptions.value);
             return;
         }
