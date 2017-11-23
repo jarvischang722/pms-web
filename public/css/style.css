@@ -883,10 +883,6 @@ table.treetable tr.expanded span.indenter a {
   background-image: url(../images/toggle-collapse-dark.png);
 }
 
-body {
-  font-family: Microsoft JhengHei, Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
-
 .headBlock {
   margin: auto auto 10px auto;
 }
