@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <!-- [RS0W202010] 訂席來源下拉-->
-    <dao name="SEL_O_COD">
+    <dao name="SEL_BQUET_SRC">
         <statement><![CDATA[
             SELECT BQOTHER_RF.O_COD as value, BQOTHER_RF.O_DESC as display, BQOTHER_RF.O_TYP
             FROM BQOTHER_RF

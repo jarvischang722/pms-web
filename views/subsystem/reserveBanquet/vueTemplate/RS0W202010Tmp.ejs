@@ -101,13 +101,13 @@
                                         <label>是否確認</label>
                                         <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                            <input name="form-field-checkbox" value="Y" v-model="singleData.confirm_sta" type="radio" class="ace">
                                             <span class="lbl radius-circle">是</span>
                                             </label>
                                         </span>
                                         <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                            <input name="form-field-checkbox" value="N" v-model="singleData.confirm_sta" type="radio" class="ace">
                                             <span class="lbl radius-circle">否</span>
                                             </label>
                                         </span>
@@ -217,13 +217,13 @@
                                         <label>計算服務費</label>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <input name="form-field-checkbox" value="Y" v-model="singleData.cal_serv" type="radio" class="ace">
                                         <span class="lbl radius-circle">是</span>
                                         </label>
                                     </span>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <input name="form-field-checkbox" value="N" v-model="singleData.cal_serv" type="radio" class="ace">
                                         <span class="lbl radius-circle">否</span>
                                         </label>
                                     </span>

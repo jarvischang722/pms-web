@@ -676,7 +676,34 @@ exports.searchAreapntSta = function () {
         }
     ];
     return la_optionList;
-}
+};
+
+/**
+ * RS0W202010 定席作業
+ * order_sta下拉資料
+ * @returns {[*,*]}
+ */
+exports.order_sta = function () {
+    var la_optionList = [
+        {
+            display: "預約",
+            value: "N"
+        },
+        {
+            display: "等待",
+            value: "W"
+        },
+        {
+            display: "詢價",
+            value: "Q"
+        },
+        {
+            display: "取消",
+            value: "X"
+        }
+    ];
+    return la_optionList;
+};
 
 /**
  * PMS0620010 業務員作業
@@ -1179,4 +1206,16 @@ exports.qrySearchAreapntSta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
     callback(null,lo_result);
-}
+};
+
+
+/**
+ * RS0W202010 定席作業
+ * order_sta下拉資料
+ * @returns {[*,*]}
+ */
+exports.lang_bquet_mn_order_sta = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.order_sta();
+    callback(null,lo_result);
+};

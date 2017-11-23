@@ -83,7 +83,7 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * @constructor
  */
 exports.getSelectOptions = function (params, selRow, callback) {
-
+    console.log(selRow.ui_field_name);
     if (selRow.referiable == "Y") {
         callback([]);
         return;
