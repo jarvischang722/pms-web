@@ -28,11 +28,8 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
-.grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option {
+.grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium {
   font-size: 13px !important;
-}
-.grid-item .input-medium {
-  font-size: 12px !important;
 }
 .grid-item span.subtxt {
   margin: auto 2px auto auto;
@@ -60,7 +57,7 @@
   padding: 5px;
   box-sizing: border-box;
   margin-top: -1px;
-  line-height: 14px;
+  line-height: 12px;
   cursor: pointer;
 }
 .grid-item .margin-adjust {
