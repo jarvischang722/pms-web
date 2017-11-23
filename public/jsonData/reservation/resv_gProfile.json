@@ -1,10 +1,10 @@
 {"total":28,
   "rows":[
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"VIP","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"黑名單","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"},
-    {"checkbox":"<input type='checkbox'>","historyNO":"23569874","personID":"A123456789","fullName":"Jing Chen","sex":"M","status":"一般","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","getDM":"Y"}
+    {"historyNO":"23569874","status":"VIP","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"},
+    {"historyNO":"23569874","status":"黑名單","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"},
+    {"historyNO":"23569874","status":"一般","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"},
+    {"historyNO":"23569874","status":"一般","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"},
+    {"historyNO":"23569874","status":"一般","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"},
+    {"historyNO":"23569874","status":"一般","fullName":"Jing Chen","sex":"M","personID":"A123456789","country":"Taiwan","visitNum":"1","visitDay":"3","totalSpend":"3000","email":"athena@athena.com","mobile":"0987654321"}
     ]}
 
