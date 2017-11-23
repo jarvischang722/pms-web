@@ -306,3 +306,25 @@ exports.qryPageTwoData = function (postData, session, callback) {
         }
     });
 };
+
+//[RS0W202010] 取系統參數
+exports.qrySystemParam = function (postData, session, callback) {
+    var lo_error = null;
+
+    var paramName = "QRY_" + postData.paramName.toUpperCase();
+
+    queryAgent.query(paramName, {}, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};

@@ -27,3 +27,10 @@ exports.qryPageTwoData = function (req, res) {
         res.json({data: result, error: err});
     });
 };
+
+//[RS0W202010] 取系統參數
+exports.qrySystemParam = function (req, res) {
+    resvBanquetSvc.qrySystemParam(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};

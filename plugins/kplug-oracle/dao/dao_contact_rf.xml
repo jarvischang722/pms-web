@@ -12,4 +12,21 @@
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
 
+    <!-- [RS0W202010] 取聯絡方式下拉-->
+    <dao name="SEL_CONTACT1_COD">
+        <statement><![CDATA[
+            select contact_cod as value, contact_nam as display from contact_rf order by seq_nos
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- [RS0W202010] 取聯絡人姓名-->
+    <dao name="QRY_CONTACT_NAM">
+        <statement><![CDATA[
+            select contact_nam from contact_rf where trim(contact_cod)= trim(:contact_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">contact_cod</parameter>
+    </dao>
+
 </root>

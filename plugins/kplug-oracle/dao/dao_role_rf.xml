@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS0W202010] 職稱欄位轉換 -->
+    <dao name="QRY_ROLE_RMK">
+        <statement><![CDATA[
+         select role_rmk from role_rf where role_cod = trim(:role_cod)
+        ]]></statement>
+        <parameter type="string" kind="3">role_cod</parameter>
+    </dao>
+</root>

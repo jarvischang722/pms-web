@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS0W202010] 取連絡人資料 -->
+    <dao name="SEL_ATTEN_NAM">
+        <statement><![CDATA[
+            select cust_mn_pers_dt.per_nam, cust_mn_pers_dt.role_cod, cust_mn_pers_dt.tel_nos
+            from cust_mn_pers_dt,role_rf
+            where cust_mn_pers_dt.role_cod = role_rf.role_cod(+)
+        ]]>
+        </statement>
+    </dao>
+
+</root>
