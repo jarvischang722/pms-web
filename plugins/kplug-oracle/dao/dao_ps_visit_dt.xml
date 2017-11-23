@@ -62,7 +62,7 @@
         ]]></statement>
         <parameter type="number" kind="3">athena_id</parameter>
         <parameter type="string" kind="3">cust_cod</parameter>
-        <parameter type="number" kind="3">visit_typ</parameter>
+        <parameter type="string" kind="3">visit_typ</parameter>
         <parameter type="string" kind="3">visit_dat</parameter>
     </dao>
 </root>
