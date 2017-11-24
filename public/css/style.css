@@ -14,7 +14,6 @@
   float: left;
 }
 .grid-item label {
-  vertical-align: middle;
   text-align: right;
   margin-bottom: 0;
   margin-right: 0;
@@ -123,7 +122,7 @@
   display: table;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .css_table.table-lg .css_th, .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -193,7 +192,7 @@
   display: table;
   border-collapse: collapse;
   width: auto;
-  border: 1px solid #95B8E7;
+  border: 1px solid #cccccc;
 }
 .horizTable-outer .css_table.table-lg .css_th, .horizTable-outer .css_table.table-lg .css_td {
   padding-top: 10px;
@@ -493,7 +492,7 @@ select.form-control {
 }
 
 .page-content {
-  padding: 8px 0 24px;
+  padding: 8px 0 8px;
 }
 
 .ace-nav > li {
@@ -783,7 +782,6 @@ label {
   /* text */
   color: #121517;
   font-weight: bold;
-  text-shadow: 0 1px 1px #e8ebee;
 }
 .fancyTable tfoot tr th, .fancyTable tfoot tr td {
   /* appearance */
@@ -4394,10 +4392,10 @@ tr.no-cursor-tr td {
 }
 
 .gs-order-container .input-medium {
-  padding: 5px 4px 4px;
+  padding: 0 3px;
 }
 .gs-order-container select.input-medium {
-  padding: 5px 4px 3px;
+  padding: 0 3px;
 }
 
 .gs-table-select-box .el-date-editor.el-input {
@@ -4439,6 +4437,10 @@ tr.no-cursor-tr td {
 
 .gs-rese-table.table-hover tbody tr:hover {
   background-color: rgba(0, 0, 0, 0.075);
+}
+
+.checkbox label input[type=radio].ace + .lbl {
+  margin-left: -30px !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -4529,6 +4531,10 @@ tr.no-cursor-tr td {
 
 .width-5 {
   width: 5% !important;
+}
+
+.width-8 {
+  width: 8% !important;
 }
 
 .width-10 {
@@ -4747,6 +4753,30 @@ a {
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
+}
+
+.btn-skin {
+  font-weight: 300;
+  text-shadow: none;
+  cursor: not-allowed !important;
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn:hover, .btn-skin.btn:active, .btn-skin.btn:focus, .btn-skin.btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled, .btn-skin.btn[disabled] {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
+}
+.btn-skin.btn.disabled.btn:hover, .btn-skin.btn.disabled.btn:active, .btn-skin.btn.disabled.btn:focus, .btn-skin.btn.disabled.btn:visited, .btn-skin.btn[disabled].btn:hover, .btn-skin.btn[disabled].btn:active, .btn-skin.btn[disabled].btn:focus, .btn-skin.btn[disabled].btn:visited {
+  background-color: #ffece3 !important;
+  border: 1px solid #ffece3 !important;
+  color: #a2a2a2 !important;
 }
 
 .btn-gray {
@@ -5161,6 +5191,46 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.w253px {
+  width: 253px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w510px {
+  width: 510px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w388px {
+  width: 388px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w118px {
+  width: 118px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w142px {
+  width: 142px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w348px {
+  width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w240px {
+  width: 240px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w96c2 {
+  width: 96.2px;
+  max-width: 100%;
+  height: 25px;
+}
 
 .input-hMedium {
   height: 25px !important;
@@ -5380,6 +5450,30 @@ select {
   background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.width-35px {
+  width: 35px !important;
+}
+
+.width-82px {
+  width: 82px !important;
+}
+
+.width-135px {
+  width: 135px !important;
+}
+
+.width-137px {
+  width: 137px !important;
+}
+
+.width-103px {
+  width: 103px !important;
 }
 
 /*-------------- responsive -------------- */

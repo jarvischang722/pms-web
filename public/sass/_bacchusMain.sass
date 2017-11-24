@@ -2298,10 +2298,10 @@ tr.no-cursor-tr
   padding-left: 21px !important
 .gs-order-container
   .input-medium
-    padding: 5px 4px 4px
+    padding: 0 3px
   select
     &.input-medium
-      padding: 5px 4px 3px
+      padding: 0 3px
 .gs-table-select-box
   .el-date-editor.el-input
     width: 100%
@@ -2332,6 +2332,8 @@ tr.no-cursor-tr
     tr
       &:hover
         background-color: rgba(0,0,0,.075)
+.checkbox label input[type=radio].ace + .lbl
+  margin-left: -30px !important
 @media screen and (max-width: 991px)
   .gs-table-select-box
     &:nth-child(1)
