@@ -44,10 +44,11 @@
     </div>
 </div>
 
+<%- include vueTemplate/permission/roleComp.ejs %>
 <%- include vueTemplate/permission/auth-navbar.ejs %>
-<%- include vueTemplate/permission/authFunc.ejs %>
-<%- include vueTemplate/permission/authStaff.ejs %>
-<%- include vueTemplate/permission/authRole.ejs %>
+<%- include vueTemplate/permission/authByFunc.ejs %>
+<%- include vueTemplate/permission/authByStaff.ejs %>
+<%- include vueTemplate/permission/authByRole.ejs %>
 
 <script src="/js/tree/jstree.min.js"></script>
 <script src="/js/system/permissionSetup.js"></script>

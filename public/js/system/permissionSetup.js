@@ -7,33 +7,61 @@ var authorNavbar = Vue.extend({
     template: "#authorNavbarTmp"
 });
 
-var authStaff = Vue.extend({
+var roleComp = Vue.extend({
+    template: "#roleCompTmp",
+    props: ["isRadio"],
+    data: function(){
+        return {
+            roleData: [],
+            name: "first"
+        };
+    },
+    mounted: function () {
+        this.fetchRoleData();
+    },
+    methods: {
+        fetchRoleData: function(){
+            var self = this;
+            $.post("/api/getAllRoles", function(roleResult){
+                self.roleData = roleResult.roles;
+            });
+        }
+    }
+});
+
+var authByStaff = Vue.extend({
     template: "#authStaffTmp",
     components: {
         authorNavbar
     }
 });
 
-var authFunc = Vue.extend({
+var authByFunc = Vue.extend({
     template: "#authFuncTmp",
     components: {
         authorNavbar
     }
 });
 
-var authRole = Vue.extend({
+var authByRole = Vue.extend({
     template: "#authRoleTmp",
     components: {
-        authorNavbar
+        authorNavbar,
+        roleComp
+    },
+    data: function () {
+        return {
+            isRadio: true
+        };
     }
 });
 
 var PermissionVM = new Vue({
     el: "#permission-app",
     components: {
-        authStaff,
-        authFunc,
-        authRole
+        authStaff: authByStaff,
+        authFunc: authByFunc,
+        authRole: authByRole
     },
     mounted: function () {
         // this.getAllRoles();
