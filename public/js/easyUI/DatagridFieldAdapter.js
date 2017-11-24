@@ -421,8 +421,8 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                     _.each(allDataRow, function (row, index){
                         $('#' + dgName).datagrid('endEdit', index);
                     });
-                    $('#' + dgName).datagrid('unselectAll');
 
+                    $('#' + dgName).datagrid('selectRow', indexRow);
                     $('#' + dgName).datagrid('beginEdit', indexRow);
 
                 }

@@ -423,6 +423,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         }
                         self.isLoadingDialog = false;
                         vm.initTmpCUD();
+                        self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }

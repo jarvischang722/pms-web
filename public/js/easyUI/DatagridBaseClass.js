@@ -65,7 +65,8 @@ function DatagridBaseClass() {
         self.tmpCUD = {
             createData: [],
             updateData: [],
-            deleteData: []
+            deleteData: [],
+            oriUpdateData: []
         };
     };
     /**
