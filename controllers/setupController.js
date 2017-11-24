@@ -122,10 +122,3 @@ exports.getSearchUIFields = function(req,res){
 
 };
 
-
-/**
- * 設定欄位寬度的屬性
- */
-exports.getSetPageProSize = function (req, res) {
-    res.render("subsystem/setup/setPageProSize");
-};

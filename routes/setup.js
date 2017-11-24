@@ -53,7 +53,4 @@ module.exports = function (app) {
     //取得庫存最大日期
     app.post('/api/getRoomTypeMaxStockDate', apiMiddles, setupCrtl.getRoomTypeMaxStockDate);
 
-    // 設定欄位寬度的屬性
-    app.get('/setPageProSize', middles, setupCrtl.getSetPageProSize);
-
 };
