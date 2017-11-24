@@ -43,7 +43,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶姓名</label>
-                                        <input type="popupgrid" v-model="singleData.alt_nam" class="input-medium resvCard"/>
+                                        <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium resvCard"/>
                                     </div>
                                     <div class="grid-item">
                                         <select v-model="singleData.contact1_cod" class="input-medium resvCard-date">
@@ -55,13 +55,13 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>聯絡人</label>
-                                        <input type="popupgrid" v-model="singleData.atten_nam" class="input-medium resvCard"/>
+                                        <input type="text" @click="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard"/>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶編號</label>
-                                        <input type="text" v-model="singleData.show_cod" class="input-medium rateCode-s1"/>
+                                        <input type="text" v-model="singleData.show_cod" class="input-medium rateCode-s1" disabled/>
                                     </div>
                                     <div class="grid-item">
                                         <select v-model="singleData.contact2_cod" class="input-medium resvCard-date">
@@ -240,7 +240,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>已付訂金</label>
-                                        <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date"/>
+                                        <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -323,19 +323,13 @@
                                         <div class="right-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取場地
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod')" role="button">選取場地</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">刪除場地
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">刪除場地</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">庫存檢查
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">庫存檢查</button>
                                                 </li>
 
                                             </ul>

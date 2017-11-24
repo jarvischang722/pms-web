@@ -6,6 +6,111 @@
 
 var vmHub = new Vue;
 var prg_id = "RS0W202010";
+
+//跳窗將資料選回去單筆欄位
+Vue.component('text-select-grid-dialog-tmp', {
+    template: "#chooseDataDialogTmp",
+    data: function () {
+        return {
+            fieldNameConditionTmp: [],
+            gridColumns: [],
+            updateFieldNameTmp: [],
+            gridData: [],
+            isFistData: false,
+            isLastData: false,
+            dtEditIndex: undefined
+        };
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('showPopUpDataGrid', function (result) {
+            self.showPopUpDataGrid(result);
+        });
+    },
+    methods: {
+
+        //顯示點選popupgrid跳出來的視窗
+        showPopUpDataGrid: function (result) {
+            var self = this;
+            var textDataGrid = result.showDataGrid;
+            var updateFieldName = result.updateFieldNameTmp;
+            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            this.fieldNameConditionTmp = [];
+            this.fieldConditionTmp = [];
+            this.gridData = [];
+            delete textDataGrid ['errorMsg'];
+            var columnsData = [];
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+                return textDataGrid[key];
+            });
+            for (var col in textDataGrid[0]) {
+                _.each(fieldNameChangeLanguage, function (name, field) {
+                    if (col == field) {
+                        columnsData.push({
+                            type: 'textbox',
+                            field: col,
+                            title: name,
+                            width: 150,
+                            align: "left"
+                        });
+                        self.fieldNameConditionTmp.push({value: field, display: name});
+                        self.fieldConditionTmp.push({value: field});
+                    }
+                });
+            }
+
+            self.gridData = textDataGridArray;
+            var height = document.documentElement.clientHeight - 160;
+            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
+            $('#chooseGrid').datagrid({
+                columns: [columnsData],
+                singleSelect: true,
+                data: textDataGridArray,
+                height: height,
+                width: width,
+            }).datagrid('columnMoving');
+            self.updateFieldNameTmp = updateFieldName;
+        },
+
+        //將選擇到的資料帶回Page2
+        chooseDataBackGridSingle: function () {
+            var self = this;
+            var selectTable = $('#chooseGrid').datagrid('getSelected');
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
+
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
+                });
+            }else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = "";  //SAM20170930
+                });
+            }
+            vmHub.$emit('updateBackSelectData', chooseData);
+            $("#dataPopUpGridDialog").dialog('close');
+        },
+        txtSearchChangeText: function (keyContent) {
+            var allData = this.gridData;
+            var selectFieldName = $('#cbSelect').val();
+            var selectCondition = $('#txtSelectCondition').val();
+
+            var dataGrid = _.filter(allData, function (row) {
+                if (row[selectFieldName].includes(selectCondition))
+                    return row;
+            });
+            $('#chooseGrid').datagrid('loadData', dataGrid);
+
+        }
+    }
+});
+
+
 var singlePage = Vue.extend({
     template: "#RS0W202010Tmp",
     data: function () {
@@ -16,10 +121,13 @@ var singlePage = Vue.extend({
             rent_cal_dat: "",           //滾房租日期
             required_bride_nam: "",     //新郎、新娘是否為必Key
 
+
+
             singleData: {},
             singleField: {},
-            custSelectData: [],
             selectOption: {},
+
+            selectPopUpGridData: [],
 
             createStatus: false,        //新增狀態
             editStatus: false,          //編輯狀態
@@ -50,6 +158,10 @@ var singlePage = Vue.extend({
                 //self.fetchSingleData(bquet_nos);
                 self.fetchSingleData('0600006');
             });
+        });
+
+        vmHub.$on('updateBackSelectData', function (chooseData) {
+            self.singleData = _.extend(self.singleData, chooseData);
         });
     },
     mounted: function () {
@@ -147,7 +259,8 @@ var singlePage = Vue.extend({
                 page_id: 2,
                 singleRowData: self.editingRow
             }, function (result) {
-                var fieldData = result.fieldData;
+
+                self.singleField = result.fieldData;
 
                 _.each(result.fieldData, function (value) {
                     if(value.ui_type == "select") {
@@ -155,7 +268,6 @@ var singlePage = Vue.extend({
                     }
                 });
 
-                self.singleField = fieldData;
                 //self.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
                 //page2  datagrid 欄位屬性
                 // if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
@@ -202,8 +314,63 @@ var singlePage = Vue.extend({
                 dialogClass: "test",
                 resizable: true
             });
-        }
+        },
 
+        //跳窗選擇多欄位
+        chkClickPopUpGrid: function (fieldName) {
+
+            var lo_field;
+            var self = this;
+
+            _.each(this.singleField, function (value) {
+                if(value.ui_field_name == fieldName)
+                    lo_field = value;
+            });
+
+            this.changeEditingForFieldRule(lo_field.rule_func_name);
+            if (lo_field.ui_type == "popupgrid") {
+                var params = {
+                    prg_id: prg_id,
+                    fields: lo_field,
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                };
+
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        self.selectPopUpGridData = result.showDataGrid;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        self.showPopUpGridDialog();
+                    }
+                });
+            }
+        },
+
+        //改成編輯中
+        changeEditingForFieldRule: function (rule_func_name) {
+            if (!_.isUndefined(rule_func_name) && !_.isEmpty(rule_func_name)) {
+                this.isEditingForFieldRule = true;
+            }
+        },
+
+        //顯示textgrid跳窗訊息
+        showPopUpGridDialog: function () {
+            this.dialogVisible = true;
+            var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
+            var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
+
+            var dialog = $("#dataPopUpGridDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                height: height,
+                width: width,
+                title: prg_id,
+                resizable: true
+            });
+            dialog.dialog("open");
+
+            // 給 dialog "內容"高 值
+            //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+        }
     }
 });
 
