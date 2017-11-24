@@ -461,7 +461,7 @@ exports.getGoodsData = function (params ,session, callback) {
 exports.chkFormatSta = function (params ,session, callback) {
 
     var lo_error = null;
-
+    var ls_checkMsg = "";
     async.waterfall([
         //1.相同格式的訂單，一天只能有一張
         function(cb){
@@ -506,9 +506,10 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[銷售]資料)";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
                             lo_error.errorCod = "0000";
-                            cb(true, lo_error);
+                            ls_checkMsg += " [銷售]資料";
+                            cb(false, lo_error);
                         }
                         else{
                             cb(false, '');
@@ -538,9 +539,10 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if (Result.count == 0) {
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[萬元用量/庫存]資料)";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
                             lo_error.errorCod = "0000";
-                            cb(true, lo_error);
+                            ls_checkMsg += " [萬元用量/庫存]資料";
+                            cb(false, lo_error);
                         }
                         else {
                             cb(false, '');
@@ -570,9 +572,10 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。(缺[業績]資料)";
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
                             lo_error.errorCod = "0000";
-                            cb(true, lo_error);
+                            ls_checkMsg += " [業績]資料";
+                            cb(false, lo_error);
                         }
                         else{
                             cb(false, '');
@@ -593,6 +596,7 @@ exports.chkFormatSta = function (params ,session, callback) {
         }
     ], function(err, result){
         if(result.errorCod == "0000"){
+            result.errorMsg += "\r\n缺少" + ls_checkMsg;
             err = false;
         }
         callback(err, result);

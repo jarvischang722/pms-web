@@ -232,9 +232,10 @@ exports.PMS0830010Filter = function (rows, session, searchCond, callback) {
  */
 exports.PSIW510030Filter = function (rows, session, searchCond, callback) {
     if (!_.isUndefined(searchCond.order_dat) && searchCond.order_dat.length > 0) {
-        searchCond.order_dat = moment(new Date(searchCond.order_dat)).format("YYYY/MM/DD");
+        searchCond.order_dat = moment(searchCond.order_dat).format("YYYY/MM/DD");
         rows = _.filter(rows, function (d) {
-            return new Date(d.order_dat) == new Date(searchCond.order_dat);
+            var ld_order_dat = moment(d.order_dat).format("YYYY/MM/DD");
+            return ld_order_dat == searchCond.order_dat;
         });
     }
     callback(rows);

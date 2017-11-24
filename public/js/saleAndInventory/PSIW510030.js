@@ -1520,11 +1520,16 @@ var PSIW510030 = new Vue({
                     //檢查有過
                     else {
                         //特殊三種情況不檔, 但要Show訊息
-                        alert(result.data.errorMsg);
-                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P")
+                        if(!_.isUndefined(result.data.errorMsg)){
+                            alert(result.data.errorMsg);
+                        }
+
+                        if(self.singleData.order_time != null && self.singleData.order_time.trim().substr(0,1) == "P"){
                             self.singleData.order_sta = "N";
-                        else
+                        }
+                        else{
                             self.singleData.order_sta = "C";
+                        }
 
                         //Call貨品API
                         self.callOrderAPI();
