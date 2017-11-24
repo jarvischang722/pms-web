@@ -563,7 +563,7 @@ a {
   height: 25px;
 }
 .input-medium.consumeCode-g1-ss {
-  width: 45.7px;
+  width: 46px;
   max-width: 100%;
   height: 25px;
 }
@@ -739,6 +739,46 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w253px {
+  width: 253px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w510px {
+  width: 510px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w388px {
+  width: 388px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w118px {
+  width: 118px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w142px {
+  width: 142px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w348px {
+  width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w240px {
+  width: 240px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w96c2 {
+  width: 96.2px;
   max-width: 100%;
   height: 25px;
 }
@@ -961,6 +1001,30 @@ select {
   background: url("/images/toggle-collapse-dark.png") 98% 32% !important;
   background-repeat: no-repeat !important;
   cursor: pointer;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.width-35px {
+  width: 35px !important;
+}
+
+.width-82px {
+  width: 82px !important;
+}
+
+.width-135px {
+  width: 135px !important;
+}
+
+.width-137px {
+  width: 137px !important;
+}
+
+.width-103px {
+  width: 103px !important;
 }
 
 .lang {

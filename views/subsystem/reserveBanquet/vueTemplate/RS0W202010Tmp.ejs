@@ -11,11 +11,11 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂席單號</label>
-                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium resvCard"/>
+                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px"/>
                                     </div>
-                                    <div class="grid-item-inline">
+                                    <div class="grid-item-inline no-margin-left">
                                         <label>館別</label>
-                                        <input type="text" v-model="singleData.hotel_cod" class="input-medium resvCard-2xs"/>
+                                        <input type="text" v-model="singleData.hotel_cod" class="input-medium resvCard-m"/>
                                     </div>
                                     <div class="grid-item-inline">
                                         <label>訂席狀態</label>
@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="grid-item-inline">
                                         <label>等待</label>
-                                        <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-2xs"/>
+                                        <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-m"/>
                                     </div>
                                     <div class="grid-item-inline">
                                         <label>預約處理</label>
@@ -43,7 +43,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶姓名</label>
-                                        <input type="popupgrid" v-model="singleData.alt_nam" class="input-medium resvCard"/>
+                                        <input type="popupgrid" v-model="singleData.alt_nam" class="input-medium rateCode-s1"/>
                                     </div>
                                     <div class="grid-item">
                                         <select v-model="singleData.contact1_cod" class="input-medium resvCard-date">
@@ -51,11 +51,11 @@
                                                 {{opt.display}}
                                             </option>
                                         </select>
-                                        <input type="text" v-model="singleData.contact1_rmk" class="input-medium resvCard-2xs"/>
+                                        <input type="text" v-model="singleData.contact1_rmk" class="input-medium resvCard-date"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>聯絡人</label>
-                                        <input type="popupgrid" v-model="singleData.atten_nam" class="input-medium resvCard"/>
+                                        <input type="popupgrid" v-model="singleData.atten_nam" class="input-medium resvCard-date"/>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -69,7 +69,7 @@
                                                 {{opt.display}}
                                             </option>
                                         </select>
-                                        <input type="text" v-model="singleData.contact2_rmk" class="input-medium resvCard-2xs"/>
+                                        <input type="text" v-model="singleData.contact2_rmk" class="input-medium resvCard-date"/>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                             </template>
                                         </div>
                                     </div>
-                                    <div class="grid-item-inline gs-timePicker">
+                                    <div class="grid-item-inline gs-timePicker margin-right-10">
                                         <div class="inquire-timePicker">
                                             <template>
                                                 <el-time-select v-model="singleData.begin_tim" placeholder="開始時間">
@@ -101,13 +101,13 @@
                                         <label>是否確認</label>
                                         <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace" checked="">
+                                            <input name="confirm" type="radio" class="ace">
                                             <span class="lbl radius-circle">是</span>
                                             </label>
                                         </span>
                                         <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="form-field-checkbox" type="checkbox" class="ace">
+                                            <input name="confirm" type="radio" class="ace">
                                             <span class="lbl radius-circle">否</span>
                                             </label>
                                         </span>
@@ -116,11 +116,11 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>宴會名稱</label>
-                                        <input type="text" v-model="singleData.title_nam" class="input-medium resvCard-col2"/>
+                                        <input type="text" v-model="singleData.title_nam" class="input-medium w348px"/>
                                     </div>
                                     <div class="grid-item">
                                         <label>主要廳別</label>
-                                        <select v-model="singleData.rspt_cod" class="input-medium resvCard-date">
+                                        <select v-model="singleData.rspt_cod" class="input-medium w240px">
                                         <option v-for="opt in selectOption.rspt_cod" :value="opt.value">
                                             {{opt.display}}
                                         </option>
@@ -131,15 +131,15 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>使用類別</label>
-                                        <select v-model="singleData.use_typ" class="input-medium resvCard">
+                                        <select v-model="singleData.use_typ" class="input-medium w152comma4px">
                                         <option v-for="opt in selectOption.use_typ" :value="opt.value">
                                             {{opt.display}}
                                         </option>
                                         </select>
                                     </div>
                                     <div class="grid-item">
-                                        <label>餐別</label>
-                                        <select v-model="singleData.meal_typ" class="input-medium resvCard">
+                                        <label class="width-35px">餐別</label>
+                                        <select v-model="singleData.meal_typ" class="input-medium w152comma4px">
                                         <option v-for="opt in selectOption.meal_typ" :value="opt.value">
                                             {{opt.display}}
                                         </option>
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>訂席來源</label>
-                                        <select v-model="singleData.bquet_src" class="input-medium resvCard-date">
+                                        <select v-model="singleData.bquet_src" class="input-medium w240px">
                                         <option v-for="opt in selectOption.bquet_src" :value="opt.value">
                                             {{opt.display}}
                                         </option>
@@ -166,38 +166,39 @@
                                     </div>
 
                                     <div class="grid-item">
-                                        <label class="">預/保人數</label>
+                                        <label class="width-82px">預/保人數</label>
                                         <input type="text" v-model="singleData.adult_qnt" class="input-medium consumeCode-g1-ss text-right">
                                         <span>/</span>
                                         <input type="text" v-model="singleData.poadult_qnt" class="input-medium consumeCode-g1-ss text-right">
                                     </div>
                                     <div class="grid-item">
-                                        <label>業務員</label>
-                                        <input type="text" v-model="singleData.sales_cod" class="input-medium resvCard-date"/>
+                                        <label class="width-135px">業務員</label>
+                                        <input type="text" v-model="singleData.sales_cod" class="input-medium w240px"/>
                                     </div>
                                 </div>
 
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>主婚人</label>
-                                        <input type="text" v-model="singleData.sponsor_nam" class="input-medium resvCard"/>
+                                        <input type="text" v-model="singleData.sponsor_nam" class="input-medium w152comma4px"/>
+                                    </div>
+                                    <div class="grid-item">
+                                        <label class="width-35px">婚企</label>
+                                        <select v-model="singleData.opsales_cod" class="input-medium w152comma4px">
+                                            <option v-for="opt in selectOption.opsales_cod" :value="opt.value">
+                                                {{opt.display}}
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="grid-item">
                                         <label>新郎</label>
-                                        <input type="text" v-model="singleData.bride_nam" class="input-medium resvCard"/>
+                                        <input type="text" v-model="singleData.bride_nam" class="input-medium w96c2"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>新娘</label>
-                                        <input type="text" v-model="singleData.groom_nam" class="input-medium resvCard"/>
+                                        <label class="width-35px">新娘</label>
+                                        <input type="text" v-model="singleData.groom_nam" class="input-medium w96c2"/>
                                     </div>
-                                    <div class="grid-item">
-                                        <label>婚企</label>
-                                        <select v-model="singleData.opsales_cod" class="input-medium resvCard">
-                                        <option v-for="opt in selectOption.opsales_cod" :value="opt.value">
-                                            {{opt.display}}
-                                        </option>
-                                        </select>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="borderFrame">
@@ -217,13 +218,13 @@
                                         <label>計算服務費</label>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <input name="serviceFee" type="radio" class="ace">
                                         <span class="lbl radius-circle">是</span>
                                         </label>
                                     </span>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="form-field-checkbox" type="checkbox" class="ace">
+                                        <input name="serviceFee" type="radio" class="ace">
                                         <span class="lbl radius-circle">否</span>
                                         </label>
                                     </span>
@@ -235,7 +236,7 @@
                                         <input type="text" v-model="singleData.place_amt" class="input-medium addedDate"/>
                                     </div>
                                     <div class="grid-item">
-                                        <label>應收訂金</label>
+                                        <label class="width-103px">應收訂金</label>
                                         <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard"/>
                                     </div>
                                     <div class="grid-item">
@@ -248,15 +249,15 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="">輸入者/日</label>
-                                        <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard">
-                                        <input type="text" v-model="singleData.ins_dat" class="input-medium addedDate">
+                                        <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m">
+                                        <input type="text" v-model="singleData.ins_dat" class="input-medium">
                                         <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m">
                                     </div>
 
                                     <div class="grid-item">
                                         <label class="">最後修改者/日</label>
-                                        <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard">
-                                        <input type="text" v-model="singleData.upd_dat" class="input-medium addedDate">
+                                        <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m">
+                                        <input type="text" v-model="singleData.upd_dat" class="input-medium">
                                         <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m">
                                     </div>
 
