@@ -410,6 +410,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         index: indexRow,
                         row: effectValues
                     });
+                    $('#' + dgName).datagrid('endEdit', indexRow);
 
                     if (!_.isUndefined(effectValues.day_sta_color)) {
                         var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
@@ -418,12 +419,12 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         };
                     }
 
-                    _.each(allDataRow, function (row, index){
-                        $('#' + dgName).datagrid('endEdit', index);
-                    });
+                    // _.each(allDataRow, function (row, index){
+                    //     $('#' + dgName).datagrid('endEdit', index);
+                    // });
 
-                    $('#' + dgName).datagrid('selectRow', indexRow);
-                    $('#' + dgName).datagrid('beginEdit', indexRow);
+                    // $('#' + dgName).datagrid('selectRow', indexRow);
+                    // $('#' + dgName).datagrid('beginEdit', indexRow);
 
                 }
                 else {

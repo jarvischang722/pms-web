@@ -106,6 +106,7 @@ function DatagridBaseClass() {
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
+        this.editIndex = undefined;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
 
@@ -280,9 +281,7 @@ function DatagridBaseClass() {
      */
     this.doTmpExecData = function (rowData, index) {
 
-        var lo_chkKeyRowData = _.clone(rowData);
-
-        lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
+        var lo_chkKeyRowData = _.extend(rowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
 
         var dataType = _.isUndefined(lo_chkKeyRowData.createRow) || lo_chkKeyRowData.createRow != "Y" ?
