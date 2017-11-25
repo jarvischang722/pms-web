@@ -363,107 +363,110 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         var indexRow = $('#' + dgName).datagrid('getRowIndex', selectDataRow);
         var editRowData = $("#" + dgName).datagrid('getEditingRowData');
 
-        var postData = {
-            prg_id: fieldAttrObj.prg_id,
-            rule_func_name: fieldAttrObj.rule_func_name.trim(),
-            validateField: fieldAttrObj.ui_field_name,
-            rowIndex: indexRow,
-            rowData: selectDataRow,
-            editRowData: editRowData,
-            allRowData: JSON.parse(JSON.stringify(allDataRow)),
-            newValue: newValue,
-            oldValue: oldValue
-        };
+        if($('#' + dgName).datagrid('validateRow', indexRow)){
 
-        isUserEdit = false;
+            var postData = {
+                prg_id: fieldAttrObj.prg_id,
+                rule_func_name: fieldAttrObj.rule_func_name.trim(),
+                validateField: fieldAttrObj.ui_field_name,
+                rowIndex: indexRow,
+                rowData: selectDataRow,
+                editRowData: editRowData,
+                allRowData: JSON.parse(JSON.stringify(allDataRow)),
+                newValue: newValue,
+                oldValue: oldValue
+            };
 
-        $.post('/api/chkFieldRule', postData, function (result) {
-            if (result.success) {
-                //是否要show出訊息
-                if (result.showAlert) {
-                    alert(result.alertMsg);
-                }
+            isUserEdit = false;
 
-                //是否要show出詢問視窗
-                if (result.showConfirm) {
-                    if (confirm(result.confirmMsg)) {
-                        //有沒有要再打一次ajax到後端
-                        if (result.isGoPostAjax) {
-                            $.post(result.ajaxURL, postData, function (ajaxResult) {
-                                if (!ajaxResult.success) {
-                                    alert(ajaxResult.errorMsg);
-                                }
-                            });
+            $.post('/api/chkFieldRule', postData, function (result) {
+                if (result.success) {
+                    //是否要show出訊息
+                    if (result.showAlert) {
+                        alert(result.alertMsg);
+                    }
+
+                    //是否要show出詢問視窗
+                    if (result.showConfirm) {
+                        if (confirm(result.confirmMsg)) {
+                            //有沒有要再打一次ajax到後端
+                            if (result.isGoPostAjax) {
+                                $.post(result.ajaxURL, postData, function (ajaxResult) {
+                                    if (!ajaxResult.success) {
+                                        alert(ajaxResult.errorMsg);
+                                    }
+                                });
+                            }
                         }
                     }
                 }
-            }
-            else {
-                alert(result.errorMsg);
-            }
-            //連動帶回的值
-            if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
-                var effectValues = result.effectValues;
-                if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
-                    // $('#' + dgName).datagrid('endEdit', indexRow);
-                    $('#' + dgName).datagrid('updateRow', {
-                        index: indexRow,
-                        row: effectValues
-                    });
-                    $('#' + dgName).datagrid('endEdit', indexRow);
-
-                    if (!_.isUndefined(effectValues.day_sta_color)) {
-                        var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
-                        col.styler = function () {
-                            return 'background-color:' + effectValues.day_sta_color;
-                        };
-                    }
-
-                    // _.each(allDataRow, function (row, index){
-                    //     $('#' + dgName).datagrid('endEdit', index);
-                    // });
-
-                    // $('#' + dgName).datagrid('selectRow', indexRow);
-                    // $('#' + dgName).datagrid('beginEdit', indexRow);
-
-                }
                 else {
-                    _.each(effectValues, function (item, index) {
-
-                        var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
+                    alert(result.errorMsg);
+                }
+                //連動帶回的值
+                if (!_.isUndefined(result.effectValues) && !_.isEmpty(result.effectValues)) {
+                    var effectValues = result.effectValues;
+                    if (!_.isArray(effectValues) && _.size(effectValues) > 0) {
+                        // $('#' + dgName).datagrid('endEdit', indexRow);
                         $('#' + dgName).datagrid('updateRow', {
                             index: indexRow,
-                            row: item
+                            row: effectValues
                         });
-                        adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
-                    });
+                        $('#' + dgName).datagrid('endEdit', indexRow);
+
+                        if (!_.isUndefined(effectValues.day_sta_color)) {
+                            var col = $("#" + dgName).datagrid('getColumnOption', 'day_sta');
+                            col.styler = function () {
+                                return 'background-color:' + effectValues.day_sta_color;
+                            };
+                        }
+
+                        // _.each(allDataRow, function (row, index){
+                        //     $('#' + dgName).datagrid('endEdit', index);
+                        // });
+
+                        // $('#' + dgName).datagrid('selectRow', indexRow);
+                        // $('#' + dgName).datagrid('beginEdit', indexRow);
+
+                    }
+                    else {
+                        _.each(effectValues, function (item, index) {
+
+                            var indexRow = $('#' + dgName).datagrid('getRowIndex', allDataRow[item.rowindex]);
+                            $('#' + dgName).datagrid('updateRow', {
+                                index: indexRow,
+                                row: item
+                            });
+                            adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
+                        });
+
+                    }
 
                 }
 
-            }
-
-            if (!result.isModifiable) {
-                ga_readonlyFields = _.uniq(result.readonlyFields);
-                _.each(ga_readonlyFields, function (field) {
-                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                        index: indexRow,
-                        field: field
+                if (!result.isModifiable) {
+                    ga_readonlyFields = _.uniq(result.readonlyFields);
+                    _.each(ga_readonlyFields, function (field) {
+                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                            index: indexRow,
+                            field: field
+                        });
+                        $(lo_editor.target).textbox("readonly", true);
                     });
-                    $(lo_editor.target).textbox("readonly", true);
-                });
-            }
-            else {
-                _.each(ga_readonlyFields, function (field) {
-                    var lo_editor = $('#' + dgName).datagrid('getEditor', {
-                        index: indexRow,
-                        field: field
+                }
+                else {
+                    _.each(ga_readonlyFields, function (field) {
+                        var lo_editor = $('#' + dgName).datagrid('getEditor', {
+                            index: indexRow,
+                            field: field
+                        });
+                        $(lo_editor.target).textbox("readonly", true);
                     });
-                    $(lo_editor.target).textbox("readonly", true);
-                });
-            }
+                }
 
-            isUserEdit = true;
-        });
+                isUserEdit = true;
+            });
+        }
     }
 }
 

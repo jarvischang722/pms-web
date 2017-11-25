@@ -368,12 +368,12 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
-            console.log(this.classCodSelectedOption);
             var self = this;
-            this.isLoadingDialog = true;
-            this.loadingText = "Saving...";
 
             if (this.dgHoatelDt.endEditing()) {
+                this.isLoadingDialog = true;
+                this.loadingText = "Saving...";
+
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
