@@ -545,7 +545,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                             cb(false, lo_error);
                         }
                         else {
-                            cb(false, '');
+                            cb(false, result);
                         }
                     }
                     else {
@@ -578,7 +578,7 @@ exports.chkFormatSta = function (params ,session, callback) {
                             cb(false, lo_error);
                         }
                         else{
-                            cb(false, '');
+                            cb(false, result);
                         }
                     }
                     else {
