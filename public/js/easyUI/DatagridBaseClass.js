@@ -92,7 +92,6 @@ function DatagridBaseClass() {
             }
         }
 
-
     };
     /**
      * 讀取資料到datagrid 顯示
@@ -106,9 +105,25 @@ function DatagridBaseClass() {
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
-        this.editIndex = undefined;
+        self.editIndex = index;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
+    };
+
+    /**
+     * 確認是否可以結束編輯
+     * @return {boolean}
+     */
+    this.endEditing = function () {
+        if (this.editIndex == undefined) {
+            return true;
+        }
+        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
+            this.editIndex = undefined;
+            return true;
+        }
+        return false;
 
     };
 
@@ -126,22 +141,6 @@ function DatagridBaseClass() {
             }
         });
         return rowData;
-    };
-    /**
-     * 確認是否可以結束編輯
-     * @return {boolean}
-     */
-    this.endEditing = function () {
-        if (this.editIndex == undefined) {
-            return true;
-        }
-        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
-            this.editIndex = undefined;
-            return true;
-        }
-        return false;
-
     };
 
     /**
@@ -279,7 +278,7 @@ function DatagridBaseClass() {
      */
     this.doTmpExecData = function (rowData, index) {
 
-        var lo_chkKeyRowData = _.clone(rowData);
+        var lo_chkKeyRowData = JSON.parse(JSON.stringify(rowData));
 
         lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
