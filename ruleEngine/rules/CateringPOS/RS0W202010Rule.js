@@ -141,23 +141,19 @@ module.exports = {
 
         //Page2欄位:跳出視窗的欄位(對應)
         var updateFieldName = {
-            show_cod: "show_cod",
-            alt_nam: "alt_nam",
-            contact_rmk: "contact_rmk",
-            first_nam: "first_nam",
-            last_nam: "last_nam",
-            cust_typ: "cust_typ",
-            cust_sta: "cust_sta"
+            place_cod: "place_cod",
+            place_nam: "place_nam",
+            place_eng: "place_eng",
+            rspt_cod: "rspt_cod",
+            desk_qnt: "desk_qnt"
         };
 
         var fieldNameChangeLanguage = {
-            show_cod: "客戶代號",
-            alt_nam: "客戶姓名",
-            contact_rmk: "聯絡電話",
-            first_nam: "First Name",
-            last_nam: "Last Name",
-            cust_typ: "客戶類別",
-            cust_sta: "客戶狀態"
+            place_cod: "場地編號",
+            place_nam: "場地名稱",
+            place_eng: "場地別名",
+            rspt_cod: "廳別",
+            desk_qnt: "桌數"
         };
 
         if (ui_field_name != "") {

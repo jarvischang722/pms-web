@@ -11,7 +11,7 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂席單號</label>
-                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px"/>
+                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px" disabled=""/>
                                     </div>
                                     <div class="grid-item-inline no-margin-left">
                                         <label>館別</label>
@@ -173,7 +173,12 @@
                                     </div>
                                     <div class="grid-item">
                                         <label class="width-135px">業務員</label>
-                                        <input type="text" v-model="singleData.sales_cod" class="input-medium w240px"/>
+                                        <select v-model="singleData.sales_cod" class="input-medium w240px">
+                                            <option v-for="opt in selectOption.sales_cod" :value="opt.value">
+                                                {{opt.display}}
+                                            </option>
+                                        </select>
+
                                     </div>
                                 </div>
 
@@ -273,10 +278,10 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">離開</button>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="exit">離開</button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">存檔</button>
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="save">存檔</button>
                                 </li>
 
                                 <div class="btn-group width-100 margin-tb15">
@@ -285,16 +290,16 @@
                                             <legend class="blue">訂席狀態</legend>
                                             <div class="grid">
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">取消</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(X)">取消</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" disabled>預約</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(N)">預約</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">等待</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(W)">等待</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">詢價</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(Q)">詢價</button>
                                                 </li>
                                             </div>
                                         </fieldset>
@@ -324,19 +329,13 @@
                                         <div class="right-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">選取場地
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod')" role="button">選取場地</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">刪除場地
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">刪除場地</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                                            role="button">庫存檢查
-                                                    </button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">庫存檢查</button>
                                                 </li>
 
                                             </ul>

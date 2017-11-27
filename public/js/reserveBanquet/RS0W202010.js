@@ -115,16 +115,18 @@ var singlePage = Vue.extend({
     template: "#RS0W202010Tmp",
     data: function () {
         return {
+            userInfo: {},               //登入的使用者資料
+
             //系統參數
             mask_hfd: "",               //前檯金額格式
             round_hfd: "",              //前檯進位小數位數
             rent_cal_dat: "",           //滾房租日期
             required_bride_nam: "",     //新郎、新娘是否為必Key
 
-
-
             singleData: {},
             singleField: {},
+            singleDataEmpty : {},
+
             selectOption: {},
 
             selectPopUpGridData: [],
@@ -152,11 +154,18 @@ var singlePage = Vue.extend({
     },
     created: function () {
         var self = this;
-        vmHub.$on("showReserve", function (bquet_nos) {
+        vmHub.$on("showReserve", function (PostData) {
 
             self.loadSingleGridPageField(function () {
-                //self.fetchSingleData(bquet_nos);
-                self.fetchSingleData('0600006');
+                if(PostData.bquet_nos != "") {
+                    self.fetchSingleData(PostData.bquet_nos);
+                }
+                else {
+                    //self.fetchSingleData('0600006');
+                    self.singleData = _.clone(self.singleDataEmpty);
+                }
+
+                self.showReserve();
             });
         });
 
@@ -166,6 +175,8 @@ var singlePage = Vue.extend({
     },
     mounted: function () {
         this.getSystemParam();
+        this.fetchUserInfo();
+        this.fetchDataGridData();
     },
     methods: {
 
@@ -227,22 +238,34 @@ var singlePage = Vue.extend({
         },
 
         /**
+         * 取得使用者資料
+         */
+        fetchUserInfo: function () {
+            var self = this;
+            $.post('/api/getUserInfo', function (result) {
+                if (result.success) {
+                    self.userInfo = result.userInfo;
+                }
+            });
+        },
+
+        /**
          * 撈取單筆資料
          * @param bquet_nos {String} : 訂席單號
          */
         fetchSingleData: function (bquet_nos) {
-            var self = this;
-            var lo_params = {
+                var self = this;
+                var lo_params = {
                     bquet_nos: bquet_nos
                 };
-            $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
-                if (!_.isUndefined(result.data)) {
-                    self.singleData = result.data;
-                    self.fetchDataGridData();
-                } else {
-                    alert(result.error.errorMsg);
-                }
-            });
+                $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
+                    if (!_.isUndefined(result.data)) {
+                        self.singleData = result.data;
+                    }
+                    else {
+                        alert(result.error.errorMsg);
+                    }
+                });
         },
 
         /**
@@ -263,6 +286,9 @@ var singlePage = Vue.extend({
                 self.singleField = result.fieldData;
 
                 _.each(result.fieldData, function (value) {
+
+                    self.singleDataEmpty[value.ui_field_name] = "";
+
                     if(value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
@@ -295,8 +321,6 @@ var singlePage = Vue.extend({
                 self.dgIns = new DatagridBaseClass();
                 self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'));
                 self.dgIns.loadDgData(result.dataGridRows);
-
-                self.showReserve();
             });
         },
 
@@ -370,10 +394,77 @@ var singlePage = Vue.extend({
 
             // 給 dialog "內容"高 值
             //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+        },
+
+        /**
+         * 離開按鈕
+         */
+        exit: function () {
+            $("#gs-order-page").dialog('close');
+        },
+
+        /**
+         * 存檔按鈕
+         */
+        save: function () {
+            var self = this;
+            self.isLoading = true;
+
+            var trans_cod = "";
+
+            if(self.createStatus){
+                trans_cod = 'RS0W2020100520';
+            }
+            else {
+                trans_cod = 'RS0W2020100540';
+            }
+
+            var lo_params = {
+                REVE_CODE : trans_cod,
+                prg_id: prg_id,
+                bquet_nos: self.singleData.bquet_nos,
+                old_sta: self.singleData.order_sta,
+                new_sta: newStatus,
+                upd_usr: this.userInfo.usr_id
+            };
+
+            $.post("/api/callAPI", lo_params, function (result) {
+                self.isLoading = false;
+                if (result.success) {
+                    callback();
+                }
+                if(result.errorMsg != "") alert(result.errorMsg);
+            });
+        },
+
+        /**
+         * 異動訂席單
+         */
+        ModifyStatus: function (newStatus) {
+            var self = this;
+            self.isLoading = true;
+
+            var lo_params = {
+                REVE_CODE : 'RS0W2020101010',
+                prg_id: prg_id,
+                bquet_nos: self.singleData.bquet_nos,
+                old_sta: self.singleData.order_sta,
+                new_sta: newStatus,
+                upd_usr: this.userInfo.usr_id
+            };
+
+            $.post("/api/callAPI", lo_params, function (result) {
+                self.isLoading = false;
+                if (result.success) {
+                    callback();
+                }
+                if(result.errorMsg != "") alert(result.errorMsg);
+            });
         }
     }
 });
 
+//page.1 平面圖
 var RS00202010VM = new Vue({
     el: "#RS00202010Main",
     components: {

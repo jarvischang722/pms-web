@@ -100,7 +100,6 @@ function DatagridBaseClass() {
     this.loadDgData = function (dataGridRows) {
         var dgData = {total: dataGridRows.length, rows: dataGridRows};
         $('#' + this.dgName).datagrid("loadData", dgData);
-        console.log(this.dgName);
     };
 
     //結束編輯
