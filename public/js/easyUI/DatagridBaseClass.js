@@ -106,6 +106,7 @@ function DatagridBaseClass() {
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
+        this.editIndex = undefined;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
 
@@ -206,9 +207,7 @@ function DatagridBaseClass() {
         }
 
         delRow = _.extend(delRow, self.mnRowData);
-        delRow["tab_page_id"] = 1;
-        delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-        delRow["mnRowData"] = self.mnRowData;
+        delRow = this.insertKeyRowData(delRow);
 
         if (delRow.createRow != 'Y') {
             self.tmpCUD.deleteData.push(delRow);
