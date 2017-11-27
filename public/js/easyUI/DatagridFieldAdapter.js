@@ -375,7 +375,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
             oldValue: oldValue
         };
 
+        //確認驗證
         if($('#' + dgName).datagrid('validateRow', indexRow)){
+
             isUserEdit = false;
 
             $.post('/api/chkFieldRule', postData, function (result) {
@@ -444,7 +446,6 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         });
 
                     }
-
                 }
 
                 if (!result.isModifiable) {
