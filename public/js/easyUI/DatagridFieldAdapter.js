@@ -419,14 +419,17 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                             };
                         }
 
+                        //確認現在datagrid的editIndex為何
                         var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
                         if(lo_nowIndexRow != indexRow){
                             $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
                             $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
+
+                            //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                            $('#' + dgName).datagrid('beginEdit', indexRow);
+                            $('#' + dgName).datagrid('endEdit', indexRow);
                         }
 
-                        $('#' + dgName).datagrid('beginEdit', indexRow);
-                        $('#' + dgName).datagrid('endEdit', indexRow);
                         $('#' + dgName).datagrid('beginEdit', indexRow);
                     }
                     else {
