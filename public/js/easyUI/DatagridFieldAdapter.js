@@ -268,9 +268,9 @@ var DatagridFieldAdapter= {
                         return val;
                     }
                     return "";
-                } 
+                } else {
                     return val;
-                
+                }
             }
 
             tmpFieldObj.editor.type = dataType;
@@ -445,8 +445,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                             adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                         });
 
-                    }
                 }
+
+            }
 
                 if (!result.isModifiable) {
                     ga_readonlyFields = _.uniq(result.readonlyFields);
@@ -539,7 +540,7 @@ $.extend($.fn.datagrid.methods, {
         var rowData = $('#' + dgName).datagrid('getSelected');
         var $row = $("table[class='datagrid-btable']").find("tr[datagrid-row-index='" + editingIdx + "']");
         _.each(cols, function (field_name) {
-                var $td = $row.find("td[field='" + field_name + "']").length == 1 ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
+                var $td = ($row.find("td[field='" + field_name + "']").length == 1) ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
                 var $textbox = $(".textbox-value", $td);
                 var $checkbox = $(".dg-checkbox-change", $td);
 
