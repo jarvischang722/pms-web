@@ -343,6 +343,24 @@ exports.getIsNeed = function () {
 };
 
 /**
+ * 取得欄位keep_way 下拉資料
+ */
+exports.getGuarenteerfKeepway = function () {
+    var keepWayList = [
+        {
+            display: '依新增日',
+            value: 'OR'
+        },
+        {
+            display: '依CI日期',
+            value: 'CI'
+        }
+    ];
+
+    return keepWayList;
+};
+
+/**
  * checkbox是否使用
  * @returns
  */
@@ -1067,6 +1085,15 @@ exports.qryGuarenteerfUsesta = function (params, callback) {
 exports.qryGuarenteerfDpreq = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsNeed();
+    callback(null, lo_result);
+};
+
+/**
+ * 訂房類別設定(PMS0810150)取得欄位 keep_way下拉資料
+ */
+exports.qryGuarenteerfKeepway = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGuarenteerfKeepway();
     callback(null, lo_result);
 };
 
