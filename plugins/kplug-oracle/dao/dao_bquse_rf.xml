@@ -3,7 +3,7 @@
     <!-- [RS0W202010] 取宴席使用類別下拉 -->
     <dao name="SEL_USE_TYP">
         <statement><![CDATA[
-            select use_typ as value, use_nam as display, use_eng from bquse_rf order by use_typ
+            select trim(use_typ) as value, use_nam as display, use_eng from bquse_rf order by use_typ
         ]]>
         </statement>
     </dao>

@@ -96,4 +96,37 @@
         </statement>
     </dao>
 
+    <!-- ['RS0W202010'] 使用類別預設值 -->
+    <dao name="QRY_DEFAULT_USE_TYP_COMMON">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_use_typ_common') as default_use_typ_common from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W202010'] 訂席狀態預設值 -->
+    <dao name="QRY_DEFAULT_BQUET_ORDER_STA">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_bquet_order_sta') as default_bquet_order_sta from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W202010'] 餐別預設值 -->
+    <dao name="QRY_DEFAULT_MEAL_TYP">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_meal_typ') as default_meal_typ from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W202010'] 餐別預設值 -->
+    <dao name="QRY_DEFAULT_EXPIRE_DAT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_expire_dat') as default_expire_dat from dual
+        ]]>
+        </statement>
+    </dao>
+
+
 </root>

@@ -328,3 +328,27 @@ exports.qrySystemParam = function (postData, session, callback) {
         }
     });
 };
+
+//[RS0W202010] 取宴席類別
+exports.chk_use_typ = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+        use_typ: postData.use_typ
+    };
+
+    queryAgent.query("CHK_USE_TYP", lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};

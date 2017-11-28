@@ -91,7 +91,11 @@ module.exports = {
             first_nam: "first_nam",
             last_nam: "last_nam",
             cust_typ: "cust_typ",
-            cust_sta: "cust_sta"
+            cust_sta: "cust_sta",
+            //隱藏欄位
+            uni_cod: "uni_cod",
+            uni_title: "uni_title",
+            contact_cod: "contact_cod"
         };
 
         var fieldNameChangeLanguage = {
@@ -101,7 +105,10 @@ module.exports = {
             first_nam: "First Name",
             last_nam: "Last Name",
             cust_typ: "客戶類別",
-            cust_sta: "客戶狀態"
+            cust_sta: "客戶狀態",
+            uni_cod: "uni_cod",
+            uni_title: "uni_title",
+            contact_cod: "contact_cod"
         };
 
         if (ui_field_name != "") {

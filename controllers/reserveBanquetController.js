@@ -34,3 +34,10 @@ exports.qrySystemParam = function (req, res) {
         res.json({data: result, error: err});
     });
 };
+
+//[RS0W202010] 取宴席類別
+exports.chk_use_typ = function (req, res) {
+    resvBanquetSvc.chk_use_typ(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};

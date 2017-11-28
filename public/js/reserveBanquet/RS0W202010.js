@@ -7,110 +7,6 @@
 var vmHub = new Vue;
 var prg_id = "RS0W202010";
 
-//跳窗將資料選回去單筆欄位
-Vue.component('text-select-grid-dialog-tmp', {
-    template: "#chooseDataDialogTmp",
-    data: function () {
-        return {
-            fieldNameConditionTmp: [],
-            gridColumns: [],
-            updateFieldNameTmp: [],
-            gridData: [],
-            isFistData: false,
-            isLastData: false,
-            dtEditIndex: undefined
-        };
-    },
-    created: function () {
-        var self = this;
-        vmHub.$on('showPopUpDataGrid', function (result) {
-            self.showPopUpDataGrid(result);
-        });
-    },
-    methods: {
-
-        //顯示點選popupgrid跳出來的視窗
-        showPopUpDataGrid: function (result) {
-            var self = this;
-            var textDataGrid = result.showDataGrid;
-            var updateFieldName = result.updateFieldNameTmp;
-            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
-            this.fieldNameConditionTmp = [];
-            this.fieldConditionTmp = [];
-            this.gridData = [];
-            delete textDataGrid ['errorMsg'];
-            var columnsData = [];
-            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
-                return textDataGrid[key];
-            });
-            for (var col in textDataGrid[0]) {
-                _.each(fieldNameChangeLanguage, function (name, field) {
-                    if (col == field) {
-                        columnsData.push({
-                            type: 'textbox',
-                            field: col,
-                            title: name,
-                            width: 150,
-                            align: "left"
-                        });
-                        self.fieldNameConditionTmp.push({value: field, display: name});
-                        self.fieldConditionTmp.push({value: field});
-                    }
-                });
-            }
-
-            self.gridData = textDataGridArray;
-            var height = document.documentElement.clientHeight - 160;
-            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
-            $('#chooseGrid').datagrid({
-                columns: [columnsData],
-                singleSelect: true,
-                data: textDataGridArray,
-                height: height,
-                width: width,
-            }).datagrid('columnMoving');
-            self.updateFieldNameTmp = updateFieldName;
-        },
-
-        //將選擇到的資料帶回Page2
-        chooseDataBackGridSingle: function () {
-            var self = this;
-            var selectTable = $('#chooseGrid').datagrid('getSelected');
-            var chooseData = self.updateFieldNameTmp;
-            var updateFieldName = self.updateFieldNameTmp;
-
-            if (selectTable != null) {
-                _.each(selectTable, function (selectValue, selectField) {
-                    _.each(updateFieldName, function (updateValue, updateField) {
-                        if (selectField == updateValue) {
-                            chooseData[updateField] = selectValue;
-                        }
-                    });
-                });
-            }else {
-                _.each(chooseData, function (chooseValue, chooseField) {
-                    chooseData[chooseField] = "";  //SAM20170930
-                });
-            }
-            vmHub.$emit('updateBackSelectData', chooseData);
-            $("#dataPopUpGridDialog").dialog('close');
-        },
-        txtSearchChangeText: function (keyContent) {
-            var allData = this.gridData;
-            var selectFieldName = $('#cbSelect').val();
-            var selectCondition = $('#txtSelectCondition').val();
-
-            var dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition))
-                    return row;
-            });
-            $('#chooseGrid').datagrid('loadData', dataGrid);
-
-        }
-    }
-});
-
-
 var singlePage = Vue.extend({
     template: "#RS0W202010Tmp",
     data: function () {
@@ -123,13 +19,20 @@ var singlePage = Vue.extend({
             rent_cal_dat: "",           //滾房租日期
             required_bride_nam: "",     //新郎、新娘是否為必Key
 
+            default_use_typ_common: "", //使用類別預設值
+            default_bquet_order_sta: "",//訂席狀態預設值
+            default_meal_typ: "",       //餐別預設值
+
+            default_expire_dat: "",     //保留期限天數
+
             singleData: {},
             singleField: {},
-            singleDataEmpty : {},
+            singleDataEmpty: {},
 
             selectOption: {},
 
             selectPopUpGridData: [],
+            popupFieldName: "",         //哪一個field觸發popup
 
             createStatus: false,        //新增狀態
             editStatus: false,          //編輯狀態
@@ -147,6 +50,7 @@ var singlePage = Vue.extend({
             dropEnable: false,
 
             dgIns: {},
+            dataGridRows: [],
 
             startTime: "",
             endTime: ""
@@ -161,22 +65,50 @@ var singlePage = Vue.extend({
                     self.fetchSingleData(PostData.bquet_nos);
                 }
                 else {
+                    //新增模式
                     //self.fetchSingleData('0600006');
                     self.singleData = _.clone(self.singleDataEmpty);
+                    self.defaultValue();
+
                 }
 
                 self.showReserve();
+                self.fetchDataGridData();
             });
         });
 
         vmHub.$on('updateBackSelectData', function (chooseData) {
-            self.singleData = _.extend(self.singleData, chooseData);
+
+            if(self.popupFieldName == "alt_nam"){
+                var contact_cod = chooseData["contact_cod"].toString().split(",");
+                chooseData["contact1_cod"] = contact_cod[0];
+                chooseData["contact2_cod"] = contact_cod[1];
+
+                var contact_rmk = chooseData["contact_rmk"].toString().split(",");
+                chooseData["contact1_rmk"] = contact_rmk[0];
+                chooseData["contact2_rmk"] = contact_rmk[1];
+
+                if(self.singleData.title_nam.toString().trim() == ""){
+                    chooseData["title_nam"] = chooseData["alt_nam"];
+                }
+
+                self.singleData = _.extend(self.singleData, chooseData);
+            }
+            else if(self.popupFieldName == "place_cod"){
+                self.dataGridRows.push(chooseData);
+                self.dgIns.loadDgData(self.dataGridRows);
+            }
+            else {
+                self.singleData = _.extend(self.singleData, chooseData);
+            }
+
         });
+
     },
     mounted: function () {
         this.getSystemParam();
         this.fetchUserInfo();
-        this.fetchDataGridData();
+
     },
     methods: {
 
@@ -235,6 +167,59 @@ var singlePage = Vue.extend({
                 }
             });
 
+            //使用類別預設值
+            lo_params = {
+                paramName: "default_use_typ_common"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_use_typ_common = result.data.default_use_typ_common;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //訂席狀態預設值
+            lo_params = {
+                paramName: "default_bquet_order_sta"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_bquet_order_sta = result.data.default_bquet_order_sta;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //餐別預設值
+            lo_params = {
+                paramName: "default_meal_typ"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_meal_typ = result.data.default_meal_typ;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //保留期限天數
+            lo_params = {
+                paramName: "default_expire_dat"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_expire_dat = result.data.default_expire_dat;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+
         },
 
         /**
@@ -254,18 +239,18 @@ var singlePage = Vue.extend({
          * @param bquet_nos {String} : 訂席單號
          */
         fetchSingleData: function (bquet_nos) {
-                var self = this;
-                var lo_params = {
-                    bquet_nos: bquet_nos
-                };
-                $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
-                    if (!_.isUndefined(result.data)) {
-                        self.singleData = result.data;
-                    }
-                    else {
-                        alert(result.error.errorMsg);
-                    }
-                });
+            var self = this;
+            var lo_params = {
+                bquet_nos: bquet_nos
+            };
+            $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
+                if (!_.isUndefined(result.data)) {
+                    self.singleData = result.data;
+                }
+                else {
+                    alert(result.error.errorMsg);
+                }
+            });
         },
 
         /**
@@ -292,6 +277,7 @@ var singlePage = Vue.extend({
                     if(value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
+
                 });
 
                 //self.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
@@ -311,16 +297,60 @@ var singlePage = Vue.extend({
         },
 
         /**
+         * 塞預設值
+         */
+        defaultValue: function () {
+            this.singleData.use_typ = this.default_use_typ_common;
+            this.useTypeOnChange();
+            this.singleData.order_sta = this.default_bquet_order_sta;
+            this.singleData.meal_typ = this.default_meal_typ;
+            this.singleData.confirm_sta = "N";
+            this.singleData.wait_seq = "0";
+            this.singleData.begin_tim = "00:00";
+            this.singleData.end_tim = "23:59";
+            this.singleData.begin_dat = RS00202010VM.searchDate;
+
+            //保留日計算
+            this.singleData.expire_dat = moment(this.rent_cal_dat).add(this.default_expire_dat, 'day');
+
+            if(moment(this.singleData.begin_dat) <= moment(this.rent_cal_dat)){
+                this.singleData.expire_dat = this.rent_cal_dat;
+            }
+            else if(moment(this.singleData.begin_dat) > moment(this.rent_cal_dat) && moment(this.singleData.begin_dat) <= moment(this.singleData.expire_dat)){
+                this.singleData.expire_dat = moment(this.singleData.begin_dat).add(-1, 'day');
+            }
+
+            this.singleData.desk_qnt = "0";
+            this.singleData.pmdesk_qnt = "0";
+
+            //TODO: 取系統參數
+            this.singleData.adult_qnt = "0";
+            this.singleData.poadult_qnt = "0";
+
+            this.singleData.hpdpst_amt = "0";
+            this.singleData.deposit_amt = "0";
+
+            this.singleData.cal_serv = "Y";
+            this.singleData.hotel_cod = this.userInfo.hotel_cod;
+
+
+            this.singleData.place_amt = "0";
+
+        },
+
+        /**
          * 取DT欄位及資料
          */
         fetchDataGridData: function () {
             var self = this;
+
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: self.singleData.bquet_nos}}, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
+                self.dataGridRows = result.dataGridRows;
 
                 self.dgIns = new DatagridBaseClass();
                 self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'));
-                self.dgIns.loadDgData(result.dataGridRows);
+                self.dgIns.loadDgData(self.dataGridRows);
             });
         },
 
@@ -342,7 +372,7 @@ var singlePage = Vue.extend({
 
         //跳窗選擇多欄位
         chkClickPopUpGrid: function (fieldName) {
-
+            this.popupFieldName = fieldName;
             var lo_field;
             var self = this;
 
@@ -394,6 +424,25 @@ var singlePage = Vue.extend({
 
             // 給 dialog "內容"高 值
             //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
+        },
+
+        /**
+         * 使用類別onChange
+         */
+        useTypeOnChange: function () {
+            if(_.isUndefined(this.singleData.use_typ)) return;
+            var self = this;
+            var lo_params = {
+                use_typ: self.singleData.use_typ
+            };
+            $.post("/reserveBanquet/chk_use_typ", lo_params, function (result) {
+                if (!_.isUndefined(result.data)) {
+                    self.singleData.inter_cod = result.data.inter_cod;
+                }
+                else {
+                    alert(result.error.errorMsg);
+                }
+            });
         },
 
         /**
@@ -464,6 +513,111 @@ var singlePage = Vue.extend({
     }
 });
 
+//跳窗將資料選回去單筆欄位
+Vue.component('text-select-grid-dialog-tmp', {
+    template: "#chooseDataDialogTmp",
+    data: function () {
+        return {
+            fieldNameConditionTmp: [],
+            gridColumns: [],
+            updateFieldNameTmp: [],
+            gridData: [],
+            isFistData: false,
+            isLastData: false,
+            dtEditIndex: undefined
+        };
+    },
+    created: function () {
+        var self = this;
+        vmHub.$on('showPopUpDataGrid', function (result) {
+            self.showPopUpDataGrid(result);
+        });
+    },
+    methods: {
+
+        //顯示點選popupgrid跳出來的視窗
+        showPopUpDataGrid: function (result) {
+            var self = this;
+            var textDataGrid = result.showDataGrid;
+            var updateFieldName = result.updateFieldNameTmp;
+            var fieldNameChangeLanguage = result.fieldNameChangeLanguageTmp;
+            this.fieldNameConditionTmp = [];
+            this.fieldConditionTmp = [];
+            this.gridData = [];
+            delete textDataGrid ['errorMsg'];
+            var columnsData = [];
+            var textDataGridArray = Object.keys(textDataGrid).map(function (key) {
+                return textDataGrid[key];
+            });
+            for (var col in textDataGrid[0]) {
+                _.each(fieldNameChangeLanguage, function (name, field) {
+                    if (col == field) {
+                        columnsData.push({
+                            type: 'textbox',
+                            field: col,
+                            title: name,
+                            width: 150,
+                            align: "left",
+                            hidden: (field == "uni_cod" || field == "uni_title" || field == "contact_cod") ? true : false
+                        });
+
+                        self.fieldNameConditionTmp.push({value: field, display: name});
+                        self.fieldConditionTmp.push({value: field});
+                    }
+                });
+            }
+
+            self.gridData = textDataGridArray;
+            var height = document.documentElement.clientHeight - 160;
+            var width = document.documentElement.clientWidth / 2 - 25;    //browser 寬度 - 200功能列
+            $('#chooseGrid').datagrid({
+                columns: [columnsData],
+                singleSelect: true,
+                data: textDataGridArray,
+                height: height,
+                width: width,
+            }).datagrid('columnMoving');
+            self.updateFieldNameTmp = updateFieldName;
+        },
+
+        //將選擇到的資料帶回Page2
+        chooseDataBackGridSingle: function () {
+            var self = this;
+            var selectTable = $('#chooseGrid').datagrid('getSelected');
+            var chooseData = self.updateFieldNameTmp;
+            var updateFieldName = self.updateFieldNameTmp;
+
+            if (selectTable != null) {
+                _.each(selectTable, function (selectValue, selectField) {
+                    _.each(updateFieldName, function (updateValue, updateField) {
+                        if (selectField == updateValue) {
+                            chooseData[updateField] = selectValue;
+                        }
+                    });
+                });
+            }else {
+                _.each(chooseData, function (chooseValue, chooseField) {
+                    chooseData[chooseField] = "";  //SAM20170930
+                });
+            }
+            vmHub.$emit('updateBackSelectData', chooseData);
+            $("#dataPopUpGridDialog").dialog('close');
+        },
+        txtSearchChangeText: function (keyContent) {
+            var allData = this.gridData;
+            var selectFieldName = $('#cbSelect').val();
+            var selectCondition = $('#txtSelectCondition').val();
+
+            var dataGrid = _.filter(allData, function (row) {
+                if (row[selectFieldName].includes(selectCondition))
+                    return row;
+            });
+            $('#chooseGrid').datagrid('loadData', dataGrid);
+
+        }
+    }
+});
+
 //page.1 平面圖
 var RS00202010VM = new Vue({
     el: "#RS00202010Main",
@@ -471,7 +625,7 @@ var RS00202010VM = new Vue({
         singlePage
     },
     data: {
-        searchDate: new Date(),
+        searchDate: moment(new Date()).format("YYYY/MM/DD"),
         pageOneData: {}
     },
     mounted: function () {

@@ -15,7 +15,7 @@
     <!-- [RS0W202010] 取聯絡方式下拉-->
     <dao name="SEL_CONTACT1_COD">
         <statement><![CDATA[
-            select contact_cod as value, contact_nam as display from contact_rf order by seq_nos
+            select trim(contact_cod) as value, contact_nam as display from contact_rf order by seq_nos
         ]]>
         </statement>
     </dao>

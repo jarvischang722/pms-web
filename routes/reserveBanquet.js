@@ -18,4 +18,6 @@ module.exports = function(app, passport){
     app.post("/reserveBanquet/qryPageTwoData", apiMiddles, resvbanquetCtrl.qryPageTwoData);
 
     app.post("/reserveBanquet/qrySystemParam", apiMiddles, resvbanquetCtrl.qrySystemParam);
+
+    app.post("/reserveBanquet/chk_use_typ", apiMiddles, resvbanquetCtrl.chk_use_typ);
 };
