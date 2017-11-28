@@ -245,13 +245,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     //找樹狀parent node
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
-                    //攤平資料(將資料降維成二維)
-                    //TODO 維度扁平化不夠
-                    var list = _(go_rtnResult).chain()
-                        .zip(_(go_rtnResult).pluck('children'))
-                        .flatten()
-                        .compact()
-                        .value();
+                    //攤平資料(陣列扁平化)
+                    var list = [];
+                    flattenArray(go_rtnResult, list);
 
                     self.classCodSelectedOption = [];
                     var groupList = _.groupBy(list, "parent_cod");
@@ -854,4 +850,17 @@ function findByValue(obj, id) {
         
     }
     return result;
+}
+
+function flattenArray(array, la_list){
+    _.each(array, function(object){
+        if(!_.isUndefined(object.children)){
+            la_list.push(object);
+            flattenArray(object.children, la_list);
+        }
+        else{
+            la_list.push(object);
+            return;
+        }
+    });
 }
