@@ -51,6 +51,10 @@ Vue.component('single-grid-pms0620020-tmp', {
     created: function () {
         var self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
+            if(chooseData["user_nos"] != "" && chooseData["user_cname"] != ""){
+                chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
+            }
+
             self.rowData = _.extend(self.rowData, chooseData);
         });
     },
@@ -533,7 +537,6 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             }
 
-            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
