@@ -13,7 +13,7 @@ function DatagridBaseClass() {
         createData: [],
         updateData: [],
         deleteData: [],
-        oriUpdateData: []
+        oriData: []
     };
     this.dgName = "";
     this.prg_id = "";
@@ -66,7 +66,7 @@ function DatagridBaseClass() {
             createData: [],
             updateData: [],
             deleteData: [],
-            oriUpdateData: []
+            oriData: []
         };
     };
     /**
@@ -296,7 +296,7 @@ function DatagridBaseClass() {
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
         if (existIdx > -1) {
             if (this.dtOriRowData.length != 0) {
-                self.tmpCUD.oriUpdateData.splice(existIdx, 1);
+                self.tmpCUD.oriData.splice(existIdx, 1);
             }
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
@@ -307,19 +307,19 @@ function DatagridBaseClass() {
             var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
             if (dataType == "updateData") {
                 if (existOriIdx > -1 && existIdx == -1) {
-                    self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
+                    self.tmpCUD.oriData.splice(existOriIdx, 1);
                     this.tmpCUD[dataType].splice(existOriIdx, 1);
                 }
                 lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                 self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
-                self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
+                self.tmpCUD.oriData.splice(existOriIdx, 0, self.dtOriRowData[index]);
                 $("#gridEdit").val(self.tmpCUD);
             }
             else if (dataType == "createData") {
                 if (existOriIdx == -1) {
                     lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                     self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                    self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+                    self.tmpCUD.oriData.push(self.dtOriRowData[index]);
                     $("#gridEdit").val(self.tmpCUD);
                 }
             }

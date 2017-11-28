@@ -217,7 +217,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             else {
                 $.post("/api/sales/qrySalesMn_PM0620020", singleData, function (result) {
                     if (result.success) {
-                        self.originRowData = _.clone(result.rtnObject[0]['rowData']);
+                        self.originRowData = JSON.parse(JSON.stringify(result.rtnObject[0]['rowData']));
+                        vm.tmpCud.oriData.push(self.originRowData);
                         self.rowData = result.rtnObject[0]['rowData'];
                         if (_.isNull(self.rowData.user_nos)) {
                             self.rowData.user_nos = "";
@@ -411,7 +412,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
                         vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                        vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
+                        vm.tmpCud.dt_oriData = this.dgHoatelDt.tmpCUD.oriData;
                     }
 
                     vm.doSaveCud("PMS0620020", 1, function (result) {
@@ -570,10 +571,11 @@ var vm = new Vue({
             createData: [],
             updateData: [],
             deleteData: [],
+            oriData: [],
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: [],
-            dt_ori_updateData: []
+            dt_oriData: []
         },
         pageOneDataGridRows: [],
         pageOneFieldData: [],
@@ -621,10 +623,11 @@ var vm = new Vue({
                 createData: [],
                 updateData: [],
                 deleteData: [],
+                oriData: [],
                 dt_createData: [],
                 dt_updateData: [],
                 dt_deleteData: [],
-                dt_oriUpdateData: []
+                dt_oriData: []
             };
         },
         loadDataGridByPrgID: function () {
