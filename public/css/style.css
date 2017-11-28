@@ -5354,3 +5354,11 @@ select {
 }
 
 /*-------------- responsive -------------- */
+.vue-treeselect__menu label{
+  text-align: left;
+  width: auto;
+}
+
+.vue-treeselect{
+  display: inline-block;
+}

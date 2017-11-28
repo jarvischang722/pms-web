@@ -8,4 +8,13 @@
         </statement>
         <parameter type="int" kind="3">athena_id</parameter>
     </dao>
+
+    <!--[PMS0620050] 搜尋列area下拉資料-->
+    <dao name="SEL_AREA_COD_KVRF">
+        <statement><![CDATA[
+                select area_cod, area_nam, level_nos, parent_cod ,sort_cod from area_cod_kvrf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

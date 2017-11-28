@@ -718,6 +718,57 @@ exports.getSalesHotelDtStatus = function(){
     return la_optionList;
 };
 
+/**
+ * PMS0620050 業務員拜訪記錄
+ * cust mn status 下拉資料
+ * @returns {[null,null]}
+ */
+exports.getCustMnStatusCod = function(){
+    var la_optionList = [
+        {
+            display: "正常",
+            value: "N"
+        },
+        {
+            display: "刪除",
+            value: "D"
+
+        },
+        {
+            display: "黑名單",
+            value: "B"
+
+        },
+        {
+            display: "潛力",
+            value: "P"
+
+        }
+    ];
+    return la_optionList;
+};
+
+/**
+ * PMS0620050 業務員拜訪記錄
+ * ps visit dt visit status 下拉資料
+ * @returns {[null,null]}
+ */
+exports.getPsVisitDtVisitSta = function(){
+    var la_optionList = [
+        {
+            display: "預計拜訪",
+            value: "N"
+        },
+        {
+            display: "已經拜訪",
+            value: "Y"
+
+        }
+    ];
+    return la_optionList;
+};
+
+
 //TODO 將搬到 [程式編碼]Rule裡
 
 /**
@@ -968,6 +1019,26 @@ exports.lang_yn_chkBox = function (params, callback) {
 exports.lang_sales_hotel_dt_status_cod = function(params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getSalesHotelDtStatus();
+    callback(null, lo_result);
+};
+
+/**
+ *
+ *業務員拜訪記錄(PMS0620050) cust mn status 下拉資料
+ */
+exports.lang_CustmnStatuscod = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnStatusCod();
+    callback(null, lo_result);
+};
+
+/**
+ *
+ *業務員拜訪記錄(PMS0620050) visit status 下拉資料
+ */
+exports.lang_PsvisitdtVisitsta = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getPsVisitDtVisitSta();
     callback(null, lo_result);
 };
 
