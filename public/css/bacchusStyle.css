@@ -401,6 +401,12 @@ a {
   color: #888;
 }
 
+.moreHide {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .space-6 {
   max-height: 1px;
   min-height: 1px;
