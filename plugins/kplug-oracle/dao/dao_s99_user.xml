@@ -79,6 +79,7 @@
         select b.cmp_id,a.cmp_name,b.grp_id,t.grp_name,b.usr_id,b.usr_cname
         from S99_GROUP t,s99_user b,s99_company a
         where t.cmp_id = b.cmp_id and t.grp_id = b.grp_id and t.cmp_id = a.cmp_id and a.cmp_id = ?
+        order by b.usr_id
         ]]> </statement>
         <parameter type="string" kind="1">cmp_id</parameter>
     </dao>

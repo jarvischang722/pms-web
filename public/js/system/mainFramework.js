@@ -20,7 +20,7 @@ var BacchusMainVM = new Vue({
     mounted: function () {
         //離開時
         window.onbeforeunload = function () {
-            BacchusMainVM.doLeavePageBeforePrgFuncs()
+            BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
 
 
@@ -66,7 +66,7 @@ var BacchusMainVM = new Vue({
         },
         /**
          * 塞入作業離開頁面後要執行的functions
-         * @param _funcsNam{Arra[String]} : 功能名稱清單
+         * @param _funcsNam{Array[String]} : 功能名稱清單
          */
         setLeaveAfterExecFuncsNam: function (_funcsNam) {
             this.leaveAfterExecFuncsNam = _funcsNam;

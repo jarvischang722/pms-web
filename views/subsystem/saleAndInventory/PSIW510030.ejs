@@ -27,7 +27,7 @@
 
                             <div class="main-content-data">
                                 <div class="horizTable-outer">
-                                    <table id="PSIW500030_dg" class="css_table horizTable" style="width:100%; height: 550px"></table>
+                                    <table id="PSIW510030_dg" class="css_table horizTable" style="width:100%; height: 550px"></table>
                                 </div>
                             </div>
                         </div>
@@ -38,19 +38,19 @@
                             <div class="dominos-btn-group">
                                     <ul>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details" @click="addData()" :disabled="!addEnable" role="button">新增</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_details purview_btn" data-purview_func_id="PSIW5100300200" @click="addData()" :disabled="!addEnable" role="button">新增</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn" @click="editData()" :disabled="!editEnable" role="button">修改</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_walkIn purview_btn" data-purview_func_id="PSIW5100300400" @click="editData()" :disabled="!editEnable" role="button">修改</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100300300" @click="deleteData()" :disabled="!deleteEnable" role="button">刪除</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100301010" @click="approved()" :disabled="!cnfirmEnable" role="button">核准</button>
                                         </li>
                                         <li>
-                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth foCnt_dayUse purview_btn" data-purview_func_id="PSIW5100301020" @click="cancel()" :disabled="!cancelEnable" role="button">取消核准</button>
                                         </li>
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="save()" :disabled="!saveEnable" role="button">儲存</button>
@@ -58,8 +58,11 @@
                                         <li>
                                             <button class="btn btn-primary btn-white btn-defaultWidth" @click="drop()" :disabled="!dropEnable" role="button">放棄</button>
                                         </li>
+                                        <li>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="PSIW5100300800" @click="loadChangeLog()" :disabled="!changeLogEnable" role="button"><%= __("SystemCommon").ChangeLog %></button>
+                                        </li>
                                         <li class="order-down btn-120">
-                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW500030-down" @click="orderSearch()" role="button">空白訂貨表單下載</button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth PSIW510030-down purview_btn" data-purview_func_id="PSIW5100301030" @click="orderSearch()" :disabled="!orderDownloadEnable" role="button">空白訂貨表單下載</button>
                                         </li>
                                     </ul>
                             </div>
@@ -100,19 +103,19 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>客戶代號</label>
-                                        <select v-model="singleData.cust_cod" class="input-medium w118px" style="-webkit-appearance: menulist;" @change="custSelectChange()" :disabled="!isModificableFormat">
+                                        <select v-model="singleData.cust_cod" class="input-medium resvCardSpec1" @change="custSelectChange()" :disabled="!isModificableFormat">
                                             <option v-for="opt in custSelectData" :value="opt.cust_cod">
                                                 {{opt.show_cod}}
                                             </option>
                                         </select>
-                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w388px input-second-2" placeholder="" disabled>
+                                        <input v-model="singleData.cust_nam" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>送貨地點</label>
-                                        <input v-model="singleData.ship1_add" type="text" class="input-medium w253px address-frist" placeholder="" disabled>
-                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w253px address-second" placeholder="" disabled>
+                                        <input v-model="singleData.ship1_add" type="text" class="input-medium resvCardSpec1" placeholder="" disabled>
+                                        <input v-model="singleData.ship2_add" type="text" class="input-medium w304px input-second-2" placeholder="" disabled>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -163,7 +166,7 @@
                             <div class="dominos-inventory-details">
                                 <div class="main-content-data">
                                     <div class="horizTable-outer">
-                                        <table id="PSIW500030_dt" class="css_table horizTable" style="width:100%;"></table>
+                                        <table id="PSIW510030_dt" class="css_table horizTable" style="width:100%;"></table>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +211,7 @@
         </div><!-- /. login-content -->
 
         <!-- 空白訂單下載 彈出視窗 -->
-        <div id="PSIW500030-down" class="hide padding-5 PSIW500030-down">
+        <div id="PSIW510030-down" class="hide padding-5 PSIW510030-down">
             <div class="businessCompanyData">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
@@ -242,6 +245,9 @@
         <!-- 空白訂單下載 PDF表格 -->
         <div class="main-content-data" >
             <div id="order_tag" class="horizTable-outer" style="display: none;">
+                <div style="font-size: 16px; margin-left: 21px; margin-bottom: 5px;font-weight: bold;"><span>新莊FAX: (02)2901-4323</span> <span style="margin-left: 64px">台中FAX: (04)2437-7389</span></div>
+                <div style="font-size: 16px; margin-left: 21px; margin-bottom: 20px;font-weight: bold;"> <span>訂貨門市:</span> <span style="margin-left: 180px">訂貨日期:</span> <span style="margin-left: 180px">訂貨人員:</span> </div>
+
                 <span style="font-size: 16px; margin: auto 30px 10px 20px;"><span style="font-weight: bold;">訂單格式：</span>{{select_format_sta}}</span>
                 <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">格式說明：</span>{{select_quote_rmk}}</span>
                 <span style="font-size: 16px; margin: auto 30px 10px auto;"><span style="font-weight: bold;">訂單時間：</span>{{select_order_time}}</span>
@@ -265,11 +271,90 @@
 
         </div>
 
+        <!-- 異動紀錄 -->
+        <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+                   :visible.sync="openChangeLogDialog" size="large">
+
+            <div class="col-xs-12">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="fixHeadTable">
+                            <div class="tbl-header02">
+                                <table class=" custab">
+                                    <thead class="custab-head">
+                                    <tr>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Time"] %></th>
+                                        <th class="width-10 text-center"><%= __("SystemCommon")["User"] %></th>
+                                        <th class="width-15 text-center"><%= __("SystemCommon")["Action_type"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Mn"] %></th>
+                                        <th class="width-20 text-center"><%= __("SystemCommon")["Desciption_Dt"] %></th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tbl-content02" style="height: 300px;">
+                                <table class="custab">
+
+                                    <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
+                                    <tr v-for="logData in allChangeLogList">
+                                        <td class="width-15">{{logData.event_time}}</td>
+                                        <td class="width-10">{{logData.user}}</td>
+                                        <td class="width-15">
+                                            <div class="blue bold" style="text-transform: capitalize;">
+                                                {{logData.action }}
+                                            </div>
+                                            <span v-for="keyData in logData.keys">{{keyData}}<br></span>
+                                        </td>
+                                        <td class="width-20">
+                                            <span v-for="mnData in logData.desc_mn">
+                                        {{mnData.field_name}} :
+                                        <span v-if="logData.action == 'update'">{{mnData.oldVal}} →  </span>
+                                        {{mnData.newVal}}
+                                        <br>
+                                    </span>
+                                        </td>
+                                        <td class="width-20">
+                                            <template v-if="logData.desc_dt.length > 0">
+                                                <div v-for="dtLogData in logData.desc_dt">
+                                                    <span v-for="dtData in dtLogData.changes">
+                                                {{dtData.field_name}} :
+                                                <span v-if="dtLogData.action == 'update'">{{dtData.oldVal}} →  </span>
+                                                {{dtData.newVal}}
+                                                       <br>
+                                            </span>
+
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                N/A
+                                            </template>
+
+
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                </div>
+            </div> <!-- /.col-sm-12 -->
+            <div class="clearfix"></div>
+
+            <span slot="footer" class="dialog-footer">
+             <el-button @click="openChangeLogDialog = false">確定</el-button>
+         </span>
+        </el-dialog>
+
     </div>
 
     <%- include ../setup/vueTemplate/searchTmp.ejs %>
+
     <script src="/js/setup/vueCompLib/searchComp.js"></script>
     <script src="/js/tools/jspdf.min.js"></script>
     <script src="/js/tools/jspdf.plugin.autotable.js"></script>
     <script src="/js/tools/html2canvas.min.js"></script>
-    <script src="/js/saleAndInventory/PSIW500030.js"></script>
+    <script src="/js/saleAndInventory/PSIW510030.js"></script>

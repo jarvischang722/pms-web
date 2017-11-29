@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取得單位種類 -->
+    <!-- ['PSIW510030'] 取得單位種類 -->
     <dao name="QRY_UNIT_TYP_SELECT">
         <statement><![CDATA[
             Select unit_typ as value, unit_nam as display
