@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+    <!-- [RS0W202010] 選取場地popup下拉-->
+    <dao name="SEL_POPUP_PLACE_COD">
+        <statement><![CDATA[
+            SELECT BQPLACE_RF.PLACE_COD, BQPLACE_RF.PLACE_NAM, BQPLACE_RF.PLACE_ENG, BQPLACE_RF.RSPT_COD, BQPLACE_RF.DESK_QNT, BQPLACE_RF.UNIT_AMT,
+            nvl(BQPLACEMERGE_RF.PLACE_COD ,BQPLACE_RF.PLACE_COD) parent_cod
+            FROM BQPLACE_RF,
+            BQPLACEMERGE_RF
+            WHERE ( bqplace_rf.place_cod = bqplacemerge_rf.merge_cod (+))
+        ]]>
+        </statement>
+    </dao>
+
     <!-- [RS0W202010] 選取場地下拉-->
     <dao name="SEL_PLACE_COD">
         <statement><![CDATA[
-            SELECT BQPLACE_RF.PLACE_COD, BQPLACE_RF.PLACE_NAM, BQPLACE_RF.PLACE_ENG, BQPLACE_RF.RSPT_COD, BQPLACE_RF.DESK_QNT,
-            nvl(BQPLACEMERGE_RF.PLACE_COD ,BQPLACE_RF.PLACE_COD) parent_cod
+            SELECT BQPLACE_RF.PLACE_COD as value, BQPLACE_RF.PLACE_NAM as display
             FROM BQPLACE_RF,
             BQPLACEMERGE_RF
             WHERE ( bqplace_rf.place_cod = bqplacemerge_rf.merge_cod (+))

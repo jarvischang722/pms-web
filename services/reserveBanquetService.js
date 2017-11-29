@@ -352,3 +352,75 @@ exports.chk_use_typ = function (postData, session, callback) {
         }
     });
 };
+
+
+//[RS0W202010] 取預約處理預設值
+exports.def_proc_sta = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+    };
+
+    queryAgent.query("DEF_PROC_STA", lo_params, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+
+//[RS0W202010] 取客戶資料
+exports.qry_bqcust_mn = function (postData, session, callback) {
+    var lo_error = null;
+
+    var lo_params = {
+        cust_cod: postData.cust_cod
+    };
+
+    queryAgent.query("QRY_BQCUST_MN", lo_params, function (err, Result) {
+        if (!err) {
+            if(Result){
+
+                var lo_params2 = {
+                    cust_cod: postData.cust_cod,
+                    atten_cod: Result.atten_cod
+                };
+
+                queryAgent.query("QRY_ATTEN_NAM", lo_params2, function (err, atten_nam) {
+                    if (!err) {
+                        if(atten_nam) {
+                            Result["atten_nam"] = atten_nam.atten_nam;
+                        }
+                        else{
+                            Result["atten_nam"] = "";
+                        }
+                        callback(lo_error, Result);
+                    }
+                    else {
+                        lo_error = new ErrorClass();
+                        lo_error.errorMsg = err || "error";
+                        lo_error.errorCod = "1111";
+                        callback(lo_error, Result);
+                    }
+                });
+            }
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};

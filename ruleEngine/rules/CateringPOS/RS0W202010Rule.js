@@ -25,7 +25,7 @@ module.exports = {
         });
     },
 
-    //聯絡人 popupgrid 下拉
+    //聯絡人 popupgrid
     sel_atten_nam: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
@@ -73,7 +73,7 @@ module.exports = {
         }
     },
 
-    //客戶姓名 popupgrid 下拉
+    //客戶姓名 popupgrid
     sel_alt_nam: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
@@ -93,9 +93,7 @@ module.exports = {
             cust_typ: "cust_typ",
             cust_sta: "cust_sta",
             //隱藏欄位
-            uni_cod: "uni_cod",
-            uni_title: "uni_title",
-            contact_cod: "contact_cod"
+            cust_cod: "cust_cod"
         };
 
         var fieldNameChangeLanguage = {
@@ -106,9 +104,7 @@ module.exports = {
             last_nam: "Last Name",
             cust_typ: "客戶類別",
             cust_sta: "客戶狀態",
-            uni_cod: "uni_cod",
-            uni_title: "uni_title",
-            contact_cod: "contact_cod"
+            cust_cod: "cust_cod"
         };
 
         if (ui_field_name != "") {
@@ -136,8 +132,8 @@ module.exports = {
         }
     },
 
-    //場地代號 popupgrid 下拉
-    sel_place_cod: function (postData, session, callback) {
+    //場地代號 popupgrid
+    sel_popup_place_cod: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
@@ -152,7 +148,9 @@ module.exports = {
             place_nam: "place_nam",
             place_eng: "place_eng",
             rspt_cod: "rspt_cod",
-            desk_qnt: "desk_qnt"
+            desk_qnt: "desk_qnt",
+            //隱藏欄位
+            unit_amt: "unit_amt"
         };
 
         var fieldNameChangeLanguage = {
@@ -160,7 +158,9 @@ module.exports = {
             place_nam: "場地名稱",
             place_eng: "場地別名",
             rspt_cod: "廳別",
-            desk_qnt: "桌數"
+            desk_qnt: "桌數",
+            //隱藏欄位
+            unit_amt: "unit_amt"
         };
 
         if (ui_field_name != "") {
@@ -186,6 +186,28 @@ module.exports = {
         } else {
             callback(null, result);
         }
+    },
+
+    chk_begin_tim: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+
+        lo_result.effectValues.order_qnt = "12";
+
+        lo_result.effectValues.place_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
+        lo_result.effectValues.special_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
+        lo_result.effectValues.disc_amt = lo_result.effectValues.place_amt - lo_result.effectValues.special_amt; //TODO:依前檯進位小數位數做進位
+        callback(lo_error, lo_result);
+    },
+
+    cal_inv_qnt: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        //打API取得庫存數
+
+        callback(lo_error, lo_result);
     }
 
 };

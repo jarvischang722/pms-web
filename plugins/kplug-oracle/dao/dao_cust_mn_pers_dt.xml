@@ -10,4 +10,19 @@
         </statement>
     </dao>
 
+    <!-- [RS0W202010] 取連絡人資料 -->
+    <dao name="QRY_ATTEN_NAM">
+        <statement><![CDATA[
+            select cust_mn_pers_dt.per_nam as atten_nam
+            from cust_mn_pers_dt,role_rf,member_mn
+            where cust_mn_pers_dt.role_cod=role_rf.role_cod(+)
+            and cust_mn_pers_dt.secretary_cod=member_mn.cust_cod(+)
+            and trim(cust_mn_pers_dt.cust_cod) = trim(:cust_cod)
+            and trim(cust_mn_pers_dt.seq_nos) = trim(:atten_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+        <parameter type="string" kind="3">atten_cod</parameter>
+    </dao>
+
 </root>

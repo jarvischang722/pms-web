@@ -20,4 +20,9 @@ module.exports = function(app, passport){
     app.post("/reserveBanquet/qrySystemParam", apiMiddles, resvbanquetCtrl.qrySystemParam);
 
     app.post("/reserveBanquet/chk_use_typ", apiMiddles, resvbanquetCtrl.chk_use_typ);
+
+    app.post("/reserveBanquet/def_proc_sta", apiMiddles, resvbanquetCtrl.def_proc_sta);
+
+    app.post("/reserveBanquet/qry_bqcust_mn", apiMiddles, resvbanquetCtrl.qry_bqcust_mn);
+
 };

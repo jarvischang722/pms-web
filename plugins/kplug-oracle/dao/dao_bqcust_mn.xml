@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- [RS0W202010] 取客戶資料 -->
+    <dao name="QRY_BQCUST_MN">
+        <statement><![CDATA[
+			select cust_cod, show_cod, alt_nam, first_nam, last_nam, uni_cod, uni_title, sales_cod, contact1_cod, contact2_cod, contact1_rmk, contact2_rmk, atten_cod
+			from bqcust_mn
+			where trim(cust_cod) = trim(:cust_cod)
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">cust_cod</parameter>
+    </dao>
+
+</root>

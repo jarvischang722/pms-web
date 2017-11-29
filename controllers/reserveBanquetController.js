@@ -41,3 +41,17 @@ exports.chk_use_typ = function (req, res) {
         res.json({data: result, error: err});
     });
 };
+
+//[RS0W202010] 取預約處理預設值
+exports.def_proc_sta = function (req, res) {
+    resvBanquetSvc.def_proc_sta(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};
+
+//[RS0W202010] 取客戶資料
+exports.qry_bqcust_mn = function (req, res) {
+    resvBanquetSvc.qry_bqcust_mn(req.body, req.session, function (err, result) {
+        res.json({data: result, error: err});
+    });
+};

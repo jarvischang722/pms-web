@@ -11,15 +11,15 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂席單號</label>
-                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px" disabled=""/>
+                                        <input type="text" v-model="singleData.bquet_nos" class="input-medium w142px" disabled/>
                                     </div>
                                     <div class="grid-item-inline no-margin-left">
                                         <label>館別</label>
-                                        <input type="text" v-model="singleData.hotel_cod" class="input-medium resvCard-m"/>
+                                        <input type="text" v-model="singleData.hotel_cod" class="input-medium resvCard-m" disabled/>
                                     </div>
                                     <div class="grid-item-inline">
                                         <label>訂席狀態</label>
-                                        <select v-model="singleData.order_sta" class="input-medium resvCard-m">
+                                        <select v-model="singleData.order_sta" class="input-medium resvCard-m" disabled>
                                             <option v-for="opt in selectOption.order_sta" :value="opt.value">
                                                 {{opt.display}}
                                             </option>
@@ -90,9 +90,9 @@
                                     <div class="grid-item-inline gs-timePicker margin-right-10">
                                         <div class="inquire-timePicker">
                                             <template>
-                                                <el-time-select v-model="singleData.begin_tim" placeholder="開始時間">
+                                                <el-time-select v-model="singleData.begin_tim" placeholder="開始時間" disabled>
                                                 </el-time-select>
-                                                <el-time-select v-model="singleData.end_tim" placeholder="結束時間">
+                                                <el-time-select v-model="singleData.end_tim" placeholder="結束時間" disabled>
                                                 </el-time-select>
                                             </template>
                                         </div>
@@ -244,7 +244,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>已付訂金</label>
-                                        <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" disabled/>
+                                        <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date"/>
                                     </div>
                                 </div>
                             </div>
@@ -252,16 +252,16 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label class="">輸入者/日</label>
-                                        <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m">
-                                        <input type="text" v-model="singleData.ins_dat" class="input-medium">
-                                        <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m">
+                                        <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m" disabled>
+                                        <input type="text" v-model="singleData.ins_dat" class="input-medium" disabled>
+                                        <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m" disabled>
                                     </div>
 
                                     <div class="grid-item">
                                         <label class="">最後修改者/日</label>
-                                        <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m">
-                                        <input type="text" v-model="singleData.upd_dat" class="input-medium">
-                                        <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m">
+                                        <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m" disabled>
+                                        <input type="text" v-model="singleData.upd_dat" class="input-medium" disabled>
+                                        <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m" disabled>
                                     </div>
 
                                 </div>
@@ -328,7 +328,7 @@
                                         <div class="right-menu-co">
                                             <ul>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod')" role="button">選取場地</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod_button')" role="button">選取場地</button>
                                                 </li>
                                                 <li>
                                                     <button class="btn btn-primary btn-white btn-defaultWidth" role="button">刪除場地</button>

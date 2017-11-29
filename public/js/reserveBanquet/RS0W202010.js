@@ -18,12 +18,13 @@ var singlePage = Vue.extend({
             round_hfd: "",              //前檯進位小數位數
             rent_cal_dat: "",           //滾房租日期
             required_bride_nam: "",     //新郎、新娘是否為必Key
-
             default_use_typ_common: "", //使用類別預設值
             default_bquet_order_sta: "",//訂席狀態預設值
             default_meal_typ: "",       //餐別預設值
-
-            default_expire_dat: "",     //保留期限天數
+            default_expire_dat: "",     //保留期限天數預設值
+            default_adult_qnt: "",      //預定人數預設值
+            default_poadult_qnt: "",    //保證人數預設值
+            default_proc_sta: "",       //預約處理預設值
 
             singleData: {},
             singleField: {},
@@ -80,21 +81,34 @@ var singlePage = Vue.extend({
         vmHub.$on('updateBackSelectData', function (chooseData) {
 
             if(self.popupFieldName == "alt_nam"){
-                var contact_cod = chooseData["contact_cod"].toString().split(",");
-                chooseData["contact1_cod"] = contact_cod[0];
-                chooseData["contact2_cod"] = contact_cod[1];
 
-                var contact_rmk = chooseData["contact_rmk"].toString().split(",");
-                chooseData["contact1_rmk"] = contact_rmk[0];
-                chooseData["contact2_rmk"] = contact_rmk[1];
-
-                if(self.singleData.title_nam.toString().trim() == ""){
-                    chooseData["title_nam"] = chooseData["alt_nam"];
-                }
-
-                self.singleData = _.extend(self.singleData, chooseData);
+                var lo_params = {
+                    cust_cod: chooseData["cust_cod"]
+                };
+                $.post("/reserveBanquet/qry_bqcust_mn", lo_params, function (result) {
+                    if (!_.isUndefined(result.data)) {
+                        if(self.singleData.title_nam.toString().trim() == ""){
+                            result.data["title_nam"] = result.data.alt_nam;
+                        }
+                        self.singleData = _.extend(self.singleData, result.data);
+                    }
+                    else {
+                        alert(result.error.errorMsg);
+                    }
+                });
             }
-            else if(self.popupFieldName == "place_cod"){
+            else if(self.popupFieldName == "place_cod_button"){
+
+                //帶入預設值
+
+                chooseData["begin_tim"] = "";
+                chooseData["end_tim"] = "";
+                chooseData["desk_qnt"] = "0";
+                chooseData["order_qnt"] = "0";
+                chooseData["is_allplace"] = "N";
+                chooseData["inv_qnt"] = "0";
+console.log(chooseData);
+
                 self.dataGridRows.push(chooseData);
                 self.dgIns.loadDgData(self.dataGridRows);
             }
@@ -113,7 +127,7 @@ var singlePage = Vue.extend({
     methods: {
 
         /**
-         * 取系統參數
+         * 取系統參數 and 預設值
          */
         getSystemParam: function () {
             var self = this;
@@ -219,6 +233,41 @@ var singlePage = Vue.extend({
                 }
             });
 
+            //預定人數
+            lo_params = {
+                paramName: "default_adult_qnt"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_adult_qnt = result.data.default_adult_qnt;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //保證人數
+            lo_params = {
+                paramName: "default_poadult_qnt"
+            };
+            $.post("/reserveBanquet/qrySystemParam", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_poadult_qnt = result.data.default_poadult_qnt;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
+
+            //預約處理
+            $.post("/reserveBanquet/def_proc_sta", lo_params, function (result) {
+                self.isLoading = false;
+                if (!_.isUndefined(result.data)) {
+                    self.default_proc_sta= result.data.proc_sta;
+                } else {
+                    alert(result.error.errorMsg);
+                }
+            });
 
         },
 
@@ -318,14 +367,13 @@ var singlePage = Vue.extend({
             }
             else if(moment(this.singleData.begin_dat) > moment(this.rent_cal_dat) && moment(this.singleData.begin_dat) <= moment(this.singleData.expire_dat)){
                 this.singleData.expire_dat = moment(this.singleData.begin_dat).add(-1, 'day');
-            }
+        }
 
             this.singleData.desk_qnt = "0";
             this.singleData.pmdesk_qnt = "0";
 
-            //TODO: 取系統參數
-            this.singleData.adult_qnt = "0";
-            this.singleData.poadult_qnt = "0";
+            this.singleData.adult_qnt = this.default_adult_qnt;
+            this.singleData.poadult_qnt = this.default_poadult_qnt;
 
             this.singleData.hpdpst_amt = "0";
             this.singleData.deposit_amt = "0";
@@ -333,6 +381,7 @@ var singlePage = Vue.extend({
             this.singleData.cal_serv = "Y";
             this.singleData.hotel_cod = this.userInfo.hotel_cod;
 
+            this.singleData.proc_sta = this.default_proc_sta;
 
             this.singleData.place_amt = "0";
 
@@ -377,10 +426,11 @@ var singlePage = Vue.extend({
             var self = this;
 
             _.each(this.singleField, function (value) {
-                if(value.ui_field_name == fieldName)
+                if(value.ui_field_name == fieldName){
                     lo_field = value;
+                }
             });
-
+            console.log(lo_field);
             this.changeEditingForFieldRule(lo_field.rule_func_name);
             if (lo_field.ui_type == "popupgrid") {
                 var params = {
@@ -558,7 +608,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                             title: name,
                             width: 150,
                             align: "left",
-                            hidden: (field == "uni_cod" || field == "uni_title" || field == "contact_cod") ? true : false
+                            hidden: (field == "cust_cod" || field == "unit_amt") ? true : false
                         });
 
                         self.fieldNameConditionTmp.push({value: field, display: name});

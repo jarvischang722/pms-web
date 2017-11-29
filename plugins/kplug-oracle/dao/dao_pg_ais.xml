@@ -120,10 +120,26 @@
         </statement>
     </dao>
 
-    <!-- ['RS0W202010'] 餐別預設值 -->
+    <!-- ['RS0W202010'] 保留期限天數預設值 -->
     <dao name="QRY_DEFAULT_EXPIRE_DAT">
         <statement><![CDATA[
                select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_expire_dat') as default_expire_dat from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W202010'] 預定人數預設值 -->
+    <dao name="QRY_DEFAULT_ADULT_QNT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_adult_qnt') as default_adult_qnt from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W202010'] 保證人數預設值 -->
+    <dao name="QRY_DEFAULT_POADULT_QNT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_poadult_qnt') as default_poadult_qnt from dual
         ]]>
         </statement>
     </dao>
