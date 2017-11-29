@@ -156,14 +156,16 @@ module.exports = {
                 }
                 else {
                     let lo_editRowData = _.clone(postData.editRowData);
-                    _.each(la_dtData, function(lo_dtData, index){
+                    for(var i = 0;i < la_dtData.length;i ++){
+                        var lo_dtData = la_dtData[i];
                         if(_.isEqual(lo_dtData, lo_editRowData)){
-                            li_curIdx = index;
+                            li_curIdx = i;
+                            break;
                         }
                         else{
                             li_curIdx = -1;
                         }
-                    });
+                    }
                 }
                 if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
@@ -245,5 +247,21 @@ module.exports = {
             callback(lo_error, lo_result);
         });
 
+    },
+
+    r_pms0820050_dt_add: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var la_allRows = postData.allRows;
+        var ln_maxSeqNos = 0;
+        _.each(la_allRows, function(lo_rowData){
+            var ln_seqNos = Number(lo_rowData.seq_nos);
+
+            if(ln_seqNos >= ln_maxSeqNos){
+                ln_maxSeqNos = ln_seqNos + 1;
+            }
+        });
+
+        lo_result.defaultValues = {seq_nos: ln_maxSeqNos};
+        callback(null, lo_result);
     }
 };

@@ -815,8 +815,9 @@ Vue.component('sigle-grid-dialog-tmp', {
         //新增一個Dt Row
         appendDtRow: function () {
             var self = this;
+            var la_allRow = $("#dt_dg").datagrid('getRows');
             if (this.endDtEditing()) {
-                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2}, function (result) {
+                $.post("/api/handleDataGridAddEventRule", {prg_id: prg_id, page_id: 2, allRows: la_allRow}, function (result) {
                     var prgDefaultObj = {createRow: 'Y'};
                     if (result.success) {
                         prgDefaultObj = _.extend(prgDefaultObj, result.prgDefaultObj);
@@ -864,7 +865,9 @@ Vue.component('sigle-grid-dialog-tmp', {
 
         //DT datagrid資料放入暫存
         tempExecData: function (rowData) {
-            rowData["mnRowData"] = this.singleData;
+            rowData["mnRowData"] = _.clone(this.singleData);
+            rowData = _.extend(rowData, rowData["mnRowData"]);
+
             //判斷此筆是新增或更新
             var dataType = rowData.createRow == 'Y'
                 ? "dt_createData" : "dt_editData";
@@ -874,7 +877,6 @@ Vue.component('sigle-grid-dialog-tmp', {
             _.each(keyVals, function (field_name) {
                 condKey[field_name] = rowData[field_name] || "";
             });
-
             //判斷資料有無在暫存裡, 如果有先刪掉再新增新的
             var existIdx = _.findIndex(this.tmpCud[dataType], condKey);
             if (existIdx > -1) {
@@ -1183,6 +1185,16 @@ var vm = new Vue({
                         vm.singleData = result.rowData;
                         vm.isModifiable = result.isModifiable || true;
                         vm.dtData = dtData;
+
+                        if(prg_id == "PMS0820050"){
+                            var la_dtData = vm.dtData;
+                            if(la_dtData.length != 0){
+                                la_dtData[0]["seq_nos"] = "0"
+                                for(var i = 1;i < la_dtData.length;i ++){
+                                    la_dtData[i]["seq_nos"] = Number(la_dtData[i - 1]["seq_nos"]) + 1;
+                                }
+                            }
+                        }
                         vmHub.$emit('showDtDataGrid', dtData);
                         callback(true);
                     } else {
