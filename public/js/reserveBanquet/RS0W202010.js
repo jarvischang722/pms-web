@@ -709,7 +709,8 @@ var RS00202010VM = new Vue({
             });
         },
         addReserve: function () {
-            vmHub.$emit("showReserve", {bquet_nos: ""});
+            vmHub.$emit("showReserve", {bquet_nos:
+                    ""});
         },
 
         showReserve: function (bquet_nos) {

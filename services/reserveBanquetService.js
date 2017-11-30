@@ -11,6 +11,8 @@ let appRootDir = path.dirname(require.main.filename);
 let ruleRootPath = appRootDir + "/ruleEngine/";
 let ReturnClass = require(ruleRootPath + "/returnClass");
 let ErrorClass = require(ruleRootPath + "/errorClass");
+let sysConfig = require("../configs/systemConfig");
+let tools = require("../utils/CommonTools");
 
 //[RS0W202010] 取格萊天漾查詢頁資料
 exports.qryPageOneData = function (postData, session, callback) {
@@ -32,9 +34,19 @@ exports.qryPageOneData = function (postData, session, callback) {
     });
 
     function qryBanquetData(cb) {
-        fs.readFile("./public/jsonData/reserveBanquet/banquetData.json", "utf8", function (err, data) {
-            data = JSON.parse(data);
-            cb(null, data);
+        var params = {
+            "REVE-CODE": "RS0W2020102040",
+            "program_id": "RS0W202010",
+            "func_id":"2040",
+            "user": "cio"
+        };
+
+        tools.requestApi("http://192.168.168.223/bacchus_test/Api/GatewaySvc", params, function (err, res, result) {
+            var errorMsg = null;
+            if (err || !result) {
+                errorMsg = err;
+            }
+            cb(errorMsg, result.tmp_bq3_web_map.data);
         });
     }
 
@@ -293,7 +305,7 @@ exports.qryPageTwoData = function (postData, session, callback) {
 
     queryAgent.query("QRY_BQUET_MN_SINGLE", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
+            if (Result)
                 callback(lo_error, Result);
             else
                 callback(lo_error, "");
@@ -315,7 +327,7 @@ exports.qrySystemParam = function (postData, session, callback) {
 
     queryAgent.query(paramName, {}, function (err, Result) {
         if (!err) {
-            if(Result)
+            if (Result)
                 callback(lo_error, Result);
             else
                 callback(lo_error, "");
@@ -339,7 +351,7 @@ exports.chk_use_typ = function (postData, session, callback) {
 
     queryAgent.query("CHK_USE_TYP", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
+            if (Result)
                 callback(lo_error, Result);
             else
                 callback(lo_error, "");
@@ -358,12 +370,11 @@ exports.chk_use_typ = function (postData, session, callback) {
 exports.def_proc_sta = function (postData, session, callback) {
     var lo_error = null;
 
-    var lo_params = {
-    };
+    var lo_params = {};
 
     queryAgent.query("DEF_PROC_STA", lo_params, function (err, Result) {
         if (!err) {
-            if(Result)
+            if (Result)
                 callback(lo_error, Result);
             else
                 callback(lo_error, "");
@@ -388,7 +399,7 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
 
     queryAgent.query("QRY_BQCUST_MN", lo_params, function (err, Result) {
         if (!err) {
-            if(Result){
+            if (Result) {
 
                 var lo_params2 = {
                     cust_cod: postData.cust_cod,
@@ -397,10 +408,10 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
 
                 queryAgent.query("QRY_ATTEN_NAM", lo_params2, function (err, atten_nam) {
                     if (!err) {
-                        if(atten_nam) {
+                        if (atten_nam) {
                             Result["atten_nam"] = atten_nam.atten_nam;
                         }
-                        else{
+                        else {
                             Result["atten_nam"] = "";
                         }
                         callback(lo_error, Result);
