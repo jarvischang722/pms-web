@@ -5301,6 +5301,16 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.postalCode {
+  width: 60px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.postaladdress {
+  width: 349px;
+  max-width: 100%;
+  height: 25px;
+}
 
 .input-hMedium {
   height: 25px !important;
