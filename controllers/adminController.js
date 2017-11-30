@@ -7,8 +7,8 @@ const  mongoAgent  = require('../plugins/mongodb');
 /**
  * 設定欄位寬度的屬性
  */
-exports.getSetPageProSize = function (req, res) {
-    res.render("subsystem/admin/setPageProSize");
+exports.prgPropsSetup = function (req, res) {
+    res.render("subsystem/admin/PrgPropsSetup");
 };
 
 
@@ -20,7 +20,7 @@ exports.getProgramPropsByPrgID = function (req, res) {
     _.each(mongoAgent[collName].schema.tree,function(field,fieldName){
         if(!_.isEqual(fieldName,"_id") && !_.isEqual(fieldName,"id") && !_.isEqual(fieldName,"__v") ){
             lao_collSchema.push({
-                field:fieldName,
+                name:fieldName,
                 type:field.name
             });
         }

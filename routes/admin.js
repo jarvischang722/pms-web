@@ -13,7 +13,7 @@ var apiMiddles = [authMW];
 module.exports = function (app) {
 
     // 設定欄位寬度的屬性
-    app.get('/setPageProSize', middles, adminCrtl.getSetPageProSize);
+    app.get('/prgPropsSetup', middles, adminCrtl.prgPropsSetup);
     app.post('/admin/getProgramPropsByPrgID', apiMiddles, adminCrtl.getProgramPropsByPrgID);
 
 };

@@ -4,6 +4,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import prgPropsTabs from './PrgPropsTabs';
 import sysPrgSelect from './SysPrgSelect';
+import _ from 'underscore';
 
 Vue.use(ElementUI);
 Vue.component(VTable.name, VTable);
