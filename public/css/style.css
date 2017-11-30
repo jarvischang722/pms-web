@@ -57,7 +57,7 @@
   padding: 5px;
   box-sizing: border-box;
   margin-top: -1px;
-  line-height: 12px;
+  line-height: 14px;
   cursor: pointer;
 }
 .grid-item .margin-adjust {
@@ -1814,6 +1814,19 @@ a {
 }
 
 /*-- footer -- */
+.companyInfo {
+  margin: 10px 0 0 7px;
+  display: none;
+}
+
+.deleteAddAccount {
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #ff0000;
+  line-height: 34px;
+}
+
 /*-- top-sec-menu -- */
 .top-sec-ul {
   max-width: 100%;
@@ -3903,12 +3916,153 @@ td div.act-box span.act-text {
   margin: 4px 1px auto 1px;
 }
 
+.roomAssign {
+  /* townHouse.html */
+}
 .roomAssign .select-group {
   display: inline;
 }
+.roomAssign .room-special {
+  margin-bottom: 15px;
+}
+.roomAssign .room-special .spec-title {
+  margin: 5px auto;
+}
+.roomAssign .room-special .checkbox {
+  margin: 5px auto;
+}
+.roomAssign .roomAssign-p {
+  padding: 2px 1px;
+}
 
-.margin-right-5 {
-  margin-right: 5px;
+.select-group .btn-group, .select-group .form-group {
+  float: right;
+  margin: 0 0 5px 5px;
+}
+.select-group .status-view {
+  float: right;
+}
+.select-group .status-view div {
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+  float: left;
+  text-align: center;
+  margin: 5px 0 5px 5px;
+}
+.select-group .status-view div.status-tip.cb-yellow {
+  background: #fffba1;
+}
+.select-group .status-view div.status-tip.cb-purple {
+  background: #ae8dc3;
+}
+.select-group .status-view div.status-tip.cb-green {
+  background: #7cbd64;
+}
+.select-group .status-view div.status-tip.cb-pink {
+  background: #ffddb3;
+}
+.select-group .status-view div.status-tip.cb-gray {
+  background: #bfbfbf;
+}
+.select-group .status-view div.status-tip.cb-brown {
+  background: #dcbe88;
+}
+.select-group .status-view div.status-tip.cb-blueGreen {
+  background: #06eed5;
+}
+.select-group .status-view div.status-tip.cb-grayGreen {
+  background: #008148;
+}
+.select-group .status-view div.status-tip.cb-sexyBlue {
+  background: #19647E;
+}
+.select-group .status-view div.status-tip.cb-darkGreen {
+  background: #00542f;
+}
+.select-group .status-view div.status-tip.cb-sexyYellow {
+  background: #848009;
+}
+.select-group .status-view div.status-tip.cb-sexyGreen {
+  background: #556b2f;
+}
+.select-group .status-view div.status-tip.cb-sexyRed {
+  background: rgba(255, 33, 95, 0.77);
+}
+.select-group .status-view div.status-tip.cb-default {
+  background: #c0d6ee;
+}
+.select-group .status-view div.status-tip.cd-sexyPurple {
+  background: #4B3F72 !important;
+}
+.select-group .status-view div.status-tip.active {
+  border: 2px solid #ff0000;
+}
+.select-group .status-btn {
+  float: left;
+  margin: 5px 5px 5px 0;
+}
+.select-group .status-btn img {
+  width: 24px;
+  height: auto;
+  padding: 0 5px 0 0;
+}
+
+.house-noDetail {
+  margin: 10px 14px;
+}
+.house-noDetail .house-num {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 100%;
+  max-height: 100%;
+  line-height: 70px;
+  border: 1px solid #555;
+  color: #478FCA;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: bolder;
+  border-radius: 10px;
+}
+.house-noDetail .house-info {
+  width: 21%;
+  display: inline-block;
+}
+.house-noDetail .house-info .quantityTip {
+  min-width: 140px;
+  max-width: 100%;
+  min-height: 35px;
+  max-height: 100%;
+  line-height: 25px;
+}
+.house-noDetail .house-info .quantityTip .quantityTip-txt, .house-noDetail .house-info .quantityTip .quantityTip-icon {
+  display: inline;
+}
+.house-noDetail .house-info .quantityTip .quantityTip-txt {
+  min-width: 100px;
+  max-width: 100%;
+  min-height: 25px;
+  max-height: 100%;
+  text-align: center;
+  margin: 0 0 5px 0;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.house-noDetail .house-info .quantityTip .quantityTip-txt span {
+  line-height: 25px;
+  height: 25px;
+  color: #fff;
+  font-weight: bold;
+}
+.house-noDetail .house-info .quantityTip .quantityTip-icon {
+  margin: 0 0 0 10px;
+}
+.house-noDetail .house-info .middle span.lbl {
+  font-size: 13px;
+  min-width: 120px;
+  max-width: 100%;
 }
 
 .hk-boxs-wrap {
@@ -4164,6 +4318,29 @@ td div.act-box span.act-text {
   color: #000;
 }
 
+.folioRadio .folioWrap {
+  float: left;
+  margin-left: 85px;
+}
+.folioRadio .folioWrap .radio {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.PMS0830070_table th, .PMS0830070_table td {
+  padding: 3px;
+}
+
+.vue-treeselect__menu label {
+  text-align: left;
+  width: auto;
+}
+
+.vue-treeselect {
+  display: inline-block;
+}
+
+/*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
   flex-direction: row;
@@ -4226,19 +4403,6 @@ td div.act-box span.act-text {
   vertical-align: text-bottom;
 }
 
-.folioRadio .folioWrap {
-  float: left;
-  margin-left: 85px;
-}
-.folioRadio .folioWrap .radio {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.PMS0830070_table th, .PMS0830070_table td {
-  padding: 3px;
-}
-
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -4292,6 +4456,10 @@ td div.act-box span.act-text {
   margin: 3px;
 }
 
+.ml--13 {
+  margin-left: -13px;
+}
+
 .ml-2 {
   margin-left: 2px;
 }
@@ -4338,6 +4506,10 @@ td div.act-box span.act-text {
 
 .mlr-4 {
   margin: auto 4px;
+}
+
+.mr-5 {
+  margin-right: 5px;
 }
 
 .cardDetail_margin {
@@ -4411,23 +4583,23 @@ td div.act-box span.act-text {
   margin: auto auto 5px auto;
 }
 
-.lineHeight14 {
+.lineHt14 {
   line-height: 14px;
 }
 
-.lineHeight18 {
+.lineHt18 {
   line-height: 18px;
 }
 
-.lineHeight24 {
+.lineHt24 {
   line-height: 24px;
 }
 
-.lineHeight27 {
+.lineHt27 {
   line-height: 27px;
 }
 
-.lineHeight34 {
+.lineHt34 {
   line-height: 34px;
 }
 
@@ -4705,7 +4877,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c1-Full {
-  width: 703px;
+  width: 680px;
   max-width: 100%;
   height: 25px;
 }
@@ -4760,7 +4932,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-skyNo {
-  width: 148.5px;
+  width: 150px;
   max-width: 100%;
   height: 25px;
 }
@@ -4790,7 +4962,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-col3 {
-  width: 492px;
+  width: 493px;
   max-width: 100%;
   height: 25px;
 }
@@ -4815,7 +4987,7 @@ a {
   height: 25px;
 }
 .input-medium.medium-c3-card-2 {
-  width: 55px;
+  width: 56px;
   max-width: 100%;
   height: 25px;
 }
@@ -5040,7 +5212,7 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-full {
-  width: 723px;
+  width: 736px;
   max-width: 100%;
   height: 25px;
 }
@@ -5109,6 +5281,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.w304px {
+  width: 304px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.w118px {
   width: 118px;
   max-width: 100%;
@@ -5121,6 +5298,21 @@ a {
 }
 .input-medium.input-spc-3 {
   width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.input-spc-3Rm {
+  width: 325px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.postalCode {
+  width: 60px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.postaladdress {
+  width: 349px;
   max-width: 100%;
   height: 25px;
 }
@@ -5353,12 +5545,34 @@ select {
   cursor: pointer;
 }
 
-/*-------------- responsive -------------- */
-.vue-treeselect__menu label{
-  text-align: left;
-  width: auto;
+input[type=checkbox] {
+  width: 15px;
+  height: 15px;
 }
 
-.vue-treeselect{
-  display: inline-block;
+/*-------------- responsive -------------- */
+@media screen and (max-width: 1280px) {
+  .intCounterRight {
+    display: none;
+  }
+
+  .intCounterleft {
+    position: relative;
+  }
+
+  .show-intCounterRight {
+    float: right;
+    display: block;
+    color: #70a0c1;
+  }
+  .show-intCounterRight i {
+    border: 1px solid #8fbcd9;
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .show-intCounterRight span {
+    margin: 0 0 0 2px;
+    font-size: 14px;
+    line-height: 2;
+  }
 }
