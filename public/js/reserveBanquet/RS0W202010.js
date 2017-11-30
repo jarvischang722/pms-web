@@ -39,8 +39,7 @@ var singlePage = Vue.extend({
             editStatus: false,          //編輯狀態
             deleteStatus: false,        //刪除狀態
 
-            isModificable: false,       //決定是否可以修改資料
-            isModificableFormat: false,  //決定是否可以修改訂單格式
+            isModificable: true,       //決定是否可以修改資料
 
             addEnable: true,
             editEnable: false,
@@ -48,7 +47,7 @@ var singlePage = Vue.extend({
             cnfirmEnable: false,
             cancelEnable: false,
             saveEnable: false,
-            dropEnable: false,
+
 
             dgIns: {},
             dataGridRows: [],
@@ -63,14 +62,14 @@ var singlePage = Vue.extend({
 
             self.loadSingleGridPageField(function () {
                 if(PostData.bquet_nos != "") {
+                    self.isModificable = false;
                     self.fetchSingleData(PostData.bquet_nos);
                 }
                 else {
                     //新增模式
-                    //self.fetchSingleData('0600006');
                     self.singleData = _.clone(self.singleDataEmpty);
                     self.defaultValue();
-
+                    self.dataGridRows = [];
                 }
 
                 self.showReserve();
@@ -107,7 +106,6 @@ var singlePage = Vue.extend({
                 chooseData["order_qnt"] = "0";
                 chooseData["is_allplace"] = "N";
                 chooseData["inv_qnt"] = "0";
-console.log(chooseData);
 
                 self.dataGridRows.push(chooseData);
                 self.dgIns.loadDgData(self.dataGridRows);
@@ -294,6 +292,29 @@ console.log(chooseData);
             };
             $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
+
+                    //Time format
+                    if(result.data.begin_tim.trim() != ""){
+                        result.data.begin_tim = result.data.begin_tim.substring(0, 2) + ":" + result.data.begin_tim.substring(2, 4);
+                    }
+
+                    if(result.data.end_tim.trim() != ""){
+                        result.data.end_tim = result.data.end_tim.substring(0, 2) + ":" + result.data.end_tim.substring(2, 4);
+                    }
+
+                    if(result.data.ins_tim.trim() != ""){
+                        result.data.ins_tim = result.data.ins_tim.substring(0, 2) + ":" + result.data.ins_tim.substring(2, 4);
+                    }
+
+                    if(result.data.upd_tim.trim() != ""){
+                        result.data.upd_tim = result.data.upd_tim.substring(0, 2) + ":" + result.data.upd_tim.substring(2, 4);
+                    }
+
+                    result.data.ins_dat = moment(result.data.ins_dat).format("YYYY/MM/DD");
+                    result.data.upd_dat = moment(result.data.upd_dat).format("YYYY/MM/DD");
+
+
+
                     self.singleData = result.data;
                 }
                 else {
@@ -392,7 +413,6 @@ console.log(chooseData);
          */
         fetchDataGridData: function () {
             var self = this;
-
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: self.singleData.bquet_nos}}, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
@@ -506,25 +526,33 @@ console.log(chooseData);
          * 存檔按鈕
          */
         save: function () {
+
             var self = this;
+
+            if(self.singleData.contact1_cod != "")
+
+            //Time format
+            self.singleData.begin_tim = self.singleData.begin_tim.replace(":", "");
+            self.singleData.end_tim = self.singleData.end_tim.replace(":", "");
+
+            self.singleData.ins_tim = self.singleData.ins_tim.replace(":", "");
+            self.singleData.upd_tim = self.singleData.upd_tim.replace(":", "");
+
             self.isLoading = true;
 
-            var trans_cod = "";
+            var func_id = "";
 
             if(self.createStatus){
-                trans_cod = 'RS0W2020100520';
+                func_id = '0200';
             }
             else {
-                trans_cod = 'RS0W2020100540';
+                func_id = '0300';
             }
 
             var lo_params = {
-                REVE_CODE : trans_cod,
+                REVE_CODE : prg_id,
                 prg_id: prg_id,
-                bquet_nos: self.singleData.bquet_nos,
-                old_sta: self.singleData.order_sta,
-                new_sta: newStatus,
-                upd_usr: this.userInfo.usr_id
+                func_id: func_id
             };
 
             $.post("/api/callAPI", lo_params, function (result) {
@@ -544,8 +572,9 @@ console.log(chooseData);
             self.isLoading = true;
 
             var lo_params = {
-                REVE_CODE : 'RS0W2020101010',
+                REVE_CODE : prg_id,
                 prg_id: prg_id,
+                func_id: "1010",
                 bquet_nos: self.singleData.bquet_nos,
                 old_sta: self.singleData.order_sta,
                 new_sta: newStatus,
@@ -699,6 +728,7 @@ var RS00202010VM = new Vue({
         },
         addReserve: function () {
             vmHub.$emit("showReserve", {bquet_nos: ""});
+            // vmHub.$emit("showReserve", {bquet_nos: "0600006"});
         },
 
         showReserve: function (bquet_nos) {

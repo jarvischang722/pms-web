@@ -81,7 +81,7 @@
                                         <div id="gs-feast-date" class="element-date-wrap">
                                             <template>
                                                 <div class="block">
-                                                    <el-date-picker type="date"  v-model="singleData.begin_dat" placeholder="選擇日期">
+                                                    <el-date-picker type="date"  v-model="singleData.begin_dat" placeholder="選擇日期" :disabled="!isModificable">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="grid-item">
                                         <label>主要廳別</label>
-                                        <select v-model="singleData.rspt_cod" class="input-medium w240px">
+                                        <select v-model="singleData.rspt_cod" class="input-medium w240px" :disabled="!isModificable">
                                         <option v-for="opt in selectOption.rspt_cod" :value="opt.value">
                                             {{opt.display}}
                                         </option>
@@ -221,13 +221,13 @@
                                         <label>計算服務費</label>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="serviceFee" value="Y" v-model="singleData.cal_serv" type="radio" class="ace">
+                                        <input name="serviceFee" value="Y" v-model="singleData.cal_serv" type="radio" class="ace" :disabled="!isModificable">
                                         <span class="lbl radius-circle">是</span>
                                         </label>
                                     </span>
                                         <span class="checkbox">
                                         <label class="checkbox-width">
-                                        <input name="serviceFee" value="N" v-model="singleData.cal_serv" type="radio" class="ace">
+                                        <input name="serviceFee" value="N" v-model="singleData.cal_serv" type="radio" class="ace" :disabled="!isModificable">
                                         <span class="lbl radius-circle">否</span>
                                         </label>
                                     </span>
