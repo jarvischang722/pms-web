@@ -62,7 +62,7 @@ var singlePage = Vue.extend({
         vmHub.$on("showReserve", function (PostData) {
 
             self.loadSingleGridPageField(function () {
-                if(PostData.bquet_nos != "") {
+                if (PostData.bquet_nos != "") {
                     self.fetchSingleData(PostData.bquet_nos);
                 }
                 else {
@@ -80,14 +80,14 @@ var singlePage = Vue.extend({
 
         vmHub.$on('updateBackSelectData', function (chooseData) {
 
-            if(self.popupFieldName == "alt_nam"){
+            if (self.popupFieldName == "alt_nam") {
 
                 var lo_params = {
                     cust_cod: chooseData["cust_cod"]
                 };
                 $.post("/reserveBanquet/qry_bqcust_mn", lo_params, function (result) {
                     if (!_.isUndefined(result.data)) {
-                        if(self.singleData.title_nam.toString().trim() == ""){
+                        if (self.singleData.title_nam.toString().trim() == "") {
                             result.data["title_nam"] = result.data.alt_nam;
                         }
                         self.singleData = _.extend(self.singleData, result.data);
@@ -97,7 +97,7 @@ var singlePage = Vue.extend({
                     }
                 });
             }
-            else if(self.popupFieldName == "place_cod_button"){
+            else if (self.popupFieldName == "place_cod_button") {
 
                 //帶入預設值
 
@@ -107,7 +107,7 @@ var singlePage = Vue.extend({
                 chooseData["order_qnt"] = "0";
                 chooseData["is_allplace"] = "N";
                 chooseData["inv_qnt"] = "0";
-console.log(chooseData);
+                console.log(chooseData);
 
                 self.dataGridRows.push(chooseData);
                 self.dgIns.loadDgData(self.dataGridRows);
@@ -263,7 +263,7 @@ console.log(chooseData);
             $.post("/reserveBanquet/def_proc_sta", lo_params, function (result) {
                 self.isLoading = false;
                 if (!_.isUndefined(result.data)) {
-                    self.default_proc_sta= result.data.proc_sta;
+                    self.default_proc_sta = result.data.proc_sta;
                 } else {
                     alert(result.error.errorMsg);
                 }
@@ -324,7 +324,7 @@ console.log(chooseData);
 
                     self.singleDataEmpty[value.ui_field_name] = "";
 
-                    if(value.ui_type == "select") {
+                    if (value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
 
@@ -363,12 +363,12 @@ console.log(chooseData);
             //保留日計算
             this.singleData.expire_dat = moment(this.rent_cal_dat).add(this.default_expire_dat, 'day');
 
-            if(moment(this.singleData.begin_dat) <= moment(this.rent_cal_dat)){
+            if (moment(this.singleData.begin_dat) <= moment(this.rent_cal_dat)) {
                 this.singleData.expire_dat = this.rent_cal_dat;
             }
-            else if(moment(this.singleData.begin_dat) > moment(this.rent_cal_dat) && moment(this.singleData.begin_dat) <= moment(this.singleData.expire_dat)){
+            else if (moment(this.singleData.begin_dat) > moment(this.rent_cal_dat) && moment(this.singleData.begin_dat) <= moment(this.singleData.expire_dat)) {
                 this.singleData.expire_dat = moment(this.singleData.begin_dat).add(-1, 'day');
-        }
+            }
 
             this.singleData.desk_qnt = "0";
             this.singleData.pmdesk_qnt = "0";
@@ -394,7 +394,10 @@ console.log(chooseData);
         fetchDataGridData: function () {
             var self = this;
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: "0600006"}}, function (result) {
+            $.post("/api/prgDataGridDataQuery", {
+                prg_id: prg_id,
+                searchCond: {bquet_nos: "0600006"}
+            }, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
 
@@ -427,7 +430,7 @@ console.log(chooseData);
             var self = this;
 
             _.each(this.singleField, function (value) {
-                if(value.ui_field_name == fieldName){
+                if (value.ui_field_name == fieldName) {
                     lo_field = value;
                 }
             });
@@ -481,7 +484,9 @@ console.log(chooseData);
          * 使用類別onChange
          */
         useTypeOnChange: function () {
-            if(_.isUndefined(this.singleData.use_typ)) return;
+            if (_.isUndefined(this.singleData.use_typ)) {
+                return;
+            }
             var self = this;
             var lo_params = {
                 use_typ: self.singleData.use_typ
@@ -512,7 +517,7 @@ console.log(chooseData);
 
             var trans_cod = "";
 
-            if(self.createStatus){
+            if (self.createStatus) {
                 trans_cod = 'RS0W2020100520';
             }
             else {
@@ -520,7 +525,7 @@ console.log(chooseData);
             }
 
             var lo_params = {
-                REVE_CODE : trans_cod,
+                REVE_CODE: trans_cod,
                 prg_id: prg_id,
                 bquet_nos: self.singleData.bquet_nos,
                 old_sta: self.singleData.order_sta,
@@ -533,7 +538,9 @@ console.log(chooseData);
                 if (result.success) {
                     callback();
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
+                }
             });
         },
 
@@ -545,7 +552,7 @@ console.log(chooseData);
             self.isLoading = true;
 
             var lo_params = {
-                REVE_CODE : 'RS0W2020101010',
+                REVE_CODE: 'RS0W2020101010',
                 prg_id: prg_id,
                 bquet_nos: self.singleData.bquet_nos,
                 old_sta: self.singleData.order_sta,
@@ -558,7 +565,9 @@ console.log(chooseData);
                 if (result.success) {
                     callback();
                 }
-                if(result.errorMsg != "") alert(result.errorMsg);
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
+                }
             });
         }
     }
@@ -609,7 +618,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                             title: name,
                             width: 150,
                             align: "left",
-                            hidden: (field == "cust_cod" || field == "unit_amt") ? true : false
+                            hidden: field == "cust_cod" || field == "unit_amt" ? true : false
                         });
 
                         self.fieldNameConditionTmp.push({value: field, display: name});
@@ -626,7 +635,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                 singleSelect: true,
                 data: textDataGridArray,
                 height: height,
-                width: width,
+                width: width
             }).datagrid('columnMoving');
             self.updateFieldNameTmp = updateFieldName;
         },
@@ -646,7 +655,7 @@ Vue.component('text-select-grid-dialog-tmp', {
                         }
                     });
                 });
-            }else {
+            } else {
                 _.each(chooseData, function (chooseValue, chooseField) {
                     chooseData[chooseField] = "";  //SAM20170930
                 });
@@ -660,8 +669,9 @@ Vue.component('text-select-grid-dialog-tmp', {
             var selectCondition = $('#txtSelectCondition').val();
 
             var dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition))
+                if (row[selectFieldName].includes(selectCondition)) {
                     return row;
+                }
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
 
@@ -712,5 +722,4 @@ var RS00202010VM = new Vue({
     }
 });
 
-$('.easyUi-custom1').tabs({
-});
+$('.easyUi-custom1').tabs({});
