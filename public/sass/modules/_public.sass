@@ -25,6 +25,8 @@
   margin: 3px 4px auto auto
 .margin-3
   margin: 3px
+.ml--13
+  margin-left: -13px
 .ml-2
   margin-left: 2px
 .ml-3
@@ -49,6 +51,8 @@
   margin: auto 3px
 .mlr-4
   margin: auto 4px
+.mr-5
+  margin-right: 5px
 .cardDetail_margin
   margin-top: -20px
 .height87
@@ -90,15 +94,15 @@
 .border-double1
   border-bottom: 3px double #b09e9b
   margin: auto auto 5px auto
-.lineHeight14
+.lineHt14
   line-height: 14px
-.lineHeight18
+.lineHt18
   line-height: 18px
-.lineHeight24
+.lineHt24
   line-height: 24px
-.lineHeight27
+.lineHt27
   line-height: 27px
-.lineHeight34
+.lineHt34
   line-height: 34px
 // font-size
 .font-btn
@@ -266,6 +270,7 @@ a
   background-color: rgb(198, 242, 217) !important
   /* (186, 242, 234) */
 
+// 兩個間距 104
 $labelw: 104px
 $rmW: 23px
 
@@ -275,14 +280,14 @@ $medium-c3-card: 212px
 $resvCard-col2: 316px
 $medium-c1-col2v2: 434px
 $medium-c1-sc2: 299.5px
-$medium-c1-sc2-col2: (($medium-c1-sc2) *2)+104
+$medium-c1-sc2-col2: (($medium-c1-sc2) *2)+$labelw
 $popWindow-s1v2-col2: 227px
 $popWindow-s1-col2: 414px
 $rateCode-s1: 180px
-$rateCode-s1-col2: (($rateCode-s1) *2)+104
+$rateCode-s1-col2: (($rateCode-s1) *2)+$labelw
 $rateCode-s1-col3: (($rateCode-s1) *3)+(($labelw) *2)
 $resvCard-date: 135px
-$resvCard-dateCol2: (($resvCard-date) *2)+104
+$resvCard-dateCol2: (($resvCard-date) *2)+$labelw
 $resvCard-dateSpec1: (($resvCard-date) *2)-60
 .input-medium
   &.medium-c1
@@ -297,13 +302,13 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1($medium-c1-col2v2)
     //彈出視窗內會多一px(?)
   &.medium-c1-col2v2Rm
-    +input-s1(($medium-c1-col2v2)-23)
+    +input-s1(($medium-c1-col2v2)-$rmW)
   &.medium-c1-col2v3
     +input-s1(438px)
   &.medium-c1-col2v3Rm
     +input-s1(416px)
   &.medium-c1-Full
-    +input-s1(703px)
+    +input-s1($medium-c1*3 + $labelw*2 -$rmW)
   &.medium-c1-sc2
     +input-s1($medium-c1-sc2)
   &.medium-c1-sc2-col2
@@ -327,21 +332,20 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.medium-c3
     +input-s1(134px)
   &.medium-skyNo
-    +input-s1(148.5px)
+    +input-s1(150px)
   &.medium-c3-col2Spc
     +input-s1(272px)
   &.medium-c3-col2
     +input-s1($medium-c3-col2)
   &.medium-c3-col2_2
-    // have remark '-27px'
-    +input-s1(($medium-c3-col2)-23)
+    +input-s1(($medium-c3-col2)-$rmW)
   &.medium-c3-col2_3
     +input-s1(291px)
   &.medium-search-col2
     // PMS0620040 || PMS0620050
     +input-s1(304px)
   &.medium-c3-col3
-    +input-s1(492px)
+    +input-s1(493px)
   &.medium-c3-col3Rm
     +input-s1(548px)
   &.medium-c3-col4
@@ -351,7 +355,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.medium-c3-card
     +input-s1($medium-c3-card)
   &.medium-c3-card-2
-    +input-s1(55px)
+    +input-s1(56px)
   &.medium-c3-card-3
     +input-s1(($medium-c3-card)-$rmW)
   &.addedBy
@@ -446,7 +450,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.resvCard-col2Rm2
     +input-s1(278px)
   &.resvCard-full
-    +input-s1(723px)
+    +input-s1(736px)
   &.resvCard-fullRm
     +input-s1(713px)
   &.resvCard-col3-fullRm
@@ -479,6 +483,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(456px) // suggestion Page
   &.input-spc-3
     +input-s1(348px) // suggestion Page
+  &.input-spc-3Rm
+    +input-s1(325px) // -23px
 
 .input-hMedium
   height: $inputHeight-medium !important
@@ -718,3 +724,8 @@ select
   background-repeat: no-repeat !important
   cursor: pointer
 
+
+// input checkbox -> width
+input[type=checkbox]
+  width: 15px
+  height: 15px
