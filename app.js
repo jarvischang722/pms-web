@@ -63,7 +63,7 @@ app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || port);
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public/images/icon', 'cloud6.ico')));
+app.use(favicon(path.join(__dirname, 'public/images/icon', 'athenaIco.ico')));
 
 //以下app.use使用中介軟體完成http功能
 //app.use(logger('dev'));
