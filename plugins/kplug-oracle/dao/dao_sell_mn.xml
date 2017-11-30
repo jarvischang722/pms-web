@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- ['PSIW500030'] 檢查[銷售]有無值 -->
+    <!-- ['PSIW510030'] 檢查[銷售]有無值 -->
     <dao name="CHK_SELL_MN">
         <statement><![CDATA[
 

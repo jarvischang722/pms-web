@@ -1,5 +1,5 @@
 <!-- 彈出視窗 -->
-<script type="text/x-template" id="chooseDataDialogTmp">
+<template id="chooseDataDialogTmp">
     <div id="dataPopUpGridDialog" v-show="false">
         <div class="col-sm-12 col-xs-12 singleGridContent padding-5">
             <div class="row">
@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <select id="cbSelect" style="width: 100%;" class="easyui-combobox defHt">
-                                        <option v-for="option in  fieldNameConditionTmp" :value="option.value">
+                                        <option v-for="option in fieldNameConditionTmp" :value="option.value">
                                             {{option.display}}
                                         </option>
                                     </select>
@@ -42,4 +42,4 @@
             </div>
         </div>
     </div>
-</script>
+</template>

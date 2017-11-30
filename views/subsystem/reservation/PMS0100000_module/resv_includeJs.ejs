@@ -321,7 +321,7 @@
                 title_html: true,
                 width: 1000,
                 maxwidth: 1920,
-                height: $(window).height(),
+//                height: $(window).height(),
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true
@@ -341,7 +341,7 @@
                     {field: 'endDate', title: '結束日期', width: 100},
                     {field: 'bookingsNum', title: '訂房卡號', width: 100},
                     {field: 'roomNum', title: '房號', width: 60},
-                    {field: 'tracesCon', title: '交辦事項內容', width: 400},
+                    {field: 'tracesCon', title: '交辦事項內容', width: 300},
                     {field: 'processDepartment', title: '處理部門', width: 100}
                 ]]
 
@@ -668,7 +668,7 @@
                 modal: true,
                 title: "傳真號碼",
                 title_html: true,
-                width: 700,
+                width: 600,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -953,9 +953,9 @@
                     {field: 'resvDate', title: '日期', width: 80},
                     {field: 'resvNum', title: '班次', width: 80},
                     {field: 'resvTime', title: '時間', width: 80},
-                    {field: 'resvAdult', title: '大人數', width: 50},
-                    {field: 'resvChild', title: '小孩數', width: 50},
-                    {field: 'resvBaby', title: '嬰兒數', width: 50},
+                    {field: 'resvAdult', title: '大人數', width: 50,align:'right'},
+                    {field: 'resvChild', title: '小孩數', width: 50,align:'right'},
+                    {field: 'resvBaby', title: '嬰兒數', width: 50,align:'right'},
                     {field: 'resvPoint', title: '指定住客', width: 80},
                     {field: 'resvMark', title: '備註', width: 150}
                 ]]
@@ -1490,17 +1490,17 @@
             url: '/jsonData/reservation/resv_gProfile.json',
             method: 'get',
             columns: [[
-                {field: 'checkbox', title: '<input type="checkbox">', width: 28,align:"center"},
                 {field: 'historyNO', title: '歷史編號', width: 80},
-                {field: 'personID', title: '身份證字號', width: 100},
+                {field: 'status', title: '狀態', width: 60},
                 {field: 'fullName', title: 'Full Name', width: 80},
                 {field: 'sex', title: '性別', width: 60},
-                {field: 'status', title: '狀態', width: 60},
+                {field: 'personID', title: '身份證字號', width: 100},
                 {field: 'country', title: '國籍', width: 100},
                 {field: 'visitNum', title: '來訪次數', width: 60},
                 {field: 'visitDay', title: '來訪天數', width: 60},
                 {field: 'totalSpend', title: '消費總額', width: 60,align:'right'},
-                {field: 'getDM', title: '收取DM', width: 60}
+                {field: 'mobile', title: 'Mobile', width: 100},
+                {field: 'email', title: 'Email', width: 150}
             ]]
 
         });
@@ -1608,7 +1608,7 @@
                 {field: 'endDate', title: '結束日期', width: 100},
                 {field: 'bookingsNum', title: '訂房卡號', width: 100},
                 {field: 'roomNum', title: '房號', width: 60},
-                {field: 'tracesCon', title: '交辦事項內容', width: 400},
+                {field: 'tracesCon', title: '交辦事項內容', width: 300},
                 {field: 'processDepartment', title: '處理部門', width: 100}
             ]]
 

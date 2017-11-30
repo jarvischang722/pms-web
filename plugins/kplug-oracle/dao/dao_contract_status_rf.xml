@@ -10,4 +10,14 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+
+    <!--[PMS0620050] 業務員拜訪記錄 合約狀態下拉資料-->
+    <dao name="SEL_CONTRACT_STATUS_RF">
+        <statement><![CDATA[
+            select status_cod as value, status_desc as display from contract_status_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

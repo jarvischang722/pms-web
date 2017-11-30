@@ -1,4 +1,3 @@
-$font-family: Microsoft JhengHei, "Helvetica Neue", Helvetica, Arial, sans-serif
 body
   font-family: $font-family
   font-size: $font-default
@@ -217,6 +216,21 @@ a
 
 
 /*-- footer --*/
+
+// 舊的css 搬過來
+// todo 待刪除
+.companyInfo
+  margin: 10px 0 0 7px
+  display: none
+// /.待刪除
+
+.deleteAddAccount
+  cursor: pointer
+  margin-left: 10px
+  font-weight: bold
+  color: $redDefault
+  line-height: $lineHeight34
+
 /*-- top-sec-menu --*/
 .top-sec-ul
   max-width: 100%
@@ -470,6 +484,7 @@ a
         padding: 5px 10px
         background: #feffac
         border: 1px solid #ffd530
+
 /*-- 搜尋列表 --*/
 .search-content
   position: relative
@@ -518,16 +533,16 @@ a
           margin: 0 0 0 -20px
         label.more-Word
           margin: 0 0 0 -68px
-        .moreClick
-          //width: 25px
-          height: $inputHeight-medium
-          //line-height: $inputHeight-medium
-          border: 1px solid $border-color
-          background: $border-color
-          border-radius: 5px
-          padding: 3px 5px 4px 5px
-          box-sizing: border-box
-          cursor: pointer
+        //.moreClick
+        //  //width: 25px
+        //  height: $inputHeight-medium
+        //  //line-height: $inputHeight-medium
+        //  border: 1px solid $border-color
+        //  background: $border-color
+        //  border-radius: 5px
+        //  padding: 3px 5px 4px 5px
+        //  box-sizing: border-box
+        //  cursor: pointer
       //margin-top: -1px
       .search-footer-btn
         position: absolute
@@ -608,7 +623,6 @@ a
         // 170920 最後將 “rece-search-detail” 的padding拿掉
         &.rece-search-detail
           padding-top: 0
-
 
 
 /*-- colorPicker 修改(假日類別設定) --*/
@@ -1901,8 +1915,95 @@ td
 .roomAssign
   .select-group
     display: inline
-.margin-right-5
-  margin-right: 5px
+  /* townHouse.html */
+  .room-special
+    margin-bottom: 15px
+    .spec-title
+      margin: 5px auto
+    .checkbox
+      margin: 5px auto
+  .roomAssign-p
+    padding: 2px 1px
+
+
+// 綜合櫃檯
+.select-group
+  //margin-top: 5px
+  .btn-group,.form-group
+    float: right
+    margin: 0 0 5px 5px
+  .status-view
+    float: right
+    div
+      width: 60px
+      height: 25px
+      line-height: 25px
+      float: left
+      text-align: center
+      margin: 5px 0 5px 5px
+      &.status-tip
+        @include color-bk
+  .status-btn
+    float: left
+    margin: 5px 5px 5px 0
+    img
+      width: 24px
+      height: auto
+      padding: 0 5px 0 0
+
+
+.house-noDetail
+  margin: 10px 14px
+  .house-num
+    margin: 0 auto
+    text-align: center
+    max-width: 100%
+    //min-height: 80px
+    max-height: 100%
+    line-height: 70px
+    border: 1px solid #555
+    color: $blue
+    font-size: 18px
+    font-style: italic
+    font-weight: bolder
+    border-radius: 10px
+  .house-info
+    width: 21%
+    display: inline-block
+    .quantityTip
+      min-width: 140px
+      max-width: 100%
+      min-height: 35px
+      max-height: 100%
+      line-height: 25px
+      .quantityTip-txt,.quantityTip-icon
+        display: inline
+      .quantityTip-txt
+        min-width: 100px
+        max-width: 100%
+        min-height: 25px
+        max-height: 100%
+        text-align: center
+        margin: 0 0 5px 0
+        padding: 5px
+        box-sizing: border-box
+        border-radius: 5px
+        font-size: 14px
+        span
+          line-height: 25px
+          height: 25px
+          color: #fff
+          font-weight: bold
+          &.red
+        &.blue
+      .quantityTip-icon
+        margin: 0 0 0 10px
+    .middle
+      span.lbl
+        font-size: 13px
+        min-width: 120px
+        max-width: 100%
+
 
 //房務入帳
 .hk-boxs-wrap
@@ -2106,69 +2207,6 @@ td
 .BgBacchusBlue
   background: #c0d6ee
   color: #000
-//達美樂介面
-.dominos-inventory-container
-  display: flex
-  flex-direction: row
-  border: 1px solid #C5D0DC
-  overflow: hidden
-  /* avoid browser level touch actions
-  xtouch-action: none
-
-.dominos-inventory-left
-  flex: 0 0 auto
-  padding: 10px
-  width: 220px
-  min-height: 200px
-  min-width: 200px
-  //max-width: 600px
-  //white-space: nowrap
-  border-right: 3px solid #c0d6ee
-  height: auto !important
-  overflow: hidden
-
-.dominos-inventory-right
-  flex: 1 1 auto
-  /* resizable
-  padding: 10px
-  width: 100%
-  min-height: 200px
-  min-width: 200px
-
-.dominos-inventory-wrap .horizTable-outer .css_table .css_th
-  background: #c0d6ee
-  color: #000
-
-.dominos-inventory-details
-  margin: 0 20px
-.dominos-btn-group
-  //float: left
-  ul
-    //display: inline-block
-    li
-      display: inline-block
-      width: 81px
-      margin-bottom: 5px
-      &.btn-120
-        width: 120px
-.dominos-input-group
-  select
-    vertical-align: bottom
-  .input-medium
-    margin-bottom: 3px
-
-.order-down
-  float: right
-.PSIW500030-down
-  .grid-item
-    label
-      vertical-align: text-bottom
-@media only screen and (max-width: 1100px)
-  //.dominos-inventory-right
-  //  input
-  //    &.input-medium.w510px
-  //      margin-left: 93px
-
 
 //Departure > Folio
 .folioRadio
@@ -2182,3 +2220,13 @@ td
 .PMS0830070_table
   th,td
     padding: 3px
+
+.vue-treeselect__menu label
+  text-align: left
+  width: auto
+.vue-treeselect
+  display: inline-block
+
+
+/*---- 達美樂介面 ----*/
+@import partials/_dominosStyle

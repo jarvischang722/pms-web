@@ -1,6 +1,6 @@
 {"total":28,
   "rows":[
-    {"checkBox":"<input type='checkbox' />","roomNum":"303","sort":"1","fullName":"0933554劉書雲","ciDate":"2014/08/07","expectCo":"2014/08/08","resvCardNum":"0041402"},
-    {"checkBox":"<input type='checkbox' />","roomNum":"602","sort":"1","fullName":"0933554劉書雲","ciDate":"2014/08/07","expectCo":"2014/08/08","resvCardNum":"0041402"}
+    {"checkbox":"<input type='checkbox' />","roomNum":"303","sort":"1","fullName":"0933554劉書雲","ciDate":"2014/08/07","expectCo":"2014/08/08","resvCardNum":"0041402"},
+    {"checkbox":"<input type='checkbox' />","roomNum":"602","sort":"1","fullName":"0933554劉書雲","ciDate":"2014/08/07","expectCo":"2014/08/08","resvCardNum":"0041402"}
   ]}
 
