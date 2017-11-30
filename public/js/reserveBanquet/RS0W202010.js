@@ -67,7 +67,7 @@ var singlePage = Vue.extend({
                 }
                 else {
                     //新增模式
-                    //self.fetchSingleData('0600006');
+                    self.fetchSingleData('0600006');
                     self.singleData = _.clone(self.singleDataEmpty);
                     self.defaultValue();
 
@@ -293,6 +293,7 @@ console.log(chooseData);
                 bquet_nos: bquet_nos
             };
             $.post("/reserveBanquet/qryPageTwoData", lo_params, function (result) {
+                console.log(result.data);
                 if (!_.isUndefined(result.data)) {
                     self.singleData = result.data;
                 }
@@ -393,7 +394,7 @@ console.log(chooseData);
         fetchDataGridData: function () {
             var self = this;
 
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: self.singleData.bquet_nos}}, function (result) {
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: "0600006"}}, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
 
