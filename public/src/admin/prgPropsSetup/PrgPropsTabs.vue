@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-tabs v-model="activeCollName" @tab-click="handleClick">
-            <el-tab-pane label="單筆" name="UIDatagridField">   </el-tab-pane>
-            <el-tab-pane label="多筆" name="UIPageField">     </el-tab-pane>
+            <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
+            <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
         </el-tabs>
         <div class="col-xs-12 col-sm-12">
             <div class="row">
@@ -15,9 +15,8 @@
                                  :table-data="tableData"
                                  row-hover-color="#eee"
                                  row-click-color="#edf7ff"
-                                 :cell-edit-done="cellEditDone"
+                                 :cell-edit-done="editFieldDone"
                                  :height="200">
-
                         </v-table>
                     </div>
                 </div>
@@ -27,8 +26,7 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth"
-                                            role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
                                         Save
                                     </button>
                                 </li>
@@ -38,9 +36,6 @@
                 </div>
             </div>
         </div>
-        <!--column-width-drag  **拖拉table內寬度-->
-        <!--:height="200" **header 固定-->
-
     </div>
 </template>
 
@@ -55,7 +50,8 @@
                 prg_id: 'PMS0810010',
                 activeCollName: 'UIDatagridField',
                 tableData: [],
-                columns: []
+                columns: [],
+                tmpUpdateData: []
             }
         },
         methods: {
@@ -115,14 +111,32 @@
                 };
                 return _columns;
             },
-            cellEditDone: function cellEditDone(newValue, oldValue, rowIndex, rowData, field) {
-                console.log(rowData)
+            /**
+             *
+             * @param newValue
+             * @param oldValue
+             * @param rowIndex
+             * @param rowData
+             * @param field
+             */
+            editFieldDone(newValue, oldValue, rowIndex, rowData, field) {
+                rowData[field] = newValue;
+                this.tmpUpdateData.push(rowData);
                 console.log(`${newValue}  , ${oldValue} ,${rowIndex} , ${field}`);
                 this.tableData[rowIndex][field] = newValue;
             },
+            /**
+             * 切換Tabs 事件
+             * @param tab
+             * @param event
+             */
             handleClick(tab, event) {
                 this.updatePrgCollPropsTable();
+                this.tmpUpdateData = [];
                 console.log(tab, event);
+            },
+            doSave() {
+
             }
         }
     }
