@@ -46,7 +46,8 @@ exports.qryPageOneData = function (postData, session, callback) {
             if (err || !result) {
                 errorMsg = err;
             }
-            cb(errorMsg, result.tmp_bq3_web_map.data);
+            var data = result.tmp_bq3_web_map.data || [];
+            cb(errorMsg, data);
         });
     }
 
