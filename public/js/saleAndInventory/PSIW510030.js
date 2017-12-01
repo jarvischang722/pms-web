@@ -1632,13 +1632,13 @@ var PSIW510030 = new Vue({
 
             if(self.singleData.order_sta == "C"){
                 self.singleData.cnfirm_cod = self.userid;
-                self.singleData.cnfirm_dat = moment().format('YYYY/MM/DD hh:mm:ss');
+                self.singleData.cnfirm_dat = moment().format('YYYY/MM/DD HH:mm:ss');
             }
 
             self.singleData.ins_usr = self.userid;
             self.singleData.upd_usr = self.userid;
-            self.singleData.ins_dat = moment().format('YYYY/MM/DD hh:mm:ss');
-            self.singleData.upd_dat = moment().format('YYYY/MM/DD hh:mm:ss');
+            self.singleData.ins_dat = moment().format('YYYY/MM/DD HH:mm:ss');
+            self.singleData.upd_dat = moment().format('YYYY/MM/DD HH:mm:ss');
 
             var prg_id;
             if(self.createStatus) prg_id = "PSIW5100300520";
