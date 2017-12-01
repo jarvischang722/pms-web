@@ -3,7 +3,7 @@
     <!-- 撈取全部角色-->
     <dao name="QRY_ALL_ROLE_BY_COMP_COD">
         <statement><![CDATA[
-            select br.role_id , br.role_nam
+            select br.role_id , br.role_nam , br.role_comp_cod
             from bac_role br
             where br.role_athena_id = ? and trim(br.role_comp_cod) = trim(?)
         ]]></statement>
