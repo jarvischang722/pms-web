@@ -26,9 +26,12 @@ var singlePage = Vue.extend({
             default_poadult_qnt: "",    //保證人數預設值
             default_proc_sta: "",       //預約處理預設值
 
+
+            oriSingleData: {},
             singleData: {},
             singleField: {},
             singleDataEmpty: {},
+
 
             selectOption: {},
 
@@ -36,21 +39,20 @@ var singlePage = Vue.extend({
             popupFieldName: "",         //哪一個field觸發popup
 
             createStatus: false,        //新增狀態
-            editStatus: false,          //編輯狀態
-            deleteStatus: false,        //刪除狀態
 
             isModificable: true,       //決定是否可以修改資料
 
-            addEnable: true,
-            editEnable: false,
-            deleteEnable: false,
-            cnfirmEnable: false,
-            cancelEnable: false,
-            saveEnable: false,
+            cancelEnable: true,
+            reserveEnable: true,
+            waitEnable: true,
+            inquiryEnable: true,
+
+            isShowReserve: true,
 
 
             dgIns: {},
             dataGridRows: [],
+            oriDataGridRows: [],
 
             startTime: "",
             endTime: ""
@@ -67,9 +69,15 @@ var singlePage = Vue.extend({
                 }
                 else {
                     //新增模式
+                    self.createStatus = true;
+
+                    self.cancelEnable = false;
+
+                    self.dataGridRows = [];
+
                     self.singleData = _.clone(self.singleDataEmpty);
                     self.defaultValue();
-                    self.dataGridRows = [];
+
                 }
 
                 self.showReserve();
@@ -314,9 +322,18 @@ var singlePage = Vue.extend({
                     result.data.ins_dat = moment(result.data.ins_dat).format("YYYY/MM/DD");
                     result.data.upd_dat = moment(result.data.upd_dat).format("YYYY/MM/DD");
 
+                    //訂單狀態切換預約處理欄位
+                    if(result.data.order_sta == "N"){
+                        self.isShowReserve = true;
+                    }
+                    else {
+                        self.isShowReserve = false;
+                    }
 
+                    self.cancelEnable = true;
 
                     self.singleData = result.data;
+                    self.oriSingleData = _.clone(self.singleData);
                 }
                 else {
                     alert(result.error.errorMsg);
@@ -371,9 +388,18 @@ var singlePage = Vue.extend({
          * 塞預設值
          */
         defaultValue: function () {
+
             this.singleData.use_typ = this.default_use_typ_common;
             this.useTypeOnChange();
             this.singleData.order_sta = this.default_bquet_order_sta;
+
+            if(this.singleData.order_sta == "N"){
+                self.isShowReserve = true;
+            }
+            else {
+                self.isShowReserve = false;
+            }
+
             this.singleData.meal_typ = this.default_meal_typ;
             this.singleData.confirm_sta = "N";
             this.singleData.wait_seq = "0";
@@ -417,6 +443,7 @@ var singlePage = Vue.extend({
             $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: self.singleData.bquet_nos}}, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
+                self.oriDataGridRows = _.clone(self.dataGridRows);
 
                 self.dgIns = new DatagridBaseClass();
                 self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'));
@@ -451,7 +478,7 @@ var singlePage = Vue.extend({
                     lo_field = value;
                 }
             });
-            console.log(lo_field);
+
             this.changeEditingForFieldRule(lo_field.rule_func_name);
             if (lo_field.ui_type == "popupgrid") {
                 var params = {
@@ -532,7 +559,22 @@ var singlePage = Vue.extend({
 
             var self = this;
 
-            if(self.singleData.contact1_cod != "")
+            if(self.singleData.contact1_cod != null && self.singleData.contact1_rmk == ""){
+                alert('聯絡方式1未輸入!');
+            }
+
+            if(self.singleData.contact2_cod != null && self.singleData.contact2_rmk == ""){
+                alert('聯絡方式2未輸入!');
+            }
+
+            if(self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y"){
+                if(self.singleData.groom_nam == ""){
+                    alert("新郎為必填!");
+                }
+                if(self.singleData.bride_nam == ""){
+                    alert("新娘為必填!");
+                }
+            }
 
             //Time format
             self.singleData.begin_tim = self.singleData.begin_tim.replace(":", "");
@@ -557,16 +599,16 @@ var singlePage = Vue.extend({
                 prg_id: prg_id,
                 func_id: func_id
             };
-
-            $.post("/api/callAPI", lo_params, function (result) {
-                self.isLoading = false;
-                if (result.success) {
-                    callback();
-                }
-                if (result.errorMsg != "") {
-                    alert(result.errorMsg);
-                }
-            });
+            //
+            // $.post("/api/callAPI", lo_params, function (result) {
+            //     self.isLoading = false;
+            //     if (result.success) {
+            //         callback();
+            //     }
+            //     if (result.errorMsg != "") {
+            //         alert(result.errorMsg);
+            //     }
+            // });
         },
 
         /**
@@ -574,30 +616,100 @@ var singlePage = Vue.extend({
          */
         ModifyStatus: function (newStatus) {
             var self = this;
-            self.isLoading = true;
 
-            var lo_params = {
-                REVE_CODE : prg_id,
-                prg_id: prg_id,
-                func_id: "1010",
-                bquet_nos: self.singleData.bquet_nos,
-                old_sta: self.singleData.order_sta,
-                new_sta: newStatus,
-                upd_usr: this.userInfo.usr_id
-            };
+            if(self.createStatus) {
+                if(newStatus == "N"){
+                    self.isShowReserve = true;
+                }
+                else{
+                    self.isShowReserve = false;
+                }
+                self.singleData.order_sta = newStatus;
+            }
+            else{
 
-            $.post("/api/callAPI", lo_params, function (result) {
-                self.isLoading = false;
-                if (result.success) {
-                    callback();
+                //判斷是否有異動過資料
+
+                var isMNEqual = isObjectValueEqual(self.oriSingleData, self.singleData);
+
+                var isDTEqual = isObjectArrayEqual(self.oriDataGridRows, self.dataGridRows);
+
+                if(!isMNEqual || isDTEqual){
+
+                    if(confirm("已異動過資料，需先存檔！\r\n請問是否要存檔?")){
+                        self.save();
+                    }
+                    return;
                 }
-                if (result.errorMsg != "") {
-                    alert(result.errorMsg);
-                }
-            });
+
+                self.isLoading = true;
+
+                var lo_params = {
+                    REVE_CODE : prg_id,
+                    prg_id: prg_id,
+                    func_id: "1010",
+                    bquet_nos: self.singleData.bquet_nos,
+                    old_sta: self.singleData.order_sta,
+                    new_sta: newStatus,
+                    upd_usr: this.userInfo.usr_id
+                };
+
+                $.post("/api/callAPI", lo_params, function (result) {
+                    self.isLoading = false;
+                    if (result.success) {
+                        alert("異動成功！");
+                        self.fetchSingleData();
+                    }
+                    if (result.errorMsg != "") {
+                        alert(result.errorMsg);
+                    }
+                });
+            }
+
         }
     }
 });
+
+function isObjectArrayEqual(a, b) {
+    var isEqual = true;
+    for(i = 0; i < a.length; i++){
+        if(!isObjectValueEqual(a[i], b[i]))
+            isEqual = false;
+    }
+}
+
+
+function isObjectValueEqual(a, b) {
+    // Of course, we can do it use for in
+    // Create arrays of property names
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    // If number of properties is different,
+    // objects are not equivalent
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+
+    for (var i = 0; i < aProps.length - 1; i++) {
+        var propName = aProps[i];
+
+        // If values of same property are not equal,
+        // objects are not equivalent
+        if (a[propName] !== b[propName]) {
+            if(a[propName] == null){
+                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == ""){
+                    continue;
+                }
+            }
+            return false;
+        }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return true;
+}
 
 //跳窗將資料選回去單筆欄位
 Vue.component('text-select-grid-dialog-tmp', {
@@ -735,8 +847,8 @@ var RS00202010VM = new Vue({
             });
         },
         addReserve: function () {
-            vmHub.$emit("showReserve", {bquet_nos: ""});
-            // vmHub.$emit("showReserve", {bquet_nos: "0600006"});
+            //vmHub.$emit("showReserve", {bquet_nos: ""});
+            vmHub.$emit("showReserve", {bquet_nos: "0600006"});
         },
 
         showReserve: function (bquet_nos) {

@@ -30,8 +30,8 @@
                                         <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-m"/>
                                     </div>
                                     <div class="grid-item-inline">
-                                        <label>預約處理</label>
-                                        <select v-model="singleData.proc_sta" class="input-medium resvCard-date">
+                                        <label v-show="isShowReserve">預約處理</label>
+                                        <select v-model="singleData.proc_sta" class="input-medium resvCard-date" v-show="isShowReserve">
                                         <option v-for="opt in selectOption.proc_sta" :value="opt.value">
                                             {{opt.display}}
                                         </option>
@@ -288,16 +288,16 @@
                                             <legend class="blue">訂席狀態</legend>
                                             <div class="grid">
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(X)">取消</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(N)">預約</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(W)">等待</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
                                                 </li>
                                                 <li>
-                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus(Q)">詢價</button>
+                                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
                                                 </li>
                                             </div>
                                         </fieldset>
