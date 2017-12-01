@@ -1,9 +1,9 @@
 {"total":28,
 	"rows":[
-		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"8,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
-		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"8,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
-		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"8,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
-		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"8,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
-		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"8,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"}
+		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"45,128,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
+		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"45,128,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
+		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"45,128,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
+		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"45,128,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"},
+		{"roomNum":"1","sDate":"2017/05/11","pay":"34:AE信用卡","card":"1234567812345678","date":"12/17","code":"756","money":"45,128,000","expectCo":"2017/05/10","bookingNum":"00480801","bookingNum":"00480801","groupName":"王小鬼"}
 	]}
 

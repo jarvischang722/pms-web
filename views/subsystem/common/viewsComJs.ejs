@@ -15,21 +15,28 @@
 
         gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
         frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+        roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
 
         // $(".gridTableHt .panel-body").css("height", height);
         $(".gridTableHt").css("height", gridTableHt);
         $(".frontTableHt").css("height", frontTableHt);
+        $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
 
         // 螢幕縮放時重新抓值
         $(window).resize(function() {
             gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
             frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
+            roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
 
             $('.gridTableHt').datagrid('resize',{
                 height:gridTableHt
             });
 
             $(".frontTableHt").css("height", frontTableHt);
+
+            $('.roomAssTableHt').datagrid('resize',{
+                height:roomAssTableHt
+            });
         });
 
         //.END Resize Table Height // Date:170920

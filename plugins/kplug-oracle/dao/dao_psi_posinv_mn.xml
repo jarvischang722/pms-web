@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- ['PSIW500030'] 檢查[萬元用量/庫存]有無值 -->
+    <!-- ['PSIW510030'] 檢查[萬元用量/庫存]有無值 -->
     <dao name="CHK_PSI_POSINV_MN">
         <statement><![CDATA[
 

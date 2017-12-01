@@ -1,6 +1,6 @@
 {"total":28,
 	"rows":[
-	{"reset":"＊","num":"1","payRoom":"FO:客務櫃檯","payDate":"2017/04/03","payPerson":"cio","payTime":"11:46","payClass":"1","payNum":"2017/04/03 00010","payTotal":"5,000","invoice":"JF00000301123"},
-	{"reset":"＊","num":"2","payRoom":"FO:客務櫃檯","payDate":"2017/04/03","payPerson":"rick","payTime":"11:46","payClass":"1","payNum":"2017/04/03 00010","payTotal":"5,000","invoice":"JF00000301123"}
+	{"reset":"＊","num":"1","payRoom":"FO:客務櫃檯","payDate":"2017/04/03","payTime":"11:46","payPerson":"cio","payClass":"1","payNum":"2017/04/03 00010","payTotal":"5,000","invoice":"JF00000301123"},
+	{"reset":"＊","num":"2","payRoom":"FO:客務櫃檯","payDate":"2017/04/03","payTime":"11:46","payPerson":"rick","payClass":"1","payNum":"2017/04/03 00010","payTotal":"5,000","invoice":"JF00000301123"}
 	]}
 

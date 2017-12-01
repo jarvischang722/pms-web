@@ -50,7 +50,6 @@ var PermissionVM = new Vue({
         getAllRoles: function () {
             $.post("/api/getAllRoles", function (result) {
                 PermissionVM.ga_roles = result.roles;
-
             });
         },
         //撈取公司組別
@@ -99,7 +98,7 @@ var PermissionVM = new Vue({
                     PermissionVM.compGrpList4Tree.push({
                         id: account.usr_id,
                         parent: account.grp_id,
-                        text: account.usr_cname+"("+account.usr_id+")"
+                        text: account.usr_id + " " + account.usr_cname
                     });
                 });
             });
@@ -193,10 +192,10 @@ var PermissionVM = new Vue({
                 if (chkExistIdx == -1) {
                     PermissionVM.tmpCUD.createData.push({
                         role_athena_id: PermissionVM.userInfo.athena_id,
-                        role_comp_cod: oriRoleOfAccount[0].role_comp_cod,
+                        role_comp_cod: _.findWhere(PermissionVM.ga_roles, {role_id: PermissionVM.role_id}).role_comp_cod,
                         role_id: PermissionVM.role_id,
                         user_athena_id: PermissionVM.userInfo.athena_id,
-                        user_comp_cod: oriRoleOfAccount[0].role_comp_cod,
+                        user_comp_cod: _.findWhere(PermissionVM.ga_compGrpList, {usr_id: account.id}).cmp_id,
                         user_id: account.id
                     });
                 }

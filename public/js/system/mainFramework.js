@@ -20,7 +20,7 @@ var BacchusMainVM = new Vue({
     mounted: function () {
         //離開時
         window.onbeforeunload = function () {
-            BacchusMainVM.doLeavePageBeforePrgFuncs()
+            BacchusMainVM.doLeavePageBeforePrgFuncs();
         };
 
 
@@ -66,7 +66,7 @@ var BacchusMainVM = new Vue({
         },
         /**
          * 塞入作業離開頁面後要執行的functions
-         * @param _funcsNam{Arra[String]} : 功能名稱清單
+         * @param _funcsNam{Array[String]} : 功能名稱清單
          */
         setLeaveAfterExecFuncsNam: function (_funcsNam) {
             this.leaveAfterExecFuncsNam = _funcsNam;
@@ -140,6 +140,7 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
+            // ls_pro_url = "setPageProSize"
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
