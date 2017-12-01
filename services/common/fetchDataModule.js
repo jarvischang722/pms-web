@@ -20,14 +20,17 @@ let go_session;
 let go_searchCond;
 let gs_prg_id;
 let gn_page_id;
+let gn_tab_page_id;
 
 // 多筆流程
 exports.DataGridProc = function (postData, session) {
     gn_page_id = postData.page_id || 1;
+    gn_tab_page_id = postData.tab_page_id || 1;
     go_session = session;
     gs_prg_id = postData.prg_id;
     go_searchCond = postData.searchCond || {}; //搜尋條件
 
+    let self = this;
     /**
      * 查詢欄位資料
      * @param callback
@@ -57,23 +60,45 @@ exports.DataGridProc = function (postData, session) {
             callback(err, result);
         });
     };
+
+    this.fetchDgData = function (callback) {
+        async.parallel({
+            fetchFieldsResult: self.fetchDgFieldsData,   //取多筆欄位資料
+            fetchRowsResult: self.fetchDgRowData         //取多筆資料
+        }, function (err, result) {
+            let lo_rtnData = {
+                searchFields: result.fetchFieldsResult.searchFields,
+                dgFieldsData: result.fetchFieldsResult.dgFieldsData,
+                dgRowData: result.fetchRowsResult
+            };
+            callback(err, lo_rtnData);
+        });
+    };
 };
 
 // 單筆流程
 exports.GridSingleProc = function (postData, session) {
-    gn_page_id = postData.page_id || 1;
+    gn_page_id = postData.page_id || 2;
+    gn_tab_page_id = postData.tab_page_id || 1;
     go_session = session;
     gs_prg_id = postData.prg_id;
     go_searchCond = postData.searchCond || {}; //搜尋條件
+
+    let self = this;
 
     /**
      * 查詢單筆欄位資料
      */
     this.fetchGsFieldsData = function (callback) {
-        async.waterfall([
-            qryUIPageFields
-        ], function(err, result){
-            callback(err, result);
+        async.parallel({
+            gsMnFieldsData: self.fetchGsMnFieldsData,
+            gsDtFieldsData: self.fetchGsDtFieldsData
+        }, function (err, result) {
+            let lo_rtnData = {
+                gsFieldsData: result.gsMnFieldsData,
+                gsRowData: result.gsDtFieldsData
+            };
+            callback(err, lo_rtnData);
         });
     };
 
@@ -81,18 +106,90 @@ exports.GridSingleProc = function (postData, session) {
      * 查詢單筆資料
      */
     this.fetchGsRowData = function (callback) {
-        callback(null, "");
+        async.parallel({
+            gsMnRowData: self.fetchGsMnRowData,
+            gsDtRowData: self.fetchGsDtRowData
+        }, function (err, result) {
+            let lo_rtnData = {
+                gsFieldsData: result.gsMnRowData,
+                gsRowData: result.gsDtRowData
+            };
+            callback(err, lo_rtnData);
+        });
     };
+
+    /**
+     * 查詢單筆mn欄位資料
+     * @param callback
+     */
+    this.fetchGsMnFieldsData = function (callback) {
+        async.waterfall([
+            qryUIPageFields,     //取單筆欄位資料
+            qrySelectOption,     //查詢selectOption
+            qryLangUIFields      //處理欄位多語系
+        ], function (err, result) {
+            callback(err, result);
+        });
+    };
+
+    /**
+     * 查詢單筆mn欄位資料
+     * @param callback
+     */
+    this.fetchGsMnRowData = function (callback) {
+        async.waterfall([
+            qryTemplateRf,     //查詢templateRf
+            qryRowData,        //查詢多筆資料
+            filterRowData,     //依條件過濾多筆資料
+            rowDataMultiLang   //內容多語系
+        ], function (err, result) {
+            callback(err, result);
+        });
+    };
+
+    /**
+     * 查詢單筆dt欄位資料
+     * @param callback
+     */
+    this.fetchGsDtFieldsData = function (callback) {
+        async.waterfall([
+            qryUIDatagridFields, //撈取有grid的資料跟欄位
+            qrySelectOption,     //查詢selectOption
+            qryLangUIFields      //處理欄位多語系
+        ], function (err, result) {
+            callback(err, result);
+        });
+    };
+
+    /**
+     * 查詢單筆dt資料
+     * @param callback
+     */
+    this.fetchGsDtRowData = function (callback) {
+        async.waterfall([
+            qryTemplateRf,     //查詢templateRf
+            qryRowData,        //查詢多筆資料
+            filterRowData,     //依條件過濾多筆資料
+            rowDataMultiLang   //內容多語系
+        ], function (err, result) {
+            callback(err, result);
+        });
+    };
+
+
 };
 
-/**
+/*
  * 查詢templateRf
  */
 function qryTemplateRf(callback) {
-    mongoAgent.TemplateRf.findOne({
+    var lo_params = {
         prg_id: gs_prg_id,
-        page_id: gn_page_id
-    }, function (err, result) {
+        page_id: gn_page_id,
+        tab_page_id: gn_tab_page_id
+    };
+
+    mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
         callback(err, result);
     });
 }
@@ -140,11 +237,11 @@ function qryUIDatagridFields(callback) {
 /**
  * 取單筆欄位資料
  */
-function qryUIPageFields(callback){
+function qryUIPageFields(callback) {
     mongoAgent.UIPageField.find({
         prg_id: gs_prg_id,
         page_id: gn_page_id
-    }, function(err, result){
+    }, function (err, result) {
         let la_gsFieldsData = result;
         callback(err, la_gsFieldsData);
     });
@@ -355,3 +452,4 @@ function rowDataMultiLang(la_dgRowData, callback) {
         callback(null, Rows);
     });
 }
+

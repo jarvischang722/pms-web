@@ -35,14 +35,15 @@ exports.fetchDgFieldData = function (postData, session, callback) {
  */
 exports.fetchGsFieldData = function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
     async.parallel({
-        gsFieldsData: lo_gsProc.fetchGsFieldsData,
-        gsRowData: lo_gsProc.fetchGsRowData
+        gsMnData: lo_gsProc.fetchGsFieldsData,
+        gsDtData: lo_dgProc.fetchDgData
     }, function (err, result) {
         let lo_rtnData = {
-            gsFieldsData: result.gsFieldsData,
-            gsRowData: result.gsRowData
+            gsMnData: result.gsMnData,
+            gsDtData: result.gsDtData
         };
         callback(err, lo_rtnData);
     });
