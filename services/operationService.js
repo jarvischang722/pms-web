@@ -38,7 +38,7 @@ exports.fetchGsFieldData = function (postData, session, callback) {
     let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
 
     async.parallel({
-        gsMnData: lo_gsProc.fetchGsFieldsData,
+        gsMnData: lo_gsProc.fetchGsMnData,
         gsDtData: lo_dgProc.fetchDgData
     }, function (err, result) {
         let lo_rtnData = {

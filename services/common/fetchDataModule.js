@@ -87,38 +87,6 @@ exports.GridSingleProc = function (postData, session) {
     let self = this;
 
     /**
-     * 查詢單筆欄位資料
-     */
-    this.fetchGsFieldsData = function (callback) {
-        async.parallel({
-            gsMnFieldsData: self.fetchGsMnFieldsData,
-            gsDtFieldsData: self.fetchGsDtFieldsData
-        }, function (err, result) {
-            let lo_rtnData = {
-                gsFieldsData: result.gsMnFieldsData,
-                gsRowData: result.gsDtFieldsData
-            };
-            callback(err, lo_rtnData);
-        });
-    };
-
-    /**
-     * 查詢單筆資料
-     */
-    this.fetchGsRowData = function (callback) {
-        async.parallel({
-            gsMnRowData: self.fetchGsMnRowData,
-            gsDtRowData: self.fetchGsDtRowData
-        }, function (err, result) {
-            let lo_rtnData = {
-                gsFieldsData: result.gsMnRowData,
-                gsRowData: result.gsDtRowData
-            };
-            callback(err, lo_rtnData);
-        });
-    };
-
-    /**
      * 查詢單筆mn欄位資料
      * @param callback
      */
@@ -148,34 +116,29 @@ exports.GridSingleProc = function (postData, session) {
     };
 
     /**
-     * 查詢單筆dt欄位資料
+     *
      * @param callback
      */
-    this.fetchGsDtFieldsData = function (callback) {
+    this.fetchGsMnData = function(callback){
         async.waterfall([
-            qryUIDatagridFields, //撈取有grid的資料跟欄位
-            qrySelectOption,     //查詢selectOption
-            qryLangUIFields      //處理欄位多語系
+            function (cb) {
+                async.parallel({
+                    fieldsData: self.fetchGsMnFieldsData,
+                    rowData: self.fetchGsMnRowData
+                }, function(err, resultMnData){
+                    cb(err, resultMnData);
+                });
+            },
+            function(mnData, cb){
+                let la_pageField = mnData.fieldsData;
+                let lo_rowData = mnData.rowData;
+                dataValueChange(la_pageField, lo_rowData);
+
+            }
         ], function (err, result) {
             callback(err, result);
         });
     };
-
-    /**
-     * 查詢單筆dt資料
-     * @param callback
-     */
-    this.fetchGsDtRowData = function (callback) {
-        async.waterfall([
-            qryTemplateRf,     //查詢templateRf
-            qryRowData,        //查詢多筆資料
-            filterRowData,     //依條件過濾多筆資料
-            rowDataMultiLang   //內容多語系
-        ], function (err, result) {
-            callback(err, result);
-        });
-    };
-
 
 };
 
