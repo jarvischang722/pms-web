@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-tabs v-model="activeCollName" @tab-click="handleClick">
+        <el-tabs v-model="activeCollName" type="card" @tab-click="handleClick">
             <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
             <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
         </el-tabs>
@@ -12,7 +12,7 @@
                                  column-width-drag
                                  style="width:100%"
                                  :columns="columns"
-                                 :table-data="tableData"
+                                 :table-data="propsData"
                                  row-hover-color="#eee"
                                  row-click-color="#edf7ff"
                                  :cell-edit-done="editFieldDone"
@@ -26,7 +26,8 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            @click="doSave">
                                         Save
                                     </button>
                                 </li>
@@ -49,7 +50,8 @@
             return {
                 prg_id: 'PMS0810010',
                 activeCollName: 'UIDatagridField',
-                tableData: [],
+                collIndex: [],
+                propsData: [],
                 columns: [],
                 tmpUpdateData: []
             }
@@ -59,17 +61,24 @@
              * 切換tab 時必須要抓此collection 的資料更新再TABLE上
              * **/
             async updatePrgCollPropsTable() {
-                let lo_prgProps = await this.fetchProgramProsByPrgID();
-                this.columns = this.convertToColumns(lo_prgProps.collSchema);
-                this.tableData = lo_prgProps.props;
+                try {
+                    let lo_prgProps = await this.fetchProgramProsByPrgID();
+                    this.columns = this.convertToColumns(lo_prgProps.collSchema);
+                    this.propsData = lo_prgProps.propsData;
+                    this.collIndex = lo_prgProps.collIndexs;
+                } catch (err) {
+                    console.error(err);
+                }
+                console.log(this.collIndex);
             },
             fetchProgramProsByPrgID() {
                 let _this = this;
                 return new Promise(function (resolve, reject) {
-                    $.post("/admin/getProgramPropsByPrgID", {
+                    $.post("/api/admin/getProgramPropsByPrgID", {
                         collName: _this.activeCollName,
                         prg_id: _this.prg_id,
                     }, function (response) {
+                        console.log(response);
                         resolve(response);
                     })
                 })
@@ -89,9 +98,17 @@
                         columnAlign: 'center',
                         isEdit: true,
                         isResize: true,
-                        orderBy: 'asc'
+                        type: field.type
                     };
-                    _columns.push(lo_column);
+
+                    // if(field.name= '"prg_id"'){
+                    //     console.log("===== field ====");
+                    //     console.log(field);
+                    // }
+                    if (field.name != 'prg_id' && field.name != 'athena_id' && field.name != 'user_athena_id' && field.name != 'user_id') {
+                        _columns.push(lo_column);
+                    }
+
                 });
                 if (this.activeCollName == 'UIDatagridField' || this.activeCollName == 'UIPageField') {
                     _columns = this.handleCollFieldColumns(_columns);
@@ -120,10 +137,29 @@
              * @param field
              */
             editFieldDone(newValue, oldValue, rowIndex, rowData, field) {
+                let _this = this;
+                if (newValue.trim() == oldValue.trim()) {
+                    return;
+                }
+                let lo_updConds = {};
                 rowData[field] = newValue;
-                this.tmpUpdateData.push(rowData);
-                console.log(`${newValue}  , ${oldValue} ,${rowIndex} , ${field}`);
-                this.tableData[rowIndex][field] = newValue;
+                //組合修改條件
+                _.each(this.collIndex, function (fieldName) {
+                    if (!_.isUndefined(rowData[fieldName])) {
+                        lo_updConds[fieldName] = _.isEqual(fieldName, field)
+                            ? oldValue
+                            : rowData[fieldName];
+                    }
+                });
+
+
+                console.log(JSON.parse(JSON.stringify(lo_updConds)));
+                let ln_existIdx = _.findIndex(_.pluck(this.tmpUpdateData, 'rowData'), lo_updConds);
+                if (ln_existIdx > -1) {
+                    this.tmpUpdateData.splice(ln_existIdx, 1)
+                }
+                this.tmpUpdateData.push({rowData: rowData, updConds: lo_updConds});
+                this.propsData[rowIndex][field] = newValue;
             },
             /**
              * 切換Tabs 事件
@@ -136,7 +172,20 @@
                 console.log(tab, event);
             },
             doSave() {
-
+                let _this = this;
+                console.log(this.tmpUpdateData);
+                $.post("/api/admin/handleCollSave", {
+                    collName: _this.activeCollName,
+                    updateData: _this.tmpUpdateData,
+                }, function (response) {
+                    if (response.success) {
+                        _this.tmpUpdateData = [];
+                        alert('儲存成功');
+                    }
+                    else {
+                        alert('儲存失敗');
+                    }
+                })
             }
         }
     }

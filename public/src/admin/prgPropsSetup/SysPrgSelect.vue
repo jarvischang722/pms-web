@@ -5,7 +5,7 @@
             <i class="fa fa-pencil"></i>
             選擇子系統
         </div>
-        <el-cascader placeholder="選擇業務" :options="options" filterable></el-cascader>
+        <el-cascader placeholder="選擇業務" style="width: 30%" :options="options" filterable></el-cascader>
         <div class="space-6"></div>
 
         <!--子系統業務-->
