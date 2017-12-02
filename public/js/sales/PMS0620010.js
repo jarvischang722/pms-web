@@ -51,6 +51,10 @@ Vue.component('single-grid-pms0620020-tmp', {
     created: function () {
         var self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
+            if(chooseData["user_nos"] != "" && chooseData["user_cname"] != ""){
+                chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
+            }
+
             self.rowData = _.extend(self.rowData, chooseData);
         });
     },
@@ -245,13 +249,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     //找樹狀parent node
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
-                    //攤平資料(將資料降維成二維)
-                    //TODO 維度扁平化不夠
-                    var list = _(go_rtnResult).chain()
-                        .zip(_(go_rtnResult).pluck('children'))
-                        .flatten()
-                        .compact()
-                        .value();
+                    //攤平資料(陣列扁平化)
+                    var list = [];
+                    flattenArray(go_rtnResult, list);
 
                     self.classCodSelectedOption = [];
                     var groupList = _.groupBy(list, "parent_cod");
@@ -368,12 +368,13 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
-            console.log(this.classCodSelectedOption);
+
             var self = this;
-            this.isLoadingDialog = true;
-            this.loadingText = "Saving...";
 
             if (this.dgHoatelDt.endEditing()) {
+                this.isLoadingDialog = true;
+                this.loadingText = "Saving...";
+
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
@@ -423,10 +424,10 @@ Vue.component('single-grid-pms0620020-tmp', {
                         }
                         self.isLoadingDialog = false;
                         vm.initTmpCUD();
+                        self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }
-
 
         },
         //轉換checkbox值
@@ -536,7 +537,6 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             }
 
-            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -853,4 +853,17 @@ function findByValue(obj, id) {
         
     }
     return result;
+}
+
+function flattenArray(array, la_list){
+    _.each(array, function(object){
+        if(!_.isUndefined(object.children)){
+            la_list.push(object);
+            flattenArray(object.children, la_list);
+        }
+        else{
+            la_list.push(object);
+            return;
+        }
+    });
 }
