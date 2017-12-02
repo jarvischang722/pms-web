@@ -4337,6 +4337,10 @@ td div.act-box span.act-text {
   display: inline-block;
 }
 
+.openChangeLogDialog .el-dialog {
+  top: 3% !important;
+}
+
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;

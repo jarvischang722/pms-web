@@ -13,23 +13,32 @@
         // 前檯 selectgroup
         var selectgroup = $(".select-group").height();
 
+        var dtTableSetupHt = $(".tab-content").height()-100; // tabs裡面的 - 搜尋:52px + 標題: 24px + 原本:25px // bug: 抓不到搜尋&標題高度
+
         gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
+        dtTableSetupHt = dtTableSetupHt; // 設定檔table 高度
         frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
         roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
 
         // $(".gridTableHt .panel-body").css("height", height);
         $(".gridTableHt").css("height", gridTableHt);
+        $(".dtTableSetupHt").css("height", dtTableSetupHt);
         $(".frontTableHt").css("height", frontTableHt);
         $(".roomAssTableHt").css("height", roomAssTableHt); //roomAssign
 
         // 螢幕縮放時重新抓值
         $(window).resize(function() {
             gridTableHt = $(window).height()-menuHeight1-menuHeight2-25;
+            dtTableSetupHt = $(".tab-content").height()-100; // 設定檔table 高度
             frontTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-8;
             roomAssTableHt = $(window).height()-menuHeight1-menuHeight2-selectgroup-120; // 上面備註高度
 
             $('.gridTableHt').datagrid('resize',{
                 height:gridTableHt
+            });
+
+            $('.dtTableSetupHt').datagrid('resize',{
+                height:dtTableSetupHt
             });
 
             $(".frontTableHt").css("height", frontTableHt);
