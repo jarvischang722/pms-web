@@ -3,7 +3,7 @@
     <!-- ['PMS0810150'] 訂房類別設定(主頁面)-->
     <dao name="QRY_HFD_GUARENTEE_RF">
         <statement><![CDATA[
-                select athena_id, hotel_cod, guarentee_typ, guarentee_nam, guarentee_rmk, trim(dp_req) as dp_req, dp_rat, trim(cc_req) as cc_req, keep_day, keep_tim, trim(use_sta) as use_sta, view_seq
+                select athena_id, hotel_cod, guarentee_typ, guarentee_nam, guarentee_rmk, trim(dp_req) as dp_req, dp_rat, trim(cc_req) as cc_req, keep_day, keep_tim, trim(use_sta) as use_sta, view_seq, keep_way
                 from hfd_guarentee_rf
                 where athena_id = ? and trim(hotel_cod) = trim(?)
         ]]>
@@ -23,7 +23,7 @@
     <!-- ['PMS0810150'] 訂房類別設定(單筆mn)-->
     <dao name="QRY_HFD_GUARENTEE_RF_SINGLE">
         <statement><![CDATA[
-                select athena_id, hotel_cod, guarentee_typ, guarentee_nam, guarentee_rmk, ins_dat, ins_usr, upd_dat, upd_usr, trim(dp_req) as dp_req, dp_rat, trim(cc_req) as cc_req, keep_day, keep_tim, trim(use_sta) as use_sta, view_seq
+                select athena_id, hotel_cod, guarentee_typ, guarentee_nam, guarentee_rmk, ins_dat, ins_usr, upd_dat, upd_usr, trim(dp_req) as dp_req, dp_rat, trim(cc_req) as cc_req, keep_day, keep_tim, trim(use_sta) as use_sta, view_seq, keep_way
                 from hfd_guarentee_rf
                 where athena_id = ? and trim(hotel_cod) = trim(?) and trim(guarentee_typ) = ?
         ]]>
