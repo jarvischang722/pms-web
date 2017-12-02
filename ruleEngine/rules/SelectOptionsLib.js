@@ -305,25 +305,6 @@ exports.getIsCanUse = function () {
 };
 
 /**
- * 取得聯絡設定是否刪除
- * @returns {Array}
- */
-exports.getIsCanUse = function () {
-    var useList = [
-        {
-            display: '是',
-            value: 'Y'
-        },
-        {
-            display: '否',
-            value: 'N'
-        }
-    ];
-
-    return useList;
-};
-
-/**
  * 取得需收訂金
  * @returns {Array}
  */
@@ -676,7 +657,7 @@ exports.searchAreapntSta = function () {
         }
     ];
     return la_optionList;
-}
+};
 
 /**
  * PMS0620010 業務員作業
@@ -863,6 +844,15 @@ exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
 exports.qry_source_rf_use_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0810120取得是否可升等、改房價
+ */
+exports.qry_rvdiscpers_rf_y_n = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
 
@@ -1250,4 +1240,4 @@ exports.qrySearchAreapntSta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
     callback(null,lo_result);
-}
+};
