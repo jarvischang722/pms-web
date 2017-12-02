@@ -510,8 +510,8 @@ a
           margin: 0 0 0 -68px
         //.moreClick
         //  //width: 25px
-        //  height: $inputHeight-medium
-        //  //line-height: $inputHeight-medium
+        //  height: $defHt
+        //  //line-height: $defHt
         //  border: 1px solid $border-color
         //  background: $border-color
         //  border-radius: 5px
@@ -685,7 +685,7 @@ a
     +bsCompany-content
     .input-spc-1
       +input-s1
-      height: $inputHeight-medium
+      height: $defHt
   .tab-block
     +bsCompany-content
     .checkbox-width
@@ -2202,10 +2202,25 @@ td
 .vue-treeselect
   display: inline-block
 
+/***** vue 問題 *****/
 // 異動紀錄 修改距離上層高度
-.openChangeLogDialog .el-dialog
-  top: 3% !important
+.openChangeLogDialog
+  .el-dialog
+    top: 3% !important
 
+// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
+.search-content
+  .el-select
+    .el-input__inner
+      height: $defHt !important
+    .el-select__tags
+      height: $defHt !important
+      overflow: hidden
+.grid-item
+  .el-date-editor
+    .el-input__inner,.el-input__icon
+      height: $defHt !important
+/***** vue 問題 *****/
 
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle

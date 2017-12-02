@@ -4337,10 +4337,24 @@ td div.act-box span.act-text {
   display: inline-block;
 }
 
+/***** vue 問題 **** */
 .openChangeLogDialog .el-dialog {
   top: 3% !important;
 }
 
+.search-content .el-select .el-input__inner {
+  height: 25px !important;
+}
+.search-content .el-select .el-select__tags {
+  height: 25px !important;
+  overflow: hidden;
+}
+
+.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
+  height: 25px !important;
+}
+
+/***** vue 問題 **** */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;

@@ -61,7 +61,7 @@
 .height60
   height: 60px
 .defHt
-  height: 25px
+  height: $defHt
 
 // width
 .width-5
@@ -495,10 +495,10 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(431px)
 
 .input-hMedium
-  height: $inputHeight-medium !important
+  height: $defHt !important
 .input-hCol2
   resize: none
-  height: ($inputHeight-medium*2)+5 !important
+  height: ($defHt*2)+5 !important
 .input-spc-1
   +input-s1
   //@media screen and (min-width: 768px) and (max-width: 1030px)
@@ -512,8 +512,8 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
 
 //.dateBox-custom1
 //  .textbox
-//    height: $inputHeight-medium
-//    line-height: $inputHeight-medium - 5px
+//    height: $defHt
+//    line-height: $defHt - 5px
 //    border-radius: 0
 //    border: 1px solid #D5D5D3
 //  .combo-arrow
