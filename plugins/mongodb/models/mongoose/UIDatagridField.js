@@ -1,8 +1,8 @@
 /**
  * Created by Jun on 2017/2/9.
  */
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 let UIDatagridFieldSchema = new Schema({
     user_athena_id: String, //使用者登入驗證athena_id
     athena_id: String,    //athena_id

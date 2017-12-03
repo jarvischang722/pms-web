@@ -2,8 +2,8 @@
  * Created by Jun on 2017/2/24.
  * 頁面欄位屬性
  */
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 let UIPageFieldSchema = new Schema({
 
     prg_id: {type: String, trim: true, index: true, required: true},      　 　　        //程式編號
