@@ -284,7 +284,7 @@ function DatagridBaseClass() {
         lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
 
-        var dataType = (_.isUndefined(lo_chkKeyRowData.createRow) || lo_chkKeyRowData.createRow != "Y") ?
+        var dataType = _.isUndefined(lo_chkKeyRowData.createRow) || lo_chkKeyRowData.createRow != "Y" ?
             "updateData" : "createData";
 
         var keyVals = _.pluck(_.where(this.fieldsData, {keyable: 'Y'}), "ui_field_name");

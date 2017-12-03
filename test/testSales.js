@@ -207,7 +207,7 @@ function fetchDataGridFieldAttr(lo_dataGridField, lo_dtData, callback) {
                             lo_dataGridField[fIdx].referiable = selRow.referiable || "N";
                             lo_dataGridField[fIdx].defaultVal = selRow.defaultVal || "";
 
-                            dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+                            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                                 lo_dataGridField[fIdx].selectData = selectData;
                                 callback(null, {ui_field_idx: fIdx, ui_field_name: field.ui_field_name});
                             });

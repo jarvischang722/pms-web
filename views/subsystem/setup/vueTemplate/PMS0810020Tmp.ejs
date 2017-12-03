@@ -15,7 +15,7 @@
                             <div class="row" v-for="fields in pageTwoFieldData">
                                 <div class="grid-item " v-for="field in fields">
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'" class="lineHeight14">
+                                           v-if="field.visiable == 'Y'" class="lineHt14">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
                                             {{field.ui_display_name}}

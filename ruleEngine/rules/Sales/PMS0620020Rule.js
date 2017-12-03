@@ -531,12 +531,22 @@ module.exports = {
         };
         queryAgent.queryList("QRY_CLASS_COD_TREE", lo_params, 0, 0, function (err, result) {
 
-            let la_selectData = self.initTreeData(result);
-            // self.convertData2TreeData(result);
+            let la_selectData = [];
+            let la_root = _.filter(result, function (lo_rowData) {
+                return lo_rowData.parent_cod.trim() == "ROOT";
+            });
+
+            _.each(la_root, function (lo_root) {
+                let lo_node = new node(lo_root);
+                self.convertData2TreeData(result, lo_node);
+                la_selectData.push(lo_node);
+            });
 
             lo_result.selectOptions = la_selectData;
             callback(lo_error, lo_result);
         });
+
+
     },
 
     //初始化樹狀資料

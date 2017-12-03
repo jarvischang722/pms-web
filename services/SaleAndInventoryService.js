@@ -36,7 +36,7 @@ exports.getDataGridRows = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        key_cod1: session.user.usr_id,
+        key_cod1: session.user.usr_id
     };
 
     //過濾掉無效條件
@@ -86,7 +86,7 @@ exports.getSingleDataMN = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        order_nos: params.postData.order_nos
+        order_nos: params.order_nos
     };
 
     queryAgent.query("QRY_PSI_QUOTE_SINGLE_MN", lo_params, function (err, Result) {
@@ -117,7 +117,7 @@ exports.getSingleDataDT = function (params ,session, callback) {
 
     var lo_params = {
         comp_cod: session.user.cmp_id,
-        order_nos: params.postData.order_nos
+        order_nos: params.order_nos
     };
 
     queryAgent.queryList("QRY_PSI_QUOTE_SINGLE_DT", lo_params, 0, 0, function (err, Result) {
@@ -371,10 +371,12 @@ exports.getFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -401,10 +403,12 @@ exports.getAllFormatSta = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_ALL_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -432,10 +436,12 @@ exports.getGoodsData = function (params ,session, callback) {
 
     queryAgent.queryList("QRY_GOODS_DATA", lo_params, 0, 0, function (err, Result) {
         if (!err) {
-            if(Result)
+            if(Result){
                 callback(lo_error, Result);
-            else
+            }
+            else{
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -455,7 +461,7 @@ exports.getGoodsData = function (params ,session, callback) {
 exports.chkFormatSta = function (params ,session, callback) {
 
     var lo_error = null;
-
+    var ls_checkMsg = "";
     async.waterfall([
         //1.相同格式的訂單，一天只能有一張
         function(cb){
@@ -500,9 +506,10 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[銷售]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
-                            cb(true, lo_error);
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
+                            lo_error.errorCod = "0000";
+                            ls_checkMsg += " [銷售]資料";
+                            cb(false, lo_error);
                         }
                         else{
                             cb(false, '');
@@ -532,12 +539,13 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if (Result.count == 0) {
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[萬元用量/庫存]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
-                            cb(true, lo_error);
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
+                            lo_error.errorCod = "0000";
+                            ls_checkMsg += " [萬元用量/庫存]資料";
+                            cb(false, lo_error);
                         }
                         else {
-                            cb(false, '');
+                            cb(false, result);
                         }
                     }
                     else {
@@ -564,12 +572,13 @@ exports.chkFormatSta = function (params ,session, callback) {
                     if (!err) {
                         if(Result.count == 0){
                             lo_error = new ErrorClass();
-                            lo_error.errorMsg = "尚未有[業績]資料,不能新增訂單, 請先至POS傳送";
-                            lo_error.errorCod = "1111";
-                            cb(true, lo_error);
+                            lo_error.errorMsg = "POS無資料或傳輸失敗，請檢查確認POS傳輸後再訂貨。";
+                            lo_error.errorCod = "0000";
+                            ls_checkMsg += " [業績]資料";
+                            cb(false, lo_error);
                         }
                         else{
-                            cb(false, '');
+                            cb(false, result);
                         }
                     }
                     else {
@@ -586,6 +595,10 @@ exports.chkFormatSta = function (params ,session, callback) {
             }
         }
     ], function(err, result){
+        if(result.errorCod == "0000"){
+            result.errorMsg += "\r\n缺少" + ls_checkMsg;
+            err = false;
+        }
         callback(err, result);
     });
 };
@@ -605,6 +618,37 @@ exports.getSearchFormatSta = function (params ,session, callback) {
     };
 
     queryAgent.queryList("QRY_SEARCH_PSI_FORMAT_STA", lo_params, 0, 0, function (err, Result) {
+        if (!err) {
+            if(Result)
+                callback(lo_error, Result);
+            else
+                callback(lo_error, "");
+        }
+        else {
+            lo_error = new ErrorClass();
+            lo_error.errorMsg = err || "error";
+            lo_error.errorCod = "1111";
+            callback(lo_error, Result);
+        }
+    });
+};
+
+/**
+ * 取得客戶代號下拉(查詢欄位用)
+ * @param params
+ * @param session
+ * @param callback
+ */
+exports.getSearchShowCod = function (params ,session, callback) {
+
+    var lo_error = null;
+
+    var lo_params = {
+        comp_cod: session.user.cmp_id,
+        key_cod1: session.user.usr_id
+    };
+
+    queryAgent.queryList("QRY_SEARCH_CUST_COD_SELECT", lo_params, 0, 0, function (err, Result) {
         if (!err) {
             if(Result)
                 callback(lo_error, Result);
@@ -1010,7 +1054,7 @@ exports.PSI0000001 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000001',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };
@@ -1108,7 +1152,7 @@ exports.PSI0000002 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000002',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };
@@ -1225,7 +1269,7 @@ exports.PSI0000003 = function (params ,session, callback) {
             //打API
             var params = {
                 REVE_CODE : 'PSI0000003',
-                prg_id: 'PSIW500030',
+                prg_id: 'PSIW510030',
                 ip: session.ip,
                 data: obj
             };

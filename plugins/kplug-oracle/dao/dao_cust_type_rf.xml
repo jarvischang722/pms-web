@@ -8,4 +8,15 @@
         </statement>
         <parameter type="string" kind="3">athena_id</parameter>
     </dao>
+
+    <!--[PMS0620050] 業務員拜訪記錄 公司類別下拉資料 -->
+    <dao name="SEL_CUST_TYP_RF">
+        <statement><![CDATA[
+            select type_cod as value, type_nam as display from cust_type_rf where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
+
+
 </root>

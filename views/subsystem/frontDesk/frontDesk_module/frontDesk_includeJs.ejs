@@ -60,7 +60,7 @@
                 modal: true,
                 title: "Rate Chg",
                 title_html: true,
-                width: 1000,
+                width: 910,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -171,7 +171,7 @@
                 url: '/jsonData/frontDesk/foCnt_deposits.json',
                 method: 'get',
                 columns: [[
-                    {field: 'checkBox', title: '<input type="checkbox">', width: 28,align: 'center'},
+                    {field: 'checkbox', title: '<input type="checkbox">', width: 28,align: 'center'},
                     {field: 'roomNum', title: '房號', width: 60},
                     {field: 'sort', title: '序號', width: 40},
                     {field: 'fullName', title: 'Full Name', width: 150},
@@ -189,7 +189,7 @@
                 modal: true,
                 title: "更改C/O日期",
                 title_html: true,
-                width: 800,
+                width: 650,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -244,7 +244,7 @@
                     {field: 'serviceDate', title: '服務日期', width: 80},
                     {field: 'projectCode', title: '項目代號', width: 120},
                     {field: 'unitPrice', title: '單價', width: 60,align:"right"},
-                    {field: 'quantity', title: '數量', width: 40},
+                    {field: 'quantity', title: '數量', width: 40,align:"right"},
                     {field: 'subtotal', title: '小計', width: 60,align:"right"},
                     {field: 'status', title: '狀態', width: 60},
                     {field: 'star', title: '', width: 40},
@@ -725,7 +725,7 @@
                 modal: true,
                 title: "取消公帳號",
                 title_html: true,
-                width: 800,
+                width: 700,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -863,7 +863,7 @@
                 modal: true,
                 title: "開班登入",
                 title_html: true,
-                width: 700,
+                width: 500,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -879,7 +879,7 @@
                 modal: true,
                 title: "住客帳入帳作業",
                 title_html: true,
-                width: 900,
+                width: 700,
                 maxwidth: 1920,
 //                height: $(window).height(),
 //                autoOpen: true,
@@ -897,13 +897,13 @@
                 columns: [[
                     {field: 'CNum', title: '消費單號', width: 100},
                     {field: 'CCode', title: '消費代號', width: 100},
-                    {field: 'price', title: '單價', width: 70},
-                    {field: 'num', title: '數量', width: 70},
+                    {field: 'price', title: '單價', width: 70,align: 'right'},
+                    {field: 'num', title: '數量', width: 70,align: 'right'},
                     {field: 'total', title: '小計', width: 70, align:'right'},
-                    {field: 'total2', title: '小計(未含稅)', width: 100, align:'right'},
-                    {field: 'pay', title: '稅刷', width: 70, align:'right'},
+                    {field: 'total2', title: '小計(未稅)', width: 100, align:'right'},
+                    {field: 'pay', title: '稅別', width: 70, align:'right'},
                     {field: 'roomNum', title: '房號', width: 70},
-                    {field: 'ps', title: '出鈉備註', width: 70}
+                    {field: 'ps', title: '出納備註', width: 70}
                 ]]
             });
 
@@ -915,12 +915,12 @@
                 url: '/jsonData/frontDesk/frontDeskRecorded2-table.json',
                 method: 'get',
                 columns: [[
-                    {field: 'CNum', title: '消費項', width: 100},
+                    {field: 'CNum', title: '消費項目', width: 100},
                     {field: 'CCode', title: '項目名稱', width: 100},
                     {field: 'price', title: '單價', width: 70, align:'right'},
                     {field: 'num', title: '數量', width: 70, align:'right'},
                     {field: 'total', title: '小計', width: 70, align:'right'},
-                    {field: 'ps', title: '出鈉備註', width: 100},
+                    {field: 'ps', title: '出納備註', width: 100},
                     {field: 'pay', title: '帳單備註', width: 100},
                     {field: 'roomNum', title: '入帳房號', width: 70},
                     {field: 'file', title: '帳夾', width: 70}
@@ -1014,7 +1014,7 @@
             e.preventDefault();
             var dialog = $("#preAuth-wrap").removeClass('hide').dialog({
                 modal: true,
-                title: "Pre.auth.",
+                title: "Pre. Auth.",
                 title_html: true,
                 width: 700,
                 maxwidth: 1920,
@@ -1032,13 +1032,13 @@
                 url: '/jsonData/frontDesk/preAuthTable.json',
                 method: 'get',
                 columns: [[
-                    {field: 'roomNum', title: '序號', width: 50},
+                    {field: 'roomNum', title: '序號', width: 30},
                     {field: 'sDate', title: '預刷日期', width: 100},
                     {field: 'pay', title: '付款方式', width: 150},
                     {field: 'card', title: '信用卡卡號', width: 100},
                     {field: 'date', title: '有效期限', width: 50},
                     {field: 'code', title: '授權碼', width: 70},
-                    {field: 'money', title: '預刷金額.', width: 70, align:'right'}
+                    {field: 'money', title: '預刷金額', width: 70, align:'right'}
                 ]]
             });
 
@@ -1387,17 +1387,24 @@
         //顯示排房明細
         $(".cardDetail-table").panel({closed:true});
         $('.showCardDetail').click(function () {
-
             if ($('input.showCardDetail').is(':checked')) {
                 $("#roomDetail-table").datagrid('reload');
                 $(".cardDetail-table").panel({closed:false});
                 $(".roomDetail-table2").removeClass('cardDetail_margin');
+                $('#roomDetail-table2').datagrid('resize',{height:'auto'}).removeClass('roomAssTableHt');
             }
             else {
                 $(".cardDetail-table").panel({closed:true});
                 $(".roomDetail-table2").addClass('cardDetail_margin');
+                $("#roomDetail-table2").addClass('roomAssTableHt');
             }
 
+        });
+
+        // 排房明細 螢幕縮放時重新抓值
+        $(window).resize(function() {
+            $('.cardDetail-table').panel('resize',{}); // 不能控制Table 須控制更外層的panel
+            $('#roomDetail-table2').datagrid('resize',{});
         });
 
         //排房選中active

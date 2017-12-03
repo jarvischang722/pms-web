@@ -178,6 +178,9 @@
       "group_change_record": "組別異動紀錄(英)",
       "saveSuccess": "Save Success",
       "delSuccess": "Delete Success"
+    },
+    "PMS0620050": {
+      "edit_vist_mn": "修改拜訪紀錄(英)"
     }
   },
   "table_in_use": "Table in use (%s)",
@@ -208,6 +211,7 @@
     "User": "User",
     "Action_type": "Action Type",
     "Desciption_Mn": "Desciption MN",
+    "Desciption_Dt": "Desciption_DT",
     "check_delete": "確定刪除此筆資料(英)",
     "CompanyName": "Athena Information Systems"
   },
