@@ -71,7 +71,7 @@ var DatagridFieldAdapter= {
         var tmpFieldObj = fieldAttrObj;
 
         tmpFieldObj.field = fieldAttrObj.ui_field_name.toLowerCase();
-        tmpFieldObj.title = fieldAttrObj.ui_display_name;
+        tmpFieldObj.title = '<span title="'+fieldAttrObj.ui_hint+'">'+fieldAttrObj.ui_display_name+'</span>';
         tmpFieldObj.sortable = true;
 
         tmpFieldObj.editor = {

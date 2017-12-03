@@ -5,18 +5,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var UI_Type_SelectSchema = new Schema({
+var UITypeSelectSchema = new Schema({
 
-    prg_id: String,      　 　    //程式編號
-    ui_field_name: String,       //頁面欄位名稱
-    ui_display_name:String,      //
+    prg_id: {type: String, trim: true, index: true, required: true},      　 　    //程式編號
+    ui_field_name: {type: String, trim: true, index: true, required: true},       //頁面欄位名稱
+    ui_display_name: String,      //
     rule_func_name: String,      //單筆資料來源規則
-    multi_lang_table:String,     //
-    multi_value_field:String,    //
-    multi_display_field:String,  //
+    multi_lang_table: String,     //
+    multi_value_field: String,    //
+    multi_display_field: String,  //
     defaultVal: String   　      //(option 預設值
 
 }, {collection: "UITypeSelect"});
 
+UITypeSelectSchema.index({prg_id: 1, ui_field_name: 1}, {unique: true});
 
-mongoose.model("UITypeSelect", UI_Type_SelectSchema);
+mongoose.model("UITypeSelect", UITypeSelectSchema);
