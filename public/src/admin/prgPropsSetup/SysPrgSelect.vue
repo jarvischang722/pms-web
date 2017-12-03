@@ -5,8 +5,12 @@
             <i class="fa fa-pencil"></i>
             選擇系統模組
         </div>
-        <el-cascader style="width: 30%" :options="options" @active-item-change="handleItemChange"
-                     @change="handleChange" v-model="mdl_id"></el-cascader>
+        <el-cascader style="width: 30%" :options="options"
+                     @active-item-change="handleItemChange"
+                     @change="handleChange"
+                     v-model="mdl_id"
+                     filterable>
+        </el-cascader>
         <div class="space-6"></div>
 
         <!-- 作業 -->
@@ -25,7 +29,7 @@
                                     data-placement="bottom"
                                     @click="selectProgram(prg.pro_id)"
                                     :title="prg.pro_id">
-                                {{prg.pro_name_zh_TW}}
+                                {{ ` ${prg.pro_name_zh_TW}  (${prg.pro_id})`}}
                             </button>
                         </div>
                     </div>
@@ -45,7 +49,7 @@
         mounted() {
             this.initSysPrgMenu();
         },
-        props:['setActivePrg'],
+        props: ['setActivePrg'],
         data: function () {
             return {
                 mdl_id: "",
@@ -55,8 +59,8 @@
         },
         methods: {
             //選擇要編輯的作業編號
-            selectProgram(prg_id){
-                this.$emit('set-active-prg',prg_id)
+            selectProgram(prg_id) {
+                this.$emit('set-active-prg', prg_id)
             },
             initSysPrgMenu() {
                 let _this = this;

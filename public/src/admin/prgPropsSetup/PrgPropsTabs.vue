@@ -1,45 +1,47 @@
 <template>
-    <div>
-        <el-tabs v-model="activeCollName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
-            <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
-        </el-tabs>
-        <div class="col-xs-12 col-sm-12">
-            <div class="row">
-                <div class="col-xs-11 col-sm-11">
-                    <div class="row no-margin-right">
-                        <v-table is-horizontal-resize=""
-                                 column-width-drag
-                                 style="width:100%"
-                                 :columns="columns"
-                                 :table-data="propsData"
-                                 row-hover-color="#eee"
-                                 row-click-color="#edf7ff"
-                                 :cell-edit-done="editFieldDone"
-                                 error-content="無資料"
-                                 :height="200">
-                        </v-table>
+    <el-collapse-transition>
+        <div v-show="activePrg != ''">
+            <el-tabs v-model="activeCollName" type="card" @tab-click="handleClick">
+                <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
+                <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
+            </el-tabs>
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right">
+                            <v-table is-horizontal-resize=""
+                                     column-width-drag
+                                     style="width:100%"
+                                     :columns="columns"
+                                     :table-data="propsData"
+                                     row-hover-color="#eee"
+                                     row-click-color="#edf7ff"
+                                     :cell-edit-done="editFieldDone"
+                                     error-content="無資料"
+                                     :height="200">
+                            </v-table>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-xs-1 col-sm-1">
-                    <div class="row">
-                        <div class="right-menu-co">
-                            <ul>
-                                <li>
-                                    <button :disabled="activePrg == ''"
-                                            class="btn btn-primary btn-white btn-defaultWidth" role="button"
-                                            @click="doSave">
-                                        Save
-                                    </button>
-                                </li>
-                            </ul>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="row">
+                            <div class="right-menu-co">
+                                <ul>
+                                    <li>
+                                        <button :disabled="activePrg == ''"
+                                                class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                                @click="doSave">
+                                            Save
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </el-collapse-transition>
 </template>
 
 <script>

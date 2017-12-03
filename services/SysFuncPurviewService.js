@@ -31,7 +31,7 @@ exports.getUserAllowSystem = function (req, callback) {
                 let allLangForSys = _.where(sysLang, {sys_id: sys.sys_id});
                 _.each(la_locales, function (locale) {
                     let sys_name = "";
-                    let tmp = _.findWhere(allLangForSys, locale);
+                    let tmp = _.findWhere(allLangForSys, {locale:locale});
                     if (!_.isUndefined(tmp)) {
                         sys_name = tmp.words;
                     }
