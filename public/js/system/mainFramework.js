@@ -140,7 +140,7 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            ls_pro_url = "/prgPropsSetup"
+            // ls_pro_url = "/prgPropsSetup"
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
