@@ -16,6 +16,7 @@
                                  row-hover-color="#eee"
                                  row-click-color="#edf7ff"
                                  :cell-edit-done="editFieldDone"
+                                 error-content="無資料"
                                  :height="200">
                         </v-table>
                     </div>
@@ -26,7 +27,8 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                    <button :disabled="activePrg == ''"
+                                            class="btn btn-primary btn-white btn-defaultWidth" role="button"
                                             @click="doSave">
                                         Save
                                     </button>
@@ -41,14 +43,15 @@
 </template>
 
 <script>
+
     export default {
         name: 'prg-prors-tabs',
         mounted() {
             this.updatePrgCollPropsTable();
         },
+        props: ["activePrg"],
         data() {
             return {
-                prg_id: 'PMS0810010',
                 activeCollName: 'UIDatagridField',
                 collIndex: [],
                 propsData: [],
@@ -56,11 +59,19 @@
                 tmpUpdateData: []
             }
         },
+        watch: {
+            activePrg() {
+                this.updatePrgCollPropsTable();
+            }
+        },
         methods: {
             /**
              * 切換tab 時必須要抓此collection 的資料更新再TABLE上
              * **/
             async updatePrgCollPropsTable() {
+                if (this.activePrg == '') {
+                    return;
+                }
                 try {
                     let lo_prgProps = await this.fetchProgramProsByPrgID();
                     this.columns = this.convertToColumns(lo_prgProps.collSchema);
@@ -69,16 +80,14 @@
                 } catch (err) {
                     console.error(err);
                 }
-                console.log(this.collIndex);
             },
             fetchProgramProsByPrgID() {
                 let _this = this;
                 return new Promise(function (resolve, reject) {
                     $.post("/api/admin/getProgramPropsByPrgID", {
                         collName: _this.activeCollName,
-                        prg_id: _this.prg_id,
+                        prg_id: _this.activePrg,
                     }, function (response) {
-                        console.log(response);
                         resolve(response);
                     })
                 })
@@ -101,10 +110,7 @@
                         type: field.type
                     };
 
-                    // if(field.name= '"prg_id"'){
-                    //     console.log("===== field ====");
-                    //     console.log(field);
-                    // }
+
                     if (field.name != 'prg_id' && field.name != 'athena_id' && field.name != 'user_athena_id' && field.name != 'user_id') {
                         _columns.push(lo_column);
                     }
@@ -129,7 +135,7 @@
                 return _columns;
             },
             /**
-             *
+             * 編輯後離開欄位觸發的method
              * @param newValue
              * @param oldValue
              * @param rowIndex
@@ -137,7 +143,6 @@
              * @param field
              */
             editFieldDone(newValue, oldValue, rowIndex, rowData, field) {
-                let _this = this;
                 if (newValue.trim() == oldValue.trim()) {
                     return;
                 }
@@ -152,8 +157,6 @@
                     }
                 });
 
-
-                console.log(JSON.parse(JSON.stringify(lo_updConds)));
                 let ln_existIdx = _.findIndex(_.pluck(this.tmpUpdateData, 'rowData'), lo_updConds);
                 if (ln_existIdx > -1) {
                     this.tmpUpdateData.splice(ln_existIdx, 1)
@@ -169,11 +172,13 @@
             handleClick(tab, event) {
                 this.updatePrgCollPropsTable();
                 this.tmpUpdateData = [];
-                console.log(tab, event);
             },
             doSave() {
                 let _this = this;
-                console.log(this.tmpUpdateData);
+                if (!this.tmpUpdateData.length) {
+                    alert('無修改的屬性資料需儲存！');
+                    return;
+                }
                 $.post("/api/admin/handleCollSave", {
                     collName: _this.activeCollName,
                     updateData: _this.tmpUpdateData,

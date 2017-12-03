@@ -4,8 +4,8 @@
     <div class="pageMain">
         <div class="col-xs-12">
             <div id="prgPropsSetupVM">
-                <sys-prg-select></sys-prg-select>
-                <prg-props-tabs></prg-props-tabs>
+                <sys-prg-select @set-active-prg="setActivePrg"></sys-prg-select>
+                <prg-props-tabs :active-prg="activePrg"></prg-props-tabs>
             </div>
 
         </div>

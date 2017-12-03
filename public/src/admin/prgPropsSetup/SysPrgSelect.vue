@@ -1,208 +1,38 @@
 <template>
     <div>
-        <!--子系統-->
+        <!--系統模組-->
         <div class="title">
             <i class="fa fa-pencil"></i>
-            選擇子系統
+            選擇系統模組
         </div>
-        <el-cascader placeholder="選擇業務" style="width: 30%" :options="options" filterable></el-cascader>
+        <el-cascader style="width: 30%" :options="options" @active-item-change="handleItemChange"
+                     @change="handleChange" v-model="mdl_id"></el-cascader>
         <div class="space-6"></div>
 
-        <!--子系統業務-->
+        <!-- 作業 -->
         <div class="title">
             <i class="fa fa-pencil"></i>
-            選擇子系統業務
+            選擇作業
         </div>
         <div class="borderFrame">
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="房型類別設定">
-                            房型類別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="房型設定">
-                            房型設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="國籍設定">
-                            國籍設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="洲別設定">
-                            洲別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="交通接駁設定">
-                            交通接駁設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="居住地設定">
-                            居住地設定
-                        </button>
+            <template v-for="list in prosList">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-2" v-for="prg in list">
+                            <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
+                                    role="button"
+                                    data-rel="tooltip"
+                                    data-placement="bottom"
+                                    @click="selectProgram(prg.pro_id)"
+                                    :title="prg.pro_id">
+                                {{prg.pro_name_zh_TW}}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="space-4"></div>
-
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="假日日期設定">
-                            假日日期設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="市場類別群組設定">
-                            市場類別群組設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="市場類別設定">
-                            市場類別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房卡來源群組設定">
-                            訂房卡來源群組設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房卡來源設定">
-                            訂房卡來源設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房折扣及房種升等授權者設定">
-                            訂房折扣及房種升等授權者設定
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="space-4"></div>
-
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="前檯訂房分析設定">
-                            前檯訂房分析設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="FOC設定">
-                            FOC設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房類別設定">
-                            訂房類別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房取消原因設定">
-                            訂房取消原因設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="假日類別設定">
-                            假日類別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="GATWAY轉入訂單設定">
-                            GATWAY轉入訂單設定
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="space-4"></div>
-
-            <div class="col-xs-12 col-sm-12">
-                <div class="row">
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="訂房確認書E-MAIL內容格式設定">
-                            訂房確認書E-MAIL內容格式設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="交辦事項設定">
-                            交辦事項設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="活動/展期名稱設定">
-                            活動/展期名稱設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="交通類別設定">
-                            交通類別設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                        <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
-                                role="button"
-                                data-rel="tooltip" data-placement="bottom" title="房價設定">
-                            房價設定
-                        </button>
-                    </div>
-                    <div class="col-xs-2">
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="space-4"></div>
+            </template>
 
         </div>
         <div class="space-6"></div>
@@ -210,66 +40,86 @@
 </template>
 
 <script>
+
     export default {
+        mounted() {
+            this.initSysPrgMenu();
+        },
+        props:['setActivePrg'],
         data: function () {
             return {
-                options: [{
-                    value: 'PMS',
-                    label: '飯店前檯系統',
-                    children: [
-                        {
-                            value: 'reservations',
-                            label: '訂房',
-                            children: [
-                                {
-                                    value: 'PMS0110000',
-                                    label: '訂房作業'
-                                }, {
-                                    value: 'PMS0120000',
-                                    label: '訂房其他作業'
-                                }]
-                        },
-                        {
-                            value: 'frontDesk',
-                            label: '接待',
-                            children: [
-                                {
-                                    value: 'PMS0210000',
-                                    label: '接待作業'
-                                }, {
-                                    value: 'PMS0220000',
-                                    label: '排房其他作業 '
-                                }
-                            ]
-                        },
-                        {
-                            value: 'setUp',
-                            label: '設定',
-                            children: [
-                                {
-                                    value: 'setUp_reservations',
-                                    label: '訂房'
-                                }, {
-                                    value: 'setUp_frontDesk',
-                                    label: '接待 '
-                                }, {
-                                    value: 'setUp_cashier',
-                                    label: '出納'
-                                }, {
-                                    value: 'setUp_houseKeeping',
-                                    label: '房務'
-                                }, {
-                                    value: 'setUp_nightAudit',
-                                    label: '夜核'
-                                }, {
-                                    value: 'setUp_sales',
-                                    label: '業務'
-                                }
-                            ]
-                        }
-                    ]
-                }]
+                mdl_id: "",
+                prosList: [],
+                options: []
             };
+        },
+        methods: {
+            //選擇要編輯的作業編號
+            selectProgram(prg_id){
+                this.$emit('set-active-prg',prg_id)
+            },
+            initSysPrgMenu() {
+                let _this = this;
+                $.post('/api/userAllowSystem').done(function (response) {
+                    _.each(response.sysList, function (sys) {
+                        _this.options.push({
+                            value: sys.sys_id,
+                            label: sys.sys_name_zh_tw,
+                            children: []
+                        });
+                    })
+                });
+            },
+            handleChange(val) {
+                this.updProgramList(val[2]);
+            },
+            async handleItemChange(item) {
+                //選了系統
+                if (item.length == 1) {
+                    let sys_id = item[0];
+                    let subsysMenu = await this.getSubsysBySysID(sys_id);
+                    let sysIdx = _.findIndex(this.options, {value: sys_id});
+                    this.options[sysIdx].children = this.composeSubsysMdl(subsysMenu);
+                }
+            },
+            //
+            getSubsysBySysID(sys_id) {
+                return new Promise(function (resolve, reject) {
+                    $.post('/api/userSubsysPurviewBySysID', {sys_id}).done(function (response) {
+                        resolve(response.subsysMenu);
+                    })
+                });
+            },
+            //更新程式清單
+            updProgramList(mdl_id) {
+                let _this = this;
+                $.post("/api/getGroupMdlPros", {mdl_id: mdl_id}, function (response) {
+                    if (response.success) {
+                        _this.prosList = _.values(_.groupBy(response.prosList, function (item, i) {
+                            return Math.floor(i / 6);
+                        }));
+                    }
+                });
+            },
+            //組合子系統與模組階層資料
+            composeSubsysMdl(subsysMenu) {
+                let options = [];
+                _.each(subsysMenu, function (subsys) {
+                    let tmpSubsysOpt = {
+                        value: subsys.subsys_id,
+                        label: subsys.subsys_nam,
+                        children: []
+                    };
+                    _.each(subsys.mdlMenu, function (mdl) {
+                        tmpSubsysOpt.children.push({
+                            value: mdl.mdl_id,
+                            label: mdl.mdl_name_zh_TW,
+                        })
+                    });
+                    options.push(tmpSubsysOpt)
+                });
+                return options;
+            }
         }
     }
 </script>
