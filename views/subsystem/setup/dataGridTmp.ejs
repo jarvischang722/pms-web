@@ -74,7 +74,7 @@
 
     <!-- 異動紀錄 -->
     <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
-               :visible.sync="openChangeLogDialog" size="large">
+               :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
 
         <div class="col-xs-12">
             <div class="col-sm-12 col-xs-12">
@@ -92,7 +92,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="tbl-content02" style="height: 300px;">
+                        <div class="tbl-content02" style="">
                             <table class="custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
@@ -119,14 +119,26 @@
                     </div>
                     <div class="clearfix"></div>
                     <script>
-                        //                        console.log(navigator.userAgent);
-                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
-                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
-                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+                        // console.log(navigator.userAgent);
+                        // 判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                        // 0822 有些mac的scrollBar 會推，有些不會(jun會)
+                        // if(navigator.userAgent.indexOf("Window") !=-1){
+
+                        // var fixHeadTableH = $(window).height() - 350;
+                        // $('.tbl-content02').css({'height': fixHeadTableH});
+                        // alert(fixHeadTableH);
+
+
+                        // 異動紀錄 偵測高度(掛外面無法正常運作)
+                        var tblContentHt = $(window).height() - 270;
+                        $('.tbl-content02').css({'height': tblContentHt});
                         $(window).on("load resize ", function () {
                             var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
                             $('.tbl-header02').css({'padding-right': '17px'});
-                            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                            var fixHeadTableH = $(window).height() - 20;
+                            // 異動紀錄 偵測高度
+                            var tblContentHt = $(window).height() - 270;
+                            $('.tbl-content02').css({'height': tblContentHt});
                         }).resize();
                         //                        }
                         // /.end 判斷如果不是window不執行
