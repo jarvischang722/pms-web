@@ -38,13 +38,16 @@
         <!--</div>-->
         <!--&lt;!&ndash; button &ndash;&gt;-->
         <!--</div> &lt;!&ndash; authorityTree &ndash;&gt;-->
-        <auth-role></auth-role>
-        <auth-staff v-show="false"></auth-staff>
-        <auth-func v-show="false"></auth-func>
+        <auth-role v-show="authRoleShow"></auth-role>
+        <auth-staff v-show="authStaffShow"></auth-staff>
+        <auth-func v-show="authFuncShow"></auth-func>
     </div>
 </div>
 
 <%- include vueTemplate/permission/auth-navbar.ejs %>
+<%- include vueTemplate/permission/authRoleComp.ejs %>
+<%- include vueTemplate/permission/authFuncComp.ejs %>
+<%- include vueTemplate/permission/authStaffComp.ejs %>
 <%- include vueTemplate/permission/authFunc.ejs %>
 <%- include vueTemplate/permission/authStaff.ejs %>
 <%- include vueTemplate/permission/authRole.ejs %>

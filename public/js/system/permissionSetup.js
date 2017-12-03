@@ -3,8 +3,75 @@
  *  程式名稱: 權限設定
  */
 
+var vmHub = new Vue();
+
 var authorNavbar = Vue.extend({
     template: "#authorNavbarTmp"
+});
+
+var funcComp = Vue.extend({
+    template: "#funcCompTmp"
+});
+
+var roleComp = Vue.extend({
+    template: "#roleCompTmp",
+    data: function () {
+        return {
+            allRoles: [],
+            selRole: ""
+        };
+    },
+    mounted: function () {
+        this.qryAllRoles();
+    },
+    watch: {
+        selRole: function (role_id) {
+            vmHub.$emit("updStaff", role_id);
+            vmHub.$emit("updFunc", role_id);
+        }
+    },
+    methods: {
+        //取全部角色
+        qryAllRoles: function () {
+            var self = this;
+            $.post("/api/getAllRoles", function (result) {
+                self.allRoles = result.roles;
+                self.selRole = self.allRoles[0].role_id;
+            });
+        },
+        //選擇角色觸發Event
+        // changeRoleEvent: function (role_id) {
+        //     this.getRoleOfAccounts(role_id, function () {
+        //         PermissionVM.updateAccountChkedTree();
+        //     });
+        // },
+        //取得角色對應之全部帳號
+        getRoleOfAccounts: function (role_id, cb) {
+            $.post("/api/getRoleOfAccounts", {role_id: role_id}, function (result) {
+                PermissionVM.ga_roleOfAccount = result.accounts;
+                cb();
+            });
+        },
+    }
+});
+
+var staffComp = Vue.extend({
+    template: "#staffCompTmp",
+    created: function () {
+        vmHub.$on("updStaff", function (role_id) {
+
+        });
+    }
+});
+
+var authRole = Vue.extend({
+    template: "#authRoleTmp",
+    components: {
+        authorNavbar,
+        funcComp,
+        roleComp,
+        staffComp
+    }
 });
 
 var authStaff = Vue.extend({
@@ -16,13 +83,6 @@ var authStaff = Vue.extend({
 
 var authFunc = Vue.extend({
     template: "#authFuncTmp",
-    components: {
-        authorNavbar
-    }
-});
-
-var authRole = Vue.extend({
-    template: "#authRoleTmp",
     components: {
         authorNavbar
     }
@@ -54,7 +114,10 @@ var PermissionVM = new Vue({
             createData: [],
             updateData: [],
             deleteData: []
-        }
+        },
+        authRoleShow: true,
+        authStaffShow: false,
+        authFuncShow: false
     }
     // watch: {
     //     role_id: function (newRoleId) {
