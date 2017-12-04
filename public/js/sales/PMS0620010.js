@@ -357,20 +357,6 @@ Vue.component('single-grid-pms0620020-tmp', {
             });
 
             for (var j = 0; j < this.hotelDtRowData.length; j++) {
-                //檢查館別狀態
-                if (this.hotelDtRowData[j].nouse_dat == '' || _.isNull(this.hotelDtRowData[j].nouse_dat)) {
-                    if (this.hotelDtRowData[j].status_cod1 == 'X') {
-                        lo_checkResult.success = false;
-                        break;
-                    }
-                }
-                else {
-                    if (this.hotelDtRowData[j].status_cod1 == 'N') {
-                        lo_checkResult.success = false;
-                        break;
-                    }
-                }
-
                 // 檢查館別代號是否重複
                 var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
                 var la_keyVals = ["hotel_cod", "sales_cod"];
@@ -405,6 +391,7 @@ Vue.component('single-grid-pms0620020-tmp', {
                     this.isLoadingDialog = false;
                 }
                 else if (lo_dtChkResult.success == false) {
+                    alert(lo_dtChkResult.msg);
                     this.isLoadingDialog = false;
                 }
                 else {
