@@ -23,13 +23,14 @@
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
                         <div class="col-xs-2 choiceWork" v-for="prg in list">
-                            <button class="btn btn-primary btn-white btn-defaultWidth moreHide prgSelectBtn"
+                            <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
                                     role="button"
                                     data-rel="tooltip"
                                     data-placement="bottom"
                                     @click="selectProgram(prg.pro_id)"
+                                    :class="{'prgSelectBtnAct':prg.pro_id == $parent.activePrg}"
                                     :title="prg.pro_id">
-                                {{ ` ${prg.pro_name_zh_TW}  (${prg.pro_id})`}}
+                                {{ ` ${prg.pro_name_zh_TW} (${prg.pro_id})`}}
                             </button>
                         </div>
                     </div>
@@ -126,15 +127,6 @@
             }
         }
     }
-
-    $(function () {
-        $(document).on('click','.prgSelectBtn',function (e) {
-
-            $('.choiceWork').children().removeClass('prgSelectBtnAct');
-            $(this).addClass('prgSelectBtnAct');
-
-        })
-    })
 </script>
 
 <style scoped>
