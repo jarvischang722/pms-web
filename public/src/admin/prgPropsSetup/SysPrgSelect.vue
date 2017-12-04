@@ -22,8 +22,8 @@
             <template v-for="list in prosList">
                 <div class="col-xs-12 col-sm-12">
                     <div class="row">
-                        <div class="col-xs-2" v-for="prg in list">
-                            <button class="btn btn-primary btn-white btn-defaultWidth moreHide"
+                        <div class="col-xs-2 choiceWork" v-for="prg in list">
+                            <button class="btn btn-primary btn-white btn-defaultWidth moreHide prgSelectBtn"
                                     role="button"
                                     data-rel="tooltip"
                                     data-placement="bottom"
@@ -126,6 +126,15 @@
             }
         }
     }
+
+    $(function () {
+        $(document).on('click','.prgSelectBtn',function (e) {
+
+            $('.choiceWork').children().removeClass('prgSelectBtnAct');
+            $(this).addClass('prgSelectBtnAct');
+
+        })
+    })
 </script>
 
 <style scoped>

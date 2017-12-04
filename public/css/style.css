@@ -4353,8 +4353,36 @@ td div.act-box span.act-text {
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
   height: 25px !important;
 }
+.grid-item .el-cascader .el-input__inner {
+  height: 25px !important;
+}
 
 /***** vue 問題 **** */
+#prgPropsSetupVM .title {
+  font-size: 1.2em;
+  color: #555;
+  margin: auto auto 5px auto;
+}
+#prgPropsSetupVM .borderFrame {
+  min-height: 100px;
+}
+
+.title-cellBg {
+  background-color: #549bdb;
+  color: #fff;
+}
+
+.prgSelectBtnAct.btn-white.btn-primary {
+  background: #5f79ce !important;
+  color: #fff !important;
+}
+.prgSelectBtnAct.btn-white.btn-primary:focus, .prgSelectBtnAct.btn-white.btn-primary:active {
+  background: #5f79ce !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
