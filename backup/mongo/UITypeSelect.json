@@ -2267,3 +2267,97 @@
     "multi_value_field" : "", 
     "multi_display_field" : ""
 }
+{ 
+    "_id" : ObjectId("5a17abfaeaa54922546f990c"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "atten_nam", 
+    "ui_type" : "popupgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_atten_nam", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a17c1a8eaa54922546f990f"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "alt_nam", 
+    "ui_type" : "popupgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_alt_nam", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a1bc8df970a869768ab5adb"), 
+    "prg_id" : "PMS0810120", 
+    "ui_field_name" : "upgrade_flg", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_rvdiscpers_rf_y_n", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a1bc8df970a869768ab5adc"), 
+    "prg_id" : "PMS0810120", 
+    "ui_field_name" : "chgrent_flg", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "qry_rvdiscpers_rf_y_n", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}
+{ 
+    "_id" : ObjectId("5a1ccb60970a869c286d1825"), 
+    "prg_id" : "PMS0810150", 
+    "ui_field_name" : "keep_way", 
+    "rule_func_name" : "qryGuarenteerfKeepway", 
+    "defaultVal" : "Y", 
+    "ds_from_sql" : "N", 
+    "ui_display_name" : "", 
+    "page_id" : NumberInt(1), 
+    "template_id" : "datagrid"
+}
+{ 
+    "_id" : ObjectId("5a1ccb99970a869c286d182d"), 
+    "prg_id" : "PMS0810150", 
+    "ui_field_name" : "keep_way", 
+    "rule_func_name" : "qryGuarenteerfKeepway", 
+    "defaultVal" : "CI", 
+    "ds_from_sql" : "N", 
+    "ui_display_name" : "", 
+    "page_id" : NumberInt(2), 
+    "template_id" : "gridsingle"
+}
+{ 
+    "_id" : ObjectId("5a1e81dbfb195f1608bca419"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "ui_field_name" : "place_cod_button", 
+    "ui_type" : "popupgrid", 
+    "ui_display_name" : "", 
+    "rule_func_name" : "sel_popup_place_cod", 
+    "defaultVal" : "", 
+    "ds_from_sql" : "Y", 
+    "multi_lang_table" : "", 
+    "multi_value_field" : "", 
+    "multi_display_field" : ""
+}

@@ -2,19 +2,14 @@
  * Created by Jun Chang on 2016/12/30.
  */
 
-var _ = require("underscore");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var roleFuncSvc = require("../services/RoleFuncService");
-var fs = require("fs");
-var path = require('path');
-var appRootDir = path.dirname(require.main.filename);
-var roleSvc = require("../services/RoleFuncService");
-var dbSvc = require("../services/DbTableService");
-var langSvc = require("../services/LangService");
-var uploadSvc = require("../services/uploadService");
-var logSvc = require("../services/LogService");
-var commonTools = require("../utils/CommonTools");
-var dbSVC = require("../services/DbTableService");
+const _ = require("underscore");
+const roleFuncSvc = require("../services/RoleFuncService");
+const roleSvc = require("../services/RoleFuncService");
+const dbSvc = require("../services/DbTableService");
+const uploadSvc = require("../services/uploadService");
+const logSvc = require("../services/LogService");
+const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
+
 /**
  * 首頁
  */
@@ -33,30 +28,20 @@ exports.systemOption = function (req, res) {
         return;
     }
 
-    var params = {
-        user_comp_cod: req.session.user.cmp_id.trim(),
-        user_id: req.session.user.usr_id,
-        fun_comp_cod: req.session.user.cmp_id.trim(),
-        fun_hotel_cod: req.session.user.fun_hotel_cod
-    };
-    var la_locales = _.pluck(req.cookies.sys_locales, "lang");
-    queryAgent.queryList("QUY_ROLE_USER_USE_SYSTEM", params, 0, 0, function (err, sysRows) {
-        langSvc.handleMultiLangContentByField("lang_s99_system", 'sys_name', '', function (err, sysLang) {
-            _.each(sysRows, function (sys, sIdx) {
-                var allLangForSys = _.where(sysLang, {sys_id: sys.sys_id});
-                _.each(la_locales, function (locale) {
-                    var sys_name = "";
-                    var tmp = _.findWhere(allLangForSys, {locale: locale});
-                    if (!_.isUndefined(tmp)) {
-                        sys_name = tmp.words;
-                    }
-                    sysRows[sIdx]["sys_name_" + locale] = sys_name;
-                });
+    SysFuncPurviewSvc.getUserAllowSystem(req,function(err,sysList){
+        res.render('system/systemOption', {sysList});
+    });
 
-            });
-            res.render('system/systemOption', {sysList: sysRows});
-        });
+};
 
+/**
+ * 撈取可選系統
+ */
+exports.userAllowSystem = function (req, res) {
+
+
+    SysFuncPurviewSvc.getUserAllowSystem(req,function(err,sysList){
+        res.json({success:true,sysList});
     });
 
 };

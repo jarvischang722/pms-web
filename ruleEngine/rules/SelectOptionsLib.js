@@ -305,25 +305,6 @@ exports.getIsCanUse = function () {
 };
 
 /**
- * 取得聯絡設定是否刪除
- * @returns {Array}
- */
-exports.getIsCanUse = function () {
-    var useList = [
-        {
-            display: '是',
-            value: 'Y'
-        },
-        {
-            display: '否',
-            value: 'N'
-        }
-    ];
-
-    return useList;
-};
-
-/**
  * 取得需收訂金
  * @returns {Array}
  */
@@ -340,6 +321,24 @@ exports.getIsNeed = function () {
     ];
 
     return useList;
+};
+
+/**
+ * 取得欄位keep_way 下拉資料
+ */
+exports.getGuarenteerfKeepway = function () {
+    var keepWayList = [
+        {
+            display: '依新增日',
+            value: 'OR'
+        },
+        {
+            display: '依CI日期',
+            value: 'CI'
+        }
+    ];
+
+    return keepWayList;
 };
 
 /**
@@ -676,7 +675,7 @@ exports.searchAreapntSta = function () {
         }
     ];
     return la_optionList;
-}
+};
 
 /**
  * PMS0620010 業務員作業
@@ -863,6 +862,15 @@ exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
 exports.qry_source_rf_use_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0810120取得是否可升等、改房價
+ */
+exports.qry_rvdiscpers_rf_y_n = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
 
@@ -1071,6 +1079,15 @@ exports.qryGuarenteerfDpreq = function (params, callback) {
 };
 
 /**
+ * 訂房類別設定(PMS0810150)取得欄位 keep_way下拉資料
+ */
+exports.qryGuarenteerfKeepway = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGuarenteerfKeepway();
+    callback(null, lo_result);
+};
+
+/**
  * PMS0810190
  * @param params
  */
@@ -1250,4 +1267,4 @@ exports.qrySearchAreapntSta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
     callback(null,lo_result);
-}
+};

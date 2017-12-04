@@ -186,6 +186,18 @@
   height: 25px;
   box-sizing: border-box;
 }
+.css_table .css_td .moreClick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  border: 1px solid #888;
+  background: #d5d5d5;
+  border-radius: 5px;
+  padding: 4px 5px 0 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
 .css_table .icon-addDel i {
   margin-top: 5px;
 }
@@ -250,6 +262,18 @@
   bottom: 0;
   height: 25px;
   box-sizing: border-box;
+}
+.horizTable-outer .css_table .css_td .moreClick {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  border: 1px solid #888;
+  background: #d5d5d5;
+  border-radius: 5px;
+  padding: 4px 5px 0 5px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 .horizTable-outer .css_table .icon-addDel i {
   margin-top: 5px;
@@ -1954,33 +1978,6 @@ a {
   width: 12px;
   height: 12px;
   margin: 0 3px;
-}
-
-/*-- standard-table -- */
-.standard-table {
-  width: 100%;
-  border-collapse: collapse;
-  position: relative;
-}
-.standard-table th, .standard-table td {
-  border: 1px solid #d5d5d5;
-  padding-left: 5px;
-  position: relative;
-}
-.standard-table .td-disable {
-  background: #d6d6d6;
-}
-.standard-table .moreClick {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  height: 20px;
-  border: 1px solid #888;
-  background: #d5d5d5;
-  border-radius: 5px;
-  padding: 0 5px 0 5px;
-  box-sizing: border-box;
-  cursor: pointer;
 }
 
 /*-- authorityNewActor 新增權限 -- */
@@ -4340,6 +4337,24 @@ td div.act-box span.act-text {
   display: inline-block;
 }
 
+/***** vue 問題 **** */
+.openChangeLogDialog .el-dialog {
+  top: 3% !important;
+}
+
+.search-content .el-select .el-input__inner {
+  height: 25px !important;
+}
+.search-content .el-select .el-select__tags {
+  height: 25px !important;
+  overflow: hidden;
+}
+
+.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
+  height: 25px !important;
+}
+
+/***** vue 問題 **** */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -4946,7 +4961,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.medium-c3-col2_2 {
+.input-medium.medium-c3-col2Rm {
   width: 232px;
   max-width: 100%;
   height: 25px;
@@ -4991,7 +5006,7 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.medium-c3-card-3 {
+.input-medium.medium-c3-cardRm {
   width: 189px;
   max-width: 100%;
   height: 25px;
@@ -5313,6 +5328,11 @@ a {
 }
 .input-medium.postaladdress {
   width: 349px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.postaladdress2 {
+  width: 431px;
   max-width: 100%;
   height: 25px;
 }
