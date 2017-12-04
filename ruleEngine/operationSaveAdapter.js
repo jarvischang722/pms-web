@@ -355,6 +355,7 @@ function combineMainData(rfData, callback) {
 
                 data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
                 tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
+                ga_oriData[index] = _.extend(ga_oriData[index], commonRule.getEditDefaultDataRule(go_session));
 
                 tmpEdit.condition = [];
                 //組合where 條件,判斷是否有舊資料
@@ -583,6 +584,7 @@ function combineDtCreateEditExecData(rfData, callback) {
             }
             data = _.extend(data, lo_default);
             tmpEdit = _.extend(tmpEdit, lo_default);
+            ga_dtOriData[index] = _.extend(ga_dtOriData[index], lo_default);
 
             tmpEdit.condition = [];
             //組合where 條件

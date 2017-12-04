@@ -69,6 +69,16 @@ function DatagridBaseClass() {
             oriData: []
         };
     };
+
+    /**
+     * 讀取資料到datagrid 顯示
+     * @param dataGridRows{Array} : 資料集
+     */
+    this.loadDgData = function (dataGridRows) {
+        var dgData = {total: dataGridRows.length, rows: dataGridRows};
+        $('#' + this.dgName).datagrid("loadData", dgData);
+    };
+
     /**
      * 按下一個Row
      * @param index
@@ -92,14 +102,6 @@ function DatagridBaseClass() {
             }
         }
 
-    };
-    /**
-     * 讀取資料到datagrid 顯示
-     * @param dataGridRows{Array} : 資料集
-     */
-    this.loadDgData = function (dataGridRows) {
-        var dgData = {total: dataGridRows.length, rows: dataGridRows};
-        $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
     //結束編輯

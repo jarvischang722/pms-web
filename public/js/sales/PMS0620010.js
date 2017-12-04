@@ -419,13 +419,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                         if (result.success) {
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             self.closeSingleGridDialog();
+                            vm.initTmpCUD();
+                            self.dgHoatelDt.initTmpCUD();
                         }
                         else {
                             alert(result.errorMsg);
                         }
                         self.isLoadingDialog = false;
-                        vm.initTmpCUD();
-                        self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }

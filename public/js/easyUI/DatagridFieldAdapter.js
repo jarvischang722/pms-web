@@ -356,7 +356,6 @@ var DatagridFieldAdapter= {
 var ga_readonlyFields = [];
 
 function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
-
     if (newValue != oldValue && !_.isUndefined(newValue) && !_.isUndefined(oldValue) && isUserEdit) {
         var allDataRow = _.clone($('#' + dgName).datagrid('getRows'));
         var selectDataRow = $('#' + dgName).datagrid('getSelected');
@@ -445,9 +444,9 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                             adpterDg.tempExecData(item);    //SAM20170727 寫進暫存
                         });
 
-                }
+                    }
 
-            }
+                }
 
                 if (!result.isModifiable) {
                     ga_readonlyFields = _.uniq(result.readonlyFields);
@@ -474,6 +473,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         }
 
     }
+
 }
 
 /** 組件事件綁定 **/
