@@ -144,6 +144,10 @@ var Pms0830070Comp = Vue.extend({
                 this.itemNosCheckedTemp[lo_temp].item_nos = this.dt2ShowList[index].item_nos;
                 this.itemNosCheckedTemp[lo_temp].checked = this.dt2ShowList[index].checked;
             }
+
+            if (_.isUndefined(item.seq_nos)) {
+                item.seq_nos = PMS0830070VM.singleData.seq_nos;
+            }
             this.changeDtItemNosShowList(item);
             this.insertDt2TmpCUD(index);
         },
@@ -174,13 +178,13 @@ var Pms0830070Comp = Vue.extend({
             var ln_tmpCudDt2CreateIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_createData, lo_params);
             // 清除dt2_createData重複
             if (ln_tmpCudDt2CreateIsExist != -1) {
-                PMS0830070VM.tmpCUD.dt2_createData = _.without(lo_tmpCUD[ls_tmpCUD_type], PMS0830070VM.tmpCUD.dt2_createData[ln_tmpCudDt2CreateIsExist]);
+                PMS0830070VM.tmpCUD.dt2_createData = _.without(lo_tmpCUD.dt2_createData, PMS0830070VM.tmpCUD.dt2_createData[ln_tmpCudDt2CreateIsExist]);
             }
 
             var ln_tmpCudDt2DeleteIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_deleteData, lo_params);
             // 清除dt2_deleteData重複
             if (ln_tmpCudDt2DeleteIsExist != -1) {
-                PMS0830070VM.tmpCUD.dt2_deleteData = _.without(lo_tmpCUD[ls_tmpCUD_type], PMS0830070VM.tmpCUD.dt2_deleteData[ln_tmpCudDt2DeleteIsExist]);
+                PMS0830070VM.tmpCUD.dt2_deleteData = _.without(lo_tmpCUD.dt2_deleteData, PMS0830070VM.tmpCUD.dt2_deleteData[ln_tmpCudDt2DeleteIsExist]);
             }
 
             if (ls_tmpCUD_type != "") {
@@ -200,12 +204,11 @@ var Pms0830070Comp = Vue.extend({
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            console.log(item.createRow);
             $.post('/api/qryDt2SelectedItemNos', params, function (response) {
-                if(!_.isUndefined(item.createRow)){
+                if (!_.isUndefined(item.createRow)) {
                     self.dt2SelectedItemNos = [];
                 }
-                else{
+                else {
                     self.dt2SelectedItemNos = response.selectedData;
                 }
                 self.changeDtItemNosShowList(item);
@@ -220,16 +223,18 @@ var Pms0830070Comp = Vue.extend({
             }
             else {
                 this.dtSelItemNosShowList = _.clone(this.dt2SelectedItemNos);
-                var la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: PMS0830070VM.singleData.seq_nos});
+                var la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: item.seq_nos});
                 _.each(la_itemNosTemp, function (lo_itemNosTemp) {
                     var lo_selItemNos = _.findWhere(self.dtSelItemNosShowList, {item_nos: lo_itemNosTemp.item_nos});
-                    if (!_.isUndefined(lo_selItemNos)) {
-                        if (lo_itemNosTemp.checked == false) {
+                    if (lo_itemNosTemp.checked == false) {
+                        if (!_.isUndefined(lo_selItemNos)) {
                             self.dtSelItemNosShowList = _.without(self.dtSelItemNosShowList, lo_selItemNos);
                         }
                     }
                     else {
-                        self.dtSelItemNosShowList.push(lo_itemNosTemp);
+                        if(_.isUndefined(lo_selItemNos)){
+                            self.dtSelItemNosShowList.push(lo_itemNosTemp);
+                        }
                     }
                 });
             }
