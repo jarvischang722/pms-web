@@ -7,6 +7,50 @@
 var vmHub = new Vue;
 var prg_id = "RS0W202010";
 
+//單筆DT
+/** DatagridRmSingleGridClass ***/
+function DatagridRmSingleDTGridClass() {}
+
+DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
+
+DatagridRmSingleDTGridClass.prototype.onClickRow = function (index, dtRow) {
+    if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
+        if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
+
+            var li_index = _.findIndex(singlePage.tmpCud.dt_createData, dtRow);
+            if (li_index > -1) {
+                singlePage.tmpCud.dt_createData.splice(li_index, 1);
+            }
+
+            li_index = _.findIndex(singlePage.tmpCud.dt_updateData, dtRow);
+            if (li_index > -1) {
+                singlePage.tmpCud.dt_updateData.splice(li_index, 1);
+            }
+        }
+
+    }
+    console.log(DatagridRmSingleDTGridClass.prototype.tmpCUD);
+};
+
+// DatagridRmSingleDTGridClass.prototype.onClickCell = function (index, field) {
+//     if (DatagridRmSingleDTGridClass.prototype.editIndex != index) {
+//         if (DatagridRmSingleDTGridClass.prototype.endEditing()) {
+//             $('#' + DatagridRmSingleDTGridClass.prototype.dgName).datagrid('selectRow', index)
+//                 .datagrid('beginEdit', index);
+//             var ed = $('#' + DatagridRmSingleDTGridClass.prototype.dgName).datagrid('getEditor', {index: index, field: field});
+//             if (ed) {
+//                 ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+//             }
+//
+//             DatagridRmSingleDTGridClass.prototype.editIndex = index;
+//         } else {
+//             setTimeout(function () {
+//                 $('#' + DatagridRmSingleDTGridClass.prototype.dgName).datagrid('selectRow', DatagridRmSingleDTGridClass.prototype.editIndex);
+//             }, 0);
+//         }
+//     }
+// };
+
 var singlePage = Vue.extend({
     template: "#RS0W202010Tmp",
     data: function () {
@@ -26,6 +70,14 @@ var singlePage = Vue.extend({
             default_poadult_qnt: "",    //保證人數預設值
             default_proc_sta: "",       //預約處理預設值
 
+            tmpCud: {               //新刪修暫存
+                createData: [],
+                editData: [],
+                deleteData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: []
+            },
 
             oriSingleData: {},
             singleData: {},
@@ -70,7 +122,7 @@ var singlePage = Vue.extend({
                 else {
                     //新增模式
                     self.createStatus = true;
-
+                    console.log(self.createStatus);
                     self.cancelEnable = false;
 
                     self.dataGridRows = [];
@@ -114,10 +166,24 @@ var singlePage = Vue.extend({
                 chooseData["order_qnt"] = "0";
                 chooseData["is_allplace"] = "N";
                 chooseData["inv_qnt"] = "0";
-                console.log(chooseData);
+                chooseData["createRow"] = "Y";
 
-                self.dataGridRows.push(chooseData);
-                self.dgIns.loadDgData(self.dataGridRows);
+                var isSame = false;
+                _.each(self.dataGridRows, function (value) {
+                    if(value.place_cod == chooseData["place_cod"]){
+                        isSame = true;
+                    }
+                });
+
+                if(!isSame){
+                    self.dataGridRows.push(chooseData);
+                    self.dgIns.loadDgData(self.dataGridRows);
+
+                    $('#RS0W202010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
+                        .datagrid('beginEdit', self.dataGridRows.length - 1);
+                    self.dgIns.editIndex = self.dataGridRows.length - 1;
+
+                }
             }
             else {
                 self.singleData = _.extend(self.singleData, chooseData);
@@ -129,7 +195,7 @@ var singlePage = Vue.extend({
     mounted: function () {
         this.getSystemParam();
         this.fetchUserInfo();
-
+        this.initTmpCUD();
     },
     methods: {
 
@@ -290,6 +356,19 @@ var singlePage = Vue.extend({
             });
         },
 
+        //init CUD
+        initTmpCUD: function () {
+            this.tmpCud = {
+                createData: [],
+                editData: [],
+                deleteData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: []
+            };
+        },
+
+
         /**
          * 撈取單筆資料
          * @param bquet_nos {String} : 訂席單號
@@ -445,7 +524,7 @@ var singlePage = Vue.extend({
                 self.dataGridRows = result.dataGridRows;
                 self.oriDataGridRows = _.clone(self.dataGridRows);
 
-                self.dgIns = new DatagridBaseClass();
+                self.dgIns = new DatagridRmSingleDTGridClass();
                 self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'));
                 self.dgIns.loadDgData(self.dataGridRows);
             });
@@ -469,32 +548,35 @@ var singlePage = Vue.extend({
 
         //跳窗選擇多欄位
         chkClickPopUpGrid: function (fieldName) {
-            this.popupFieldName = fieldName;
-            var lo_field;
-            var self = this;
+            if(this.dgIns.endEditing()){
+                this.popupFieldName = fieldName;
+                var lo_field;
+                var self = this;
 
-            _.each(this.singleField, function (value) {
-                if (value.ui_field_name == fieldName) {
-                    lo_field = value;
-                }
-            });
-
-            this.changeEditingForFieldRule(lo_field.rule_func_name);
-            if (lo_field.ui_type == "popupgrid") {
-                var params = {
-                    prg_id: prg_id,
-                    fields: lo_field,
-                    singleRowData: JSON.parse(JSON.stringify(this.singleData))
-                };
-
-                $.post("/api/popUpGridData", params, function (result) {
-                    if (result != null) {
-                        self.selectPopUpGridData = result.showDataGrid;
-                        vmHub.$emit('showPopUpDataGrid', result);
-                        self.showPopUpGridDialog();
+                _.each(this.singleField, function (value) {
+                    if (value.ui_field_name == fieldName) {
+                        lo_field = value;
                     }
                 });
+
+                this.changeEditingForFieldRule(lo_field.rule_func_name);
+                if (lo_field.ui_type == "popupgrid") {
+                    var params = {
+                        prg_id: prg_id,
+                        fields: lo_field,
+                        singleRowData: JSON.parse(JSON.stringify(this.singleData))
+                    };
+
+                    $.post("/api/popUpGridData", params, function (result) {
+                        if (result != null) {
+                            self.selectPopUpGridData = result.showDataGrid;
+                            vmHub.$emit('showPopUpDataGrid', result);
+                            self.showPopUpGridDialog();
+                        }
+                    });
+                }
             }
+
         },
 
         //改成編輯中
@@ -519,9 +601,6 @@ var singlePage = Vue.extend({
                 resizable: true
             });
             dialog.dialog("open");
-
-            // 給 dialog "內容"高 值
-            //$(".singleGridContent").css("height", _.min([maxHeight, height]) + 20);
         },
 
         /**
@@ -552,6 +631,29 @@ var singlePage = Vue.extend({
             $("#gs-order-page").dialog('close');
         },
 
+        /**
+         * 將資料塞到tmp_cud
+         */
+        saveToTmpCud: function () {
+            var self = this;
+            if(self.createStatus){
+                self.tmpCud.createData = [self.singleData];
+            }
+            else {
+                self.tmpCud.editData = [self.singleData];
+            }
+
+            //DT
+            self.tmpCud.dt_createData = [];
+            _.each(self.dataGridRows, function (value) {
+                if(value.createRow == "Y"){
+                    self.tmpCud.dt_createData.push(value);
+                }
+            });
+
+            console.log(self.tmpCud);
+        },
+        
         /**
          * 存檔按鈕
          */
@@ -585,30 +687,21 @@ var singlePage = Vue.extend({
 
             self.isLoading = true;
 
-            var func_id = "";
+            var func_id = self.createStatus ? '0200' : '0400';
 
-            if(self.createStatus){
-                func_id = '0200';
-            }
-            else {
-                func_id = '0300';
-            }
+            self.saveToTmpCud();
+            //self.callAPI(func_id);
 
-            var lo_params = {
-                REVE_CODE : prg_id,
-                prg_id: prg_id,
-                func_id: func_id
-            };
+            // var li_index = _.findIndex(singlePage.tmpCud.dt_createData, dtRow);
+            // if (li_index > -1) {
+            //     singlePage.tmpCud.dt_createData.splice(li_index, 1);
+            // }
             //
-            // $.post("/api/callAPI", lo_params, function (result) {
-            //     self.isLoading = false;
-            //     if (result.success) {
-            //         callback();
-            //     }
-            //     if (result.errorMsg != "") {
-            //         alert(result.errorMsg);
-            //     }
-            // });
+            // li_index = _.findIndex(singlePage.tmpCud.dt_updateData, dtRow);
+            // if (li_index > -1) {
+            //     singlePage.tmpCud.dt_updateData.splice(li_index, 1);
+            // }
+
         },
 
         /**
@@ -666,6 +759,51 @@ var singlePage = Vue.extend({
                 });
             }
 
+        },
+
+        /**
+         * 刪除場地
+         */
+        delPlace: function () {
+            var self = this;
+            var delRow = $("#RS0W202010_dt").datagrid('getSelected');
+            if (!delRow) {
+                alert("請選擇要刪除的資料");
+                return;
+            }
+
+            $("#RS0W202010_dt").datagrid('deleteRow', $("#RS0W202010_dt").datagrid('getRowIndex', delRow));
+
+            if(delRow.createRow != "Y"){
+                self.tmpCud.dt_deleteData.push(delRow);
+            }
+        },
+
+        /**
+         * 庫存檢查
+         */
+        CheckInventory: function () {
+            saveToTmpCud();
+            callAPI('2030');
+        },
+        
+        callAPI: function (func_id) {
+
+            var lo_params = {
+                trans_cod:  prg_id,
+                prg_id: prg_id,
+                func_id: func_id
+            };
+
+            $.post("/api/callAPI", lo_params, function (result) {
+                self.isLoading = false;
+                if (result.success) {
+                    callback();
+                }
+                if (result.errorMsg != "") {
+                    alert(result.errorMsg);
+                }
+            });
         }
     }
 });
