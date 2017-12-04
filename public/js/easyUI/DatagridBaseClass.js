@@ -22,7 +22,6 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
     this.mnRowData = {};
     this.dtOriRowData = [];
-    this.isRuleComplate = false;
 
     /**
      * datagrid 初始化
@@ -108,7 +107,6 @@ function DatagridBaseClass() {
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
-        self.isRuleComplate = true;
         self.editIndex = index;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
@@ -122,12 +120,10 @@ function DatagridBaseClass() {
         if (this.editIndex == undefined) {
             return true;
         }
-        if(self.isRuleComplate){
-            if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-                $('#' + this.dgName).datagrid('endEdit', this.editIndex);
-                this.editIndex = undefined;
-                return true;
-            }
+        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
+            this.editIndex = undefined;
+            return true;
         }
         return false;
 
@@ -177,7 +173,7 @@ function DatagridBaseClass() {
             var editors = $('#' + self.dgName).datagrid('getEditors', index);
             var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
 
-            if(!_.isUndefined(lo_editor)){
+            if (!_.isUndefined(lo_editor)) {
                 $(lo_editor.target).textbox('setValue', ls_field_name);
             }
 
@@ -331,14 +327,14 @@ function DatagridBaseClass() {
             }
         }
         // 設定檔
-        else{
+        else {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
 
     };
 
-    this.insertKeyRowData = function(lo_chkKeyRowData){
+    this.insertKeyRowData = function (lo_chkKeyRowData) {
         lo_chkKeyRowData["mnRowData"] = this.mnRowData;
         lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
         lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");

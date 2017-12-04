@@ -316,12 +316,12 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             $("#singleGridPMS0620020").dialog('close');
         },
-        //檢查欄位
-        dataValidate: function () {
+        //mn資料檢查
+        mnDataValidate: function () {
             var self = this;
             var lo_checkResult;
 
-            // 單筆資料檢查
+            // 欄位驗證
             for (var i = 0; i < this.originFieldData.length; i++) {
                 var lo_field = this.originFieldData[i];
                 //必填
@@ -342,13 +342,36 @@ Vue.component('single-grid-pms0620020-tmp', {
 
             }
 
-            // dt資料檢查
-            var lo_checkHotelDtRowData = _.clone(this.hotelDtRowData);
-            _.each(lo_checkHotelDtRowData, function (hotelData) {
+            return lo_checkResult;
+        },
+        // dt資料檢查
+        dtDataValidate: function () {
+            var self = this;
+            var lo_checkResult = {
+                success: true
+            };
+
+            var la_checkHotelDtRowData = _.clone(this.hotelDtRowData);
+            _.each(la_checkHotelDtRowData, function (hotelData) {
                 return _.extend(hotelData, self.rowData);
             });
-            // 檢查館別代號是否重複
+
             for (var j = 0; j < this.hotelDtRowData.length; j++) {
+                //檢查館別狀態
+                if (this.hotelDtRowData[j].nouse_dat == '' || _.isNull(this.hotelDtRowData[j].nouse_dat)) {
+                    if (this.hotelDtRowData[j].status_cod1 == 'X') {
+                        lo_checkResult.success = false;
+                        break;
+                    }
+                }
+                else {
+                    if (this.hotelDtRowData[j].status_cod1 == 'N') {
+                        lo_checkResult.success = false;
+                        break;
+                    }
+                }
+
+                // 檢查館別代號是否重複
                 var lo_checkValue = _.extend(_.clone(this.hotelDtRowData[j]), _.clone(this.rowData));
                 var la_keyVals = ["hotel_cod", "sales_cod"];
                 var condKey = {};
@@ -356,17 +379,15 @@ Vue.component('single-grid-pms0620020-tmp', {
                     condKey[field_name] = lo_checkValue[field_name] || "";
                 });
                 for (var k = 0; k < j; k++) {
-                    if (_.findIndex([lo_checkHotelDtRowData[k]], condKey) > -1) {
+                    if (_.findIndex([la_checkHotelDtRowData[k]], condKey) > -1) {
                         lo_checkResult.success = false;
                         lo_checkResult.msg = go_i18nLang["program"]["PMS0620020"].hotel_cod_repeat;
                         break;
                     }
                 }
             }
-
             return lo_checkResult;
         },
-
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
 
@@ -376,12 +397,18 @@ Vue.component('single-grid-pms0620020-tmp', {
                 this.isLoadingDialog = true;
                 this.loadingText = "Saving...";
 
-                var lo_chkResult = this.dataValidate();
-                if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
-                    alert(lo_chkResult.msg);
+                var lo_mnChkResult = this.mnDataValidate();
+                var lo_dtChkResult = this.dtDataValidate();
+
+                if (lo_mnChkResult.success == false && vm.tmpCud.deleteData.length == 0) {
+                    alert(lo_mnChkResult.msg);
+                    this.isLoadingDialog = false;
+                }
+                else if (lo_dtChkResult.success == false) {
                     this.isLoadingDialog = false;
                 }
                 else {
+
                     var postRowData = this.convertChkVal(this.originFieldData, this.rowData);
                     postRowData.user_nos = postRowData.user_nos.split(":")[0];
 
