@@ -14,6 +14,7 @@
                                             <!--  CheckBox add class="labelCkbox" -->
                                             <label :style="{width:field.label_width + 'px'}"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
+                                                   :title="field.ui_hint"
                                                    class="labelCkbox">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <a @click="editFieldMultiLang(field)"
@@ -24,7 +25,7 @@
                                             </label>
 
                                             <label :style="{width:field.label_width + 'px'}"
-                                                   v-else-if="field.visiable == 'Y'">
+                                                   v-else-if="field.visiable == 'Y'"  :title="field.ui_hint">
                                                 <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                                 <a @click="editFieldMultiLang(field)"
                                                    v-if="field.multi_lang_table != ''">

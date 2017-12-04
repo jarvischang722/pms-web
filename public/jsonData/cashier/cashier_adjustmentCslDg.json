@@ -1,7 +1,7 @@
 {"total":28,
   "rows":[
-    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值","roomNum":"306"},
-    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值","roomNum":"306"},
+    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"11,233,500","reasonCancel":"","tax":"01:加值","roomNum":"306321"},
+    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值1400給xxx旅行社","roomNum":"306"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值","roomNum":"306"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值","roomNum":"306"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","consumeCode":"1001:房租","quantity":"1","subTotal":"3,500","reasonCancel":"","tax":"01:加值","roomNum":"306"}

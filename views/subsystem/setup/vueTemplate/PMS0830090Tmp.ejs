@@ -9,7 +9,7 @@
                             <div class="row" v-for="fields in pageTwoFieldData">
                                 <div class="grid-item " v-for="field in fields">
                                     <label :style="{width:field.label_width + 'px'}"
-                                           v-if="field.visiable == 'Y'">
+                                           v-if="field.visiable == 'Y'" :title="field.ui_hint">
                                         <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
                                         <a @click="editFieldMultiLang(field)" v-if="field.multi_lang_table != ''">
                                             {{field.ui_display_name}}
@@ -145,14 +145,16 @@
                                         </li>
                                     </template>
                                     <li v-if="createStatus">
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" style="margin-right: 5px;"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                style="margin-right: 5px;"
                                                 @click="doSaveGrid('addOther')">
                                             <%= __("SystemCommon").Add_after_save %>
                                         </button>
                                     </li>
                                     <li v-if="createStatus ||  editStatus">
                                         <button :disabled="editStatus && !modificableForData "
-                                                class="btn btn-primary btn-white btn-defaultWidth" @click="doSaveGrid('closeDialog')">
+                                                class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="doSaveGrid('closeDialog')">
                                             <%= __("SystemCommon").Leave_after_save %>
                                         </button>
                                     </li>
@@ -164,7 +166,8 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" @click="emitCloseGridDialog">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                @click="emitCloseGridDialog">
                                             <%= __("SystemCommon").Leave %>
                                         </button>
                                     </li>

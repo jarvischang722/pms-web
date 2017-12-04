@@ -1,6 +1,6 @@
 {"total":28,
   "rows":[
-    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","billDate":"2017/05/11","code":"1001","consumeName":"房租","quantity":"1","total":"3,500","tax":"01:加值"},
+    {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","billDate":"2017/05/11","code":"1001","consumeName":"房租","quantity":"1","total":"12,213,500","tax":"01:加值"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","billDate":"2017/05/11","code":"1001","consumeName":"房租","quantity":"1","total":"3,500","tax":"01:加值"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","billDate":"2017/05/11","code":"1001","consumeName":"房租","quantity":"1","total":"3,500","tax":"01:加值"},
     {"checkbox":"<input type='checkbox' />","consumeNum":"2017/05/11 00670","billDate":"2017/05/11","code":"1001","consumeName":"房租","quantity":"1","total":"3,500","tax":"01:加值"},

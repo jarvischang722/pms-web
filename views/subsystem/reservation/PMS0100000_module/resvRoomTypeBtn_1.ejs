@@ -678,11 +678,11 @@
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>title</label>
-                                                    <input type="text" class="input-medium medium-c3" placeholder="正常"/>
+                                                    <input type="text" class="input-medium medium-c3" placeholder="E1:Mr"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Profile No</label>
-                                                    <input type="text" class="input-medium medium-c3" placeholder="正常"
+                                                    <input type="text" class="input-medium medium-c3" placeholder="1234567801"
                                                            disabled/>
                                                 </div>
                                             </div>
@@ -696,16 +696,15 @@
                                                 <div class="grid-item">
                                                     <label>Gender</label>
                                                     <select class="input-medium medium-c3">
-                                                        <option value="male">Ｍ</option>
-                                                        <option value="female">Ｆ</option>
+                                                        <option value="male">男</option>
+                                                        <option value="female">女</option>
                                                     </select>
                                                     <!--<label style="width:auto;"><input type="radio" name="gender" value="male"/>男</label>-->
                                                     <!--<label style="width:auto;"><input type="radio" name="gender" value="female"/>女</label>-->
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Status</label>
-                                                    <input type="text" class="input-medium medium-c3" placeholder="正常"
-                                                           disabled/>
+                                                    <input type="text" class="input-medium medium-c3" placeholder="VIP"/>
                                                 </div>
                                             </div>
                                             <!--3-->
@@ -725,8 +724,8 @@
                                                 <div class="grid-item">
                                                     <label>VIP</label>
                                                     <select class="input-medium medium-c3">
-                                                        <option value="yes">Y:會員</option>
-                                                        <option value="no">N:非會員</option>
+                                                        <option value="yes">1</option>
+                                                        <option value="no">2</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -761,7 +760,7 @@
                                                 <div class="grid-item">
                                                     <label>Language</label>
                                                     <select class="input-medium medium-c3">
-                                                        <option value="ch_tw">中文繁體</option>
+                                                        <option value="ch_tw">CHI:中文</option>
                                                         <option value="en">英文</option>
                                                     </select>
                                                 </div>
@@ -823,8 +822,10 @@
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>Address</label>
-                                                    <input type="text" class="input-medium medium-c3-col3"
-                                                           placeholder="資訊業"/>
+                                                    <input type="text" class="input-medium postalCode"
+                                                           placeholder="10411"/>
+                                                    <input type="text" class="input-medium postaladdress2 ml-2"
+                                                           placeholder="台北市松江路309號8樓"/>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Vehicle No.</label>
@@ -858,22 +859,21 @@
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>Sky No.</label>
-                                                    <input type="text" class="input-medium medium-c3-card-3"
+                                                    <input type="text" class="input-medium medium-c3-card"
                                                            placeholder="1234567890123456"/>
-                                                    <i class="moreClick fa fa-ellipsis-h"></i>
+                                                    <!--&lt;!&ndash;<i class="moreClick fa fa-ellipsis-h aviationMile-btn"></i>-->
                                                 </div>
                                                 <div class="grid-item">
                                                     <input type="text" class="input-medium medium-skyNo"
-                                                           placeholder="Asia Miles" disabled/>
+                                                           placeholder="Asia Miles" />
                                                 </div>
                                             </div>
                                             <!--11-->
                                             <div class="grid">
                                                 <div class="grid-item">
                                                     <label>G.U.I Title</label>
-                                                    <input type="text" class="input-medium medium-c3-col2_2"
+                                                    <input type="text" class="input-medium medium-c3-col2"
                                                            placeholder="發票抬頭"/>
-                                                    <i class="moreClick fa fa-ellipsis-h"></i>
                                                 </div>
                                                 <div class="grid-item">
                                                     <label>G.U.I NO.</label>
@@ -1022,101 +1022,98 @@
                                 <div class="clearfix"></div>
                             </div>
                             <!--館別備註-->
-                            <div title="Remarks" class="padding-tabs">
-                                <div class="col-xs-12 col-sm-12">
-                                    <div class="row">
-                                        <!--館別備註 table-->
-                                        <table id="reservation_hallRemark-table" style="height: 200px;"></table>
+                            <!--<div title="Remarks" class="padding-tabs">-->
+                                <!--<div class="col-xs-12 col-sm-12">-->
+                                    <!--<div class="row">-->
+                                        <!--&lt;!&ndash;館別備註 table&ndash;&gt;-->
+                                        <!--<table id="reservation_hallRemark-table" style="height: 200px;"></table>-->
 
-                                        <div class="space-12"></div>
-                                        <div class="borderFrame">
-                                            <div class="col-xs-12 col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-xs-11 col-sm-11">
-                                                        <div class="row no-margin-right">
-                                                            <div class="main-content-data">
-                                                                <div class="grid">
-                                                                    <div class="grid-item">
-                                                                        <label>館別</label>
-                                                                        <select class="input-medium medium-c3">
-                                                                            <option value="0">0</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="grid-item">
-                                                                        <label>序號</label>
-                                                                        <select class="input-medium medium-c3">
-                                                                            <option value="1">01</option>
-                                                                            <option value="2">02</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid">
-                                                                    <div class="grid-item width-100">
-                                                                        <label class="pull-left">備註</label>
-                                                                        <textarea class="pull-left remarkInput" rows="4"
-                                                                                  placeholder=""></textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="clearfix"></div>
-                                                                <div class="space-4"></div>
-                                                                <div class="grid">
-                                                                    <div class="grid-item">
-                                                                        <label>輸入者</label>
-                                                                        <input type="text"
-                                                                               class="input-medium medium-c3"
-                                                                               placeholder=""/>
-                                                                    </div>
-                                                                    <div class="grid-item">
-                                                                        <label>輸入日</label>
-                                                                        <input type="date"
-                                                                               class="input-medium medium-c3"
-                                                                               placeholder=""/>
-                                                                    </div>
-                                                                    <div class="grid">
-                                                                    </div>
-                                                                    <div class="grid-item">
-                                                                        <label>最後異動者</label>
-                                                                        <input type="text"
-                                                                               class="input-medium medium-c3"
-                                                                               placeholder=""/>
-                                                                    </div>
-                                                                    <div class="grid-item">
-                                                                        <label>最後異動日</label>
-                                                                        <input type="date"
-                                                                               class="input-medium medium-c3"
-                                                                               placeholder=""/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-1 col-sm-1">
-                                                        <div class="row">
-                                                            <div class="right-menu-co">
-                                                                <ul>
-                                                                    <li>
-                                                                        <button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"
-                                                                                role="button">Add
-                                                                        </button>
-                                                                    </li>
-                                                                    <li>
-                                                                        <button class="btn btn-danger btn-white btn-defaultWidth"
-                                                                                role="button">Delete
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                        <!--<div class="space-12"></div>-->
+                                        <!--<div class="borderFrame">-->
+                                            <!--<div class="col-xs-12 col-sm-12">-->
+                                                <!--<div class="row">-->
+                                                    <!--<div class="col-xs-11 col-sm-11">-->
+                                                        <!--<div class="row no-margin-right">-->
+                                                            <!--<div class="main-content-data">-->
+                                                                <!--<div class="grid">-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>館別</label>-->
+                                                                        <!--<select class="input-medium medium-c3">-->
+                                                                            <!--<option value="0">0</option>-->
+                                                                            <!--<option value="1">1</option>-->
+                                                                            <!--<option value="2">2</option>-->
+                                                                        <!--</select>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>序號</label>-->
+                                                                        <!--<select class="input-medium medium-c3">-->
+                                                                            <!--<option value="1">01</option>-->
+                                                                            <!--<option value="2">02</option>-->
+                                                                        <!--</select>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="grid">-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>備註</label>-->
+                                                                        <!--<textarea class="input-medium medium-c1-sc3Key height-auto rzNone" rows="5"></textarea>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
+                                                                <!--<div class="grid">-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>輸入者</label>-->
+                                                                        <!--<input type="text"-->
+                                                                               <!--class="input-medium medium-c3"-->
+                                                                               <!--placeholder=""/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>輸入日</label>-->
+                                                                        <!--<input type="date"-->
+                                                                               <!--class="input-medium medium-c3"-->
+                                                                               <!--placeholder=""/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="grid">-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>最後異動者</label>-->
+                                                                        <!--<input type="text"-->
+                                                                               <!--class="input-medium medium-c3"-->
+                                                                               <!--placeholder=""/>-->
+                                                                    <!--</div>-->
+                                                                    <!--<div class="grid-item">-->
+                                                                        <!--<label>最後異動日</label>-->
+                                                                        <!--<input type="date"-->
+                                                                               <!--class="input-medium medium-c3"-->
+                                                                               <!--placeholder=""/>-->
+                                                                    <!--</div>-->
+                                                                <!--</div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                    <!--<div class="col-xs-1 col-sm-1">-->
+                                                        <!--<div class="row">-->
+                                                            <!--<div class="right-menu-co">-->
+                                                                <!--<ul>-->
+                                                                    <!--<li>-->
+                                                                        <!--<button class="btn btn-primary btn-white btn-defaultWidth sales_editOtherRemark"-->
+                                                                                <!--role="button">Add-->
+                                                                        <!--</button>-->
+                                                                    <!--</li>-->
+                                                                    <!--<li>-->
+                                                                        <!--<button class="btn btn-danger btn-white btn-defaultWidth"-->
+                                                                                <!--role="button">Delete-->
+                                                                        <!--</button>-->
+                                                                    <!--</li>-->
+                                                                <!--</ul>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="clearfix"></div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <!--喜好-->
                             <div title="Reference" class="padding-tabs">
                                 <div class="col-xs-12 col-sm-12">
@@ -1126,7 +1123,7 @@
                                                 <div class="css_tr center">
                                                     <div class="css_th width-20">Group</div>
                                                     <div class="css_th width-10">Alert</div>
-                                                    <div class="css_th width-70">Discrption</div>
+                                                    <div class="css_th width-70">Description</div>
                                                 </div>
                                             </div>
                                             <div class="css_tbody">
@@ -1333,10 +1330,15 @@
                                                 role="button">save
                                         </button>
                                     </li>
+                                    <!--btn 有間距class:segement-->
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth segement"
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
                                                 role="button">copy
                                         </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                role="button">Delete</button>
                                     </li>
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth classified-btn"
@@ -1349,7 +1351,7 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-gray btn-defaultWidth segement"
+                                        <button class="btn btn-gray btn-defaultWidth"
                                                 role="button">I.D.Scanning
                                         </button>
                                     </li>
@@ -1376,6 +1378,11 @@
                                     <li>
                                         <button class="btn btn-gray btn-defaultWidth resvAnniversary"
                                                 role="button">Anniversary
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                role="button">Quit
                                         </button>
                                     </li>
                                 </ul>
@@ -1514,15 +1521,15 @@
                                 <table class="css_table horizTable">
                                     <thead class="css_thead">
                                         <tr class="css_tr">
-                                            <th class="css_th" style="min-width:100px;">入帳日</th>
+                                            <th class="css_th" style="min-width:85px;">入帳日</th>
                                             <th class="css_th" style="min-width:80px;">項目代號</th>
                                             <th class="css_th" style="min-width:150px;">項目名稱</th>
                                             <th class="css_th" style="min-width:80px;">項目單價</th>
                                             <th class="css_th" style="min-width:60px;">數量</th>
-                                            <th class="css_th" style="min-width:60px;">項目小計</th>
+                                            <th class="css_th" style="min-width:95px;">項目小計</th>
                                             <th class="css_th" style="min-width:80px;">服務日</th>
                                             <th class="css_th" style="min-width:100px;">輸入者</th>
-                                            <th class="css_th" style="min-width:150px;">輸入者</th>
+                                            <th class="css_th" style="min-width:135px;">輸入日</th>
                                         </tr>
                                     </thead>
                                     <tbody class="css_tbody">
@@ -1533,9 +1540,9 @@
                                             <td class="css_td">2015/11/13</td>
                                             <td class="css_td">0223</td>
                                             <td class="css_td">旅遊-山之旅</td>
-                                            <td class="css_td text-right">700</td>
+                                            <td class="css_td text-right">5,126,700</td>
                                             <td class="css_td text-right">1</td>
-                                            <td class="css_td text-right">700</td>
+                                            <td class="css_td text-right">645,126,700</td>
                                             <td class="css_td">2015/11/13</td>
                                             <td class="css_td">cio</td>
                                             <td class="css_td">2016/06/17 11:49:00</td>
@@ -1795,7 +1802,7 @@
                                                                             <tr class="css_tr">
                                                                                 <th class="css_th"
                                                                                     style="min-width:25px;"><i
-                                                                                            class="fa fa-plus pointer"></i>
+                                                                                            class="fa fa-plus green pointer"></i>
                                                                                 </th>
                                                                                 <th class="css_th"
                                                                                     style="min-width:200px;">住客姓名
@@ -2036,7 +2043,7 @@
                                                         <thead class="css_thead">
                                                             <tr class="css_tr text-center">
                                                                 <th class="css_th" style="min-width:25px;"><i
-                                                                            class="fa fa-plus pointer"></i></th>
+                                                                            class="fa fa-plus green pointer"></i></th>
                                                                 <th class="css_th" style="min-width:40px;">序號</th>
                                                                 <th class="css_th" style="min-width:200px;">住客姓名</th>
                                                                 <th class="css_th" style="min-width:60px;">排房狀態</th>
@@ -2203,7 +2210,6 @@
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-
                         <div class="main-content-data">
                             <!--1-->
                             <div class="grid">
@@ -2310,8 +2316,6 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-
-
         </div>
     </div>
     <!-- /.住客明細->新增交辦 Guest details option -->
@@ -2375,7 +2379,6 @@
 
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-
                         <div class="main-content-data">
                             <div class="col-xs-12 col-sm-12">
                                 <div class="row">
@@ -2601,7 +2604,6 @@
                                 </div>
                             </div>
                         </div><!--main-content-data-->
-
                     </div>
                     <div class="col-xs-1 col-sm-1">
                         <div class="row">
@@ -2838,9 +2840,7 @@
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
                     <div class="col-xs-11 col-sm-11">
-
                         <div class="main-content-data">
-
                             <div class="grid">
                                 <div class="grid-item">
                                     <label>客層</label>
@@ -2914,11 +2914,11 @@
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row no-margin-right">
                                                 <div class="content">
-                                                    <table class="standard-table">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="width-15">電子郵件</td>
-                                                                <td class="width-70">s569789465@gmail.com</td>
+                                                    <table class="css_table">
+                                                        <tbody class="css_tbody">
+                                                            <tr class="css_tr">
+                                                                <th class="css_th width-15">電子郵件</th>
+                                                                <td class="css_td width-70">s569789465@gmail.com</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -2941,23 +2941,22 @@
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row no-margin-right">
                                                 <div class="content">
-                                                    <table class="standard-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="width-15">連絡類別</th>
-                                                                <th class="width-70">連絡內容</th>
+                                                    <table class="css_table">
+                                                        <thead class="css_thead">
+                                                            <tr class="css_tr">
+                                                                <th class="css_th width-15">連絡類別</th>
+                                                                <th class="css_th width-70">連絡內容</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>行動電話</td>
-                                                                <td>0910556677</td>
+                                                        <tbody class="css_tbody">
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">行動電話</td>
+                                                                <td class="css_td">0910556677</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>公司電話</td>
-                                                                <td>0256789876</td>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">公司電話</td>
+                                                                <td class="css_td">0256789876</td>
                                                             </tr>
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -2979,31 +2978,30 @@
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="row no-margin-right">
                                                 <div class="content">
-                                                    <table class="standard-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="width-15">地址類別</th>
-                                                                <th class="width-15">郵遞區號</th>
-                                                                <th class="width-70">地址</th>
+                                                    <table class="css_table">
+                                                        <thead class="css_thead">
+                                                            <tr class="css_tr">
+                                                                <th class="css_th width-15">地址類別</th>
+                                                                <th class="css_th width-15">郵遞區號</th>
+                                                                <th class="css_th width-70">地址</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>公司地址</td>
-                                                                <td>104</td>
-                                                                <td>台北市中山區松江路309號8樓</td>
+                                                        <tbody class="css_tbody">
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">公司地址</td>
+                                                                <td class="css_td">104</td>
+                                                                <td class="css_td">台北市中山區松江路309號8樓</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>戶籍地址</td>
-                                                                <td>106</td>
-                                                                <td>台北市大安區仁愛路5號20樓</td>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">戶籍地址</td>
+                                                                <td class="css_td">106</td>
+                                                                <td class="css_td">台北市大安區仁愛路5號20樓</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>住家地址</td>
-                                                                <td></td>
-                                                                <td></td>
+                                                            <tr class="css_tr">
+                                                                <td class="css_td">住家地址</td>
+                                                                <td class="css_td"></td>
+                                                                <td class="css_td"></td>
                                                             </tr>
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -3308,296 +3306,303 @@
     <div id="suggestion-dialog" class="hide padding-5" style="top: 0 !important;">
         <div class="businessCompanyData message-wrap">
             <div class="col-xs-12 col-sm-12">
-                <div class="col-sm-7 width-61">
-                    <div class="row no-margin-right">
-                        <div class="main-content-data">
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>姓名</label>
-                                    <input type="text" class="input-medium input-spc-2" placeholder="張孝全"/>
-                                </div>
-                            </div>
-                            <!--<div class="space-custom-5"></div>-->
+                <div class="row">
+                    <div class="col-xs-11 col-sm-11">
+                        <div class="row no-margin-right borderFrame">
+                            <div class="col-xs-8 col-sm-8">
+                                <div class="row">
+                                    <div class="main-content-data">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>姓名</label>
+                                                <input type="text" class="input-medium input-spc-2" placeholder="張孝全"/>
+                                            </div>
+                                        </div>
+                                        <!--<div class="space-custom-5"></div>-->
 
 
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>房號</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>訂房卡號</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder=""/>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>狀態</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="P:處理中" disabled/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>接單者</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="德安專用"/>
-                                </div>
-                            </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>房號</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder=""/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>訂房卡號</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>狀態</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="P:處理中" disabled/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>接單者</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="德安專用"/>
+                                            </div>
+                                        </div>
 
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>發生日期</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 09:43:48"
-                                           disabled="disabled">
-                                </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>發生日期</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 09:43:48"
+                                                       disabled="disabled">
+                                            </div>
 
-                                <div class="grid-item">
-                                    <label>反應日期</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 11:16:48"
-                                           disabled="disabled">
-                                </div>
-                            </div>
+                                            <div class="grid-item">
+                                                <label>反應日期</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="2012/12/11 11:16:48"
+                                                       disabled="disabled">
+                                            </div>
+                                        </div>
 
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label class="pull-left">發生地點</label>
-                                    <select class="input-medium resvCard pull-left">
-                                        <option value="y">大廳</option>
-                                        <option value="n">No</option>
-                                    </select>
-                                    <input type="text" class="input-medium input-spc-3 pull-left ml-2" placeholder="">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label class="pull-left">發生地點</label>
+                                                <select class="input-medium resvCard pull-left">
+                                                    <option value="y">大廳</option>
+                                                    <option value="n">No</option>
+                                                </select>
+                                                <input type="text" class="input-medium input-spc-3 pull-left ml-2" placeholder="">
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>主旨</label>
+                                                <input type="text" class="input-medium input-spc-2" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
+                                                <textarea class="input-medium input-spc-2 height-auto rzNone input-h70"
+                                                          placeholder="全球最大的多媒體應用軟體公司奧多比（Adobe）驚傳上週五關閉台灣辦公室，連台灣總經理黃中平也在裁員名單之列。不少外商公司員工聽聞此事也感到人心惶惶。"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label>讚美對象</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder=""/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>抱怨對象</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder=""/>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label>處理部門</label>
+                                                <input type="text" class="input-medium input-more-1" placeholder="客服部" disabled>
+                                                <i class="moreClick fa fa-ellipsis-h"></i>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label>處理廳別</label>
+                                                <select class="input-medium input-spc-2">
+                                                    <option value="y">FO:客服櫃檯</option>
+                                                    <option value="n">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label class="text-top">處理過程 <br> 改善方式 <br>
+                                                    <i class="moreClick fa fa-ellipsis-h"></i>
+                                                </label>
+                                                <textarea class="input-medium input-spc-2 height-auto rzNone input-h70"
+                                                          placeholder=""></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
+                                                <textarea class="input-medium input-spc-2 height-auto rzNone input-h70"
+                                                          placeholder="奧多比去年全球營收達42.1億美元，全球有近萬名員工，也一直是賺錢的公司，此次裁撤台灣辦公室，這個決定令不少軟體界人士大感意外。"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>回覆方式</label>
+                                                <input type="text" class="input-medium input-spc-2" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label>贈品金額</label>
+                                                <input type="number" class="input-medium medium-c4" placeholder="0"/>
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>贈品名稱</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder=""/>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="grid">
+
+                                            <div class="grid-item">
+                                                <label>輸入者</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="cio"
+                                                       disabled="disabled">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>最後異動者</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="cio"
+                                                       disabled="disabled">
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>輸入日</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="2014/12/06 11:16:48"
+                                                       disabled="disabled">
+                                            </div>
+                                            <div class="grid-item">
+                                                <label>最後異動日</label>
+                                                <input type="text" class="input-medium medium-c4" placeholder="2017/1/06 11:16:48"
+                                                       disabled="disabled">
+                                            </div>
+                                        </div>
+
+                                    </div><!--main-content-data-->
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>主旨</label>
-                                    <input type="text" class="input-medium input-spc-2" placeholder="">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="row no-margin-right">
+                                    <div class="main-content-data">
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>顧客代號</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="020000100">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>連絡電話</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>顧客國籍</label>
+                                                <select class="input-medium resvCard-date">
+                                                    <option value="y">台北</option>
+                                                    <option value="n">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>E-mail</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>公司名稱</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>郵遞區號</label>
+                                                <select class="input-medium resvCard-date">
+                                                    <option value="y">10058</option>
+                                                    <option value="n">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label class="text-top">地址</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>顧客類別</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="會員">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>意見性質</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="S:建議">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>意見類別</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="硬體" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>顧客評價 <br> (是否滿意)</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="Y:滿意">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>預定結案日期</label>
+                                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11">
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>結案日期</label>
+                                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>結案者</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="cio" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>結案天數</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="0.01" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="grid-item">
+                                                <label>存檔回覆文件</label>
+                                                <input type="text" class="input-medium resvCard-date" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="grid suggestion-btnGroup">
+                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">儲存回覆文件路徑
+                                            </button>
+                                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">開啟回覆文件
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
-                                    <textarea class="input-medium input-spc-2 input-h70"
-                                              placeholder="全球最大的多媒體應用軟體公司奧多比（Adobe）驚傳上週五關閉台灣辦公室，連台灣總經理黃中平也在裁員名單之列。不少外商公司員工聽聞此事也感到人心惶惶。"></textarea>
-                                </div>
-                            </div>
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>讚美對象</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder=""/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>抱怨對象</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder=""/>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>處理部門</label>
-                                    <input type="text" class="input-medium input-more-1" placeholder="客服部" disabled>
-                                    <i class="moreClick fa fa-ellipsis-h"></i>
-                                </div>
-                            </div>
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>處理廳別</label>
-                                    <select class="input-medium input-spc-2">
-                                        <option value="y">FO:客服櫃檯</option>
-                                        <option value="n">No</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label class="text-top">處理過程 <br> 改善方式 <br>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </label>
-
-                                    <textarea class="input-medium input-spc-2 input-h70" placeholder="TEST"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label class="text-top">顧客回覆<br> <i class="moreClick fa fa-ellipsis-h"></i></label>
-                                    <textarea class="input-medium input-spc-2 input-h70"
-                                              placeholder="奧多比去年全球營收達42.1億美元，全球有近萬名員工，也一直是賺錢的公司，此次裁撤台灣辦公室，這個決定令不少軟體界人士大感意外。"></textarea>
-                                </div>
-                            </div>
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>回覆方式</label>
-                                    <input type="text" class="input-medium input-spc-2" placeholder="">
-                                </div>
-                            </div>
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>贈品金額</label>
-                                    <input type="number" class="input-medium medium-c4" placeholder="0"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>贈品名稱</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder=""/>
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="grid">
-
-                                <div class="grid-item">
-                                    <label>輸入者</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="cio"
-                                           disabled="disabled">
-                                </div>
-                                <div class="grid-item">
-                                    <label>最後異動者</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="cio"
-                                           disabled="disabled">
-                                </div>
-                            </div>
-
-                            <div class="grid">
-                                <div class="grid-item">
-                                    <label>輸入日</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="2014/12/06 11:16:48"
-                                           disabled="disabled">
-                                </div>
-                                <div class="grid-item">
-                                    <label>最後異動日</label>
-                                    <input type="text" class="input-medium medium-c4" placeholder="2017/1/06 11:16:48"
-                                           disabled="disabled">
-                                </div>
-                            </div>
-
-                        </div><!--main-content-data-->
-                        <div class="clearfix"></div>
-                        <div class="space-6"></div>
-                    </div>
-                </div>
-                <div class="col-sm-7 width-30">
-                    <div class="main-content-data">
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>顧客代號</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="020000100">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>連絡電話</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>顧客國籍</label>
-                                <select class="input-medium resvCard-date">
-                                    <option value="y">台北</option>
-                                    <option value="n">No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>E-mail</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>公司名稱</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>郵遞區號</label>
-                                <select class="input-medium resvCard-date">
-                                    <option value="y">10058</option>
-                                    <option value="n">No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label class="text-top">地址</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>顧客類別</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="會員">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>意見性質</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="S:建議">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>意見類別</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="硬體" disabled>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>顧客評價 <br> (是否滿意)</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="Y:滿意">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>預定結案日期</label>
-                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11">
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>結案日期</label>
-                                <input type="date" class="input-medium resvCard-date" placeholder="2012/12/11" disabled>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>結案者</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="cio" disabled>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>結案天數</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="0.01" disabled>
-                            </div>
-                        </div>
-                        <div class="grid">
-                            <div class="grid-item">
-                                <label>存檔回覆文件</label>
-                                <input type="text" class="input-medium resvCard-date" placeholder="">
-                            </div>
-                        </div>
-                        <div class="grid suggestion-btnGroup">
-                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">儲存回覆文件路徑
-                            </button>
-                            <button class="btn btn-primary btn-white btn-defaultWidth sug-btn" role="button">開啟回覆文件
-                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="col-xs-1 col-sm-1">
+                    <div class="col-xs-1 col-sm-1">
                     <div class="row">
                         <div class="right-menu-co">
                             <ul>
@@ -3619,6 +3624,7 @@
                             </ul>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
             <div class="clearfix"></div>

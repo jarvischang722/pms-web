@@ -47,6 +47,8 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
                         if (lo_lang) {
                             fields[idx]["ui_display_name"] = lo_lang['ui_display_name_' + ls_locale]
                                 ? lo_lang['ui_display_name_' + ls_locale] : field.ui_field_name;
+                            fields[idx]["ui_hint"] = lo_lang['hint_' + ls_locale]
+                                ? lo_lang['hint_' + ls_locale] : '';
                         }
                     });
                 }
@@ -79,11 +81,11 @@ function filterSpecField(allFields, userInfo, callback) {
                 }
             );
         }
-        else if(_.isEqual(field.ui_type, "tree") || _.isEqual(field.ui_type, "multitree")){
+        else if (_.isEqual(field.ui_type, "tree") || _.isEqual(field.ui_type, "multitree")) {
             handleFuncs.push(
-                function(callback) {
+                function (callback) {
                     allFields[fIdx].selectData = [];
-                    ruleAgent[field.rule_func_name](field, userInfo, function(err, result){
+                    ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
                         allFields[fIdx].selectData = result.selectOptions;
                         callback(null, allFields[fIdx]);
                     });

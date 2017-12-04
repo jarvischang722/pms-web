@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
-                    <table id="PMS0830090_dg" style="height: 300px; display: inline;"></table>
+                    <table id="PMS0830090_dg" class="dtTableSetupHt" style=" display: inline;"></table>
                 </div>
             </div>
 
@@ -92,6 +92,10 @@
 <%- include ../vueTemplate/PMS0830090Tmp.ejs %>
 <%- include ../vueTemplate/fieldmultiLangDialogTmp.ejs %>
 <%- include ../vueTemplate/searchTmp.ejs %>
+
+<!-- subSystem 共用 js -->
+<%- include ../../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
 
 <script src="/js/setup/vueCompLib/searchComp.js"></script>
 <script src="/js/easyUI/DatagridForSingleGridClass.js"></script>
