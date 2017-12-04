@@ -18,7 +18,8 @@
                                      row-click-color="#edf7ff"
                                      :cell-edit-done="editFieldDone"
                                      error-content="無資料"
-                                     :height="200">
+                                     :height="auto"
+                                     :column-cell-class-name="columnCellClass">
                             </v-table>
                         </div>
                     </div>
@@ -109,7 +110,8 @@
                         columnAlign: 'center',
                         isEdit: true,
                         isResize: true,
-                        type: field.type
+                        type: field.type,
+                        titleCellClassName:'title-cellBg'
                     };
 
 
