@@ -51,7 +51,7 @@ Vue.component('single-grid-pms0620020-tmp', {
     created: function () {
         var self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
-            if(chooseData["user_nos"] != "" && chooseData["user_cname"] != ""){
+            if (chooseData["user_nos"] != "" && chooseData["user_cname"] != "") {
                 chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             }
 
@@ -420,12 +420,12 @@ Vue.component('single-grid-pms0620020-tmp', {
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             self.closeSingleGridDialog();
                             vm.initTmpCUD();
-                            self.dgHoatelDt.initTmpCUD();
                         }
                         else {
                             alert(result.errorMsg);
                         }
                         self.isLoadingDialog = false;
+                        self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }
@@ -547,8 +547,9 @@ Vue.component('text-select-grid-dialog-tmp', {
             var selectCondition = $('#txtSelectCondition').val();
 
             var dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition))
-                    {return row;}
+                if (row[selectFieldName].includes(selectCondition)) {
+                    return row;
+                }
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
 
@@ -797,7 +798,7 @@ var vm = new Vue({
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns",
-                onBeforeClose: function(){
+                onBeforeClose: function () {
                     self.editingRow = {};
                 }
             });
@@ -843,28 +844,28 @@ function findByValue(obj, id) {
     for (var p in obj) {
         if (obj.value === id) {
             return obj;
-        } 
-            if (typeof obj[p] === 'object') {
-                result = findByValue(obj[p], id);
+        }
+        if (typeof obj[p] === 'object') {
+            result = findByValue(obj[p], id);
 
-                if (result) {
-                    go_rtnResult = [];
-                    go_rtnResult.push(obj[p]);
-                    return result;
-                }
+            if (result) {
+                go_rtnResult = [];
+                go_rtnResult.push(obj[p]);
+                return result;
             }
-        
+        }
+
     }
     return result;
 }
 
-function flattenArray(array, la_list){
-    _.each(array, function(object){
-        if(!_.isUndefined(object.children)){
+function flattenArray(array, la_list) {
+    _.each(array, function (object) {
+        if (!_.isUndefined(object.children)) {
             la_list.push(object);
             flattenArray(object.children, la_list);
         }
-        else{
+        else {
             la_list.push(object);
             return;
         }

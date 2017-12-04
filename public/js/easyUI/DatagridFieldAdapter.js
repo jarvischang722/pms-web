@@ -20,7 +20,7 @@ var DatagridAdapter = function (vm) {
 };
 
 
-var DatagridFieldAdapter= {
+var DatagridFieldAdapter = {
     //根據欄位屬性組Datagrid屬性資料
     combineFieldOption: function (fieldData, dgName) {
         var columnsData = [];
@@ -71,7 +71,7 @@ var DatagridFieldAdapter= {
         var tmpFieldObj = fieldAttrObj;
 
         tmpFieldObj.field = fieldAttrObj.ui_field_name.toLowerCase();
-        tmpFieldObj.title = '<span title="'+fieldAttrObj.ui_hint+'">'+fieldAttrObj.ui_display_name+'</span>';
+        tmpFieldObj.title = '<span title="' + fieldAttrObj.ui_hint + '">' + fieldAttrObj.ui_display_name + '</span>';
         tmpFieldObj.sortable = true;
 
         tmpFieldObj.editor = {
@@ -268,9 +268,9 @@ var DatagridFieldAdapter= {
                         return val;
                     }
                     return "";
-                } else {
+                } 
                     return val;
-                }
+                
             }
 
             tmpFieldObj.editor.type = dataType;
@@ -375,7 +375,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
         };
 
         //確認驗證
-        if($('#' + dgName).datagrid('validateRow', indexRow)){
+        if ($('#' + dgName).datagrid('validateRow', indexRow)) {
 
             isUserEdit = false;
 
@@ -422,7 +422,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
 
                         //確認現在datagrid的editIndex為何
                         var lo_nowIndexRow = $('#' + dgName).datagrid('getRowIndex', $('#' + dgName).datagrid('getSelected'));
-                        if(lo_nowIndexRow != indexRow){
+                        if (lo_nowIndexRow != indexRow) {
                             $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
                             $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
 
@@ -432,6 +432,7 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         }
 
                         $('#' + dgName).datagrid('beginEdit', indexRow);
+                        $('#' + dgName).datagrid('selectRow', indexRow);
                     }
                     else {
                         _.each(effectValues, function (item, index) {
@@ -540,7 +541,7 @@ $.extend($.fn.datagrid.methods, {
         var rowData = $('#' + dgName).datagrid('getSelected');
         var $row = $("table[class='datagrid-btable']").find("tr[datagrid-row-index='" + editingIdx + "']");
         _.each(cols, function (field_name) {
-                var $td = ($row.find("td[field='" + field_name + "']").length == 1) ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
+                var $td = $row.find("td[field='" + field_name + "']").length == 1 ? $row.find("td[field='" + field_name + "']") : $row.find("td[field='" + field_name + "']")[1];
                 var $textbox = $(".textbox-value", $td);
                 var $checkbox = $(".dg-checkbox-change", $td);
 
