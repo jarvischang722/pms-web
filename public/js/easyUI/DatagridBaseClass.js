@@ -22,6 +22,7 @@ function DatagridBaseClass() {
     this.editIndex = undefined;
     this.mnRowData = {};
     this.dtOriRowData = [];
+    this.isRuleComplate = false;
 
     /**
      * datagrid 初始化
@@ -107,6 +108,7 @@ function DatagridBaseClass() {
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
+        self.isRuleComplate = true;
         self.editIndex = index;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
@@ -120,10 +122,12 @@ function DatagridBaseClass() {
         if (this.editIndex == undefined) {
             return true;
         }
-        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
-            this.editIndex = undefined;
-            return true;
+        if(self.isRuleComplate){
+            if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+                $('#' + this.dgName).datagrid('endEdit', this.editIndex);
+                this.editIndex = undefined;
+                return true;
+            }
         }
         return false;
 

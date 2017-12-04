@@ -425,12 +425,13 @@ function onChangeAction(fieldAttrObj, oldValue, newValue, dgName) {
                         if (lo_nowIndexRow != indexRow) {
                             $('#' + dgName).datagrid('unselectRow', lo_nowIndexRow);
                             $('#' + dgName).datagrid('endEdit', lo_nowIndexRow);
-
-                            //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
-                            $('#' + dgName).datagrid('beginEdit', indexRow);
-                            $('#' + dgName).datagrid('endEdit', indexRow);
                         }
 
+                        //現在datagrid的editIndex已經不是indexRow，切換editIndex為indexRow
+                        $('#' + dgName).datagrid('beginEdit', indexRow);
+                        $('#' + dgName).datagrid('endEdit', indexRow);
+
+                        //將連動欄位的那列打開編輯
                         $('#' + dgName).datagrid('beginEdit', indexRow);
                         $('#' + dgName).datagrid('selectRow', indexRow);
                     }
