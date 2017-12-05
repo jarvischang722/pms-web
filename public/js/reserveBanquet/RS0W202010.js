@@ -127,6 +127,7 @@ var singlePage = Vue.extend({
                 chooseData["is_allplace"] = "N";
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
+                chooseData["use_dat"] = self.singleData.begin_dat;
 
                 var isSame = false;
                 _.each(self.dataGridRows, function (value) {
@@ -601,6 +602,10 @@ var singlePage = Vue.extend({
                 }
             });
 
+            if(_.isUndefined(tempSingleData.bquet_rmk)){
+                tempSingleData.bquet_rmk = "";
+            }
+
             //Time format
             tempSingleData.begin_tim = tempSingleData.begin_tim.replace(":", "");
             tempSingleData.end_tim = tempSingleData.end_tim.replace(":", "");
@@ -610,6 +615,8 @@ var singlePage = Vue.extend({
 
             tempSingleData.begin_dat = moment(tempSingleData.begin_dat).format("YYYY/MM/DD");
             tempSingleData.expire_dat = moment(tempSingleData.expire_dat).format("YYYY/MM/DD");
+
+
 
             if(self.createStatus){
                 self.tmpCud.createData = [tempSingleData];
@@ -807,7 +814,6 @@ var singlePage = Vue.extend({
         }
     }
 });
-
 
 function isObjectArrayEqual(a, b) {
 
