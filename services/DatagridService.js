@@ -139,10 +139,12 @@ exports.fetchPrgDataGrid = function (session, postData, callback) {
                 fieldLang = tools.mongoDocToObject(fieldLang);
                 _.each(fieldData, function (field, fIdx) {
                     let tmpLang = _.findWhere(fieldLang, {ui_field_name: field["ui_field_name"].toLowerCase()});
-                    if(tmpLang){
-                        fieldData[fIdx]["ui_display_name"] = tmpLang && tmpLang["ui_display_name_" + session.locale] != ""
+                    if (tmpLang) {
+                        fieldData[fIdx]["ui_display_name"] = tmpLang["ui_display_name_" + session.locale] != ""
                             ? tmpLang["ui_display_name_" + session.locale]
-                            : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '('+session.locale+')' : '';
+                            : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')' : '';
+                        fieldData[fIdx]["ui_hint"] = tmpLang["hint_" + session.locale] || "";
+
                     }
                 });
                 callback(err, fieldData);

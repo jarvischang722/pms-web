@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 
-    <!-- ['PSIW500030'] 取得客戶住址 -->
+    <!-- ['PSIW510030'] 取得客戶住址 -->
     <dao name="QRY_ADDRESS_DT_SELECT">
         <statement><![CDATA[
             select trim(nvl(add1_rmk, ' ')||nvl(add2_rmk,' ')||nvl(add3_rmk,' ')) as address

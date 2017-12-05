@@ -121,3 +121,4 @@ exports.getRoomTypeMaxStockDate = function (req, res) {
 exports.getSearchUIFields = function(req,res){
 
 };
+

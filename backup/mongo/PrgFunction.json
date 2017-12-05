@@ -1,0 +1,16 @@
+{ 
+    "_id" : ObjectId("59f2ca4970320433dc1f82b1"), 
+    "prg_id" : 1.0, 
+    "tab_page_id" : 1.0, 
+    "page_id" : 1.0
+}
+{ 
+    "_id" : ObjectId("5a0a662bb833d807e8814698"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "func_id" : "0100", 
+    "rule_func_name" : "", 
+    "link_prg_id" : ""
+}

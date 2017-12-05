@@ -45,7 +45,7 @@ module.exports = {
             group_nam: "貨品小分類"
         };
 
-        if (ui_field_name != "") {
+        if(ui_field_name != "") {
             selectDSFunc.push(
                 function (callback) {
                     mongoAgent.UITypeSelect.findOne({

@@ -3,7 +3,7 @@
     <!-- 取得多筆 -->
     <dao name="QRY_RVDISCPERS_RF">
         <statement><![CDATA[
-			select athena_id, hotel_cod, usr_nam, ins_dat, ins_usr, upd_dat, upd_usr
+			select athena_id, hotel_cod, usr_nam, ins_dat, ins_usr, upd_dat, upd_usr, usr_id, upgrade_flg, chgrent_flg
 			from rvdiscpers_rf where trim(athena_id) = trim(:athena_id) and trim(hotel_cod) =trim(:hotel_cod)
         ]]>
         </statement>

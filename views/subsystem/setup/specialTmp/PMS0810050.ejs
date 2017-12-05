@@ -15,10 +15,10 @@
                 </el-tabs>
 
                 <div id="pickupPanel" v-show="gs_active=='pickup'" class="easyui-panel">
-                    <table id="pick_up_dg" style="height: 300px;"></table>
+                    <table id="pick_up_dg" class="dtTableSetupHt"></table>
                 </div>
                 <div id="dropoffPanel" v-show="gs_active=='dropoff'" class="easyui-panel">
-                    <table id="drop_off_dg" style="height: 300px;"></table>
+                    <table id="drop_off_dg" class="dtTableSetupHt"></table>
                 </div>
 
             </div>
@@ -56,4 +56,9 @@
     </div>
 
 </div>
+
+<!-- subSystem 共用 js -->
+<%- include ../../common/viewsComJs.ejs %>
+<!--  /.End subSystem 共用 js  -->
+
 <script src="/js/setup/PMS0810050_setup.js"></script>

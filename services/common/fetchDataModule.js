@@ -226,9 +226,12 @@ function qryLangUIFields(la_dgFieldData, callback) {
         _.each(la_dgFieldData, function (lo_dgFieldData, fIdx) {
             let tmpLang = _.findWhere(fieldLang, {ui_field_name: lo_dgFieldData["ui_field_name"].toLowerCase()});
             if (tmpLang) {
-                la_dgFieldData[fIdx]["ui_display_name"] = tmpLang && tmpLang["ui_display_name_" + go_session.locale] != ""
+                la_dgFieldData[fIdx]["ui_display_name"] = tmpLang["ui_display_name_" + go_session.locale] != ""
                     ? tmpLang["ui_display_name_" + go_session.locale]
                     : tmpLang["ui_display_name_zh_TW"] ? tmpLang["ui_display_name_zh_TW"] + '(' + go_session.locale + ')' : '';
+
+                la_dgFieldData[fIdx]["ui_hint"] = tmpLang["ui_display_name_" + go_session.locale] || "";
+
             }
         });
         callback(err, la_dgFieldData);

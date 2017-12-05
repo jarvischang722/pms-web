@@ -51,6 +51,10 @@ Vue.component('single-grid-pms0620020-tmp', {
     created: function () {
         var self = this;
         vmHub.$on('updateBackSelectData', function (chooseData) {
+            if (chooseData["user_nos"] != "" && chooseData["user_cname"] != "") {
+                chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
+            }
+
             self.rowData = _.extend(self.rowData, chooseData);
         });
     },
@@ -213,7 +217,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             else {
                 $.post("/api/sales/qrySalesMn_PM0620020", singleData, function (result) {
                     if (result.success) {
-                        self.originRowData = _.clone(result.rtnObject[0]['rowData']);
+                        self.originRowData = JSON.parse(JSON.stringify(result.rtnObject[0]['rowData']));
+                        vm.tmpCud.oriData.push(self.originRowData);
                         self.rowData = result.rtnObject[0]['rowData'];
                         if (_.isNull(self.rowData.user_nos)) {
                             self.rowData.user_nos = "";
@@ -245,12 +250,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     //找樹狀parent node
                     findByValue(self.classCodSelectData, self.rowData.class_cod);
 
-                    //攤平資料(將資料降維成二維)
-                    var list = _(go_rtnResult).chain()
-                        .zip(_(go_rtnResult).pluck('children'))
-                        .flatten()
-                        .compact()
-                        .value();
+                    //攤平資料(陣列扁平化)
+                    var list = [];
+                    flattenArray(go_rtnResult, list);
 
                     self.classCodSelectedOption = [];
                     var groupList = _.groupBy(list, "parent_cod");
@@ -367,11 +369,13 @@ Vue.component('single-grid-pms0620020-tmp', {
 
         doSave: function () {
             this.rowData.class_cod = this.classCodSelectedOption[this.classCodSelectedOption.length - 1];
+
             var self = this;
-            this.isLoadingDialog = true;
-            this.loadingText = "Saving...";
 
             if (this.dgHoatelDt.endEditing()) {
+                this.isLoadingDialog = true;
+                this.loadingText = "Saving...";
+
                 var lo_chkResult = this.dataValidate();
                 if (lo_chkResult.success == false && vm.tmpCud.deleteData.length == 0) {
                     alert(lo_chkResult.msg);
@@ -408,23 +412,23 @@ Vue.component('single-grid-pms0620020-tmp', {
                         vm.tmpCud.dt_createData = this.dgHoatelDt.tmpCUD.createData;
                         vm.tmpCud.dt_updateData = this.dgHoatelDt.tmpCUD.updateData;
                         vm.tmpCud.dt_deleteData = this.dgHoatelDt.tmpCUD.deleteData;
-                        vm.tmpCud.dt_oriUpdateData = this.dgHoatelDt.tmpCUD.oriUpdateData;
+                        vm.tmpCud.dt_oriData = this.dgHoatelDt.tmpCUD.oriData;
                     }
 
                     vm.doSaveCud("PMS0620020", 1, function (result) {
                         if (result.success) {
                             alert(go_i18nLang["program"]["PMS0620020"].saveSuccess);
                             self.closeSingleGridDialog();
+                            vm.initTmpCUD();
                         }
                         else {
                             alert(result.errorMsg);
                         }
                         self.isLoadingDialog = false;
-                        vm.initTmpCUD();
+                        self.dgHoatelDt.initTmpCUD();
                     });
                 }
             }
-
 
         },
         //轉換checkbox值
@@ -534,7 +538,6 @@ Vue.component('text-select-grid-dialog-tmp', {
                 });
             }
 
-            chooseData["user_nos"] = chooseData["user_nos"] + ": " + chooseData["user_cname"];
             vmHub.$emit('updateBackSelectData', chooseData);
             $("#dataPopUpGridDialog").dialog('close');
         },
@@ -544,8 +547,9 @@ Vue.component('text-select-grid-dialog-tmp', {
             var selectCondition = $('#txtSelectCondition').val();
 
             var dataGrid = _.filter(allData, function (row) {
-                if (row[selectFieldName].includes(selectCondition))
-                    {return row;}
+                if (row[selectFieldName].includes(selectCondition)) {
+                    return row;
+                }
             });
             $('#chooseGrid').datagrid('loadData', dataGrid);
 
@@ -568,10 +572,11 @@ var vm = new Vue({
             createData: [],
             updateData: [],
             deleteData: [],
+            oriData: [],
             dt_createData: [],
             dt_updateData: [],
             dt_deleteData: [],
-            dt_ori_updateData: []
+            dt_oriData: []
         },
         pageOneDataGridRows: [],
         pageOneFieldData: [],
@@ -619,10 +624,11 @@ var vm = new Vue({
                 createData: [],
                 updateData: [],
                 deleteData: [],
+                oriData: [],
                 dt_createData: [],
                 dt_updateData: [],
                 dt_deleteData: [],
-                dt_oriUpdateData: []
+                dt_oriData: []
             };
         },
         loadDataGridByPrgID: function () {
@@ -792,7 +798,7 @@ var vm = new Vue({
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns",
-                onBeforeClose: function(){
+                onBeforeClose: function () {
                     self.editingRow = {};
                 }
             });
@@ -838,17 +844,30 @@ function findByValue(obj, id) {
     for (var p in obj) {
         if (obj.value === id) {
             return obj;
-        } 
-            if (typeof obj[p] === 'object') {
-                result = findByValue(obj[p], id);
+        }
+        if (typeof obj[p] === 'object') {
+            result = findByValue(obj[p], id);
 
-                if (result) {
-                    go_rtnResult = [];
-                    go_rtnResult.push(obj[p]);
-                    return result;
-                }
+            if (result) {
+                go_rtnResult = [];
+                go_rtnResult.push(obj[p]);
+                return result;
             }
-        
+        }
+
     }
     return result;
+}
+
+function flattenArray(array, la_list) {
+    _.each(array, function (object) {
+        if (!_.isUndefined(object.children)) {
+            la_list.push(object);
+            flattenArray(object.children, la_list);
+        }
+        else {
+            la_list.push(object);
+            return;
+        }
+    });
 }
