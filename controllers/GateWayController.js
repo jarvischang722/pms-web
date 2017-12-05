@@ -46,14 +46,14 @@ function doOperationProc(req, res){
 
     //特殊交易
     if (req.body.trans_cod != "" && req.body.trans_cod != "BAC03009010000") {
-        dbSVC.execTransSQL(req.body, req.session, function (err, success) {
-            res.json(commonTools.mergeRtnErrResultJson(err, success));
+        dbSVC.execTransSQL(req.body, req.session, function (err, returnData) {
+            res.json(returnData);
         });
     }
     //一般儲存
     else {
-        dbSVC.execNormalSQL(req.body, req.session, function (err, success) {
-            res.json(commonTools.mergeRtnErrResultJson(err, success));
+        dbSVC.execNormalSQL(req.body, req.session, function (err, returnData) {
+            res.json(returnData);
         });
     }
 }
