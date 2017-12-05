@@ -21,8 +21,6 @@ g_socket.on('checkTableLock', function (result) {
         singlePage.waitEnable = false;
         singlePage.inquiryEnable = false;
         singlePage.modifyEnable = false;
-    }else {
-
     }
 });
 
@@ -183,6 +181,51 @@ var singlePage = Vue.extend({
         this.fetchUserInfo();
         this.initTmpCUD();
     },
+    // watch: {
+    //     //region//按鈕如沒權限, 則不能Enable
+    //     cancelEnable: function () {
+    //         var purview = _.findIndex(go_funcPurview, function (value) {
+    //             return value.func_id == "1010";
+    //         });
+    //         if(purview == -1){
+    //             this.cancelEnable = false;
+    //         }
+    //     },
+    //     reserveEnable: function () {
+    //         var purview = _.findIndex(go_funcPurview, function (value) {
+    //             return value.func_id == "1020";
+    //         });
+    //         if(purview == -1){
+    //             this.reserveEnable = false;
+    //         }
+    //     },
+    //     waitEnable: function () {
+    //         var purview = _.findIndex(go_funcPurview, function (value) {
+    //             return value.func_id == "1030";
+    //         });
+    //         if(purview == -1){
+    //             this.waitEnable = false;
+    //         }
+    //     },
+    //     inquiryEnable: function () {
+    //         var purview = _.findIndex(go_funcPurview, function (value) {
+    //             return value.func_id == "1040";
+    //         });
+    //         if(purview == -1){
+    //             this.inquiryEnable = false;
+    //         }
+    //     },
+    //     modifyEnable: function () {
+    //         var purview = _.findIndex(go_funcPurview, function (value) {
+    //             return value.func_id == "0400";
+    //         });
+    //         if(purview == -1){
+    //             this.modifyEnable = false;
+    //         }
+    //     }
+    //
+    //     //endregion
+    // },
     methods: {
 
         /**
