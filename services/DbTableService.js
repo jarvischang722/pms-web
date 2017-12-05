@@ -830,8 +830,8 @@ function operationSaveProc(postData, session) {
                 var rtnData = {
                     success: lb_success,
                     msg: ls_msg,
-                    data: data["RETN-DATA"]
-                }
+                    data: data["RETN-DATA"] || {}
+                };
                 callback(null, rtnData);
             });
 
