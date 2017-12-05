@@ -27,11 +27,11 @@
                                         </div>
                                         <div class="grid-item-inline">
                                             <label>等待</label>
-                                            <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-m"/>
+                                            <input type="text" v-model="singleData.wait_seq" class="input-medium resvCard-m" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item-inline">
                                             <label v-show="isShowReserve">預約處理</label>
-                                            <select v-model="singleData.proc_sta" class="input-medium resvCard-date" v-show="isShowReserve">
+                                            <select v-model="singleData.proc_sta" class="input-medium resvCard-date" v-show="isShowReserve" :disabled="readonly">
                                                 <option v-for="opt in selectOption.proc_sta" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -43,19 +43,19 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>客戶姓名</label>
-                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1"/>
+                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
-                                            <select v-model="singleData.contact1_cod" class="input-medium resvCard-date">
+                                            <select v-model="singleData.contact1_cod" class="input-medium resvCard-date" :disabled="readonly">
                                                 <option v-for="opt in selectOption.contact1_cod" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
                                             </select>
-                                            <input type="text" v-model="singleData.contact1_rmk" class="input-medium resvCard-date"/>
+                                            <input type="text" v-model="singleData.contact1_rmk" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label>聯絡人</label>
-                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date"/>
+                                            <input type="text" @click="chkClickPopUpGrid('atten_nam')" v-model="singleData.atten_nam" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                     </div>
                                     <div class="grid">
@@ -64,12 +64,12 @@
                                             <input type="text" v-model="singleData.show_cod" class="input-medium rateCode-s1" disabled/>
                                         </div>
                                         <div class="grid-item">
-                                            <select v-model="singleData.contact2_cod" class="input-medium resvCard-date">
+                                            <select v-model="singleData.contact2_cod" class="input-medium resvCard-date" :disabled="readonly">
                                                 <option v-for="opt in selectOption.contact2_cod" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
                                             </select>
-                                            <input type="text" v-model="singleData.contact2_rmk" class="input-medium resvCard-date"/>
+                                            <input type="text" v-model="singleData.contact2_rmk" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                     </div>
                                 </div>
@@ -101,13 +101,13 @@
                                             <label>是否確認</label>
                                             <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="confirm" value="Y" v-model="singleData.confirm_sta" type="radio" class="ace">
+                                            <input name="confirm" value="Y" v-model="singleData.confirm_sta" type="radio" class="ace" :disabled="readonly">
                                             <span class="lbl radius-circle">是</span>
                                             </label>
                                         </span>
                                             <span class="checkbox">
                                             <label class="checkbox-width">
-                                            <input name="confirm" value="N" v-model="singleData.confirm_sta" type="radio" class="ace">
+                                            <input name="confirm" value="N" v-model="singleData.confirm_sta" type="radio" class="ace" :disabled="readonly">
                                             <span class="lbl radius-circle">否</span>
                                             </label>
                                         </span>
@@ -116,7 +116,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>宴會名稱</label>
-                                            <input type="text" v-model="singleData.title_nam" class="input-medium w348px"/>
+                                            <input type="text" v-model="singleData.title_nam" class="input-medium w348px" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label>主要廳別</label>
@@ -131,7 +131,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>使用類別</label>
-                                            <select v-model="singleData.use_typ" class="input-medium w152comma4px" @change="useTypeOnChange">
+                                            <select v-model="singleData.use_typ" class="input-medium w152comma4px" @change="useTypeOnChange" :disabled="readonly">
                                                 <option v-for="opt in selectOption.use_typ" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -139,7 +139,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-35px">餐別</label>
-                                            <select v-model="singleData.meal_typ" class="input-medium w152comma4px">
+                                            <select v-model="singleData.meal_typ" class="input-medium w152comma4px" :disabled="readonly">
                                                 <option v-for="opt in selectOption.meal_typ" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>訂席來源</label>
-                                            <select v-model="singleData.bquet_src" class="input-medium w240px">
+                                            <select v-model="singleData.bquet_src" class="input-medium w240px" :disabled="readonly">
                                                 <option v-for="opt in selectOption.bquet_src" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -158,21 +158,21 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label class="">預/保桌數</label>
-                                            <input type="text" v-model="singleData.desk_qnt" class="input-medium consumeCode-g1-ss text-right">
+                                            <input type="text" v-model="singleData.desk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                             <span>/</span>
-                                            <input type="text" v-model="singleData.pmdesk_qnt" class="input-medium consumeCode-g1-ss text-right">
+                                            <input type="text" v-model="singleData.pmdesk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                         </div>
 
                                         <div class="grid-item">
                                             <label class="width-82px">預/保人數</label>
-                                            <input type="text" v-model="singleData.adult_qnt" class="input-medium consumeCode-g1-ss text-right">
+                                            <input type="text" v-model="singleData.adult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                             <span>/</span>
-                                            <input type="text" v-model="singleData.poadult_qnt" class="input-medium consumeCode-g1-ss text-right">
+                                            <input type="text" v-model="singleData.poadult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-135px">業務員</label>
-                                            <select v-model="singleData.sales_cod" class="input-medium w240px">
-                                                <option v-for="opt in selectOption.sales_cod" :value="opt.value">
+                                            <select v-model="singleData.sales_cod" class="input-medium w240px" :disabled="readonly">
+                                                <option v-for="opt in selectOption.sales_cod" :value="opt.value" :disabled="readonly">
                                                     {{opt.display}}
                                                 </option>
                                             </select>
@@ -183,11 +183,11 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>主婚人</label>
-                                            <input type="text" v-model="singleData.sponsor_nam" class="input-medium w152comma4px"/>
+                                            <input type="text" v-model="singleData.sponsor_nam" class="input-medium w152comma4px" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-35px">婚企</label>
-                                            <select v-model="singleData.opsales_cod" class="input-medium w152comma4px">
+                                            <select v-model="singleData.opsales_cod" class="input-medium w152comma4px" :disabled="readonly">
                                                 <option v-for="opt in selectOption.opsales_cod" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -195,11 +195,11 @@
                                         </div>
                                         <div class="grid-item">
                                             <label>新郎</label>
-                                            <input type="text" v-model="singleData.bride_nam" class="input-medium w96c2"/>
+                                            <input type="text" v-model="singleData.bride_nam" class="input-medium w96c2" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-35px">新娘</label>
-                                            <input type="text" v-model="singleData.groom_nam" class="input-medium w96c2"/>
+                                            <input type="text" v-model="singleData.groom_nam" class="input-medium w96c2" :disabled="readonly"/>
                                         </div>
 
                                     </div>
@@ -211,7 +211,7 @@
                                             <div id="gs-save-date" class="element-date-wrap">
                                                 <template>
                                                     <div class="block">
-                                                        <el-date-picker type="date" v-model="singleData.expire_dat" placeholder="選擇日期">
+                                                        <el-date-picker type="date" v-model="singleData.expire_dat" placeholder="選擇日期" :disabled="readonly">
                                                         </el-date-picker>
                                                     </div>
                                                 </template>
@@ -236,15 +236,15 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>場地金額</label>
-                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate"/>
+                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label class="width-103px">應收訂金</label>
-                                            <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard"/>
+                                            <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label>已付訂金</label>
-                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date"/>
+                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" :disabled="readonly"/>
                                         </div>
                                     </div>
                                 </div>
@@ -276,10 +276,10 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="exit">離開</button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="exit" :disabled="!saveEnable">離開</button>
                                     </li>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="save">存檔</button>
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="save" :disabled="!saveEnable">存檔</button>
                                     </li>
 
                                     <div class="btn-group width-100 margin-tb15">
@@ -330,13 +330,13 @@
                                             <div class="right-menu-co">
                                                 <ul>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod_button')" role="button">選取場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth" @click="chkClickPopUpGrid('place_cod_button')" role="button" :disabled="!modifyEnable">選取場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="delPlace">刪除場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="CheckInventory">庫存檢查</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
                                                     </li>
 
                                                 </ul>
@@ -349,7 +349,7 @@
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="row">
                                             <div class="main-content-data">
-                                                <textarea class="width-100 pull-left" v-model="singleData.bquet_rmk" rows="5"></textarea>
+                                                <textarea class="width-100 pull-left" v-model="singleData.bquet_rmk" rows="5" :disabled="readonly"></textarea>
                                             </div><!--main-content-data-->
                                         </div>
                                     </div>

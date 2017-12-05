@@ -7,6 +7,29 @@
 var vmHub = new Vue;
 var prg_id = "RS0W202010";
 
+// var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
+
+//rowLocK
+g_socket.on('checkTableLock', function (result) {
+    if(!result.success){
+        alert(result.errorMsg);
+        singlePage.readonly = true;
+        singlePage.isModificable = false;
+
+        singlePage.cancelEnable = false;
+        singlePage.reserveEnable = false;
+        singlePage.waitEnable = false;
+        singlePage.inquiryEnable = false;
+        singlePage.modifyEnable = false;
+    }else {
+
+    }
+});
+
+// $(window).on('beforeunload', function () {
+//     return singlePage.doRowUnLock();
+// });
+
 var singlePage = Vue.extend({
     template: "#RS0W202010Tmp",
     data: function () {
@@ -42,7 +65,6 @@ var singlePage = Vue.extend({
             singleField: {},
             singleDataEmpty: {},
 
-
             selectOption: {},
 
             selectPopUpGridData: [],
@@ -51,14 +73,17 @@ var singlePage = Vue.extend({
             createStatus: false,        //新增狀態
 
             isModificable: true,       //決定是否可以修改資料
+            readonly: false,
+
+            saveEnable: true,
 
             cancelEnable: true,
             reserveEnable: true,
             waitEnable: true,
             inquiryEnable: true,
+            modifyEnable: true,
 
             isShowReserve: true,
-
 
             dgIns: {},
             dataGridRows: [],
@@ -72,6 +97,8 @@ var singlePage = Vue.extend({
         var self = this;
         vmHub.$on("showReserve", function (PostData) {
 
+            //self.doRowLock(PostData.bquet_nos);
+
             self.loadSingleGridPageField(function () {
                 if(PostData.bquet_nos != "") {
                     self.isModificable = false;
@@ -80,7 +107,6 @@ var singlePage = Vue.extend({
                 else {
                     //新增模式
                     self.createStatus = true;
-                    console.log(self.createStatus);
                     self.cancelEnable = false;
 
                     self.dataGridRows = [];
@@ -811,6 +837,29 @@ var singlePage = Vue.extend({
                     alert(result.errorMsg);
                 }
             });
+        },
+
+        /**
+         * RowLock
+         */
+        doRowLock: function (bquet_nos) {
+            var lo_param = {
+                prg_id: prg_id,
+                table_name: "NULLbquet_mn",
+                lock_type : "R",
+                key_cod: bquet_nos
+            };
+            g_socket.emit('handleTableLock', lo_param);
+        },
+
+        /**
+         * RowUnLock
+         */
+        doRowUnLock: function () {
+            var lo_param = {
+                prg_id: prg_id
+            };
+            g_socket.emit('handleTableUnlock', lo_param);
         }
     }
 });
