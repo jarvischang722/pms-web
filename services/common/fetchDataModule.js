@@ -52,7 +52,7 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgRowData = function (callback) {
         async.waterfall([
-            qryTemplateRf,     //查詢templateRf
+            qryDgTemplateRf,     //查詢templateRf
             qryRowData,        //查詢多筆資料
             filterRowData,          //依條件過濾多筆資料
             rowDataMultiLang        //內容多語系
@@ -106,7 +106,7 @@ exports.GridSingleProc = function (postData, session) {
      */
     this.fetchGsMnRowData = function (callback) {
         async.waterfall([
-            qryTemplateRf,     //查詢templateRf
+            qryGsTemplateRf,     //查詢templateRf
             qryRowData,        //查詢多筆資料
             filterRowData,     //依條件過濾多筆資料
             rowDataMultiLang   //內容多語系
@@ -116,24 +116,29 @@ exports.GridSingleProc = function (postData, session) {
     };
 
     /**
-     *
+     * 查詢單筆 資料
      * @param callback
      */
-    this.fetchGsMnData = function(callback){
+    this.fetchGsMnData = function (callback) {
         async.waterfall([
             function (cb) {
                 async.parallel({
                     fieldsData: self.fetchGsMnFieldsData,
                     rowData: self.fetchGsMnRowData
-                }, function(err, resultMnData){
+                }, function (err, resultMnData) {
                     cb(err, resultMnData);
                 });
             },
-            function(mnData, cb){
+            function (mnData, cb) {
                 let la_pageField = mnData.fieldsData;
                 let lo_rowData = mnData.rowData;
                 dataValueChange(la_pageField, lo_rowData);
 
+                let gsMnData = {
+                    fieldsData: la_pageField,
+                    rowData: lo_rowData
+                }
+                cb(null, gsMnData);
             }
         ], function (err, result) {
             callback(err, result);
@@ -143,13 +148,30 @@ exports.GridSingleProc = function (postData, session) {
 };
 
 /*
- * 查詢templateRf
+ * 查詢多筆templateRf
  */
-function qryTemplateRf(callback) {
+function qryDgTemplateRf(callback) {
     var lo_params = {
         prg_id: gs_prg_id,
-        page_id: gn_page_id,
-        tab_page_id: gn_tab_page_id
+        page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id),
+        template_id: 'datagrid'
+    };
+
+    mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+        callback(err, result);
+    });
+}
+
+/**
+ * 查詢多筆templateRf
+ */
+function qryGsTemplateRf(callback) {
+    var lo_params = {
+        prg_id: gs_prg_id,
+        page_id: Number(gn_page_id),
+        tab_page_id: Number(gn_tab_page_id),
+        template_id: 'gridsingle'
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
@@ -417,5 +439,76 @@ function rowDataMultiLang(la_dgRowData, callback) {
     langSvc.handleMultiDataLangConv(la_dgRowData, gs_prg_id, gn_page_id, go_session.locale, function (err, Rows) {
         callback(null, Rows);
     });
+}
+
+/**
+ * 將欄位名稱以及資料一筆一筆轉換頁面上顯示的資料
+ * @param fields {arrays} 單筆 欄位資料
+ * @param data {object} 單筆 資料
+ */
+function dataValueChange(fields, data) {
+    fields = tools.mongoDocToObject(fields);
+
+    _.each(Object.keys(data), function (objKey) {
+        if (!_.isUndefined(data[objKey])) {
+            var value = data[objKey];
+
+            _.each(fields, function (row) {
+                if (row.ui_field_name == objKey) {
+                    var finalValue = changeValueFormat(value, row.ui_type);
+                    if (row.ui_type != "checkbox") {
+                        data[objKey] = finalValue ? finalValue : value;
+                    }
+                    else {
+                        data[objKey] = finalValue;
+                    }
+
+                }
+            });
+        }
+    });
+}
+
+/**
+ * 將要顯示在頁面上的欄位格式做轉換
+ * @param value {string} 單筆 資料
+ * @param ui_type {string} 單筆 欄位型態
+ */
+function changeValueFormat(value, ui_type) {
+    var valueTemp = "";
+    if (value == null) {
+        return valueTemp;
+    }
+    if (ui_type == "time") {
+        if (!_.isEmpty(value)) {
+            var hour = value.substring(0, 2);
+            var min = value.substring(2, 4);
+            var fieldName = hour + ":" + min;
+            valueTemp = fieldName;
+        }
+    }
+    else if (ui_type == "percent") {
+        valueTemp = commonRule.accMul(parseFloat(value), 100);
+    }
+    else if (ui_type == "checkbox") {
+        if (value == "Y") {
+            valueTemp = true;
+        }
+        else {
+            valueTemp = false;
+        }
+    }
+    else if (ui_type == "multiselect") {
+        var array = value.replace(/'/g, "").split(',');
+        valueTemp = [];
+        for (i = 0; i < array.length; i++) {
+            valueTemp.push(array[i]);
+        }
+    }
+    else if (ui_type.toLocaleLowerCase() == "number") {
+        valueTemp = Number(value);
+    }
+
+    return valueTemp;
 }
 

@@ -564,7 +564,6 @@ var vm = new Vue({
         this.initTmpCUD();
         this.fetchUserInfo();
         this.loadDataGridByPrgID();
-        this.loadSingleGridPageField();
     },
     data: {
         userInfo: {},
@@ -639,38 +638,6 @@ var vm = new Vue({
                 vm.pageOneFieldData = result.dgFieldsData;
                 vm.showDataGrid();
             });
-        },
-        loadSingleGridPageField: function () {
-            $.post("/api/sales/qrySingleGridFieldData_PM0620020", {prg_id: "PMS0620020"}, function (result) {
-                var lo_fieldData = result.salesMnField;
-                vm.oriSingleGridFieldData = lo_fieldData;
-                vm.pageOneSingleGridFieldData = _.values(_.groupBy(_.sortBy(lo_fieldData, "row_seq"), "row_seq"));
-                vm.hotelDTFieldData = result.hotelDtField;
-                vm.classHSFieldData = result.classHsField;
-
-            });
-        },
-        fetchSingleData: function (editingRow, callback) {
-            this.initTmpCUD();
-            this.editingRow = editingRow;
-
-            editingRow["prg_id"] = "PMS0620020";
-            $.post("/api/sales/qrySalesMn_PM0620020", editingRow, function (result) {
-                if (result.success) {
-                    vm.isModifiable = result.rtnObject[0]['isModifiable'];
-                    vm.originData = _.clone(result.rtnObject[0]['rowData']);
-                    vm.pageOneSingleGridRowData = result.rtnObject[0]['rowData'];
-                    vm.hotelDTDataGridRows = result.rtnObject[1]['dataGridDataHotelDT']['dataGridRows'];
-                    vm.classHSDataGridRows = result.rtnObject[2]['dataGridDataClassHs']['dataGridRows'];
-
-                    callback(true);
-                }
-                else {
-                    callback(false);
-                    console.log(result.errorMsg);
-                }
-            });
-
         },
         showDataGrid: function () {
             this.isLoading = false;
@@ -774,14 +741,9 @@ var vm = new Vue({
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
-                vm.fetchSingleData(editRow, function (result) {
-                    if (result) {
-                        vm.showSingleGridDialog();
-                    }
-                    else {
-                        alert("error");
-                    }
-                });
+                editRow["prg_id"] = "PMS0620020";
+                this.editingRow = editRow;
+                vm.showSingleGridDialog();
             }
         },
         showSingleGridDialog: function () {

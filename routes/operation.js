@@ -18,5 +18,8 @@ module.exports = function(app  ) {
      */
     app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDgFieldData);
 
+    /**
+     * (作業)查詢單筆欄位
+     */
     app.post("/api/fetchSinglePageFieldData", apiMiddles, operCtrl.fetchGsFieldData);
 };

@@ -69,8 +69,8 @@ exports.fetchGsFieldData = function(req, res){
         let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
-            gsFieldsData: result.gsFieldsData,
-            gsRowData: result.gsRowData
+            gsDtData: result.gsDtData,
+            gsMnData: result.gsMnData
         };
         res.json(lo_rtnData);
     });
