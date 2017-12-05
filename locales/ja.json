@@ -160,6 +160,11 @@
       "is_master": "丟公帳(日)",
       "to_master": "移至公帳(日)"
     },
+    "PMS0610010": {
+      "save_as": "另存為(日)",
+      "sales_assign": "Sales Assign(日)",
+      "visit_plan": "拜訪計畫(日)"
+    },
     "PMS0620020": {
       "sales_cod": "業務員代號(日)",
       "sales_nam": "業務員姓名(日)",

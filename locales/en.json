@@ -160,6 +160,11 @@
       "is_master": "丟公帳(EN)",
       "to_master": "移至公帳(EN)"
     },
+    "PMS0610010": {
+      "save_as": "Save As",
+      "sales_assign": "Sales Assign",
+      "visit_plan": "Visit Plan"
+    },
     "PMS0620020": {
       "sales_cod": "Sales Id",
       "sales_nam": "Name",

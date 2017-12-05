@@ -146,27 +146,27 @@
                         <ul>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
-                                        role="button">Add
+                                        role="button"><%= __("SystemCommon")["Add"] %>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales-AccountMain"
-                                        role="button">Edit
+                                        role="button"><%= __("SystemCommon")["Modify"] %>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth saveAsBtn"
-                                        role="button">Save As
+                                        role="button"><%= __("program")["PMS0610010"]["save_as"] %>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales_editClerk"
-                                        role="button">Sales Assign
+                                        role="button"><%= __("program")["PMS0610010"]["sales_assign"] %>
                                 </button>
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales_newVisitRecord"
-                                        role="button">Visit Plan
+                                        role="button"><%= __("program")["PMS0610010"]["visit_plan"] %>
                                 </button>
                             </li>
                         </ul>
@@ -205,3 +205,5 @@
 <!--  訂房卡共用 initial js -->
 <%- include ../reservation/PMS0100000_module/resv_includeJs %>
 <!--  /.End 訂房卡共用 initial js  -->
+
+<script src="/js/sales/PMS0610010.js"></script>
