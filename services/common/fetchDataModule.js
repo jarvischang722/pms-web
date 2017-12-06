@@ -222,6 +222,10 @@ function qryUIDatagridFields(callback) {
     };
     let la_fieldData = [];
     mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
+        if(!dgFieldData){
+            err = "uiDatagridFields is null";
+            return callback(err, dgFieldData);
+        }
         la_fieldData = tools.mongoDocToObject(dgFieldData);
         //過濾使用者欄位
         let la_userFieldData = _.filter(la_fieldData, function (lo_fieldData) {
@@ -243,6 +247,10 @@ function qryUIPageFields(callback) {
         prg_id: gs_prg_id,
         page_id: Number(gn_page_id)
     }, function (err, result) {
+        if(!result){
+            err = "uiPageFields is null";
+            return callback(err, result);
+        }
         let la_gsFieldsData = tools.mongoDocToObject(result);
         callback(err, la_gsFieldsData);
     });
@@ -277,6 +285,10 @@ function qryFormatRule(la_fieldData, callback) {
             qryOracleFormat(ls_formatFuncName);
         }
 
+        /**
+         * 去oracle撈format參數
+         * @param ls_formatName{string} format 的名稱
+         */
         function qryOracleFormat(ls_formatName){
             ln_counter ++;
             queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
