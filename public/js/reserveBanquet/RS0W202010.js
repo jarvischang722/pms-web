@@ -95,7 +95,11 @@ var singlePage = Vue.extend({
         var self = this;
         vmHub.$on("showReserve", function (PostData) {
 
-            //self.doRowLock(PostData.bquet_nos);
+            self.doRowLock(PostData.bquet_nos);
+            self.singleData = {};
+            self.oriSingleData = {};
+            self.dataGridRows = [];
+            self.oriDataGridRows = [];
 
             self.loadSingleGridPageField(function () {
                 if(PostData.bquet_nos != "") {
@@ -115,7 +119,7 @@ var singlePage = Vue.extend({
                 }
 
                 self.showReserve();
-                self.fetchDataGridData();
+                self.fetchDataGridData(PostData.bquet_nos);
             });
         });
 
@@ -174,7 +178,6 @@ var singlePage = Vue.extend({
             }
 
         });
-
     },
     mounted: function () {
         this.getSystemParam();
@@ -543,9 +546,9 @@ var singlePage = Vue.extend({
         /**
          * 取DT欄位及資料
          */
-        fetchDataGridData: function () {
+        fetchDataGridData: function (bquet_nos) {
             var self = this;
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: self.singleData.bquet_nos}}, function (result) {
+            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: bquet_nos}}, function (result) {
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
                 self.oriDataGridRows = _.clone(self.dataGridRows);
@@ -849,10 +852,10 @@ var singlePage = Vue.extend({
                 RS00202010VM.isLoading = false;
                 if (result.success) {
 
-                    alert("檢查完成！");
+                    alert("檢查通過！");
                 }
-                if (result.errorMsg != "") {
-                    alert(result.errorMsg);
+                if (result.msg != "") {
+                    alert(result.msg);
                 }
             });
         },
@@ -871,10 +874,10 @@ var singlePage = Vue.extend({
             $.post("/api/gateway/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
-                    console.log(result);
+                    self.singleData.bquet_nos = result.data.bquet_nos;
                     alert("儲存成功！");
                     self.fetchSingleData(self.singleData.bquet_nos);
-                    self.fetchDataGridData();
+                    self.fetchDataGridData(self.singleData.bquet_nos);
                 }
                 if (result.errorMsg != "") {
                     alert(result.errorMsg);
@@ -1073,6 +1076,11 @@ var RS00202010VM = new Vue({
 
         isLoading: false
 
+    },
+    watch:{
+        searchDate: function () {
+            this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
+        }
     },
     mounted: function () {
         //啟用fixTable
