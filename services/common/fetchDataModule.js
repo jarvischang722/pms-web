@@ -38,6 +38,7 @@ exports.DataGridProc = function (postData, session) {
     this.fetchDgFieldsData = function (callback) {
         async.waterfall([
             qryUIDatagridFields,     //取多筆欄位資料
+            qryFormatRule,            //format_func_name轉換
             qryLangUIFields,         //欄位多語系
             qrySelectOption,         //查詢SelectOption
             qrySearchFields          //取搜尋欄位
@@ -70,7 +71,7 @@ exports.DataGridProc = function (postData, session) {
             fetchFieldsResult: self.fetchDgFieldsData,   //取多筆欄位資料
             fetchRowsResult: self.fetchDgRowData         //取多筆資料
         }, function (err, result) {
-            if(err == "templateRf is null"){
+            if (err == "templateRf is null") {
                 err = null;
                 return callback(err, result);
             }
@@ -102,6 +103,7 @@ exports.GridSingleProc = function (postData, session) {
         async.waterfall([
             qryUIPageFields,     //取單筆欄位資料
             qrySelectOption,     //查詢selectOption
+            qryFormatRule,        //format_func_name轉換
             qryLangUIFields      //處理欄位多語系
         ], function (err, result) {
             callback(err, result);
@@ -167,7 +169,7 @@ function qryDgTemplateRf(callback) {
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-        if(!result){
+        if (!result) {
             err = "templateRf is null";
         }
         callback(err, result);
@@ -186,7 +188,7 @@ function qryGsTemplateRf(callback) {
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
-        if(!result){
+        if (!result) {
             err = "templateRf is null";
         }
         callback(err, result);
@@ -241,8 +243,56 @@ function qryUIPageFields(callback) {
         prg_id: gs_prg_id,
         page_id: Number(gn_page_id)
     }, function (err, result) {
-        let la_gsFieldsData = result;
+        let la_gsFieldsData = tools.mongoDocToObject(result);
         callback(err, la_gsFieldsData);
+    });
+}
+
+/**
+ * format_func_name轉換成 object
+ * @param la_fieldData{array}所有欄位資料
+ * @param callback
+ */
+function qryFormatRule(la_fieldData, callback) {
+    let ln_counter = 0;
+
+    _.each(la_fieldData, function (lo_fieldData) {
+        var lo_format = {
+            rule_name: "",
+            rule_val: "",
+            validate: ""
+        };
+
+        var ls_formatFuncName = _.clone(lo_fieldData["format_func_name"]);
+        lo_fieldData["format_func_name"] = lo_format;
+
+        if (ls_formatFuncName.indexOf(",") > -1) {
+            var la_formatFuncName = ls_formatFuncName.split(",");
+            for (var i = 1; i < la_formatFuncName.length; i++) {
+                lo_fieldData["format_func_name"].validate = lo_format.validate + "," + la_formatFuncName[i];
+            }
+            qryOracleFormat(la_formatFuncName[0]);
+        }
+        else {
+            qryOracleFormat(ls_formatFuncName);
+        }
+
+        function qryOracleFormat(ls_formatName){
+            ln_counter ++;
+            queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
+                if (err) {
+                    lo_fieldData["format_func_name"].validate = ls_formatFuncName;
+                }
+                else {
+                    lo_fieldData["format_func_name"].rule_name = ls_formatFuncName;
+                    lo_fieldData["format_func_name"].rule_val = result.format_val;
+                }
+
+                if( ln_counter == la_fieldData.length){
+                    callback(null, la_fieldData);
+                }
+            });
+        }
     });
 }
 
@@ -461,8 +511,6 @@ function rowDataMultiLang(la_dgRowData, callback) {
  * @param data {object} 單筆 資料
  */
 function dataValueChange(fields, data) {
-    fields = tools.mongoDocToObject(fields);
-
     _.each(Object.keys(data), function (objKey) {
         if (!_.isUndefined(data[objKey])) {
             var value = data[objKey];
