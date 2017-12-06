@@ -61,11 +61,19 @@ exports.DataGridProc = function (postData, session) {
         });
     };
 
+    /**
+     * 取多筆 資料
+     * @param callback
+     */
     this.fetchDgData = function (callback) {
         async.parallel({
             fetchFieldsResult: self.fetchDgFieldsData,   //取多筆欄位資料
             fetchRowsResult: self.fetchDgRowData         //取多筆資料
         }, function (err, result) {
+            if(err == "templateRf is null"){
+                err = null;
+                return callback(err, result);
+            }
             let lo_rtnData = {
                 searchFields: result.fetchFieldsResult.searchFields,
                 dgFieldsData: result.fetchFieldsResult.dgFieldsData,
@@ -101,7 +109,7 @@ exports.GridSingleProc = function (postData, session) {
     };
 
     /**
-     * 查詢單筆mn欄位資料
+     * 查詢單筆mn oracle資料
      * @param callback
      */
     this.fetchGsMnRowData = function (callback) {
@@ -116,7 +124,7 @@ exports.GridSingleProc = function (postData, session) {
     };
 
     /**
-     * 查詢單筆 資料
+     * 取單筆mn 資料
      * @param callback
      */
     this.fetchGsMnData = function (callback) {
@@ -159,6 +167,9 @@ function qryDgTemplateRf(callback) {
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+        if(!result){
+            err = "templateRf is null";
+        }
         callback(err, result);
     });
 }
@@ -175,6 +186,9 @@ function qryGsTemplateRf(callback) {
     };
 
     mongoAgent.TemplateRf.findOne(lo_params, function (err, result) {
+        if(!result){
+            err = "templateRf is null";
+        }
         callback(err, result);
     });
 }
@@ -225,7 +239,7 @@ function qryUIDatagridFields(callback) {
 function qryUIPageFields(callback) {
     mongoAgent.UIPageField.find({
         prg_id: gs_prg_id,
-        page_id: gn_page_id
+        page_id: Number(gn_page_id)
     }, function (err, result) {
         let la_gsFieldsData = result;
         callback(err, la_gsFieldsData);
