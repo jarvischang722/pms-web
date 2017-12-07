@@ -84,8 +84,8 @@ app.use(i18n.init);
 app.use(flash());
 
 //session setting
-var maxAgeSec = 20 * 60;                //session 設定過期時間（秒）
-var sessionMiddleware = session({
+const maxAgeSec = 180 * 60;                //session 設定過期時間（秒）
+let sessionMiddleware = session({
     secret: sysConfig.secret,             // 防止cookie竊取
     proxy: true,                          //安全cookie的反向代理，通过x-forwarded-proto實現
     resave: false,                       //即使 session 没有被修改，也保存 session 值，預設為 true。

@@ -15,7 +15,8 @@ var BacchusMainVM = new Vue({
         displayLogoutDialog: false, //決定閒置登出的視窗是否要跳出
         gs_cookieExpires: '', //cookie 剩餘時間
         prgVueIns: {}, //目前作業的 vue 實例
-        leaveAfterExecFuncsNam: [] //頁面前離開後要幫作業觸發的功能
+        leaveAfterExecFuncsNam: [], //頁面前離開後要幫作業觸發的功能
+        timeLeft: ''  //剩餘時間
     },
     mounted: function () {
         //離開時
@@ -140,7 +141,7 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-            // ls_pro_url = "/prgPropsSetup"
+           // ls_pro_url = "/prgPropsSetup"
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
@@ -180,14 +181,25 @@ var BacchusMainVM = new Vue({
          * 倒數登出時間
          */
         doDownCount: function () {
-            let lastTimes = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
+            let secs = moment(BacchusMainVM.gs_cookieExpires).diff(moment(), "seconds");
             gf_chkSessionInterval = setInterval(function () {
 
-                var mm = String(Math.floor(lastTimes / 60));
-                var ss = lastTimes % 60 >= 10 ? String(lastTimes % 60) : "0" + String(lastTimes % 60);
-                $("#timeLeft").text(mm + ":" + ss);
-                if (lastTimes > 0) {
-                    lastTimes--;
+                let hr = Math.floor(secs / 3600);
+                let min = Math.floor((secs - (hr * 3600)) / 60);
+                let sec = parseInt(secs - (hr * 3600) - (min * 60));
+
+                if (min.length < 2) {
+                    min = '0' + min;
+                }
+                if (sec.length < 2) {
+                    sec = '0' + min;
+                }
+                if (hr) {
+                    hr += ':'
+                }
+                BacchusMainVM.timeLeft = `${hr}  ${min} : ${sec}`;
+                if (secs > 0) {
+                    secs--;
                 } else {
                     BacchusMainVM.displayLogoutDialog = true;
                     clearInterval(gf_chkSessionInterval);
