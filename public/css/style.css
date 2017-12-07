@@ -5199,6 +5199,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.resvCardHalf {
+  width: 53px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.resvCardSpec1 {
   width: 203px;
   max-width: 100%;
@@ -5360,7 +5365,7 @@ a {
   height: 25px;
 }
 .input-medium.postaladdress2 {
-  width: 431px;
+  width: 464px;
   max-width: 100%;
   height: 25px;
 }

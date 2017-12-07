@@ -277,7 +277,6 @@ $rmW: 23px
 $medium-c1: 165px
 $medium-c3-col2: 255px
 $medium-c3-card: 212px
-$resvCard-col2: 316px
 $medium-c1-col2v2: 434px
 $medium-c1-sc2: 299.5px
 $medium-c1-sc2-col2: (($medium-c1-sc2) *2)+$labelw
@@ -286,6 +285,9 @@ $popWindow-s1-col2: 414px
 $rateCode-s1: 180px
 $rateCode-s1-col2: (($rateCode-s1) *2)+$labelw
 $rateCode-s1-col3: (($rateCode-s1) *3)+(($labelw) *2)
+
+$resvCard: 106px
+$resvCard-col2: 316px
 $resvCard-date: 135px
 $resvCard-dateCol2: (($resvCard-date) *2)+$labelw
 $resvCard-dateSpec1: (($resvCard-date) *2)-60
@@ -425,7 +427,9 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(535px)
 
   &.resvCard
-    +input-s1(106px)
+    +input-s1($resvCard) //106px
+  &.resvCardHalf
+    +input-s1($resvCard /2) //53px
     //住客帳維護 單筆
   &.resvCardSpec1
     +input-s1(203px)
@@ -492,7 +496,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
   &.postaladdress
     +input-s1(349px)
   &.postaladdress2
-    +input-s1(431px)
+    +input-s1(464px)
 
 .input-hMedium
   height: $defHt !important
