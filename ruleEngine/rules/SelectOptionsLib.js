@@ -706,6 +706,24 @@ exports.order_sta = function () {
 };
 
 /**
+ * RS0W202010 定席作業
+ * is_allplace checkbox
+ * @returns {[*,*]}
+ */
+exports.is_allplace = function(){
+    var lo_optionList = [
+        {
+            on: 'Y',
+            off: 'N'
+        }, {
+            Y: '是',
+            N: '否'
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
  * PMS0620010 業務員作業
  * 欄位 status下拉資料
  * @returns {[*,*]}
@@ -1217,5 +1235,16 @@ exports.qrySearchAreapntSta = function(params, callback){
 exports.lang_bquet_mn_order_sta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.order_sta();
+    callback(null,lo_result);
+};
+
+/**
+ * RS0W202010 定席作業
+ * is_allplace checkbox資料
+ * @returns {[*,*]}
+ */
+exports.lang_bqplace_dt_isallplace = function(params, callback){
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.is_allplace();
     callback(null,lo_result);
 };

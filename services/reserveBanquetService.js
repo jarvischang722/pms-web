@@ -41,7 +41,7 @@ exports.qryPageOneData = function (postData, session, callback) {
             "user": "cio"
         };
 
-        tools.requestApi("http://192.168.168.223/bacchus_test/Api/GatewaySvc", params, function (err, res, result) {
+        tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
             var errorMsg = null;
             if (err || !result) {
                 errorMsg = err;

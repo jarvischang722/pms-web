@@ -311,6 +311,10 @@ var DatagridFieldAdapter= {
                     return fieldName;
                 };
             }
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {

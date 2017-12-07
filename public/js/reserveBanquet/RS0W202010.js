@@ -152,7 +152,7 @@ var singlePage = Vue.extend({
                 chooseData["end_tim"] = "";
                 chooseData["desk_qnt"] = "0";
                 chooseData["order_qnt"] = "0";
-                chooseData["is_allplace"] = "N";
+                chooseData["is_allplace"] = 'N';
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
                 chooseData["use_dat"] = self.singleData.begin_dat;
@@ -184,7 +184,21 @@ var singlePage = Vue.extend({
         this.fetchUserInfo();
         this.initTmpCUD();
     },
-    // watch: {
+     watch: {
+         dataGridRows: {
+             handler: function(after, before) {
+
+                 var tot_amt = 0;
+
+                 _.each(this.dataGridRows, function (value) {
+                     tot_amt += Number(value.special_amt);
+                 });
+
+                 console.log(this.dataGridRows);
+                 this.singleData.place_amt = tot_amt;
+             },
+             deep: true
+         }
     //     //region//按鈕如沒權限, 則不能Enable
     //     cancelEnable: function () {
     //         var purview = _.findIndex(go_funcPurview, function (value) {
@@ -228,7 +242,7 @@ var singlePage = Vue.extend({
     //     }
     //
     //     //endregion
-    // },
+     },
     methods: {
 
         /**
@@ -828,6 +842,7 @@ var singlePage = Vue.extend({
             if(this.dgIns.endEditing()) {
                 this.saveToTmpCud();
                 this.callAPI('2030');
+                console.log(this.dataGridRows);
             }
             else {
                 alert('場地明細尚未編輯完成！');
@@ -851,7 +866,6 @@ var singlePage = Vue.extend({
                 console.log(result);
                 RS00202010VM.isLoading = false;
                 if (result.success) {
-
                     alert("檢查通過！");
                 }
                 if (result.msg != "") {

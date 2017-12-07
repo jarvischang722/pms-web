@@ -25,6 +25,13 @@ module.exports = {
         });
     },
 
+    //取是否全場(選項)
+    lang_bqplace_dt_isallplace: function (postData, callback) {
+        selOptLib.lang_bqplace_dt_isallplace(postData, function (err, result) {
+            callback(null, result);
+        });
+    },
+
     //聯絡人 popupgrid
     sel_atten_nam: function (postData, session, callback) {
         var userInfo = session.user;
@@ -192,12 +199,38 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
+        if(postData.editRowData.begin_tim == null || postData.editRowData.begin_tim == "" || postData.editRowData.end_tim == null || postData.editRowData.end_tim == ""){
+            callback(lo_error, lo_result);
+            return;
+        }
 
-        lo_result.effectValues.order_qnt = "12";
+        if(Number(postData.editRowData.begin_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.begin_tim.toString().substr(2,2) > 60) || Number(postData.editRowData.end_tim.toString().substr(0,2)) > 23 || Number(postData.editRowData.end_tim.toString().substr(2,2) > 60)){
+            callback(lo_error, lo_result);
+            return;
+        }
 
+        var begin_hour = Number(postData.editRowData.begin_tim.toString().substr(0,2));
+        var begin_min = Number(postData.editRowData.begin_tim.toString().substr(2,2));
+        var end_hour = Number(postData.editRowData.end_tim.toString().substr(0,2));
+        var end_min = Number(postData.editRowData.end_tim.toString().substr(2,2));
+
+        var div_hour = end_hour - begin_hour;
+        var div_min = end_min - begin_min;
+
+        var total_min = (div_hour * 60) + div_min;
+
+        lo_result.effectValues.order_qnt = formatFloat(total_min / 60, 1);
+
+        // TODO:依前檯進位小數位數做進位
         lo_result.effectValues.place_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
         lo_result.effectValues.special_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
-        lo_result.effectValues.disc_amt = lo_result.effectValues.place_amt - lo_result.effectValues.special_amt; //TODO:依前檯進位小數位數做進位
+
+        var disc_amt = lo_result.effectValues.place_amt - lo_result.effectValues.special_amt;
+
+        if(disc_amt < 0) disc_amt = 0;
+
+        lo_result.effectValues.disc_amt = disc_amt;
+
         callback(lo_error, lo_result);
     },
 
@@ -205,9 +238,26 @@ module.exports = {
         var lo_result = new ReturnClass();
         var lo_error = null;
 
+        if (postData.validateField == "desk_qnt") {
+            //a.	需經過場地庫存判斷
+            if (postData.editRowData.is_allplace == "N") {
+                lo_result.effectValues.inv_qnt = postData.editRowData.dest_qnt;
+            }
+        }
+        else {
+
+        }
+
         //打API取得庫存數
 
         callback(lo_error, lo_result);
     }
 
 };
+
+//四捨五入
+function formatFloat(num, pos)
+{
+    var size = Math.pow(10, pos);
+    return Math.round(num * size) / size;
+}
