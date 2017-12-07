@@ -15,15 +15,40 @@ DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
 /**
  * 商務公司維護
  */
-Vue.component('single-grid-pms0610010-tmp',{
+Vue.component('single-grid-pms0610010-tmp', {
     template: "#singleGridPMS0610010Tmp",
     props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
-    data:function(){
-        return{};
+    data: function () {
+        return {
+            gs_active: "",
+            tabName: "",
+            panelName: []
+        };
     },
-    watch:{
+    mounted: function () {
+        this.tabName = "set";
+        this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
+            "visitPanel", "businessPanel", "historicalPanel", "contributionPanel"];
     },
-    methods:{}
+    watch: {
+        tabName: function(val){
+            this.setTabShow(val);
+        }
+    },
+    methods: {
+        doChangeTab: function (tab, event) {
+            this.tabName = tab.name;
+        },
+        setTabShow: function(tabName){
+            var la_panelName = this.panelName;
+            var ls_showPanelName = tabName + "Panel";
+            _.each(la_panelName, function(ls_panelName){
+                $("#" + ls_panelName).hide();
+            });
+
+            $("#" + ls_showPanelName).show();
+        }
+    }
 });
 
 
@@ -127,7 +152,7 @@ var vm = new Vue({
             this.editingRow = {};
             this.initTmpCUD();
 
-            var lo_editRow = $('#PMS0620010_dg').datagrid('getSelected');
+            var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
 
             if (!lo_editRow) {
                 alert(go_i18nLang["SystemCommon"].selectData);
@@ -148,28 +173,49 @@ var vm = new Vue({
             }).dialog('open');
         },
         editSalesClerk: function () {
-            var dialog = $("#salesEditClerk").removeClass('hide').dialog({
-                modal: true,
-                title: "修改業務員",
-                title_html: true,
-                width: 500,
-                maxwidth: 1920,
-                // autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
+            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+
+            var la_editRow = [1];//測試用
+
+            if(la_editRow.length == 0){
+                alert(go_i18nLang["SystemCommon"].SelectData);
+            }
+            else{
+                this.editRows = la_editRow;
+                var dialog = $("#salesEditClerk").removeClass('hide').dialog({
+                    modal: true,
+                    title: "修改業務員",
+                    title_html: true,
+                    width: 500,
+                    maxwidth: 1920,
+                    // autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            }
+
         },
         editVistPlan: function () {
-            var dialog = $("#salesVisitRecord").removeClass('hide').dialog({
-                modal: true,
-                title: "新增拜訪記錄",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-                // autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
+            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+
+            var la_editRow = [1];//測試用
+
+            if(la_editRow.length == 0){
+                alert(go_i18nLang["SystemCommon"].SelectData);
+            }
+            else{
+                this.editRows = la_editRow;
+                var dialog = $("#salesVisitRecord").removeClass('hide').dialog({
+                    modal: true,
+                    title: "新增拜訪記錄",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    // autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            }
         }
     }
 });

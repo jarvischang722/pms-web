@@ -167,7 +167,15 @@
       "compamy_maintain" : "商務公司維護(英)",
       "company_related_diagram": "公司關聯圖(英)",
       "company_status": "Status chg.",
-      "contract_status": "合約狀態變更(英)"
+      "contract_status": "合約狀態變更(英)",
+      "related_set": "相關設定(英)",
+      "related_personnel": "相關人員(英)",
+      "sales": "業務員(英)",
+      "contract_content": "合約內容(英)",
+      "visit_record": "拜訪紀錄(英)",
+      "business_notes": "業務備註(英)",
+      "historical_consumption": "歷史消費(英)",
+      "contribution": "貢獻度(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",

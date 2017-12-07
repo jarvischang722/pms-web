@@ -167,7 +167,16 @@
       "compamy_maintain" : "商務公司維護(日)",
       "company_related_diagram": "公司關聯圖(日)",
       "company_status": "Status chg.(日)",
-      "contract_status": "合約狀態變更(日)"
+      "contract_status": "合約狀態變更(日)",
+      "contract_status": "合約狀態變更(日)",
+      "related_set": "相關設定(日)",
+      "related_personnel": "相關人員(日)",
+      "sales": "業務員(日)",
+      "contract_content": "合約內容(日)",
+      "visit_record": "拜訪紀錄(日)",
+      "business_notes": "業務備註(日)",
+      "historical_consumption": "歷史消費(日)",
+      "contribution": "貢獻度(日)"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號(日)",
