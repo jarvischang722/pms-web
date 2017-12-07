@@ -1,47 +1,4 @@
 <div id="permission-app">
-    <div class="col-xs-12 col-sm-12" v-loading="isLoading" element-loading-text="Saving">
-        <!--<div class="authorityTree">-->
-        <!--<div class="col-xs-12">-->
-        <!--<div class="row">-->
-        <!--<div class="col-xs-5">-->
-        <!--<div class="row no-margin-right">-->
-        <!--<div class="author-navbar">-->
-        <!--<p class="topTitle">角色</p>-->
-        <!--<select v-model="role_id" class="form-control authorSelect">-->
-        <!--<option  v-for="(role,idx) in ga_roles" :value="role.role_id" :selected="true">{{idx}}:{{role.role_nam}}</option>-->
-        <!--</select>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-xs-7">-->
-        <!--<div class="row">-->
-        <!--&lt;!&ndash;跳頁&ndash;&gt;-->
-        <!--&lt;!&ndash;<a href="/manageSetting">&ndash;&gt;-->
-        <!--<p class="topTitle">人員</p>-->
-        <!--&lt;!&ndash;</a>&ndash;&gt;-->
-        <!--<div class="borderFrame gridTableHt">-->
-        <!--<div id="permissionAccountTree"></div>-->
-        <!--</div>-->
-        <!--<div class="clearfix"></div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix"></div>-->
-        <!--<div class="space-12"></div>-->
-        <!--<div class="col-xs-12 footerCon">-->
-        <!--<div class="row center">-->
-        <!--<button class="btn btn-primary btn-xm" @click="doSave">-->
-        <!--儲存-->
-        <!--</button>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; button &ndash;&gt;-->
-        <!--</div> &lt;!&ndash; authorityTree &ndash;&gt;-->
-        <auth-role v-show="authRoleShow"></auth-role>
-        <auth-staff v-show="authStaffShow"></auth-staff>
-        <auth-func v-show="authFuncShow"></auth-func>
-    </div>
 </div>
 
 <%- include vueTemplate/permission/auth-navbar.ejs %>

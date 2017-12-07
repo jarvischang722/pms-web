@@ -1,0 +1,50 @@
+<template>
+    <div class="author-navbar">
+        <p class="topTitle float-left">新增角色權限</p>
+        <div class="float-right author-nav-btn">
+
+            <div class="btn-group">
+                <button class="btn btn-primary btn-white btn-sm">
+                    <i class="fa fa-pencil"></i> 修改
+                </button>
+                <button class="btn btn-danger btn-sm delete">
+                    <i class="fa fa-minus"></i> 刪除
+                </button>
+                <button class="btn btn-success btn-white btn-sm">
+                    <i class="fa fa-plus"></i> 新增
+                </button>
+            </div>
+            <div class="btn-group">
+                <button data-toggle="dropdown"
+                        class="btn btn-primary btn-white dropdown-toggle btn-sm">
+                    選擇權限
+                    <i class="ace-icon fa fa-angle-down icon-on-right"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="authorityRole">角色權限</a>
+                    </li>
+
+                    <li>
+                        <a href="authorityFeature">功能權限</a>
+                    </li>
+
+                    <li>
+                        <a href="authorityStaff">人員權限</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "auth-navbar"
+    }
+</script>
+
+<!--<style scoped>-->
+
+<!--</style>-->
