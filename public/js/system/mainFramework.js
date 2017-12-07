@@ -197,7 +197,7 @@ var BacchusMainVM = new Vue({
                 if (hr) {
                     hr += ':'
                 }
-                BacchusMainVM.timeLeft = `${hr}  ${min} : ${sec}`;
+                $('#timeLeft').text(`${hr}  ${min} : ${sec}`);
                 if (secs > 0) {
                     secs--;
                 } else {
