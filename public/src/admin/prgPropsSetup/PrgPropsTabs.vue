@@ -4,6 +4,7 @@
             <el-tabs v-model="activeCollName" type="card" @tab-click="handleClick">
                 <el-tab-pane label="單筆" name="UIDatagridField"></el-tab-pane>
                 <el-tab-pane label="多筆" name="UIPageField"></el-tab-pane>
+                <el-tab-pane label="欄位語系" name="LangUIField"></el-tab-pane>
             </el-tabs>
             <div class="col-xs-12 col-sm-12">
                 <div class="row">
@@ -121,17 +122,17 @@
 
                 });
                 if (this.activeCollName == 'UIDatagridField' || this.activeCollName == 'UIPageField') {
-                    _columns = this.handleCollFieldColumns(_columns);
-                } else {
-
+                    _columns = this.handleFrozenFieldColumns(_columns,'ui_field_name');
+                } else if(this.activeCollName == 'LangUIField') {
+                    _columns = this.handleFrozenFieldColumns(_columns,'ui_field_name');
                 }
                 return _columns;
             },
             /**
-             * 對於Ui field collection 欄位做處理
+             * 要凍結的欄位
              */
-            handleCollFieldColumns(_columns) {
-                let idx = _.findIndex(_columns, {field: 'ui_field_name'});
+            handleFrozenFieldColumns(_columns , frozenField) {
+                let idx = _.findIndex(_columns, {field: frozenField});
                 _columns[idx].isFrozen = true;
                 _columns[idx].formatter = function formatter(rowData, rowIndex, pagingIndex, field) {
                     return `<span class='cell-edit-color'> ${ rowData[field] }</span>`;
