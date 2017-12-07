@@ -1,21 +1,22 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = {
-     entry: "./public/src/admin/prgPropsSetup/main",
+     // entry: "./public/src/admin/permission/permissionSetup",
     // entry: [
-    //     'webpack/hot/dev-server',
+    //     './public/src/admin/permission/permissionSetup',
     //     path.join(__dirname, 'public', 'src')
     // ],
-    // entry: {
-    //     main: "./public/src/main"
-    //     // a: "./a",
-    //     // b: "./b",
-    //     // c: ["./c", "./d"]
-    // },
+    entry: {
+        permissionSetup: ["./public/src/admin/permission/permissionSetup", "./public/src/admin/permission/store"],
+        // store: "./public/src/admin/permission/store"
+        // a: "./a",
+        // b: "./b",
+        // c: ["./c", "./d"]
+    },
     output: {
         publicPath: '/dist',
         path: path.join(__dirname, 'public', 'js/system/'),
-        filename: 'PrgPropsSetup.js'
+        filename: '[name].js'
 
     },
     module: {

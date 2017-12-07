@@ -84,12 +84,14 @@
 </template>
 
 <script>
-    import authNavbar from 'authNavbar';
+    import authNavbar from './authNavbar';
+    import authRoleComp from './authRoleComp';
 
     export default {
         name: "auth-by-role",
         components: {
-            authNavbar
+            authNavbar,
+            authRoleComp
         }
     }
 </script>

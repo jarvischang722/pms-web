@@ -2,9 +2,8 @@
  *  程式編號: SYS0110010
  *  程式名稱: 權限設定
  */
-import Vue from 'vue';
-import App from './permission/components/permissionMain.vue';
-import store from './permission/store';
+import App from './components/permissionMain.vue';
+import store from './store';
 
 // var vmHub = new Vue();
 //
