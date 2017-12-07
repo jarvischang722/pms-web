@@ -31,7 +31,7 @@ Vue.component('single-grid-pms0610010-tmp', {
             "visitPanel", "businessPanel", "historicalPanel", "contributionPanel"];
     },
     watch: {
-        tabName: function(val){
+        tabName: function (val) {
             this.setTabShow(val);
         }
     },
@@ -39,10 +39,10 @@ Vue.component('single-grid-pms0610010-tmp', {
         doChangeTab: function (tab, event) {
             this.tabName = tab.name;
         },
-        setTabShow: function(tabName){
+        setTabShow: function (tabName) {
             var la_panelName = this.panelName;
             var ls_showPanelName = tabName + "Panel";
-            _.each(la_panelName, function(ls_panelName){
+            _.each(la_panelName, function (ls_panelName) {
                 $("#" + ls_panelName).hide();
             });
 
@@ -177,10 +177,10 @@ var vm = new Vue({
 
             var la_editRow = [1];//測試用
 
-            if(la_editRow.length == 0){
+            if (la_editRow.length == 0) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
-            else{
+            else {
                 this.editRows = la_editRow;
                 var dialog = $("#salesEditClerk").removeClass('hide').dialog({
                     modal: true,
@@ -200,10 +200,10 @@ var vm = new Vue({
 
             var la_editRow = [1];//測試用
 
-            if(la_editRow.length == 0){
+            if (la_editRow.length == 0) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
-            else{
+            else {
                 this.editRows = la_editRow;
                 var dialog = $("#salesVisitRecord").removeClass('hide').dialog({
                     modal: true,
