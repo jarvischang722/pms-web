@@ -46,8 +46,8 @@
   .moreClick
     font-size: $font-default
     width: 23px
-    height: $inputHeight-medium
-    //line-height: $inputHeight-medium
+    height: $defHt
+    //line-height: $defHt
     border: 1px solid $border-color
     background: $border-color
     border-radius: 5px
@@ -161,6 +161,20 @@
       bottom: 0
       height: 25px
       box-sizing: border-box
+
+    .moreClick
+      position: absolute
+      right: 0
+      bottom: 0
+      //width: 25px
+      height: 20px
+      //line-height: $defHt
+      border: 1px solid #888
+      background: $border-color
+      border-radius: 5px
+      padding: 4px 5px 0 5px
+      box-sizing: border-box
+      cursor: pointer
   .icon-addDel
     i
       margin-top: 5px
@@ -193,8 +207,8 @@ $horizTable-outerHt: 25px
 .grid-textArea
   .moreClick
     //width: 25px
-    height: $inputHeight-medium
-    //line-height: $inputHeight-medium
+    height: $defHt
+    //line-height: $defHt
     border: 1px solid $border-color
     background: $border-color
     border-radius: 5px

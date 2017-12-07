@@ -13,7 +13,7 @@ function DatagridBaseClass() {
         createData: [],
         updateData: [],
         deleteData: [],
-        oriUpdateData: []
+        oriData: []
     };
     this.dgName = "";
     this.prg_id = "";
@@ -65,9 +65,20 @@ function DatagridBaseClass() {
         self.tmpCUD = {
             createData: [],
             updateData: [],
-            deleteData: []
+            deleteData: [],
+            oriData: []
         };
     };
+
+    /**
+     * 讀取資料到datagrid 顯示
+     * @param dataGridRows{Array} : 資料集
+     */
+    this.loadDgData = function (dataGridRows) {
+        var dgData = {total: dataGridRows.length, rows: dataGridRows};
+        $('#' + this.dgName).datagrid("loadData", dgData);
+    };
+
     /**
      * 按下一個Row
      * @param index
@@ -91,22 +102,30 @@ function DatagridBaseClass() {
             }
         }
 
-
-    };
-    /**
-     * 讀取資料到datagrid 顯示
-     * @param dataGridRows{Array} : 資料集
-     */
-    this.loadDgData = function (dataGridRows) {
-        var dgData = {total: dataGridRows.length, rows: dataGridRows};
-        $('#' + this.dgName).datagrid("loadData", dgData);
     };
 
     //結束編輯
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
+        self.editIndex = index;
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
+    };
+
+    /**
+     * 確認是否可以結束編輯
+     * @return {boolean}
+     */
+    this.endEditing = function () {
+        if (this.editIndex == undefined) {
+            return true;
+        }
+        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
+            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
+            this.editIndex = undefined;
+            return true;
+        }
+        return false;
 
     };
 
@@ -124,22 +143,6 @@ function DatagridBaseClass() {
             }
         });
         return rowData;
-    };
-    /**
-     * 確認是否可以結束編輯
-     * @return {boolean}
-     */
-    this.endEditing = function () {
-        if (this.editIndex == undefined) {
-            return true;
-        }
-        if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
-            $('#' + this.dgName).datagrid('endEdit', this.editIndex);
-            this.editIndex = undefined;
-            return true;
-        }
-        return false;
-
     };
 
     /**
@@ -205,9 +208,7 @@ function DatagridBaseClass() {
         }
 
         delRow = _.extend(delRow, self.mnRowData);
-        delRow["tab_page_id"] = 1;
-        delRow["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");
-        delRow["mnRowData"] = self.mnRowData;
+        delRow = this.insertKeyRowData(delRow);
 
         if (delRow.createRow != 'Y') {
             self.tmpCUD.deleteData.push(delRow);
@@ -279,7 +280,7 @@ function DatagridBaseClass() {
      */
     this.doTmpExecData = function (rowData, index) {
 
-        var lo_chkKeyRowData = _.clone(rowData);
+        var lo_chkKeyRowData = JSON.parse(JSON.stringify(rowData));
 
         lo_chkKeyRowData = _.extend(lo_chkKeyRowData, this.mnRowData);
         // rowData = _.extend(rowData, this.mnRowData);
@@ -297,7 +298,7 @@ function DatagridBaseClass() {
         var existIdx = _.findIndex(self.tmpCUD[dataType], condKey);
         if (existIdx > -1) {
             if (this.dtOriRowData.length != 0) {
-                self.tmpCUD.oriUpdateData.splice(existIdx, 1);
+                self.tmpCUD.oriData.splice(existIdx, 1);
             }
             this.tmpCUD[dataType].splice(existIdx, 1);
         }
@@ -308,19 +309,19 @@ function DatagridBaseClass() {
             var existOriIdx = _.findIndex(self.dtOriRowData, condKey);
             if (dataType == "updateData") {
                 if (existOriIdx > -1 && existIdx == -1) {
-                    self.tmpCUD.oriUpdateData.splice(existOriIdx, 1);
+                    self.tmpCUD.oriData.splice(existOriIdx, 1);
                     this.tmpCUD[dataType].splice(existOriIdx, 1);
                 }
                 lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                 self.tmpCUD[dataType].splice(existOriIdx, 0, lo_chkKeyRowData);
-                self.tmpCUD.oriUpdateData.splice(existOriIdx, 0, self.dtOriRowData[index]);
+                self.tmpCUD.oriData.splice(existOriIdx, 0, self.dtOriRowData[index]);
                 $("#gridEdit").val(self.tmpCUD);
             }
             else if (dataType == "createData") {
                 if (existOriIdx == -1) {
                     lo_chkKeyRowData = this.insertKeyRowData(lo_chkKeyRowData);
                     self.tmpCUD[dataType].push(lo_chkKeyRowData);
-                    self.tmpCUD.oriUpdateData.push(self.dtOriRowData[index]);
+                    self.tmpCUD.oriData.push(self.dtOriRowData[index]);
                     $("#gridEdit").val(self.tmpCUD);
                 }
             }

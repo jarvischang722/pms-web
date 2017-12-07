@@ -1192,3 +1192,11 @@
     "rule_func_name" : "r_SalesmnDelSave", 
     "link_prg_id" : ""
 }
+{ 
+    "_id" : ObjectId("5a1e50bd970a8605a84d1b14"), 
+    "prg_id" : "PMS0820050", 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0200", 
+    "rule_func_name" : "r_pms0820050_dt_add", 
+    "page_id" : NumberInt(2)
+}

@@ -187,6 +187,9 @@ exports.fetchPageFieldAttr = function (session, page_id, prg_id, singleRowData, 
                         la_fields[fIdx]["ui_display_name"] = tmpLang["ui_display_name_" + session.locale] != ''
                             ? tmpLang["ui_display_name_" + session.locale]
                             : tmpLang["ui_display_name_zh_TW"] + '(' + session.locale + ')';
+
+                        la_fields[fIdx]["ui_hint"] = tmpLang["hint_" + session.locale] || '';
+
                     }
 
                     if (field.ui_type == 'grid') {

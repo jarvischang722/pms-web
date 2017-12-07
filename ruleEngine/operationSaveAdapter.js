@@ -44,7 +44,7 @@ function operationSaveAdapterClass(postData, session) {
     ga_dtCreateData = postData.tmpCUD.dt_createData || [];
     ga_dtUpdateData = postData.tmpCUD.dt_updateData || [];
     ga_dtDeleteData = postData.tmpCUD.dt_deleteData || [];
-    ga_dtOriUpdateData = postData.tmpCUD.dt_oriUpdateData || [];
+    ga_dtOriData = postData.tmpCUD.dt_oriData || [];
 
     initData();
 
@@ -355,35 +355,21 @@ function combineMainData(rfData, callback) {
 
                 data = _.extend(data, commonRule.getEditDefaultDataRule(go_session));
                 tmpEdit = _.extend(tmpEdit, commonRule.getEditDefaultDataRule(go_session));
+                ga_oriData[index] = _.extend(ga_oriData[index], commonRule.getEditDefaultDataRule(go_session));
 
                 tmpEdit.condition = [];
                 //組合where 條件,判斷是否有舊資料
-                if(ga_oriData.length != 0){
-                    _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                        if (!_.isUndefined(ga_oriData[index][keyField.ui_field_name]) ) {
-                            tmpEdit.condition.push({
-                                key: keyField.ui_field_name,
-                                operation: "=",
-                                value: ga_oriData[index][keyField.ui_field_name]
-                            });
-                            lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
-                        }
+                _.each(lo_fieldsData.mainKeyFields, function (keyField) {
+                    if (!_.isUndefined(ga_oriData[index][keyField.ui_field_name]) ) {
+                        tmpEdit.condition.push({
+                            key: keyField.ui_field_name,
+                            operation: "=",
+                            value: ga_oriData[index][keyField.ui_field_name]
+                        });
+                        lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
+                    }
 
-                    });
-                }
-                else{
-                    _.each(lo_fieldsData.mainKeyFields, function (keyField) {
-                        if (!_.isUndefined(data[keyField.ui_field_name]) ) {
-                            tmpEdit.condition.push({
-                                key: keyField.ui_field_name,
-                                operation: "=",
-                                value: data[keyField.ui_field_name]
-                            });
-                            lo_keysData[keyField.ui_field_name] = data[keyField.ui_field_name];
-                        }
-
-                    });
-                }
+                });
 
                 /** 處理每一筆多語系 handleSaveMultiLang **/
                 if (!_.isUndefined(data.multiLang) && data.multiLang.length > 0) {
@@ -598,15 +584,16 @@ function combineDtCreateEditExecData(rfData, callback) {
             }
             data = _.extend(data, lo_default);
             tmpEdit = _.extend(tmpEdit, lo_default);
+            ga_dtOriData[index] = _.extend(ga_dtOriData[index], lo_default);
 
             tmpEdit.condition = [];
             //組合where 條件
             _.each(lo_fieldsData.dgKeyFields, function (keyField) {
-                if (!_.isUndefined(ga_dtOriUpdateData[index][keyField.ui_field_name])) {
+                if (!_.isUndefined(ga_dtOriData[index][keyField.ui_field_name])) {
                     tmpEdit.condition.push({
                         key: keyField.ui_field_name,
                         operation: "=",
-                        value: ga_dtOriUpdateData[index][keyField.ui_field_name]
+                        value: ga_dtOriData[index][keyField.ui_field_name]
                     });
                 }
             });

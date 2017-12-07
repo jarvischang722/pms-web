@@ -35,7 +35,7 @@ module.exports = {
         let la_dtData = _.clone(postData.allRowData);
         let lo_result = new ReturnClass();
         let lo_error = null;
-        let lo_oldValue = (postData.oldValue == "") ? postData.rowData[postData.validateField] : postData.oldValue;
+        let lo_oldValue = postData.oldValue == "" ? postData.rowData[postData.validateField] : postData.oldValue;
         let lb_begin_dat_enable = false;
         let lb_end_dat_enable = false;
         let params = {
@@ -156,14 +156,16 @@ module.exports = {
                 }
                 else {
                     let lo_editRowData = _.clone(postData.editRowData);
-                    _.each(la_dtData, function(lo_dtData, index){
-                        if(_.isEqual(lo_dtData, lo_editRowData)){
-                            li_curIdx = index;
+                    for (var i = 0; i < la_dtData.length; i++) {
+                        var lo_dtData = la_dtData[i];
+                        if (_.isEqual(lo_dtData, lo_editRowData)) {
+                            li_curIdx = i;
+                            break;
                         }
-                        else{
+                        else {
                             li_curIdx = -1;
                         }
-                    });
+                    }
                 }
                 if (!_.isUndefined(postData.allRowData)) {
                     postData.allRowData = _.difference(postData.allRowData, [postData.allRowData[li_curIdx]]);
@@ -174,7 +176,7 @@ module.exports = {
                         if (lb_chkOverLap) {
                             let li_allRowDataIdx = _.findIndex(la_dtData, comparDT);
                             ls_errMsg = commandRules.getMsgByCod("pms82msg19", session.locale);
-                            ls_errMsg = _s.sprintf(ls_errMsg, (li_curIdx + 1), lo_beginDat.format("YYYY/MM/DD"), lo_endDat.format("YYYY/MM/DD"), (li_allRowDataIdx + 1), moment(ls_begin_dat).format("YYYY/MM/DD"), moment(ls_end_dat).format("YYYY/MM/DD"));
+                            ls_errMsg = _s.sprintf(ls_errMsg, li_curIdx + 1, lo_beginDat.format("YYYY/MM/DD"), lo_endDat.format("YYYY/MM/DD"), li_allRowDataIdx + 1, moment(ls_begin_dat).format("YYYY/MM/DD"), moment(ls_end_dat).format("YYYY/MM/DD"));
                             return cb(true, ls_errMsg);
                         }
                     });
@@ -245,5 +247,21 @@ module.exports = {
             callback(lo_error, lo_result);
         });
 
+    },
+
+    r_pms0820050_dt_add: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var la_allRows = postData.allRows;
+        var ln_maxSeqNos = 0;
+        _.each(la_allRows, function (lo_rowData) {
+            var ln_keyNos = Number(lo_rowData.key_nos);
+
+            if (ln_keyNos >= ln_maxSeqNos) {
+                ln_maxSeqNos = ln_keyNos + 1;
+            }
+        });
+
+        lo_result.defaultValues = {key_nos: ln_maxSeqNos.toString()};
+        callback(null, lo_result);
     }
 };

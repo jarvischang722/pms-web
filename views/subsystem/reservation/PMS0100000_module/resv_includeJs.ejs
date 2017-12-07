@@ -1459,6 +1459,22 @@
             });
         });
 
+        // 彈出 備註視窗 (Save As)
+        $(document).on('click', ".msg_remark", function (e) {
+            e.preventDefault();
+            var dialog = $("#msg_remark-message").removeClass('hide').dialog({
+                modal: true,
+                title: "Remarks",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+//                height: $(window).height(),
+//                autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
+        });
+
         /***
          * PMS0210030 Room Assign
          */
