@@ -69,6 +69,9 @@ function qryTemplateRf(callback) {
         prg_id: gs_prg_id,
         page_id: gn_page_id
     }, function (err, result) {
+        if(!result){
+            err="templateRf is null";
+        }
         callback(err, result);
     });
 };

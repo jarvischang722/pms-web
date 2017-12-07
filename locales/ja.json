@@ -163,7 +163,11 @@
     "PMS0610010": {
       "save_as": "另存為(日)",
       "sales_assign": "Sales Assign(日)",
-      "visit_plan": "拜訪計畫(日)"
+      "visit_plan": "拜訪計畫(日)",
+      "compamy_maintain" : "商務公司維護(日)",
+      "company_related_diagram": "公司關聯圖(日)",
+      "company_status": "Status chg.(日)",
+      "contract_status": "合約狀態變更(日)"
     },
     "PMS0620020": {
       "sales_cod": "業務員代號(日)",

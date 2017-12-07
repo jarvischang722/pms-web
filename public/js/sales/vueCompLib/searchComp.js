@@ -1,5 +1,6 @@
 /**
  * Created by a16010 on 2017/9/11.
+ * Modified by a17017 on 2017/11/11.
  */
 var vmHub = new Vue();
 

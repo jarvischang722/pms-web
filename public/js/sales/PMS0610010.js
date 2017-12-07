@@ -1,20 +1,43 @@
 var gs_prgId = "PMS0610010";
 
+/** DatagridRmSingleGridClass **/
+function DatagridSingleGridClass() {
+}
+
 DatagridSingleGridClass.prototype = new DatagridBaseClass();
 
 DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
-    //
 };
 DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
-
 };
+/*** Class End  ***/
+
+/**
+ * 商務公司維護
+ */
+Vue.component('single-grid-pms0610010-tmp',{
+    template: "#singleGridPMS0610010Tmp",
+    props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
+    data:function(){
+        return{};
+    },
+    watch:{
+    },
+    methods:{}
+});
+
 
 var vm = new Vue({
     el: "#PMS0610010App",
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
-        this.loadDataGridByPrgID();
+        // this.loadDataGridByPrgID();
+    },
+    components: {
+        "sales-edit-clerk-comp": go_salesEditClerkComp,
+        "sales-edit-visit-record": go_salesVisitRecord,
+        "search-comp": go_searchComp
     },
     data: {
         userInfo: {},
@@ -35,9 +58,11 @@ var vm = new Vue({
         dgIns: {},
         isLoading: true,
         editingRow: {},
+        editRows: [],
         isModifiable: true,
         isCreateStatus: false,
-        isEditStatus: false
+        isEditStatus: false,
+        isOnlySingleGrid: false
     },
     methods: {
         initTmpCUD: function () {
@@ -68,7 +93,7 @@ var vm = new Vue({
                 searchCond: lo_searchCond
             };
 
-            $.post("//api/fetchDataGridFieldData", lo_params, function (result) {
+            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
                 vm.searchFields = result.searchFields;
                 vm.pageOneFieldData = result.dgFieldsData;
                 vm.pageOneDataGridRows = result.dgRowData;
@@ -87,14 +112,64 @@ var vm = new Vue({
             vm.dgIns.loadDgData(this.pageOneDataGridRows);
         },
         appendRow: function () {
+            this.isLoading = true;
+            this.isCreateStatus = true;
+            this.isEditStatus = false;
+            this.editingRow = {};
+            this.initTmpCUD();
+
+            this.showSingleGridDialog();
         },
         editRow: function () {
+            this.isLoading = true;
+            this.isCreateStatus = false;
+            this.isEditStatus = true;
+            this.editingRow = {};
+            this.initTmpCUD();
+
+            var lo_editRow = $('#PMS0620010_dg').datagrid('getSelected');
+
+            if (!lo_editRow) {
+                alert(go_i18nLang["SystemCommon"].selectData);
+            }
+            else {
+                this.editingRow = lo_editRow;
+                this.showSingleGridDialog();
+            }
         },
-        converToFiles: function () {
+        showSingleGridDialog: function () {
+            var dialog = $('#singleGridPMS0610010').removeClass('hide').dialog({
+                autoOpen: false,
+                modal: true,
+                title: go_i18nLang["program"]["PMS0610010"].compamy_maintain,
+                width: 1000,
+                maxHeight: 1920,
+                resizable: true
+            }).dialog('open');
         },
-        editSales: function () {
+        editSalesClerk: function () {
+            var dialog = $("#salesEditClerk").removeClass('hide').dialog({
+                modal: true,
+                title: "修改業務員",
+                title_html: true,
+                width: 500,
+                maxwidth: 1920,
+                // autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         },
         editVistPlan: function () {
+            var dialog = $("#salesVisitRecord").removeClass('hide').dialog({
+                modal: true,
+                title: "新增拜訪記錄",
+                title_html: true,
+                width: 1000,
+                maxwidth: 1920,
+                // autoOpen: true,
+                dialogClass: "test",
+                resizable: true
+            });
         }
     }
 });

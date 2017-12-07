@@ -163,7 +163,11 @@
     "PMS0610010": {
       "save_as": "Save As",
       "sales_assign": "Sales Assign",
-      "visit_plan": "Visit Plan"
+      "visit_plan": "Visit Plan",
+      "compamy_maintain" : "商務公司維護(英)",
+      "company_related_diagram": "公司關聯圖(英)",
+      "company_status": "Status chg.",
+      "contract_status": "合約狀態變更(英)"
     },
     "PMS0620020": {
       "sales_cod": "Sales Id",
