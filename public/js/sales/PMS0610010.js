@@ -1,4 +1,5 @@
 var gs_prgId = "PMS0610010";
+var vmHub = new Vue();
 
 /** DatagridRmSingleGridClass **/
 function DatagridSingleGridClass() {
@@ -20,26 +21,212 @@ Vue.component('single-grid-pms0610010-tmp', {
     props: ["rowData", "isCreateStatus", "isEditStatus", "isModifiable"],
     data: function () {
         return {
-            gs_active: "",
+            tabPageId: 1,
             tabName: "",
-            panelName: []
+            panelName: [],
+            dtDgIns: {},
+            singleData: {},
+            oriSingleData: {},
+            mnFieldsData: [],
+            oriMnFieldsData: [],
+            dtRowData: [],
+            oriDtRowData: [],
+            dtFieldsData: [],
+            oriDtFieldsData: [],
+            loadingText: "",
+            isLoadingDialog: false,
+            BTN_action: false
         };
     },
     mounted: function () {
         this.tabName = "set";
         this.panelName = ["setPanel", "personnelPanel", "salesPanel", "contractPanel",
             "visitPanel", "businessPanel", "historicalPanel", "contributionPanel"];
+
+        this.isLoadingDialog = true;
+        this.loadingText = "Loading...";
     },
     watch: {
         tabName: function (val) {
-            this.setTabShow(val);
+            this.getTabPageId(val);
+            this.setTabContent();
+            this.showTabContent(val);
+        },
+        rowData: function (val) {
+            this.initData();
+            // this.fetchFieldData();
         }
     },
     methods: {
+        initData: function () {
+            this.singleData = {};
+            this.oriSingleData = {};
+            this.mnFieldsData = [];
+            this.oriMnFieldsData = [];
+            this.dtRowData = [];
+            this.oriDtRowData = [];
+            this.dtFieldsData = [];
+            this.oriDtFieldsData = [];
+        },
+        fetchFieldData: function () {
+            var self = this;
+            $.post("", {prg_id: gs_prgId, page_id: 2}, function (result) {
+                if (result.success) {
+                    // self.oriMnFieldsData = result.fieldData;
+                    // self.mnFieldsData = _.values(_.groupBy(_.sortBy(result.fieldData, "row_seq"), "row_seq"));
+                    self.fetchRowData(self.rowData);
+                }
+            });
+        },
+        fetchRowData: function (editingRow) {
+            var self = this;
+            $.post("", {prg_id: gs_prgId, page_id: 2, searchCond: editingRow}, function (result) {
+                if (result.success) {
+                    self.singleData = result.rowData;
+                    self.oriSingleData = _.clone(result.rowData);
+                }
+                else {
+                    console.error(result.errorMsg);
+                }
+            });
+        },
+        chkClickPopUpGrid: function (field) {
+            var self = this;
+            if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
+                var params = {
+                    prg_id: gs_prgId,
+                    fields: field
+                };
+
+                $.post("/api/popUpGridData", params, function (result) {
+                    if (result != null) {
+                        self.selectPopUpGridData = result.showDataGrid;
+                        result.fieldData = field;
+                        vmHub.$emit('showPopUpDataGrid', result);
+                        self.showPopUpGridDialog();
+                    }
+                });
+            }
+        },
+        chkFieldRule: function (ui_field_name, rule_func_name) {
+            if (rule_func_name === "") {
+                return;
+            }
+            var self = this;
+            var la_originData = [this.oriSingleData];
+            var la_singleData = [this.singleData];
+            var la_diff = _.difference(la_originData, la_singleData);
+
+            // 判斷資料是否有異動
+            if (la_diff.length != 0) {
+                this.isUpdate = true;
+            }
+
+            if (!_.isEmpty(rule_func_name.trim())) {
+                var postData = {
+                    prg_id: gs_prgId,
+                    rule_func_name: rule_func_name,
+                    validateField: ui_field_name,
+                    singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                    oriSingleData: this.oriSingleData
+                };
+                $.post('/api/chkFieldRule', postData, function (result) {
+
+                    if (result.success) {
+                        //是否要show出訊息
+                        if (result.showAlert) {
+                            alert(result.alertMsg);
+                        }
+
+                        //是否要show出詢問視窗
+                        if (result.showConfirm) {
+                            if (confirm(result.confirmMsg)) {
+
+                            } else {
+                                //有沒有要再打一次ajax到後端
+                                if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                    $.post(result.ajaxURL, postData, function (result) {
+
+                                        if (!result.success) {
+                                            alert(result.errorMsg);
+                                        } else {
+
+                                            if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                self.singleData = _.extend(self.singleData, result.effectValues);
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                    } else {
+                        alert(result.errorMsg);
+                    }
+
+                    //連動帶回的值
+                    if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                        self.singleData = _.extend(self.singleData, result.effectValues);
+                    }
+
+                });
+            }
+        },
+        showDropdownDisplayName: function (val, selectData) {
+            if (_.findIndex(selectData, {value: val}) > -1) {
+                return _.findWhere(selectData, {value: val}).display;
+            }
+            return val + ":";
+
+        },
         doChangeTab: function (tab, event) {
             this.tabName = tab.name;
         },
-        setTabShow: function (tabName) {
+        getTabPageId: function (tabName) {
+            var self = this;
+            switch (tabName) {
+                case 'set':
+                    self.tabPageId = 1;
+                    break;
+                case 'personnel':
+                    self.tabPageId = 2;
+                    break;
+                case 'sales':
+                    self.tabPageId = 3;
+                    break;
+                case 'contract':
+                    self.tabPageId = 4;
+                    break;
+                case 'visit':
+                    self.tabPageId = 5;
+                    break;
+                case 'business':
+                    self.tabPageId = 6;
+                    break;
+                case 'historical':
+                    self.tabPageId = 7;
+                    break;
+                case 'contribution':
+                    self.tabPageId = 8;
+                    break;
+                default:
+                    console.error("tab name is not defined");
+                    break;
+            }
+        },
+        setTabContent: function () {
+            var self = this;
+            var ln_tabPageId = this.tabPageId;
+
+            $.post("", {prg_id: gs_prgId, page_id: 2, tab_page_id: ln_tabPageId}, function (result) {
+                if (result.success) {
+                    self.dtRowData = result.rowData;
+                    self.oriDtRowData = _.clone(result.rowData);
+                }
+            });
+        },
+        showTabContent: function (tabName) {
             var la_panelName = this.panelName;
             var ls_showPanelName = tabName + "Panel";
             _.each(la_panelName, function (ls_panelName) {
@@ -47,6 +234,16 @@ Vue.component('single-grid-pms0610010-tmp', {
             });
 
             $("#" + ls_showPanelName).show();
+
+            // this.showDtDataGrid();
+        },
+        showDtDataGrid: function (tabName) {
+            var ls_dgName = tabName + "Dt_dg";
+
+            this.dtDgIns = new DatagridBaseClass();
+            this.dgHoatelDt.init(gs_prgId, ls_dgName, DatagridFieldAdapter.combineFieldOption(this.dtFieldsData, ls_dgName), this.dtFieldsData);
+            this.dgHoatelDt.loadDgData(this.dtRowData);
+            this.dgHoatelDt.getOriDtRowData(this.oriDtRowData);
         }
     }
 });
