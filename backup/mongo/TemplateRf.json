@@ -848,3 +848,68 @@
     "hotel_cod" : "", 
     "lock_key" : ""
 }
+{ 
+    "_id" : ObjectId("5a0a6606b833d807e8814696"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(2), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "table_name" : "ps_visit_dt", 
+    "rule_func_name" : "qry_ps_visit_dt_single", 
+    "lock_table" : "cust_mn", 
+    "lock_type" : "row", 
+    "hotel_cod" : "NULL", 
+    "lock_key" : "cust_cod"
+}
+{ 
+    "_id" : ObjectId("5a0a6606b833d807e8814697"), 
+    "prg_id" : "PMS0620050", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "ps_visit_dt", 
+    "rule_func_name" : "qry_ps_visit_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a15244ceaa54922546f9855"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "gridsingle", 
+    "table_name" : "bquet_mn", 
+    "rule_func_name" : "qry_bquet_mn_single", 
+    "lock_table" : "NULLbquet_mn", 
+    "lock_type" : "row", 
+    "hotel_cod" : "NULL", 
+    "lock_key" : "bquet_nos"
+}
+{ 
+    "_id" : ObjectId("5a15244ceaa54922546f9856"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "template_id" : "datagrid", 
+    "table_name" : "bqplace_dt", 
+    "rule_func_name" : "qry_bquet_mn_bqplace_dt", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}
+{ 
+    "_id" : ObjectId("5a15244ceaa54922546f9857"), 
+    "prg_id" : "RS0W202010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(2), 
+    "template_id" : "datagrid", 
+    "table_name" : "bquet_mn", 
+    "rule_func_name" : "", 
+    "lock_table" : "", 
+    "lock_type" : "", 
+    "hotel_cod" : "", 
+    "lock_key" : ""
+}

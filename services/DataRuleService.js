@@ -82,8 +82,8 @@ exports.qrySelectOptionsFromSQL = function (userInfo, sql_tag, callback) {
  * @param callback
  * @constructor
  */
-exports.getSelectOptions = function (params, selRow, callback) {
-    console.log(selRow.ui_field_name);
+exports.getSelectOptions = function (params, selRow, field, callback) {
+
     if (selRow.referiable == "Y") {
         callback([]);
         return;
@@ -98,7 +98,12 @@ exports.getSelectOptions = function (params, selRow, callback) {
 
             _.each(selData, function (lo_selData, index) {
                 if (!_.isUndefined(lo_selData.value)) {
-                    selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+                    if(field.modificable == 'N'){
+                        selData[index].display = lo_selData.display.trim();
+                    }
+                    else{
+                        selData[index].display = lo_selData.value.trim() + " : " + lo_selData.display.trim();
+                    }
                 }
             });
             callback(selData);
@@ -113,7 +118,7 @@ exports.getSelectOptions = function (params, selRow, callback) {
                 } else {
                     _.each(data.selectOptions, function (lo_selData, index) {
                         if (!_.isUndefined(lo_selData.value)) {
-                            data.selectOptions[index].display = lo_selData.value + " : " + lo_selData.display;
+                            data.selectOptions[index].display = lo_selData.display;
                         }
 
                     });

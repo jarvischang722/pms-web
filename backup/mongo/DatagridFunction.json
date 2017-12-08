@@ -1156,3 +1156,39 @@
     "rule_func_name" : "defaultStatusCod1", 
     "link_prg_id" : ""
 }
+{ 
+    "_id" : ObjectId("59f2a71afa73041f58f49075"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0521", 
+    "rule_func_name" : "r_SalesmnAdd", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59f2a73efa73041f58f49076"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0541", 
+    "rule_func_name" : "r_SalesmnUpdate", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59fbe48ffa73042d140e4993"), 
+    "prg_id" : "PMS0620010", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}
+{ 
+    "_id" : ObjectId("59fbe741fa73042d140e4999"), 
+    "prg_id" : "PMS0620020", 
+    "page_id" : NumberInt(1), 
+    "tab_page_id" : NumberInt(1), 
+    "func_id" : "0531", 
+    "rule_func_name" : "r_SalesmnDelSave", 
+    "link_prg_id" : ""
+}

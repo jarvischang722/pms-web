@@ -85,8 +85,8 @@ var Pms0830070Comp = Vue.extend({
                     var ln_sel_item_nos = _.findIndex(self.dt2SelectedItemNos, {item_nos: lo_data.item_nos});
                     var ln_dis_item_nos = _.findIndex(self.dt2DisableItemNos, {item_nos: lo_data.item_nos});
 
-                    lo_data.checked = (ln_sel_item_nos != -1 || ln_dis_item_nos != -1) ? true : false;
-                    lo_data.disabled = (ln_dis_item_nos != -1) ? true : false;
+                    lo_data.checked = ln_sel_item_nos != -1 || ln_dis_item_nos != -1 ? true : false;
+                    lo_data.disabled = ln_dis_item_nos != -1 ? true : false;
 
                     _.each(PMS0830070VM.tmpCUD.dt_deleteData, function (lo_dtDelData) {
                         var ln_delNosItem = _.findIndex(self.dt2DisableItemNos, {
@@ -128,7 +128,7 @@ var Pms0830070Comp = Vue.extend({
 
         //dt2服務項目資料暫存更新
         updateCheckData: function (item, index) {
-            this.dt2ShowList[index].checked = (this.dt2ShowList[index].checked) ? false : true;
+            this.dt2ShowList[index].checked = this.dt2ShowList[index].checked ? false : true;
             var lo_temp = _.findIndex(this.itemNosCheckedTemp, {item_nos: this.dt2ShowList[index].item_nos});
             if (lo_temp == -1) {
                 this.itemNosCheckedTemp.push({
@@ -143,6 +143,10 @@ var Pms0830070Comp = Vue.extend({
                 this.itemNosCheckedTemp[lo_temp].item_sna = this.dt2ShowList[index].item_sna;
                 this.itemNosCheckedTemp[lo_temp].item_nos = this.dt2ShowList[index].item_nos;
                 this.itemNosCheckedTemp[lo_temp].checked = this.dt2ShowList[index].checked;
+            }
+
+            if (_.isUndefined(item.seq_nos)) {
+                item.seq_nos = PMS0830070VM.singleData.seq_nos;
             }
             this.changeDtItemNosShowList(item);
             this.insertDt2TmpCUD(index);
@@ -174,13 +178,13 @@ var Pms0830070Comp = Vue.extend({
             var ln_tmpCudDt2CreateIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_createData, lo_params);
             // 清除dt2_createData重複
             if (ln_tmpCudDt2CreateIsExist != -1) {
-                PMS0830070VM.tmpCUD.dt2_createData = _.without(lo_tmpCUD[ls_tmpCUD_type], PMS0830070VM.tmpCUD.dt2_createData[ln_tmpCudDt2CreateIsExist]);
+                PMS0830070VM.tmpCUD.dt2_createData = _.without(lo_tmpCUD.dt2_createData, PMS0830070VM.tmpCUD.dt2_createData[ln_tmpCudDt2CreateIsExist]);
             }
 
             var ln_tmpCudDt2DeleteIsExist = _.findIndex(PMS0830070VM.tmpCUD.dt2_deleteData, lo_params);
             // 清除dt2_deleteData重複
             if (ln_tmpCudDt2DeleteIsExist != -1) {
-                PMS0830070VM.tmpCUD.dt2_deleteData = _.without(lo_tmpCUD[ls_tmpCUD_type], PMS0830070VM.tmpCUD.dt2_deleteData[ln_tmpCudDt2DeleteIsExist]);
+                PMS0830070VM.tmpCUD.dt2_deleteData = _.without(lo_tmpCUD.dt2_deleteData, PMS0830070VM.tmpCUD.dt2_deleteData[ln_tmpCudDt2DeleteIsExist]);
             }
 
             if (ls_tmpCUD_type != "") {
@@ -200,12 +204,11 @@ var Pms0830070Comp = Vue.extend({
                 adjfolio_cod: this.singleData.adjfolio_cod
             };
 
-            console.log(item.createRow);
             $.post('/api/qryDt2SelectedItemNos', params, function (response) {
-                if(!_.isUndefined(item.createRow)){
+                if (!_.isUndefined(item.createRow)) {
                     self.dt2SelectedItemNos = [];
                 }
-                else{
+                else {
                     self.dt2SelectedItemNos = response.selectedData;
                 }
                 self.changeDtItemNosShowList(item);
@@ -220,16 +223,18 @@ var Pms0830070Comp = Vue.extend({
             }
             else {
                 this.dtSelItemNosShowList = _.clone(this.dt2SelectedItemNos);
-                var la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: PMS0830070VM.singleData.seq_nos});
+                var la_itemNosTemp = _.where(self.itemNosCheckedTemp, {seq_nos: item.seq_nos});
                 _.each(la_itemNosTemp, function (lo_itemNosTemp) {
                     var lo_selItemNos = _.findWhere(self.dtSelItemNosShowList, {item_nos: lo_itemNosTemp.item_nos});
-                    if (!_.isUndefined(lo_selItemNos)) {
-                        if (lo_itemNosTemp.checked == false) {
+                    if (lo_itemNosTemp.checked == false) {
+                        if (!_.isUndefined(lo_selItemNos)) {
                             self.dtSelItemNosShowList = _.without(self.dtSelItemNosShowList, lo_selItemNos);
                         }
                     }
                     else {
-                        self.dtSelItemNosShowList.push(lo_itemNosTemp);
+                        if(_.isUndefined(lo_selItemNos)){
+                            self.dtSelItemNosShowList.push(lo_itemNosTemp);
+                        }
                     }
                 });
             }

@@ -241,7 +241,7 @@
                                     <div class="grid-item">
                                         <label>修理期間</label>
                                         <input type="date" class="input-medium popWindow-s1 input_sta_required" placeholder="2017/05/11" />
-                                        <span>至</span>
+                                        <span class="mlr-3">至</span>
                                         <input type="date" class="input-medium popWindow-s1 input_sta_required" placeholder="2017/05/12" />
                                     </div>
                                 </div>
@@ -460,7 +460,7 @@
                                         <div class="grid-item">
                                             <label>樓層</label>
                                             <input type="text" class="input-medium popWindow-s1" placeholder="" />
-                                            <span class="moreClick">...</span>
+                                            <i class="moreClick fa fa-ellipsis-h"></i>
                                         </div>
                                     </div>
                                     <!--3-->
@@ -485,12 +485,11 @@
                         <div class="row no-margin-right">
                             <div class="main-content-data">
                                 <div class="borderFrame">
-                                    <div class="gridTableHt">
+                                    <div class="">
                                         <!-- 刪除修理/參觀 dataGrid -->
                                         <table id="hk_delFixVisit-table"></table>
                                     </div>
                                 </div>
-
                             </div><!--main-content-data-->
                         </div>
                     </div>
@@ -566,7 +565,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>查詢狀態</label>
-                                            <select class="input-medium popWindow-s1-col2v2">
+                                            <select class="input-medium popWindow-s1-col2">
                                                 <option value="1">非瑕疵房</option>
                                                 <option value="2">瑕疵房</option>
                                                 <option value="3">全部</option>
@@ -578,7 +577,7 @@
                                         <div class="grid-item">
                                             <label class="pull-left">瑕疵原因</label>
                                             <div class="pull-left">
-                                                <textarea class="input-medium popWindow-s1-col2v2 input-hCol2 ml-5" placeholder="pick guy"></textarea>
+                                                <textarea class="input-medium popWindow-s1-col2 input-hCol2" placeholder="pick guy"></textarea>
                                                 <span class="checkbox no-margin">
                                                   <label class="checkbox-width width-auto">
                                                       <input name="form-field-checkbox" type="checkbox" class="ace" checked>
@@ -733,7 +732,7 @@
     <!--* PMS0410020 房務入帳	HK Ledger
         **/-->
 
-    <!-- PMS0410020 hk-postion 彈出視窗 -->
+    <!-- PMS0410020 hk-postion (Mini Bar) 彈出視窗 -->
     <div id="hk-postion-page" class="hide padding-5" style="top: 0 !important;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12 main-content-data">
@@ -743,7 +742,7 @@
                             <div class="grid-item">
                                 <label class="label-spc-2">房號</label>
                                 <input type="text" class="input-medium resvCard-xlxl" placeholder="314">
-                                -
+                                <span class="ml-6"></span>
                                 <input type="text" class="input-medium resvCard-2xs" placeholder="2">
                             </div>
                         </div>
@@ -1219,57 +1218,60 @@
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>房號</label>
-                                        <input type="text" class="input-medium resvCardRemark" placeholder="2205">
-                                        -
-                                        <input type="text" class="input-medium resvCardRemark" placeholder="住客序號">                                    </div><div class="grid-item">
+                                        <input type="text" class="input-medium resvCard-s1Half2" placeholder="2205"/>
+                                        <span class="ml-2">
+                                            <input type="text" class="input-medium resvCard-s1Half2" placeholder="住客序號"/>
+                                        </span>
+                                    </div>
+                                    <div class="grid-item">
                                         <label>公帳號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="5566" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="5566" />
                                     </div>
                                     <div class="grid-item">
                                         <label>住客帳狀態</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="O:開帳" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="O:開帳" />
                                     </div>
                                 </div>
                                 <!--2-->
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>住客姓名</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="RICK" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="RICK" />
                                     </div><div class="grid-item">
                                         <label>訂房卡號</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="1233" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="1233" />
                                     </div>
                                     <div class="grid-item">
                                         <label>訂房來源</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="web" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="web" />
                                     </div>
                                 </div>
                                 <!--3-->
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>訂房公司</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="google" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="google" />
                                     </div><div class="grid-item">
                                         <label>入住日期</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder="" />
+                                        <input type="date" class="input-medium rateCode-s1" placeholder="" />
                                     </div>
                                     <div class="grid-item">
                                         <label>市場類別</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="china" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="china" />
                                     </div>
                                 </div>
                                 <!--4-->
                                 <div class="grid">
                                     <div class="grid-item">
                                         <label>公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="墨墨" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="墨墨" />
                                     </div><div class="grid-item">
                                         <label>預計退房日期</label>
-                                        <input type="date" class="input-medium medium-c1" placeholder="" />
+                                        <input type="date" class="input-medium rateCode-s1" placeholder="" />
                                     </div>
                                     <div class="grid-item">
                                         <label>消費總額</label>
-                                        <input type="text" class="input-medium medium-c1" placeholder="5,000" />
+                                        <input type="text" class="input-medium rateCode-s1" placeholder="5,000" />
                                     </div>
                                 </div>
                             </div><!--main-content-data-->

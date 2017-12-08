@@ -2,8 +2,6 @@
  * Created by Jun on 2017/6/27.
  */
 var GatewaySVC = require("../services/GatewayService");
-var dbSVC = require("../services/DbTableService");
-var commonTools = require("../utils/CommonTools");
 var _ = require("underscore");
 
 /**

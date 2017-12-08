@@ -10,4 +10,14 @@
         </statement>
         <parameter type="string" kind="1">athena_id</parameter>
     </dao>
+
+    <dao name="SEL_PS_VISIT_RF">
+        <statement><![CDATA[
+                  select visit_typ as value, visit_nam as display
+                  from ps_visit_rf
+                  where athena_id = :athena_id
+        ]]>
+        </statement>
+        <parameter type="number" kind="3">athena_id</parameter>
+    </dao>
 </root>

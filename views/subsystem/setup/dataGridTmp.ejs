@@ -1,4 +1,4 @@
-<div id="datagridApp" >
+<div id="datagridApp">
     <div class="col-xs-12">
         <div class="row">
             <label id="prg_Id" class="prg_idLbH3"><%= prg_id %></label>
@@ -12,14 +12,14 @@
             :fetch-data="fetchDataGridData">
     </search-comp>
 
-    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading"  element-loading-text="Saving..."  >
+    <div class="col-xs-12" v-show="!isTableLock" v-loading="isLoading" element-loading-text="Saving...">
         <div class="row">
             <div class="col-sm-11 col-xs-11">
                 <div class="row no-margin-right">
                     <div class="" style="padding: 0; box-sizing: border-box;">
 
-                    <!--控制table 高度 jing add-->
-                    <table id="prg_dg" class="prg_dgHt"></table>
+                        <!--控制table 高度 jing add-->
+                        <table id="prg_dg" class="prg_dgHt"></table>
 
                         <div class="clearfix"></div>
                     </div>
@@ -31,17 +31,16 @@
                     <div class="right-menu-co">
                         <ul>
                             <li>
-                                <button id="ins-btn"  class="btn btn-primary btn-white btn-defaultWidth purview_btn_0200"
-                                        @click="appendRow"
-                                        role="button">
+                                <button class="btn btn-primary btn-white btn-defaultWidth purview_btn"
+                                        data-purview_func_id="<%=prg_id%>0200"
+                                        @click="appendRow">
                                     <%= __("SystemCommon").Add %>
                                 </button>
                             </li>
                             <li>
-                                <button id="remove-btn"
-                                        class="btn btn-danger btn-white btn-defaultWidth purview_btn_0300"
-                                        @click="removeRow();"
-                                        role="button">
+                                <button class="btn btn-danger btn-white btn-defaultWidth purview_btn"
+                                        data-purview_func_id="<%= prg_id %>0300"
+                                        @click="removeRow();">
                                     <%= __("SystemCommon").Delete %>
                                 </button>
                             </li>
@@ -75,7 +74,7 @@
 
     <!-- 異動紀錄 -->
     <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
-               :visible.sync="openChangeLogDialog" size="large">
+               :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
 
         <div class="col-xs-12">
             <div class="col-sm-12 col-xs-12">
@@ -93,7 +92,7 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="tbl-content02" style="height: 300px;">
+                        <div class="tbl-content02" style="">
                             <table class="custab">
 
                                 <tbody class="custab-body" style="height: 250px; overflow-y: auto;">
@@ -120,14 +119,26 @@
                     </div>
                     <div class="clearfix"></div>
                     <script>
-                        //                        console.log(navigator.userAgent);
-                        //判斷如果不是window 不執行(判斷瀏覽器js在include.js)
-                        //0822 有些mac的scrollBar 會推，有些不會(jun會)
-                        //                        if(navigator.userAgent.indexOf("Window") !=-1){
+                        // console.log(navigator.userAgent);
+                        // 判斷如果不是window 不執行(判斷瀏覽器js在include.js)
+                        // 0822 有些mac的scrollBar 會推，有些不會(jun會)
+                        // if(navigator.userAgent.indexOf("Window") !=-1){
+
+                        // var fixHeadTableH = $(window).height() - 350;
+                        // $('.tbl-content02').css({'height': fixHeadTableH});
+                        // alert(fixHeadTableH);
+
+
+                        // 異動紀錄 偵測高度(掛外面無法正常運作)
+                        var tblContentHt = $(window).height() - 270;
+                        $('.tbl-content02').css({'height': tblContentHt});
                         $(window).on("load resize ", function () {
                             var scrollWidth = $('.tbl-content02').width() - $('.tbl-content02 table').width();
                             $('.tbl-header02').css({'padding-right': '17px'});
-                            var fixHeadTableH = $('.el-dialog__body .col-xs-12').height() - 20;
+                            var fixHeadTableH = $(window).height() - 20;
+                            // 異動紀錄 偵測高度
+                            var tblContentHt = $(window).height() - 270;
+                            $('.tbl-content02').css({'height': tblContentHt});
                         }).resize();
                         //                        }
                         // /.end 判斷如果不是window不執行
@@ -173,6 +184,6 @@
             $(".prg_dgHt").css("height", prg_dgHt);
         });
     });
-//    alert(gridTableHt);
+    //    alert(gridTableHt);
 
 </script>
