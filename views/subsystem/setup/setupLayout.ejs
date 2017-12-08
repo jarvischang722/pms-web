@@ -53,7 +53,8 @@
             isTableLocked: false,// 是否被上鎖中
             tableLockMsg: "",// 上鎖訊息
             userInfo:<%- JSON.stringify(session.user || {}) %>,
-            prosList: []
+            prosList: [],
+            updSysPrgPath: ""
         },
         mounted: function () {
             this.loadProcess();
@@ -165,7 +166,7 @@
         vmMain.isTableLockProcessing = false;
         if (!vmMain.isTableLocked) {
             vmMain.usingPrgID = result.prg_id.trim();  //確實是此使用者鎖上的才能註冊這個prg_id
-            setupCookie('usingPrgID',result.prg_id.trim());
+            setupCookie('usingPrgID', result.prg_id.trim());
             BacchusMainVM.updSysPrgPath();
             $("#prgContentDiv").empty().load('/mainSetUp/' + result.prg_id + "?_r=" + Math.floor((Math.random() * 10000000000) + 1));
             waitingDialog.hide();
