@@ -91,6 +91,7 @@ var singlePage = Vue.extend({
             isShowReserve: true,
 
             dgIns: {},
+            dtFieldData: [],
             dataGridRows: [],
             oriDataGridRows: [],
 
@@ -107,8 +108,9 @@ var singlePage = Vue.extend({
             self.oriSingleData = {};
             self.dataGridRows = [];
             self.oriDataGridRows = [];
+            self.initTmpCUD();
 
-            self.loadSingleGridPageField(function () {
+            self.loadField(function () {
                 if(PostData.bquet_nos != "") {
                     self.createStatus = false;
                     self.isModificable = false;
@@ -164,7 +166,6 @@ var singlePage = Vue.extend({
                 chooseData["is_allplace"] = 'N';
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
-                chooseData["use_dat"] = self.singleData.begin_dat;
 
                 var isSame = false;
                 _.each(self.dataGridRows, function (value) {
@@ -418,7 +419,41 @@ var singlePage = Vue.extend({
         },
 
         /**
-         * 撈取單筆資料
+         * 撈取MN和DT的欄位
+         */
+        loadField: function (callback) {
+            if (_.isUndefined(callback) || _.isNull(callback)) {
+                callback = function () {
+                };
+            }
+            var self = this;
+            $.post("/api/singleGridPageFieldQuery", {
+                prg_id: prg_id,
+                page_id: 2,
+                singleRowData: self.editingRow
+            }, function (result) {
+
+                //MN FieldData
+                self.singleField = result.fieldData;
+                _.each(result.fieldData, function (value) {
+
+                    self.singleDataEmpty[value.ui_field_name] = "";
+
+                    if (value.ui_type == "select") {
+                        self.selectOption[value.ui_field_name] = value.selectData;
+                    }
+
+                });
+
+                //DT FieldData
+                self.dtFieldData = result.fieldData[_.findIndex(result.fieldData, {ui_type: 'grid'})].datagridFields || [];
+
+                callback(result);
+            });
+        },
+
+        /**
+         * 撈取MN資料
          * @param bquet_nos {String} : 訂席單號
          */
         fetchSingleData: function (bquet_nos) {
@@ -464,7 +499,7 @@ var singlePage = Vue.extend({
 
                     self.singleData = result.data;
                     self.oriSingleData = _.clone(self.singleData);
-                    self.tmpCud.oriData = self.oriSingleData;
+                    self.tmpCud.oriData = [self.oriSingleData];
                 }
                 else {
                     alert(result.error.errorMsg);
@@ -473,46 +508,26 @@ var singlePage = Vue.extend({
         },
 
         /**
-         * 抓取page_id 2 單頁顯示欄位
+         * 取DT資料
          */
-        loadSingleGridPageField: function (callback) {
-            if (_.isUndefined(callback) || _.isNull(callback)) {
-                callback = function () {
-                };
-            }
+        fetchDataGridData: function (bquet_nos) {
             var self = this;
-            $.post("/api/singleGridPageFieldQuery", {
+            $.post("/api/singlePageRowDataQuery", {
                 prg_id: prg_id,
                 page_id: 2,
-                singleRowData: self.editingRow
+                singleRowData: self.editingRow,
+                bquet_nos: bquet_nos
             }, function (result) {
 
-                self.singleField = result.fieldData;
+                self.dataGridRows = result.dtData || [];
+                self.oriDataGridRows = _.clone(self.dataGridRows);
 
-                _.each(result.fieldData, function (value) {
-
-                    self.singleDataEmpty[value.ui_field_name] = "";
-
-                    if (value.ui_type == "select") {
-                        self.selectOption[value.ui_field_name] = value.selectData;
-                    }
-
-                });
-
-                //self.pageTwoFieldData = _.values(_.groupBy(_.sortBy(fieldData, "row_seq"), "row_seq"));
-                //page2  datagrid 欄位屬性
-                // if (_.findIndex(fieldData, {ui_type: 'grid'}) > -1) {
-                //     $("#dt_dg_DIV").show();
-                //     vm.pageTwoDataGridFieldData = fieldData[_.findIndex(fieldData, {ui_type: 'grid'})].datagridFields || [];
-                //     vm.dtMultiLangField = _.filter(vm.pageTwoDataGridFieldData, function (field) {
-                //         return field.multi_lang_table != "";
-                //     });
-                //
-                //     vmHub.$emit("updateDtMultiLangField", {dtMultiLangField: vm.dtMultiLangField});
-                // }
-                callback(result);
+                self.dgIns = new DatagridRmSingleDTGridClass();
+                self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(self.dtFieldData, 'RS0W202010_dt'), self.dtFieldData);
+                self.dgIns.initTmpCUD();
+                self.dgIns.loadDgData(self.dataGridRows);
+                self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
             });
-
         },
 
         /**
@@ -564,24 +579,6 @@ var singlePage = Vue.extend({
 
             this.singleData.place_amt = "0";
 
-        },
-
-        /**
-         * 取DT欄位及資料
-         */
-        fetchDataGridData: function (bquet_nos) {
-            var self = this;
-            $.post("/api/prgDataGridDataQuery", {prg_id: prg_id, searchCond: {bquet_nos: bquet_nos}}, function (result) {
-                self.prgFieldDataAttr = result.fieldData;
-                self.dataGridRows = result.dataGridRows;
-                self.oriDataGridRows = _.clone(self.dataGridRows);
-
-
-                self.dgIns = new DatagridRmSingleDTGridClass();
-                self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'), result.fieldData);
-                self.dgIns.loadDgData(self.dataGridRows);
-                self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
-            });
         },
 
         /**
@@ -679,13 +676,6 @@ var singlePage = Vue.extend({
         },
 
         /**
-         * 離開按鈕
-         */
-        exit: function () {
-            $("#gs-order-page").dialog('close');
-        },
-
-        /**
          * 將資料塞到tmp_cud
          */
         saveToTmpCud: function () {
@@ -733,10 +723,11 @@ var singlePage = Vue.extend({
                 self.tmpCud.createData = [tempSingleData];
             }
             else {
-                self.tmpCud.updateData = tempSingleData;
+                self.tmpCud.updateData = [tempSingleData];
             }
 
             self.tmpCud.dt_createData = [];
+
             //新增
             _.each(self.dataGridRows, function (value) {
                 if(value.createRow == "Y"){
@@ -744,10 +735,21 @@ var singlePage = Vue.extend({
                 }
             });
 
-            //self.tmpCud.dt_createData = self.dgIns.tmpCUD.createData;
             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
-            //self.tmpCud.dt_deleteData = self.dgIns.tmpCUD.deleteData;
-            //self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
+            
+            //DT 加入use_dat，API要用
+            _.each(self.tmpCud.dt_createData, function (value) {
+                value["use_dat"] = self.singleData.begin_dat;
+            });
+
+            _.each(self.tmpCud.dt_updateData, function (value) {
+               value["use_dat"] = self.singleData.begin_dat;
+            });
+
+            _.each(self.tmpCud.dt_deleteData, function (value) {
+                value["use_dat"] = self.singleData.begin_dat;
+            });
+
             self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
 
             console.log(self.tmpCud);
@@ -789,6 +791,13 @@ var singlePage = Vue.extend({
             else {
                 alert('場地明細尚未編輯完成！');
             }
+        },
+
+        /**
+         * 離開按鈕
+         */
+        exit: function () {
+            $("#gs-order-page").dialog('close');
         },
 
         /**
@@ -889,7 +898,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 trans_cod:  prg_id,
                 prg_id: prg_id,
-                page_id: 1,
+                page_id: 2,
                 func_id: func_id,
                 tmpCUD: self.tmpCud
             };
@@ -913,7 +922,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 trans_cod:  prg_id,
                 prg_id: prg_id,
-                page_id: 1,
+                page_id: 2,
                 func_id: func_id,
                 tmpCUD: self.tmpCud
             };
