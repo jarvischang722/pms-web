@@ -37,21 +37,15 @@ function doOperationProc(req, res) {
     }
 }
 
-exports.fetchDataGridFieldData = function (req, res) {
-    let ls_prg_id = req.body.prg_id || "";
-    let returnData = {
-        success: true,
-        errorMsg: "",
-        errorCode: ""
-    };
-    if (ls_prg_id.trim() == "") {
-        returnData.success = false;
-        returnData.errorMsg = "無效程式編號";
-        returnData.errorCode = "1000";
-        return res.json(returnData);
+/**
+ * 取多筆欄位資料
+ */
+exports.fetchDgFieldData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if(lo_chkResult.success == false){
+        return res.json(lo_chkResult);
     }
-
-    operSVC.fetchDataGridFieldData(req.body, req.session, function (err, result) {
+    operSVC.fetchDgFieldData(req.body, req.session, function (err, result) {
         let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
@@ -62,3 +56,38 @@ exports.fetchDataGridFieldData = function (req, res) {
         res.json(lo_rtnData);
     });
 };
+
+/**
+ * 取單筆欄位資料
+ */
+exports.fetchGsFieldData = function(req, res){
+    let lo_chkResult = chkPrgID(req);
+    if(lo_chkResult.success == false){
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchGsFieldData(req.body, req.session, function (err, result) {
+        let lo_rtnData = {
+            success: _.isNull(err),
+            errorMsg: err,
+            gsDtData: result.gsDtData,
+            gsMnData: result.gsMnData
+        };
+        res.json(lo_rtnData);
+    });
+};
+
+// 驗證prg_id
+function chkPrgID(req){
+    let ls_prg_id = req.body.prg_id || "";
+    let lo_returnData = {
+        success: true,
+        errorMsg: "",
+        errorCode: ""
+    };
+    if (ls_prg_id.trim() == "") {
+        lo_returnData.success = false;
+        lo_returnData.errorMsg = "無效程式編號";
+        lo_returnData.errorCode = "1000";
+    }
+    return lo_returnData;
+}

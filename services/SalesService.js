@@ -73,7 +73,7 @@ exports.handleSinglePageRowData_PM0620020 = function (session, postData, callbac
                         });
                     }
                     else{
-                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS", postData, function (errRowData, rowData) {
+                        queryAgent.query("QRY_SALES_MN_ALL_FIELDS_WITH_USER_NOS", postData, function (errRowData, rowData) {
                             if (errRowData || !rowData ) {
                                 cb(errRowData, null);
                             }

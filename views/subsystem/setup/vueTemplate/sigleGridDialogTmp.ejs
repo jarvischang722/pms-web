@@ -10,7 +10,7 @@
                             <div id="singleGridDiv">
                                 <div v-for="fields in pageTwoFieldData">
                                     <div class=" grid">
-                                        <div class="grid-item " v-for="field in fields">
+                                        <div class="grid-item" v-for="field in fields">
                                             <!--  CheckBox add class="labelCkbox" -->
                                             <label :style="{width:field.label_width + 'px'}"
                                                    v-if="field.visiable == 'Y' && field.ui_type == 'checkbox'"
@@ -69,8 +69,7 @@
                                                       @click="chkFieldRule(field.ui_field_name,field.rule_func_name)"></textarea>
 
                                             <!--  label -->
-                                            <label
-                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                            <label :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     class="numStyle-none"
                                                     v-if="field.visiable == 'Y' && field.ui_type == 'label'"
                                                     :maxlength="field.ui_field_length"
@@ -97,6 +96,7 @@
                                                     :style="{width:field.width + 'px' , height:field.height + 'px'}"
                                                     :class="{'input_sta_required' : field.requirable == 'Y' }"
                                                     v-if="field.visiable == 'Y' && (field.ui_type == 'select' )">
+
                                                 <option v-for="opt in field.selectData" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>

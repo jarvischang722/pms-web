@@ -9,4 +9,13 @@
         <parameter type="number" kind="3" >athena_id</parameter>
         <parameter type="string" kind="3">sales_cod</parameter>
     </dao>
+
+    <dao name="QRY_SALES_HOTEL_DT">
+        <statement><![CDATA[
+        SELECT trim(HOTEL_COD) as hotel_cod, STATUS_COD as STATUS_COD1, trim(NOUSE_DAT) as nouse_dat
+        FROM SALES_HOTEL_DT WHERE ATHENA_ID = :athena_id AND trim(SALES_COD) = trim(:sales_cod) ORDER BY HOTEL_COD
+        ]]></statement>
+        <parameter type="number" kind="3" >athena_id</parameter>
+        <parameter type="string" kind="3">sales_cod</parameter>
+    </dao>
 </root>
