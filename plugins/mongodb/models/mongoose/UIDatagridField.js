@@ -12,8 +12,8 @@ let UIDatagridFieldSchema = new Schema({
     tab_page_id: {type: Number, index: true, required: true},      　　　    //頁面編號
     ui_field_name: {type: String, trim: true, index: true, required: true},  　        //頁面欄位名稱
     ui_type: String,       //顯示類型
-    col_seq: String,       //欄位順序
-    width: String,         //欄位寬度
+    col_seq: Number,       //欄位順序
+    width: Number,         //欄位寬度
     visiable: String,      //是否顯示
     modificable: String,   //是否可修改　
     requirable: String,     //是否必填
