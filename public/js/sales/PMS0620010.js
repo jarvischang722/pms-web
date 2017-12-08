@@ -759,7 +759,7 @@ var vm = new Vue({
                 modal: true,
                 height: _.min([maxHeight, height]),
                 title: "PMS0620020",
-                minWidth: 1000,
+                minWidth: 750,
                 maxHeight: maxHeight,
                 resizable: true,
                 buttons: "#dialogBtns",

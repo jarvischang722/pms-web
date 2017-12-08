@@ -49,7 +49,7 @@
             <li class="info">
                 <span id="datetimeSpan"></span>
                 | <span>  <%= session.user.usr_cname %>  </span>
-                | <%= __("SystemCommon.LogOutTime") %> : <span id="timeLeft">  00 : 00   </span>
+                | <%= __("SystemCommon.LogOutTime") %> : <span id="timeLeft">00:00:00</span>
             </li>
 
             <!-- #section:basics/navbar.user_menu -->
@@ -61,7 +61,7 @@
                 <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                     <li class="divider"></li>
                     <li>
-                        <a  @click="doLogout">
+                        <a @click="doLogout">
                             <i class="ace-icon fa fa-power-off"></i>
                             <%= __("BAC01P0120")["logout"] %>
                         </a>
