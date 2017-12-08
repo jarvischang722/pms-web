@@ -1454,6 +1454,7 @@ table.treetable span.indenter {
   padding-bottom: 4px;
   border-bottom: 1px solid #ccc;
   font-size: 20px;
+  letter-spacing: 1px;
 }
 .loginPage .login-container .main .form-control {
   width: 100%;
