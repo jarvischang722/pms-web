@@ -5,6 +5,7 @@
 let moment = require("moment");
 let queryAgent = require('../plugins/kplug-oracle/QueryAgent');
 let mongoAgent = require("../plugins/mongodb");
+let ruleAgent = require("../ruleEngine/ruleAgent");
 let _ = require("underscore");
 let async = require("async");
 let dataRuleSvc = require("./DataRuleService");
@@ -46,6 +47,8 @@ exports.getAllUIPageFieldAttr = function (params, userInfo, callback) {
                         if (lo_lang) {
                             fields[idx]["ui_display_name"] = lo_lang['ui_display_name_' + ls_locale]
                                 ? lo_lang['ui_display_name_' + ls_locale] : field.ui_field_name;
+                            fields[idx]["ui_hint"] = lo_lang['hint_' + ls_locale]
+                                ? lo_lang['hint_' + ls_locale] : '';
                         }
                     });
                 }
@@ -77,7 +80,19 @@ function filterSpecField(allFields, userInfo, callback) {
                     });
                 }
             );
-        } else {
+        }
+        else if (_.isEqual(field.ui_type, "tree") || _.isEqual(field.ui_type, "multitree")) {
+            handleFuncs.push(
+                function (callback) {
+                    allFields[fIdx].selectData = [];
+                    ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
+                        allFields[fIdx].selectData = result.selectOptions;
+                        callback(null, allFields[fIdx]);
+                    });
+                }
+            );
+        }
+        else {
             handleFuncs.push(
                 function (callback) {
                     callback(null, field);
@@ -105,7 +120,7 @@ function appendFieldSelectData(field, userInfo, callback) {
     }).exec(function (err, selRow) {
         if (selRow) {
             selRow = selRow.toObject();
-            dataRuleSvc.getSelectOptions(userInfo, selRow, function (selectData) {
+            dataRuleSvc.getSelectOptions(userInfo, selRow, field, function (selectData) {
                 field.selectData = selectData;
                 callback(null, field);
             });

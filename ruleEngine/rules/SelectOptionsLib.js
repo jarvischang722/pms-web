@@ -305,25 +305,6 @@ exports.getIsCanUse = function () {
 };
 
 /**
- * 取得聯絡設定是否刪除
- * @returns {Array}
- */
-exports.getIsCanUse = function () {
-    var useList = [
-        {
-            display: '是',
-            value: 'Y'
-        },
-        {
-            display: '否',
-            value: 'N'
-        }
-    ];
-
-    return useList;
-};
-
-/**
  * 取得需收訂金
  * @returns {Array}
  */
@@ -340,6 +321,24 @@ exports.getIsNeed = function () {
     ];
 
     return useList;
+};
+
+/**
+ * 取得欄位keep_way 下拉資料
+ */
+exports.getGuarenteerfKeepway = function () {
+    var keepWayList = [
+        {
+            display: '依新增日',
+            value: 'OR'
+        },
+        {
+            display: '依CI日期',
+            value: 'CI'
+        }
+    ];
+
+    return keepWayList;
 };
 
 /**
@@ -676,7 +675,7 @@ exports.searchAreapntSta = function () {
         }
     ];
     return la_optionList;
-}
+};
 
 /**
  * PMS0620010 業務員作業
@@ -717,6 +716,57 @@ exports.getSalesHotelDtStatus = function(){
     ];
     return la_optionList;
 };
+
+/**
+ * PMS0620050 業務員拜訪記錄
+ * cust mn status 下拉資料
+ * @returns {[null,null]}
+ */
+exports.getCustMnStatusCod = function(){
+    var la_optionList = [
+        {
+            display: "正常",
+            value: "N"
+        },
+        {
+            display: "刪除",
+            value: "D"
+
+        },
+        {
+            display: "黑名單",
+            value: "B"
+
+        },
+        {
+            display: "潛力",
+            value: "P"
+
+        }
+    ];
+    return la_optionList;
+};
+
+/**
+ * PMS0620050 業務員拜訪記錄
+ * ps visit dt visit status 下拉資料
+ * @returns {[null,null]}
+ */
+exports.getPsVisitDtVisitSta = function(){
+    var la_optionList = [
+        {
+            display: "預計拜訪",
+            value: "N"
+        },
+        {
+            display: "已經拜訪",
+            value: "Y"
+
+        }
+    ];
+    return la_optionList;
+};
+
 
 //TODO 將搬到 [程式編碼]Rule裡
 
@@ -812,6 +862,15 @@ exports.qry_guest_rf_rcard_prtrent = function (params, callback) {
 exports.qry_source_rf_use_sta = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.UseStaList();
+    callback(null, lo_result);
+};
+
+/**
+ * PMS0810120取得是否可升等、改房價
+ */
+exports.qry_rvdiscpers_rf_y_n = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getIsCanUse();
     callback(null, lo_result);
 };
 
@@ -971,6 +1030,26 @@ exports.lang_sales_hotel_dt_status_cod = function(params, callback) {
     callback(null, lo_result);
 };
 
+/**
+ *
+ *業務員拜訪記錄(PMS0620050) cust mn status 下拉資料
+ */
+exports.lang_CustmnStatuscod = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCustMnStatusCod();
+    callback(null, lo_result);
+};
+
+/**
+ *
+ *業務員拜訪記錄(PMS0620050) visit status 下拉資料
+ */
+exports.lang_PsvisitdtVisitsta = function(params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getPsVisitDtVisitSta();
+    callback(null, lo_result);
+};
+
 
 /**
  * 房間特色設定(PMS0820010)取得系統預設下拉選項
@@ -996,6 +1075,15 @@ exports.qryGuarenteerfUsesta = function (params, callback) {
 exports.qryGuarenteerfDpreq = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsNeed();
+    callback(null, lo_result);
+};
+
+/**
+ * 訂房類別設定(PMS0810150)取得欄位 keep_way下拉資料
+ */
+exports.qryGuarenteerfKeepway = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getGuarenteerfKeepway();
     callback(null, lo_result);
 };
 
@@ -1179,4 +1267,4 @@ exports.qrySearchAreapntSta = function(params, callback){
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.searchAreapntSta();
     callback(null,lo_result);
-}
+};

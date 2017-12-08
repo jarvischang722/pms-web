@@ -1,17 +1,17 @@
 /**
  * Created by Jun Chang on 2016/12/30.
- * 會員驗證相關作業
+ * 帳號相關作業
  */
-
-var authSvc = require("../services/AuthService");
-var _ = require("underscore");
-var async = require("async");
-var roleFuncSvc = require("../services/RoleFuncService");
-var queryAgent = require('../plugins/kplug-oracle/QueryAgent');
-var i18n = require('i18n');
-var langSvc = require("../services/LangService");
+const authSvc = require("../services/AuthService");
+const _ = require("underscore");
+const async = require("async");
+const roleFuncSvc = require("../services/RoleFuncService");
+const queryAgent = require('../plugins/kplug-oracle/QueryAgent');
+const langSvc = require("../services/LangService");
 const fs = require("fs");
-let ip = require("ip");
+const ip = require("ip");
+const SysFuncPurviewSvc = require("../services/SysFuncPurviewService");
+
 /**
  * 登入頁面
  */
@@ -25,15 +25,15 @@ exports.loginPage = function (req, res, next) {
         return;
     }
 
-    let ls_account = '';
-    let clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     clientIP = clientIP.substr(clientIP.lastIndexOf(':') + 1);
 
-
+    var ls_account = '';
     try {
         fs.exists("configs/IPsUsersRef.json", function (isExist) {
             if (isExist) {
-                let IPsUsersRef = require("../configs/IPsUsersRef.json");
+                var IPsUsersRef = require("../configs/IPsUsersRef.json");
+
                 _.each(IPsUsersRef.ipObj, function (user, ipSubnet) {
                     if (ipSubnet.toString().indexOf("/") > -1) {
                         if (ip.cidrSubnet(ipSubnet).contains(clientIP)) {
@@ -53,7 +53,6 @@ exports.loginPage = function (req, res, next) {
         res.render('user/loginPage', {account: ls_account});
     }
 };
-
 
 /**
  * casLogin
@@ -180,7 +179,6 @@ exports.getSubsysQuickMenu = function (req, res) {
     });
 };
 
-
 /**
  * 取得選擇的公司
  */
@@ -201,25 +199,27 @@ exports.getSelectCompony = function (req, res) {
 exports.getUserInfo = function (req, res) {
     res.json({success: !_.isUndefined(req.session.user), errorMsg: 'not login!', userInfo: req.session.user});
 };
+
 /**
  * 新增 角色權限(靜態)
  */
 exports.getAuthorityRole = function (req, res) {
     res.render("user/authorityRole");
 };
+
 /**
  * 新增 人員權限(靜態)
  */
 exports.getAuthorityStaff = function (req, res) {
     res.render("user/authorityStaff");
 };
+
 /**
  * 新增 功能權限(靜態)
  */
 exports.getAuthorityFeature = function (req, res) {
     res.render("user/authorityFeature");
 };
-
 
 /**
  *  經由公司代號 cmp_id 取得部門資訊
@@ -293,4 +293,15 @@ exports.getUserFuncPurviewByProID = function (req, res) {
         res.json({success: false, errorMsg: err.message, funcPurvs: []});
     }
 
+};
+
+
+/**
+ * 取得某一個系統的所有權限資料
+ */
+exports.userSubsysPurviewBySysID = function (req, res) {
+    let ls_sysID = req.body.sys_id;
+    SysFuncPurviewSvc.getUserSubsysPurviewBySysID(req, ls_sysID, function (err, subsysMenu) {
+        res.json({success: err == null, subsysMenu});
+    });
 };

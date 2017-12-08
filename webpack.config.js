@@ -1,22 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
-
-var config = {
-    // entry: "./public/src/",
+const path = require('path');
+const webpack = require('webpack');
+const config = {
+     entry: "./public/src/admin/prgPropsSetup/main",
     // entry: [
     //     'webpack/hot/dev-server',
     //     path.join(__dirname, 'public', 'src')
     // ],
-    entry: {
-        main: "./public/src/main"
-        // a: "./a",
-        // b: "./b",
-        // c: ["./c", "./d"]
-    },
+    // entry: {
+    //     main: "./public/src/main"
+    //     // a: "./a",
+    //     // b: "./b",
+    //     // c: ["./c", "./d"]
+    // },
     output: {
         publicPath: '/dist',
-        path: path.join(__dirname, 'public', 'dist'),
-        filename: '[name].js'
+        path: path.join(__dirname, 'public', 'js/system/'),
+        filename: 'PrgPropsSetup.js'
 
     },
     module: {
@@ -58,6 +57,7 @@ var config = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
+
     ],
     devServer: {
         historyApiFallback: true,

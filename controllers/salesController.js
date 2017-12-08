@@ -25,7 +25,7 @@ exports.getPMS0620040 = function (req, res) {
     res.render("subsystem/sales/PMS0620040");
 };
 
-//業務 拜訪計畫
+//業務 拜訪紀錄
 exports.getPMS0620050 = function (req, res) {
     res.render("subsystem/sales/PMS0620050");
 };
