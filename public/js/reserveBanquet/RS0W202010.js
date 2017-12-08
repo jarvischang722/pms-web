@@ -163,6 +163,11 @@ var singlePage = Vue.extend({
                 chooseData["end_tim"] = "";
                 chooseData["desk_qnt"] = "0";
                 chooseData["order_qnt"] = "0";
+
+                chooseData["place_amt"] = "0";
+                chooseData["special_amt"] = "0";
+                chooseData["disc_amt"] = "0";
+
                 chooseData["is_allplace"] = 'N';
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
@@ -204,7 +209,7 @@ var singlePage = Vue.extend({
                      tot_amt += Number(value.special_amt);
                  });
 
-                 //console.log(this.dataGridRows);
+                 //依參數『前檯金額格式』顯示
                  this.singleData.place_amt = tot_amt;
              },
              deep: true
@@ -627,7 +632,6 @@ var singlePage = Vue.extend({
                     });
                 }
             }
-
         },
 
         //改成編輯中
@@ -934,6 +938,7 @@ var singlePage = Vue.extend({
                     alert("儲存成功！");
                     self.fetchSingleData(self.singleData.bquet_nos);
                     self.fetchDataGridData(self.singleData.bquet_nos);
+                    self.dgIns.initTmpCUD();
                     RS00202010VM.qryPageOneData();
                 }
                 if (result.msg != "") {
@@ -1172,5 +1177,13 @@ var RS00202010VM = new Vue({
         }
     }
 });
+
+//四捨五入
+function formatFloat(num, pos)
+{
+    var size = Math.pow(10, pos);
+    return Math.round(num * size) / size;
+}
+
 
 $('.easyUi-custom1').tabs({});
