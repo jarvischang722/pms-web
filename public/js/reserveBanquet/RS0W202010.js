@@ -24,6 +24,13 @@ g_socket.on('checkTableLock', function (result) {
     }
 });
 
+//單筆DT
+/** DatagridRmSingleGridClass ***/
+function DatagridRmSingleDTGridClass() {}
+
+DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
+DatagridRmSingleDTGridClass.prototype.onClickRow = function () {};
+
 // $(window).on('beforeunload', function () {
 //     return singlePage.doRowUnLock();
 // });
@@ -103,6 +110,7 @@ var singlePage = Vue.extend({
 
             self.loadSingleGridPageField(function () {
                 if(PostData.bquet_nos != "") {
+                    self.createStatus = false;
                     self.isModificable = false;
                     self.fetchSingleData(PostData.bquet_nos);
                 }
@@ -110,6 +118,7 @@ var singlePage = Vue.extend({
                     //新增模式
                     self.createStatus = true;
                     self.cancelEnable = false;
+                    self.isModificable = true;
 
                     self.dataGridRows = [];
 
@@ -194,7 +203,7 @@ var singlePage = Vue.extend({
                      tot_amt += Number(value.special_amt);
                  });
 
-                 console.log(this.dataGridRows);
+                 //console.log(this.dataGridRows);
                  this.singleData.place_amt = tot_amt;
              },
              deep: true
@@ -566,10 +575,12 @@ var singlePage = Vue.extend({
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
                 self.oriDataGridRows = _.clone(self.dataGridRows);
+                self.dgIns.dtOriRowData = self.oriDataGridRows;
 
-                self.dgIns = new DatagridBaseClass();
-                self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'));
+                self.dgIns = new DatagridRmSingleDTGridClass();
+                self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'), result.fieldData);
                 self.dgIns.loadDgData(self.dataGridRows);
+
             });
         },
 
@@ -680,6 +691,22 @@ var singlePage = Vue.extend({
         saveToTmpCud: function () {
             var self = this;
 
+            //存檔時將宴會開始時間更新為場地明細的時間
+            var earliest = "2359";
+            var latest = "0000";
+
+            _.each(self.dataGridRows, function (value) {
+                if(Number(value.begin_tim) < Number(earliest)){
+                    earliest = value.begin_tim;
+                }
+                if(Number(value.end_tim) > Number(latest)){
+                    latest = value.end_tim;
+                }
+            });
+
+            self.singleData.begin_tim = earliest.substring(0, 2) + ":" + earliest.substring(2, 4);
+            self.singleData.end_tim = latest.substring(0, 2) + ":" + latest.substring(2, 4);
+
             var tempSingleData = _.clone(self.singleData);
 
             _.each(Object.keys(tempSingleData), function (objKey) {
@@ -702,8 +729,6 @@ var singlePage = Vue.extend({
             tempSingleData.begin_dat = moment(tempSingleData.begin_dat).format("YYYY/MM/DD");
             tempSingleData.expire_dat = moment(tempSingleData.expire_dat).format("YYYY/MM/DD");
 
-
-
             if(self.createStatus){
                 self.tmpCud.createData = [tempSingleData];
             }
@@ -711,10 +736,19 @@ var singlePage = Vue.extend({
                 self.tmpCud.updateData = [tempSingleData];
             }
 
-            self.tmpCud.dt_createData = self.dgIns.tmpCUD.createData;
+            self.tmpCud.dt_createData = [];
+            //新增
+            _.each(self.dataGridRows, function (value) {
+                if(value.createRow == "Y"){
+                    self.tmpCud.dt_createData.push(value);
+                }
+            });
+
+            //self.tmpCud.dt_createData = self.dgIns.tmpCUD.createData;
             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
-            self.tmpCud.dt_deleteData = self.dgIns.tmpCUD.deleteData;
-            self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
+            //self.tmpCud.dt_deleteData = self.dgIns.tmpCUD.deleteData;
+            //self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
+            self.tmpCud.dt_oriData = self.dgIns.tmpCUD.dt_oriData;
 
             console.log(self.tmpCud);
         },
@@ -800,14 +834,15 @@ var singlePage = Vue.extend({
                     upd_usr: this.userInfo.usr_id
                 };
 
-                $.post("/api/callAPI", lo_params, function (result) {
+                $.post("/reserveBanquet/chgOrderStaAPI", lo_params, function (result) {
                     RS00202010VM.isLoading = false;
+
                     if (result.success) {
                         alert("異動成功！");
-                        self.fetchSingleData();
+                        self.fetchSingleData(self.singleData.bquet_nos);
                     }
-                    if (result.errorMsg != "") {
-                        alert(result.errorMsg);
+                    if (result.msg != "") {
+                        alert(result.msg);
                     }
                 });
             }
@@ -842,7 +877,6 @@ var singlePage = Vue.extend({
             if(this.dgIns.endEditing()) {
                 this.saveToTmpCud();
                 this.callAPI('2030');
-                console.log(this.dataGridRows);
             }
             else {
                 alert('場地明細尚未編輯完成！');
@@ -855,7 +889,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 trans_cod:  prg_id,
                 prg_id: prg_id,
-                page_id: 2,
+                page_id: 1,
                 func_id: func_id,
                 tmpCUD: self.tmpCud
             };
@@ -863,7 +897,6 @@ var singlePage = Vue.extend({
             RS00202010VM.isLoading = true;
 
             $.post("/api/gateway/doOperationSave", lo_params, function (result) {
-                console.log(result);
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     alert("檢查通過！");
@@ -880,7 +913,7 @@ var singlePage = Vue.extend({
             var lo_params = {
                 trans_cod:  prg_id,
                 prg_id: prg_id,
-                page_id: 2,
+                page_id: 1,
                 func_id: func_id,
                 tmpCUD: self.tmpCud
             };
@@ -892,9 +925,10 @@ var singlePage = Vue.extend({
                     alert("儲存成功！");
                     self.fetchSingleData(self.singleData.bquet_nos);
                     self.fetchDataGridData(self.singleData.bquet_nos);
+                    RS00202010VM.qryPageOneData();
                 }
-                if (result.errorMsg != "") {
-                    alert(result.errorMsg);
+                if (result.msg != "") {
+                    alert(result.msg);
                 }
             });
         },
@@ -958,8 +992,8 @@ function isObjectValueEqual(a, b) {
         // If values of same property are not equal,
         // objects are not equivalent
         if (a[propName] !== b[propName]) {
-            if(a[propName] == null){
-                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == ""){
+            if(a[propName] == null || a[propName] == "" || a[propName].toString().trim() == ""){
+                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()){
                     continue;
                 }
             }

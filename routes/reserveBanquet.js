@@ -25,4 +25,6 @@ module.exports = function(app, passport){
 
     app.post("/reserveBanquet/qry_bqcust_mn", apiMiddles, resvbanquetCtrl.qry_bqcust_mn);
 
+    app.post("/reserveBanquet/chgOrderStaAPI", apiMiddles, resvbanquetCtrl.chgOrderStaAPI);
+
 };

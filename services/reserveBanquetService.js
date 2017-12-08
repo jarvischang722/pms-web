@@ -436,3 +436,40 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
         }
     });
 };
+
+
+//[RS0W202010] 異動表單狀態
+exports.chgOrderStaAPI = function (postData, session, callback) {
+    var apiParams = {
+        "REVE-CODE": postData.REVE_CODE,
+        "comp_cod": session.user.cmp_id,
+        "program_id": postData.prg_id,
+        "func_id": postData.func_id,
+        "user": session.user.usr_id,
+        "table_name": 'bquet_mn',
+        "count": 1,
+        "ip" : '',
+        "bquet_nos": postData.bquet_nos,
+        "old_sta": postData.old_sta,
+        "new_sta": postData.new_sta,
+        "upd_usr": postData.upd_usr
+    };
+
+    tools.requestApi(sysConfig.api_url, apiParams, function (apiErr, apiRes, data) {
+        var log_id = moment().format("YYYYMMDDHHmmss");
+        var success = true;
+        var errorMsg = "";
+        if (apiErr || !data) {
+            success = false;
+            errorMsg = apiErr;
+        } else if (data["RETN-CODE"] != "0000") {
+            success = false;
+            errorMsg = data["RETN-CODE-DESC"] || '發生錯誤';
+            console.error(data["RETN-CODE-DESC"]);
+        } else {
+            errorMsg = data["RETN-CODE-DESC"];
+        }
+
+        callback(errorMsg, success);
+    });
+};
