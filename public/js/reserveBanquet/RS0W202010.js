@@ -575,12 +575,12 @@ var singlePage = Vue.extend({
                 self.prgFieldDataAttr = result.fieldData;
                 self.dataGridRows = result.dataGridRows;
                 self.oriDataGridRows = _.clone(self.dataGridRows);
-                self.dgIns.dtOriRowData = self.oriDataGridRows;
+
 
                 self.dgIns = new DatagridRmSingleDTGridClass();
                 self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(result.fieldData, 'RS0W202010_dt'), result.fieldData);
                 self.dgIns.loadDgData(self.dataGridRows);
-
+                self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
             });
         },
 
@@ -733,7 +733,7 @@ var singlePage = Vue.extend({
                 self.tmpCud.createData = [tempSingleData];
             }
             else {
-                self.tmpCud.updateData = [tempSingleData];
+                self.tmpCud.updateData = tempSingleData;
             }
 
             self.tmpCud.dt_createData = [];
@@ -748,7 +748,7 @@ var singlePage = Vue.extend({
             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
             //self.tmpCud.dt_deleteData = self.dgIns.tmpCUD.deleteData;
             //self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
-            self.tmpCud.dt_oriData = self.dgIns.tmpCUD.dt_oriData;
+            self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
 
             console.log(self.tmpCud);
         },
