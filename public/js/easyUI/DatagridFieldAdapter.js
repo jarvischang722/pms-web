@@ -327,7 +327,7 @@ var DatagridFieldAdapter = {
             //金額:依參數顯示
             if(!_.isUndefined(fieldAttrObj.format_func_name.rule_val)){
                 tmpFieldObj.formatter = function (val, row, index) {
-                    var fieldName = go_formatDisplay.amtFormat(val, fieldAttrObj.format_func_name.rule_val);
+                    var fieldName = go_formatDisplayClass.amtFormat(val, fieldAttrObj.format_func_name.rule_val);
                     return fieldName;
                 };
             }
