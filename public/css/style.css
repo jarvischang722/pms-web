@@ -4337,70 +4337,8 @@ td div.act-box span.act-text {
 }
 .PMS0830070_table td {
   padding: 5px;
-
-.vue-treeselect__menu label {
-  text-align: left;
-  width: auto;
 }
 
-.vue-treeselect {
-  display: inline-block;
-}
-
-/***** vue 問題 **** */
-.openChangeLogDialog .el-dialog {
-  top: 3% !important;
-}
-
-.search-content .el-select .el-input__inner {
-  height: 25px !important;
-}
-.search-content .el-select .el-select__tags {
-  height: 25px !important;
-  overflow: hidden;
-}
-
-.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
-  height: 25px !important;
-}
-.grid-item .el-cascader .el-input__inner {
-  height: 25px !important;
-}
-
-/***** vue 問題 **** */
-#prgPropsSetupVM .title {
-  font-size: 1.2em;
-  color: #555;
-  margin: auto auto 5px auto;
-}
-#prgPropsSetupVM .borderFrame {
-  min-height: 100px;
-}
-
-.title-cellBg {
-  background-color: #549bdb;
-  color: #fff;
-}
-
-.prgSelectBtnAct.btn-white.btn-primary {
-  background: #5f79ce !important;
-  color: #fff !important;
-}
-.prgSelectBtnAct.btn-white.btn-primary:focus, .prgSelectBtnAct.btn-white.btn-primary:active {
-  background: #5f79ce !important;
-  color: #fff !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/*---- 達美樂介面 ---- */
-.dominos-inventory-container {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #C5D0DC;
-  overflow: hidden;
-  /* avoid browser level touch actions */
-  xtouch-action: none;
 .PMS0830070_dtTable th, .PMS0830070_dtTable td {
   padding: 3px 5px;
 }
@@ -4459,22 +4397,53 @@ td div.act-box span.act-text {
   height: 23px !important;
 }
 
-.dominos-inventory-wrap .horizTable-outer .css_table .css_th {
-  background: #c0d6ee;
-  color: #000;
+.lightGrayTag {
+  background: #c0c0c0;
 }
 
-.dominos-inventory-details {
-  margin: 0 20px;
+.brighterGrayTag {
+  background: #dcdcdc;
 }
 
-.dominos-btn-group ul li {
+.darkGrayTag {
+  background: #8c8c8c !important;
+  color: #fff;
+}
+
+.lightYellowTag {
+  background: #ffffa5;
+}
+
+.lightPurpleTag {
+  background: #f2f2ff;
+}
+
+.sexyPurpleTag {
+  background: #ffc7ff;
+}
+
+.brighterPurpleTag {
+  background: #e6e6ff;
+}
+
+.padding-tb-5 {
+  padding: 0px 3px;
+}
+
+.lightBlue-box {
+  background: #7affff;
   display: inline-block;
-  width: 81px;
-  margin-bottom: 5px;
+  width: 20px;
+  float: right;
+  text-align: center;
 }
-.dominos-btn-group ul li.btn-120 {
-  width: 120px;
+
+.lightPurple-box {
+  background: #ffc7ff;
+  display: inline-block;
+  width: 20px;
+  float: right;
+  text-align: center;
 }
 
 .padding-left-24 {
@@ -4649,6 +4618,124 @@ tr.no-cursor-tr td {
     width: 237px;
   }
 }
+.vue-treeselect__menu label {
+  text-align: left;
+  width: auto;
+}
+
+.vue-treeselect {
+  display: inline-block;
+}
+
+/***** vue 問題 **** */
+.openChangeLogDialog .el-dialog {
+  top: 3% !important;
+}
+
+.search-content .el-select .el-input__inner {
+  height: 25px !important;
+}
+.search-content .el-select .el-select__tags {
+  height: 25px !important;
+  overflow: hidden;
+}
+
+.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
+  height: 25px !important;
+}
+.grid-item .el-cascader .el-input__inner {
+  height: 25px !important;
+}
+
+/***** vue 問題 **** */
+#prgPropsSetupVM .title {
+  font-size: 1.2em;
+  color: #555;
+  margin: auto auto 5px auto;
+}
+#prgPropsSetupVM .borderFrame {
+  min-height: 100px;
+}
+
+.title-cellBg {
+  background-color: #549bdb;
+  color: #fff;
+}
+
+.prgSelectBtnAct.btn-white.btn-primary {
+  background: #5f79ce !important;
+  color: #fff !important;
+}
+.prgSelectBtnAct.btn-white.btn-primary:focus, .prgSelectBtnAct.btn-white.btn-primary:active {
+  background: #5f79ce !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/*---- 達美樂介面 ---- */
+.dominos-inventory-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #C5D0DC;
+  overflow: hidden;
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+
+.dominos-inventory-left {
+  flex: 0 0 auto;
+  padding: 10px;
+  width: 220px;
+  min-height: 200px;
+  min-width: 200px;
+  border-right: 3px solid #c0d6ee;
+  height: auto !important;
+  overflow: hidden;
+}
+
+.dominos-inventory-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+}
+
+.dominos-inventory-wrap .horizTable-outer .css_table .css_th {
+  background: #c0d6ee;
+  color: #000;
+}
+
+.dominos-inventory-details {
+  margin: 0 20px;
+}
+
+.dominos-btn-group ul li {
+  display: inline-block;
+  width: 81px;
+  margin-bottom: 5px;
+}
+.dominos-btn-group ul li.btn-120 {
+  width: 120px;
+}
+
+.dominos-input-group select {
+  vertical-align: bottom;
+}
+.dominos-input-group .input-medium {
+  margin-bottom: 3px;
+}
+
+.order-down {
+  float: right;
+}
+
+.PSIW500030-down .grid-item label {
+  vertical-align: text-bottom;
+}
+
 /*------  共用區public ------ */
 .float-left, .pull-left {
   float: left;
@@ -5503,9 +5590,9 @@ a {
   height: 25px;
 }
 .input-medium.resvCard-2sm {
-    width: 102.5px;
-    max-width: 100%;
-    height: 25px;
+  width: 102.5px;
+  max-width: 100%;
+  height: 25px;
 }
 .input-medium.ca-select {
   width: 65px;
@@ -5519,46 +5606,6 @@ a {
 }
 .input-medium.large-c1 {
   width: 210px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w253px {
-  width: 253px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w510px {
-  width: 510px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w388px {
-  width: 388px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w118px {
-  width: 118px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w142px {
-  width: 142px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w348px {
-  width: 348px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w240px {
-  width: 240px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w96c2 {
-  width: 96.2px;
   max-width: 100%;
   height: 25px;
 }
@@ -5614,6 +5661,26 @@ a {
 }
 .input-medium.postaladdress2 {
   width: 464px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w142px {
+  width: 142px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w348px {
+  width: 348px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w240px {
+  width: 240px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.w96c2 {
+  width: 96.2px;
   max-width: 100%;
   height: 25px;
 }
