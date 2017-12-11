@@ -7,7 +7,7 @@
 var vmHub = new Vue;
 var prg_id = "RS0W202010";
 
-// var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
+var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
 g_socket.on('checkTableLock', function (result) {
@@ -213,50 +213,71 @@ var singlePage = Vue.extend({
                  this.singleData.place_amt = tot_amt;
              },
              deep: true
+         },
+        //region//按鈕如沒權限, 則不能Enable
+        cancelEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1010";
+            });
+            if(purview == -1){
+                this.cancelEnable = false;
+            }
+        },
+        reserveEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1020";
+            });
+            if(purview == -1){
+                this.reserveEnable = false;
+            }
+        },
+        waitEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1030";
+            });
+            if(purview == -1){
+                this.waitEnable = false;
+            }
+        },
+        inquiryEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1040";
+            });
+            if(purview == -1){
+                this.inquiryEnable = false;
+            }
+        },
+        modifyEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "0400";
+            });
+            if(purview == -1){
+                this.modifyEnable = false;
+            }
+        },
+         saveEnable: function () {
+             var purview;
+             if(this.createStatus){
+                 purview = _.findIndex(go_funcPurview, function (value) {
+                     return value.func_id == "0200";
+                 });
+                 if(purview == -1){
+                     this.saveEnable = false;
+                 }
+             }
+             else{
+                 purview = _.findIndex(go_funcPurview, function (value) {
+                     return value.func_id == "0400";
+                 });
+                 if(purview == -1){
+                     this.saveEnable = false;
+                 }
+             }
+
          }
-    //     //region//按鈕如沒權限, 則不能Enable
-    //     cancelEnable: function () {
-    //         var purview = _.findIndex(go_funcPurview, function (value) {
-    //             return value.func_id == "1010";
-    //         });
-    //         if(purview == -1){
-    //             this.cancelEnable = false;
-    //         }
-    //     },
-    //     reserveEnable: function () {
-    //         var purview = _.findIndex(go_funcPurview, function (value) {
-    //             return value.func_id == "1020";
-    //         });
-    //         if(purview == -1){
-    //             this.reserveEnable = false;
-    //         }
-    //     },
-    //     waitEnable: function () {
-    //         var purview = _.findIndex(go_funcPurview, function (value) {
-    //             return value.func_id == "1030";
-    //         });
-    //         if(purview == -1){
-    //             this.waitEnable = false;
-    //         }
-    //     },
-    //     inquiryEnable: function () {
-    //         var purview = _.findIndex(go_funcPurview, function (value) {
-    //             return value.func_id == "1040";
-    //         });
-    //         if(purview == -1){
-    //             this.inquiryEnable = false;
-    //         }
-    //     },
-    //     modifyEnable: function () {
-    //         var purview = _.findIndex(go_funcPurview, function (value) {
-    //             return value.func_id == "0400";
-    //         });
-    //         if(purview == -1){
-    //             this.modifyEnable = false;
-    //         }
-    //     }
-    //
-    //     //endregion
+
+
+        //endregion
      },
     methods: {
 
@@ -909,7 +930,7 @@ var singlePage = Vue.extend({
 
             RS00202010VM.isLoading = true;
 
-            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+            $.post("/api/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     alert("檢查通過！");
@@ -931,7 +952,7 @@ var singlePage = Vue.extend({
                 tmpCUD: self.tmpCud
             };
             RS00202010VM.isLoading = true;
-            $.post("/api/gateway/doOperationSave", lo_params, function (result) {
+            $.post("/api/doOperationSave", lo_params, function (result) {
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     self.singleData.bquet_nos = result.data.bquet_nos;

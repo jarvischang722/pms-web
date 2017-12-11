@@ -36,6 +36,7 @@ module.exports = {
     sel_atten_nam: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
+        var field = _.isUndefined(postData.fields) ? "": postData.fields;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
 
@@ -63,7 +64,7 @@ module.exports = {
                         ui_field_name: ui_field_name
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
@@ -84,6 +85,7 @@ module.exports = {
     sel_alt_nam: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
+        var field = _.isUndefined(postData.fields) ? "": postData.fields;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
 
@@ -122,7 +124,7 @@ module.exports = {
                         ui_field_name: ui_field_name
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
@@ -143,6 +145,7 @@ module.exports = {
     sel_popup_place_cod: function (postData, session, callback) {
         var userInfo = session.user;
         var prg_id = postData.prg_id;
+        var field = _.isUndefined(postData.fields) ? "": postData.fields;
         var ui_field_name = _.isUndefined(postData.fields) ? "" : postData.fields.ui_field_name;
         var params = postData.singleRowData.ashow_cod == "" ? userInfo : _.extend(postData.singleRowData, userInfo);
 
@@ -178,7 +181,7 @@ module.exports = {
                         ui_field_name: ui_field_name
                     }).exec(function (err, selRow) {
                         selRow = selRow.toObject();
-                        dataRuleSvc.getSelectOptions(params, selRow, function (selectData) {
+                        dataRuleSvc.getSelectOptions(params, selRow, field, function (selectData) {
                             result.effectValues.showDataGrid = selectData;
                             result.effectValues.updateFieldNameTmp = updateFieldName;
                             result.effectValues.fieldNameChangeLanguageTmp = fieldNameChangeLanguage;
