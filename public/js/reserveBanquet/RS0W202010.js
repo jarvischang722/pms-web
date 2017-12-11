@@ -90,6 +90,8 @@ var singlePage = Vue.extend({
 
             isShowReserve: true,
 
+            canSave: true,
+
             dgIns: {},
             dtFieldData: [],
             dataGridRows: [],
@@ -126,7 +128,6 @@ var singlePage = Vue.extend({
 
                     self.singleData = _.clone(self.singleDataEmpty);
                     self.defaultValue();
-
                 }
 
                 self.showReserve();
@@ -211,6 +212,7 @@ var singlePage = Vue.extend({
 
                  //依參數『前檯金額格式』顯示
                  this.singleData.place_amt = tot_amt;
+                 this.canSave = false;
              },
              deep: true
          },
@@ -784,8 +786,13 @@ var singlePage = Vue.extend({
          * 存檔按鈕
          */
         save: function () {
-
             var self = this;
+
+            if(!self.canSave){
+                alert('必須先通過庫存檢查！');
+                return;
+            }
+
             if(self.dgIns.endEditing()) {
 
                 if(self.singleData.contact1_cod != null && (self.singleData.contact1_rmk == null || self.singleData.contact1_rmk == "")){
@@ -830,6 +837,10 @@ var singlePage = Vue.extend({
          */
         ModifyStatus: function (newStatus) {
             var self = this;
+
+            if(self.singleData.order_sta == newStatus){
+                return;
+            }
 
             if(self.createStatus) {
                 if(newStatus == "N"){
@@ -908,6 +919,10 @@ var singlePage = Vue.extend({
          * 庫存檢查
          */
         CheckInventory: function () {
+            if(this.dataGridRows.length == 0){
+                alert('請先新增明細！');
+                return;
+            }
             if(this.dgIns.endEditing()) {
                 this.saveToTmpCud();
                 this.callAPI('2030');
@@ -915,6 +930,25 @@ var singlePage = Vue.extend({
             else {
                 alert('場地明細尚未編輯完成！');
             }
+        },
+
+        updateInventory: function (data) {
+            var self = this;
+            self.canSave = true;
+
+            _.each(self.dataGridRows, function (value) {
+                if(value.is_allplace == "Y"){
+                    var item = _.find(data.check_dt, function (field) {
+                        return field.place_cod == value.place_cod.trim();
+                    });
+                    value.inv_qnt = item.inv_qnt;
+                }
+                else {
+                    value.inv_qnt = value.desk_qnt;
+                }
+            });
+
+            self.dgIns.loadDgData(self.dataGridRows);
         },
 
         callAPI: function (func_id) {
@@ -934,6 +968,7 @@ var singlePage = Vue.extend({
                 RS00202010VM.isLoading = false;
                 if (result.success) {
                     alert("檢查通過！");
+                    self.updateInventory(result.data);
                 }
                 if (result.msg != "") {
                     alert(result.msg);
@@ -957,10 +992,9 @@ var singlePage = Vue.extend({
                 if (result.success) {
                     self.singleData.bquet_nos = result.data.bquet_nos;
                     alert("儲存成功！");
-                    self.fetchSingleData(self.singleData.bquet_nos);
-                    self.fetchDataGridData(self.singleData.bquet_nos);
-                    self.dgIns.initTmpCUD();
                     RS00202010VM.qryPageOneData();
+                    $("#gs-order-page").dialog("close");
+                    vmHub.$emit("showReserve", {bquet_nos: self.singleData.bquet_nos});
                 }
                 if (result.msg != "") {
                     alert(result.msg);
@@ -1186,7 +1220,6 @@ var RS00202010VM = new Vue({
         },
         addReserve: function () {
             vmHub.$emit("showReserve", {bquet_nos: ""});
-            //vmHub.$emit("showReserve", {bquet_nos: "0600006"});
         },
 
         showReserve: function (bquet_nos) {
@@ -1198,13 +1231,5 @@ var RS00202010VM = new Vue({
         }
     }
 });
-
-//四捨五入
-function formatFloat(num, pos)
-{
-    var size = Math.pow(10, pos);
-    return Math.round(num * size) / size;
-}
-
 
 $('.easyUi-custom1').tabs({});

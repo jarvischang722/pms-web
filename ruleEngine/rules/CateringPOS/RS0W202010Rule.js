@@ -10,7 +10,6 @@ var ruleRootPath = appRootDir　+　"/ruleEngine/";
 var queryAgent = require(appRootDir　+　'/plugins/kplug-oracle/QueryAgent');
 var mongoAgent = require(appRootDir + '/plugins/mongodb');
 var dataRuleSvc = require(appRootDir + '/services/DataRuleService');
-var commandRules = require("./../CommonRule");
 var ReturnClass = require(ruleRootPath　+　"/returnClass");
 var ErrorClass = require(ruleRootPath　+　"/errorClass");
 var selOptLib = require("../SelectOptionsLib");
@@ -233,25 +232,6 @@ module.exports = {
         if(disc_amt < 0) disc_amt = 0;
 
         lo_result.effectValues.disc_amt = disc_amt;
-
-        callback(lo_error, lo_result);
-    },
-
-    cal_inv_qnt: function (postData, session, callback) {
-        var lo_result = new ReturnClass();
-        var lo_error = null;
-
-        if (postData.validateField == "desk_qnt") {
-            //a.	需經過場地庫存判斷
-            if (postData.editRowData.is_allplace == "N") {
-                lo_result.effectValues.inv_qnt = postData.editRowData.dest_qnt;
-            }
-        }
-        else {
-
-        }
-
-        //打API取得庫存數
 
         callback(lo_error, lo_result);
     }
