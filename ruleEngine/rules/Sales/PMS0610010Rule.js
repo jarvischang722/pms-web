@@ -33,7 +33,7 @@ module.exports = {
 
         let fieldNameChangeLanguage = {
             pcust_idx_cust_cod: "公司代號",
-            pcust_idx_show_cod: "顯示代號",
+            pcust_idx_show_cod: "公司編號",
             pcust_idx_cust_nam: "公司名稱"
         };
 
@@ -71,7 +71,7 @@ module.exports = {
 
         let fieldNameChangeLanguage = {
             hoffice_cust_idx_cust_cod: "公司代號",
-            hoffice_cust_idx_show_cod: "顯示代號",
+            hoffice_cust_idx_show_cod: "公司編號",
             hoffice_cust_idx_cust_nam: "公司名稱"
         };
 

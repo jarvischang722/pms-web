@@ -323,6 +323,14 @@ var DatagridFieldAdapter = {
                     return fieldName;
                 };
             }
+
+            //金額:依參數顯示
+            if(!_.isUndefined(fieldAttrObj.format_func_name.rule_val)){
+                tmpFieldObj.formatter = function (val, row, index) {
+                    var fieldName = go_formatDisplay.amtFormat(val, fieldAttrObj.format_func_name.rule_val);
+                    return fieldName;
+                };
+            }
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
