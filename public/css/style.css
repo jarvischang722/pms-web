@@ -4329,6 +4329,7 @@ td div.act-box span.act-text {
   padding: 3px;
 }
 
+/*----  vue 問題 ---- */
 .vue-treeselect__menu label {
   text-align: left;
   width: auto;
@@ -4338,7 +4339,6 @@ td div.act-box span.act-text {
   display: inline-block;
 }
 
-/***** vue 問題 **** */
 .openChangeLogDialog .el-dialog {
   top: 3% !important;
 }
@@ -4358,7 +4358,8 @@ td div.act-box span.act-text {
   height: 25px !important;
 }
 
-/***** vue 問題 **** */
+/*----  /.END vue 問題 ---- */
+/*----  欄位屬性設定界面 ---- */
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -4384,6 +4385,7 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
+/*----  欄位屬性設定界面 ---- */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;

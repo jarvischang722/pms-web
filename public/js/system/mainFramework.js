@@ -59,25 +59,27 @@ var BacchusMainVM = new Vue({
     methods: {
         updSysPrgPath: function () {
             let subsysPurview = _.findWhere(this.subsysMenu, {subsys_id: getCookie("usingSubsysID")});
-            let usingSubsysName = subsysPurview["subsys_nam_" + gs_locale];
-            let usingPrgName = '';
-            subsysPurview.mdlMenu.every(function (mdl) {
+            if (subsysPurview) {
 
-                if (mdl.group_sta == 'G') {
-                    if (mdl.mdl_id == getCookie("usingPrgID")) {
-                        usingPrgName = mdl["mdl_name_" + gs_locale];
-                    }
-                } else {
-                    let lo_pro = _.findWhere(mdl.processMenu, {pro_id: getCookie("usingPrgID")});
-                    if (!_.isUndefined(lo_pro)) {
-                        usingPrgName = lo_pro["pro_name_" + gs_locale];
-                    }
-                }
-                return _.isEmpty(usingPrgName)
-            })
-            document.title = `${usingPrgName} > ${usingSubsysName} > ${this.activeSystem.abbrName}`;
-            this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`
+                let usingSubsysName = subsysPurview ? subsysPurview["subsys_nam_" + gs_locale] : "";
+                let usingPrgName = '';
+                subsysPurview.mdlMenu.every(function (mdl) {
 
+                    if (mdl.group_sta == 'G') {
+                        if (mdl.mdl_id == getCookie("usingPrgID")) {
+                            usingPrgName = mdl["mdl_name_" + gs_locale];
+                        }
+                    } else {
+                        let lo_pro = _.findWhere(mdl.processMenu, {pro_id: getCookie("usingPrgID")});
+                        if (!_.isUndefined(lo_pro)) {
+                            usingPrgName = lo_pro["pro_name_" + gs_locale];
+                        }
+                    }
+                    return _.isEmpty(usingPrgName)
+                })
+                document.title = `${usingPrgName} > ${usingSubsysName} > ${this.activeSystem.abbrName}`;
+                this.sysPrgPath = `${this.activeSystem.abbrName} > ${usingSubsysName} > ${usingPrgName}`
+            }
         },
         /**
          * 塞入作業Vue實體
@@ -164,7 +166,7 @@ var BacchusMainVM = new Vue({
                     ls_pro_url = tmpQuick.pro_url;
                 }
             }
-           // ls_pro_url = "editPassword"
+            // ls_pro_url = "editPassword"
             if (!_.isEmpty(ls_pro_url)) {
                 $("#MainContentDiv").load(ls_pro_url + "?" + new Date().getTime());
             }
