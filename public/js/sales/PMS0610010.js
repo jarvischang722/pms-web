@@ -257,6 +257,7 @@ var vm = new Vue({
     mounted: function () {
         this.initTmpCUD();
         this.fetchUserInfo();
+        this.setSearchCond();
         this.loadDataGridByPrgID();
     },
     components: {
@@ -309,6 +310,24 @@ var vm = new Vue({
                 }
             });
         },
+        setSearchCond: function(){
+            this.searchCond = {
+                ar_amt: "",
+                credit_amt: "",
+                area_cod : [],
+                business_cod: [],
+                contract_sta: [],
+                cust_nam: "",
+                ins_dat: "",
+                rank_nos: "",
+                sales_cod: [],
+                cust_mn_show_cod: "",
+                status_cod: "",
+                type_cod: [],
+                hoffice_cust_idx_show_cod: "",
+                pcust_idx_show_cod:""
+            };
+        },
         loadDataGridByPrgID: function () {
 
             var lo_searchCond = _.clone(this.searchCond);
@@ -319,7 +338,6 @@ var vm = new Vue({
             };
 
             $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                console.log(result);
                 vm.searchFields = result.searchFields;
                 vm.pageOneFieldData = result.dgFieldsData;
                 vm.pageOneDataGridRows = result.dgRowData;
@@ -327,36 +345,43 @@ var vm = new Vue({
             });
         },
         showDataGrid: function () {
+            var self = this;
             this.isLoading = false;
 
-            // var colOption = [{field: 'ck', checkbox: true}];
-            // colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
-            // this.dgIns = new DatagridSingleGridClass();
-            // this.dgIns.init(gs_prgId, "PMS0610010_dg", colOption, this.pageOneFieldData, {
-            //     singleSelect: false
-            // });
-            // vm.dgIns.loadDgData(this.pageOneDataGridRows);
+            var colOption = [{field: 'ck', checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
+
+            //一開始只載入10筆資料
+            var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
 
             $('#PMS0610010_dg').datagrid({
-                url: '/api/sales/testGetDatagridData',
-                columns: [
-                    {field: 'Id', title: 'id', width: 100},
-                    {field: 'Name', title: 'name', width: 100}
-                ],
+                fitColumns: "true",
+                columns: [colOption],
                 pagination: true,
                 rownumbers: true,
-                pageSize: 10
+                pageSize: 10,
+                data: la_showDataRows
             });
 
             var pager = $('#PMS0610010_dg').datagrid('getPager');
-            $(pager).pagination({
-                pageSize: 10,
+            pager.pagination({
+                total: self.pageOneDataGridRows.length,
+                onSelectPage: function (pageNo, pageSize) {
+                    var start = (pageNo - 1) * pageSize;
+                    var end = start + pageSize;
+                    $("#PMS0610010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
+                    pager.pagination('refresh', {
+                        total:self.pageOneDataGridRows.length,
+                        pageNumber:pageNo
+                    });
+                },
+                pageNumber: 1,
+                pageList: [10,20,50],
                 showPageList: true,
                 beforePageText: '第',
                 afterPageText: "頁,共{pages}頁",
                 displayMsg: "顯示{from}到{to}筆資料, 共{total}筆資料"
             });
-
         },
         appendRow: function () {
             this.isLoading = true;

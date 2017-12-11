@@ -107,14 +107,3 @@ exports.addFuncRule_PMS0620020 = function (req, res) {
     });
 };
 
-exports.testData = function (req, res) {
-    var la_datagridData = [];
-    for (var i = 0; i < 1000; i++) {
-        la_datagridData.push({
-            Id: "ID" + i,
-            Name: "NAME" + 1
-        });
-    }
-    res.json({data: la_datagridData});
-};
-

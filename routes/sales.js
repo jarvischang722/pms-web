@@ -38,6 +38,4 @@ module.exports = function (app) {
 
     app.post("api/sales/qryTreeSelectData", apiMiddles, salesCrtl.qryTreeSelectData);
 
-    app.get("/api/sales/testGetDatagridData", salesCrtl.testData);
-
 };

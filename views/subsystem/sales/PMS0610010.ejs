@@ -8,132 +8,6 @@
                 :search-cond.sync="searchCond"
                 :fetch-data="loadDataGridByPrgID"
         ></search-comp>
-        <div class="col-xs-12">
-            <div class="search-content">
-                <div class="search-co">
-                    <div class="row">
-                        <div class="col-xs-12 search-co-content search-S2">
-                            <div class="width-95 searchMain-S2">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司編號</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label classs="">公司名稱</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>業務員</label>
-                                        <input type="text" class="input-medium medium-c1Rm" disabled/>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row search-footer-btn">
-                                <div class="footer-btn-menu-co">
-                                    <ul>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="查詢">
-                                                <div class="icon-reStyle icon-co-14"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="" data-rel="tooltip" data-placement="bottom"
-                                                 title="清除">
-                                                <div class="icon-reStyle icon-co-11"></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="icon-moreSearch show-search-detail">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>  <!-- /.footer-btn-menu-co -->
-                            </div> <!-- /.search-footer-btn -->
-                        </div>
-                        <div class="search-co-content col-xs-12 search-S2-con rece-search-detail" style="display: none;">
-                            <div class="width-95">
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>狀態</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>合約狀態</label>
-                                        <input type="text" class="input-medium medium-c1Rm" disabled/>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>總公司</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>公司類別</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2" disabled/>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>行業別</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2" disabled/>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>區域別</label>
-                                        <input type="text" class="input-medium medium-c1-col2v2" disabled/>
-                                        <i class="moreClick fa fa-ellipsis-h"></i>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>輸入日</label>
-                                        <input type="date" class="input-medium medium-c1"/>
-                                    </div>
-                                    <!--input-mLeft-1 對齊帳號所屬代號-->
-                                    <div class="grid-item">
-                                        <label>等級</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>簽帳公司</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>可簽帳</label>
-                                        <select class="input-medium medium-c1">
-                                            <option value="y">是</option>
-                                            <option value="n">否</option>
-                                            <option value="all">全部</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="grid">
-                                    <div class="grid-item">
-                                        <label>信用額度</label>
-                                        <input type="date" class="input-medium medium-c1"/>
-                                    </div>
-                                    <div class="grid-item">
-                                        <label>目前簽帳金額</label>
-                                        <input type="text" class="input-medium medium-c1"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div> <!-- row-->
-                </div> <!-- /.search-co -->
-            </div> <!-- /.row  search-content-->
-        </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
 
         <div class="col-xs-12 col-sm-12 businessCompanyData">
@@ -142,7 +16,7 @@
                     <div>
                         <!-- 商務公司 table -->
                         <!--<table id="bs-companyMain-table" class="gridTableHt"></table>-->
-                        <table id="PMS0610010_dg"></table>
+                        <table id="PMS0610010_dg" class="gridTableHt"></table>
                     </div>
                 </div>
             </div>

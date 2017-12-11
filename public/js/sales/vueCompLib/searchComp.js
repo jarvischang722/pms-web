@@ -156,9 +156,10 @@ var go_searchComp = Vue.extend({
         },
         chkClickPopUpGrid: function (field) {
             var self = this;
+
             if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
                 var params = {
-                    prg_id: "PMS0620050",
+                    prg_id: field.prg_id,
                     fields: field
                 };
 

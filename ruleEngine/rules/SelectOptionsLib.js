@@ -407,6 +407,24 @@ exports.getCashierrfUseSta = function () {
 };
 
 /**
+ * [PMS0610010_商務公司]
+ * credit_sta 下拉資料
+ */
+exports.getCreditSta = function () {
+    var lo_optionList = [
+        {
+            display: "可簽帳",
+            value: "Y"
+        },
+        {
+            display: "不可簽帳",
+            value: "N"
+        }
+    ];
+    return lo_optionList;
+};
+
+/**
  * [PMS0620020_業務員資料編輯] 是否飯店、餐飲、會員業務
  */
 exports.getSalesChkeckedList = function(){
@@ -988,6 +1006,15 @@ exports.qry_address_rf_cust_use = function (params, callback) {
 exports.qry_address_rf_ghist_use = function (params, callback) {
     var lo_result = new ReturnClass();
     lo_result.selectOptions = optionsLib.getIsCanUse();
+    callback(null, lo_result);
+};
+
+/**
+ * 商務公司(PMS0610010) 取得是否可簽帳
+ */
+exports.lang_CustidxCreditsta = function (params, callback) {
+    var lo_result = new ReturnClass();
+    lo_result.selectOptions = optionsLib.getCreditSta();
     callback(null, lo_result);
 };
 
