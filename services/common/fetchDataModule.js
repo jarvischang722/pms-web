@@ -222,7 +222,7 @@ function qryUIDatagridFields(callback) {
     };
     let la_fieldData = [];
     mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
-        if(!dgFieldData){
+        if (!dgFieldData) {
             err = "uiDatagridFields is null";
             return callback(err, dgFieldData);
         }
@@ -247,7 +247,7 @@ function qryUIPageFields(callback) {
         prg_id: gs_prg_id,
         page_id: Number(gn_page_id)
     }, function (err, result) {
-        if(!result){
+        if (!result) {
             err = "uiPageFields is null";
             return callback(err, result);
         }
@@ -289,8 +289,8 @@ function qryFormatRule(la_fieldData, callback) {
          * 去oracle撈format參數
          * @param ls_formatName{string} format 的名稱
          */
-        function qryOracleFormat(ls_formatName){
-            ln_counter ++;
+        function qryOracleFormat(ls_formatName) {
+            ln_counter++;
             queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
                 if (err) {
                     lo_fieldData["format_func_name"].validate = ls_formatFuncName;
@@ -300,7 +300,7 @@ function qryFormatRule(la_fieldData, callback) {
                     lo_fieldData["format_func_name"].rule_val = result.format_val;
                 }
 
-                if( ln_counter == la_fieldData.length){
+                if (ln_counter == la_fieldData.length) {
                     callback(null, la_fieldData);
                 }
             });
@@ -433,13 +433,20 @@ function qrySelectOption(la_dgFieldData, callback) {
  * @param callback
  */
 function qrySearchFields(la_dgFieldData, callback) {
-    fieldAttrSvc.getAllUIPageFieldAttr({
-        prg_id: gs_prg_id,
-        page_id: 3,
-        locale: go_session.locale
-    }, go_session.user, function (err, fields) {
+    async.waterfall([
+        function (cb) {
+            fieldAttrSvc.getAllUIPageFieldAttr({
+                prg_id: gs_prg_id,
+                page_id: 3,
+                locale: go_session.locale
+            }, go_session.user, function (err, fields) {
+                cb(err, fields);
+            });
+        },
+        qryFormatRule
+    ], function (err, result) {
         let lo_rtnData = {
-            searchFields: fields,
+            searchFields: result,
             dgFieldsData: la_dgFieldData
         };
         callback(null, lo_rtnData);
