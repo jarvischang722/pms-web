@@ -290,8 +290,8 @@ function qryFormatRule(la_fieldData, callback) {
          * @param ls_formatName{string} format 的名稱
          */
         function qryOracleFormat(ls_formatName) {
-            ln_counter++;
             queryAgent.query(ls_formatName.toUpperCase(), {athena_id: go_session.user.athena_id}, function (err, result) {
+                ln_counter++;
                 if (err) {
                     lo_fieldData["format_func_name"].validate = ls_formatFuncName;
                 }
