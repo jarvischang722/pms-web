@@ -2,10 +2,10 @@
  * Created by a17017 on 2017/12/11.
  */
 
-function formatDisplayClass(){
+function formatDisplayClass() {
 
     /**
-     * 金額依format轉換
+     * 金額依format轉換(無四捨五入)
      * @param val {string} 原始金額
      * @param rule_val {string} 參數的值(格式)
      * @returns {string}
@@ -43,5 +43,35 @@ function formatDisplayClass(){
         ls_oriAmtValue = ls_oriAmtValue.toFixed(numberOfDecimals).toString().replace(new RegExp(reStr, 'g'), '$&,');
 
         return ls_oriAmtValue;
+    };
+
+    /**
+     * 資料轉回無format(無四捨五入)
+     * @param val {string} 依format轉換後的值
+     */
+    this.removeAmtFormat = function (val) {
+
+        var ls_amtValue = "";
+
+        if (val.indexOf(',') > -1) {
+            let la_splitAmtValue = val.split(',');
+            _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+                ls_amtValue = ls_amtValue + ls_splitAmtValue;
+            });
+
+            if (ls_amtValue.indexOf('.') > -1) {
+                ls_amtValue = ls_amtValue.substring(0, ls_amtValue.indexOf('.'));
+            }
+
+            return ls_amtValue;
+        }
+
+        if (val.indexOf('.') > -1) {
+            ls_amtValue = val.substring(0, val.indexOf('.'));
+
+            return ls_amtValue;
+        }
+
+        return val;
     };
 }
