@@ -4347,6 +4347,116 @@ td div.act-box span.act-text {
   width: 7%;
 }
 
+/***** vue 問題 **** */
+.openChangeLogDialog .el-dialog {
+  top: 3% !important;
+}
+
+.search-content .el-select .el-input__inner {
+  height: 25px !important;
+}
+.search-content .el-select .el-select__tags {
+  height: 25px !important;
+  overflow: hidden;
+}
+
+.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
+  height: 25px !important;
+}
+.grid-item .el-cascader .el-input__inner {
+  height: 25px !important;
+}
+
+/***** vue 問題 **** */
+#prgPropsSetupVM .title {
+  font-size: 1.2em;
+  color: #555;
+  margin: auto auto 5px auto;
+}
+#prgPropsSetupVM .borderFrame {
+  min-height: 100px;
+}
+
+.title-cellBg {
+  background-color: #549bdb;
+  color: #fff;
+}
+
+.prgSelectBtnAct.btn-white.btn-primary {
+  background: #5f79ce !important;
+  color: #fff !important;
+}
+.prgSelectBtnAct.btn-white.btn-primary:focus, .prgSelectBtnAct.btn-white.btn-primary:active {
+  background: #5f79ce !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/*---- 達美樂介面 ---- */
+.dominos-inventory-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #C5D0DC;
+  overflow: hidden;
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+
+.dominos-inventory-left {
+  flex: 0 0 auto;
+  padding: 10px;
+  width: 220px;
+  min-height: 200px;
+  min-width: 200px;
+  border-right: 3px solid #c0d6ee;
+  height: auto !important;
+  overflow: hidden;
+}
+
+.dominos-inventory-right {
+  flex: 1 1 auto;
+  /* resizable */
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+}
+
+.dominos-inventory-wrap .horizTable-outer .css_table .css_th {
+  background: #c0d6ee;
+  color: #000;
+}
+
+.dominos-inventory-details {
+  margin: 0 20px;
+}
+
+.dominos-btn-group ul li {
+  display: inline-block;
+  width: 81px;
+  margin-bottom: 5px;
+}
+.dominos-btn-group ul li.btn-120 {
+  width: 120px;
+}
+
+.dominos-input-group select {
+  vertical-align: bottom;
+}
+.dominos-input-group .input-medium {
+  margin-bottom: 3px;
+}
+
+.order-down {
+  float: right;
+}
+
+.PSIW500030-down .grid-item label {
+  vertical-align: text-bottom;
+}
+
+/*---- 葛萊天漾介面 ---- */
 .gs-rese-contaoner {
   height: 700px;
 }
@@ -4625,115 +4735,6 @@ tr.no-cursor-tr td {
 
 .vue-treeselect {
   display: inline-block;
-}
-
-/***** vue 問題 **** */
-.openChangeLogDialog .el-dialog {
-  top: 3% !important;
-}
-
-.search-content .el-select .el-input__inner {
-  height: 25px !important;
-}
-.search-content .el-select .el-select__tags {
-  height: 25px !important;
-  overflow: hidden;
-}
-
-.grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
-  height: 25px !important;
-}
-.grid-item .el-cascader .el-input__inner {
-  height: 25px !important;
-}
-
-/***** vue 問題 **** */
-#prgPropsSetupVM .title {
-  font-size: 1.2em;
-  color: #555;
-  margin: auto auto 5px auto;
-}
-#prgPropsSetupVM .borderFrame {
-  min-height: 100px;
-}
-
-.title-cellBg {
-  background-color: #549bdb;
-  color: #fff;
-}
-
-.prgSelectBtnAct.btn-white.btn-primary {
-  background: #5f79ce !important;
-  color: #fff !important;
-}
-.prgSelectBtnAct.btn-white.btn-primary:focus, .prgSelectBtnAct.btn-white.btn-primary:active {
-  background: #5f79ce !important;
-  color: #fff !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/*---- 達美樂介面 ---- */
-.dominos-inventory-container {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #C5D0DC;
-  overflow: hidden;
-  /* avoid browser level touch actions */
-  xtouch-action: none;
-}
-
-.dominos-inventory-left {
-  flex: 0 0 auto;
-  padding: 10px;
-  width: 220px;
-  min-height: 200px;
-  min-width: 200px;
-  border-right: 3px solid #c0d6ee;
-  height: auto !important;
-  overflow: hidden;
-}
-
-.dominos-inventory-right {
-  flex: 1 1 auto;
-  /* resizable */
-  padding: 10px;
-  width: 100%;
-  min-height: 200px;
-  min-width: 200px;
-}
-
-.dominos-inventory-wrap .horizTable-outer .css_table .css_th {
-  background: #c0d6ee;
-  color: #000;
-}
-
-.dominos-inventory-details {
-  margin: 0 20px;
-}
-
-.dominos-btn-group ul li {
-  display: inline-block;
-  width: 81px;
-  margin-bottom: 5px;
-}
-.dominos-btn-group ul li.btn-120 {
-  width: 120px;
-}
-
-.dominos-input-group select {
-  vertical-align: bottom;
-}
-.dominos-input-group .input-medium {
-  margin-bottom: 3px;
-}
-
-.order-down {
-  float: right;
-}
-
-.PSIW500030-down .grid-item label {
-  vertical-align: text-bottom;
 }
 
 /*------  共用區public ------ */
@@ -5940,6 +5941,18 @@ input[type=checkbox] {
 
 .width-103px {
   width: 103px !important;
+}
+
+.width-133px {
+  width: 133px !important;
+}
+
+.width-80px {
+  width: 80px !important;
+}
+
+.margin-right-4 {
+  margin-right: 4px !important;
 }
 
 /*-------------- responsive -------------- */
