@@ -152,7 +152,55 @@ var go_searchComp = Vue.extend({
     },
     methods: {
         doSearch: function () {
-            this.$parent.searchCond = this.searchCond;
+            var la_searchFields = JSON.parse(JSON.stringify(this.searchFields));
+            var lo_searchCond =  JSON.parse(JSON.stringify(this.searchCond));
+
+            _.each(la_searchFields, function (lo_searchField) {
+                if(lo_searchField.ui_type == "number"){
+                    if(lo_searchField.format_func_name.rule_val != ""){
+                        lo_searchCond[lo_searchField.ui_field_name] =
+                            go_formatDisplayClass.removeAmtFormat(lo_searchCond[lo_searchField.ui_field_name]);
+                    }
+                }
+                else if(lo_searchField.ui_type == "multitree"){
+                    if(lo_searchCond[lo_searchField.ui_field_name].length != 0){
+                        let la_options = lo_searchField.selectData;
+                        let la_fieldMultitreeVal = JSON.parse(JSON.stringify(lo_searchCond[lo_searchField.ui_field_name]));
+                        lo_searchCond[lo_searchField.ui_field_name] = [];
+
+                        _.each(la_fieldMultitreeVal, function(ls_value){
+                            let lo_selectData = _.findWhere(la_options, {id: ls_value});
+                            if (_.isUndefined(lo_selectData)) {
+                                searchOptions(la_options, ls_value, lo_searchCond[lo_searchField.ui_field_name]);
+                            }
+                            else if (_.isUndefined(lo_selectData.value)) {
+                                searchValue(lo_selectData.children, lo_searchCond[lo_searchField.ui_field_name]);
+                            }
+                            else {
+                                lo_searchCond[lo_searchField.ui_field_name].push(lo_selectData.value);
+                            }
+                        });
+                    }
+                }
+                else if(lo_searchField.ui_type == "tree"){
+                    var ln_dataLen = lo_searchCond[lo_searchField.ui_field_name].length;
+                    lo_searchCond[lo_searchField.ui_field_name] = lo_searchCond[lo_searchField.ui_field_name][ln_dataLen] - 1;
+                }
+                else if(lo_searchField.ui_type == "date"){
+                    if(lo_searchCond[lo_searchField.ui_field_name] != ""){
+                        lo_searchCond[lo_searchField.ui_field_name] =
+                            moment(new Date(lo_searchCond[lo_searchField.ui_field_name])).format("YYYY/MM/DD");
+                    }
+                }
+                else if(lo_searchField.ui_type == "datetime"){
+                    if(lo_searchCond[lo_searchField.ui_field_name] != ""){
+                        lo_searchCond[lo_searchField.ui_field_name] =
+                            moment(new Date(lo_searchCond[lo_searchField.ui_field_name])).format("YYYY/MM/DD HH:mm:ss");
+                    }
+                }
+            });
+
+            this.$parent.searchCond = lo_searchCond;
             this.fetchData();
         },
         chkClickPopUpGrid: function (field) {
@@ -191,6 +239,7 @@ var go_searchComp = Vue.extend({
             });
             dialog.dialog("open");
         },
+        //金額顯示format
         formatAmt: function(val, field){
             var ls_amtValue = val;
             var ls_ruleVal = field.format_func_name.rule_val;
@@ -204,6 +253,34 @@ var go_searchComp = Vue.extend({
         }
     }
 });
+
+function searchValue(la_children, ls_selectData) {
+    _.each(la_children, function (lo_children) {
+        if (_.isUndefined(lo_children.value)) {
+            searchValue(lo_children.children, ls_selectData);
+        }
+        else {
+            ls_selectData.push(lo_children.value);
+            return;
+        }
+    });
+}
+
+function searchOptions(la_options, ls_value, la_selectData) {
+    _.each(la_options, function (lo_option) {
+        var lo_childrenOptions = _.findWhere(lo_option.children, {id: ls_value});
+        if (_.isUndefined(lo_childrenOptions)) {
+            searchOptions(lo_option.children, ls_value, la_selectData);
+        }
+        else if (_.isUndefined(lo_childrenOptions.value)) {
+            searchValue(lo_childrenOptions.children, la_selectData);
+        }
+        else {
+            la_selectData.push(lo_childrenOptions.value);
+            return;
+        }
+    });
+}
 
 
 

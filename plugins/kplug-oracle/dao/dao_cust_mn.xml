@@ -116,7 +116,7 @@
         <parameter type="string" kind="3">cust_nam</parameter>
     </dao>
 
-    <!--[PMS0610010] 商務公司-->
+    <!--[PMS0610010] 商務公司 取多筆資料-->
     <dao name="QRY_CUST_MN">
         <statement><![CDATA[
               SELECT CUST_MN.ATHENA_ID AS cust_mn_athena_id, CUST_MN.CUST_COD AS cust_mn_cust_cod, CUST_MN.SHOW_COD AS cust_mn_show_cod, CUST_MN.CUST_NAM AS cust_mn_cust_nam, CUST_MN.STATUS_COD AS cust_mn_status_cod, CONTRACT_STATUS_RF.STATUS_DESC AS contract_status_rf_status_desc, CUST_IDX.UNI_COD AS cust_idx_uni_cod, CUST_PERS_CUST_IDX.ALT_NAM AS cust_pers_cust_idx_alt_nam, SALES_MN.SALES_NAM AS sales_mn_sales_nam,

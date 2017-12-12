@@ -329,14 +329,14 @@ var vm = new Vue({
             };
         },
         loadDataGridByPrgID: function () {
-
             var lo_searchCond = _.clone(this.searchCond);
+
             var lo_params = {
                 prg_id: gs_prgId,
                 page_id: 1,
                 searchCond: lo_searchCond
             };
-console.log(lo_searchCond);
+
             if(this.searchFields.length == 0){
                 $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
                     vm.searchFields = result.searchFields;
