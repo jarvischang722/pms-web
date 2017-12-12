@@ -11,6 +11,7 @@ var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
 g_socket.on('checkTableLock', function (result) {
+    console.log(result);
     if(!result.success){
         alert(result.errorMsg);
         singlePage.readonly = true;
@@ -31,9 +32,9 @@ function DatagridRmSingleDTGridClass() {}
 DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
 DatagridRmSingleDTGridClass.prototype.onClickRow = function () {};
 
-// $(window).on('beforeunload', function () {
-//     return singlePage.doRowUnLock();
-// });
+$(window).on('beforeunload', function () {
+    return singlePage.doRowUnLock();
+});
 
 var singlePage = Vue.extend({
     template: "#RS0W212010Tmp",
@@ -104,8 +105,6 @@ var singlePage = Vue.extend({
     created: function () {
         var self = this;
         vmHub.$on("showReserve", function (PostData) {
-
-            self.doRowLock(PostData.bquet_nos);
             self.singleData = {};
             self.oriSingleData = {};
             self.dataGridRows = [];
@@ -114,6 +113,7 @@ var singlePage = Vue.extend({
 
             self.loadField(function () {
                 if(PostData.bquet_nos != "") {
+                    self.doRowLock(PostData.bquet_nos);
                     self.createStatus = false;
                     self.isModificable = false;
                     self.fetchSingleData(PostData.bquet_nos);
@@ -830,6 +830,9 @@ var singlePage = Vue.extend({
          */
         exit: function () {
             $("#gs-order-page").dialog('close');
+            if(!this.createStatus){
+                this.doRowUnLock();
+            }
         },
 
         /**
