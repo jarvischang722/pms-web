@@ -20,7 +20,7 @@ module.exports = {
         };
 
         queryAgent.query("QRY_TRAFFIC_AMT_FORMAT", lo_params, function (err, result) {
-            postData.format_func_name = result.amtformat;
+            postData.format_func_name = result.format_val;
             postData.visiable = 'Y';
             callback(null, [postData]);
         });

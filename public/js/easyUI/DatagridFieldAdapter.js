@@ -74,14 +74,26 @@ var DatagridFieldAdapter = {
         tmpFieldObj.title = '<span title="' + fieldAttrObj.ui_hint + '">' + fieldAttrObj.ui_display_name + '</span>';
         tmpFieldObj.sortable = true;
 
-        tmpFieldObj.editor = {
-            type: dataType,
-            options: {
-                required: fieldAttrObj.requirable == "Y",
-                readonly: fieldAttrObj.modificable == "N",
-                validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
-            }
-        };
+        if( typeof fieldAttrObj.format_func_name === "object"){
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name.validate != "" ? fieldAttrObj.format_func_name.validate.split(",") : []
+                }
+            };
+        }
+        else{
+            tmpFieldObj.editor = {
+                type: dataType,
+                options: {
+                    required: fieldAttrObj.requirable == "Y",
+                    readonly: fieldAttrObj.modificable == "N",
+                    validType: fieldAttrObj.format_func_name != "" ? fieldAttrObj.format_func_name.split(",") : []
+                }
+            };
+        }
 
         /** 長度限制  **/
         var mixLength = fieldAttrObj.requirable == "Y" ? '1' : '0';

@@ -98,6 +98,7 @@ Vue.component('single-grid-pms0620050-tmp', {
                     self.fetchRowData(self.rowData);
                 }
             });
+
         },
         fetchRowData: function (editingRow) {
             var self = this;
@@ -111,6 +112,12 @@ Vue.component('single-grid-pms0620050-tmp', {
                 } else {
                     console.error(result.errorMsg);
                 }
+            });
+
+            editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
+            editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
+            $.post("/api/fetchSinglePageFieldData", {prg_id: gs_prgId, page_id: 2, searchCond: editingRow}, function(result){
+                console.log(result);
             });
         },
         formatAmt: function (amtValue, field) {

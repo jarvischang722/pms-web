@@ -13,5 +13,13 @@ module.exports = function(app  ) {
     /** 作業儲存 **/
     app.post("/api/doOperationSave", apiMiddles, operCtrl.doOperationSave);
 
-    app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDataGridFieldData);
+    /**
+     * (作業)查詢多筆欄位
+     */
+    app.post("/api/fetchDataGridFieldData", apiMiddles, operCtrl.fetchDgFieldData);
+
+    /**
+     * (作業)查詢單筆欄位
+     */
+    app.post("/api/fetchSinglePageFieldData", apiMiddles, operCtrl.fetchGsFieldData);
 };
