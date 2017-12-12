@@ -46,7 +46,7 @@
                                             <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
-                                            <select v-model="singleData.contact1_cod" class="input-medium resvCard-date" :disabled="readonly">
+                                            <select v-model="singleData.contact1_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
                                                 <option v-for="opt in selectOption.contact1_cod" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -64,7 +64,7 @@
                                             <input type="text" v-model="singleData.show_cod" class="input-medium rateCode-s1" disabled/>
                                         </div>
                                         <div class="grid-item">
-                                            <select v-model="singleData.contact2_cod" class="input-medium resvCard-date" :disabled="readonly">
+                                            <select v-model="singleData.contact2_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
                                                 <option v-for="opt in selectOption.contact2_cod" :value="opt.value">
                                                     {{opt.display}}
                                                 </option>
@@ -159,14 +159,14 @@
                                         <div class="grid-item">
                                             <label class="">預/保桌數</label>
                                             <input type="text" v-model="singleData.desk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
-                                            <span>/</span>
+                                            <span>／</span>
                                             <input type="text" v-model="singleData.pmdesk_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                         </div>
 
                                         <div class="grid-item">
-                                            <label class="width-82px">預/保人數</label>
+                                            <label class="width-80px">預/保人數</label>
                                             <input type="text" v-model="singleData.adult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
-                                            <span>/</span>
+                                            <span>／</span>
                                             <input type="text" v-model="singleData.poadult_qnt" class="input-medium consumeCode-g1-ss text-right" :disabled="readonly">
                                         </div>
                                         <div class="grid-item">
@@ -252,16 +252,16 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label class="">輸入者/日</label>
-                                            <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m" disabled>
-                                            <input type="text" v-model="singleData.ins_dat" class="input-medium" disabled>
-                                            <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m" disabled>
+                                            <input type="text" v-model="singleData.ins_usr" class="input-medium resvCard-m margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.ins_dat" class="input-medium margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.ins_tim" class="input-medium resvCard-m margin-right-4" disabled>
                                         </div>
 
                                         <div class="grid-item">
                                             <label class="">最後修改者/日</label>
-                                            <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m" disabled>
-                                            <input type="text" v-model="singleData.upd_dat" class="input-medium" disabled>
-                                            <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m" disabled>
+                                            <input type="text" v-model="singleData.upd_usr" class="input-medium resvCard-m margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.upd_dat" class="input-medium margin-right-4" disabled>
+                                            <input type="text" v-model="singleData.upd_tim" class="input-medium resvCard-m margin-right-4" disabled>
                                         </div>
 
                                     </div>
