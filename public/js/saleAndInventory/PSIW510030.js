@@ -2012,6 +2012,7 @@ BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
 $(window).on('beforeunload', function () {
+    BacchusMainVM.doLogout();
     return PSIW510030.doRowUnLock();
 });
 
