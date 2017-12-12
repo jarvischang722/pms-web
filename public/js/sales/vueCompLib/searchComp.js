@@ -135,7 +135,8 @@ var go_searchComp = Vue.extend({
     data: function () {
         return {
             searchFieldsByRow: [],
-            selectPopUpGridData: []
+            selectPopUpGridData: [],
+            titleName: ""
         };
     },
     created: function () {
@@ -156,6 +157,7 @@ var go_searchComp = Vue.extend({
         },
         chkClickPopUpGrid: function (field) {
             var self = this;
+            this.titleName = field.prg_id;
 
             if (field.ui_type == "popupgrid" || field.ui_type == "multipopupgrid") {
                 var params = {
@@ -174,6 +176,7 @@ var go_searchComp = Vue.extend({
             }
         },
         showPopUpGridDialog: function () {
+            var self = this;
             this.dialogVisible = true;
             var height = document.documentElement.clientHeight - 60; //browser 高度 - 60功能列
             var width = document.documentElement.clientWidth / 2;    //browser 寬度 - 200功能列
@@ -183,10 +186,21 @@ var go_searchComp = Vue.extend({
                 modal: true,
                 height: height,
                 width: width,
-                title: "PMS0620050",
+                title: self.titleName,
                 resizable: true
             });
             dialog.dialog("open");
+        },
+        formatAmt: function(val, field){
+            var ls_amtValue = val;
+            var ls_ruleVal = field.format_func_name.rule_val;
+
+            if(ls_ruleVal != ""){
+                this.searchCond[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+            }
+            else{
+                this.searchCond[field.ui_field_name] = ls_amtValue;
+            }
         }
     }
 });

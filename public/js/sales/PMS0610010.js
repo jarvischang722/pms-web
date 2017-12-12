@@ -222,12 +222,12 @@ Vue.component('single-grid-pms0610010-tmp', {
             var self = this;
             var ln_tabPageId = this.tabPageId;
 
-            $.post("", {prg_id: gs_prgId, page_id: 2, tab_page_id: ln_tabPageId}, function (result) {
-                if (result.success) {
-                    self.dtRowData = result.rowData;
-                    self.oriDtRowData = _.clone(result.rowData);
-                }
-            });
+            // $.post("", {prg_id: gs_prgId, page_id: 2, tab_page_id: ln_tabPageId}, function (result) {
+            //     if (result.success) {
+            //         self.dtRowData = result.rowData;
+            //         self.oriDtRowData = _.clone(result.rowData);
+            //     }
+            // });
         },
         showTabContent: function (tabName) {
             var la_panelName = this.panelName;
@@ -336,13 +336,15 @@ var vm = new Vue({
                 page_id: 1,
                 searchCond: lo_searchCond
             };
-
-            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                vm.searchFields = result.searchFields;
-                vm.pageOneFieldData = result.dgFieldsData;
-                vm.pageOneDataGridRows = result.dgRowData;
-                vm.showDataGrid();
-            });
+console.log(lo_searchCond);
+            if(this.searchFields.length == 0){
+                $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                    vm.searchFields = result.searchFields;
+                    vm.pageOneFieldData = result.dgFieldsData;
+                    vm.pageOneDataGridRows = result.dgRowData;
+                    vm.showDataGrid();
+                });
+            }
         },
         showDataGrid: function () {
             var self = this;
