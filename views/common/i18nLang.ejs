@@ -1,6 +1,7 @@
 <script>
     var go_i18nLang = {};
     var go_validateClass = {};
+    var go_formatDisplayClass = {};
     $.ajax({
         url: "/api/getLocaleContent",
         type: "post",
@@ -9,6 +10,7 @@
             if(result.success){
                 go_i18nLang = result.localeContent;
                 go_validateClass = new validateClass();
+                go_formatDisplayClass = new formatDisplayClass();
             }
         }
     });
