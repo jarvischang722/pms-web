@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 業務員下拉-->
+    <!-- [RS0W212010] 業務員下拉-->
     <dao name="SEL_SALES_COD">
         <statement><![CDATA[
              SELECT distinct SALECLASS_MN.SALES_COD as value, SALECLASS_MN.SALES_SNA as display

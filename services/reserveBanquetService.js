@@ -14,7 +14,7 @@ let ErrorClass = require(ruleRootPath + "/errorClass");
 let sysConfig = require("../configs/systemConfig");
 let tools = require("../utils/CommonTools");
 
-//[RS0W202010] 取格萊天漾查詢頁資料
+//[RS0W212010] 取格萊天漾查詢頁資料
 exports.qryPageOneData = function (postData, session, callback) {
     let lo_error = null;
     let lo_result = new ReturnClass();
@@ -35,8 +35,8 @@ exports.qryPageOneData = function (postData, session, callback) {
 
     function qryBanquetData(cb) {
         var params = {
-            "REVE-CODE": "RS0W2020102040",
-            "program_id": "RS0W202010",
+            "REVE-CODE": "RS0W212010",
+            "program_id": "RS0W212010",
             "func_id":"2040",
             "user": "cio"
         };
@@ -59,7 +59,7 @@ exports.qryPageOneData = function (postData, session, callback) {
 
 };
 
-//[RS0W202010] 將資料轉換為顯示用格式
+//[RS0W212010] 將資料轉換為顯示用格式
 function convertDataToDisplay(la_data, la_sta) {
     let lo_resvBanquetData = new ResvBanquetData(la_data, la_sta);
     let lo_converData = lo_resvBanquetData.convertExec();
@@ -296,7 +296,7 @@ class ResvBanquetData {
     }
 }
 
-//[RS0W202010] 取格萊天漾查詢頁資料
+//[RS0W212010] 取格萊天漾查詢頁資料
 exports.qryPageTwoData = function (postData, session, callback) {
     var lo_error = null;
 
@@ -320,7 +320,7 @@ exports.qryPageTwoData = function (postData, session, callback) {
     });
 };
 
-//[RS0W202010] 取系統參數
+//[RS0W212010] 取系統參數
 exports.qrySystemParam = function (postData, session, callback) {
     var lo_error = null;
 
@@ -342,7 +342,7 @@ exports.qrySystemParam = function (postData, session, callback) {
     });
 };
 
-//[RS0W202010] 取宴席類別
+//[RS0W212010] 取宴席類別
 exports.chk_use_typ = function (postData, session, callback) {
     var lo_error = null;
 
@@ -367,7 +367,7 @@ exports.chk_use_typ = function (postData, session, callback) {
 };
 
 
-//[RS0W202010] 取預約處理預設值
+//[RS0W212010] 取預約處理預設值
 exports.def_proc_sta = function (postData, session, callback) {
     var lo_error = null;
 
@@ -390,7 +390,7 @@ exports.def_proc_sta = function (postData, session, callback) {
 };
 
 
-//[RS0W202010] 取客戶資料
+//[RS0W212010] 取客戶資料
 exports.qry_bqcust_mn = function (postData, session, callback) {
     var lo_error = null;
 
@@ -438,7 +438,7 @@ exports.qry_bqcust_mn = function (postData, session, callback) {
 };
 
 
-//[RS0W202010] 異動表單狀態
+//[RS0W212010] 異動表單狀態
 exports.chgOrderStaAPI = function (postData, session, callback) {
     var apiParams = {
         "REVE-CODE": postData.REVE_CODE,

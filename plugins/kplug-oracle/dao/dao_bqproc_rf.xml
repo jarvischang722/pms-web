@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 預約處理下拉-->
+    <!-- [RS0W212010] 預約處理下拉-->
     <dao name="SEL_PROC_STA">
         <statement><![CDATA[
             SELECT BQPROC_RF.PROC_STA as value, BQPROC_RF.PROC_DESC as display
@@ -10,7 +10,7 @@
         </statement>
     </dao>
 
-    <!-- [RS0W202010] 預約處理-->
+    <!-- [RS0W212010] 預約處理-->
     <dao name="DEF_PROC_STA">
         <statement><![CDATA[
             select proc_sta from bqproc_rf where def_sta='Y' and rownum = 1

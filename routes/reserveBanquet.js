@@ -11,7 +11,7 @@ var apiMiddles = [authMW];
 module.exports = function(app, passport){
 
     //reserveBanquet格萊天漾訂席頁
-    app.get("/reserveBanquet/RS0W202010", middles, resvbanquetCtrl.getRS0W202010);
+    app.get("/rs/RS0W212010", middles, resvbanquetCtrl.getRS0W212010);
 
     app.post("/reserveBanquet/qryPageOneData", apiMiddles, resvbanquetCtrl.qryPageOneData);
 

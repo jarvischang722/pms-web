@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-    <!-- [RS0W202010] 取客戶資料 -->
+    <!-- [RS0W212010] 取客戶資料 -->
     <dao name="QRY_BQCUST_MN">
         <statement><![CDATA[
 			select cust_cod, show_cod, alt_nam, first_nam, last_nam, uni_cod, uni_title, sales_cod, contact1_cod, contact2_cod, contact1_rmk, contact2_rmk, atten_cod

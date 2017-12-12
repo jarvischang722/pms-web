@@ -678,7 +678,7 @@ exports.searchAreapntSta = function () {
 };
 
 /**
- * RS0W202010 定席作業
+ * RS0W212010 定席作業
  * order_sta下拉資料
  * @returns {[*,*]}
  */
@@ -705,7 +705,7 @@ exports.order_sta = function () {
 };
 
 /**
- * RS0W202010 定席作業
+ * RS0W212010 定席作業
  * is_allplace checkbox
  * @returns {[*,*]}
  */
@@ -1316,7 +1316,7 @@ exports.qrySearchAreapntSta = function(params, callback){
 
 
 /**
- * RS0W202010 定席作業
+ * RS0W212010 定席作業
  * order_sta下拉資料
  * @returns {[*,*]}
  */
@@ -1327,7 +1327,7 @@ exports.lang_bquet_mn_order_sta = function(params, callback){
 };
 
 /**
- * RS0W202010 定席作業
+ * RS0W212010 定席作業
  * is_allplace checkbox資料
  * @returns {[*,*]}
  */

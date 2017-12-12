@@ -1,11 +1,11 @@
 /**
  * Created by a16009 on 2017/11/10.
- * 程式編號: RS0W202010
+ * 程式編號: RS0W212010
  * 程式名稱: 定席作業
  */
 
 var vmHub = new Vue;
-var prg_id = "RS0W202010";
+var prg_id = "RS0W212010";
 
 var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
@@ -36,7 +36,7 @@ DatagridRmSingleDTGridClass.prototype.onClickRow = function () {};
 // });
 
 var singlePage = Vue.extend({
-    template: "#RS0W202010Tmp",
+    template: "#RS0W212010Tmp",
     data: function () {
         return {
             userInfo: {},               //登入的使用者資料
@@ -184,7 +184,7 @@ var singlePage = Vue.extend({
                     self.dataGridRows.push(chooseData);
                     self.dgIns.loadDgData(self.dataGridRows);
 
-                    $('#RS0W202010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
+                    $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
                         .datagrid('beginEdit', self.dataGridRows.length - 1);
                     self.dgIns.editIndex = self.dataGridRows.length - 1;
                 }
@@ -551,7 +551,7 @@ var singlePage = Vue.extend({
                 self.oriDataGridRows = _.clone(self.dataGridRows);
 
                 self.dgIns = new DatagridRmSingleDTGridClass();
-                self.dgIns.init(prg_id, 'RS0W202010_dt', DatagridFieldAdapter.combineFieldOption(self.dtFieldData, 'RS0W202010_dt'), self.dtFieldData);
+                self.dgIns.init(prg_id, 'RS0W212010_dt', DatagridFieldAdapter.combineFieldOption(self.dtFieldData, 'RS0W212010_dt'), self.dtFieldData);
                 self.dgIns.initTmpCUD();
                 self.dgIns.loadDgData(self.dataGridRows);
                 self.dgIns.tmpCUD.oriData = self.oriDataGridRows;
@@ -899,13 +899,13 @@ var singlePage = Vue.extend({
          */
         delPlace: function () {
             var self = this;
-            var delRow = $("#RS0W202010_dt").datagrid('getSelected');
+            var delRow = $("#RS0W212010_dt").datagrid('getSelected');
             if (!delRow) {
                 alert("請選擇要刪除的資料");
                 return;
             }
 
-            $("#RS0W202010_dt").datagrid('deleteRow', $("#RS0W202010_dt").datagrid('getRowIndex', delRow));
+            $("#RS0W212010_dt").datagrid('deleteRow', $("#RS0W212010_dt").datagrid('getRowIndex', delRow));
 
             delRow.Upd_dat = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
             delRow.Upd_usr = self.userInfo.usr_id;

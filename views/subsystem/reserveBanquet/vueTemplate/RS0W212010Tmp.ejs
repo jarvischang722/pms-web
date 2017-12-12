@@ -1,5 +1,5 @@
 <!-- 彈出視窗 -->
-<script type="text/x-template" id="RS0W202010Tmp">
+<script type="text/x-template" id="RS0W212010Tmp">
     <div id="gs-order-page" class="hide padding-5" style="top: 50px !important;">
         <div class="businessCompanyData">
             <div class="col-xs-12 col-sm-12">
@@ -288,16 +288,16 @@
                                                 <legend class="blue">訂席狀態</legend>
                                                 <div class="grid">
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020101010" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101010" role="button" @click="ModifyStatus('X')" :disabled="!cancelEnable">取消</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020101020" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101020" role="button" @click="ModifyStatus('N')" :disabled="!reserveEnable">預約</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020101030" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101030" role="button" @click="ModifyStatus('W')" :disabled="!waitEnable">等待</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020101040" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120101040" role="button" @click="ModifyStatus('Q')" :disabled="!inquiryEnable">詢價</button>
                                                     </li>
                                                 </div>
                                             </fieldset>
@@ -320,7 +320,7 @@
                                         <div class="row">
                                             <div class="main-content-data gs-order-table-wrap">
                                                 <div class="easyui-panel">
-                                                    <table id="RS0W202010_dt" class="css_table horizTable"></table>
+                                                    <table id="RS0W212010_dt" class="css_table horizTable"></table>
                                                 </div>
                                             </div><!--main-content-data-->
                                         </div>
@@ -330,13 +330,13 @@
                                             <div class="right-menu-co">
                                                 <ul>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020100400" role="button" @click="chkClickPopUpGrid('place_cod_button')" :disabled="!modifyEnable">選取場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="chkClickPopUpGrid('place_cod_button')" :disabled="!modifyEnable">選取場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020100400" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="delPlace" :disabled="!modifyEnable">刪除場地</button>
                                                     </li>
                                                     <li>
-                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2020100400" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth purview_btn" data-purview_func_id="RS0W2120100400" role="button" @click="CheckInventory" :disabled="!modifyEnable">庫存檢查</button>
                                                     </li>
 
                                                 </ul>
