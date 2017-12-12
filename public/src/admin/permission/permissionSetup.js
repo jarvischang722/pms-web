@@ -2,7 +2,7 @@
  *  程式編號: SYS0110010
  *  程式名稱: 權限設定
  */
-import App from './components/permissionMain.vue';
+import permissionMain from './components/permissionMain.vue';
 import store from './store';
 
 // var vmHub = new Vue();
@@ -10,11 +10,12 @@ import store from './store';
 // var authorNavbar = Vue.extend({
 //     template: "#authorNavbarTmp"
 // });
-//
+
 // var funcComp = Vue.extend({
 //     template: "#funcCompTmp"
 // });
 //
+
 // var roleComp = Vue.extend({
 //     template: "#roleCompTmp",
 //     data: function () {
@@ -56,7 +57,7 @@ import store from './store';
 //         },
 //     }
 // });
-//
+
 // var staffComp = Vue.extend({
 //     template: "#staffCompTmp",
 //     created: function () {
@@ -65,7 +66,7 @@ import store from './store';
 //         });
 //     }
 // });
-//
+
 // var authRole = Vue.extend({
 //     template: "#authRoleTmp",
 //     components: {
@@ -75,21 +76,21 @@ import store from './store';
 //         staffComp
 //     }
 // });
-//
+
 // var authStaff = Vue.extend({
 //     template: "#authStaffTmp",
 //     components: {
 //         authorNavbar
 //     }
 // });
-//
+
 // var authFunc = Vue.extend({
 //     template: "#authFuncTmp",
 //     components: {
 //         authorNavbar
 //     }
 // });
-//
+
 // var PermissionVM = new Vue({
 //     el: "#permission-app",
 //     components: {
@@ -320,5 +321,5 @@ import store from './store';
 new Vue({
     el: "#permission-app",
     store,
-    render: h=> h(App)
+    render: h=> h(permissionMain)
 });

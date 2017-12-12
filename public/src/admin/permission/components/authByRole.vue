@@ -18,13 +18,14 @@
                             <div class="col-xs-6">
                                 <div class="row no-margin-right">
                                     <!--跳頁-->
-                                    <a>
-                                        <p class="topTitle">角色權限</p>
-                                    </a>
-                                    <div class="easyui-panel tree-body">
-                                        <ul id="tt" class="easyui-tree"
-                                            data-options="url:'/jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
-                                    </div>
+                                    <!--<a>-->
+                                        <!--<p class="topTitle">角色權限</p>-->
+                                    <!--</a>-->
+                                    <!--<div class="easyui-panel tree-body">-->
+                                        <!--<ul id="tt" class="easyui-tree"-->
+                                            <!--data-options="url:'/jsonData/authorRole_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>-->
+                                    <!--</div>-->
+                                    <auth-staff-comp></auth-staff-comp>
                                 </div>
                             </div>
                             <div class="col-xs-6">
@@ -86,12 +87,14 @@
 <script>
     import authNavbar from './authNavbar';
     import authRoleComp from './authRoleComp';
+    import authStaffComp from './authStaffComp';
 
     export default {
         name: "auth-by-role",
         components: {
             authNavbar,
-            authRoleComp
+            authRoleComp,
+            authStaffComp
         }
     }
 </script>
