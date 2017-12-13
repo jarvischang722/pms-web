@@ -28,6 +28,9 @@
 .grid-item label.label-spc-2 {
   width: 70px;
 }
+.grid-item .spanTxt {
+  margin: 3px 0 auto auto;
+}
 .grid-item span, .grid-item p, .grid-item div, .grid-item select, .grid-item option, .grid-item .input-medium, .grid-item input, .grid-item textarea {
   font-size: 13px !important;
 }
@@ -94,9 +97,6 @@
   width: 0;
   min-height: initial;
   cursor: pointer;
-}
-.grid-item .popCheckbox label.checkbox-width {
-  margin-top: 2px;
 }
 
 .grid-item-input {
@@ -4479,7 +4479,7 @@ td div.act-box span.act-text {
   margin: 0 !important;
 }
 
-.no-margin-top {
+.no-mt {
   margin-top: 0 !important;
 }
 
@@ -4512,7 +4512,7 @@ td div.act-box span.act-text {
 }
 
 .ml-4 {
-  margin-left: 4px;
+  margin-left: 4px !important;
 }
 
 .ml-5 {
@@ -4529,6 +4529,14 @@ td div.act-box span.act-text {
 
 .ml-8 {
   margin-left: 8px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-77 {
+  margin-left: 77px;
 }
 
 .ml-90 {
@@ -4569,6 +4577,10 @@ td div.act-box span.act-text {
 
 .defHt {
   height: 25px;
+}
+
+.width-3 {
+  width: 3% !important;
 }
 
 .width-5 {
@@ -4795,6 +4807,11 @@ a {
 .btn-sm-font2 {
   padding: 3px 9px;
   font-size: 12px;
+}
+
+.btn-sd {
+  border: 1px solid #8aafce;
+  padding-left: 3px;
 }
 
 .btn-skin {
@@ -5094,6 +5111,11 @@ a {
   max-width: 100%;
   height: 25px;
 }
+.input-medium.rateCode-s1-col3Rm {
+  width: 725px;
+  max-width: 100%;
+  height: 25px;
+}
 .input-medium.rateCode-s1-col3Bring {
   width: 699px;
   max-width: 100%;
@@ -5101,6 +5123,11 @@ a {
 }
 .input-medium.rateCode-s2 {
   width: 43px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.rateCode-xs {
+  width: 31px;
   max-width: 100%;
   height: 25px;
 }
@@ -5444,7 +5471,7 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
   padding-left: 14px;
 }
 .popCheckbox .checkbox {
-  margin: 1px auto 0 auto;
+  margin: 0 auto 0 auto;
 }
 .popCheckbox .checkbox .ace {
   padding-right: 5px;
@@ -5460,6 +5487,9 @@ input.numStyle-none::-webkit-inner-spin-button, input.numStyle-none::-webkit-out
 }
 .popCheckbox.lbl-after .checkbox label {
   padding-left: 10px;
+}
+.popCheckbox.rmAssignCk {
+  margin-left: -7px;
 }
 
 .rzNone {
