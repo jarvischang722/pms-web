@@ -85,8 +85,9 @@ function DatagridBaseClass() {
      * @param field
      */
     this.onClickCell = function (index, field) {
-        console.log(self.editIndex);
-        console.log(index);
+        // console.log(self.editIndex);
+        // console.log(index);
+
         if (self.editIndex != index) {
             if (self.endEditing()) {
                 $('#' + self.dgName).datagrid('selectRow', index)
@@ -97,6 +98,7 @@ function DatagridBaseClass() {
                 }
 
                 self.editIndex = index;
+                console.log("onClickCell " + self.editIndex);
             } else {
                 setTimeout(function () {
                     $('#' + self.dgName).datagrid('selectRow', self.editIndex);
@@ -110,6 +112,7 @@ function DatagridBaseClass() {
     this.onEndEdit = function (index, row, changes) {
         /** 讓子類別實作這個方法 interface 概念 **/
         self.editIndex = index;
+        console.log("onEndEdit " + self.editIndex);
         row = self.filterRowData(row);
         self.doTmpExecData(row, index);
     };
@@ -119,12 +122,14 @@ function DatagridBaseClass() {
      * @return {boolean}
      */
     this.endEditing = function () {
+        console.log(this.editIndex);
         if (this.editIndex == undefined) {
             return true;
         }
         if ($('#' + this.dgName).datagrid('validateRow', this.editIndex)) {
             $('#' + this.dgName).datagrid('endEdit', this.editIndex);
             this.editIndex = undefined;
+            console.log("endEditing " + self.editIndex);
             return true;
         }
         return false;

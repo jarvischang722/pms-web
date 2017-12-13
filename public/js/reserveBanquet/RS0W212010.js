@@ -27,10 +27,10 @@ g_socket.on('checkTableLock', function (result) {
 
 //單筆DT
 /** DatagridRmSingleGridClass ***/
-function DatagridRmSingleDTGridClass() {}
+function DTGridClass() {}
 
-DatagridRmSingleDTGridClass.prototype = new DatagridBaseClass();
-DatagridRmSingleDTGridClass.prototype.onClickRow = function () {};
+DTGridClass.prototype = new DatagridBaseClass();
+DTGridClass.prototype.onClickRow = function () {};
 
 $(window).on('beforeunload', function () {
     return singlePage.doRowUnLock();
@@ -173,8 +173,6 @@ var singlePage = Vue.extend({
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
 
-                //chooseData["unit_amt"] = go_formatDisplayClass.amtFormat(chooseData["unit_amt"] || "0", self.mask_hfd);
-
                 var isSame = false;
                 _.each(self.dataGridRows, function (value) {
                     if(value.place_cod == chooseData["place_cod"]){
@@ -183,12 +181,18 @@ var singlePage = Vue.extend({
                 });
 
                 if(!isSame){
-                    self.dataGridRows.push(chooseData);
-                    self.dgIns.loadDgData(self.dataGridRows);
+                    //self.dataGridRows.push(chooseData);
+                    //self.dgIns.loadDgData(self.dataGridRows);
 
-                    $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
-                        .datagrid('beginEdit', self.dataGridRows.length - 1);
-                    self.dgIns.editIndex = self.dataGridRows.length - 1;
+
+                    $('#RS0W212010_dt').datagrid('appendRow', chooseData);
+                    self.dgIns.editIndex = $('#RS0W212010_dt').datagrid('getRows').length - 1;
+                    $('#RS0W212010_dt').datagrid('selectRow', self.dgIns.editIndex)
+                        .datagrid('beginEdit', self.dgIns.editIndex);
+
+                    // $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
+                    //     .datagrid('beginEdit', self.dataGridRows.length - 1);
+                    // self.dgIns.editIndex = self.dataGridRows.length - 1;
                 }
             }
             else {
@@ -215,13 +219,6 @@ var singlePage = Vue.extend({
                  //依參數『前檯金額格式』顯示
                  if(!_.isUndefined(self.mask_hfd)){
                      this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt || "0", self.mask_hfd);
-
-                     // _.each(this.dataGridRows, function (value) {
-                     //     value.unit_amt = go_formatDisplayClass.amtFormat(value.unit_amt || "0", self.mask_hfd);
-                     //     value.place_amt = go_formatDisplayClass.amtFormat(value.place_amt || "0", self.mask_hfd);
-                     //     value.special_amt = go_formatDisplayClass.amtFormat(value.special_amt || "0", self.mask_hfd);
-                     //     value.disc_amt = go_formatDisplayClass.amtFormat(value.disc_amt || "0", self.mask_hfd);
-                     // });
                  }
 
                  this.canSave = false;
@@ -586,19 +583,18 @@ var singlePage = Vue.extend({
                 bquet_nos: bquet_nos
             }, function (result) {
 
-                //依參數『前檯金額格式』顯示
+                //依參數『前檯金額格式』顯示, 因取欄位資料的方式不是用作業的方式，所以要自己塞format_func_name.rule_val
                 _.each(self.dtFieldData, function (value) {
-                    if(value.format_func_name == "QRY_MASK_HFD"){
-                        _.each(result.dtData, function (dtValue) {
-                            dtValue[value.ui_field_name] = go_formatDisplayClass.amtFormat(dtValue[value.ui_field_name] || "0", self.mask_hfd);
-                        });
+                    if(value.format_func_name == "QRY_MASK_HFD") {
+                        var object = {validate: value.format_func_name, rule_name: value.format_func_name, rule_val: self.mask_hfd};
+                        value.format_func_name = object;
                     }
                 });
 
                 self.dataGridRows = result.dtData || [];
                 self.oriDataGridRows = _.clone(self.dataGridRows);
 
-                self.dgIns = new DatagridRmSingleDTGridClass();
+                self.dgIns = new DTGridClass();
                 self.dgIns.init(prg_id, 'RS0W212010_dt', DatagridFieldAdapter.combineFieldOption(self.dtFieldData, 'RS0W212010_dt'), self.dtFieldData);
                 self.dgIns.initTmpCUD();
                 self.dgIns.loadDgData(self.dataGridRows);
