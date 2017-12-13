@@ -310,11 +310,11 @@ var vm = new Vue({
                 }
             });
         },
-        setSearchCond: function(){
+        setSearchCond: function () {
             this.searchCond = {
                 ar_amt: "",
                 credit_amt: "",
-                area_cod : [],
+                area_cod: [],
                 business_cod: [],
                 contract_sta: [],
                 cust_nam: "",
@@ -325,7 +325,7 @@ var vm = new Vue({
                 status_cod: "",
                 type_cod: [],
                 hoffice_cust_idx_show_cod: "",
-                pcust_idx_show_cod:""
+                pcust_idx_show_cod: ""
             };
         },
         loadDataGridByPrgID: function () {
@@ -337,14 +337,13 @@ var vm = new Vue({
                 searchCond: lo_searchCond
             };
 
-            if(this.searchFields.length == 0){
-                $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
-                    vm.searchFields = result.searchFields;
-                    vm.pageOneFieldData = result.dgFieldsData;
-                    vm.pageOneDataGridRows = result.dgRowData;
-                    vm.showDataGrid();
-                });
-            }
+            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                vm.searchFields = result.searchFields;
+                vm.pageOneFieldData = result.dgFieldsData;
+                vm.pageOneDataGridRows = result.dgRowData;
+                vm.showDataGrid();
+            });
+
         },
         showDataGrid: function () {
             var self = this;
@@ -373,12 +372,12 @@ var vm = new Vue({
                     var end = start + pageSize;
                     $("#PMS0610010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
                     pager.pagination('refresh', {
-                        total:self.pageOneDataGridRows.length,
-                        pageNumber:pageNo
+                        total: self.pageOneDataGridRows.length,
+                        pageNumber: pageNo
                     });
                 },
                 pageNumber: 1,
-                pageList: [10,20,50],
+                pageList: [10, 20, 50],
                 showPageList: true,
                 beforePageText: '第',
                 afterPageText: "頁,共{pages}頁",

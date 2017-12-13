@@ -203,6 +203,19 @@ var go_searchComp = Vue.extend({
             this.$parent.searchCond = lo_searchCond;
             this.fetchData();
         },
+        doClear: function(){
+            var self = this;
+            var lo_searchCond =  JSON.parse(JSON.stringify(this.searchCond));
+
+            _.each(lo_searchCond, function(val, key){
+                if(typeof val === "string"){
+                    self.searchCond[key] = "";
+                }
+                else if (Array.isArray(val)){
+                    self.searchCond[key] = [];
+                }
+            });
+        },
         chkClickPopUpGrid: function (field) {
             var self = this;
             this.titleName = field.prg_id;
