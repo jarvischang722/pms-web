@@ -1,10 +1,9 @@
-<script type="text/x-template" id="salesVisitRecordTmp">
-    <div id="salesVisitRecord" class="hide padding-5">
+<template>
+    <div id="visitRecord" class="hide padding-5">
         <div class="col-sm-12 newVisitRecord-wrap">
             <div class="row">
                 <div class="borderFrame" v-if="!isOnlySingleGrid">
-                    <!--多筆拜訪紀錄修改-->
-                    <div class="col-sm-11 col-xs-11" >
+                    <div class="col-sm-11 col-xs-11">
                         <div class="row">
                             <div class="grid">
                                 <div class="grid-item">
@@ -194,4 +193,71 @@
             </div>
         </div>
     </div>
+</template>
+
+<script>
+
+    export default {
+        name: 'visit-record',
+        props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows"],
+        mounted() {
+            if(!this.isOnlySingleGrid){
+                this.loadDataGridByPrgID();
+            }
+        },
+        data(){
+            return{
+                isFirstData: false,
+                isLastData: false,
+                BTN_action: false,
+                isLoadingDialog: false,
+                loadingText: "",
+                rowData: {},
+                singleData:{},
+                oriSingleData: {},
+                fieldsData: [],
+                oriFieldsData: []
+            };
+        },
+        watch: {
+            rowData: function(val){
+                this.initData();
+                this.fetchSingleGridFieldData();
+
+                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
+
+                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
+
+                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
+                    //已經到第一筆
+                    this.isFirstData = true;
+                    this.isLastData = false;
+                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                        this.isLastData = true;
+                    }
+
+                }
+                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+                    //已經到最後一筆
+                    this.isFirstData = false;
+                    this.isLastData = true;
+                }
+                else {
+
+                    this.isFirstData = false;
+                    this.isLastData = false;
+                }
+            }
+        },
+        methods: {
+            loadDataGridByPrgID(){},
+            initData(){},
+            fetchSingleGridFieldData(){},
+            fetchSingleGridRowData(){}
+        }
+    }
 </script>
+
+<style scoped>
+
+</style>

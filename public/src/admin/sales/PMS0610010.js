@@ -1,0 +1,219 @@
+import visitRecord from './visitRecord.vue';
+import searchComp from '../../common/searchComp.vue';
+// import editSalesClerk from './editSalesClerk.vue';
+
+Vue.prototype.$eventHub = new Vue();
+
+var gs_prgId = "PMS0610010";
+
+var vm = new Vue({
+    el: "#PMS0610010App",
+    mounted() {
+        this.initTmpCUD();
+        this.fetchUserInfo();
+        this.setSearchCond();
+        this.loadDataGridByPrgID();
+    },
+    components: {visitRecord, searchComp},
+    data() {
+        return {
+            userInfo: {},
+            tmpCUD: {
+                createData: [],
+                updateData: [],
+                deleteData: [],
+                oriData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: [],
+                dt_oriData: []
+            },
+            pageOneDataGridRows: [],
+            pageOneFieldData: [],
+            searchFields: [],
+            searchCond: {},
+            dgIns: {},
+            isLoading: true,
+            editingRow: {},
+            editRows: [],
+            isModifiable: true,
+            isCreateStatus: false,
+            isEditStatus: false,
+            isOnlySingleGrid: false
+        };
+    },
+    methods: {
+        initTmpCUD(){
+            this.tmpCUD = {
+                createData: [],
+                updateData: [],
+                deleteData: [],
+                oriData: [],
+                dt_createData: [],
+                dt_updateData: [],
+                dt_deleteData: [],
+                dt_oriData: []
+            };
+        },
+        fetchUserInfo(){
+            $.post('/api/getUserInfo', function (result) {
+                if (result.success) {
+                    vm.userInfo = result.userInfo;
+                }
+            });
+        },
+        setSearchCond(){
+            this.searchCond = {
+                ar_amt: "",
+                credit_amt: "",
+                area_cod: [],
+                business_cod: [],
+                contract_sta: [],
+                cust_nam: "",
+                ins_dat: "",
+                rank_nos: "",
+                sales_cod: [],
+                cust_mn_show_cod: "",
+                status_cod: "",
+                type_cod: [],
+                hoffice_cust_idx_show_cod: "",
+                pcust_idx_show_cod: ""
+            };
+        },
+        loadDataGridByPrgID(){
+            var lo_searchCond = _.clone(this.searchCond);
+
+            var lo_params = {
+                prg_id: gs_prgId,
+                page_id: 1,
+                searchCond: lo_searchCond
+            };
+
+            $.post("/api/fetchDataGridFieldData", lo_params, function (result) {
+                vm.searchFields = result.searchFields;
+                vm.pageOneFieldData = result.dgFieldsData;
+                vm.pageOneDataGridRows = result.dgRowData;
+                vm.showDataGrid();
+            });
+        },
+        showDataGrid(){
+            var self = this;
+            this.isLoading = false;
+
+            var colOption = [{field: 'ck', checkbox: true}];
+            colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.pageOneFieldData, 'PMS0610010_dg'));
+
+            //一開始只載入10筆資料
+            var la_showDataRows = this.pageOneDataGridRows.slice(0, 10);
+
+            $('#PMS0610010_dg').datagrid({
+                fitColumns: "true",
+                columns: [colOption],
+                pagination: true,
+                rownumbers: true,
+                pageSize: 10,
+                data: la_showDataRows
+            });
+
+            var pager = $('#PMS0610010_dg').datagrid('getPager');
+            pager.pagination({
+                total: self.pageOneDataGridRows.length,
+                onSelectPage: function (pageNo, pageSize) {
+                    var start = (pageNo - 1) * pageSize;
+                    var end = start + pageSize;
+                    $("#PMS0610010_dg").datagrid("loadData", self.pageOneDataGridRows.slice(start, end));
+                    pager.pagination('refresh', {
+                        total: self.pageOneDataGridRows.length,
+                        pageNumber: pageNo
+                    });
+                },
+                pageNumber: 1,
+                pageList: [10, 20, 50],
+                showPageList: true,
+                beforePageText: '第',
+                afterPageText: "頁,共{pages}頁",
+                displayMsg: "顯示{from}到{to}筆資料, 共{total}筆資料"
+            });
+        },
+        appendRow(){
+            this.isLoading = true;
+            this.isCreateStatus = true;
+            this.isEditStatus = false;
+            this.editingRow = {};
+            this.initTmpCUD();
+
+            this.showSingleGridDialog();
+        },
+        editRow(){
+            this.isLoading = true;
+            this.isCreateStatus = false;
+            this.isEditStatus = true;
+            this.editingRow = {};
+            this.initTmpCUD();
+
+            var lo_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+
+            if (!lo_editRow) {
+                alert(go_i18nLang["SystemCommon"].selectData);
+            }
+            else {
+                this.editingRow = lo_editRow;
+                this.showSingleGridDialog();
+            }
+        },
+        showSingleGridDialog(){
+            var dialog = $('#singleGridPMS0610010').removeClass('hide').dialog({
+                autoOpen: false,
+                modal: true,
+                title: go_i18nLang["program"]["PMS0610010"].compamy_maintain,
+                width: 1000,
+                maxHeight: 1920,
+                resizable: true
+            }).dialog('open');
+        },
+        editSalesClerk(){
+            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+
+            var la_editRow = [1];//測試用
+
+            if (la_editRow.length == 0) {
+                alert(go_i18nLang["SystemCommon"].SelectData);
+            }
+            else {
+                this.editRows = la_editRow;
+                var dialog = $("#salesEditClerk").removeClass('hide').dialog({
+                    modal: true,
+                    title: "修改業務員",
+                    title_html: true,
+                    width: 500,
+                    maxwidth: 1920,
+                    // autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            }
+        },
+        editVisitPlan(){
+            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
+
+            var la_editRow = [1];//測試用
+
+            if (la_editRow.length == 0) {
+                alert(go_i18nLang["SystemCommon"].SelectData);
+            }
+            else {
+                this.editRows = la_editRow;
+                var dialog = $("#visitRecord").removeClass('hide').dialog({
+                    modal: true,
+                    title: "新增拜訪記錄",
+                    title_html: true,
+                    width: 1000,
+                    maxwidth: 1920,
+                    // autoOpen: true,
+                    dialogClass: "test",
+                    resizable: true
+                });
+            }
+        }
+    }
+});

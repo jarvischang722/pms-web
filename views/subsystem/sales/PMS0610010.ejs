@@ -46,7 +46,7 @@
                             </li>
                             <li>
                                 <button class="btn btn-primary btn-white btn-defaultWidth sales_newVisitRecord"
-                                        role="button" @click="editVistPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
+                                        role="button" @click="editVisitPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
                                 </button>
                             </li>
                         </ul>
@@ -56,31 +56,27 @@
         </div>
     </div>
 
-    <single-grid-pms0610010-tmp
-            :row-data="editingRow"
-            :is-modifiable="isModifiable"
-            :is-create-status="isCreateStatus"
-            :is-edit-status="isEditStatus"
-    ></single-grid-pms0610010-tmp>
+    <!--<single-grid-pms0610010-tmp-->
+            <!--:row-data="editingRow"-->
+            <!--:is-modifiable="isModifiable"-->
+            <!--:is-create-status="isCreateStatus"-->
+            <!--:is-edit-status="isEditStatus"-->
+    <!--&gt;</single-grid-pms0610010-tmp>-->
 
-    <sales-edit-clerk-comp
-            :edit-rows="editRows"
-    ></sales-edit-clerk-comp>
-
-    <sales-edit-visit-record
+    <!--<sales-edit-clerk-comp-->
+            <!--:edit-rows="editRows"-->
+    <!--&gt;</sales-edit-clerk-comp>-->
+    <visit-record
             :is-create-status="isCreateStatus"
             :is-edit-status="isEditStatus"
             :is-only-single-grid="isOnlySingleGrid"
             :edit-rows="editRows"
-    ></sales-edit-visit-record>
+    ></visit-record>
 </div><!-- /.page-content -->
 
-<%- include ./vueTemplate/searchTmp.ejs %>
-<%- include ./vueTemplate/salesEditClerkTmp.ejs %>
-<%- include ./vueTemplate/salesVisitRecordTmp.ejs %>
-<%- include ./vueTemplate/PMS0610010Tmp.ejs%>
 
-<script src="/js/sales/vueCompLib/searchComp.js"></script>
-<script src="/js/sales/vueCompLib/salesEditClerkComp.js"></script>
-<script src="/js/sales/vueCompLib/salesVisitRecordComp.js"></script>
-<script src="/js/sales/PMS0610010.js"></script>
+
+<!--<script src="/js/sales/vueCompLib/searchComp.js"></script>-->
+<!--<script src="/js/sales/vueCompLib/salesEditClerkComp.js"></script>-->
+<script src="/js/sales/PMS0610010Setup.main.js"></script>
+
