@@ -236,15 +236,15 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>場地金額</label>
-                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.place_amt" class="input-medium addedDate" @keyup="formatAmt('place_amt')" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
-                                            <label class="width-103px">應收訂金</label>
-                                            <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard" :disabled="readonly"/>
+                                            <label class="width-103px">應付訂金</label>
+                                            <input type="text" v-model="singleData.hpdpst_amt" class="input-medium resvCard" @keyup="formatAmt('hpdpst_amt')" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <label>已付訂金</label>
-                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" :disabled="readonly"/>
+                                            <input type="text" v-model="singleData.deposit_amt" class="input-medium resvCard-date" @keyup="formatAmt('deposit_amt')" :disabled="readonly"/>
                                         </div>
                                     </div>
                                 </div>

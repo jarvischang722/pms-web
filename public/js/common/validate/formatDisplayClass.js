@@ -5,13 +5,12 @@
 function formatDisplayClass() {
 
     /**
-     * 金額依format轉換(無四捨五入)
+     * 金額依format轉換
      * @param val {string} 原始金額
      * @param rule_val {string} 參數的值(格式)
      * @returns {string}
      */
     this.amtFormat = function (val, rule_val) {
-
         var ls_amtValue = _.clone(val).toString();
         var ls_oriAmtValue = '';
 
@@ -35,10 +34,14 @@ function formatDisplayClass() {
         //幾位小數
         var numberOfDecimals = patternValue.indexOf('.') > -1 ?
             patternValue.slice(patternValue.indexOf('.') + 1, patternValue.length).length : 0;
+
         //幾位數一個逗號
         var commaPosition = patternLength - patternValue.lastIndexOf(',');
 
         var reStr = '\\d(?=(\\d{' + (commaPosition || 3) + '})+' + (numberOfDecimals > 0 ? '\\.' : '$') + ')';
+
+        //四捨五入
+        ls_oriAmtValue = go_MathTool.formatFloat(ls_oriAmtValue, numberOfDecimals);
 
         ls_oriAmtValue = ls_oriAmtValue.toFixed(numberOfDecimals).toString().replace(new RegExp(reStr, 'g'), '$&,');
 
@@ -46,11 +49,10 @@ function formatDisplayClass() {
     };
 
     /**
-     * 資料轉回無format(無四捨五入)
+     * 資料轉回無format
      * @param val {string} 依format轉換後的值
      */
     this.removeAmtFormat = function (val) {
-
         var ls_amtValue = "";
 
         if (val.indexOf(',') > -1) {
@@ -71,7 +73,6 @@ function formatDisplayClass() {
 
             return ls_amtValue;
         }
-
         return val;
     };
 }

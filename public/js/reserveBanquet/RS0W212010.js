@@ -173,6 +173,8 @@ var singlePage = Vue.extend({
                 chooseData["inv_qnt"] = "0";
                 chooseData["createRow"] = "Y";
 
+                //chooseData["unit_amt"] = go_formatDisplayClass.amtFormat(chooseData["unit_amt"] || "0", self.mask_hfd);
+
                 var isSame = false;
                 _.each(self.dataGridRows, function (value) {
                     if(value.place_cod == chooseData["place_cod"]){
@@ -207,11 +209,21 @@ var singlePage = Vue.extend({
                  var tot_amt = 0;
 
                  _.each(this.dataGridRows, function (value) {
-                     tot_amt += Number(value.special_amt);
+                     tot_amt += Number(value.special_amt || 0);
                  });
 
                  //依參數『前檯金額格式』顯示
-                 this.singleData.place_amt = tot_amt;
+                 if(!_.isUndefined(self.mask_hfd)){
+                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt || "0", self.mask_hfd);
+
+                     // _.each(this.dataGridRows, function (value) {
+                     //     value.unit_amt = go_formatDisplayClass.amtFormat(value.unit_amt || "0", self.mask_hfd);
+                     //     value.place_amt = go_formatDisplayClass.amtFormat(value.place_amt || "0", self.mask_hfd);
+                     //     value.special_amt = go_formatDisplayClass.amtFormat(value.special_amt || "0", self.mask_hfd);
+                     //     value.disc_amt = go_formatDisplayClass.amtFormat(value.disc_amt || "0", self.mask_hfd);
+                     // });
+                 }
+
                  this.canSave = false;
              },
              deep: true
@@ -289,7 +301,7 @@ var singlePage = Vue.extend({
         getSystemParam: function () {
             var self = this;
 
-            //訂貨日期切換的時間
+            //前檯金額格式
             var lo_params = {
                 paramName: "mask_hfd"
             };
@@ -301,7 +313,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-            //訂貨日期切換的時間
+            //前檯進位小數位數
             lo_params = {
                 paramName: "round_hfd"
             };
@@ -313,7 +325,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-            //訂貨日期切換的時間
+            //滾房租日期
             lo_params = {
                 paramName: "rent_cal_dat"
             };
@@ -325,7 +337,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-            //取得所有訂單格式
+            //新郎、新娘是否為必Key
             lo_params = {
                 paramName: "required_bride_nam"
             };
@@ -463,7 +475,13 @@ var singlePage = Vue.extend({
 
                 //MN FieldData
                 self.singleField = result.fieldData;
+
+                //組SelectFieldOption
                 _.each(result.fieldData, function (value) {
+
+                    if(value.format_func_name != ""){
+                        //console.log(value);
+                    }
 
                     self.singleDataEmpty[value.ui_field_name] = "";
 
@@ -473,8 +491,22 @@ var singlePage = Vue.extend({
 
                 });
 
+                //hpdpst_amt、place_amt 依前檯進位小數位數
+                _.each(self.singleField, function (value) {
+                    if(value.ui_field_name == "hpdpst_amt" || value.ui_field_name == "place_amt"){
+                        value.ui_field_num_point = self.round_hfd;
+                    }
+                });
+
                 //DT FieldData
                 self.dtFieldData = result.fieldData[_.findIndex(result.fieldData, {ui_type: 'grid'})].datagridFields || [];
+
+                //special_amt 依前檯進位小數位數
+                _.each(self.dtFieldData, function (value) {
+                    if(value.ui_field_name == "special_amt"){
+                        value.ui_field_num_point = self.round_hfd;
+                    }
+                });
 
                 callback(result);
             });
@@ -525,6 +557,13 @@ var singlePage = Vue.extend({
 
                     self.cancelEnable = true;
 
+                    //依參數『前檯金額格式』顯示
+                    _.each(self.singleField, function (value) {
+                        if(value.format_func_name == "QRY_MASK_HFD"){
+                            result.data[value.ui_field_name] = go_formatDisplayClass.amtFormat(result.data[value.ui_field_name] || "0", self.mask_hfd);
+                        }
+                    });
+
                     self.singleData = result.data;
                     self.oriSingleData = _.clone(self.singleData);
                     self.tmpCud.oriData = [self.oriSingleData];
@@ -546,6 +585,15 @@ var singlePage = Vue.extend({
                 singleRowData: self.editingRow,
                 bquet_nos: bquet_nos
             }, function (result) {
+
+                //依參數『前檯金額格式』顯示
+                _.each(self.dtFieldData, function (value) {
+                    if(value.format_func_name == "QRY_MASK_HFD"){
+                        _.each(result.dtData, function (dtValue) {
+                            dtValue[value.ui_field_name] = go_formatDisplayClass.amtFormat(dtValue[value.ui_field_name] || "0", self.mask_hfd);
+                        });
+                    }
+                });
 
                 self.dataGridRows = result.dtData || [];
                 self.oriDataGridRows = _.clone(self.dataGridRows);
@@ -746,6 +794,13 @@ var singlePage = Vue.extend({
             tempSingleData.begin_dat = moment(tempSingleData.begin_dat).format("YYYY/MM/DD");
             tempSingleData.expire_dat = moment(tempSingleData.expire_dat).format("YYYY/MM/DD");
 
+            //解除MN『前檯金額格式』
+            _.each(self.singleField, function (value) {
+                if(value.format_func_name == "QRY_MASK_HFD"){
+                    tempSingleData[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(tempSingleData[value.ui_field_name]);
+                }
+            });
+
             if(self.createStatus){
                 self.tmpCud.createData = [tempSingleData];
             }
@@ -778,6 +833,29 @@ var singlePage = Vue.extend({
             });
 
             self.tmpCud.dt_oriData = self.dgIns.tmpCUD.oriData;
+
+            //解除DT『前檯金額格式』
+            _.each(self.dtFieldData, function (value) {
+                if(value.format_func_name == "QRY_MASK_HFD"){
+
+                    _.each(self.tmpCud.dt_createData, function (dtvalue) {
+                        dtvalue[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(dtvalue[value.ui_field_name]);
+                    });
+
+                    _.each(self.tmpCud.dt_updateData, function (dtvalue) {
+                        dtvalue[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(dtvalue[value.ui_field_name]);
+                    });
+
+                    _.each(self.tmpCud.dt_deleteData, function (dtvalue) {
+                        dtvalue[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(dtvalue[value.ui_field_name]);
+                    });
+
+                    _.each(self.tmpCud.dt_oriData, function (dtvalue) {
+                        dtvalue[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(dtvalue[value.ui_field_name]);
+                    });
+                }
+
+            });
 
             console.log(self.tmpCud);
         },
@@ -1026,6 +1104,10 @@ var singlePage = Vue.extend({
                 prg_id: prg_id
             };
             g_socket.emit('handleTableUnlock', lo_param);
+        },
+
+        formatAmt: function (field) {
+            this.singleData[field] = go_formatDisplayClass.amtFormat(this.singleData[field] || "0", this.mask_hfd);
         }
     }
 });

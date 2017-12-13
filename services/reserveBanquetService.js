@@ -326,7 +326,11 @@ exports.qrySystemParam = function (postData, session, callback) {
 
     var paramName = "QRY_" + postData.paramName.toUpperCase();
 
-    queryAgent.query(paramName, {}, function (err, Result) {
+    var lo_params = {
+        comp_cod: session.user.cmp_id
+    };
+
+    queryAgent.query(paramName, lo_params, function (err, Result) {
         if (!err) {
             if (Result)
                 callback(lo_error, Result);

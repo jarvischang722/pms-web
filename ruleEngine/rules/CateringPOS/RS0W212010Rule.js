@@ -223,7 +223,9 @@ module.exports = {
 
         lo_result.effectValues.order_qnt = formatFloat(total_min / 60, 1);
 
-        // TODO:依前檯進位小數位數做進位
+        //解除
+        postData.editRowData.unit_amt = removeAmtFormat(postData.editRowData.unit_amt);
+
         lo_result.effectValues.place_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
         lo_result.effectValues.special_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
 
@@ -232,15 +234,44 @@ module.exports = {
         if(disc_amt < 0) disc_amt = 0;
 
         lo_result.effectValues.disc_amt = disc_amt;
-
         callback(lo_error, lo_result);
+
     }
 
 };
 
 //四捨五入
-function formatFloat(num, pos)
-{
+function formatFloat(num, pos) {
     var size = Math.pow(10, pos);
     return Math.round(num * size) / size;
 }
+
+/**
+ * 資料轉回無format
+ * @param val {string} 依format轉換後的值
+ */
+function removeAmtFormat(val) {
+
+    var ls_amtValue = "";
+
+    if (val.indexOf(',') > -1) {
+        let la_splitAmtValue = val.split(',');
+        _.each(la_splitAmtValue, function (ls_splitAmtValue) {
+            ls_amtValue = ls_amtValue + ls_splitAmtValue;
+        });
+
+        if (ls_amtValue.indexOf('.') > -1) {
+            ls_amtValue = ls_amtValue.substring(0, ls_amtValue.indexOf('.'));
+        }
+
+        return ls_amtValue;
+    }
+
+    if (val.indexOf('.') > -1) {
+        ls_amtValue = val.substring(0, val.indexOf('.'));
+
+        return ls_amtValue;
+    }
+
+    return val;
+};

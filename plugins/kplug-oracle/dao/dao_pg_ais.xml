@@ -67,9 +67,10 @@
     <!-- ['RS0W212010'] 前檯金額格式 -->
     <dao name="QRY_MASK_HFD">
         <statement><![CDATA[
-               select pg_ais.sf_get_comp_sval('NULL', 'CM', 'mask_hfd') as mask_hfd from dual
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'CM', 'mask_hfd') as mask_hfd from dual
         ]]>
         </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
     <!-- ['RS0W212010'] 前檯進位小數位數 -->
