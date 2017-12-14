@@ -216,7 +216,7 @@
                 loadingText: "",
                 settingGridFieldsData: [],
                 settingGridRowData: {},
-                datagridFieldsData: [],
+                dataGridFieldsData: [],
                 rowData: {},
                 singleData: {},
                 oriSingleData: {},
@@ -263,18 +263,23 @@
             initData() {
                 this.settingGridFieldsData = [];
                 this.settingGridRowData = {};
-                this.datagridFieldsData = [];
+                this.dataGridFieldsData = [];
                 this.singleData = {};
                 this.oriSingleData = {};
                 this.fieldsData = [];
                 this.oriFieldsData = [];
             },
             loadSettingGrid() {
+                var self = this;
+                var lo_params = self.fetchDataParams.settingGrid;
 
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
+                    console.log(result);
+                });
             },
             loadDataGridByPrgID() {
 
-                this.rowData = val[0];
+                this.rowData = this.editRows[0];
                 this.showDataGrid();
             },
             showDataGrid(){},
