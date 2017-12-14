@@ -236,6 +236,7 @@
       "ChkZeroToHundred": "%s 請輸入0~100的數字(英文)",
       "ChkZeroToMaxNum": "%s 請輸入0~99999的數字(英文)",
       "FmtHHMM": "%s time format is 'HH:MM'",
+      "ChkHHMM": "%s time format is 'HHMM'",
       "ChkPointOne": "%s 僅能輸入至小數點1位(英文)",
       "FmtYYYYMM": "%s 日期格式YYYY/MM(01-12)(英文)"
     }

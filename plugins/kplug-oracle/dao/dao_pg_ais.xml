@@ -64,4 +64,86 @@
         <parameter type="string" kind="3">comp_cod</parameter>
     </dao>
 
+    <!-- ['RS0W212010'] 前檯金額格式 -->
+    <dao name="QRY_MASK_HFD">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval(:comp_cod, 'CM', 'mask_hfd') as mask_hfd from dual
+        ]]>
+        </statement>
+        <parameter type="string" kind="3">comp_cod</parameter>
+    </dao>
+
+    <!-- ['RS0W212010'] 前檯進位小數位數 -->
+    <dao name="QRY_ROUND_HFD">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'round_hfd') as round_hfd from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 滾房租日期 -->
+    <dao name="QRY_RENT_CAL_DAT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'HFD', 'rent_cal_dat') as rent_cal_dat from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 新郎、新娘是否為必Key -->
+    <dao name="QRY_REQUIRED_BRIDE_NAM">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'required_bride_nam') as required_bride_nam from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 使用類別預設值 -->
+    <dao name="QRY_DEFAULT_USE_TYP_COMMON">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_use_typ_common') as default_use_typ_common from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 訂席狀態預設值 -->
+    <dao name="QRY_DEFAULT_BQUET_ORDER_STA">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_bquet_order_sta') as default_bquet_order_sta from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 餐別預設值 -->
+    <dao name="QRY_DEFAULT_MEAL_TYP">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_meal_typ') as default_meal_typ from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 保留期限天數預設值 -->
+    <dao name="QRY_DEFAULT_EXPIRE_DAT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_expire_dat') as default_expire_dat from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 預定人數預設值 -->
+    <dao name="QRY_DEFAULT_ADULT_QNT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_adult_qnt') as default_adult_qnt from dual
+        ]]>
+        </statement>
+    </dao>
+
+    <!-- ['RS0W212010'] 保證人數預設值 -->
+    <dao name="QRY_DEFAULT_POADULT_QNT">
+        <statement><![CDATA[
+               select pg_ais.sf_get_comp_sval('NULL', 'BQ', 'default_poadult_qnt') as default_poadult_qnt from dual
+        ]]>
+        </statement>
+    </dao>
+
+
 </root>

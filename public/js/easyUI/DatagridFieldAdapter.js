@@ -323,6 +323,21 @@ var DatagridFieldAdapter = {
                     return fieldName;
                 };
             }
+
+            var formatFunc = function (val) {
+                if( typeof fieldAttrObj.format_func_name === "object"){
+                    val = go_formatDisplayClass.amtFormat(val || "0", fieldAttrObj.format_func_name.rule_val);
+                }
+                return val;
+            };
+
+            tmpFieldObj.formatter = formatFunc;
+            tmpFieldObj.editor.options.formatter = formatFunc;
+
+            tmpFieldObj.editor.options.onChange = function (newValue, oldValue) {
+                var ls_dgName = $(this).closest(".datagrid-view").children("table").attr("id");
+                onChangeAction(fieldAttrObj, oldValue, newValue, ls_dgName);
+            };
         }
         else if (dataType == "timespinner") {
             tmpFieldObj.formatter = function (val, row, index) {
