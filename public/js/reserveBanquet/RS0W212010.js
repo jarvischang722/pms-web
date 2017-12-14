@@ -11,7 +11,7 @@ var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
 g_socket.on('checkTableLock', function (result) {
-    if(!result.success){
+    if (!result.success) {
         alert(result.errorMsg);
         vmHub.$emit("setReadonly");
     }
@@ -24,10 +24,12 @@ var go_currentIndex = undefined;
 
 //region //DTGridClass
 
-function DTGridClass() {}
+function DTGridClass() {
+}
 
 DTGridClass.prototype = new DatagridBaseClass();
-DTGridClass.prototype.onClickRow = function () {};
+DTGridClass.prototype.onClickRow = function () {
+};
 DTGridClass.prototype.endEditing = function () {
     if (go_currentIndex == undefined) {
         return true;
@@ -40,7 +42,7 @@ DTGridClass.prototype.endEditing = function () {
     return false;
 };
 DTGridClass.prototype.onClickCell = function (index, field) {
-    if(!RS00202010VM.readonly){
+    if (!RS00202010VM.readonly) {
         if (DTGridClass.prototype.endEditing()) {
             if (go_currentIndex != index) {
                 $('#RS0W212010_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
@@ -134,7 +136,7 @@ var singlePage = Vue.extend({
             self.initTmpCUD();
 
             self.loadField(function () {
-                if(PostData.bquet_nos != "") {
+                if (PostData.bquet_nos != "") {
                     self.doRowLock(PostData.bquet_nos);
                     self.createStatus = false;
                     self.isModificable = false;
@@ -198,12 +200,12 @@ var singlePage = Vue.extend({
 
                 var isSame = false;
                 _.each(self.dataGridRows, function (value) {
-                    if(value.place_cod == chooseData["place_cod"]){
+                    if (value.place_cod == chooseData["place_cod"]) {
                         isSame = true;
                     }
                 });
 
-                if(!isSame){
+                if (!isSame) {
                     self.dataGridRows.push(chooseData);
                     self.dgIns.loadDgData(self.dataGridRows);
 
@@ -229,7 +231,7 @@ var singlePage = Vue.extend({
         this.fetchUserInfo();
         this.initTmpCUD();
 
-        vmHub.$on("setReadonly", function(){
+        vmHub.$on("setReadonly", function () {
             self.readonly = true;
             RS00202010VM.readonly = true;
             self.isModificable = false;
@@ -240,7 +242,7 @@ var singlePage = Vue.extend({
             self.modifyEnable = false;
             self.saveEnable = false;
         });
-        vmHub.$on("UnReadonly", function(){
+        vmHub.$on("UnReadonly", function () {
             self.readonly = false;
             RS00202010VM.readonly = false;
             self.isModificable = true;
@@ -251,101 +253,101 @@ var singlePage = Vue.extend({
             self.modifyEnable = true;
             self.saveEnable = true;
         });
-        vmHub.$on("doUnLock", function(){
+        vmHub.$on("doUnLock", function () {
             self.doRowUnLock();
         });
     },
     watch: {
-         dataGridRows: {
-             handler: function(after, before) {
-                 var tot_amt = 0;
+        dataGridRows: {
+            handler: function (after, before) {
+                var tot_amt = 0;
 
-                 _.each(this.dataGridRows, function (value) {
-                     tot_amt += Number(value.special_amt || 0);
-                 });
+                _.each(this.dataGridRows, function (value) {
+                    tot_amt += Number(value.special_amt || 0);
+                });
 
-                 //依參數『前檯金額格式』顯示
-                 if(!_.isUndefined(this.mask_hfd)){
-                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt, this.mask_hfd);
-                 }
+                //依參數『前檯金額格式』顯示
+                if (!_.isUndefined(this.mask_hfd)) {
+                    this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt, this.mask_hfd);
+                }
 
-                 this.canSave = false;
-             },
-             deep: true
-         },
+                this.canSave = false;
+            },
+            deep: true
+        },
         //region//按鈕如沒權限, 則不能Enable
-         cancelEnable: function () {
-             var purview = _.findIndex(go_funcPurview, function (value) {
-                 return value.func_id == "1010";
-             });
-             if(purview == -1){
-                 this.cancelEnable = false;
-             }
-         },
-         reserveEnable: function () {
+        cancelEnable: function () {
+            var purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1010";
+            });
+            if (purview == -1) {
+                this.cancelEnable = false;
+            }
+        },
+        reserveEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.reserveEnable = false;
             }
         },
-         waitEnable: function () {
+        waitEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1030";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.waitEnable = false;
             }
         },
-         inquiryEnable: function () {
+        inquiryEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1040";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.inquiryEnable = false;
             }
         },
-         modifyEnable: function () {
-             var purview;
-             if(this.createStatus){
-                 purview = _.findIndex(go_funcPurview, function (value) {
-                     return value.func_id == "0200";
-                 });
-                 if(purview == -1){
-                     this.modifyEnable = false;
-                 }
-             }
-             else{
-                 purview = _.findIndex(go_funcPurview, function (value) {
-                     return value.func_id == "0400";
-                 });
-                 if(purview == -1){
-                     this.modifyEnable = false;
-                 }
-             }
-         },
-         saveEnable: function () {
-             var purview;
-             if(this.createStatus){
-                 purview = _.findIndex(go_funcPurview, function (value) {
-                     return value.func_id == "0200";
-                 });
-                 if(purview == -1){
-                     this.saveEnable = false;
-                 }
-             }
-             else{
-                 purview = _.findIndex(go_funcPurview, function (value) {
-                     return value.func_id == "0400";
-                 });
-                 if(purview == -1){
-                     this.saveEnable = false;
-                 }
-             }
-         }
+        modifyEnable: function () {
+            var purview;
+            if (this.createStatus) {
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0200";
+                });
+                if (purview == -1) {
+                    this.modifyEnable = false;
+                }
+            }
+            else {
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0400";
+                });
+                if (purview == -1) {
+                    this.modifyEnable = false;
+                }
+            }
+        },
+        saveEnable: function () {
+            var purview;
+            if (this.createStatus) {
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0200";
+                });
+                if (purview == -1) {
+                    this.saveEnable = false;
+                }
+            }
+            else {
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0400";
+                });
+                if (purview == -1) {
+                    this.saveEnable = false;
+                }
+            }
+        }
         //endregion
-     },
+    },
     methods: {
 
         /**
@@ -356,38 +358,38 @@ var singlePage = Vue.extend({
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1010";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.cancelEnable = false;
             }
 
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.reserveEnable = false;
             }
 
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1030";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.waitEnable = false;
             }
 
             purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1040";
             });
-            if(purview == -1){
+            if (purview == -1) {
                 this.inquiryEnable = false;
             }
 
-            if(this.createStatus){
+            if (this.createStatus) {
 
                 purview = _.findIndex(go_funcPurview, function (value) {
                     return value.func_id == "0200";
                 });
 
-                if(purview == -1){
+                if (purview == -1) {
                     this.saveEnable = false;
                     this.modifyEnable = false;
                 }
@@ -396,7 +398,7 @@ var singlePage = Vue.extend({
                 purview = _.findIndex(go_funcPurview, function (value) {
                     return value.func_id == "0400";
                 });
-                if(purview == -1){
+                if (purview == -1) {
                     this.saveEnable = false;
                     this.modifyEnable = false;
                 }
@@ -594,7 +596,7 @@ var singlePage = Vue.extend({
 
                 //hpdpst_amt、place_amt 依前檯進位小數位數
                 _.each(self.singleField, function (value) {
-                    if(value.ui_field_name == "hpdpst_amt" || value.ui_field_name == "place_amt"){
+                    if (value.ui_field_name == "hpdpst_amt" || value.ui_field_name == "place_amt") {
                         value.ui_field_num_point = self.round_hfd;
                     }
                 });
@@ -604,7 +606,7 @@ var singlePage = Vue.extend({
 
                 //special_amt 依前檯進位小數位數
                 _.each(self.dtFieldData, function (value) {
-                    if(value.ui_field_name == "special_amt"){
+                    if (value.ui_field_name == "special_amt") {
                         value.ui_field_num_point = self.round_hfd;
                     }
                 });
@@ -626,19 +628,19 @@ var singlePage = Vue.extend({
                 if (!_.isUndefined(result.data)) {
 
                     //Time format
-                    if(result.data.begin_tim.trim() != ""){
+                    if (result.data.begin_tim.trim() != "") {
                         result.data.begin_tim = result.data.begin_tim.substring(0, 2) + ":" + result.data.begin_tim.substring(2, 4);
                     }
 
-                    if(result.data.end_tim.trim() != ""){
+                    if (result.data.end_tim.trim() != "") {
                         result.data.end_tim = result.data.end_tim.substring(0, 2) + ":" + result.data.end_tim.substring(2, 4);
                     }
 
-                    if(result.data.ins_tim.trim() != ""){
+                    if (result.data.ins_tim.trim() != "") {
                         result.data.ins_tim = result.data.ins_tim.substring(0, 2) + ":" + result.data.ins_tim.substring(2, 4);
                     }
 
-                    if(result.data.upd_tim.trim() != ""){
+                    if (result.data.upd_tim.trim() != "") {
                         result.data.upd_tim = result.data.upd_tim.substring(0, 2) + ":" + result.data.upd_tim.substring(2, 4);
                     }
 
@@ -649,7 +651,7 @@ var singlePage = Vue.extend({
                     result.data.expire_dat = moment(result.data.expire_dat).format("YYYY/MM/DD");
 
                     //訂單狀態切換預約處理欄位
-                    if(result.data.order_sta == "N"){
+                    if (result.data.order_sta == "N") {
                         self.isShowReserve = true;
                     }
                     else {
@@ -660,7 +662,7 @@ var singlePage = Vue.extend({
 
                     //依參數『前檯金額格式』顯示
                     _.each(self.singleField, function (value) {
-                        if(value.format_func_name == "QRY_MASK_HFD"){
+                        if (value.format_func_name == "QRY_MASK_HFD") {
                             result.data[value.ui_field_name] = go_formatDisplayClass.amtFormat(result.data[value.ui_field_name] || "0", self.mask_hfd);
                         }
                     });
@@ -689,8 +691,12 @@ var singlePage = Vue.extend({
 
                 //依參數『前檯金額格式』顯示, 因取欄位資料的方式不是用作業的方式，所以要自己塞format_func_name.rule_val
                 _.each(self.dtFieldData, function (value) {
-                    if(value.format_func_name == "QRY_MASK_HFD") {
-                        var object = {validate: value.format_func_name, rule_name: value.format_func_name, rule_val: self.mask_hfd};
+                    if (value.format_func_name == "QRY_MASK_HFD") {
+                        var object = {
+                            validate: value.format_func_name,
+                            rule_name: value.format_func_name,
+                            rule_val: self.mask_hfd
+                        };
                         value.format_func_name = object;
                     }
                 });
@@ -715,7 +721,7 @@ var singlePage = Vue.extend({
             this.useTypeOnChange();
             this.singleData.order_sta = this.default_bquet_order_sta;
 
-            if(this.singleData.order_sta == "N"){
+            if (this.singleData.order_sta == "N") {
                 self.isShowReserve = true;
             }
             else {
@@ -771,8 +777,8 @@ var singlePage = Vue.extend({
                 maxwidth: 1920,
                 dialogClass: "test",
                 resizable: true,
-                onClose:function(){
-                    if(!self.createStatus){
+                onClose: function () {
+                    if (!self.createStatus) {
                         self.doRowUnLock();
                     }
                 }
@@ -781,7 +787,7 @@ var singlePage = Vue.extend({
 
         //跳窗選擇多欄位
         chkClickPopUpGrid: function (fieldName) {
-            if(this.dgIns.endEditing()){
+            if (this.dgIns.endEditing()) {
                 this.popupFieldName = fieldName;
                 var lo_field;
                 var self = this;
@@ -870,19 +876,19 @@ var singlePage = Vue.extend({
                 var ls_begin_tim = value.begin_tim;
                 var ls_end_tim = value.end_tim;
 
-                if(Number(ls_end_tim) < Number(ls_begin_tim)){
+                if (Number(ls_end_tim) < Number(ls_begin_tim)) {
                     ls_end_tim = (Number(ls_end_tim) + 2400).toString();
                 }
 
-                if(Number(ls_begin_tim) < Number(earliest)){
+                if (Number(ls_begin_tim) < Number(earliest)) {
                     earliest = ls_begin_tim;
                 }
-                if(Number(ls_end_tim) > Number(latest)){
+                if (Number(ls_end_tim) > Number(latest)) {
                     latest = ls_end_tim;
                 }
             });
 
-            if(Number(latest) > 2359){
+            if (Number(latest) > 2359) {
                 latest = (Number(latest) - 2400).toString();
                 latest = padLeft(latest, 4);
             }
@@ -898,7 +904,7 @@ var singlePage = Vue.extend({
                 }
             });
 
-            if(_.isUndefined(tempSingleData.bquet_rmk)){
+            if (_.isUndefined(tempSingleData.bquet_rmk)) {
                 tempSingleData.bquet_rmk = "";
             }
 
@@ -914,12 +920,12 @@ var singlePage = Vue.extend({
 
             //解除MN『前檯金額格式』
             _.each(self.singleField, function (value) {
-                if(value.format_func_name == "QRY_MASK_HFD"){
+                if (value.format_func_name == "QRY_MASK_HFD") {
                     tempSingleData[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(tempSingleData[value.ui_field_name]);
                 }
             });
 
-            if(self.createStatus){
+            if (self.createStatus) {
                 self.tmpCud.createData = [tempSingleData];
             }
             else {
@@ -930,20 +936,20 @@ var singlePage = Vue.extend({
 
             //新增
             _.each(self.dataGridRows, function (value) {
-                if(value.createRow == "Y"){
+                if (value.createRow == "Y") {
                     self.tmpCud.dt_createData.push(value);
                 }
             });
 
             self.tmpCud.dt_updateData = self.dgIns.tmpCUD.updateData;
-            
+
             //DT 加入use_dat，API要用
             _.each(self.tmpCud.dt_createData, function (value) {
                 value["use_dat"] = self.singleData.begin_dat;
             });
 
             _.each(self.tmpCud.dt_updateData, function (value) {
-               value["use_dat"] = self.singleData.begin_dat;
+                value["use_dat"] = self.singleData.begin_dat;
             });
 
             _.each(self.tmpCud.dt_deleteData, function (value) {
@@ -954,7 +960,7 @@ var singlePage = Vue.extend({
 
             //解除DT『前檯金額格式』
             _.each(self.dtFieldData, function (value) {
-                if(value.format_func_name == "QRY_MASK_HFD"){
+                if (value.format_func_name == "QRY_MASK_HFD") {
 
                     _.each(self.tmpCud.dt_createData, function (dtvalue) {
                         dtvalue[value.ui_field_name] = go_formatDisplayClass.removeAmtFormat(dtvalue[value.ui_field_name]);
@@ -983,28 +989,28 @@ var singlePage = Vue.extend({
         save: function () {
             var self = this;
 
-            if(!self.canSave){
+            if (!self.canSave) {
                 alert('必須先通過庫存檢查！');
                 return;
             }
 
-            if(self.dgIns.endEditing()) {
+            if (self.dgIns.endEditing()) {
 
-                if(self.singleData.contact1_cod != null && (self.singleData.contact1_rmk == null || self.singleData.contact1_rmk == "")){
+                if (self.singleData.contact1_cod != null && (self.singleData.contact1_rmk == null || self.singleData.contact1_rmk == "")) {
                     alert('聯絡方式1未輸入!');
                     return;
                 }
 
-                if(self.singleData.contact2_cod != null && (self.singleData.contact2_rmk == null || self.singleData.contact2_rmk == "")){
+                if (self.singleData.contact2_cod != null && (self.singleData.contact2_rmk == null || self.singleData.contact2_rmk == "")) {
                     alert('聯絡方式2未輸入!');
                     return;
                 }
 
-                if(self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y"){
-                    if(self.singleData.groom_nam == null || self.singleData.groom_nam == ""){
+                if (self.singleData.inter_cod == "MARRY" && required_bride_nam == "Y") {
+                    if (self.singleData.groom_nam == null || self.singleData.groom_nam == "") {
                         alert("新郎為必填!");
                     }
-                    if(self.singleData.bride_nam == null || self.singleData.bride_nam == ""){
+                    if (self.singleData.bride_nam == null || self.singleData.bride_nam == "") {
                         alert("新娘為必填!");
                     }
                     return;
@@ -1033,20 +1039,20 @@ var singlePage = Vue.extend({
         ModifyStatus: function (newStatus) {
             var self = this;
 
-            if(self.singleData.order_sta == newStatus){
+            if (self.singleData.order_sta == newStatus) {
                 return;
             }
 
-            if(self.createStatus) {
-                if(newStatus == "N"){
+            if (self.createStatus) {
+                if (newStatus == "N") {
                     self.isShowReserve = true;
                 }
-                else{
+                else {
                     self.isShowReserve = false;
                 }
                 self.singleData.order_sta = newStatus;
             }
-            else{
+            else {
 
                 //判斷是否有異動過資料
 
@@ -1054,9 +1060,9 @@ var singlePage = Vue.extend({
 
                 var isDTEqual = isObjectArrayEqual(self.oriDataGridRows, self.dataGridRows);
 
-                if(!isMNEqual || !isDTEqual){
+                if (!isMNEqual || !isDTEqual) {
 
-                    if(confirm("已異動過資料，需先存檔！\r\n請問是否要存檔?")){
+                    if (confirm("已異動過資料，需先存檔！\r\n請問是否要存檔?")) {
                         self.save();
                     }
                     return;
@@ -1065,7 +1071,7 @@ var singlePage = Vue.extend({
                 RS00202010VM.isLoading = true;
 
                 var lo_params = {
-                    REVE_CODE : prg_id,
+                    REVE_CODE: prg_id,
                     prg_id: prg_id,
                     func_id: "1010",
                     bquet_nos: self.singleData.bquet_nos,
@@ -1105,7 +1111,7 @@ var singlePage = Vue.extend({
             delRow.Upd_dat = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
             delRow.Upd_usr = self.userInfo.usr_id;
 
-            if(delRow.createRow != "Y"){
+            if (delRow.createRow != "Y") {
                 self.tmpCud.dt_deleteData.push(delRow);
             }
 
@@ -1116,11 +1122,11 @@ var singlePage = Vue.extend({
          * 庫存檢查
          */
         CheckInventory: function () {
-            if(this.dataGridRows.length == 0){
+            if (this.dataGridRows.length == 0) {
                 alert('請先新增明細！');
                 return;
             }
-            if(this.dgIns.endEditing()) {
+            if (this.dgIns.endEditing()) {
                 this.saveToTmpCud();
                 this.callAPI('2030');
             }
@@ -1134,7 +1140,7 @@ var singlePage = Vue.extend({
             self.canSave = true;
 
             _.each(self.dataGridRows, function (value) {
-                if(value.is_allplace == "Y"){
+                if (value.is_allplace == "Y") {
                     var item = _.find(data.check_dt, function (field) {
                         return field.place_cod == value.place_cod.trim();
                     });
@@ -1152,7 +1158,7 @@ var singlePage = Vue.extend({
             var self = this;
 
             var lo_params = {
-                trans_cod:  prg_id,
+                trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: 2,
                 func_id: func_id,
@@ -1173,11 +1179,11 @@ var singlePage = Vue.extend({
             });
         },
 
-        callSaveAPI: function(func_id){
+        callSaveAPI: function (func_id) {
             var self = this;
 
             var lo_params = {
-                trans_cod:  prg_id,
+                trans_cod: prg_id,
                 prg_id: prg_id,
                 page_id: 2,
                 func_id: func_id,
@@ -1206,7 +1212,7 @@ var singlePage = Vue.extend({
             var lo_param = {
                 prg_id: prg_id,
                 table_name: "NULLbquet_mn",
-                lock_type : "R",
+                lock_type: "R",
                 key_cod: bquet_nos.trim()
             };
             g_socket.emit('handleTableLock', lo_param);
@@ -1347,10 +1353,10 @@ var RS00202010VM = new Vue({
 
         //鎖單筆DT用(RowLock)
         readonly: false,
-
-        isLoading: false
+        isLoading: false,
+        isFirst: false
     },
-    watch:{
+    watch: {
         searchDate: function () {
             this.searchDate = moment(this.searchDate).format("YYYY/MM/DD");
         }
@@ -1358,8 +1364,13 @@ var RS00202010VM = new Vue({
     mounted: function () {
         //啟用fixTable
         $("#gs-fixTable").tableHeadFixer({"left": 1});
-        $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
         this.qryPageOneData();
+    },
+    updated: function () {
+        if (this.isFirst == false && this.isLoading == false) {
+            $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
+            this.isFirst = true;
+        }
     },
     methods: {
         doSearch: function () {
@@ -1369,12 +1380,20 @@ var RS00202010VM = new Vue({
             var self = this;
             self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
+            this.isLoading = true;
+            // waitingDialog.show("Loading...");
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
+                // waitingDialog.hide();
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
                 }
+                else {
+                    alert(result.errorMsg);
+                }
+                self.isLoading = false;
             });
         },
+
         addReserve: function () {
             vmHub.$emit("showReserve", {bquet_nos: ""});
         },
@@ -1393,12 +1412,12 @@ function isObjectArrayEqual(a, b) {
 
     var isEqual = true;
 
-    if(a.length != b.length){
+    if (a.length != b.length) {
         return false;
     }
 
-    for(i = 0; i < a.length; i++){
-        if(!isObjectValueEqual(a[i], b[i])){
+    for (i = 0; i < a.length; i++) {
+        if (!isObjectValueEqual(a[i], b[i])) {
             isEqual = false;
         }
     }
@@ -1423,8 +1442,8 @@ function isObjectValueEqual(a, b) {
         // If values of same property are not equal,
         // objects are not equivalent
         if (a[propName] !== b[propName]) {
-            if(a[propName] == null || a[propName] == "" || a[propName].toString().trim() == ""){
-                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()){
+            if (a[propName] == null || a[propName] == "" || a[propName].toString().trim() == "") {
+                if (b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()) {
                     continue;
                 }
             }
@@ -1437,11 +1456,11 @@ function isObjectValueEqual(a, b) {
     return true;
 }
 
-function padLeft(str,lenght){
-    if(str.length >= lenght)
+function padLeft(str, lenght) {
+    if (str.length >= lenght)
         return str;
     else
-        return padLeft("0" + str,lenght);
+        return padLeft("0" + str, lenght);
 }
 
 $('.easyUi-custom1').tabs({});

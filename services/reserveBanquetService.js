@@ -26,10 +26,17 @@ exports.qryPageOneData = function (postData, session, callback) {
         qryBanquetData,     // 查訂席平面圖資料
         qryBanquetSta       // 查訂席場地狀態
     ], function (err, result) {
-        let la_banquetData = result[0];
-        let la_banquetSta = result[1];
-        let lo_banquetData = convertDataToDisplay(la_banquetData, la_banquetSta);
-        lo_result.defaultValues = lo_banquetData;
+        if (err) {
+            lo_error = err;
+            lo_result.success = false;
+        }
+        else {
+            let la_banquetData = result[0];
+            let la_banquetSta = result[1];
+            let lo_banquetData = convertDataToDisplay(la_banquetData, la_banquetSta);
+            lo_result.defaultValues = lo_banquetData;
+        }
+
         callback(lo_error, lo_result);
     });
 
@@ -37,16 +44,20 @@ exports.qryPageOneData = function (postData, session, callback) {
         var params = {
             "REVE-CODE": "RS0W212010",
             "program_id": "RS0W212010",
-            "func_id":"2040",
+            "func_id": "2040",
             "user": "cio"
         };
 
         tools.requestApi(sysConfig.api_url, params, function (err, res, result) {
-            var errorMsg = null;
+            let errorMsg = null;
+            let data = "";
             if (err || !result) {
                 errorMsg = err;
             }
-            var data = result.tmp_bq3_web_map.data || [];
+            else {
+                data = result.tmp_bq3_web_map.data || [];
+            }
+
             cb(errorMsg, data);
         });
     }
@@ -108,6 +119,8 @@ class ResvBanquetData {
                 tr_class: "no-cursor-tr h23-tr",
                 datatype: lo_rspt.datatype,
                 name: lo_rspt.rspt_nam,
+                parent_cod: null,
+                place_cod: null,
                 banquet_dt: self.genBanquet_dt(lo_rspt.datatype, lo_rspt.rspt_cod),
                 rowspan: 0
             };
@@ -116,10 +129,20 @@ class ResvBanquetData {
             // 地區
             let la_place = _.where(self.la_place, {rspt_cod: lo_rspt.rspt_cod});
             _.each(la_place, function (lo_place) {
+
+                let ls_parent_cod = (lo_place.parent_cod != null) ? lo_place.parent_cod.trim() : "";
+                let ls_place_cod = (lo_place.place_cod != null) ? lo_place.place_cod.trim() : "";
+
+                if(lo_place.is_child == "N"){
+                    ls_parent_cod = "";
+                }
+
                 lo_rowData = {
                     tr_class: "",
                     datatype: "PLACE",
                     name: lo_place.place_nam,
+                    parent_cod: ls_parent_cod,
+                    place_cod: ls_place_cod,
                     banquet_dt: self.genBanquet_dt("Reserve", lo_place.place_cod),
                     rowspan: 0
                 };
@@ -306,10 +329,12 @@ exports.qryPageTwoData = function (postData, session, callback) {
 
     queryAgent.query("QRY_BQUET_MN_SINGLE", lo_params, function (err, Result) {
         if (!err) {
-            if (Result)
+            if (Result) {
                 callback(lo_error, Result);
-            else
+            }
+            else {
                 callback(lo_error, "");
+            }
         }
         else {
             lo_error = new ErrorClass();
@@ -452,7 +477,7 @@ exports.chgOrderStaAPI = function (postData, session, callback) {
         "user": session.user.usr_id,
         "table_name": 'bquet_mn',
         "count": 1,
-        "ip" : '',
+        "ip": '',
         "bquet_nos": postData.bquet_nos,
         "old_sta": postData.old_sta,
         "new_sta": postData.new_sta,
