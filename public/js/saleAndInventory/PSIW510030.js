@@ -369,16 +369,8 @@ var PSIW510030 = new Vue({
                             ui_type: "text",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 150,
+                            width: 200,
                             ui_display_name: "訂單編號"
-                        },
-                        {
-                            ui_field_name: "doc_nos",
-                            ui_type: "text",
-                            row_seq: 1,
-                            col_seq: 1,
-                            width: 150,
-                            ui_display_name: "歸檔編號"
                         },
                         {
                             ui_field_name: "order_dat",
@@ -411,7 +403,7 @@ var PSIW510030 = new Vue({
                             ui_type: "text",
                             row_seq: 1,
                             col_seq: 1,
-                            width: 150,
+                            width: 200,
                             ui_display_name: "訂貨人姓名"
                         }
                     ];
@@ -835,7 +827,7 @@ var PSIW510030 = new Vue({
                     prg_id: "PSIW510030",
                     ui_field_name: "stock_qnt",
                     ui_type: "number",
-                    ui_field_length: 6,
+                    ui_field_length: 15,
                     ui_field_num_point: 3,
                     col_seq: 4,
                     width: 100,
@@ -858,7 +850,7 @@ var PSIW510030 = new Vue({
                     prg_id: "PSIW510030",
                     ui_field_name: "thu_qty",
                     ui_type: "number",
-                    ui_field_length: 6,
+                    ui_field_length: 15,
                     ui_field_num_point: 3,
                     col_seq: 4,
                     width: 100,
@@ -881,7 +873,7 @@ var PSIW510030 = new Vue({
                     prg_id: "PSIW510030",
                     ui_field_name: "stock_unit",
                     ui_type: "select",
-                    ui_field_length: 6,
+                    ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
                     width: 100,
@@ -950,7 +942,7 @@ var PSIW510030 = new Vue({
                     prg_id: "PSIW510030",
                     ui_field_name: "unit_typ",
                     ui_type: "select",
-                    ui_field_length: 4,
+                    ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 3,
                     width: 80,
@@ -1017,7 +1009,7 @@ var PSIW510030 = new Vue({
                     prg_id: "PSIW510030",
                     ui_field_name: "safe_day",
                     ui_type: "number",
-                    ui_field_length: 6,
+                    ui_field_length: 10,
                     ui_field_num_point: 0,
                     col_seq: 4,
                     width: 100,
@@ -1148,6 +1140,14 @@ var PSIW510030 = new Vue({
             };
             $.post("/api/getQueryResult", lo_params, function (result) {
                 if (!_.isUndefined(result.data)) {
+
+                    //db撈出來小數超亂, 直接做四捨五入
+                    _.each(result.data, function (value) {
+                        value.item_qnt = formatFloat(value.item_qnt, 3);
+                        value.order_qnt = formatFloat(value.order_qnt, 3);
+                        value.thu_qty = formatFloat(value.thu_qty, 3);
+                    });
+
                     self.singleDataGridRows = result.data;
                     self.dgInsDT.loadDgData(self.singleDataGridRows);
 
@@ -1226,7 +1226,7 @@ var PSIW510030 = new Vue({
             this.singleData.order_amt = 0;
             this.singleData.order_tax = 0;
             this.singleData.order_tot = 0;
-            this.singleData.gen_cod = "S";
+            this.singleData.gen_cod = "W";
             this.singleData.chn_compcod = "";
             this.singleData.chn_purchnos = "";
             this.singleData.hotelcod = "";
@@ -1585,6 +1585,11 @@ var PSIW510030 = new Vue({
 
             if(_.isUndefined(self.singleData.format_sta) || self.singleData.format_sta == ""){
                 alert("請選擇訂單格式");
+                return;
+            }
+
+            if(_.isUndefined(self.singleData.atten_nam) || self.singleData.atten_nam == ""){
+                alert("請輸入員工姓名");
                 return;
             }
 
@@ -2007,6 +2012,7 @@ BacchusMainVM.setPrgVueIns(PSIW510030);
 BacchusMainVM.setLeaveAfterExecFuncsNam(["ModifyDrop"]);
 
 $(window).on('beforeunload', function () {
+    BacchusMainVM.doLogout();
     return PSIW510030.doRowUnLock();
 });
 

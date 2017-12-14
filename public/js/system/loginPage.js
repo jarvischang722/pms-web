@@ -40,6 +40,9 @@ var loginVM = new Vue({
             $.post("/api/getSelectCompany", function (result) {
                 if (result.success) {
                     loginVM.companyData = result.selectCompany;
+
+                    //dominos需求，預設選取第一間公司別
+                    loginVM.comp_id = loginVM.companyData[0].cmp_id.trim();
                 }
             });
         },
