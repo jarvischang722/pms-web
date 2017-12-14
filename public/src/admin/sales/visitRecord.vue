@@ -278,6 +278,12 @@
                 });
             },
             loadDataGridByPrgID() {
+                var self = this;
+                var lo_params = self.fetchDataParams.settingGrid;
+
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
+                    console.log(result);
+                });
 
                 this.rowData = this.editRows[0];
                 this.showDataGrid();
@@ -286,7 +292,7 @@
             fetchSingleGridFieldData() {
 
             },
-            fetchSingleGridRowData() {
+            fetchRowData() {
             }
         }
     }
