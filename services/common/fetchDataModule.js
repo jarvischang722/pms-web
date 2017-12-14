@@ -134,8 +134,8 @@ exports.GridSingleProc = function (postData, session) {
             qryFieldName,
             qrySelectData
         }, function (err, getResult) {
-            var la_fieldNameList = getResult[0];
-            var la_selectData = tools.mongoDocToObject(getResult[1]);
+            var la_fieldNameList = getResult.qryFieldName;
+            var la_selectData = tools.mongoDocToObject(getResult.qrySelectData);
             var lo_initField = {};
 
             _.each(la_fieldNameList, function (ls_fieldName) {
@@ -155,17 +155,15 @@ exports.GridSingleProc = function (postData, session) {
                 func_id: '0200',
                 page_id: gn_page_id,
                 tab_page_id: gn_tab_page_id
-            }, function(err, func){
+            }, function (err, func) {
                 if (func) {
                     func = func.toObject();
                 }
                 if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
-
                     ruleAgent[func.rule_func_name](postData, session, function (err, result) {
-
                         //取typeSelect的預設值
                         _.each(la_selectData, function (value, index) {
-                            if(value.defaultVal != ""){
+                            if (value.defaultVal != "") {
                                 result.defaultValues[value.ui_field_name] = value.defaultVal;
                             }
                         });
@@ -174,13 +172,12 @@ exports.GridSingleProc = function (postData, session) {
 
                         callback(err, result);
                     });
-
                 }
                 else {
                     //取typeSelect的預設值
                     var result = {};
                     _.each(la_selectData, function (value, index) {
-                        if(value.defaultVal != ""){
+                        if (value.defaultVal != "") {
                             result[value.ui_field_name] = value.defaultVal;
                         }
                     });
@@ -214,7 +211,7 @@ exports.GridSingleProc = function (postData, session) {
                 let gsMnData = {
                     fieldsData: la_pageField,
                     rowData: lo_rowData
-                }
+                };
                 cb(null, gsMnData);
             }
         ], function (err, result) {
