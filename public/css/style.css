@@ -4343,12 +4343,16 @@ td div.act-box span.act-text {
   top: 3% !important;
 }
 
-.search-content .el-select .el-input__inner {
+.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner {
   height: 25px !important;
 }
-.search-content .el-select .el-select__tags {
+.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags {
   height: 25px !important;
   overflow: hidden;
+  line-height: 25px !important;
+}
+.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select {
+  width: 100% !important;
 }
 
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
@@ -4552,6 +4556,14 @@ td div.act-box span.act-text {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.ml-47 {
+  margin-left: 47px;
+}
+
+.ml-124 {
+  margin-left: 124px;
 }
 
 .mlr-3 {
@@ -5229,8 +5241,13 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCardHalf {
-  width: 53px;
+.input-medium.resvCardHalf-1 {
+  width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardHalf-2 {
+  width: 41px;
   max-width: 100%;
   height: 25px;
 }

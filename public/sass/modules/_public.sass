@@ -51,6 +51,11 @@
   margin-left: 93px
 .ml-94
   margin-left: 94px
+
+.ml-47
+  margin-left: 47px // rateCode Monthly
+.ml-124
+  margin-left: 124px // rateCode Monthly
 .mlr-3
   margin: auto 3px
 .mlr-4
@@ -380,6 +385,7 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1(568px)
   &.resvCard-s1Half2
     +input-s1((($rateCode-s1) /2)-1)
+
   &.rateCode-s1
     +input-s1($rateCode-s1)
   &.rateCode-s1Rm
@@ -440,8 +446,10 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
 
   &.resvCard
     +input-s1($resvCard) //106px
-  &.resvCardHalf
-    +input-s1($resvCard /2) //53px
+  &.resvCardHalf-1
+    +input-s1(65px) //65px
+  &.resvCardHalf-2
+    +input-s1(41px) //41px
     //住客帳維護 單筆
   &.resvCardSpec1
     +input-s1(203px)
