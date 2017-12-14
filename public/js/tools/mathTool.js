@@ -3,7 +3,7 @@
  * 數值運算處理工具
  */
 
-function MathTool(){
+function MathTool() {
 
     /**
      * 解決js相乘的浮點運算bug
@@ -11,7 +11,7 @@ function MathTool(){
      * @param arg2 : 乘數
      * @returns {Number} : 結果
      */
-    this.accMul = function(arg1, arg2) {
+    this.accMul = function (arg1, arg2) {
         var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
         try {
             m += s1.split(".")[1].length;
@@ -30,8 +30,7 @@ function MathTool(){
      * @param pos : 四捨五入到幾位
      * @returns {Number} : 結果
      */
-    this.formatFloat = function(num, pos)
-    {
+    this.formatFloat = function (num, pos) {
         var size = Math.pow(10, pos);
         return Math.round(num * size) / size;
     };
