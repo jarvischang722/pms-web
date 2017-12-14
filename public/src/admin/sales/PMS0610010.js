@@ -211,7 +211,7 @@ var vm = new Vue({
                         page_id: 1020
                     },
                     dataGrid:{
-                        prg_id: "PMS620010",
+                        prg_id: "PMS0610010",
                         page_id: 1020
                     },
                     singleGrid:{

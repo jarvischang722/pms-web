@@ -226,15 +226,70 @@
         },
         watch: {
             editRows(val) {
+                this.initData();
+                this.fetchSingleGridFieldData();
                 if (!this.isOnlySingleGrid) {
                     this.loadSettingGrid();
                     this.loadDataGridByPrgID();
                 }
-                this.fetchSingleGridFieldData();
             },
             rowData(val) {
-                this.initData();
+                this.fetchRowData(val);
+            }
+        },
+        methods: {
+            initData() {
+                this.settingGridFieldsData = [];
+                this.settingGridRowData = {};
+                this.dataGridFieldsData = [];
+                this.rowData = {};                  //多筆資料(一筆)
+                this.singleData = {};               //單筆資料
+                this.oriSingleData = {};
+                this.fieldsData = [];
+                this.oriFieldsData = [];
+            },
+            fetchSingleGridFieldData() {
+                var self = this;
+                var lo_params = this.fetchDataParams.singleGrid;
 
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
+                    self.oriFieldsData = result.gsFieldsData;
+                    self.fieldData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "row_seq"), "row_seq"));
+                });
+            },
+            loadSettingGrid() {
+                var self = this;
+                var lo_params = this.fetchDataParams.settingGrid;
+
+                //取欄位資料
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
+                   self.settingGridFieldsData = result.gsFieldsData;
+                });
+
+                this.settingGridRowData = {
+                    purport_rmk: "",
+                    visit_dat: moment(new Date()).format("YYYY/MM/DD"),
+                    visit_sta: 'N',
+                    visit_typ: '1'
+                }
+            },
+            loadDataGridByPrgID() {
+                var self = this;
+                var lo_params = this.fetchDataParams.dataGrid;
+
+                $.post("/api/fetchOnlyDataGridFieldData", lo_params, function(result){
+                    self.dataGridFieldsData = result.dgFieldsData;
+                });
+
+                this.rowData = this.editRows[0];
+            },
+            fetchRowData(editingRow) {
+                var self = this;
+                editingRow = _.extend(editingRow, {prg_id: gs_prgId});
+                this.showDataGrid();
+            },
+            showDataGrid(){},
+            setIndexData(){
 //                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
 //
 //                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
@@ -257,42 +312,6 @@
 //                    this.isFirstData = false;
 //                    this.isLastData = false;
 //                }
-            }
-        },
-        methods: {
-            initData() {
-                this.settingGridFieldsData = [];
-                this.settingGridRowData = {};
-                this.dataGridFieldsData = [];
-                this.singleData = {};
-                this.oriSingleData = {};
-                this.fieldsData = [];
-                this.oriFieldsData = [];
-            },
-            loadSettingGrid() {
-                var self = this;
-                var lo_params = self.fetchDataParams.settingGrid;
-
-                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
-                    console.log(result);
-                });
-            },
-            loadDataGridByPrgID() {
-                var self = this;
-                var lo_params = self.fetchDataParams.settingGrid;
-
-                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
-                    console.log(result);
-                });
-
-                this.rowData = this.editRows[0];
-                this.showDataGrid();
-            },
-            showDataGrid(){},
-            fetchSingleGridFieldData() {
-
-            },
-            fetchRowData() {
             }
         }
     }
