@@ -1367,7 +1367,7 @@ var RS00202010VM = new Vue({
         this.qryPageOneData();
     },
     updated: function () {
-        if (this.isFirst == false) {
+        if (this.isFirst == false && this.isLoading == false) {
             $("table.treeControl").agikiTreeTable({persist: true, persistStoreName: "files"});
             this.isFirst = true;
         }
@@ -1381,14 +1381,16 @@ var RS00202010VM = new Vue({
             self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
             this.isLoading = true;
+            // waitingDialog.show("Loading...");
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
-                self.isLoading = false;
+                // waitingDialog.hide();
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
                 }
                 else {
                     alert(result.errorMsg);
                 }
+                self.isLoading = false;
             });
         },
 
