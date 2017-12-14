@@ -104,13 +104,13 @@ var singlePage = Vue.extend({
             isModificable: true,       //決定是否可以修改資料
             readonly: false,
 
-            saveEnable: true,
 
             cancelEnable: true,
             reserveEnable: true,
             waitEnable: true,
             inquiryEnable: true,
             modifyEnable: true,
+            saveEnable: true,
 
             isShowReserve: true,
 
@@ -152,7 +152,7 @@ var singlePage = Vue.extend({
                     self.singleData = _.clone(self.singleDataEmpty);
                     self.defaultValue();
                 }
-
+                self.initPurview();
                 self.showReserve();
                 self.fetchDataGridData(PostData.bquet_nos);
             });
@@ -228,7 +228,6 @@ var singlePage = Vue.extend({
         this.getSystemParam();
         this.fetchUserInfo();
         this.initTmpCUD();
-        this.initPurview();
 
         vmHub.$on("setReadonly", function(){
             self.readonly = true;
@@ -256,7 +255,7 @@ var singlePage = Vue.extend({
             self.doRowUnLock();
         });
     },
-     watch: {
+    watch: {
          dataGridRows: {
              handler: function(after, before) {
                  var tot_amt = 0;
@@ -314,7 +313,7 @@ var singlePage = Vue.extend({
                      return value.func_id == "0200";
                  });
                  if(purview == -1){
-                     this.modifyEnable = true;
+                     this.modifyEnable = false;
                  }
              }
              else{
@@ -349,13 +348,59 @@ var singlePage = Vue.extend({
      },
     methods: {
 
+        /**
+         * 功能權限初始化
+         */
         initPurview: function () {
-            this.cancelEnable = false;
-            this.reserveEnable = false;
-            this.waitEnable = false;
-            this.inquiryEnable = false;
-            this.modifyEnable = false;
-            this.saveEnable = false;
+            var purview;
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1010";
+            });
+            if(purview == -1){
+                this.cancelEnable = false;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1020";
+            });
+            if(purview == -1){
+                this.reserveEnable = false;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1030";
+            });
+            if(purview == -1){
+                this.waitEnable = false;
+            }
+
+            purview = _.findIndex(go_funcPurview, function (value) {
+                return value.func_id == "1040";
+            });
+            if(purview == -1){
+                this.inquiryEnable = false;
+            }
+
+            if(this.createStatus){
+
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0200";
+                });
+
+                if(purview == -1){
+                    this.saveEnable = false;
+                    this.modifyEnable = false;
+                }
+            }
+            else {
+                purview = _.findIndex(go_funcPurview, function (value) {
+                    return value.func_id == "0400";
+                });
+                if(purview == -1){
+                    this.saveEnable = false;
+                    this.modifyEnable = false;
+                }
+            }
         },
 
         /**
