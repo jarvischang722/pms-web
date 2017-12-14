@@ -11,31 +11,54 @@ var go_funcPurview = (new FuncPurview(prg_id)).getFuncPurvs();
 
 //rowLocK
 g_socket.on('checkTableLock', function (result) {
-    console.log(result);
     if(!result.success){
         alert(result.errorMsg);
-        singlePage.readonly = true;
-        singlePage.isModificable = false;
-
-        singlePage.cancelEnable = false;
-        singlePage.reserveEnable = false;
-        singlePage.waitEnable = false;
-        singlePage.inquiryEnable = false;
-        singlePage.modifyEnable = false;
+        vmHub.$emit("setReadonly");
+    }
+    else {
+        vmHub.$emit("UnReadonly");
     }
 });
 
-//單筆DT
-/** DatagridRmSingleGridClass ***/
+var go_currentIndex = undefined;
+
+//region //DTGridClass
+
 function DTGridClass() {}
 
 DTGridClass.prototype = new DatagridBaseClass();
 DTGridClass.prototype.onClickRow = function () {};
+DTGridClass.prototype.endEditing = function () {
+    console.log(go_currentIndex);
+    if (go_currentIndex == undefined) {
+        return true;
+    }
+    if ($('#RS0W212010_dt').datagrid('validateRow', go_currentIndex)) {
+        $('#RS0W212010_dt').datagrid('endEdit', go_currentIndex);
+        go_currentIndex = undefined;
+        return true;
+    }
+    return false;
+};
+DTGridClass.prototype.onClickCell = function (index, field) {
+    if(!RS00202010VM.readonly){
+        if (DTGridClass.prototype.endEditing()) {
+            if (go_currentIndex != index) {
+                $('#RS0W212010_dt').datagrid('selectRow', index).datagrid('beginEdit', index);
+                var ed = $('#RS0W212010_dt').datagrid('getEditor', {index: index, field: field});
+                if (ed) {
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+                go_currentIndex = index;
+            }
 
-$(window).on('beforeunload', function () {
-    return singlePage.doRowUnLock();
-});
+        }
+    }
+};
 
+//endregion
+
+//page.2 單筆跳窗
 var singlePage = Vue.extend({
     template: "#RS0W212010Tmp",
     data: function () {
@@ -181,18 +204,17 @@ var singlePage = Vue.extend({
                 });
 
                 if(!isSame){
-                    //self.dataGridRows.push(chooseData);
-                    //self.dgIns.loadDgData(self.dataGridRows);
+                    self.dataGridRows.push(chooseData);
+                    self.dgIns.loadDgData(self.dataGridRows);
 
+                    $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
+                        .datagrid('beginEdit', self.dataGridRows.length - 1);
+                    go_currentIndex = self.dataGridRows.length - 1;
 
-                    $('#RS0W212010_dt').datagrid('appendRow', chooseData);
-                    self.dgIns.editIndex = $('#RS0W212010_dt').datagrid('getRows').length - 1;
-                    $('#RS0W212010_dt').datagrid('selectRow', self.dgIns.editIndex)
-                        .datagrid('beginEdit', self.dgIns.editIndex);
-
-                    // $('#RS0W212010_dt').datagrid('selectRow', self.dataGridRows.length - 1)
-                    //     .datagrid('beginEdit', self.dataGridRows.length - 1);
-                    // self.dgIns.editIndex = self.dataGridRows.length - 1;
+                    // $('#RS0W212010_dt').datagrid('appendRow', chooseData);
+                    // self.dgIns.editIndex = $('#RS0W212010_dt').datagrid('getRows').length - 1;
+                    // $('#RS0W212010_dt').datagrid('selectRow', self.dgIns.editIndex)
+                    //     .datagrid('beginEdit', self.dgIns.editIndex);
                 }
             }
             else {
@@ -202,9 +224,37 @@ var singlePage = Vue.extend({
         });
     },
     mounted: function () {
+        var self = this;
         this.getSystemParam();
         this.fetchUserInfo();
         this.initTmpCUD();
+        this.initPurview();
+
+        vmHub.$on("setReadonly", function(){
+            self.readonly = true;
+            RS00202010VM.readonly = true;
+            self.isModificable = false;
+            self.cancelEnable = false;
+            self.reserveEnable = false;
+            self.waitEnable = false;
+            self.inquiryEnable = false;
+            self.modifyEnable = false;
+            self.saveEnable = false;
+        });
+        vmHub.$on("UnReadonly", function(){
+            self.readonly = false;
+            RS00202010VM.readonly = false;
+            self.isModificable = true;
+            self.cancelEnable = true;
+            self.reserveEnable = true;
+            self.waitEnable = true;
+            self.inquiryEnable = true;
+            self.modifyEnable = true;
+            self.saveEnable = true;
+        });
+        vmHub.$on("doUnLock", function(){
+            self.doRowUnLock();
+        });
     },
      watch: {
          dataGridRows: {
@@ -226,15 +276,15 @@ var singlePage = Vue.extend({
              deep: true
          },
         //region//按鈕如沒權限, 則不能Enable
-        cancelEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "1010";
-            });
-            if(purview == -1){
-                this.cancelEnable = false;
-            }
-        },
-        reserveEnable: function () {
+         cancelEnable: function () {
+             var purview = _.findIndex(go_funcPurview, function (value) {
+                 return value.func_id == "1010";
+             });
+             if(purview == -1){
+                 this.cancelEnable = false;
+             }
+         },
+         reserveEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1020";
             });
@@ -242,7 +292,7 @@ var singlePage = Vue.extend({
                 this.reserveEnable = false;
             }
         },
-        waitEnable: function () {
+         waitEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1030";
             });
@@ -250,7 +300,7 @@ var singlePage = Vue.extend({
                 this.waitEnable = false;
             }
         },
-        inquiryEnable: function () {
+         inquiryEnable: function () {
             var purview = _.findIndex(go_funcPurview, function (value) {
                 return value.func_id == "1040";
             });
@@ -258,14 +308,25 @@ var singlePage = Vue.extend({
                 this.inquiryEnable = false;
             }
         },
-        modifyEnable: function () {
-            var purview = _.findIndex(go_funcPurview, function (value) {
-                return value.func_id == "0400";
-            });
-            if(purview == -1){
-                this.modifyEnable = false;
-            }
-        },
+         modifyEnable: function () {
+             var purview;
+             if(this.createStatus){
+                 purview = _.findIndex(go_funcPurview, function (value) {
+                     return value.func_id == "0200";
+                 });
+                 if(purview == -1){
+                     this.modifyEnable = true;
+                 }
+             }
+             else{
+                 purview = _.findIndex(go_funcPurview, function (value) {
+                     return value.func_id == "0400";
+                 });
+                 if(purview == -1){
+                     this.modifyEnable = false;
+                 }
+             }
+         },
          saveEnable: function () {
              var purview;
              if(this.createStatus){
@@ -284,13 +345,19 @@ var singlePage = Vue.extend({
                      this.saveEnable = false;
                  }
              }
-
          }
-
-
         //endregion
      },
     methods: {
+
+        initPurview: function () {
+            this.cancelEnable = false;
+            this.reserveEnable = false;
+            this.waitEnable = false;
+            this.inquiryEnable = false;
+            this.modifyEnable = false;
+            this.saveEnable = false;
+        },
 
         /**
          * 取系統參數 and 預設值
@@ -976,20 +1043,21 @@ var singlePage = Vue.extend({
          */
         delPlace: function () {
             var self = this;
-            var delRow = $("#RS0W212010_dt").datagrid('getSelected');
-            if (!delRow) {
+
+            if (_.isUndefined(go_currentIndex)) {
                 alert("請選擇要刪除的資料");
                 return;
             }
 
-            $("#RS0W212010_dt").datagrid('deleteRow', $("#RS0W212010_dt").datagrid('getRowIndex', delRow));
-
+            var delRow = $("#RS0W212010_dt").datagrid('getSelected');
             delRow.Upd_dat = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
             delRow.Upd_usr = self.userInfo.usr_id;
 
             if(delRow.createRow != "Y"){
                 self.tmpCud.dt_deleteData.push(delRow);
             }
+
+            $("#RS0W212010_dt").datagrid('deleteRow', go_currentIndex);
         },
 
         /**
@@ -1087,7 +1155,7 @@ var singlePage = Vue.extend({
                 prg_id: prg_id,
                 table_name: "NULLbquet_mn",
                 lock_type : "R",
-                key_cod: bquet_nos
+                key_cod: bquet_nos.trim()
             };
             g_socket.emit('handleTableLock', lo_param);
         },
@@ -1107,54 +1175,6 @@ var singlePage = Vue.extend({
         }
     }
 });
-
-function isObjectArrayEqual(a, b) {
-
-    var isEqual = true;
-
-    if(a.length != b.length){
-        return false;
-    }
-
-    for(i = 0; i < a.length; i++){
-        if(!isObjectValueEqual(a[i], b[i])){
-            isEqual = false;
-        }
-    }
-    return isEqual;
-}
-
-function isObjectValueEqual(a, b) {
-    // Of course, we can do it use for in
-    // Create arrays of property names
-    var aProps = Object.getOwnPropertyNames(a);
-    var bProps = Object.getOwnPropertyNames(b);
-
-    // If number of properties is different,
-    // objects are not equivalent
-    if (aProps.length != bProps.length) {
-        return false;
-    }
-
-    for (var i = 0; i < aProps.length - 1; i++) {
-        var propName = aProps[i];
-
-        // If values of same property are not equal,
-        // objects are not equivalent
-        if (a[propName] !== b[propName]) {
-            if(a[propName] == null || a[propName] == "" || a[propName].toString().trim() == ""){
-                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()){
-                    continue;
-                }
-            }
-            return false;
-        }
-    }
-
-    // If we made it this far, objects
-    // are considered equivalent
-    return true;
-}
 
 //跳窗將資料選回去單筆欄位
 Vue.component('text-select-grid-dialog-tmp', {
@@ -1273,7 +1293,6 @@ var RS00202010VM = new Vue({
         pageOneData: {},
 
         isLoading: false
-
     },
     watch:{
         searchDate: function () {
@@ -1309,8 +1328,66 @@ var RS00202010VM = new Vue({
 
         initToday: function () {
             this.searchDate = new Date();
-        }
+        },
+
+        readonly: false
     }
 });
 
+function isObjectArrayEqual(a, b) {
+
+    var isEqual = true;
+
+    if(a.length != b.length){
+        return false;
+    }
+
+    for(i = 0; i < a.length; i++){
+        if(!isObjectValueEqual(a[i], b[i])){
+            isEqual = false;
+        }
+    }
+    return isEqual;
+}
+
+function isObjectValueEqual(a, b) {
+    // Of course, we can do it use for in
+    // Create arrays of property names
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    // If number of properties is different,
+    // objects are not equivalent
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+
+    for (var i = 0; i < aProps.length - 1; i++) {
+        var propName = aProps[i];
+
+        // If values of same property are not equal,
+        // objects are not equivalent
+        if (a[propName] !== b[propName]) {
+            if(a[propName] == null || a[propName] == "" || a[propName].toString().trim() == ""){
+                if(b[propName] == null || _.isUndefined(b[propName]) || b[propName] == "" || b[propName].toString().trim()){
+                    continue;
+                }
+            }
+            return false;
+        }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return true;
+}
+
 $('.easyUi-custom1').tabs({});
+
+$('div#gs-order-page').on('dialogclose', function(event) {
+    alert('closed');
+});
+
+$(window).on('beforeunload', function () {
+    return vmHub.$emit("doUnLock");
+});
