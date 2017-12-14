@@ -1067,60 +1067,15 @@
         });
 
         // 彈出setRateCode　公帳號
-        $(document).on('click', ".publiceAccount-btn", function (e) {
+        $(document).on('click', ".publicAccount-btn", function (e) {
             e.preventDefault();
-            var dialog = $("#publiceAccountDialog").removeClass('hide').dialog({
+            var dialog = $("#publicAccountDialog").removeClass('hide').dialog({
                 modal: true,
                 title: "公帳號",
                 title_html: true,
                 width: 600,
                 maxwidth: 1920,
 //                height: $(window).height(),
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出setRateCode (Type:NOR)
-        $(document).on('click', ".setRateCode-1", function (e) {
-            e.preventDefault();
-            var dialog = $("#setRateCode-1-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Rate code",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // 彈出setRateCode (Type:MR)
-        $(document).on('click', ".setRateCode-2", function (e) {
-            e.preventDefault();
-            var dialog = $("#setRateCode-2-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Rate code-MR",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
-//                autoOpen: true,
-                dialogClass: "test",
-                resizable: true
-            });
-        });
-
-        // rateCode_extraAdult
-        $(document).on('click', ".rateCode_extraAdult", function (e) {
-            e.preventDefault();
-            var dialog = $("#rateCode_extraAdult-page").removeClass('hide').dialog({
-                modal: true,
-                title: "Extra Adult",
-                title_html: true,
-                width: 1000,
-                maxwidth: 1920,
 //                autoOpen: true,
                 dialogClass: "test",
                 resizable: true

@@ -116,8 +116,12 @@ Vue.component('single-grid-pms0620050-tmp', {
 
             editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
             editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
-            $.post("/api/fetchSinglePageFieldData", {prg_id: gs_prgId, page_id: 2, searchCond: editingRow}, function(result){
-                console.log(result);
+            $.post("/api/fetchSinglePageFieldData", {
+                prg_id: gs_prgId,
+                page_id: 2,
+                searchCond: editingRow
+            }, function (result) {
+
             });
         },
         formatAmt: function (amtValue, field) {

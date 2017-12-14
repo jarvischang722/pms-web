@@ -212,6 +212,9 @@ Vue.component('single-grid-pms0620020-tmp', {
                     self.showDtDataGrid();
 
                 });
+                $.post("/api/fetchDefaultSingleRowData", {prg_id: "PMS0620020", page_id: 1}, function (result) {
+
+                });
             }
             //編輯的狀況
             else {
@@ -276,8 +279,13 @@ Vue.component('single-grid-pms0620020-tmp', {
                     self.isLoadingDialog = false;
                     self.showDtDataGrid();
                 });
-                $.post("/api/fetchSinglePageFieldData", {prg_id: "PMS0620020", page_id: 1, tab_page_id: 1, searchCond: singleData}, function(result){
-                    console.log(result);
+                $.post("/api/fetchSinglePageFieldData", {
+                    prg_id: "PMS0620020",
+                    page_id: 1,
+                    tab_page_id: 1,
+                    searchCond: singleData
+                }, function (result) {
+
                 });
             }
 
