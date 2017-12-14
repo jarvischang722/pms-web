@@ -1380,9 +1380,9 @@ var RS00202010VM = new Vue({
             var self = this;
             self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
-            waitingDialog.show("Loading...");
+            this.isLoading = true;
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
-                waitingDialog.hide();
+                self.isLoading = false;
                 if (result.success) {
                     self.pageOneData = result.pageOneData;
                 }
