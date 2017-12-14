@@ -76,6 +76,43 @@ exports.fetchGsFieldData = function(req, res){
     });
 };
 
+/**
+ * 取(只有)單筆欄位資料
+ */
+exports.fetchOnlyGsFieldData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if(lo_chkResult.success == false){
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchOnlyGsFieldData(req.body, req.session, function (err, result) {
+        let lo_rtnData = {
+            success: _.isNull(err),
+            errorMsg: err,
+            gsData: result.gsFieldsData
+        };
+        res.json(lo_rtnData);
+    });
+};
+
+/**
+ * 取預設單筆資料
+ */
+exports.fetchDefaultGsRowData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if(lo_chkResult.success == false){
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchDefaultGsRowData(req.body, req.session, function (err, result) {
+        let lo_rtnData = {
+            success: _.isNull(err),
+            errorMsg: err,
+            gsDefaultData: result.gsDefaultData
+        };
+        res.json(lo_rtnData);
+    });
+};
+
+
 // 驗證prg_id
 function chkPrgID(req){
     let ls_prg_id = req.body.prg_id || "";

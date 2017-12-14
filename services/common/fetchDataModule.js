@@ -126,6 +126,73 @@ exports.GridSingleProc = function (postData, session) {
     };
 
     /**
+     * 查詢預設單筆mn oracle資料
+     * @param callback
+     */
+    this.fetchDefaultMnRowData = function (callback) {
+        async.parallel({
+            qryFieldName,
+            qrySelectData
+        }, function (err, getResult) {
+            var la_fieldNameList = getResult[0];
+            var la_selectData = tools.mongoDocToObject(getResult[1]);
+            var lo_initField = {};
+
+            _.each(la_fieldNameList, function (ls_fieldName) {
+                if (ls_fieldName == "athena_id") {
+                    lo_initField[ls_fieldName] = session.user.athena_id;
+                }
+                else if (ls_fieldName == "hotel_cod") {
+                    lo_initField[ls_fieldName] = session.user.hotel_cod;
+                }
+                else {
+                    lo_initField[ls_fieldName] = "";
+                }
+            });
+
+            mongoAgent.PrgFunction.findOne({
+                prg_id: gs_prg_id,
+                func_id: '0200',
+                page_id: gn_page_id,
+                tab_page_id: gn_tab_page_id
+            }, function(err, func){
+                if (func) {
+                    func = func.toObject();
+                }
+                if (!err && func && !_.isEmpty(func.rule_func_name) && !_.isUndefined(ruleAgent[func.rule_func_name])) {
+
+                    ruleAgent[func.rule_func_name](postData, session, function (err, result) {
+
+                        //取typeSelect的預設值
+                        _.each(la_selectData, function (value, index) {
+                            if(value.defaultVal != ""){
+                                result.defaultValues[value.ui_field_name] = value.defaultVal;
+                            }
+                        });
+
+                        result.defaultValues = _.extend(lo_initField, result.defaultValues);
+
+                        callback(err, result);
+                    });
+
+                }
+                else {
+                    //取typeSelect的預設值
+                    var result = {};
+                    _.each(la_selectData, function (value, index) {
+                        if(value.defaultVal != ""){
+                            result[value.ui_field_name] = value.defaultVal;
+                        }
+                    });
+
+                    result = _.extend(lo_initField, result);
+                    callback(null, {success: true, defaultValues: result});
+                }
+            });
+        });
+    };
+
+    /**
      * 取單筆mn 資料
      * @param callback
      */
@@ -156,6 +223,34 @@ exports.GridSingleProc = function (postData, session) {
     };
 
 };
+
+/*
+ * 查詢單筆欄位名稱
+ */
+function qryFieldName(callback) {
+    var lo_params = {
+        prg_id: gs_prg_id,
+        page_id: Number(gn_page_id)
+    };
+
+    mongoAgent.UIPageField.find(lo_params, function (err, fieldNameList) {
+        callback(err, _.pluck(fieldNameList, "ui_field_name"));
+    });
+}
+
+/*
+ * 查詢單筆下拉欄位資料
+ */
+function qrySelectData(callback) {
+    var lo_params = {
+        prg_id: gs_prg_id,
+        page_id: Number(gn_page_id)
+    };
+
+    mongoAgent.UITypeSelect.find(lo_params, function (err, selectData) {
+        callback(err, selectData);
+    });
+}
 
 /*
  * 查詢多筆templateRf
@@ -592,4 +687,7 @@ function changeValueFormat(value, ui_type) {
 
     return valueTemp;
 }
+
+
+
 

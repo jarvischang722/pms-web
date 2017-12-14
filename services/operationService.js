@@ -48,3 +48,35 @@ exports.fetchGsFieldData = function (postData, session, callback) {
         callback(err, lo_rtnData);
     });
 };
+
+/**
+ * 取作業(只有)單筆欄位資料
+ */
+exports.fetchOnlyGsFieldData = function (postData, session, callback) {
+    let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
+
+    async.parallel({
+        gsFieldsData: lo_gsProc.fetchGsMnFieldsData
+    }, function (err, result) {
+        let lo_rtnData = {
+            gsFieldsData: result.gsFieldsData
+        };
+        callback(err, lo_rtnData);
+    });
+};
+
+/**
+ * 取作業預設單筆資料
+ */
+exports.fetchDefaultGsRowData = function(postData, session, callback){
+    let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
+
+    async.parallel({
+        gsDefaultData: lo_gsProc.fetchDefaultMnRowData
+    }, function (err, result) {
+        let lo_rtnData = {
+            gsDefaultData: result.gsDefaultData
+        };
+        callback(err, lo_rtnData);
+    });
+};
