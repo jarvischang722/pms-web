@@ -724,6 +724,7 @@ var singlePage = Vue.extend({
          * 開窗
          */
         showReserve: function () {
+            var self = this;
             var dialog = $("#gs-order-page").removeClass('hide').dialog({
                 modal: true,
                 title: "查詢訂席",
@@ -732,7 +733,12 @@ var singlePage = Vue.extend({
                 height: 700,
                 maxwidth: 1920,
                 dialogClass: "test",
-                resizable: true
+                resizable: true,
+                onClose:function(){
+                    if(!self.createStatus){
+                        self.doRowUnLock();
+                    }
+                }
             });
         },
 
@@ -971,9 +977,6 @@ var singlePage = Vue.extend({
          */
         exit: function () {
             $("#gs-order-page").dialog('close');
-            if(!this.createStatus){
-                this.doRowUnLock();
-            }
         },
 
         /**
@@ -1289,6 +1292,7 @@ var RS00202010VM = new Vue({
         singlePage
     },
     data: {
+        nowDate: moment(new Date()).format("YYYY/MM/DD"),
         searchDate: moment(new Date()).format("YYYY/MM/DD"),
         pageOneData: {},
 
@@ -1311,6 +1315,7 @@ var RS00202010VM = new Vue({
         },
         qryPageOneData: function () {
             var self = this;
+            self.nowDate = self.searchDate;
             var lo_params = {use_dat: this.searchDate};
             $.post("/reserveBanquet/qryPageOneData", lo_params, function (result) {
                 if (result.success) {
@@ -1383,10 +1388,6 @@ function isObjectValueEqual(a, b) {
 }
 
 $('.easyUi-custom1').tabs({});
-
-$('div#gs-order-page').on('dialogclose', function(event) {
-    alert('closed');
-});
 
 $(window).on('beforeunload', function () {
     return vmHub.$emit("doUnLock");
