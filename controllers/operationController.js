@@ -42,7 +42,7 @@ function doOperationProc(req, res) {
  */
 exports.fetchDgFieldData = function (req, res) {
     let lo_chkResult = chkPrgID(req);
-    if(lo_chkResult.success == false){
+    if (lo_chkResult.success == false) {
         return res.json(lo_chkResult);
     }
     operSVC.fetchDgFieldData(req.body, req.session, function (err, result) {
@@ -60,9 +60,9 @@ exports.fetchDgFieldData = function (req, res) {
 /**
  * 取單筆欄位資料
  */
-exports.fetchGsFieldData = function(req, res){
+exports.fetchGsFieldData = function (req, res) {
     let lo_chkResult = chkPrgID(req);
-    if(lo_chkResult.success == false){
+    if (lo_chkResult.success == false) {
         return res.json(lo_chkResult);
     }
     operSVC.fetchGsFieldData(req.body, req.session, function (err, result) {
@@ -77,18 +77,36 @@ exports.fetchGsFieldData = function(req, res){
 };
 
 /**
+ * 取(只有)多筆欄位資料
+ */
+exports.fetchOnlyDgFieldData = function (req, res) {
+    let lo_chkResult = chkPrgID(req);
+    if (lo_chkResult.success == false) {
+        return res.json(lo_chkResult);
+    }
+    operSVC.fetchOnlyDgFieldData(req.body, req.session, function (err, result) {
+        let lo_rtnData = {
+            success: _.isNull(err),
+            errorMsg: err,
+            dgFieldsData: result.dgFieldsData
+        };
+        res.json(lo_rtnData);
+    });
+};
+
+/**
  * 取(只有)單筆欄位資料
  */
 exports.fetchOnlyGsFieldData = function (req, res) {
     let lo_chkResult = chkPrgID(req);
-    if(lo_chkResult.success == false){
+    if (lo_chkResult.success == false) {
         return res.json(lo_chkResult);
     }
     operSVC.fetchOnlyGsFieldData(req.body, req.session, function (err, result) {
         let lo_rtnData = {
             success: _.isNull(err),
             errorMsg: err,
-            gsData: result.gsFieldsData
+            gsFieldsData: result.gsFieldsData
         };
         res.json(lo_rtnData);
     });
@@ -99,7 +117,7 @@ exports.fetchOnlyGsFieldData = function (req, res) {
  */
 exports.fetchDefaultGsRowData = function (req, res) {
     let lo_chkResult = chkPrgID(req);
-    if(lo_chkResult.success == false){
+    if (lo_chkResult.success == false) {
         return res.json(lo_chkResult);
     }
     operSVC.fetchDefaultGsRowData(req.body, req.session, function (err, result) {
@@ -114,7 +132,7 @@ exports.fetchDefaultGsRowData = function (req, res) {
 
 
 // 驗證prg_id
-function chkPrgID(req){
+function chkPrgID(req) {
     let ls_prg_id = req.body.prg_id || "";
     let lo_returnData = {
         success: true,

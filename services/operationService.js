@@ -50,6 +50,22 @@ exports.fetchGsFieldData = function (postData, session, callback) {
 };
 
 /**
+ * 取作業(只有)多筆欄位資料
+ */
+exports.fetchOnlyDgFieldData = function (postData, session, callback) {
+    let lo_dgProc = new fetechDataModule.DataGridProc(postData, session);
+
+    async.parallel({
+        dgFieldsData: lo_dgProc.fetchDgFieldsData
+    }, function (err, result) {
+        let lo_rtnData = {
+            dgFieldsData: result.dgFieldsData
+        };
+        callback(err, lo_rtnData);
+    });
+};
+
+/**
  * 取作業(只有)單筆欄位資料
  */
 exports.fetchOnlyGsFieldData = function (postData, session, callback) {
@@ -68,7 +84,7 @@ exports.fetchOnlyGsFieldData = function (postData, session, callback) {
 /**
  * 取作業預設單筆資料
  */
-exports.fetchDefaultGsRowData = function(postData, session, callback){
+exports.fetchDefaultGsRowData = function (postData, session, callback) {
     let lo_gsProc = new fetechDataModule.GridSingleProc(postData, session);
 
     async.parallel({
