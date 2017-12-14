@@ -259,7 +259,6 @@ var singlePage = Vue.extend({
      watch: {
          dataGridRows: {
              handler: function(after, before) {
-
                  var tot_amt = 0;
 
                  _.each(this.dataGridRows, function (value) {
@@ -267,8 +266,8 @@ var singlePage = Vue.extend({
                  });
 
                  //依參數『前檯金額格式』顯示
-                 if(!_.isUndefined(self.mask_hfd)){
-                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt || "0", self.mask_hfd);
+                 if(!_.isUndefined(this.mask_hfd)){
+                     this.singleData.place_amt = go_formatDisplayClass.amtFormat(tot_amt, this.mask_hfd);
                  }
 
                  this.canSave = false;
