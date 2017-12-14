@@ -51,8 +51,6 @@
                                             {{item.display}}{{item.value}}
                                         </el-radio>
                                     </template>
-
-
                                 </div>
                             </div>
 
@@ -177,12 +175,12 @@
 
 <script>
     import selectGridDialogComp from './selectGridDialogComp.vue';
-
+    import Treeselect from '@riophae/vue-treeselect';
 
     export default {
         name: 'search-comp',
         props: ["searchFields", "searchCond", "fetchData"],
-        components: {selectGridDialogComp},
+        components: {selectGridDialogComp, Treeselect},
         data() {
             return {
                 searchFieldsByRow: [],

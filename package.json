@@ -8,6 +8,7 @@
     "build": "webpack -p --progress --watch"
   },
   "dependencies": {
+    "@riophae/vue-treeselect": "0.0.6",
     "alasql": "^0.4.2",
     "app-root-path": "^2.0.1",
     "async": "^1.5.2",

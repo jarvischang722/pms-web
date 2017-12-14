@@ -199,61 +199,90 @@
 
     export default {
         name: 'visit-record',
-        props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows"],
+        props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows", "fetchDataParams"],
         mounted() {
-            if(!this.isOnlySingleGrid){
-                this.loadDataGridByPrgID();
-            }
+//            if(!this.isOnlySingleGrid){
+//                this.loadSettingGrid();
+//                this.loadDataGridByPrgID();
+//            }
+//            this.fetchSingleGridFieldData();
         },
-        data(){
-            return{
+        data() {
+            return {
                 isFirstData: false,
                 isLastData: false,
                 BTN_action: false,
                 isLoadingDialog: false,
                 loadingText: "",
+                settingGridFieldsData: [],
+                settingGridRowData: {},
+                datagridFieldsData: [],
                 rowData: {},
-                singleData:{},
+                singleData: {},
                 oriSingleData: {},
                 fieldsData: [],
                 oriFieldsData: []
             };
         },
         watch: {
-            rowData: function(val){
-                this.initData();
+            editRows(val) {
+                if (!this.isOnlySingleGrid) {
+                    this.loadSettingGrid();
+                    this.loadDataGridByPrgID();
+                }
                 this.fetchSingleGridFieldData();
+            },
+            rowData(val) {
+                this.initData();
 
-                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
-
-                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
-
-                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
-                    //已經到第一筆
-                    this.isFirstData = true;
-                    this.isLastData = false;
-                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                        this.isLastData = true;
-                    }
-
-                }
-                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-                    //已經到最後一筆
-                    this.isFirstData = false;
-                    this.isLastData = true;
-                }
-                else {
-
-                    this.isFirstData = false;
-                    this.isLastData = false;
-                }
+//                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
+//
+//                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
+//
+//                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
+//                    //已經到第一筆
+//                    this.isFirstData = true;
+//                    this.isLastData = false;
+//                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+//                        this.isLastData = true;
+//                    }
+//
+//                }
+//                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
+//                    //已經到最後一筆
+//                    this.isFirstData = false;
+//                    this.isLastData = true;
+//                }
+//                else {
+//                    this.isFirstData = false;
+//                    this.isLastData = false;
+//                }
             }
         },
         methods: {
-            loadDataGridByPrgID(){},
-            initData(){},
-            fetchSingleGridFieldData(){},
-            fetchSingleGridRowData(){}
+            initData() {
+                this.settingGridFieldsData = [];
+                this.settingGridRowData = {};
+                this.datagridFieldsData = [];
+                this.singleData = {};
+                this.oriSingleData = {};
+                this.fieldsData = [];
+                this.oriFieldsData = [];
+            },
+            loadSettingGrid() {
+
+            },
+            loadDataGridByPrgID() {
+
+                this.rowData = val[0];
+                this.showDataGrid();
+            },
+            showDataGrid(){},
+            fetchSingleGridFieldData() {
+
+            },
+            fetchSingleGridRowData() {
+            }
         }
     }
 </script>

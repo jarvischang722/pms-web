@@ -39,7 +39,8 @@ var vm = new Vue({
             isModifiable: true,
             isCreateStatus: false,
             isEditStatus: false,
-            isOnlySingleGrid: false
+            isOnlySingleGrid: false, //拜訪紀錄為新增多筆、單筆
+            fetchDataParams: {} //拜訪紀錄所需參數
         };
     },
     methods: {
@@ -194,15 +195,31 @@ var vm = new Vue({
             }
         },
         editVisitPlan(){
-            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
-
-            var la_editRow = [1];//測試用
+            var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
             }
             else {
                 this.editRows = la_editRow;
+                this.isOnlySingleGrid = false;
+                this.isCreateStatus = true;
+                this.isEditStatus = false;
+                this.fetchDataParams = {
+                    settingGrid:{
+                        prg_id: "PMS0610010",
+                        page_id: 1020
+                    },
+                    dataGrid:{
+                        prg_id: "PMS620010",
+                        page_id: 1020
+                    },
+                    singleGrid:{
+                        prg_id: "PMS0620050",
+                        page_id: 2
+                    }
+                };
+
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
                     title: "新增拜訪記錄",
