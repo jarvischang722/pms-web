@@ -15,7 +15,7 @@
   padding: 5px
 .no-margin
   margin: 0 !important
-.no-margin-top
+.no-mt
   margin-top: 0 !important
 .mt-91
   margin-top: 87px
@@ -32,7 +32,7 @@
 .ml-3
   margin-left: 3px
 .ml-4
-  margin-left: 4px
+  margin-left: 4px !important
 .ml-5
   margin-left: 5px
 .ml-6
@@ -41,6 +41,10 @@
   margin-left: 7px
 .ml-8
   margin-left: 8px
+.ml-10
+  margin-left: 10px
+.ml-77
+  margin-left: 77px
 .ml-90
   margin-left: 90px
 .ml-93
@@ -64,6 +68,8 @@
   height: $defHt
 
 // width
+.width-3
+  width: 3% !important
 .width-5
   width: 5% !important
 .width-8
@@ -189,7 +195,9 @@ a
   font-size: $font-btn
   //margin-top: 1px
 // space height
-
+.btn-sd
+  border: 1px solid #8aafce
+  padding-left: 3px
 //<!--PMS(business) excample:"
 @mixin btn-skin-style
   //padding: 3px 9px
@@ -382,10 +390,14 @@ $resvCard-dateSpec1: (($resvCard-date) *2)-60
     +input-s1($rateCode-s1-col2 -$rmW)
   &.rateCode-s1-col3
     +input-s1($rateCode-s1-col3)
+  &.rateCode-s1-col3Rm
+    +input-s1($rateCode-s1-col3 -$rmW)
   &.rateCode-s1-col3Bring
     +input-s1(699px)
   &.rateCode-s2
     +input-s1(43px)
+  &.rateCode-xs
+    +input-s1(31px)
   &.rateCode-s3
     +input-s1(135px)
   &.rateCode-s4
@@ -588,7 +600,7 @@ input.numStyle-none
       label
         padding-left: 14px
   .checkbox
-    margin: 1px auto 0 auto
+    margin: 0 auto 0 auto
     .ace
       padding-right: 5px
     label
@@ -604,7 +616,9 @@ input.numStyle-none
     .checkbox
       label
         padding-left: 10px
-
+  // 指定房組
+  &.rmAssignCk
+    margin-left: -7px
 
 .rzNone
   resize: none
