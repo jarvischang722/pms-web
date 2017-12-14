@@ -1,0 +1,223 @@
+//葛萊天漾css
+
+.gs-rese-contaoner
+  height: 700px
+  //overflow: scroll !important
+  .gs-rese-table
+    width: 100%
+    thead
+      tr
+        th
+          background-color: #a5c9f2
+          min-width: 30px
+          padding: 0px 3px
+          white-space: nowrap
+          border: 1px solid #fff
+          border-top-color: #d0d0d0
+          border-bottom-color: #d0d0d0
+          background-clip: padding-box
+          z-index: 105 !important
+          &:first-child
+            border-left-color: #d0d0d0
+          &:last-child
+            border-right-color: #d0d0d0
+          &.gs-frist-th
+            z-index: 110 !important
+        &.h23-tr
+          td,th
+            height: 23px !important
+    tbody
+      tr
+        td
+          background-clip: padding-box
+          border: 1px solid #d0d0d0
+          max-width: 30px
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          height: 30px
+          padding: 0px 3px
+          cursor: pointer
+          &.gs-have-order
+            cursor: pointer
+            &:hover
+              opacity: .6
+        &.h23-tr
+          td,th
+            height: 23px !important
+
+.lightGrayTag
+  background: #c0c0c0
+.brighterGrayTag
+  background: #dcdcdc
+.darkGrayTag
+  background: #8c8c8c !important
+  color: #fff
+.lightYellowTag
+  background: #ffffa5
+.lightPurpleTag
+  background: #f2f2ff
+.sexyPurpleTag
+  background: #ffc7ff
+.brighterPurpleTag
+  background: #e6e6ff
+.padding-tb-5
+  padding: 0px 3px
+
+.lightBlue-box
+  background: #7affff
+  display: inline-block
+  width: 20px
+  float: right
+  text-align: center
+.lightPurple-box
+  background: #ffc7ff
+  //border: 1px solid #000
+  display: inline-block
+  width: 20px
+  //height: 20px
+  float: right
+  text-align: center
+
+.padding-left-24
+  padding-left: 24px !important
+
+.darkPurpleTag
+  background: #807ec2
+
+.grid-item-inline
+  margin-left: 10px
+  float: left
+label .lbl.radius-circle
+  &:before
+    border-radius: 50% !important
+.gs-order-container
+  select
+    -webkit-appearance: menulist
+    background: none !important
+  .checkbox
+    display: inline-block
+    margin: 0
+    label
+      width: 50px
+    &:nth-child(2)
+      width: 40px
+.gs-order-table-wrap
+  td
+    padding: 3px
+    .checkbox
+      margin: 0
+      label
+        width: 0px
+.btn-groupBorder-box
+  fieldset
+    display: block
+    border: 1px solid #C5D0DC
+    padding: 8px
+    legend
+      font-size: 14px
+      width: auto
+      border-bottom: 0px
+      margin-bottom: 3px
+.gs-table-option
+  //margin-bottom: 0px
+  .gs-table-select-box
+    //width: 49%
+    .input-group-addon
+      background: #fff
+    select
+      padding: 5px
+      margin: 0
+      height: 36px
+      border: 1px solid #d0d0d0
+      //-webkit-appearance: menulist
+      vertical-align: bottom
+      width: 100%
+      background: url(../../public/images/toggle-collapse-dark.png) 98% 32% !important
+      background-repeat: no-repeat !important
+    input
+      padding: 5px
+      margin: 0 0 0 -4px
+      height: 36px
+      border: 1px solid #d0d0d0
+      //-webkit-appearance: menulist
+      vertical-align: bottom
+      width: 100%
+
+.gs-option-btnGroup
+  margin: 10px 0
+  display: inline-block
+  float: right
+  button.btn
+    width: 100px !important
+    margin-right: 3px
+    padding: 3px 9px
+    font-size: 12px
+    padding-left: 0
+    padding-right: 0
+    white-space: normal
+
+
+
+.no-cursor
+  cursor: default !important
+tr.no-cursor-tr
+  td
+    cursor: default !important
+.td-first
+  z-index: 99
+.place-btbGroup
+  margin-top: 50px
+.place-left-wrap
+  padding-left: 21px !important
+.gs-order-container
+  .input-medium
+    padding: 0 3px
+  select
+    &.input-medium
+      padding: 0 3px
+.gs-table-select-box
+  .el-date-editor.el-input
+    width: 100%
+.element-date-wrap
+  width: 152px
+  display: inline-block
+  .el-input__icon+.el-input__inner
+    width: 140px
+    height: 25px
+  .el-input__icon
+    right: 50px
+.gs-timePicker
+  display: inline-block
+  .el-input__icon+.el-input__inner
+    width: 100px !important
+    height: 25px
+  &.el-input
+    width: 100px !important
+  .el-input__icon
+    right: -3px
+  .el-date-editor.el-input
+    width: 100px
+.grid
+  .inline-grid
+    margin: auto -18px 5px auto !important
+.gs-rese-table.table-hover
+  tbody
+    tr
+      &:hover
+        background-color: rgba(0,0,0,.075)
+.checkbox label input[type=radio].ace + .lbl
+  margin-left: -30px !important
+@media screen and (max-width: 991px)
+  .gs-table-select-box
+    &:nth-child(1)
+      margin-bottom: 5px
+  .gs-table-select-box
+    .el-date-editor.el-input
+      width: 237px
+
+.vue-treeselect__menu label
+  text-align: left
+  width: auto
+.vue-treeselect
+  display: inline-block
