@@ -163,7 +163,7 @@ module.exports = {
         };
 
         var fieldNameChangeLanguage = {
-            place_cod: "場地編號",
+            place_cod: "場地代號",
             place_nam: "場地名稱",
             place_eng: "場地別名",
             rspt_cod: "廳別",
@@ -226,17 +226,62 @@ module.exports = {
         //解除
         postData.editRowData.unit_amt = removeAmtFormat(postData.editRowData.unit_amt);
 
-        lo_result.effectValues.place_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
-        lo_result.effectValues.special_amt = postData.editRowData.unit_amt * lo_result.effectValues.order_qnt;
+        //取前台金額小數位數
+        queryAgent.query('QRY_ROUND_HFD', {}, function (err, Result) {
+            if (!err) {
+                var round = Result.round_hfd;
+                lo_result.effectValues.place_amt = formatFloat(postData.editRowData.unit_amt * lo_result.effectValues.order_qnt, round);
+                lo_result.effectValues.special_amt = formatFloat(postData.editRowData.unit_amt * lo_result.effectValues.order_qnt, round);
 
-        var disc_amt = lo_result.effectValues.place_amt - lo_result.effectValues.special_amt;
+                var disc_amt = formatFloat((lo_result.effectValues.place_amt - lo_result.effectValues.special_amt), round);
 
-        if(disc_amt < 0) disc_amt = 0;
+                if(disc_amt < 0){
+                    disc_amt = 0;
+                }
 
-        lo_result.effectValues.disc_amt = disc_amt;
-        callback(lo_error, lo_result);
+                lo_result.effectValues.disc_amt = disc_amt;
+                callback(lo_error, lo_result);
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err || "error";
+                lo_error.errorCod = "1111";
+                callback(lo_error, lo_result);
+            }
+        });
+    },
 
-    }
+    chk_special_amt: function (postData, session, callback) {
+        var lo_result = new ReturnClass();
+        var lo_error = null;
+
+        if(postData.editRowData.begin_tim == null || postData.editRowData.begin_tim == "" || postData.editRowData.end_tim == null || postData.editRowData.end_tim == ""){
+            callback(lo_error, lo_result);
+            return;
+        }
+
+        //取前台金額小數位數
+        queryAgent.query('QRY_ROUND_HFD', {}, function (err, Result) {
+            if (!err) {
+                var round = Result.round_hfd;
+
+                var disc_amt = formatFloat((postData.editRowData.place_amt - postData.editRowData.special_amt), round);
+
+                if(disc_amt < 0){
+                    disc_amt = 0;
+                }
+
+                lo_result.effectValues.disc_amt = disc_amt;
+                callback(lo_error, lo_result);
+            }
+            else {
+                lo_error = new ErrorClass();
+                lo_error.errorMsg = err || "error";
+                lo_error.errorCod = "1111";
+                callback(lo_error, lo_result);
+            }
+        });
+    },
 
 };
 

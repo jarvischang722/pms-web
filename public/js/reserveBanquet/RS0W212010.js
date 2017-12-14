@@ -29,7 +29,6 @@ function DTGridClass() {}
 DTGridClass.prototype = new DatagridBaseClass();
 DTGridClass.prototype.onClickRow = function () {};
 DTGridClass.prototype.endEditing = function () {
-    console.log(go_currentIndex);
     if (go_currentIndex == undefined) {
         return true;
     }
@@ -170,6 +169,7 @@ var singlePage = Vue.extend({
                         if (self.singleData.title_nam.toString().trim() == "") {
                             result.data["title_nam"] = result.data.alt_nam;
                         }
+                        self.singleData.cust_cod = chooseData["cust_cod"];
                         self.singleData = _.extend(self.singleData, result.data);
                     }
                     else {
@@ -586,17 +586,10 @@ var singlePage = Vue.extend({
 
                 //組SelectFieldOption
                 _.each(result.fieldData, function (value) {
-
-                    if(value.format_func_name != ""){
-                        //console.log(value);
-                    }
-
                     self.singleDataEmpty[value.ui_field_name] = "";
-
                     if (value.ui_type == "select") {
                         self.selectOption[value.ui_field_name] = value.selectData;
                     }
-
                 });
 
                 //hpdpst_amt、place_amt 依前檯進位小數位數
@@ -970,7 +963,6 @@ var singlePage = Vue.extend({
 
             });
 
-            console.log(self.tmpCud);
         },
 
         /**
@@ -1076,6 +1068,7 @@ var singlePage = Vue.extend({
                     if (result.success) {
                         alert("異動成功！");
                         self.fetchSingleData(self.singleData.bquet_nos);
+                        RS00202010VM.qryPageOneData();
                     }
                     if (result.msg != "") {
                         alert(result.msg);

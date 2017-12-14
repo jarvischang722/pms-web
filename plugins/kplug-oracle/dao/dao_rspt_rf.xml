@@ -12,12 +12,12 @@
     </dao>
 
     <!-- [RS0W212010] 取得廳別-->
-    <dao name="SEL_RSPT_COD">
-        <statement><![CDATA[
-             select rspt_nam from rspt_rf where trim(rspt_cod)= trim(:rspt_cod)
-        ]]>
-        </statement>
-        <parameter type="string" kind="3">rspt_cod</parameter>
-    </dao>
+    <!--<dao name="SEL_RSPT_COD">-->
+        <!--<statement><![CDATA[-->
+             <!--select rspt_nam from rspt_rf where trim(rspt_cod)= trim(:rspt_cod)-->
+        <!--]]>-->
+        <!--</statement>-->
+        <!--<parameter type="string" kind="3">rspt_cod</parameter>-->
+    <!--</dao>-->
 
 </root>
