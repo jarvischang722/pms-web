@@ -216,6 +216,10 @@ module.exports = {
         var end_hour = Number(postData.editRowData.end_tim.toString().substr(0,2));
         var end_min = Number(postData.editRowData.end_tim.toString().substr(2,2));
 
+        if(end_hour < begin_hour){
+            end_hour += 24;
+        }
+
         var div_hour = end_hour - begin_hour;
         var div_min = end_min - begin_min;
 

@@ -867,13 +867,25 @@ var singlePage = Vue.extend({
             var latest = "0000";
 
             _.each(self.dataGridRows, function (value) {
-                if(Number(value.begin_tim) < Number(earliest)){
-                    earliest = value.begin_tim;
+                var ls_begin_tim = value.begin_tim;
+                var ls_end_tim = value.end_tim;
+
+                if(Number(ls_end_tim) < Number(ls_begin_tim)){
+                    ls_end_tim = (Number(ls_end_tim) + 2400).toString();
                 }
-                if(Number(value.end_tim) > Number(latest)){
-                    latest = value.end_tim;
+
+                if(Number(ls_begin_tim) < Number(earliest)){
+                    earliest = ls_begin_tim;
+                }
+                if(Number(ls_end_tim) > Number(latest)){
+                    latest = ls_end_tim;
                 }
             });
+
+            if(Number(latest) > 2359){
+                latest = (Number(latest) - 2400).toString();
+                latest = padLeft(latest, 4);
+            }
 
             self.singleData.begin_tim = earliest.substring(0, 2) + ":" + earliest.substring(2, 4);
             self.singleData.end_tim = latest.substring(0, 2) + ":" + latest.substring(2, 4);
@@ -1333,6 +1345,9 @@ var RS00202010VM = new Vue({
         searchDate: moment(new Date()).format("YYYY/MM/DD"),
         pageOneData: {},
 
+        //鎖單筆DT用(RowLock)
+        readonly: false,
+
         isLoading: false
     },
     watch:{
@@ -1370,9 +1385,7 @@ var RS00202010VM = new Vue({
 
         initToday: function () {
             this.searchDate = new Date();
-        },
-
-        readonly: false
+        }
     }
 });
 
@@ -1422,6 +1435,13 @@ function isObjectValueEqual(a, b) {
     // If we made it this far, objects
     // are considered equivalent
     return true;
+}
+
+function padLeft(str,lenght){
+    if(str.length >= lenght)
+        return str;
+    else
+        return padLeft("0" + str,lenght);
 }
 
 $('.easyUi-custom1').tabs({});
