@@ -78,28 +78,21 @@
             $('#reservation_reserveShopInfo-table').datagrid({
                 singleSelect: true,
                 collapsible: true,
-                // 從json 撈
                 url: '/jsonData/reservation/reservation_reserveShopInfo.json',
                 method: 'get',
                 columns: [[
-                    {field: 'cardStatus', title: '訂房卡狀態', width: 100},
-                    {field: 'ciDate', title: 'C/I日期', width: 100},
-                    {field: 'coDate', title: 'C/Ｏ日期', width: 100},
-                    {field: 'fullName', title: 'Full Name', width: 100},
-                    {field: 'checkStatus', title: '確認狀態', width: 100},
+                    {field: 'cardStatus', title: '狀態', width: 60},
+                    {field: 'ciDate', title: '入住日', width: 100},
+                    {field: 'coDate', title: '退房日', width: 100},
+                    {field: 'proxyCompanyName', title: '訂房公司', width: 100},
                     {field: 'companyName', title: '公司名稱', width: 100},
-                    {field: 'proxyCompanyName', title: '代訂公司名稱', width: 100},
-                    {field: 'retainDate', title: '保留日', width: 100},
+                    {field: 'groupNum', title: '團號', width: 60},
                     {field: 'contactMan', title: '連絡人', width: 100},
-                    {field: 'roomKind', title: '房種', width: 100},
-                    {field: 'adult', title: '大人', width: 100},
-                    {field: 'child', title: '小孩', width: 100},
-                    {field: 'addDate', title: '新增日期', width: 100},
-                    {field: 'addBy', title: '新增者', width: 100},
-                    {field: 'lastDate', title: '最後修改日', width: 100},
-                    {field: 'lastBy', title: '最後修改者', width: 100},
-                    {field: 'firstName', title: 'First Name', width: 100},
-                    {field: 'lastName', title: 'Last Name', width: 100}
+                    {field: 'roomKind', title: '房價代號', width: 80},
+                    {field: 'roomKindAcc', title: '計價房種', width: 80},
+                    {field: 'rooms', title: '間數', width: 80},
+                    {field: 'dayPrices', title: '單日房價', width: 80},
+                    {field: 'people', title: '人數', width: 80}
                 ]]
             });
 
@@ -107,23 +100,22 @@
             $('#reservation_guestVisitHistory-table').datagrid({
                 singleSelect: true,
                 collapsible: true,
-                // 從json 撈
                 url: '/jsonData/reservation/reservation_guestVisitHistory.json',
                 method: 'get',
                 columns: [[
-                    {field: 'office', title: '廳別', width: 100},
-                    {field: 'arriveDate', title: '到達日', width: 100},
-                    {field: 'departDate', title: '離開日', width: 100},
-                    {field: 'roomNum', title: '房號', width: 100},
-                    {field: 'roomPriceCode', title: '房價代號', width: 100},
-                    {field: 'roomPrice', title: '房價', width: 100, align:'right'},
-                    {field: 'rebate', title: '折扣', width: 100, align:'right'},
-                    {field: 'rebateCreditor', title: '折扣債權人', width: 100},
-                    {field: 'consumption', title: '總消費額', width: 100, align:'right'},
-                    {field: 'guestCategory', title: '市場類別', width: 100},
-                    {field: 'proxyCompany', title: '代訂公司', width: 100},
-                    {field: 'hall', title: '館別', width: 100},
-                    {field: 'remark', title: '備註', width: 100}
+                    {field: 'office', title: '廳別', width: 60},
+                    {field: 'arriveDate', title: '入住日', width: 100},
+                    {field: 'departDate', title: '退房日', width: 100},
+                    {field: 'roomNum', title: '房號', width: 60},
+                    {field: 'roomPriceCode', title: '房價代號', width: 140},
+                    {field: 'roomPrice', title: '房價', width: 80, align:'right'},
+                    {field: 'consumption', title: '消費總額', width: 80, align:'right'},
+                    {field: 'rentConsume', title: '房租消費', width: 60, align:'right'},
+                    {field: 'foodConsume', title: '餐飲消費', width: 60, align:'right'},
+                    {field: 'otherConsume', title: '其他消費', width: 60, align:'right'},
+                    {field: 'tipConsume', title: '小費', width: 60, align:'right'},
+                    {field: 'proxyPrice', title: '代支金額', width: 60, align:'right'},
+                    {field: 'proxyCompany', title: '訂房公司', width: 100}
                 ]]
             });
 

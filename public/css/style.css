@@ -1454,6 +1454,7 @@ table.treetable span.indenter {
   padding-bottom: 4px;
   border-bottom: 1px solid #ccc;
   font-size: 20px;
+  letter-spacing: 1px;
 }
 .loginPage .login-container .main .form-control {
   width: 100%;
@@ -4280,14 +4281,6 @@ td div.act-box span.act-text {
   margin-top: 5px;
 }
 
-.margin-tb10 {
-  margin: 10px 0;
-}
-
-.margin-tb15 {
-  margin: 15px 0;
-}
-
 .navy-line {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -4332,32 +4325,34 @@ td div.act-box span.act-text {
   margin-bottom: 5px;
 }
 
-.PMS0830070_table th {
+.PMS0830070_table th, .PMS0830070_table td {
   padding: 3px;
 }
-.PMS0830070_table td {
-  padding: 5px;
+
+/*----  vue 問題 ---- */
+.vue-treeselect__menu label {
+  text-align: left;
+  width: auto;
 }
 
-.PMS0830070_dtTable th, .PMS0830070_dtTable td {
-  padding: 3px 5px;
+.vue-treeselect {
+  display: inline-block;
 }
 
-.width-7 {
-  width: 7%;
-}
-
-/***** vue 問題 **** */
 .openChangeLogDialog .el-dialog {
   top: 3% !important;
 }
 
-.search-content .el-select .el-input__inner {
+.search-content .el-select .el-input__inner, .editVueTpl .el-select .el-input__inner {
   height: 25px !important;
 }
-.search-content .el-select .el-select__tags {
+.search-content .el-select .el-select__tags, .editVueTpl .el-select .el-select__tags {
   height: 25px !important;
   overflow: hidden;
+  line-height: 25px !important;
+}
+.search-content.width-100 .el-select, .editVueTpl.width-100 .el-select {
+  width: 100% !important;
 }
 
 .grid-item .el-date-editor .el-input__inner, .grid-item .el-date-editor .el-input__icon {
@@ -4367,7 +4362,8 @@ td div.act-box span.act-text {
   height: 25px !important;
 }
 
-/***** vue 問題 **** */
+/*----  /.END vue 問題 ---- */
+/*----  欄位屬性設定界面 ---- */
 #prgPropsSetupVM .title {
   font-size: 1.2em;
   color: #555;
@@ -4393,6 +4389,7 @@ td div.act-box span.act-text {
   box-shadow: none !important;
 }
 
+/*----  欄位屬性設定界面 ---- */
 /*---- 達美樂介面 ---- */
 .dominos-inventory-container {
   display: flex;
@@ -4454,287 +4451,6 @@ td div.act-box span.act-text {
 
 .PSIW500030-down .grid-item label {
   vertical-align: text-bottom;
-}
-
-/*---- 葛萊天漾介面 ---- */
-.gs-rese-contaoner {
-  height: 700px;
-}
-.gs-rese-contaoner .gs-rese-table {
-  width: 100%;
-}
-.gs-rese-contaoner .gs-rese-table thead tr th {
-  background-color: #a5c9f2;
-  min-width: 30px;
-  padding: 0px 3px;
-  white-space: nowrap;
-  border: 1px solid #fff;
-  border-top-color: #d0d0d0;
-  border-bottom-color: #d0d0d0;
-  background-clip: padding-box;
-  z-index: 105 !important;
-}
-.gs-rese-contaoner .gs-rese-table thead tr th:first-child {
-  border-left-color: #d0d0d0;
-}
-.gs-rese-contaoner .gs-rese-table thead tr th:last-child {
-  border-right-color: #d0d0d0;
-}
-.gs-rese-contaoner .gs-rese-table thead tr th.gs-frist-th {
-  z-index: 110 !important;
-}
-.gs-rese-contaoner .gs-rese-table thead tr.h23-tr td, .gs-rese-contaoner .gs-rese-table thead tr.h23-tr th {
-  height: 23px !important;
-}
-.gs-rese-contaoner .gs-rese-table tbody tr td {
-  background-clip: padding-box;
-  border: 1px solid #d0d0d0;
-  max-width: 30px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  height: 30px;
-  padding: 0px 3px;
-  cursor: pointer;
-}
-.gs-rese-contaoner .gs-rese-table tbody tr td.gs-have-order {
-  cursor: pointer;
-}
-.gs-rese-contaoner .gs-rese-table tbody tr td.gs-have-order:hover {
-  opacity: 0.6;
-}
-.gs-rese-contaoner .gs-rese-table tbody tr.h23-tr td, .gs-rese-contaoner .gs-rese-table tbody tr.h23-tr th {
-  height: 23px !important;
-}
-
-.lightGrayTag {
-  background: #c0c0c0;
-}
-
-.brighterGrayTag {
-  background: #dcdcdc;
-}
-
-.darkGrayTag {
-  background: #8c8c8c !important;
-  color: #fff;
-}
-
-.lightYellowTag {
-  background: #ffffa5;
-}
-
-.lightPurpleTag {
-  background: #f2f2ff;
-}
-
-.sexyPurpleTag {
-  background: #ffc7ff;
-}
-
-.brighterPurpleTag {
-  background: #e6e6ff;
-}
-
-.padding-tb-5 {
-  padding: 0px 3px;
-}
-
-.lightBlue-box {
-  background: #7affff;
-  display: inline-block;
-  width: 20px;
-  float: right;
-  text-align: center;
-}
-
-.lightPurple-box {
-  background: #ffc7ff;
-  display: inline-block;
-  width: 20px;
-  float: right;
-  text-align: center;
-}
-
-.padding-left-24 {
-  padding-left: 24px !important;
-}
-
-.darkPurpleTag {
-  background: #807ec2;
-}
-
-.grid-item-inline {
-  margin-left: 10px;
-  float: left;
-}
-
-label .lbl.radius-circle:before {
-  border-radius: 50% !important;
-}
-
-.gs-order-container select {
-  -webkit-appearance: menulist;
-  background: none !important;
-}
-.gs-order-container .checkbox {
-  display: inline-block;
-  margin: 0;
-}
-.gs-order-container .checkbox label {
-  width: 50px;
-}
-.gs-order-container .checkbox:nth-child(2) {
-  width: 40px;
-}
-
-.gs-order-table-wrap td {
-  padding: 3px;
-}
-.gs-order-table-wrap td .checkbox {
-  margin: 0;
-}
-.gs-order-table-wrap td .checkbox label {
-  width: 0px;
-}
-
-.btn-groupBorder-box fieldset {
-  display: block;
-  border: 1px solid #C5D0DC;
-  padding: 8px;
-}
-.btn-groupBorder-box fieldset legend {
-  font-size: 14px;
-  width: auto;
-  border-bottom: 0px;
-  margin-bottom: 3px;
-}
-
-.gs-table-option .gs-table-select-box .input-group-addon {
-  background: #fff;
-}
-.gs-table-option .gs-table-select-box select {
-  padding: 5px;
-  margin: 0;
-  height: 36px;
-  border: 1px solid #d0d0d0;
-  vertical-align: bottom;
-  width: 100%;
-  background: url(../../public/images/toggle-collapse-dark.png) 98% 32% !important;
-  background-repeat: no-repeat !important;
-}
-.gs-table-option .gs-table-select-box input {
-  padding: 5px;
-  margin: 0 0 0 -4px;
-  height: 36px;
-  border: 1px solid #d0d0d0;
-  vertical-align: bottom;
-  width: 100%;
-}
-
-.gs-option-btnGroup {
-  margin: 10px 0;
-  display: inline-block;
-  float: right;
-}
-.gs-option-btnGroup button.btn {
-  width: 100px !important;
-  margin-right: 3px;
-  padding: 3px 9px;
-  font-size: 12px;
-  padding-left: 0;
-  padding-right: 0;
-  white-space: normal;
-}
-
-.no-cursor {
-  cursor: default !important;
-}
-
-tr.no-cursor-tr td {
-  cursor: default !important;
-}
-
-.td-first {
-  z-index: 99;
-}
-
-.place-btbGroup {
-  margin-top: 50px;
-}
-
-.place-left-wrap {
-  padding-left: 21px !important;
-}
-
-.gs-order-container .input-medium {
-  padding: 0 3px;
-}
-.gs-order-container select.input-medium {
-  padding: 0 3px;
-}
-
-.gs-table-select-box .el-date-editor.el-input {
-  width: 100%;
-}
-
-.element-date-wrap {
-  width: 152px;
-  display: inline-block;
-}
-.element-date-wrap .el-input__icon + .el-input__inner {
-  width: 140px;
-  height: 25px;
-}
-.element-date-wrap .el-input__icon {
-  right: 50px;
-}
-
-.gs-timePicker {
-  display: inline-block;
-}
-.gs-timePicker .el-input__icon + .el-input__inner {
-  width: 100px !important;
-  height: 25px;
-}
-.gs-timePicker.el-input {
-  width: 100px !important;
-}
-.gs-timePicker .el-input__icon {
-  right: -3px;
-}
-.gs-timePicker .el-date-editor.el-input {
-  width: 100px;
-}
-
-.grid .inline-grid {
-  margin: auto -18px 5px auto !important;
-}
-
-.gs-rese-table.table-hover tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.075);
-}
-
-.checkbox label input[type=radio].ace + .lbl {
-  margin-left: -30px !important;
-}
-
-@media screen and (max-width: 991px) {
-  .gs-table-select-box:nth-child(1) {
-    margin-bottom: 5px;
-  }
-
-  .gs-table-select-box .el-date-editor.el-input {
-    width: 237px;
-  }
-}
-.vue-treeselect__menu label {
-  text-align: left;
-  width: auto;
-}
-
-.vue-treeselect {
-  display: inline-block;
 }
 
 /*------  共用區public ------ */
@@ -4840,6 +4556,14 @@ tr.no-cursor-tr td {
 
 .ml-94 {
   margin-left: 94px;
+}
+
+.ml-47 {
+  margin-left: 47px;
+}
+
+.ml-124 {
+  margin-left: 124px;
 }
 
 .mlr-3 {
@@ -5442,11 +5166,6 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.consumeCode-g1-ss {
-  width: 46px;
-  max-width: 100%;
-  height: 25px;
-}
 .input-medium.consumeCode-g1-m {
   width: 102px;
   max-width: 100%;
@@ -5522,8 +5241,13 @@ a {
   max-width: 100%;
   height: 25px;
 }
-.input-medium.resvCardHalf {
-  width: 53px;
+.input-medium.resvCardHalf-1 {
+  width: 65px;
+  max-width: 100%;
+  height: 25px;
+}
+.input-medium.resvCardHalf-2 {
+  width: 41px;
   max-width: 100%;
   height: 25px;
 }
@@ -5689,26 +5413,6 @@ a {
 }
 .input-medium.postaladdress2 {
   width: 464px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w142px {
-  width: 142px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w348px {
-  width: 348px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w240px {
-  width: 240px;
-  max-width: 100%;
-  height: 25px;
-}
-.input-medium.w96c2 {
-  width: 96.2px;
   max-width: 100%;
   height: 25px;
 }
@@ -5947,42 +5651,6 @@ select {
 input[type=checkbox] {
   width: 15px;
   height: 15px;
-}
-
-.margin-right-10 {
-  margin-right: 10px;
-}
-
-.width-35px {
-  width: 35px !important;
-}
-
-.width-82px {
-  width: 82px !important;
-}
-
-.width-135px {
-  width: 135px !important;
-}
-
-.width-137px {
-  width: 137px !important;
-}
-
-.width-103px {
-  width: 103px !important;
-}
-
-.width-133px {
-  width: 133px !important;
-}
-
-.width-80px {
-  width: 80px !important;
-}
-
-.margin-right-4 {
-  margin-right: 4px !important;
 }
 
 /*-------------- responsive -------------- */

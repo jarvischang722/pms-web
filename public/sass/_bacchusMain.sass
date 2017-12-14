@@ -2152,10 +2152,6 @@ td
   margin-top: 10px
 .margin-top5
   margin-top: 5px
-.margin-tb10
-  margin: 10px 0
-.margin-tb15
-  margin: 15px 0
 .navy-line
   margin-top: 10px
   margin-bottom: 10px
@@ -2197,41 +2193,15 @@ td
       margin-bottom: 5px
 
 .PMS0830070_table
-  th
-    padding: 3px
-  td
-    padding: 5px
-.PMS0830070_dtTable
   th,td
-    padding: 3px 5px
-.width-7
-  width: 7%
-
-/***** vue 問題 *****/
-// 異動紀錄 修改距離上層高度
-.openChangeLogDialog
-  .el-dialog
-    top: 3% !important
-
-// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
-.search-content
-  .el-select
-    .el-input__inner
-      height: $defHt !important
-    .el-select__tags
-      height: $defHt !important
-      overflow: hidden
-
-.grid-item
-  .el-date-editor
-    .el-input__inner,.el-input__icon
-      height: $defHt !important
-  .el-cascader
-    .el-input__inner
-      height: $defHt !important
-/***** vue 問題 *****/
+    padding: 3px
 
 
+/*----  vue 問題 ----*/
+@import editDefault/_editVue
+/*----  /.END vue 問題 ----*/
+
+/*----  欄位屬性設定界面 ----*/
 #prgPropsSetupVM
   .title
     font-size: 1.2em
@@ -2254,9 +2224,7 @@ td
     color: #fff !important
     border: none !important
     box-shadow: none !important
+/*----  欄位屬性設定界面 ----*/
 
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle
-
-/*---- 葛萊天漾介面 ----*/
-@import partials/_greatSkyviewStyle

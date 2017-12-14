@@ -316,3 +316,11 @@ exports.userSubsysPurviewBySysID = function (req, res) {
         res.json({success: err == null, subsysMenu});
     });
 };
+
+
+/**
+ * 新增 修改密碼(靜態)
+ */
+exports.getEditPassword = function (req, res) {
+    res.render("user/editPassword");
+};
