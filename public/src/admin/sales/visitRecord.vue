@@ -62,7 +62,7 @@
                             <div class="right-menu-co">
                                 <ul>
                                     <li>
-                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSetting">
                                             {{i18nLang.SystemCommon.Setting}}
                                         </button>
                                     </li>
@@ -177,22 +177,26 @@
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            :disabled="BTN_action || isFirstData" @click="toFirstData">
                                         {{i18nLang.SystemCommon.First}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            :disabled="BTN_action || isFirstData" @click="toPreData">
                                         {{i18nLang.SystemCommon.Previous}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            :disabled="BTN_action || isLastData" @click="toNextData">
                                         {{i18nLang.SystemCommon.Next}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button"
+                                            :disabled="BTN_action || isLastData" @click="toLastData">
                                         {{i18nLang.SystemCommon.Last}}
                                     </button>
                                 </li>
@@ -229,20 +233,12 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
-
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
-
-    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
+        vmHub.$emit("selectDataGridRow", {row: row, index: idx});
     };
-
-    DatagridSingleGridClass.prototype.onSelect = function (idx, row) {
-        vmHub.$emit("selectDataGridRow", row);
-    };
-
     DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
     };
-
-
     /*** Class End  ***/
 
     export default {
@@ -250,8 +246,9 @@
         props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows", "fetchDataParams"],
         created() {
             var self = this;
-            vmHub.$on("selectDataGridRow", function(row){
-                self.rowData = row;
+            vmHub.$on("selectDataGridRow", function (data) {
+                self.dgIns.onSelect(data.index, data.row);
+                self.rowData = data.row;
             });
         },
         mounted() {
@@ -490,7 +487,26 @@
                 else {
                     this.singleData[field.ui_field_name] = ls_amtValue;
                 }
-            }
+            },
+            toFirstData() {
+                this.isFirstData = true;
+                this.isLastData = false;
+                this.rowData = _.first(this.editRows);
+            },
+            toPreData() {
+                var nowRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', this.rowData);
+                this.rowData = this.editRows[nowRowIndex - 1];
+            },
+            toNextData() {
+                var nowRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', this.rowData);
+                this.rowData = this.editRows[nowRowIndex + 1];
+            },
+            toLastData() {
+                this.isFirstData = false;
+                this.isLastData = true;
+                this.rowData = _.last(this.editRows);
+            },
+            doSetting(){}
         }
     }
 </script>

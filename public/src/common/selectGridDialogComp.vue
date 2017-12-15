@@ -48,7 +48,7 @@
         name: 'select-grid-dialog-comp',
         data(){
             return{
-                i18nLang : {}
+                i18nLang : go_i18nLang
             };
         },
         created(){
@@ -56,9 +56,6 @@
             this.$eventHub.$on('showPopUpDataGrid', function (result) {
                 self.showPopUpDataGrid(result);
             });
-        },
-        mounted(){
-            this.i18nLang = go_i18nLang;
         },
         methods:{
             //顯示點選popupgrid跳出來的視窗
