@@ -310,7 +310,8 @@ function qryUIDatagridFields(callback) {
             {user_id: ""},
             {user_id: go_session.user.user_id}
         ],
-        prg_id: gs_prg_id
+        prg_id: gs_prg_id,
+        page_id: Number(gn_page_id)
     };
     let la_fieldData = [];
     mongoAgent.UIDatagridField.find(lo_params).sort({col_seq: 1}).select({_id: 0}).exec(function (err, dgFieldData) {
