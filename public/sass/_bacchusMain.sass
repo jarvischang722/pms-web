@@ -2196,37 +2196,12 @@ td
   th,td
     padding: 3px
 
-.vue-treeselect__menu label
-  text-align: left
-  width: auto
-.vue-treeselect
-  display: inline-block
 
-/***** vue 問題 *****/
-// 異動紀錄 修改距離上層高度
-.openChangeLogDialog
-  .el-dialog
-    top: 3% !important
+/*----  vue 問題 ----*/
+@import editDefault/_editVue
+/*----  /.END vue 問題 ----*/
 
-// todo 問題:多選下拉選完出現選擇項目會跑版 ex.PMS0830090
-.search-content
-  .el-select
-    .el-input__inner
-      height: $defHt !important
-    .el-select__tags
-      height: $defHt !important
-      overflow: hidden
-
-.grid-item
-  .el-date-editor
-    .el-input__inner,.el-input__icon
-      height: $defHt !important
-  .el-cascader
-    .el-input__inner
-      height: $defHt !important
-/***** vue 問題 *****/
-
-
+/*----  欄位屬性設定界面 ----*/
 #prgPropsSetupVM
   .title
     font-size: 1.2em
@@ -2249,6 +2224,7 @@ td
     color: #fff !important
     border: none !important
     box-shadow: none !important
+/*----  欄位屬性設定界面 ----*/
 
 /*---- 達美樂介面 ----*/
 @import partials/_dominosStyle
