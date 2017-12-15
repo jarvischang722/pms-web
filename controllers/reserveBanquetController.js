@@ -17,7 +17,7 @@ exports.getRS0W212010 = function (req, res) {
 //[RS0W212010] 取格萊天漾查詢頁資料
 exports.qryPageOneData = function (req, res) {
     resvBanquetSvc.qryPageOneData(req.body, req.session, function (err, result) {
-        res.json({success: result.success, pageOneData: result.defaultValues});
+        res.json({success: result.success, pageOneData: result.defaultValues, errorMsg: err});
     });
 };
 
