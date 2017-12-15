@@ -1,6 +1,6 @@
 import visitRecord from './visitRecord.vue';
 import searchComp from '../../common/searchComp.vue';
-// import editSalesClerk from './editSalesClerk.vue';
+import editSalesClerk from './editSalesClerk.vue';
 
 Vue.prototype.$eventHub = new Vue();
 
@@ -13,8 +13,9 @@ var vm = new Vue({
         this.fetchUserInfo();
         this.setSearchCond();
         this.loadDataGridByPrgID();
+        this.setComponentParams();
     },
-    components: {visitRecord, searchComp},
+    components: {visitRecord, searchComp, editSalesClerk},
     data() {
         return {
             userInfo: {},
@@ -97,6 +98,22 @@ var vm = new Vue({
                 vm.showDataGrid();
             });
         },
+        setComponentParams(){
+            this.fetchDataParams = {
+                settingGrid: {
+                    prg_id: "PMS0610010",
+                    page_id: 1020
+                },
+                dataGrid: {
+                    prg_id: "PMS0610010",
+                    page_id: 1020
+                },
+                singleGrid: {
+                    prg_id: "PMS0620050",
+                    page_id: 2
+                }
+            };
+        },
         showDataGrid() {
             var self = this;
             this.isLoading = false;
@@ -173,9 +190,7 @@ var vm = new Vue({
             }).dialog('open');
         },
         editSalesClerk() {
-            // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
-
-            var la_editRow = [1];//測試用
+            var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
                 alert(go_i18nLang["SystemCommon"].SelectData);
@@ -205,20 +220,6 @@ var vm = new Vue({
                 this.isOnlySingleGrid = false;
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
-                this.fetchDataParams = {
-                    settingGrid: {
-                        prg_id: "PMS0610010",
-                        page_id: 1020
-                    },
-                    dataGrid: {
-                        prg_id: "PMS0610010",
-                        page_id: 1020
-                    },
-                    singleGrid: {
-                        prg_id: "PMS0620050",
-                        page_id: 2
-                    }
-                };
 
                 var dialog = $("#visitRecord").removeClass('hide').dialog({
                     modal: true,
