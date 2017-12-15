@@ -45,8 +45,8 @@
                                 </button>
                             </li>
                             <li>
-                                <button class="btn btn-primary btn-white btn-defaultWidth sales_newVisitRecord"
-                                        role="button" @click="editVisitPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
+                                <button class="btn btn-primary btn-white btn-defaultWidth"
+                                        role="button" @click="addVisitPlan"><%= __("program")["PMS0610010"]["visit_plan"] %>
                                 </button>
                             </li>
                         </ul>
@@ -57,14 +57,14 @@
     </div>
 
     <!--<single-grid-pms0610010-tmp-->
-            <!--:row-data="editingRow"-->
-            <!--:is-modifiable="isModifiable"-->
-            <!--:is-create-status="isCreateStatus"-->
-            <!--:is-edit-status="isEditStatus"-->
+    <!--:row-data="editingRow"-->
+    <!--:is-modifiable="isModifiable"-->
+    <!--:is-create-status="isCreateStatus"-->
+    <!--:is-edit-status="isEditStatus"-->
     <!--&gt;</single-grid-pms0610010-tmp>-->
 
     <!--<sales-edit-clerk-comp-->
-            <!--:edit-rows="editRows"-->
+    <!--:edit-rows="editRows"-->
     <!--&gt;</sales-edit-clerk-comp>-->
     <visit-record
             :is-create-status="isCreateStatus"

@@ -47,8 +47,8 @@
                                     <template v-if="field.ui_type == 'radio'">
                                         <el-radio class="radio width-auto"
                                                   v-model="searchCond[field.ui_field_name]"
-                                                  v-for="item in field.selectData" :label="item.value">
-                                            {{item.display}}{{item.value}}
+                                                  v-for="item in field.selectData" :key="item.value" :label="item.value">
+                                            {{item.display}}
                                         </el-radio>
                                     </template>
                                 </div>
@@ -134,11 +134,10 @@
                                         <template v-if="field.ui_type == 'radio'">
                                             <el-radio class="radio"
                                                       v-model="searchCond[field.ui_field_name]"
-                                                      v-for="item in field.selectData" :label="item.value">
+                                                      v-for="item in field.selectData" :key="item.value" :label="item.value">
                                                 {{item.display}}
                                             </el-radio>
                                         </template>
-
 
                                         <template v-if="field.ui_type == 'tree'">
                                             <el-cascader

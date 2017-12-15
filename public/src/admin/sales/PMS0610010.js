@@ -44,7 +44,7 @@ var vm = new Vue({
         };
     },
     methods: {
-        initTmpCUD(){
+        initTmpCUD() {
             this.tmpCUD = {
                 createData: [],
                 updateData: [],
@@ -56,14 +56,14 @@ var vm = new Vue({
                 dt_oriData: []
             };
         },
-        fetchUserInfo(){
+        fetchUserInfo() {
             $.post('/api/getUserInfo', function (result) {
                 if (result.success) {
                     vm.userInfo = result.userInfo;
                 }
             });
         },
-        setSearchCond(){
+        setSearchCond() {
             this.searchCond = {
                 ar_amt: "",
                 credit_amt: "",
@@ -81,7 +81,7 @@ var vm = new Vue({
                 pcust_idx_show_cod: ""
             };
         },
-        loadDataGridByPrgID(){
+        loadDataGridByPrgID() {
             var lo_searchCond = _.clone(this.searchCond);
 
             var lo_params = {
@@ -97,7 +97,7 @@ var vm = new Vue({
                 vm.showDataGrid();
             });
         },
-        showDataGrid(){
+        showDataGrid() {
             var self = this;
             this.isLoading = false;
 
@@ -136,7 +136,7 @@ var vm = new Vue({
                 displayMsg: "顯示{from}到{to}筆資料, 共{total}筆資料"
             });
         },
-        appendRow(){
+        appendRow() {
             this.isLoading = true;
             this.isCreateStatus = true;
             this.isEditStatus = false;
@@ -145,7 +145,7 @@ var vm = new Vue({
 
             this.showSingleGridDialog();
         },
-        editRow(){
+        editRow() {
             this.isLoading = true;
             this.isCreateStatus = false;
             this.isEditStatus = true;
@@ -162,7 +162,7 @@ var vm = new Vue({
                 this.showSingleGridDialog();
             }
         },
-        showSingleGridDialog(){
+        showSingleGridDialog() {
             var dialog = $('#singleGridPMS0610010').removeClass('hide').dialog({
                 autoOpen: false,
                 modal: true,
@@ -172,7 +172,7 @@ var vm = new Vue({
                 resizable: true
             }).dialog('open');
         },
-        editSalesClerk(){
+        editSalesClerk() {
             // var la_editRow = $('#PMS0610010_dg').datagrid('getSelected');
 
             var la_editRow = [1];//測試用
@@ -194,7 +194,7 @@ var vm = new Vue({
                 });
             }
         },
-        editVisitPlan(){
+        addVisitPlan() {
             var la_editRow = $('#PMS0610010_dg').datagrid('getSelections');
 
             if (la_editRow.length == 0) {
@@ -206,15 +206,15 @@ var vm = new Vue({
                 this.isCreateStatus = true;
                 this.isEditStatus = false;
                 this.fetchDataParams = {
-                    settingGrid:{
+                    settingGrid: {
                         prg_id: "PMS0610010",
                         page_id: 1020
                     },
-                    dataGrid:{
+                    dataGrid: {
                         prg_id: "PMS0610010",
                         page_id: 1020
                     },
-                    singleGrid:{
+                    singleGrid: {
                         prg_id: "PMS0620050",
                         page_id: 2
                     }

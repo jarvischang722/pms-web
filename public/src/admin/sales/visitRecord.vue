@@ -203,17 +203,17 @@
                             </ul>
                             <ul class="newVisitOther-btn">
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doRemoveRow">
                                         {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button" @click="doSaveRow">
                                         {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button" @click="doCloseDialog">
                                         {{i18nLang.SystemCommon.Leave}}
                                     </button>
                                 </li>
@@ -233,9 +233,12 @@
     /** DatagridRmSingleGridClass **/
     function DatagridSingleGridClass() {
     }
+
     DatagridSingleGridClass.prototype = new DatagridBaseClass();
     DatagridSingleGridClass.prototype.onClickRow = function (idx, row) {
         vmHub.$emit("selectDataGridRow", {row: row, index: idx});
+    };
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
     };
     DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
     };
@@ -488,6 +491,9 @@
                     this.singleData[field.ui_field_name] = ls_amtValue;
                 }
             },
+            doSetting() {
+                var la_editRows = $("#visitRecord_dg").datagrid('getSelections');
+            },
             toFirstData() {
                 this.isFirstData = true;
                 this.isLastData = false;
@@ -506,7 +512,17 @@
                 this.isLastData = true;
                 this.rowData = _.last(this.editRows);
             },
-            doSetting(){}
+            doRemoveRow() {
+                this.dgIns.removeRow();
+            },
+            doSaveRow() {
+                var lo_editRow = $("#visitRecord_dg").datagrid('getSelected');
+            },
+            doCloseDialog() {
+                this.initData();
+                this.editRows = [];
+                $("#visitRecord").dialog('close');
+            }
         }
     }
 </script>
