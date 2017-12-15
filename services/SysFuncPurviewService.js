@@ -95,6 +95,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 pre_id: ls_sys_id,
                 id_typ: 'SUBSYS'
             });
+            la_allMenuSubSys = _.uniq(la_allMenuSubSys, function(lo_allMenuSubSys){
+                return lo_allMenuSubSys.current_id;
+            });
             queryAgent.queryList("QRY_BAC_SUBSYSTEM_BY_SYS_ID", {sys_id: ls_sys_id}, 0, 0, function (err, subsysList) {
                 subsysList = alasql("select subsys.* " +
                     "from  ? subsys  " +
