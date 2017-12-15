@@ -53,8 +53,8 @@ exports.DataGridProc = function (postData, session) {
      */
     this.fetchDgRowData = function (callback) {
         async.waterfall([
-            qryDgTemplateRf,     //查詢templateRf
-            qryRowData,        //查詢多筆資料
+            qryDgTemplateRf,        //查詢templateRf
+            qryRowData,             //查詢多筆資料
             filterRowData,          //依條件過濾多筆資料
             rowDataMultiLang        //內容多語系
         ], function (err, result) {
@@ -103,7 +103,7 @@ exports.GridSingleProc = function (postData, session) {
         async.waterfall([
             qryUIPageFields,     //取單筆欄位資料
             qrySelectOption,     //查詢selectOption
-            qryFormatRule,        //format_func_name轉換
+            qryFormatRule,       //format_func_name轉換
             qryLangUIFields      //處理欄位多語系
         ], function (err, result) {
             callback(err, result);
@@ -446,6 +446,17 @@ function qrySelectOption(la_dgFieldData, callback) {
             }
             genAsyncParaFunc(la_dgFieldData, fIdx);
         }
+        else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {
+            la_asyncParaFunc.push(
+              function (cb) {
+                  la_dgFieldData[fIdx].selectData = [];
+                  ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
+                      la_dgFieldData[fIdx].selectData = result.selectOptions;
+                      cb(null, la_dgFieldData[fIdx]);
+                  });
+              }
+            );
+        }
         chkDgFieldIsC(la_dgFieldData, fIdx);
     });
 
@@ -478,7 +489,8 @@ function qrySelectOption(la_dgFieldData, callback) {
                             cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                         });
 
-                    } else {
+                    }
+                    else {
                         cb(null, {ui_field_idx: fIdx, ui_field_name: lo_dgField.ui_field_name});
                     }
                 });
