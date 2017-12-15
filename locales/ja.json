@@ -231,7 +231,8 @@
     "Desciption_Mn": "主檔描述(日)",
     "Desciption_Dt": "名細描述(日)",
     "check_delete": "確定刪除此筆資料(日)",
-    "CompanyName": "德安資訊股份有限公司"
+    "CompanyName": "德安資訊股份有限公司",
+    "Setting": "設定(日)"
   },
   "SystemWarn": {
     "Idle_auto_logout": "您閒置時間過長，請重新登錄",

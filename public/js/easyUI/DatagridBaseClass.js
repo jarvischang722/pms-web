@@ -52,7 +52,8 @@ function DatagridBaseClass() {
             onEndEdit: this.onEndEdit,
             onDropColumn: this.doSaveColumnFields,    //當移動順序欄位時
             onResizeColumn: this.doSaveColumnFields,  //當欄位時寬度異動時
-            onSortColumn: this.doSortColumn
+            onSortColumn: this.doSortColumn,
+            onSelect: this.onSelect
         }).datagrid('columnMoving');
 
     };
@@ -102,6 +103,14 @@ function DatagridBaseClass() {
             }
         }
 
+    };
+
+    /**
+     * 勾起一個Row
+     * @param index
+     * @param field
+     */
+    this.onSelect = function (index, field) {
     };
 
     //結束編輯
@@ -173,7 +182,7 @@ function DatagridBaseClass() {
             var editors = $('#' + self.dgName).datagrid('getEditors', index);
             var lo_editor = _.findWhere(editors, {field: lo_timeField.ui_field_name});
 
-            if(!_.isUndefined(lo_editor)){
+            if (!_.isUndefined(lo_editor)) {
                 $(lo_editor.target).textbox('setValue', ls_field_name);
             }
 
@@ -327,14 +336,14 @@ function DatagridBaseClass() {
             }
         }
         // 設定檔
-        else{
+        else {
             self.tmpCUD[dataType].push(lo_chkKeyRowData);
             $("#gridEdit").val(self.tmpCUD);
         }
 
     };
 
-    this.insertKeyRowData = function(lo_chkKeyRowData){
+    this.insertKeyRowData = function (lo_chkKeyRowData) {
         lo_chkKeyRowData["mnRowData"] = this.mnRowData;
         lo_chkKeyRowData["tab_page_id"] = this.fieldsData[0].tab_page_id;
         lo_chkKeyRowData["event_time"] = moment().format("YYYY/MM/DD HH:mm:ss");

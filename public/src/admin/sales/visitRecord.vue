@@ -4,29 +4,55 @@
             <div class="row">
                 <div class="borderFrame" v-if="!isOnlySingleGrid">
                     <div class="col-sm-11 col-xs-11">
-                        <div class="row">
+                        <div class="row" v-for="fields in settingGridFieldsData">
                             <div class="grid">
-                                <div class="grid-item">
-                                    <label>拜訪方式</label>
-                                    <select class="input-medium medium-c3-sm">
-                                        <option value="1">電訪</option>
-                                        <option value="2">親訪</option>
-                                    </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>拜訪日期</label>
-                                    <input type="date" class="input-medium medium-c3"/>
-                                </div>
-                                <div class="grid-item">
-                                    <label>拜訪狀態</label>
-                                    <select class="input-medium medium-c3-sm">
-                                        <option value="1">預定拜訪</option>
-                                        <option value="2">親訪</option>
-                                    </select>
-                                </div>
-                                <div class="grid-item">
-                                    <label>主旨</label>
-                                    <input type="text" class="input-medium medium-c3-sm"/>
+                                <div class="grid-item" v-for="field in fields">
+                                    <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                        <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                        <span>{{ field.ui_display_name }}</span>
+                                    </label>
+
+                                    <!--下拉選單-->
+                                    <span class="dropdown margin-adjust" align="left"
+                                          :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                          v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                          :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                        <button :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                style="text-align: left!important;"
+                                                type="button" data-toggle="dropdown"
+                                                :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                            {{ showDropdownDisplayName(settingGridRowData[field.ui_field_name], field.selectData)}}
+                                            <span class="caret" style="text-align: right"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
+                                            <li role="presentation" v-for="opt in field.selectData">
+                                                <a @click.prevent="settingGridRowData[field.ui_field_name] = opt.value">
+                                                    {{opt.display}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </span>
+
+
+                                    <input type="text" v-model="settingGridRowData[field.ui_field_name]"
+                                           v-if="field.visiable == 'Y' && field.ui_type == 'text'"
+                                           class="numStyle-none"
+                                           :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                           :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                           :required="field.requirable == 'Y'" min="0"
+                                           :maxlength="field.ui_field_length"
+                                           :disabled=" field.modificable == 'N'|| (field.modificable == 'I'&& isEditStatus) || (field.modificable == 'E'&& isCreateStatus)">
+
+                                    <!-- 日期選擇器 -->
+                                    <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
+                                                    v-model="settingGridRowData[field.ui_field_name]"
+                                                    type="date"
+                                                    size="small"
+                                                    :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                    format="yyyy/MM/dd"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                    </el-date-picker>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +63,7 @@
                                 <ul>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
-                                            Setting
+                                            {{i18nLang.SystemCommon.Setting}}
                                         </button>
                                     </li>
                                 </ul>
@@ -60,130 +86,131 @@
                         </div>
                         <!--單筆拜訪紀錄-->
                         <div class="col-sm-7 col-xs-7">
-                            <div class="row ">
-                                <div class="content ">
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Co. ID</label>
-                                            <select class="input-medium popWindow-s1-col2">
-                                                <option value="1">A1231</option>
-                                                <option value="2">a2322</option>
-                                                <option value="3">A0003</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Name</label>
-                                            <select id="" class="input-medium popWindow-s1-col2">
-                                                <option value="1">人人公司</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>Status</label>
-                                            <select class="input-medium popWindow-s1">
-                                                <option value="1">Normal</option>
-                                                <option value="2">No</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>Co. Type</label>
-                                            <select id="" class="input-medium popWindow-s1">
-                                                <option value="1">已簽約</option>
-                                                <option value="2">簽約公司</option>
-                                                <option value="3">非簽約公司</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>拜訪方式</label>
-                                            <select class="input-medium popWindow-s1">
-                                                <option value="1">電訪</option>
-                                                <option value="2">親訪</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>預計拜訪日</label>
-                                            <input type="date" class="input-medium popWindow-s1"/>
-                                        </div>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>拜訪狀態</label>
-                                            <select id="" class="input-medium popWindow-s1">
-                                                <option value="1">預定拜訪</option>
-                                                <option value="2">已拜訪</option>
-                                            </select>
-                                        </div>
-                                        <div class="tab-block grid-item">
-                                            <label>實際拜訪日</label>
-                                            <input type="date" class="input-medium popWindow-s1"/>
-                                        </div>
-                                    </div>
+                            <div class="row" v-for="fields in fieldsData">
+                                <div class="grid">
+                                    <div class="grid-item" v-for="field in fields">
+                                        <label v-if="field.visiable == 'Y' && field.ui_type != 'checkbox'">
+                                            <span v-if=" field.requirable == 'Y' " style="color: red;">*</span>
+                                            <span>{{ field.ui_display_name }}</span>
+                                        </label>
 
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>交通費</label>
-                                            <input type="text" class="input-medium popWindow-s1 text-right"/>
-                                        </div>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="tab-block grid-item">
-                                            <label>主旨</label>
-                                            <input type="text" class="input-medium popWindow-s1-col2"/>
-                                        </div>
-                                    </div>
-                                    <div class="textFrame">
-                                        <div class="grid">
-                                            <div class="grid-item">
-                                                <label>內容</label>
-                                                <textarea class="input-medium popWindow-s1-col2 height-auto rzNone" rows="6"
-                                                          placeholder="談合約其貢獻數字及房價等級定義"></textarea>
-                                            </div>
-                                        </div>
+                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                               v-if="field.visiable == 'Y' &&   (field.ui_type == 'text' || field.ui_type == 'popupgrid')"
+                                               class="numStyle-none"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                               :required="field.requirable == 'Y'" min="0"
+                                               :maxlength="field.ui_field_length"
+                                               :disabled="field.modificable == 'N'|| (field.modificable == 'I'&& isEditStatus) || (field.modificable == 'E'&& isCreateStatus)"
+                                               @click="chkClickPopUpGrid(field)">
+
+                                        <!--number 金額顯示format-->
+                                        <input type="text" v-model="singleData[field.ui_field_name]"
+                                               v-if="field.visiable == 'Y' && field.ui_type == 'number'"
+                                               :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                               :class="{'input_sta_required' : field.requirable == 'Y', 'text-right' : field.ui_type == 'number'}"
+                                               @keyup="formatAmt(singleData[field.ui_field_name], field)">
+
+                                        <!-- 日期選擇器 -->
+                                        <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'date'"
+                                                        v-model="singleData[field.ui_field_name]"
+                                                        type="date" size="small"
+                                                        :disabled="field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                        format="yyyy/MM/dd"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                        </el-date-picker>
+
+                                        <!-- 日期時間選擇器 -->
+                                        <el-date-picker v-if="field.visiable == 'Y' && field.ui_type == 'datetime'"
+                                                        v-model="singleData[field.ui_field_name]" type="datetime"
+                                                        change="chkFieldRule(field.ui_field_name,field.rule_func_name)"
+                                                        :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                        size="small" format="yyyy/MM/dd HH:mm:ss"
+                                                        :style="{width:field.width + 'px' , height:field.height + 'px'}"
+                                                        @change="chkFieldRule(field.ui_field_name,field.rule_func_name)">
+                                        </el-date-picker>
+
+                                        <!-- 下拉選單 -->
+                                        <span v-if="field.visiable == 'Y' && field.ui_type == 'select'"
+                                              class="dropdown margin-adjust" align="left"
+                                              :class="{'input_sta_required' : field.requirable == 'Y' }"
+                                              :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                            <button :disabled=" field.modificable == 'N' || (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                    class="btn btn-default btn-white dropdown-toggle btn-height"
+                                                    style="text-align: left!important;"
+                                                    type="button" data-toggle="dropdown"
+                                                    :style="{width:field.width + 'px' , height:field.height + 'px'}">
+                                                    {{ showDropdownDisplayName(singleData[field.ui_field_name], field.selectData)}}
+                                                <span class="caret" style="text-align: right"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-h" role="menu" aria-labelledby="menu1">
+                                                <li role="presentation" v-for="opt in field.selectData"
+                                                    @click="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                                    <a @click.prevent="singleData[field.ui_field_name] = opt.value">
+                                                        {{opt.display}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </span>
+
+                                        <!--  textarea -->
+                                        <textarea v-if="field.visiable == 'Y' && field.ui_type == 'textarea'"
+                                                  v-model="singleData[field.ui_field_name]"
+                                                  class="numStyle-none" rows="4"
+                                                  :style="{width:field.width + 'px'}" style="resize: none;"
+                                                  :required="field.requirable == 'Y'"
+                                                  :maxlength="field.ui_field_length"
+                                                  :disabled="field.modificable == 'N'|| (field.modificable == 'I' && isEditStatus) || (field.modificable == 'E' && isCreateStatus)"
+                                                  @click="chkFieldRule(field.ui_field_name,field.rule_func_name.validate)">
+                                        </textarea>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--按鈕-->
                 <div class="col-sm-1 col-xs-1">
-
                     <div class="row no-margin-right">
                         <div class="right-menu-co">
                             <ul>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">First
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.First}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Previous
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Previous}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Next
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Next}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Last
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Last}}
                                     </button>
                                 </li>
                             </ul>
                             <ul class="newVisitOther-btn">
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Delete
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Delete}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">Save
+                                    <button class="btn btn-primary btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Save}}
                                     </button>
                                 </li>
                                 <li>
-                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">Quit
+                                    <button class="btn btn-danger btn-white btn-defaultWidth" role="button">
+                                        {{i18nLang.SystemCommon.Leave}}
                                     </button>
                                 </li>
                             </ul>
@@ -197,18 +224,43 @@
 
 <script>
 
+    var vmHub = new Vue();
+
+    /** DatagridRmSingleGridClass **/
+    function DatagridSingleGridClass() {
+    }
+
+    DatagridSingleGridClass.prototype = new DatagridBaseClass();
+
+    DatagridSingleGridClass.prototype.onClickCell = function (idx, row) {
+    };
+
+    DatagridSingleGridClass.prototype.onSelect = function (idx, row) {
+        vmHub.$emit("selectDataGridRow", row);
+    };
+
+    DatagridSingleGridClass.prototype.doSaveColumnFields = function () {
+    };
+
+
+    /*** Class End  ***/
+
     export default {
         name: 'visit-record',
         props: ["isCreateStatus", "isEditStatus", "isOnlySingleGrid", "editRows", "fetchDataParams"],
+        created() {
+            var self = this;
+            vmHub.$on("selectDataGridRow", function(row){
+                self.rowData = row;
+            });
+        },
         mounted() {
-//            if(!this.isOnlySingleGrid){
-//                this.loadSettingGrid();
-//                this.loadDataGridByPrgID();
-//            }
-//            this.fetchSingleGridFieldData();
+            this.isLoadingDialog = true;
+            this.loadingText = "Loading...";
         },
         data() {
             return {
+                i18nLang: go_i18nLang,
                 isFirstData: false,
                 isLastData: false,
                 BTN_action: false,
@@ -221,20 +273,18 @@
                 singleData: {},
                 oriSingleData: {},
                 fieldsData: [],
-                oriFieldsData: []
+                oriFieldsData: [],
+                dgIns: {}
             };
         },
         watch: {
             editRows(val) {
                 this.initData();
                 this.fetchSingleGridFieldData();
-                if (!this.isOnlySingleGrid) {
-                    this.loadSettingGrid();
-                    this.loadDataGridByPrgID();
-                }
             },
             rowData(val) {
                 this.fetchRowData(val);
+                this.setIndexData(val);
             }
         },
         methods: {
@@ -252,9 +302,16 @@
                 var self = this;
                 var lo_params = this.fetchDataParams.singleGrid;
 
-                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
                     self.oriFieldsData = result.gsFieldsData;
-                    self.fieldData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "row_seq"), "row_seq"));
+                    self.fieldsData = _.values(_.groupBy(_.sortBy(self.oriFieldsData, "col_seq"), "row_seq"));
+
+                    if (!self.isOnlySingleGrid) {
+                        self.loadSettingGrid();
+                    }
+                    else {
+                        self.rowData = self.editRows[0];
+                    }
                 });
             },
             loadSettingGrid() {
@@ -262,56 +319,177 @@
                 var lo_params = this.fetchDataParams.settingGrid;
 
                 //取欄位資料
-                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function(result){
-                   self.settingGridFieldsData = result.gsFieldsData;
-                });
+                $.post("/api/fetchOnlySinglePageFieldData", lo_params, function (result) {
+                    self.settingGridFieldsData = _.values(_.groupBy(_.sortBy(result.gsFieldsData, "col_seq"), "row_seq"));
+                    self.settingGridRowData = {
+                        purport_rmk: "",
+                        visit_dat: moment(new Date()).format("YYYY/MM/DD"),
+                        visit_sta: 'N',
+                        visit_typ: '1'
+                    }
 
-                this.settingGridRowData = {
-                    purport_rmk: "",
-                    visit_dat: moment(new Date()).format("YYYY/MM/DD"),
-                    visit_sta: 'N',
-                    visit_typ: '1'
-                }
+                    self.loadDataGridByPrgID();
+                });
             },
             loadDataGridByPrgID() {
                 var self = this;
                 var lo_params = this.fetchDataParams.dataGrid;
 
-                $.post("/api/fetchOnlyDataGridFieldData", lo_params, function(result){
+                $.post("/api/fetchOnlyDataGridFieldData", lo_params, function (result) {
                     self.dataGridFieldsData = result.dgFieldsData;
-                });
 
-                this.rowData = this.editRows[0];
+                    if (self.editRows.length > 0) {
+                        self.rowData = self.editRows[0];
+                    }
+                    else {
+
+                    }
+                });
             },
             fetchRowData(editingRow) {
                 var self = this;
-                editingRow = _.extend(editingRow, {prg_id: gs_prgId});
+
+                if (this.isCreateStatus) {
+                    this.singleData = {
+                        show_cod: editingRow.cust_mn_show_cod,
+                        cust_cod: editingRow.cust_mn_cust_cod,
+                        cust_nam: editingRow.cust_mn_cust_nam,
+                        status_cod: editingRow.cust_mn_status_cod,
+                        status_desc: editingRow.contract_status_rf_status_desc,
+                        visit_typ: '1',
+                        visit_sta: 'N'
+                    };
+                }
+                else if (this.isEditStatus) {
+                    editingRow.visit_dat = moment(new Date(editingRow.visit_dat)).format("YYYY/MM/DD");
+                    editingRow.avisit_dat = moment(new Date(editingRow.avisit_dat)).format("YYYY/MM/DD");
+                    $.post("/api/fetchSinglePageFieldData", {
+                        prg_id: self.fetchDataParams.singleGrid.prg_id,
+                        page_id: self.fetchDataParams.singleGrid.page_id,
+                        searchCond: editingRow
+                    }, function (result) {
+                        console.log(result);
+                    });
+                }
+
                 this.showDataGrid();
             },
-            showDataGrid(){},
-            setIndexData(){
-//                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
-//
-//                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
-//
-//                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
-//                    //已經到第一筆
-//                    this.isFirstData = true;
-//                    this.isLastData = false;
-//                    if ($("#PMS0620050_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-//                        this.isLastData = true;
-//                    }
-//
-//                }
-//                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == vm.pageOneDataGridRows.length - 1) {
-//                    //已經到最後一筆
-//                    this.isFirstData = false;
-//                    this.isLastData = true;
-//                }
-//                else {
-//                    this.isFirstData = false;
-//                    this.isLastData = false;
-//                }
+            showDataGrid() {
+                var colOption = [{field: 'ck', checkbox: true}];
+                colOption = _.union(colOption, DatagridFieldAdapter.combineFieldOption(this.dataGridFieldsData, 'visitRecord_dg'));
+                this.dgIns = new DatagridSingleGridClass();
+                this.dgIns.init(this.fetchDataParams.dataGrid.prg_id, "visitRecord_dg", colOption, this.dataGridFieldsData, {
+                    singleSelect: false
+                });
+                this.dgIns.loadDgData(this.editRows);
+            },
+            setIndexData(val) {
+                var nowDatagridRowIndex = $("#visitRecord_dg").datagrid('getRowIndex', val);
+
+                $("#visitRecord_dg").datagrid('selectRow', nowDatagridRowIndex);
+
+                if ($("#visitRecord_dg").datagrid('getRowIndex', val) == 0) {
+                    //已經到第一筆
+                    this.isFirstData = true;
+                    this.isLastData = false;
+                    if ($("#visitRecord_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                        this.isLastData = true;
+                    }
+
+                }
+                else if ($("#visitRecord_dg").datagrid('getRowIndex', val) == this.editRows.length - 1) {
+                    //已經到最後一筆
+                    this.isFirstData = false;
+                    this.isLastData = true;
+                }
+                else {
+                    this.isFirstData = false;
+                    this.isLastData = false;
+                }
+            },
+            chkFieldRule(ui_field_name, rule_func_name) {
+                if (rule_func_name === "") {
+                    return;
+                }
+                var self = this;
+                var la_originData = [this.oriSingleData];
+                var la_singleData = [this.singleData];
+                var la_diff = _.difference(la_originData, la_singleData);
+
+                // 判斷資料是否有異動
+                if (la_diff.length != 0) {
+                    this.isUpdate = true;
+                }
+
+                if (!_.isEmpty(rule_func_name.trim())) {
+                    var postData = {
+                        prg_id: "PMS0620050",
+                        rule_func_name: rule_func_name,
+                        validateField: ui_field_name,
+                        singleRowData: JSON.parse(JSON.stringify(this.singleData)),
+                        oriSingleData: this.oriSingleData
+                    };
+                    $.post('/api/chkFieldRule', postData, function (result) {
+
+                        if (result.success) {
+                            //是否要show出訊息
+                            if (result.showAlert) {
+                                alert(result.alertMsg);
+                            }
+
+                            //是否要show出詢問視窗
+                            if (result.showConfirm) {
+                                if (confirm(result.confirmMsg)) {
+
+                                } else {
+                                    //有沒有要再打一次ajax到後端
+                                    if (result.isGoPostAjax && !_.isEmpty(result.ajaxURL)) {
+                                        $.post(result.ajaxURL, postData, function (result) {
+
+                                            if (!result.success) {
+                                                alert(result.errorMsg);
+                                            } else {
+
+                                                if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                                                    self.singleData = _.extend(self.singleData, result.effectValues);
+                                                }
+
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                        } else {
+                            alert(result.errorMsg);
+                        }
+
+                        //連動帶回的值
+                        if (!_.isUndefined(result.effectValues) && _.size(result.effectValues) > 0) {
+                            self.singleData = _.extend(self.singleData, result.effectValues);
+                        }
+
+                    });
+                }
+            },
+            showDropdownDisplayName(val, selectData) {
+                if (_.findIndex(selectData, {value: val}) > -1) {
+                    return _.findWhere(selectData, {value: val}).display;
+                }
+                return val + ":";
+
+            },
+            formatAmt(val, field) {
+                var ls_amtValue = val;
+                var ls_ruleVal = field.format_func_name.rule_val;
+                ls_ruleVal = "###,###,##0";
+
+                if (ls_ruleVal != "") {
+                    this.singleData[field.ui_field_name] = go_formatDisplayClass.amtFormat(ls_amtValue, ls_ruleVal);
+                }
+                else {
+                    this.singleData[field.ui_field_name] = ls_amtValue;
+                }
             }
         }
     }

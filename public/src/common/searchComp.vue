@@ -12,7 +12,7 @@
                                     <label>{{field.ui_display_name}}</label>
 
                                     <input v-if="field.ui_type == 'text' || field.ui_type == 'number' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' "
-                                           :value="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                           v-model="searchCond[field.ui_field_name]"
                                            class="numStyle-none defHt"
                                            :style="{width:field.width + 'px' , height:field.height + 'px'}" min="0"
                                            :required="field.requirable == 'Y'"
@@ -89,10 +89,9 @@
                                         <label>{{field.ui_display_name}}</label>
                                         <template
                                                 v-if="field.ui_type == 'text' || field.ui_type == 'popupgrid' || field.ui_type == 'multipopupgrid' ">
-                                            <input :value="searchCond[field.ui_field_name]" :type="field.ui_type"
+                                            <input v-model="searchCond[field.ui_field_name]"
                                                    class="numStyle-none defHt"
-                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}"
-                                                   min="0"
+                                                   :style="{width:field.width + 'px' , height:field.height + 'px'}" min="0"
                                                    :required="field.requirable == 'Y'"
                                                    @click="chkClickPopUpGrid(field)"/>
                                         </template>
