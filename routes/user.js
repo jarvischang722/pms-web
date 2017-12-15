@@ -40,6 +40,12 @@ module.exports = function (app, passport) {
     app.post('/api/getCompGrp', apiMiddles, userCrtl.getCompGrp);
     //取得全部角色
     app.post('/api/getAllRoles', apiMiddles, userCrtl.getAllRoles);
+
+    //取得全部功能權限
+    app.post("/api/getAllFuncs", apiMiddles, userCrtl.getAllFuncs);
+    //抓取單一角色對應的功能權限
+    app.post("/api/getFuncsOfRole", apiMiddles, userCrtl.getFuncsOfRole);
+
     //取得角色對應全部的帳號
     app.post('/api/getRoleOfAccounts', apiMiddles, userCrtl.getRoleOfAccounts);
     //取得作業每顆按鈕func_id的權限

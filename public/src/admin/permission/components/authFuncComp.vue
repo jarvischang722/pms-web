@@ -1,76 +1,57 @@
 <template>
     <div>
-        <p class="topTitle">人員權限</p>
-
+        <p class="topTitle">功能權限</p>
         <div class="easyui-panel tree-body" style="width: 100%;">
-            <ul id="permissionAccountTree" class="easyui-tree"></ul>
+            <ul id="permissionFuncTree" class="easyui-tree"></ul>
         </div>
-
     </div>
 </template>
 
 <script>
-    // import {mapState, mapGetters} from 'vuex';
+    import {mapState, mapGetters} from 'vuex';
     import _ from 'underscore';
 
     export default {
-        name: "auth-staff-comp",
+        name: "auth-func-comp.vue",
         data() {
             return {
-                treeIns: null,
-                role_id: "",
-                staffOfRole: []
+                funcsOfRole: [],
+                treeIns: null
             }
         },
         created() {
-            this.watchStaffOfRole();
+            this.watchFuncsOfRole();
         },
         mounted() {
-            this.qryCompGrpList();
+            this.qryFuncList();
         },
-        // computed: {
-        //     staffOfRole: {
-        //         get() {
-        //             this.la_staffOfRole = this.$store.state.staffOfRole;
-        //             this.updateAccountChkedTree(this.$store.state.staffOfRole);
-        //             return this.$store.state.staffOfRole;
-        //         },
-        //         set(value) {
-        //             this.$store.commit("updateStaffOfRole", value);
-        //         }
-        //     }
-        // },
-
         methods: {
-            watchStaffOfRole() {
+            watchFuncsOfRole() {
                 let self = this;
                 this.$store.watch(
                     (state) => {
-                        return state.staffOfRole;
+                        return state.funcsOfRole
                     },
                     (newValue, oldValue) => {
-                        self.staffOfRole = newValue;
-                        self.updateAccountChkedTree();
+                        self.funcsOfRole = newValue;
+                        self.updateFuncChkedTree();
                     }
                 )
             },
-
-            qryCompGrpList() {
+            qryFuncList() {
                 let self = this;
-                this.$store.dispatch("qryCompGrp").then((la_compGrpList4Tree) => {
-                    self.createAccountTree(la_compGrpList4Tree);
-                })
+                this.$store.dispatch("qryFuncList").then((la_funcList4Tree) => {
+                    self.createFuncListTree(la_funcList4Tree);
+                });
             },
-
-            //創立一棵Tree
-            createAccountTree(la_compGrpList4Tree) {
-                $('#permissionAccountTree').jstree({
+            createFuncListTree(la_funcList4Tree) {
+                $('#permissionFuncTree').jstree({
                     "core": {
                         "animation": 0,
                         "themes": {"stripes": true},
                         "multiple": false,                  //不可多選
                         "check_callback": true,
-                        "data": la_compGrpList4Tree
+                        "data": la_funcList4Tree
                     },
                     "types": {
                         "#": {
@@ -98,24 +79,22 @@
                     },
                     "plugins": ["search", "state", "types", "wholerow", "checkbox"]
                 });
-                this.treeIns = $("#permissionAccountTree").jstree(true);
+                this.treeIns = $("#permissionFuncTree").jstree(true);
             },
-
-            //更新目標角色對應的帳號標示在Tree上
-            updateAccountChkedTree() {
-                let la_staffOfRole = this.staffOfRole;
+            updateFuncChkedTree(){
+                let la_funcsOfRole = this.funcsOfRole;
                 let self = this;
                 let la_allRoles = this.$store.state.allRoles;
                 setTimeout(function () {
-                    self.treeIns.uncheck_all();
                     if (la_allRoles.length > 0) {
+                        self.treeIns.uncheck_all();
                         self.role_id = la_allRoles[0].role_id;
-                        _.each(la_staffOfRole, function (account) {
-                            self.treeIns.check_node("#" + account.user_id);
+                        _.each(la_funcsOfRole, function (lo_func) {
+                            self.treeIns.check_node("#" + lo_func.current_id);
                         });
                     }
-                }, 100);
-            },
+                }, 200);
+            }
         }
     }
 </script>

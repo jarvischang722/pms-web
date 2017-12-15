@@ -30,11 +30,7 @@
                             </div>
                             <div class="col-xs-6">
                                 <div class="row">
-                                    <p class="topTitle">功能權限</p>
-                                    <div class="easyui-panel tree-body" style="width: 100%;">
-                                        <ul id="tt" class="easyui-tree"
-                                            data-options="url:'/jsonData/authorFeature_dataCheck.json',method:'get',animate:true,checkbox:true,lines:true"></ul>
-                                    </div>
+                                    <auth-func-comp></auth-func-comp>
                                 </div>
                             </div>
                         </div>
@@ -88,13 +84,15 @@
     import authNavbar from './authNavbar';
     import authRoleComp from './authRoleComp';
     import authStaffComp from './authStaffComp';
+    import authFuncComp from './authFuncComp';
 
     export default {
         name: "auth-by-role",
         components: {
             authNavbar,
             authRoleComp,
-            authStaffComp
+            authStaffComp,
+            authFuncComp
         }
     }
 </script>

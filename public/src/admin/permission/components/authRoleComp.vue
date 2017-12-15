@@ -9,9 +9,8 @@
     <!--</div>-->
     <div>
         <select class="form-control authorSelect" v-model="selRole">
-            <option v-for="role in allRoles" :value="role.role_id">{{role.role_nam}}</option>
+            <option v-for="role in allRoles" :value="role.role_id">{{role.role_id}} : {{role.role_nam}}</option>
         </select>
-        <div>{{selRole}}</div>
     </div>
     <!--<select>-->
     <!--<option>請選擇</option>-->
@@ -19,7 +18,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+    import {mapActions} from 'vuex';
 
     export default {
         name: "auth-role-comp",
