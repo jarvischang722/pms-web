@@ -580,17 +580,19 @@
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_statusChg"
-                                                role="button" @click="doSetCompanyStatus">{{i18nLang.program.PMS0610010.company_status}}
+                                                role="button" @click="doSetCompanyStatus">
+                                            {{i18nLang.program.PMS0610010.company_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_stateChange"
-                                                role="button" @click="doSetContractStatus">{{i18nLang.program.PMS0610010.contract_status}}
+                                                role="button" @click="doSetContractStatus">
+                                            {{i18nLang.program.PMS0610010.contract_status}}
                                         </button>
                                     </li>
                                     <li>
                                         <button class="btn btn-primary btn-white btn-defaultWidth sales_changeRecord"
-                                                role="button">{{i18nLang.SystemCommon.ChangeLog}}
+                                                role="button" @click="loadChangeLog">{{i18nLang.SystemCommon.ChangeLog}}
                                         </button>
                                     </li>
                                 </ul>
@@ -657,12 +659,29 @@
 
                 // this.showDtDataGrid();
             },
-            fetchFieldData(){},
-            fetchRowData(){},
-            doSaveGrid(){},
-            doCloseDialog(){},
-            doSetCompanyStatus(){},
-            doSetContractStatus(){}
+            fetchFieldData() {
+            },
+            fetchRowData() {
+            },
+            doSaveGrid() {
+            },
+            doCloseDialog() {
+            },
+            doSetCompanyStatus() {
+            },
+            doSetContractStatus() {
+            },
+            loadChangeLog: function () {
+                var self = this;
+                $.post("/api/getSetupPrgChangeLog", {prg_id: "PMS0610020"}, function (result) {
+                    if (result.success) {
+                        self.$eventHub.$emit('getChangeLogData', {
+                            openChangeLogDialog: true,
+                            allChangeLogList: result.allChangeLogList
+                        });
+                    }
+                });
+            }
         }
     }
 </script>

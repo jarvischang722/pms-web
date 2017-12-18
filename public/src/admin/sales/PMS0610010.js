@@ -9,6 +9,13 @@ var gs_prgId = "PMS0610010";
 
 var vm = new Vue({
     el: "#PMS0610010App",
+    created(){
+        var self = this;
+        this.$eventHub.$on('getChangeLogData', function(changeLogData){
+            self.openChangeLogDialog = changeLogData.openChangeLogDialog;
+            self.allChangeLogList = changeLogData.allChangeLogList;
+        });
+    },
     mounted() {
         this.initTmpCUD();
         this.fetchUserInfo();
@@ -42,7 +49,9 @@ var vm = new Vue({
             isEditStatus: false,
             isEditSalesClerk: false,
             isOnlySingleVisitRecord: false, //拜訪紀錄為新增多筆、單筆
-            fetchDataParams: {} //拜訪紀錄所需參數
+            fetchDataParams: {}, //拜訪紀錄所需參數
+            openChangeLogDialog: false,
+            allChangeLogList: {}
         };
     },
     methods: {
