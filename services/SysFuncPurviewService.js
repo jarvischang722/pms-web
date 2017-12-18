@@ -84,6 +84,9 @@ exports.getUserSubsysPurviewBySysID = function (req, sysID, callback) {
                 });
 
                 la_allMenuList = menuList;
+                la_allMenuList = _.uniq(menuList, function(lo_allMenuSubSys){
+                    return lo_allMenuSubSys.current_id;
+                });
 
                 callback(err, menuList);
             });

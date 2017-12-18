@@ -7,6 +7,7 @@ Vue.use(Vuex);
 // root state object.
 // each Vuex instance is just a single state tree.
 const state = {
+    permissionModel: "authByStaff",
     allRoles: [],
     selRole: "",
     staffOfRole: [],
@@ -46,6 +47,9 @@ const mutations = {
     },
     setAllModules(state, la_funcList) {
         state.funcList = la_funcList;
+    },
+    setPermissionModel(state, ls_permissionModel){
+        state.permissionModel = ls_permissionModel;
     }
 }
 
@@ -151,18 +155,17 @@ const actions = {
                 la_funcList4Tree.push(treeDataObj(lo_subSys.subsys_id, lo_subSys.sys_id, ls_node_text));
 
                 //module
-                // _.each(lo_subSys.mdlMenu, function (lo_mdlMenu) {
-                //     la_funcList4Tree.push(treeDataObj(lo_mdlMenu.mdl_id, lo_subSys.subsys_id, lo_mdlMenu["mdl_name_" + gs_locale]));
-                //
-                //     //process
-                //     _.each(lo_mdlMenu.processMenu, function (lo_processMenu) {
-                //         la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu["pro_name_" + gs_locale]));
-                //     })
-                //
-                // })
+                _.each(lo_subSys.mdlMenu, function (lo_mdlMenu) {
+                    la_funcList4Tree.push(treeDataObj(lo_mdlMenu.mdl_id, lo_subSys.subsys_id, lo_mdlMenu["mdl_name_" + gs_locale]));
+
+                    //process
+                    _.each(lo_mdlMenu.processMenu, function (lo_processMenu) {
+                        la_funcList4Tree.push(treeDataObj(lo_processMenu.pro_id, lo_processMenu.mdl_id, lo_processMenu["pro_name_" + gs_locale]));
+                    })
+
+                })
             })
         });
-        console.log(la_funcList4Tree);
         commit("setFuncList4Tree", la_funcList4Tree);
     }
 }

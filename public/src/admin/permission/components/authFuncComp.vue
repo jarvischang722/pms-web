@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="isLoading">
         <p class="topTitle">功能權限</p>
         <div class="easyui-panel tree-body" style="width: 100%;">
             <ul id="permissionFuncTree" class="easyui-tree"></ul>
@@ -10,20 +10,22 @@
 <script>
     import {mapState, mapGetters} from 'vuex';
     import _ from 'underscore';
+    import async from 'async';
 
     export default {
         name: "auth-func-comp.vue",
         data() {
             return {
                 funcsOfRole: [],
-                treeIns: null
+                treeIns: null,
+                isLoading: false
             }
         },
         created() {
             this.watchFuncsOfRole();
         },
         mounted() {
-            this.qryFuncList();
+            // this.qryFuncList();
         },
         methods: {
             watchFuncsOfRole() {
@@ -38,11 +40,17 @@
                     }
                 )
             },
-            qryFuncList() {
+            qryFuncList(cb) {
                 let self = this;
-                this.$store.dispatch("qryFuncList").then((la_funcList4Tree) => {
-                    self.createFuncListTree(la_funcList4Tree);
-                });
+                if (this.treeIns == null) {
+                    this.$store.dispatch("qryFuncList").then((la_funcList4Tree) => {
+                        self.createFuncListTree(la_funcList4Tree);
+                        cb(null, "");
+                    });
+                }
+                else {
+                    cb(null, "");
+                }
             },
             createFuncListTree(la_funcList4Tree) {
                 $('#permissionFuncTree').jstree({
@@ -81,19 +89,32 @@
                 });
                 this.treeIns = $("#permissionFuncTree").jstree(true);
             },
-            updateFuncChkedTree(){
+            updateFuncChkedTree() {
                 let la_funcsOfRole = this.funcsOfRole;
                 let self = this;
                 let la_allRoles = this.$store.state.allRoles;
-                setTimeout(function () {
-                    if (la_allRoles.length > 0) {
-                        self.treeIns.uncheck_all();
-                        self.role_id = la_allRoles[0].role_id;
-                        _.each(la_funcsOfRole, function (lo_func) {
-                            self.treeIns.check_node("#" + lo_func.current_id);
-                        });
+                this.isLoading = true;
+                async.waterfall([
+                    function (cb) {
+                        self.qryFuncList(cb)
+                    },
+                    function (data, cb) {
+                        setTimeout(function () {
+                            if (la_allRoles.length > 0) {
+                                self.treeIns.uncheck_all();
+                                _.each(la_funcsOfRole, function (lo_func) {
+                                    self.treeIns.check_node("#" + lo_func.current_id);
+                                });
+                            }
+                            self.isLoading = false;
+                        }, 100);
+
+                        cb(null, "");
                     }
-                }, 200);
+                ], function (err, result) {
+                });
+
+
             }
         }
     }
