@@ -448,13 +448,13 @@ function qrySelectOption(la_dgFieldData, callback) {
         }
         else if (_.isEqual(lo_dgField.ui_type, "tree") || _.isEqual(lo_dgField.ui_type, "multitree")) {
             la_asyncParaFunc.push(
-              function (cb) {
-                  la_dgFieldData[fIdx].selectData = [];
-                  ruleAgent[field.rule_func_name](field, userInfo, function (err, result) {
-                      la_dgFieldData[fIdx].selectData = result.selectOptions;
-                      cb(null, la_dgFieldData[fIdx]);
-                  });
-              }
+                function (cb) {
+                    la_dgFieldData[fIdx].selectData = [];
+                    ruleAgent[lo_dgField.rule_func_name](lo_dgField, go_session.user, function (err, result) {
+                        la_dgFieldData[fIdx].selectData = result.selectOptions;
+                        cb(null, la_dgFieldData[fIdx]);
+                    });
+                }
             );
         }
         chkDgFieldIsC(la_dgFieldData, fIdx);
