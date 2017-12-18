@@ -54,16 +54,19 @@
         </div>
     </div>
 
+    <!--商務公司資料編輯-->
     <pms0610020
             :row-data="editingRow"
             :is-modifiable="isModifiable"
             :is-create-status="isCreateStatus"
             :is-edit-status="isEditStatus"
     ></pms0610020>
+    <!--業務員指派-->
     <edit-sales-clerk
             :edit-rows="editRows"
             :is-edit-sales-clerk="isEditSalesClerk"
     ></edit-sales-clerk>
+    <!--拜訪紀錄-->
     <visit-record
             :is-create-status="isCreateStatus"
             :is-edit-status="isEditStatus"
@@ -71,9 +74,10 @@
             :edit-rows="editRows"
             :fetch-data-params="fetchDataParams"
     ></visit-record>
-    <el-dialog title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
-               :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
-
+    <!--異動紀錄-->
+    <el-dialog
+            title=" <%= __("SystemCommon").ChangeLog %>" :close-on-click-modal="true" :show-close="false"
+            :visible.sync="openChangeLogDialog" size="large" class="openChangeLogDialog">
         <div class="col-xs-12">
             <div class="col-sm-12 col-xs-12">
                 <div class="row">
@@ -123,10 +127,9 @@
             </div>
         </div> <!-- /.col-sm-12 -->
         <div class="clearfix"></div>
-
         <span slot="footer" class="dialog-footer">
-             <el-button @click="openChangeLogDialog = false"><%=__("SystemCommon.OK")%></el-button>
-         </span>
+             <el-button @click="openChangeLogDialog = false"><%= __("SystemCommon.OK") %></el-button>
+        </span>
     </el-dialog>
 </div><!-- /.page-content -->
 

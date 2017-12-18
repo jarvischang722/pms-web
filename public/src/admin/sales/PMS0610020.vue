@@ -599,6 +599,129 @@
                             </div>
                         </div>
                     </div>
+                    <!--Ststus chg-->
+                    <div id="companyStatusChg" class="hide padding-5">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-sm-10 col-xs-10">
+                                        <div class="row billInfo no-margin-right">
+                                            <div class="content">
+                                                <div class="space-6"></div>
+                                                <div class="grid-item">
+                                                    <label>Status</label>
+                                                    <select class="input-medium medium-c1">
+                                                        <option value="1">Delete</option>
+                                                        <option value="2">Normal</option>
+                                                        <option value="3">Black</option>
+                                                        <option value="4">Potential</option>
+                                                    </select>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 col-xs-2">
+                                        <div class="row">
+                                            <div class="right-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button" @click="doSaveCompanyStatus">{{i18nLang.SystemCommon.Save}}
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                role="button" @click="doCloseCompanyStatusDialog">{{i18nLang.SystemCommon.Leave}}
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <!--/.Ststus chg -->
+                    <!--合約狀態變更-->
+                    <div id="contractStatusChange" class="hide padding-5">
+                        <div class="businessCompanyData">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-sm-10 col-xs-10">
+                                        <div class="row billInfo no-margin-right">
+                                            <div class="grid-item">
+                                                <label>狀態</label>
+                                                <select class="input-medium medium-c1">
+                                                    <option value="-1">代碼-狀態說明</option>
+                                                    <option value="1">01-確認中</option>
+                                                    <option value="2">02-已下單</option>
+                                                    <option value="3">03-待簽回</option>
+                                                    <option value="4">04-已收訂金</option>
+                                                    <option value="5">05-取消</option>
+                                                </select>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="space-6"></div>
+                                            <div class="main-content-data borderFrame">
+                                                <div class="horizTable-outer">
+                                                    <table class="css_table horizTable">
+                                                        <thead class="css_thead">
+                                                        <tr class="css_tr">
+                                                            <th class="css_th" style="min-width:100px;">狀態</th>
+                                                            <th class="css_th" style="min-width:150px;">異動時間</th>
+                                                            <th class="css_th" style="min-width:115px;">異動者</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="css_tbody">
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">待簽回</td>
+                                                            <td class="css_td">2017/11/15 13:42:14</td>
+                                                            <td class="css_td">cio</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">確認中</td>
+                                                            <td class="css_td">2017/11/15 13:42:14</td>
+                                                            <td class="css_td">cio</td>
+                                                        </tr>
+                                                        <tr class="css_tr">
+                                                            <td class="css_td">已簽約</td>
+                                                            <td class="css_td">2017/11/15 13:42:14</td>
+                                                            <td class="css_td">cio</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 col-xs-2">
+                                        <div class="row">
+                                            <div class="right-menu-co">
+                                                <ul>
+                                                    <li>
+                                                        <button class="btn btn-primary btn-white btn-defaultWidth"
+                                                                role="button">Save
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-danger btn-white btn-defaultWidth"
+                                                                role="button">Quit
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!--/.合約狀態變更-->
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -659,17 +782,43 @@
 
                 // this.showDtDataGrid();
             },
-            fetchFieldData() {
+            fetchFieldData(val) {
             },
             fetchRowData() {
             },
             doSaveGrid() {
             },
             doCloseDialog() {
+                this.initData();
+                this.rowData = {};
+                $("#PMS0610020").dialog('close');
             },
+            //ststus chg.(公司狀態)
             doSetCompanyStatus() {
+                var dialog = $('#statusChg').removeClass('hide').dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: go_i18nLang["program"]["PMS0610020"].company_status,
+                    width: 500,
+                    maxHeight: 1920,
+                    resizable: true
+                }).dialog('open');
             },
+            doSaveCompanyStatus(){},
+            doCloseCompanyStatusDialog(){
+                $("#companyStatusChg").dialog('close');
+            },
+            //合約狀態變更
             doSetContractStatus() {
+                var dialog = $("#contractStatusChange").removeClass('hide').dialog({
+                    modal: true,
+                    title: "合約狀態變更",
+                    title_html: true,
+                    width: 500,
+                    maxwidth: 1920,
+                    dialogClass: "test",
+                    resizable: true
+                });
             },
             loadChangeLog: function () {
                 var self = this;

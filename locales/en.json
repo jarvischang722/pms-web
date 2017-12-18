@@ -177,6 +177,9 @@
       "historical_consumption": "歷史消費(英)",
       "contribution": "貢獻度(英)"
     },
+    "PMS0610020":{
+      "company_status":"Status chg."
+    },
     "PMS0620020": {
       "sales_cod": "Sales Id",
       "sales_nam": "Name",
