@@ -410,7 +410,7 @@ function qryFormatRule(la_fieldData, callback) {
 function qryLangUIFields(la_dgFieldData, callback) {
     let lo_params = {
         prg_id: gs_prg_id,
-        page_id: gn_page_id
+        page_id: Number(gn_page_id)
     };
     mongoAgent.LangUIField.find(lo_params).exec(function (err, fieldLang) {
         fieldLang = tools.mongoDocToObject(fieldLang);
