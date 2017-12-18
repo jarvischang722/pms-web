@@ -43,7 +43,7 @@
                                     <div class="grid">
                                         <div class="grid-item">
                                             <label>客戶姓名</label>
-                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
+                                            <input type="text" @click="chkClickPopUpGrid('alt_nam')" @keyup="chkClickPopUpGrid('alt_nam')" v-model="singleData.alt_nam" class="input-medium rateCode-s1" :disabled="readonly"/>
                                         </div>
                                         <div class="grid-item">
                                             <select v-model="singleData.contact1_cod" class="input-medium resvCard-date margin-right-4" :disabled="readonly">
