@@ -45,7 +45,8 @@ Vue.component('single-grid-pms0620020-tmp', {
             classCodSelectData: [],
             classCodSelectedOption: [],
             loadingText: "",
-            isLoadingDialog: ""
+            isLoadingDialog: "",
+            BTN_action: false
         };
     },
     created: function () {
